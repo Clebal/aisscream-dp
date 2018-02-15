@@ -1,5 +1,5 @@
-<%--
- * index.jsp
+ <%--
+ * login.jsp
  *
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -16,6 +16,28 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<form:form action="j_spring_security_check" modelAttribute="credentials">
 
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+	<form:label path="username">
+		<spring:message code="security.username" />
+	</form:label>
+	<form:input path="username" />	
+	<form:errors class="error" path="username" />
+	<br />
+
+	<form:label path="password">
+		<spring:message code="security.password" />
+	</form:label>
+	<form:password path="password" />	
+	<form:errors class="error" path="password" />
+	<br />
+	
+	<jstl:if test="${showError == true}">
+		<div class="error">
+			<spring:message code="security.login.failed" />
+		</div>
+	</jstl:if>
+	
+	<input type="submit" value="<spring:message code="security.login" />" />
+	
+</form:form>
