@@ -8,12 +8,15 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import security.UserAccount;
 
@@ -27,9 +30,9 @@ public abstract class Actor extends DomainEntity {
 
 	public String email;
 
-	public String[] phone;
+	public String phone;
 
-	public String[] address;
+	public String address;
 
 	public Date birthdate;
 
@@ -54,6 +57,7 @@ public abstract class Actor extends DomainEntity {
 	}
 
 	@Email
+	@NotBlank
 	public String getEmail() {
 		return email;
 	}
@@ -62,24 +66,26 @@ public abstract class Actor extends DomainEntity {
 		this.email = email;
 	}
 
-	
-	public String[] getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(String[] phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public String[] getAddress() {
+	public String getAddress() {
 		return address;
 	}
 
-	public void setAddress(String[] address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 
 	@Past
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getBirthdate() {
 		return birthdate;
 	}
