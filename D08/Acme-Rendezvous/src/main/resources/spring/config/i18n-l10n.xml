@@ -59,6 +59,12 @@
 		
 		<value>/views/notification/messages</value>
 		
+		
+		<!-- Del entregable L08 -->
+		<value>/views/rendezvous/messages</value>
+		
+		
+		
 	</util:list>
 
 </beans>

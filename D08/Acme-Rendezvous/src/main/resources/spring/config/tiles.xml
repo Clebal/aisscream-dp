@@ -61,6 +61,11 @@
 		
 		<value>/views/notification/tiles.xml</value>
 		
+		<!-- Del entregable L08 -->
+		<value>/views/rendezvous/tiles.xml</value>
+		
+		
+		
 	</util:list>
 
 </beans>
