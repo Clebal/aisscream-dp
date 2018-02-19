@@ -7,19 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import security.UserAccount;
-import security.UserAccountRepository;
+import repositories.ActorRepository;
+
+import domain.Actor;
 
 @Component
 @Transactional
-public class StringToUserAccountConverter implements Converter<String, UserAccount>{
+public class StringToActorConverter implements Converter<String, Actor>{
 
 	@Autowired
-	private UserAccountRepository userAccountRepository;
+	private ActorRepository actorRepository;
 	
 	@Override
-	public UserAccount convert(String text) {
-		UserAccount result;
+	public Actor convert(String text) {
+		Actor result;
 		int id;
 		
 		try {
@@ -27,7 +28,7 @@ public class StringToUserAccountConverter implements Converter<String, UserAccou
 				result = null;
 			}else{
 				id = Integer.valueOf(text);
-				result = this.userAccountRepository.findOne(id);
+				result = this.actorRepository.findOne(id);
 			}
 		} catch(Throwable oops) {
 			throw new IllegalArgumentException(oops);

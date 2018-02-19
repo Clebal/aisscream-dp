@@ -7,33 +7,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import security.UserAccount;
-import security.UserAccountRepository;
+import domain.User;
+
+import repositories.UserRepository;
 
 @Component
 @Transactional
-public class StringToUserAccountConverter implements Converter<String, UserAccount>{
+public class StringToUserConverter implements Converter<String, User> {
 
 	@Autowired
-	private UserAccountRepository userAccountRepository;
-	
+	private UserRepository userRepository;
+
 	@Override
-	public UserAccount convert(String text) {
-		UserAccount result;
+	public User convert(String text) {
+		User result;
 		int id;
-		
+
 		try {
-			if(StringUtils.isEmpty(text)){
+			if (StringUtils.isEmpty(text)) {
 				result = null;
-			}else{
+			} else {
 				id = Integer.valueOf(text);
-				result = this.userAccountRepository.findOne(id);
+				result = this.userRepository.findOne(id);
 			}
-		} catch(Throwable oops) {
+		} catch (Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
-		
+
 		return result;
 	}
-	
+
 }

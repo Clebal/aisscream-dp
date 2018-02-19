@@ -5,24 +5,25 @@ import javax.transaction.Transactional;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import security.UserAccount;
+import domain.Administrator;
 
 @Component
 @Transactional
-public class UserAccountToStringConverter implements Converter<UserAccount, String> {
+public class AdministratorToStringConverter implements Converter<Administrator, String> {
 
-	
 	@Override
-	public String convert(UserAccount userAccount) {
+	public String convert(Administrator administrator) {
 		String result;
-		
-		if(userAccount == null) {
+
+		if (administrator == null) {
 			result = null;
-		}else{
-			result = String.valueOf(userAccount.getId());
+		} else {
+			result = String.valueOf(administrator.getId());
 		}
-		
+
 		return result;
 	}
-	
+
+		
+
 }
