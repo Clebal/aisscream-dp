@@ -11,7 +11,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <!-- The announcements must be listed chronologically in descending order. -->
-<display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row" requestURI="${requestURI}" pagesize="5" >
+<display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row" defaultsort="2" requestURI="${requestURI}" pagesize="5" >
 	
 	<spring:url value="announcement/user/edit.do" var="urlEdit">
 	<spring:param name="announcementId" value="${row.getId()}" />
