@@ -13,6 +13,8 @@ select avg(cast((select count(r) from Rendezvous r where r.creator=u) as float )
 
 4 - The average and the standard deviation of rendezvouses that are RSVPd per user.
 
+select avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float )),sqrt(sum((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id)*(select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float ))*avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float ))) from User u;
+
 
 
 5 - The top-10 rendezvouses in terms of users who have RSVPd them.
@@ -28,7 +30,7 @@ select r from Rendezvous r, User u, RSVP s where r.creator=u and s.attendant=u O
 
 
 8 - The rendezvouses that are linked to a number of rendezvouses that is great-er than the average plus 10%.
-
+select r from Rendezvous r where cast((select count(r2) from Rendezvous r2 join r2.linkerRendezvouses l where l.id=r.id)as float)>(select avg(cast((select count(r2) from Rendezvous r2 join r2.linkerRendezvouses l where l.id=r3.id)as float))*1.1 from Rendezvous r3); 
 
 
 9 - The average and the standard deviation of the number of questions per ren-dezvous.
