@@ -69,6 +69,15 @@ public class AnnouncementService {
 		return result;
 	}
 	
+	public void delete(final Announcement announcement) {
+		
+		Assert.notNull(announcement);
+		Assert.isTrue(announcement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		this.announcementRepository.delete(announcement);
+		
+	}
+	
 	// Other business methods
 	public Collection<Announcement> findByRendezvousId(final int rendezvousId) {
 		Collection<Announcement> result;

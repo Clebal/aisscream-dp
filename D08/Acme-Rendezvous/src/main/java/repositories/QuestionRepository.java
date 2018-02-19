@@ -19,6 +19,9 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	
 	@Query("select q from Question q where q.rendezvous.id = ?1")
 	Collection<Question> findByRendezvousId(int rendezvousId);
+	
+	@Query("select q from Question q, Rsvp r where q.rendezvous = r.rendezvous and r.id = ?1")
+	Collection<Question> findByRsvpId(int rsvpId);
 
 	@Query("")
 	double findAvgQuestionPerRendezvous();

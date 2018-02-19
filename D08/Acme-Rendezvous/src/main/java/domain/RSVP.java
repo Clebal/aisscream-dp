@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class RSVP extends DomainEntity {
+public class Rsvp extends DomainEntity {
 
 	public String status;
 

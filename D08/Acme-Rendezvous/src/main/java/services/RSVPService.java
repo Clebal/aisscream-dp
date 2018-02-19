@@ -7,20 +7,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.RSVP;
+import domain.Rsvp;
 import domain.Rendezvous;
 import domain.User;
 
-import repositories.RSVPRepository;
+import repositories.RsvpRepository;
 import security.LoginService;
 
 @Service
 @Transactional
-public class RSVPService {
+public class RsvpService {
 
 	// Managed repository
 	@Autowired
-	private RSVPRepository rspvRepository;
+	private RsvpRepository rspvRepository;
 	
 	// Supporting services
 	@Autowired
@@ -33,31 +33,31 @@ public class RSVPService {
 	private AnswerService answerService;
 	
 	// Constructor
-	public RSVPService() {
+	public RsvpService() {
 		super();
 	}
 	
 	// Simple CRUD methods
-	public RSVP create(final User attendant, final Rendezvous rendezvous) {
-		RSVP result;
+	public Rsvp create(final User attendant, final Rendezvous rendezvous) {
+		Rsvp result;
 		
-		result = new RSVP();
+		result = new Rsvp();
 		result.setAttendant(attendant);
 		result.setRendezvous(rendezvous);
 		
 		return result;
 	}
 	
-	public Collection<RSVP> findAll() {
-		Collection<RSVP> result;
+	public Collection<Rsvp> findAll() {
+		Collection<Rsvp> result;
 		
 		result = this.rspvRepository.findAll();
 		
 		return result;
 	}
 	
-	public RSVP findOne(final int rsvpId) {
-		RSVP result;
+	public Rsvp findOne(final int rsvpId) {
+		Rsvp result;
 		
 		Assert.isTrue(rsvpId != 0);
 		
@@ -66,14 +66,15 @@ public class RSVPService {
 		return result;
 	}
 	
-	public RSVP save(final RSVP rsvp) {
-		RSVP result;
+	public Rsvp save(final Rsvp rsvp) {
+		Rsvp result;
 		
 		Assert.notNull(rsvp);
 		Assert.isTrue(rsvp.getAttendant().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		if(rsvp.getId() == 0) {
 			Assert.isTrue(this.questionService.findByRendezvousId(rsvp.getRendezvous().getId()).size() == this.answerService.findByRendezvousIdAndUserId().size());
+			Assert.isTrue(this.rspvRepository.findByAttendandUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
 		}
 		
 		result = this.rspvRepository.save(rsvp);
@@ -81,8 +82,8 @@ public class RSVPService {
 		return result;
 	}
 	
-	public RSVP saveFromCreator(final RSVP rsvp) {
-		RSVP result;
+	public Rsvp saveFromCreator(final Rsvp rsvp) {
+		Rsvp result;
 		
 		Assert.notNull(rsvp);
 		Assert.isTrue(rsvp.getAttendant().getUserAccount().equals(LoginService.getPrincipal()));
@@ -93,8 +94,8 @@ public class RSVPService {
 	}
 	
 	// Other business methods
-	public Collection<RSVP> findByAttendandUserId(final int userId) {
-		Collection<RSVP> result;
+	public Collection<Rsvp> findByAttendandUserId(final int userId) {
+		Collection<Rsvp> result;
 		
 		Assert.isTrue(userId != 0);
 		Assert.isTrue(this.userService.findOne(userId).getUserAccount().equals(LoginService.getPrincipal()));
@@ -104,8 +105,8 @@ public class RSVPService {
 		return result;
 	}
 	
-	public Collection<RSVP> findByRendezvousId(final int rendezvousId){
-		Collection<RSVP> result;
+	public Collection<Rsvp> findByRendezvousId(final int rendezvousId){
+		Collection<Rsvp> result;
 		
 		Assert.isTrue(rendezvousId != 0);
 		
@@ -114,13 +115,34 @@ public class RSVPService {
 		return result;
 	}
 	
-	public Collection<RSVP> findByRendezvousCreatorId(final int userId){
-		Collection<RSVP> result;
+	public Collection<Rsvp> findByCreatorId(final int userId){
+		Collection<Rsvp> result;
 		
 		Assert.isTrue(userId != 0);
 		Assert.isTrue(this.userService.findOne(userId).getUserAccount().equals(LoginService.getPrincipal()));
 		
-		result = this.rspvRepository.findByRendezvousCreatorId(userId);
+		result = this.rspvRepository.findByCreatorId(userId);
+		
+		return result;
+	}
+	
+	public Collection<Rsvp> findByCreatorUserAccountId(final int userAccountId){
+		Collection<Rsvp> result;
+		
+		Assert.isTrue(userAccountId != 0);
+		Assert.isTrue(this.userService.findByUserAccountId(userAccountId).getUserAccount().equals(LoginService.getPrincipal()));
+		
+		result = this.rspvRepository.findByCreatorUserAccountId(userAccountId);
+		
+		return result;
+	}
+	
+	public Rsvp findByAttendandUserIdAndRendezvousId(final int userId, final int rendezvousId){
+		Rsvp result;
+		
+		Assert.isTrue(userId != 0 && rendezvousId != 0);
+		
+		result = this.rspvRepository.findByAttendandUserIdAndRendezvousId(userId, rendezvousId);
 		
 		return result;
 	}
