@@ -12,6 +12,7 @@ import domain.Rendezvous;
 import domain.User;
 
 import repositories.RsvpRepository;
+import security.Authority;
 import security.LoginService;
 
 @Service
@@ -91,6 +92,19 @@ public class RsvpService {
 		result = this.rspvRepository.save(rsvp);
 		
 		return result;
+	}
+	
+	public void deleteFromRendezvous(final Rsvp rsvp) {
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		
+		Assert.notNull(rsvp);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		this.rspvRepository.delete(rsvp);
+		
 	}
 	
 	// Other business methods

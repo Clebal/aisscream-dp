@@ -12,6 +12,7 @@ import domain.Announcement;
 import domain.Rendezvous;
 
 import repositories.AnnouncementRepository;
+import security.Authority;
 import security.LoginService;
 
 @Service
@@ -76,6 +77,18 @@ public class AnnouncementService {
 		
 		this.announcementRepository.delete(announcement);
 		
+	}
+	
+	public void deleteFromRendezvous(final Announcement announcement) {
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		
+		Assert.notNull(announcement);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		this.announcementRepository.delete(announcement);
 	}
 	
 	// Other business methods
