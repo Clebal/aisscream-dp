@@ -80,7 +80,6 @@ public class AdministratorService {
 			/* Si no existe, debe tratarse de un administrator */
 			Assert.isTrue(userAccount.getAuthorities().contains(authority));
 			administrator.getUserAccount().setPassword(encoder.encodePassword(administrator.getUserAccount().getPassword(), null));
-			administrator.getUserAccount().setEnabled(true);
 		}
 
 		result = this.administratorRepository.save(administrator);

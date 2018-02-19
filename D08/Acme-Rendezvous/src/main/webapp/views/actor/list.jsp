@@ -9,7 +9,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table class="table table-striped table-bordered table-hover" name="users" id="row" requestURI="${requestURI}" pagesize="5">
+<display:table class="table table-striped table-bordered table-hover" name="users" id="row" requestURI="actor/list.do" pagesize="5">
 	
 <%-- 	<display:column>
 		<span>

@@ -44,7 +44,6 @@ public class UserService {
 
 		authority.setAuthority("USER");
 		userAccount.addAuthority(authority);
-		userAccount.setEnabled(true);
 
 		result.setUserAccount(userAccount);
 
@@ -97,7 +96,6 @@ public class UserService {
 			}
 			
 			user.getUserAccount().setPassword(encoder.encodePassword(user.getUserAccount().getPassword(), null));
-			user.getUserAccount().setEnabled(true);
 		}
 
 		result = this.userRepository.save(user);

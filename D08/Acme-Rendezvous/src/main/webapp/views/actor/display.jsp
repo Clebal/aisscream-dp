@@ -29,5 +29,11 @@
 	</spring:url>
 	<a href="${urlRendezvous }"> <spring:message code="actor.rendezvous" /></a>
 	<br/>
+	
+	<spring:url var="urlQuestion" value="question/list.do">
+	<spring:param name="userId" value="${actor.getId()}" />
+	</spring:url>
+	<a href="${urlQuestion }"> <spring:message code="actor.question" /></a>
+	<br/>
 		
 </div>
