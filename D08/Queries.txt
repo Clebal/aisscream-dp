@@ -9,7 +9,7 @@ select avg(cast((select count(r) from Rendezvous r where r.creator=u) as float )
 
 3 - The average and the standard deviation of users per rendezvous.
 
-
+select avg(cast((select count(us) from User us where r.creator=us) as float )), sqrt(sum((select count(us) from User us where r.creator=us)*(select count(us) from User us where r.creator=us))/(select count(r2) from Rendezvous r2)-avg(cast((select count(us) from User us where r.creator=us) as float ))*avg(cast((select count(us) from User us where r.creator=us) as float ))) from Rendezvous r
 
 4 - The average and the standard deviation of rendezvouses that are RSVPd per user.
 
@@ -27,7 +27,7 @@ select r from Rendezvous r, User u, RSVP s where r.creator=u and s.attendant=u O
 
 7 - The rendezvouses that whose number of announcements is above 75% the average number of announcements per rendezvous.
 
-
+select r from Rendezvous r where cast((select count(a) from Announcement a where a.rendezvous=r)as float)>(select avg(cast((select count(an) from Announcement an where an.rendezvous=r)as float))*0.75 from Rendezvous r)
 
 8 - The rendezvouses that are linked to a number of rendezvouses that is great-er than the average plus 10%.
 select r from Rendezvous r where cast((select count(r2) from Rendezvous r2 join r2.linkerRendezvouses l where l.id=r.id)as float)>(select avg(cast((select count(r2) from Rendezvous r2 join r2.linkerRendezvouses l where l.id=r3.id)as float))*1.1 from Rendezvous r3); 
@@ -43,4 +43,5 @@ select avg(cast((select count(q) from Question q where q.rendezvous=r) as float 
 
 11 - The average and the standard deviation of replies per comment.
 
+select avg(cast((select count(c2.repliedComment) from Comment c2 where c2=c) as float )), sqrt(sum((select count(c2.repliedComment) from Comment c2 where c2=c)*(select count(c2.repliedComment) from Comment c2 where c2=c))/(select count(c3) from Comment c3)-avg(cast((select count(c2.repliedComment) from Comment c2 where c2=c) as float ))*avg(cast((select count(c2.repliedComment) from Comment c2 where c2=c) as float ))) from Comment c
 
