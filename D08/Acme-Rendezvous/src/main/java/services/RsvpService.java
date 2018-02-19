@@ -73,7 +73,7 @@ public class RsvpService {
 		Assert.isTrue(rsvp.getAttendant().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		if(rsvp.getId() == 0) {
-			Assert.isTrue(this.questionService.findByRendezvousId(rsvp.getRendezvous().getId()).size() == this.answerService.findByRendezvousIdAndUserId().size());
+			Assert.isTrue(this.questionService.findByRendezvousId(rsvp.getRendezvous().getId()).size() == this.answerService.countRendezvousIdAndUserId());
 			Assert.isTrue(this.rspvRepository.findByAttendandUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
 		}
 		
