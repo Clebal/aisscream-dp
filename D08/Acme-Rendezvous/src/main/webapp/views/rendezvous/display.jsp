@@ -9,7 +9,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<jstl:if test="${row.getAdultOnly()==false || row.getAdultOnly()==true && canPermit}">
+<jstl:if test="${rendezvous.getAdultOnly()==false || rendezvous.getAdultOnly()==true && canPermit}">
 
 <jstl:if test="${rendezvous.getIsDeleted()!=true}">
 <span class="display"><spring:message code="rendezvous.isDeleted.message"/></span>
@@ -103,7 +103,7 @@
 			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 		</spring:url>
 		
-		<spring:url var="urlRsvps" value="RSVP/list.do">
+		<spring:url var="urlRsvps" value="rsvp/list.do">
 			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 		</spring:url>
 		
@@ -168,15 +168,16 @@
 					
 					<a href="${urlRendezvousesForLink}" ><spring:message code="rendezvous.rendezvousesForLink"/></a>
 					<br/>
-					
+					 
 					<!-- Lo desenlazamos con otro rendezvous-->
+					<!-- 
 					<spring:url var="urlRendezvousesForUnLink" value="rendezvous/user/listRendezvousesForUnLink.do">
 						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 					</spring:url>
 					
 					<a href="${urlRendezvousesForUnLink}" ><spring:message code="rendezvous.rendezvousesForUnLink"/></a>
 					<br/>
-					
+					-->
 					<!-- Creamos una question-->
 					<spring:url var="urlCreateQuestion" value="question/user/create.do">
 						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
@@ -196,7 +197,7 @@
 					<!-- Creamos un RSVPt-->
 			<jstl:if test="${canCreateRSVP }">
 					
-					<spring:url var="urlCreateRSVP" value="RSVP/user/create.do">
+					<spring:url var="urlCreateRSVP" value="rsvp/user/create.do">
 						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 					</spring:url>
 					

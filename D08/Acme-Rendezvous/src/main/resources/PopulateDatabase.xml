@@ -26,7 +26,6 @@
 	<bean id="userAccountAdministrator" class="security.UserAccount">
 		<property name="username" value="admin" />
 		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
-		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -39,7 +38,6 @@
 	<bean id="userAccountUser1" class="security.UserAccount">
 		<property name="username" value="user1" />
 		<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" />
-		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -52,7 +50,6 @@
 	<bean id="userAccountUser2" class="security.UserAccount">
 		<property name="username" value="user2" />
 		<property name="password" value="7e58d63b60197ceb55a1c487989a3720" />
-		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -65,7 +62,6 @@
 	<bean id="userAccountUser3" class="security.UserAccount">
 		<property name="username" value="user3" />
 		<property name="password" value="92877af70a45fd6a2ed7fe81e1236b78" />
-		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -78,7 +74,6 @@
 	<bean id="userAccountUser4" class="security.UserAccount">
 		<property name="username" value="user4" />
 		<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" />
-		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">

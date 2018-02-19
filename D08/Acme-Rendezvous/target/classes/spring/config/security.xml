@@ -41,126 +41,13 @@
 
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 
-		<!-- Sergio -->
-		<security:intercept-url pattern="/actor/explorer/create.do" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/actor/ranger/create.do" access="hasRole('ADMIN') or isAnonymous()" /> 
-		
-		<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" /> 
-		<security:intercept-url pattern="/actor/manager/create.do" access="hasRole('ADMIN')" /> 
-		<security:intercept-url pattern="/actor/sponsor/create.do" access="hasRole('ADMIN')" /> 
-		<security:intercept-url pattern="/actor/auditor/create.do" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/actor/auditor/edit.do" access="hasAnyRole('AUDITOR', 'ADMIN')"  />
-		<security:intercept-url pattern="/actor/explorer/edit.do" access="hasRole('EXPLORER') or isAnonymous()"  />
-		<security:intercept-url pattern="/actor/manager/edit.do" access="hasAnyRole('ADMIN', 'MANAGER')"  />
-		<security:intercept-url pattern="/actor/ranger/edit.do" access="hasAnyRole('RANGER','ADMIN') or isAnonymous()"  />
-		<security:intercept-url pattern="/actor/sponsor/edit.do" access="hasAnyRole('ADMIN', 'SPONSOR')"  />
-		
-		<security:intercept-url pattern="/actor/sponsor/display.do" access="permitAll"  />
-		<security:intercept-url pattern="/actor/ranger/display.do" access="permitAll"  />
-		<security:intercept-url pattern="/actor/manager/display.do" access="permitAll"  />
-		<security:intercept-url pattern="/actor/auditor/display.do" access="permitAll"  />
-		<security:intercept-url pattern="/actor/profile.do" access="isAuthenticated()"  />
-		
-		
-		
-		
-		
-		<!-- Carlos Nuevos -->
-		<security:intercept-url pattern="/trip/list.do" access="permitAll" />
-		<security:intercept-url pattern="/trip/display.do" access="permitAll" />
-		<security:intercept-url pattern="/legalText/display.do" access="permitAll" />   
-		<security:intercept-url pattern="/legalText/administrator/**" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/professionalRecord/list.do" access="permitAll" />
-		<security:intercept-url pattern="/professionalRecord/display.do" access="permitAll" />
-		<security:intercept-url pattern="/professionalRecord/ranger/**" access="hasRole('RANGER')" />
-		<security:intercept-url pattern="/curriculum/display.do" access="permitAll" />
-		<security:intercept-url pattern="/curriculum/ranger/**" access="hasRole('RANGER')" />
-		<security:intercept-url pattern="/suspicious/administrator/**" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/dashboard/administrator/**" access="hasRole('ADMIN')" />
-		<!-- Carlos Fin Nuevos -->
-		
-			<!-- Sergio -->
-		
-		<security:intercept-url pattern="/category/navigate.do" access="permitAll" />		
-		<security:intercept-url pattern="/category/list.do" access="permitAll" />		
-		<security:intercept-url pattern="/category/administrator/**" access="hasRole('ADMIN')" />
-		
-		<security:intercept-url pattern="/creditcard/explorer/**" access="hasRole('EXPLORER')" />	
-		<security:intercept-url pattern="/creditcard/sponsor/**" access="hasRole('SPONSOR')" />		
-
-		<security:intercept-url pattern="/application/explorer/**" access="hasRole('EXPLORER')" />		
- 	
-		<security:intercept-url pattern="/educationrecord/ranger/**" access="hasRole('RANGER')" />		
-        <security:intercept-url pattern="/educationrecord/list.do" access="permitAll" />
-        <security:intercept-url pattern="/educationrecord/display.do" access="permitAll" />
-        
-		<security:intercept-url pattern="/contact/explorer/**" access="hasRole('EXPLORER')" />		
- 	
-		<security:intercept-url pattern="/socialidentity/**" access="isAuthenticated()" />		
- 	
-		<security:intercept-url pattern="/finder/explorer/**" access="hasRole('EXPLORER')" />		
- 	
-		<security:intercept-url pattern="/notification/administrator/**" access="hasRole('ADMIN')"/>
-        
-        <!-- A+ -->
-        <security:intercept-url pattern="/finder/search.do" access="permitAll" />
-
-		
-		<!-- fin Sergio -->
-		<!-- Vilarrin -->
-		<security:intercept-url pattern="/stage/manager/**" access="hasRole('MANAGER')" />
-		
-		<security:intercept-url pattern="/miscellaneousRecord/**" access="permitAll" />
-		<security:intercept-url pattern="/miscellaneousRecord/ranger/**" access="hasRole('RANGER')" />
-		
-		<security:intercept-url pattern="/sponsorship/**" access="permitAll"/> 
-		<security:intercept-url pattern="/sponsorship/sponsor/**" access="hasRole('SPONSOR')"/> 
-		
-	    <security:intercept-url pattern="/auditRecord/**" access="permitAll"/> 
-		<security:intercept-url pattern="/auditRecord/auditor/**" access="hasRole('AUDITOR')"/> 
-		
-		<security:intercept-url pattern="/application/manager/**" access="hasRole('MANAGER')"  />
-		
-		<security:intercept-url pattern="/story/**" access="permitAll"/> 
-		<security:intercept-url pattern="/story/explorer/**" access="hasRole('EXPLORER')"/>
-		
-		<security:intercept-url pattern="/trip/manager/**" access="hasRole('MANAGER')" />
-		<security:intercept-url pattern="/survivalClass/explorer/**" access="hasRole('EXPLORER')" />	
-		<security:intercept-url pattern="/note/auditor/**" access="hasRole('AUDITOR')"/> 
-		
-		
-		
-		
-		<!-- Fin Villarin -->
-		
-		
 		
 			
-		<security:intercept-url pattern="/message/**" access="isAuthenticated()" />	
-		<security:intercept-url pattern="/folder/**" access="isAuthenticated()" />
-		<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />		
-		<security:intercept-url pattern="/endorserRecord/ranger/**" access="hasRole('RANGER')" />	
-		<security:intercept-url pattern="/endorserRecord/**" access="permitAll" />	
-		<security:intercept-url pattern="/note/manager/**" access="hasRole('MANAGER')" />	
-		<security:intercept-url pattern="/note/managerAuditor/**" access="hasAnyRole('AUDITOR', 'MANAGER')" />
-		
-		<security:intercept-url pattern="/tag/administrator/**" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/tagValue/manager/**" access="hasRole('MANAGER')" />	
-		<security:intercept-url pattern="/tagValue/**" access="permitAll" />		
-		
-		<security:intercept-url pattern="/survivalClass/manager/**" access="hasRole('MANAGER')" />		
-		<security:intercept-url pattern="/survivalClass/**" access="permitAll" />		
-			
-		
-		<security:intercept-url pattern="/retoil/manager/**" access="hasRole('MANAGER')" />		
-		<security:intercept-url pattern="/retoil/**" access="permitAll" />	
-				
-		
-		
 		
 			
 				
-			
+		
+		
 
  	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

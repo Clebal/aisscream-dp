@@ -15,68 +15,70 @@
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-
-<base
-	href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
-
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
-<link rel="shortcut icon" href="favicon.ico"/> 
-
-<script type="text/javascript" src="scripts/jquery.js"></script>
-<script type="text/javascript" src="scripts/jquery-ui.js"></script>
-<script type="text/javascript" src="scripts/jmenu.js"></script>
-
-<link rel="stylesheet" href="styles/common.css" type="text/css">
-<link rel="stylesheet" href="styles/jmenu.css" media="screen" type="text/css" />
-<link rel="stylesheet" href="styles/displaytag.css" type="text/css">
-
-<title><tiles:insertAttribute name="title" ignore="true" /></title>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#jMenu").jMenu();
-	});
-
-	function askSubmission(msg, form) {
-		if (confirm(msg))
-			form.submit();
-	}
+	<head>
 	
-	function relativeRedir(loc) {	
-		var b = document.getElementsByTagName('base');
-		if (b && b[0] && b[0].href) {
-  			if (b[0].href.substr(b[0].href.length - 1) == '/' && loc.charAt(0) == '/')
-    		loc = loc.substr(1);
-  			loc = b[0].href + loc;
-		}
-		window.location.replace(loc);
-	}
-</script>
+		<base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
+		
+		<meta charset="ISO-8859-1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		
+		<link rel="shortcut icon" href="favicon.ico"/> 
+		
+		<title><tiles:insertAttribute name="title" ignore="true" /></title>
+		
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+		
+		<!--[if lt IE 9]>
+		    <script src="scripts/html5shiv.min.js"></script>
+		<![endif]-->
+		
+		<!-- Bootstrap 3.3.7 -->
+		<link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">	
+		
+		<link type="text/css" rel="stylesheet" href="styles/style.css">	
+		
+		<!--[if lt IE 9]>
+			<script src="scripts/respond.min.js"></script>
+		<![endif]-->
 
-</head>
-
-<body>
-
-	<div>
+	</head>
+	<body>
+	
 		<tiles:insertAttribute name="header" />
-	</div>
-	<div>
-		<h1>
-			<tiles:insertAttribute name="title" />
-		</h1>
-		<tiles:insertAttribute name="body" />	
-		<jstl:if test="${message != null}">
-			<br />
-			<span class="message"><spring:message code="${message}" /></span>
-		</jstl:if>	
-	</div>
-	<div>
-		<tiles:insertAttribute name="footer" />
-	</div>
 
-</body>
+		<section class="container">
+			<h1>
+				<tiles:insertAttribute name="title" />
+			</h1>
+			<br>
+			<article>
+				<tiles:insertAttribute name="body" />	
+				<jstl:if test="${message != null}">
+					<br>
+					<span class="text-danger"><spring:message code="${message}" /></span>
+				</jstl:if>	
+			</article>
+		</section>
+	
+		<tiles:insertAttribute name="footer" />
+		
+		<!-- jQuery 1.12.4 -->
+		<script src="scripts/jquery.min.js"></script>
+		
+		<!-- Boostrap 3.3.7 -->
+		<script src="scripts/bootstrap.min.js"></script>
+		
+		<!-- forEach compatibilidad IE8 -->
+		<script src="scripts/polyfills.js"></script>
+		
+		<!-- Funciones comunes -->
+		<script src="scripts/helpers.js"></script>
+		
+		
+		
+	</body>
 </html>

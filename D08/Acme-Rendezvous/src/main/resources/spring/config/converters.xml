@@ -22,9 +22,16 @@
 			Add your own converters using entries of the following form: 
 			<bean class="converters.Class1ToClass2" /> 
 		-->
-
+		<bean class="converters.UserAccountToStringConverter" />
+		<bean class="converters.StringToUserAccountConverter" />
+		
+		<bean class="converters.AuthorityToStringConverter" />
+		<bean class="converters.StringToAuthorityConverter" />
+				
 		<bean class="converters.RendezvousToStringConverter" />
 		<bean class="converters.StringToRendezvousConverter" />
+		
+		
 		
 	</util:list>
 	

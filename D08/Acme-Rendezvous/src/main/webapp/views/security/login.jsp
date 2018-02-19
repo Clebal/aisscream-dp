@@ -18,26 +18,50 @@
 
 <form:form action="j_spring_security_check" modelAttribute="credentials">
 
-	<form:label path="username">
-		<spring:message code="security.username" />
-	</form:label>
-	<form:input path="username" />	
-	<form:errors class="error" path="username" />
-	<br />
-
-	<form:label path="password">
-		<spring:message code="security.password" />
-	</form:label>
-	<form:password path="password" />	
-	<form:errors class="error" path="password" />
-	<br />
-	
 	<jstl:if test="${showError == true}">
-		<div class="error">
-			<spring:message code="security.login.failed" />
+	
+		<div class="form-group has-error">
+			<form:label class="control-label" path="username">
+				<spring:message code="security.username" />
+			</form:label>
+			<form:input class="form-control" path="username" />	
+			<form:errors class="text-danger" path="username" />
 		</div>
+	
+		<div class="form-group has-error">
+			<form:label class="control-label" path="password">
+				<spring:message code="security.password" />
+			</form:label>
+			<form:password class="form-control" path="password" />	
+			<form:errors class="text-danger" path="password" />
+			
+			<span class="help-block">
+			<spring:message code="security.login.failed" />
+		</span>
+		</div>
+	
 	</jstl:if>
 	
-	<input type="submit" value="<spring:message code="security.login" />" />
+	<jstl:if test="${showError == false}">
+	
+		<div class="form-group">
+			<form:label path="username">
+				<spring:message code="security.username" />
+			</form:label>
+			<form:input class="form-control" path="username" />	
+			<form:errors class="text-danger" path="username" />
+		</div>
+	
+		<div class="form-group">
+			<form:label path="password">
+				<spring:message code="security.password" />
+			</form:label>
+			<form:password class="form-control" path="password" />	
+			<form:errors class="text-danger" path="password" />
+		</div>
+	
+	</jstl:if>
+	
+	<input type="submit" class="btn btn-primary" value="<spring:message code="security.login" />" />
 	
 </form:form>

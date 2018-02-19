@@ -17,7 +17,7 @@ public class Answer extends DomainEntity {
 
 	private Question question;
 
-	private RSVP rsvp;
+	private Rsvp rsvp;
 
 	@NotBlank
 	public String getText() {
@@ -42,11 +42,11 @@ public class Answer extends DomainEntity {
 	@Valid
 	@NotNull
 	@ManyToOne(optional = false)
-	public RSVP getRsvp() {
+	public Rsvp getRsvp() {
 		return rsvp;
 	}
 
-	public void setRsvp(RSVP rsvp) {
+	public void setRsvp(Rsvp rsvp) {
 		this.rsvp = rsvp;
 	}
 

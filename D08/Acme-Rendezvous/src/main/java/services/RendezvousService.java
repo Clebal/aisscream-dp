@@ -102,8 +102,8 @@ public class RendezvousService {
 
 		//If you are creating the rendezvous, the creator must have a RSVP to that rendezvous
 		if (rendezvous.getId() == 0) {
-			creatorRsvp = this.RSVPService.create(result.getCreator(), result);
-			this.RSVPService.saveFromCreator(creatorRsvp);
+			creatorRsvp = this.rsvpService.create(result.getCreator(), result);
+			this.rsvpService.saveFromCreator(creatorRsvp);
 		}
 
 		return result;
@@ -172,11 +172,11 @@ public class RendezvousService {
 		this.rendezvousRepository.save(linkedRendezvous);
 	}
 
-	public Collection<Rendezvous> findByUserId(final int userId) {
+	public Collection<Rendezvous> findByCreatorId(final int creatorId) {
 		Collection<Rendezvous> result;
 
-		Assert.isTrue(userId != 0);
-		result = this.rendezvousRepository.findByUserId(userId);
+		Assert.isTrue(creatorId != 0);
+		result = this.rendezvousRepository.findByCreatorId(creatorId);
 
 		return result;
 	}

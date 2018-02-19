@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Date;
@@ -19,65 +20,66 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Comment extends DomainEntity {
 
-	public Date moment;
+	public Date			moment;
 
-	public String text;
+	public String		text;
 
-	public String picture;
+	public String		picture;
 
-	public User writer;
+	public User			user;
 
-	public Comment repliedComment;
+	public Comment		repliedComment;
 
-	private Rendezvous rendezvous;
+	private Rendezvous	rendezvous;
+
 
 	@Past
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
-		return moment;
+		return this.moment;
 	}
 
-	public void setMoment(Date moment) {
+	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
 
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
-	public void setText(String text) {
+	public void setText(final String text) {
 		this.text = text;
 	}
 
 	@URL
 	public String getPicture() {
-		return picture;
+		return this.picture;
 	}
 
-	public void setPicture(String picture) {
+	public void setPicture(final String picture) {
 		this.picture = picture;
 	}
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	public User getWriter() {
-		return writer;
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setWriter(User writer) {
-		this.writer = writer;
+	public void setUser(final User user) {
+		this.user = user;
 	}
-	
+
 	@Valid
 	@ManyToOne(optional = true)
 	public Comment getRepliedComment() {
-		return repliedComment;
+		return this.repliedComment;
 	}
 
-	public void setRepliedComment(Comment repliedComment) {
+	public void setRepliedComment(final Comment repliedComment) {
 		this.repliedComment = repliedComment;
 	}
 
@@ -85,11 +87,11 @@ public class Comment extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Rendezvous getRendezvous() {
-		return rendezvous;
+		return this.rendezvous;
 	}
 
-	public void setRendezvous(Rendezvous rendezvous) {
+	public void setRendezvous(final Rendezvous rendezvous) {
 		this.rendezvous = rendezvous;
 	}
-	
+
 }

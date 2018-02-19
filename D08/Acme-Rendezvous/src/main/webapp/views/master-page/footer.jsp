@@ -14,6 +14,12 @@
 
 <jsp:useBean id="date" class="java.util.Date" />
 
-<hr />
+<footer>
 
-<b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Sample Co., Inc.</b>
+	<hr>
+	
+	<small>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme-Rendezvous</small>
+	
+	<br>
+
+</footer>
