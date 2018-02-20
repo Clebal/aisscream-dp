@@ -292,4 +292,27 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate(null);
 	}
+
+	@Test
+	public void testAvgStandardDRsvpdRendezvouses() {
+		Double[] numeros;
+		super.authenticate("admin");
+
+		numeros = new Double[2];
+		numeros = this.rendezvousService.avgStandardDRsvpdRendezvouses();
+
+		Assert.notNull(numeros);
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testRendezvousesLinkedMoreAvgPlus10Percentage() {
+		Collection<Rendezvous> rendezvouses;
+		super.authenticate("admin");
+
+		rendezvouses = this.rendezvousService.rendezvousesLinkedMoreAvgPlus10Percentage();
+
+		Assert.isTrue(rendezvouses.size() == 1);
+		super.authenticate(null);
+	}
 }

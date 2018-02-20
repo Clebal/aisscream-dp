@@ -204,4 +204,30 @@ public class RendezvousService {
 		return result;
 	}
 
+	public Double[] avgStandardDRsvpdRendezvouses() {
+		Double[] result;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.rendezvousRepository.avgStandardDRsvpdRendezvouses();
+
+		return result;
+	}
+
+	public Collection<Rendezvous> rendezvousesLinkedMoreAvgPlus10Percentage() {
+		Collection<Rendezvous> result;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.rendezvousRepository.rendezvousesLinkedMoreAvgPlus10Percentage();
+
+		return result;
+	}
+
 }
