@@ -14,10 +14,8 @@ import org.springframework.util.Assert;
 import repositories.RendezvousRepository;
 import security.Authority;
 import security.LoginService;
-import domain.Announcement;
-import domain.Answer;
-import domain.RSVP;
 import domain.Rendezvous;
+import domain.Rsvp;
 import domain.User;
 
 @Service
@@ -27,6 +25,12 @@ public class RendezvousService {
 	// Managed repository
 	@Autowired
 	private RendezvousRepository	rendezvousRepository;
+
+	@Autowired
+	private UserService				userService;
+
+	@Autowired
+	private RsvpService				rsvpService;
 
 
 	// Constructor
@@ -75,7 +79,7 @@ public class RendezvousService {
 		Rendezvous result;
 		User user;
 		Date currentMoment;
-		RSVP creatorRsvp;
+		Rsvp creatorRsvp;
 
 		Assert.notNull(rendezvous);
 
@@ -103,46 +107,47 @@ public class RendezvousService {
 		//If you are creating the rendezvous, the creator must have a RSVP to that rendezvous
 		if (rendezvous.getId() == 0) {
 			creatorRsvp = this.rsvpService.create(result.getCreator(), result);
+			creatorRsvp.setStatus("ACCEPTED");
 			this.rsvpService.saveFromCreator(creatorRsvp);
 		}
 
 		return result;
 	}
 
-	public void delete(final Rendezvous rendezvous) {
-		final Authority authority;
-		Rendezvous rendezvousForDelete;
-
-		authority.setAuthority("ADMIN");
-
-		Assert.notNull(rendezvous);
-
-		//only can deleted it an admin
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-
-		//Delete the comments
-		this.commentService.deleteFromRendezvous(rendezvous.getId()); //Este metodo te borra los comentarios para ese rendezvous teniendo en cuenta de borrar pri
-
-		//Delete answers
-		for (final Answer answer : this.answerService.findByRendezvousId(rendezvous.getId()))
-			this.answerService.deleteFromRendezvous(answer);
-
-		//Deletes rsvps
-		for (final RSVP rsvp : this.rsvpService.findByRendezvousId(rendezvous.getId()))
-			this.rsvpService.deleteFromRendezvous(rsvp);
-
-		//Delete announcemments
-		for (final Announcement announcement : this.announcementService.findByRendezvousId(rendezvous.getId()))
-			this.announcemmentService.deleteFromRendezvous(announcement);
-
-		rendezvousForDelete = this.findOne(rendezvous.getId());
-		this.rendezvousRepository.delete(rendezvousForDelete);
-
-	}
+	//	public void delete(final Rendezvous rendezvous) {
+	//		final Authority authority;
+	//		Rendezvous rendezvousForDelete;
+	//
+	//		authority.setAuthority("ADMIN");
+	//
+	//		Assert.notNull(rendezvous);
+	//
+	//		//only can deleted it an admin
+	//		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+	//
+	//		//Delete the comments
+	//		for (final Comment comment : this.commentService.findWithoutFatherByRendezvousId(rendezvous.getId()))
+	//			this.commentService.deleteFromRendezvous(rendezvous.getId()); //Este metodo te borra los comentarios para ese rendezvous teniendo en cuenta de borrar pri
+	//		//Delete answers
+	//		for (final Answer answer : this.answerService.findByRendezvousId(rendezvous.getId()))
+	//			this.answerService.deleteFromRendezvous(answer);
+	//
+	//		//Deletes rsvps
+	//		for (final Rsvp rsvp : this.rsvpService.findByRendezvousId(rendezvous.getId()))
+	//			this.rsvpService.deleteFromRendezvous(rsvp);
+	//
+	//		//Delete announcemments
+	//		for (final Announcement announcement : this.announcementService.findByRendezvousId(rendezvous.getId()))
+	//			this.announcementService.deleteFromRendezvous(announcement);
+	//
+	//		rendezvousForDelete = this.findOne(rendezvous.getId());
+	//		this.rendezvousRepository.delete(rendezvousForDelete);
+	//
+	//	}
 
 	public void virtualDelete(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
-		Assert.isTrue(rendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
+		//Assert.isTrue(rendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
 		rendezvous.setIsDeleted(true);
 

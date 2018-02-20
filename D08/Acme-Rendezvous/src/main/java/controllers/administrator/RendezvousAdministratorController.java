@@ -35,9 +35,9 @@ public class RendezvousAdministratorController extends AbstractController {
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 		Assert.notNull(rendezvous);
 
-		this.rendezvousService.delete(rendezvous);
+		this.rendezvousService.virtualDelete(rendezvous);
 
-		result = new ModelAndView("redirect:/rendezvous/list.do");
+		result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId=0" + rendezvousId);
 
 		return result;
 	}
