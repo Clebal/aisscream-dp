@@ -139,11 +139,7 @@
 	<bean id="rendezvous1" class="domain.Rendezvous">
 		<property name="name" value="Reunión para excursión" />
 		<property name="description" value="El próximo jueves vamos a tener una reunión para organizar la salida al campo." />
-<<<<<<< HEAD
 		<property name="moment" value="03/19/2018 23:44" />
-=======
-		<property name="moment" value="03/19/2018 12:00" />
->>>>>>> 2d6e02c3a51170d3eec451b696a7799d8a3797be
 		<property name="picture" value="" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
@@ -178,11 +174,7 @@
 	<bean id="rendezvous3" class="domain.Rendezvous">
 		<property name="name" value="Revisión médica" />
 		<property name="description" value="La revisión médica anual tendrá lugar el próximo lunes en el salón de reuniones." />
-<<<<<<< HEAD
 		<property name="moment" value="05/15/2018 20:05" />
-=======
-		<property name="moment" value="05/15/2018 12:00" />
->>>>>>> 2d6e02c3a51170d3eec451b696a7799d8a3797be
 		<property name="picture" value="" />
 		<property name="draft" value="true" />
 		<property name="adultOnly" value="true" />
@@ -199,11 +191,7 @@
 	<bean id="rendezvous4" class="domain.Rendezvous">
 		<property name="name" value="Cita con el coordinador" />
 		<property name="description" value="Es una cita muy importante a la que no se puede faltar." />
-<<<<<<< HEAD
 		<property name="moment" value="06/02/2018 09:13" />
-=======
-		<property name="moment" value="06/02/2018 12:00" />
->>>>>>> 2d6e02c3a51170d3eec451b696a7799d8a3797be
 		<property name="picture" value="" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="true" />
@@ -219,49 +207,49 @@
 	
 	
 	<!-- RSVP -->
-	<bean id="rsvp1" class="domain.RSVP">
+	<bean id="rsvp1" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user2" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
-	<bean id="rsvp2" class="domain.RSVP">
+	<bean id="rsvp2" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user2" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
-	<bean id="rsvp3" class="domain.RSVP">
+	<bean id="rsvp3" class="domain.Rsvp">
 		<property name="status" value="CANCELLED" />
 		<property name="attendant" ref="user2" />
 		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
 	
-	<bean id="rsvp4" class="domain.RSVP">
+	<bean id="rsvp4" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user3" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
-	<bean id="rsvp5" class="domain.RSVP">
+	<bean id="rsvp5" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user3" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
-	<bean id="rsvp6" class="domain.RSVP">
+	<bean id="rsvp6" class="domain.Rsvp">
 		<property name="status" value="CANCELLED" />
 		<property name="attendant" ref="user4" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
-	<bean id="rsvp7" class="domain.RSVP">
+	<bean id="rsvp7" class="domain.rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user4" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 		
-	<bean id="rsvp8" class="domain.RSVP">
+	<bean id="rsvp8" class="domain.rsvp">
 		<property name="status" value="CANCELLED" />
 		<property name="attendant" ref="user1" />
 		<property name="rendezvous" ref="rendezvous4" />
@@ -419,7 +407,7 @@
 		<property name="moment" value="02/01/2018 15:30" />
 		<property name="text" value="Tremenda excursión, como lo pasamos el año pasado, este año repetimos!!" />
 		<property name="picture" value="" />
-		<property name="writer" ref="user3" />
+		<property name="user" ref="user3" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
@@ -427,7 +415,7 @@
 		<property name="moment" value="02/16/2018 12:43" />
 		<property name="text" value="¿Cuál es la dirección del pollo loco?" />
 		<property name="picture" value="" />
-		<property name="writer" ref="user3" />
+		<property name="user" ref="user3" />
 		<property name="repliedComment" ref="comment3" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
@@ -436,7 +424,7 @@
 		<property name="moment" value="02/16/2018 15:21" />
 		<property name="text" value="La dirección es Calle 742 Evergreen Terrace" />
 		<property name="picture" value="https://vignette.wikia.nocookie.net/simpsons/images/c/ca/742_Evergreen_Terrace.png/revision/latest/scale-to-width-down/640?cb=20130421182211" />
-		<property name="writer" ref="user1" />
+		<property name="user" ref="user1" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
