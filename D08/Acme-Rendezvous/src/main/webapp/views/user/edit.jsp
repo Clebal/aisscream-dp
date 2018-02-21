@@ -8,8 +8,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-
-<form:form action="${requestURI }" modelAttribute="${modelo }">
+<form:form action="${requestURI }" modelAttribute="${modelo }" id="formulario">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -36,7 +35,7 @@
 	
 	<jstl:if test="${user.getId()==0 }">
 	
-		<div class="form-group">
+		<div class="form-group col-md-6">
 			<form:label path="userAccount.username">
 				<spring:message code="actor.username" />
 			</form:label>
@@ -45,7 +44,7 @@
 		</div>
 	
 		<!--  Password -->
-		<div class="form-group">
+		<div class="form-group col-md-6">
 			<form:label path="userAccount.password">
 				<spring:message code="actor.password" />
 			</form:label>
@@ -56,7 +55,7 @@
 	</jstl:if>
 	
 	<!-- Name -->
-	<div class="form-group">
+	<div class="form-group col-md-6">
 		<form:label path="name">
 			<spring:message code="actor.name" />
 		</form:label>
@@ -65,7 +64,7 @@
 	</div>
 	
 	<!-- Surname -->
-	<div class="form-group">
+	<div class="form-group col-md-6">
 		<form:label path="surname">
 			<spring:message code="actor.surname" />
 		</form:label>
@@ -73,9 +72,18 @@
 		<form:errors class="text-danger" path="surname" />
 	</div>
 	
+	<!-- Address -->
+	<div class="form-group col-md-12">
+		<form:label path="address">
+			<spring:message code="actor.address" />
+		</form:label>
+		<form:input class="form-control" path="address" />
+		<form:errors class="text-danger" path="address" />
+	</div>
+	
 	<!-- Birthdate -->
 		<spring:message code="actor.format.date" var="dateFormat"/>
-	<div class="form-group"> 
+	<div class="form-group col-md-4"> 
 		<form:label path="birthdate" placeholder="${dateFormat}">
 			<spring:message code="actor.birthdate"/>
 		</form:label>
@@ -84,7 +92,7 @@
 	</div>
 
 	<!-- Email -->
-	<div class="form-group">
+	<div class="form-group col-md-4">
 		<form:label path="email">
 			<spring:message code="actor.email" />
 		</form:label>
@@ -94,28 +102,38 @@
 
 
 	<!-- Phone -->
-	<div class="form-group">
+	<div class="form-group col-md-4">
 		<form:label path="phone">
 			<spring:message code="actor.phone" />
 		</form:label>
 		<form:input class="form-control" path="phone" />
 		<form:errors class="text-danger" path="phone" />
 	</div>
-
-	<!-- Address -->
-	<div class="form-group">
-		<form:label path="address">
-			<spring:message code="actor.address" />
-		</form:label>
-		<form:input class="form-control" path="address" />
-		<form:errors class="text-danger" path="address" />
+	
+	<div class="form-check col-md-12">
+	<input type="checkbox" class="form-check-input" id="condicion" name="checkbox" onclick="activar(this.form)" />
+	<spring:message code="actor.terminos1" /><a href="termCondition/display.do"><spring:message code="actor.terminos2" /></a>
 	</div>
-
-	<jstl:if test="${canEdit==true }">	
-		<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="actor.save" />">
+	
+	<div class="form-check col-md-12">
+	<br>	
+	<jstl:if test="${canEdit==true }">
+		<input type="submit" id="submit" class="btn btn-primary" disabled name="save" value="<spring:message code="actor.save" />">
 	</jstl:if>
 	
+			
 	<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="actor.cancel" />" onclick="javascript: relativeRedir('welcome/index.do');" >
-	
+	</div>
 </form:form>
 
+<script type="text/javascript">
+ 
+	function activar(form) {
+    	if (form.checkbox.checked) {
+   			 form.save.disabled=false;
+ 		 } else {     
+   			 form.save.disabled=true;
+  		 }
+ 	}
+	
+ </script>
