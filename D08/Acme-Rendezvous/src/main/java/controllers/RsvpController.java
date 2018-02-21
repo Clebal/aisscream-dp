@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import domain.Answer;
 import domain.Question;
 import domain.Rsvp;
 
+import services.AnswerService;
 import services.QuestionService;
 import services.RsvpService;
 
@@ -28,6 +30,9 @@ public class RsvpController extends AbstractController{
 	
 	@Autowired
 	private QuestionService questionService;
+	
+	@Autowired
+	private AnswerService answerService;
 	
 	// Constructor
 	public RsvpController() {
@@ -55,6 +60,8 @@ public class RsvpController extends AbstractController{
 		ModelAndView result;
 		Rsvp rsvp;
 		Map<Question, Answer> questionAnswer;
+		
+		questionAnswer = new HashMap<Question, Answer>();
 		
 		rsvp = this.rsvpService.findOne(rsvpId);
 		Assert.notNull(rsvp);

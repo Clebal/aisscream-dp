@@ -25,13 +25,7 @@ public class RsvpService {
 	
 	// Supporting services
 	@Autowired
-	private QuestionService questionService;
-	
-	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private AnswerService answerService;
 	
 	// Constructor
 	public RsvpService() {
@@ -39,12 +33,17 @@ public class RsvpService {
 	}
 	
 	// Simple CRUD methods
-	public Rsvp create(final User attendant, final Rendezvous rendezvous) {
+	public Rsvp create(final Rendezvous rendezvous) {
 		Rsvp result;
+		User attendant;
+		
+		attendant = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(attendant);
 		
 		result = new Rsvp();
 		result.setAttendant(attendant);
 		result.setRendezvous(rendezvous);
+		result.setStatus("ACCEPTED");
 		
 		return result;
 	}
@@ -74,8 +73,7 @@ public class RsvpService {
 		Assert.isTrue(rsvp.getAttendant().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		if(rsvp.getId() == 0) {
-			Assert.isTrue(this.questionService.findByRendezvousId(rsvp.getRendezvous().getId()).size() == this.answerService.countRendezvousIdAndUserId());
-			Assert.isTrue(this.rspvRepository.findByAttendandUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
+			Assert.isTrue(this.rspvRepository.findByAttendantUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
 		}
 		
 		result = this.rspvRepository.save(rsvp);
@@ -108,13 +106,13 @@ public class RsvpService {
 	}
 	
 	// Other business methods
-	public Collection<Rsvp> findByAttendandUserId(final int userId) {
+	public Collection<Rsvp> findByAttendantUserId(final int userId) {
 		Collection<Rsvp> result;
 		
 		Assert.isTrue(userId != 0);
 		Assert.isTrue(this.userService.findOne(userId).getUserAccount().equals(LoginService.getPrincipal()));
 
-		result = this.rspvRepository.findByAttendandUserId(userId);
+		result = this.rspvRepository.findByAttendantUserId(userId);
 		
 		return result;
 	}
@@ -151,12 +149,12 @@ public class RsvpService {
 		return result;
 	}
 	
-	public Rsvp findByAttendandUserIdAndRendezvousId(final int userId, final int rendezvousId){
+	public Rsvp findByAttendantUserIdAndRendezvousId(final int userId, final int rendezvousId){
 		Rsvp result;
 		
 		Assert.isTrue(userId != 0 && rendezvousId != 0);
 		
-		result = this.rspvRepository.findByAttendandUserIdAndRendezvousId(userId, rendezvousId);
+		result = this.rspvRepository.findByAttendantUserIdAndRendezvousId(userId, rendezvousId);
 		
 		return result;
 	}

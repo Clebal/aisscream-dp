@@ -11,7 +11,6 @@ import domain.Question;
 import domain.Rendezvous;
 
 import repositories.QuestionRepository;
-import security.Authority;
 import security.LoginService;
 
 @Service
@@ -110,59 +109,13 @@ public class QuestionService {
 		return result;
 	}
 	
-	public double findAvgQuestionPerRendezvous() {
-		double result;
-		Authority authority;
-		
-		authority = new Authority();
-		authority.setAuthority("ADMIN");
-		
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		
-		result = this.questionRepository.findAvgQuestionPerRendezvous();
-		
-		return result;
-	}
-	
-	public double findStandardDerivationQuestionPerRendezvous() {
-		double result;
-		Authority authority;
-		
-		authority = new Authority();
-		authority.setAuthority("ADMIN");
-		
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		
-		result = this.questionRepository.findStandardDerivationQuestionPerRendezvous();
-		
-		return result;
-	}
-	
-	public double findAvgAnswerPerRendezvous() {
-		double result;
-		Authority authority;
-		
-		authority = new Authority();
-		authority.setAuthority("ADMIN");
-		
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		
-		result = this.questionRepository.findAvgAnswerPerRendezvous();
-		
-		return result;
-	}
-	
-	public double findStandardDerivationAnswerPerRendezvous() {
-		double result;
-		Authority authority;
-		
-		authority = new Authority();
-		authority.setAuthority("ADMIN");
-		
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		
-		result = this.questionRepository.findStandardDerivationAnswerPerRendezvous();
-		
+	public Integer countByRendezvousId(final int rendezvousId) {
+		Integer result;
+
+		Assert.isTrue(rendezvousId != 0);
+
+		result = this.questionRepository.countByRendezvousId(rendezvousId);
+
 		return result;
 	}
 	

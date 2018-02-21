@@ -12,7 +12,7 @@ import domain.Rsvp;
 public interface RsvpRepository extends JpaRepository<Rsvp, Integer>{
 
 	@Query("select r from Rsvp r where r.attendant.id = ?1")
-	Collection<Rsvp> findByAttendandUserId(final int userId);
+	Collection<Rsvp> findByAttendantUserId(final int userId);
 	
 	@Query("select r from Rsvp r where r.rendezvous.id = ?1")
 	Collection<Rsvp> findByRendezvousId(final int rendezvousId);
@@ -24,6 +24,6 @@ public interface RsvpRepository extends JpaRepository<Rsvp, Integer>{
 	Collection<Rsvp> findByCreatorUserAccountId(final int userAccountId);
 	
 	@Query("select r from Rsvp r where r.attendant.id = ?1 and r.rendezvous.id = ?2")
-	Rsvp findByAttendandUserIdAndRendezvousId(final int userId, final int rendezvousId);
+	Rsvp findByAttendantUserIdAndRendezvousId(final int userId, final int rendezvousId);
 	
 }
