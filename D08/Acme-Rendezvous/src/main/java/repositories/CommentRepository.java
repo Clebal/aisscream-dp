@@ -26,7 +26,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 	@Query("select count(c) from Comment c where c.repliedComment.id=?1")
 	Integer countByRepliedCommentId(int commentId);
 
-	@Query("select count(c) from Comment c where c.repliedComment is null and c.rendezvous.id?1")
+	@Query("select count(c) from Comment c where c.repliedComment is null and c.rendezvous.id=?1")
 	Integer countByRendezvousIdAndNoRepliedComment(int rendezvousId);
 
 }

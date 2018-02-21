@@ -34,7 +34,14 @@
 		<bean class="converters.UserToStringConverter" />
 		<bean class="converters.StringToUserConverter" />
 		
+		<bean class="converters.CommentToStringConverter" />
+		<bean class="converters.StringToCommentConverter" />
 		
+		<bean class="converters.AnswerToStringConverter" />
+		<bean class="converters.StringToAnswerConverter" />
+		
+		<bean class="converters.InternationalizationToStringConverter" />
+		<bean class="converters.StringToInternationalizationConverter" />
 		
 	</util:list>
 	

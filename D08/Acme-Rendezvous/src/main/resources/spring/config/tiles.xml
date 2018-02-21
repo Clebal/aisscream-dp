@@ -25,6 +25,10 @@
 		
 		<value>/views/rendezvous/tiles.xml</value>
 		
+		<value>/views/comment/tiles.xml</value>
+		<value>/views/termCondition/tiles.xml</value>
+		<value>/views/rsvp/tiles.xml</value>
+		
 	</util:list>
 
 </beans>
