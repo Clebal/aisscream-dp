@@ -18,6 +18,15 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r join r.linkerRendezvouses l where l.id=?1")
 	Collection<Rendezvous> findByLinkerRendezvousId(int linkerRendezvousId);
 
+	@Query("select r from Rendezvous r join r.linkerRendezvouses l where l.id=?1 and r.adultOnly=false")
+	Collection<Rendezvous> findByLinkerRendezvousIdAndAllPublics(int linkerRendezvousId);
+
+	@Query("select l from Rendezvous r join r.linkerRendezvouses l where r.id=?1 and l.adultOnly=false")
+	Collection<Rendezvous> findLinkerRendezvousesAllPublicsByRendezvousId(int rendezvousId);
+
+	@Query("select r from Rendezvous r where r.adultOnly=false")
+	Collection<Rendezvous> findAllPublics();
+
 	@Query("select avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float )),sqrt(sum((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id)*(select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float ))*avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float ))) from User u")
 	Double[] avgStandardDRsvpdRendezvouses();
 

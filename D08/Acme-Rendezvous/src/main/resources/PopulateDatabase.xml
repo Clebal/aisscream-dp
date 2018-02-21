@@ -139,7 +139,11 @@
 	<bean id="rendezvous1" class="domain.Rendezvous">
 		<property name="name" value="Reunión para excursión" />
 		<property name="description" value="El próximo jueves vamos a tener una reunión para organizar la salida al campo." />
+<<<<<<< HEAD
 		<property name="moment" value="03/19/2018 23:44" />
+=======
+		<property name="moment" value="03/19/2018 12:00" />
+>>>>>>> 2d6e02c3a51170d3eec451b696a7799d8a3797be
 		<property name="picture" value="" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
@@ -174,7 +178,11 @@
 	<bean id="rendezvous3" class="domain.Rendezvous">
 		<property name="name" value="Revisión médica" />
 		<property name="description" value="La revisión médica anual tendrá lugar el próximo lunes en el salón de reuniones." />
+<<<<<<< HEAD
 		<property name="moment" value="05/15/2018 20:05" />
+=======
+		<property name="moment" value="05/15/2018 12:00" />
+>>>>>>> 2d6e02c3a51170d3eec451b696a7799d8a3797be
 		<property name="picture" value="" />
 		<property name="draft" value="true" />
 		<property name="adultOnly" value="true" />
@@ -191,7 +199,11 @@
 	<bean id="rendezvous4" class="domain.Rendezvous">
 		<property name="name" value="Cita con el coordinador" />
 		<property name="description" value="Es una cita muy importante a la que no se puede faltar." />
+<<<<<<< HEAD
 		<property name="moment" value="06/02/2018 09:13" />
+=======
+		<property name="moment" value="06/02/2018 12:00" />
+>>>>>>> 2d6e02c3a51170d3eec451b696a7799d8a3797be
 		<property name="picture" value="" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="true" />

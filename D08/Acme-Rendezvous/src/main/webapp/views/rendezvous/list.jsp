@@ -14,24 +14,25 @@
 <display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row"
 	requestURI="${requestURI}" pagesize="5"
 	>
-	<jstl:if test="${row.getAdultOnly()==false || row.getAdultOnly()==true && canPermit}">
-	
 	
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>
-	
+
 		<display:column>
 		<jstl:if test="${row.getCreator().getUserAccount().getUsername().equals(principal)}">
-			<jstl:if test="${row.getDraft()==true && row.getIsDeleted()==false}">
+				<jstl:if test="${row.getDraft()==true && row.getIsDeleted()==false}">
 			<a href="rendezvous/user/edit.do?rendezvousId=${row.getId()}"> <spring:message
 					code="rendezvous.edit" />
 			</a>
-			</jstl:if>	
-		</jstl:if>
+				</jstl:if>	
+		
+				</jstl:if>
 		</display:column>
+				
+		
 		
 		<!-- Para que aparezcan los enlaces de addlink cuando accedamos desde el diplay para enlazar -->
-		<jstl:if test="${row.getCreator().getUserAccount().getUsername().equals(principal) && canLink}">
+		<jstl:if test="${canLink && !myRendezvousIsDeleted && row.getIsDeleted()==false}">
 		<display:column>
 		<spring:url var="urlLinkRendezvous" value="rendezvous/user/linkRendezvous.do">
 						<spring:param name="myRendezvousId" value="${rendezvousId}" />
@@ -44,7 +45,7 @@
 		</jstl:if>
 		
 		<!-- Para que aparezcan los enlaces de removelink cuando accedamos desde el diplay para desenlazar -->
-		<jstl:if test="${row.getCreator().getUserAccount().getUsername().equals(principal) && canUnLink}">
+		<jstl:if test="${canUnLink && !myRendezvousIsDeleted && row.getIsDeleted()==false}">
 		<display:column>
 		<spring:url var="urlUnLinkRendezvous" value="rendezvous/user/unLinkRendezvous.do">
 						<spring:param name="myRendezvousId" value="${rendezvousId}" />
@@ -56,31 +57,8 @@
 		</display:column>
 		</jstl:if>
 		
-		<!--  
-		<display:column>
-		<jstl:if test="${row.getCreator().getUserAccount().getUsername().equals(principal)}">
-			<jstl:if test="${row.getIsDeleted()==false}">
-		
-				<a href="rendezvous/user/virtualDelete.do?rendezvousId=${row.getId()}"> <spring:message
-						code="rendezvous.virtualDelete" />
-				</a>
-			</jstl:if>
-		</jstl:if>
-		</display:column>
-		-->
-		
 	</security:authorize>
-	<!--  
-	<security:authorize access="hasRole('ADMIN')">
-		<display:column>
-		<a href="rendezvous/administrator/delete.do?rendezvousId=${row.getId()}"> <spring:message
-					code="rendezvous.delete" />
-			</a>
-		</display:column>
 	
-	
-	</security:authorize>
-	-->
 	<spring:message code="rendezvous.name" var="nameHeader" />
 	<display:column property="name" title="${nameHeader}"></display:column>
 
@@ -95,18 +73,21 @@
 	<display:column property="draft" title="${draftHeader}"></display:column>
 		
 	<spring:message code="rendezvous.adultOnly" var="adultOnlyHeader" />
-	<display:column property="adultOnly" title="${adultOnlyHeader}"></display:column>
+	<display:column property="adultOnly" title="${adultOnlyHeader}"/>
+	
 		
 	<spring:message code="rendezvous.longitude" var="longitudeHeader" />
-	<display:column property="longitude" title="${longitudeHeader}"></display:column>
+	<display:column property="longitude" title="${longitudeHeader}"/>
+	
 	
 	<spring:message code="rendezvous.latitude" var="latitudeHeader" />
-	<display:column property="latitude" title="${latitudeHeader}"></display:column>
+	<display:column property="latitude" title="${latitudeHeader}"/>
+
 	
 	<spring:message code="rendezvous.isDeleted" var="isDeletedHeader" />
 	<display:column title="${isDeletedHeader}">
 	<jstl:if test="${row.getIsDeleted()==true }">
-	<jstl:out value="X"></jstl:out>
+	<jstl:out value="X"/>
 	</jstl:if>
 	</display:column>
 
@@ -118,7 +99,6 @@
 		<a href="${urlDisplay }"> <spring:message code="rendezvous.display" /></a>
 	</display:column>
 
-</jstl:if>
 </display:table>
 
 <br />
