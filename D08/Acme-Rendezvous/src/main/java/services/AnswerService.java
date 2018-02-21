@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,8 +109,8 @@ public class AnswerService {
 		return result;
 	}
 
-	public Collection<Answer> findByQuestionIdAndUserId(final int questionId, final int userId) {
-		Collection<Answer> result;
+	public Answer findByQuestionIdAndUserId(final int questionId, final int userId) {
+		Answer result;
 
 		Assert.isTrue(questionId != 0 && userId != 0);
 		result = this.answerRepository.findByQuestionIdAndUserId(questionId, userId);

@@ -1,8 +1,6 @@
 
 package repositories;
 
-import java.util.Collection;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,6 +17,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Integer> {
 	Integer countRendezvousIdAndUserId(int rendezvousId, int userId);
 
 	@Query("select a from Answer a where a.question.id=?1 and a.question.rendezvous.user.id=?2")
-	Collection<Answer> findByQuestionIdAndUserId(int questionId, int userId);
+	Answer findByQuestionIdAndUserId(int questionId, int userId);
 
 }
