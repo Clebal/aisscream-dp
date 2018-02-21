@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -13,8 +15,8 @@ import repositories.CommentRepository;
 import security.Authority;
 import security.LoginService;
 import domain.Comment;
-import domain.RSVP;
 import domain.Rendezvous;
+import domain.Rsvp;
 import domain.User;
 
 @Service
@@ -28,6 +30,9 @@ public class CommentService {
 	// Services
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private RsvpService			rsvpService;
 
 
 	// Constructor
@@ -81,14 +86,13 @@ public class CommentService {
 	public Comment save(final Comment comment) {
 		Comment result;
 		User user;
-		RSVP rsvp;
+		Rsvp rsvp;
 
 		Assert.notNull(comment);
 		Assert.notNull(comment.getUser());
 		Assert.notNull(comment.getRendezvous());
 
-		//TODO Revisar orden
-		rsvp = RSVPService.findByUserIdAndRendezvousId(comment.getUser().getId(), comment.getRendezvous().getId);
+		rsvp = this.rsvpService.findByAttendantUserIdAndRendezvousId(comment.getUser().getId(), comment.getRendezvous().getId());
 		Assert.notNull(rsvp);
 
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
@@ -109,9 +113,10 @@ public class CommentService {
 
 	public void delete(final Comment comment) {
 		final Authority authority;
-		final Rendezvous rendezvousForDelete;
 		Comment commentForDelete;
+		Integer size;
 
+		authority = new Authority();
 		authority.setAuthority("ADMIN");
 
 		Assert.notNull(comment);
@@ -119,8 +124,10 @@ public class CommentService {
 		//only can deleted it an admin
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
+		size = this.countByRepliedCommentId(comment.getId());
+
 		//Delete repliedComments
-		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId()))
+		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))
 			this.delete(repliedComment);
 
 		commentForDelete = this.findOne(comment.getId());
@@ -137,20 +144,50 @@ public class CommentService {
 		return result;
 	}
 
-	public Collection<Comment> findByRendezvousId(final int userId) {
+	public Collection<Comment> findByRendezvousIdAndNoRepliedComment(final int userId, final int page, final int size) {
 		Collection<Comment> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
 
 		Assert.isTrue(userId != 0);
-		result = this.commentRepository.findByRendezvousId(userId);
+		result = this.commentRepository.findByRendezvousIdAndNoRepliedComment(userId, pageable).getContent();
 
 		return result;
 	}
 
-	public Collection<Comment> findByRepliedCommentId(final int userId) {
+	public Collection<Comment> findByRepliedCommentId(final int userId, final int page, final int size) {
 		Collection<Comment> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
 
 		Assert.isTrue(userId != 0);
-		result = this.commentRepository.findByRepliedCommentId(userId);
+		result = this.commentRepository.findByRepliedCommentId(userId, pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countByRepliedCommentId(final int commentId) {
+		Integer result;
+
+		Assert.isTrue(commentId != 0);
+		result = this.commentRepository.countByRepliedCommentId(commentId);
+
+		return result;
+	}
+
+	public Integer countByRendezvousIdAndNoRepliedComment(final int rendezvousId) {
+		Integer result;
+
+		Assert.isTrue(rendezvousId != 0);
+		result = this.commentRepository.countByRendezvousIdAndNoRepliedComment(rendezvousId);
 
 		return result;
 	}

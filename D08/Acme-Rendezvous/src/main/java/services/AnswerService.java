@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,7 @@ import repositories.AnswerRepository;
 import security.LoginService;
 import domain.Answer;
 import domain.Question;
-import domain.RSVP;
+import domain.Rsvp;
 import domain.User;
 
 @Service
@@ -20,9 +22,7 @@ public class AnswerService {
 	// Managed repository
 	@Autowired
 	private AnswerRepository	answerRepository;
-	select cast((count(final DISTINTC r.creator)) as float)/((select count(u) from User u)-(count(DISTINTC r.creator)) from Rendezvous r
-	
-	select ((select count(u) from User u)-(count(final DISTINTC r.creator)) from Rendezvous r;
+
 	// Services
 	@Autowired
 	private UserService			userService;
@@ -34,9 +34,8 @@ public class AnswerService {
 	}
 
 	// Simple CRUD methods----------
-	public Answer create(final Question question, final RSVP rsvp) {
+	public Answer create(final Question question, final Rsvp rsvp) {
 		Answer result;
-		final User user;
 
 		Assert.notNull(question);
 		Assert.notNull(rsvp);
@@ -99,6 +98,24 @@ public class AnswerService {
 
 		Assert.isTrue(RSVPId != 0 && questionId != 0);
 		result = this.answerRepository.findByRSVPIdAndQuestionId(RSVPId, questionId);
+
+		return result;
+	}
+
+	public Integer countRendezvousIdAndUserId(final int rendezvousId, final int userId) {
+		Integer result;
+
+		Assert.isTrue(rendezvousId != 0 && userId != 0);
+		result = this.answerRepository.countRendezvousIdAndUserId(rendezvousId, userId);
+
+		return result;
+	}
+
+	public Collection<Answer> findByQuestionIdAndUserId(final int questionId, final int userId) {
+		Collection<Answer> result;
+
+		Assert.isTrue(questionId != 0 && userId != 0);
+		result = this.answerRepository.findByQuestionIdAndUserId(questionId, userId);
 
 		return result;
 	}
