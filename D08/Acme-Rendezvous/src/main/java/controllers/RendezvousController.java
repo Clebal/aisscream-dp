@@ -15,7 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
 import security.LoginService;
+import services.ActorService;
+import services.CommentService;
+import services.QuestionService;
 import services.RendezvousService;
+import services.RsvpService;
+import services.UserService;
 import domain.Actor;
 import domain.Comment;
 import domain.Question;
@@ -38,6 +43,12 @@ public class RendezvousController extends AbstractController {
 
 	@Autowired
 	private QuestionService		questionService;
+
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private RsvpService			rsvpService;
 
 
 	// Constructor
@@ -184,6 +195,8 @@ public class RendezvousController extends AbstractController {
 		Authority authority;
 		User user;
 		Collection<Comment> comments;
+		Actor actor;
+		Integer size;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
@@ -205,21 +218,21 @@ public class RendezvousController extends AbstractController {
 
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			if (this.rsvpService.findRsvpByRendezvousIdAndUserId(rendezvous.getId(), user.getId()) == null)
+			if (this.rsvpService.findByAttendandUserIdAndRendezvousId(user.getId(), rendezvous.getId()) == null)
 				canCreateRSVP = true;
 			else
 				canCreateComment = true;
 
 		}
 
-		comments = this.commentService.findByRendezvousId(rendezvous.getId());
+		size = this.commentService.countByRendezvousIdAndNoRepliedComment(rendezvous.getId());
+		comments = this.commentService.findByRendezvousIdAndNoRepliedComment(rendezvous.getId(), 1, size);
 		result = new ModelAndView("rendezvous/display");
 
 		result.addObject("rendezvous", rendezvous);
 		result.addObject("canPermit", canPermit);
 		result.addObject("questions", questions);
 		result.addObject("canCreateRSVP", canCreateRSVP);
-		result.addObject("canCreateComment", canCreateComment);
 		result.addObject("canCreateComment", canCreateComment);
 		result.addObject("comments", comments);
 

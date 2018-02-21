@@ -1,7 +1,8 @@
+
 package domain;
 
-import java.util.Date;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -21,45 +22,44 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Rendezvous extends DomainEntity {
 
-	public String name;
+	public String					name;
 
-	public String description;
+	public String					description;
 
-	public Date moment;
+	public Date						moment;
 
-	public String picture;
+	public String					picture;
 
-	public boolean draft;
+	public boolean					draft;
 
-	public boolean adultOnly;
+	public boolean					adultOnly;
 
-	public Double latitude;
+	public Double					latitude;
 
-	public Double longitude;
+	public Double					longitude;
 
-	public boolean isDeleted;
+	public boolean					isDeleted;
 
-	public User creator;
+	public User						creator;
 
-	public Collection<Rendezvous> linkerRendezvouses;
+	public Collection<Rendezvous>	linkerRendezvouses;
 
-	private TermCondition termCondition;
 
 	@NotBlank
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	@NotBlank
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -67,59 +67,59 @@ public class Rendezvous extends DomainEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getMoment() {
-		return moment;
+		return this.moment;
 	}
 
-	public void setMoment(Date moment) {
+	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
 
 	@URL
 	public String getPicture() {
-		return picture;
+		return this.picture;
 	}
 
-	public void setPicture(String picture) {
+	public void setPicture(final String picture) {
 		this.picture = picture;
 	}
 
 	public Boolean getDraft() {
-		return draft;
+		return this.draft;
 	}
 
-	public void setDraft(boolean draft) {
+	public void setDraft(final boolean draft) {
 		this.draft = draft;
 	}
 
 	public Boolean getAdultOnly() {
-		return adultOnly;
+		return this.adultOnly;
 	}
 
-	public void setAdultOnly(boolean adultOnly) {
+	public void setAdultOnly(final boolean adultOnly) {
 		this.adultOnly = adultOnly;
 	}
 
 	public Double getLatitude() {
-		return latitude;
+		return this.latitude;
 	}
 
-	public void setLatitude(Double latitude) {
+	public void setLatitude(final Double latitude) {
 		this.latitude = latitude;
 	}
 
 	public Double getLongitude() {
-		return longitude;
+		return this.longitude;
 	}
 
-	public void setLongitude(Double longitude) {
+	public void setLongitude(final Double longitude) {
 		this.longitude = longitude;
 	}
 
 	public boolean getIsDeleted() {
-		return isDeleted;
+		return this.isDeleted;
 	}
 
-	public void setIsDeleted(boolean isDeleted) {
+	public void setIsDeleted(final boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
@@ -127,10 +127,10 @@ public class Rendezvous extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public User getCreator() {
-		return creator;
+		return this.creator;
 	}
 
-	public void setCreator(User creator) {
+	public void setCreator(final User creator) {
 		this.creator = creator;
 	}
 
@@ -138,22 +138,11 @@ public class Rendezvous extends DomainEntity {
 	@Valid
 	@ManyToMany
 	public Collection<Rendezvous> getLinkerRendezvouses() {
-		return linkerRendezvouses;
+		return this.linkerRendezvouses;
 	}
 
-	public void setLinkerRendezvouses(Collection<Rendezvous> linkerRendezvouses) {
+	public void setLinkerRendezvouses(final Collection<Rendezvous> linkerRendezvouses) {
 		this.linkerRendezvouses = linkerRendezvouses;
-	}
-
-	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
-	public TermCondition getTermCondition() {
-		return termCondition;
-	}
-
-	public void setTermCondition(TermCondition termCondition) {
-		this.termCondition = termCondition;
 	}
 
 }

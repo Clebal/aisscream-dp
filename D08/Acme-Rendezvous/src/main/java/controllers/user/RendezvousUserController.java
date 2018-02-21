@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.ActorService;
 import services.RendezvousService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Rendezvous;
-import domain.TermCondition;
 import domain.User;
 
 @Controller
@@ -30,13 +31,13 @@ public class RendezvousUserController extends AbstractController {
 
 	// Services
 	@Autowired
-	private RendezvousService		rendezvousService;
+	private RendezvousService	rendezvousService;
 
 	@Autowired
-	private UserService				userService;
+	private UserService			userService;
 
 	@Autowired
-	private TermConditionService	termConditionService;
+	private ActorService		actorService;
 
 
 	// Constructor
@@ -53,7 +54,7 @@ public class RendezvousUserController extends AbstractController {
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		rendezvous = this.rendezvousService.create(creator);
 
-		result = this.createEditModelAndView(creator);
+		result = this.createEditModelAndView(rendezvous);
 
 		return result;
 
@@ -224,17 +225,13 @@ public class RendezvousUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous, final String messageCode) {
 		ModelAndView result;
-		Collection<TermCondition> termsConditions;
 
 		if (rendezvous.getId() > 0)
 			result = new ModelAndView("rendezvous/edit");
 		else
 			result = new ModelAndView("rendezvous/create");
 
-		termsConditions = this.termConditionService.findAll();
-
 		result.addObject("rendezvous", rendezvous);
-		result.addObject("termConditions", termsConditions);
 		result.addObject("message", messageCode);
 
 		return result;

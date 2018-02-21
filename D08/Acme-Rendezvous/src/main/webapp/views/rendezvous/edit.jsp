@@ -82,16 +82,6 @@
 		<form:errors class="text-danger" path="longitude"/>
 	</div>
 	
-	<div class="form-group"> 
-		<form:label path="termCondition">
-			<spring:message code="rendezvous.termCondition" />:
-		</form:label>
-		<form:select class="form-control" path="termCondition">
-			<form:option label="-----" value="0"/>
-			<form:options items="${termConditions}" itemLabel="text" itemValue="id"/>
-		</form:select>
-		<form:errors class="text-danger" path="termCondition"/>
-	</div>
 	
 	<jstl:if test="${rendezvous.getDraft()==true && rendezvous.getIsDeleted()==false }}">
 		<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="rendezvous.save" />">

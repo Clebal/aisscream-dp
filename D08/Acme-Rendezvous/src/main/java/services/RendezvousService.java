@@ -195,15 +195,6 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Collection<Rendezvous> findByTermConditionId(final int termConditionId) {
-		Collection<Rendezvous> result;
-
-		Assert.isTrue(termConditionId != 0);
-		result = this.rendezvousRepository.findByTermConditionId(termConditionId);
-
-		return result;
-	}
-
 	public Double[] avgStandardDRsvpdRendezvouses() {
 		Double[] result;
 		Authority authority;

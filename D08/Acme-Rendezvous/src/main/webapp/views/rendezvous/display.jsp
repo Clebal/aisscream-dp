@@ -81,12 +81,7 @@
 		<spring:url var="urlCreator" value="actor/user/display.do">
 			<spring:param name="userId" value="${rendezvous.getCreator().getId()}" />
 		</spring:url>
-		
-		<spring:url var="urlTermCondition" value="termCondition/display.do">
-			<spring:param name="termConditionId" value="${rendezvous.getTermCondition().getId()}" />
-		</spring:url>
-		
-
+			
 		<spring:url var="urlComments" value="comment/list.do">
 			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 		</spring:url>
@@ -127,8 +122,7 @@
 				<br/>
 				<a href="${urlRsvps}" ><spring:message code="rendezvous.rsvps.display"/></a>
 				<br/>	
-				<a href="${urlTermCondition}" ><spring:message code="rendezvous.termCondition.display"/></a>
-				<br/>
+				
 		</div>
 		
 		

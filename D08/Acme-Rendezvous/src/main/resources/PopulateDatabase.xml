@@ -147,7 +147,6 @@
 		<property name="longitude" value="" />
 		<property name="isDeleted" value="false" />
 		<property name="creator" ref="user1" />
-		<property name="termCondition" ref="termCondition1" />
 		<property name="linkerRendezvouses">
 			<list>
 				<ref bean="rendezvous2" />
@@ -166,7 +165,6 @@
 		<property name="longitude" value="-73.989308" />
 		<property name="isDeleted" value="false" />
 		<property name="creator" ref="user1" />
-		<property name="termCondition" ref="termCondition2" />
 		<property name="linkerRendezvouses">
 			<list>
 			</list>
@@ -184,7 +182,6 @@
 		<property name="longitude" value="-73.989308" />
 		<property name="isDeleted" value="false" />
 		<property name="creator" ref="user3" />
-		<property name="termCondition" ref="termCondition3" />
 		<property name="linkerRendezvouses">
 			<list>
 			</list>
@@ -202,7 +199,6 @@
 		<property name="longitude" value="-73.989308" />
 		<property name="isDeleted" value="true" />
 		<property name="creator" ref="user3" />
-		<property name="termCondition" ref="termCondition4" />
 		<property name="linkerRendezvouses">
 			<list>
 			</list>
@@ -227,49 +223,49 @@
 	</bean>
 	
 	<!-- RSVP -->
-	<bean id="rsvp1" class="domain.RSVP">
+	<bean id="rsvp1" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user2" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
-	<bean id="rsvp2" class="domain.RSVP">
+	<bean id="rsvp2" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user2" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
-	<bean id="rsvp3" class="domain.RSVP">
+	<bean id="rsvp3" class="domain.Rsvp">
 		<property name="status" value="CANCELLED" />
 		<property name="attendant" ref="user2" />
 		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
 	
-	<bean id="rsvp4" class="domain.RSVP">
+	<bean id="rsvp4" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user3" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
-	<bean id="rsvp5" class="domain.RSVP">
+	<bean id="rsvp5" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user3" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
-	<bean id="rsvp6" class="domain.RSVP">
+	<bean id="rsvp6" class="domain.Rsvp">
 		<property name="status" value="CANCELLED" />
 		<property name="attendant" ref="user4" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
-	<bean id="rsvp7" class="domain.RSVP">
+	<bean id="rsvp7" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user4" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 		
-	<bean id="rsvp8" class="domain.RSVP">
+	<bean id="rsvp8" class="domain.Rsvp">
 		<property name="status" value="CANCELLED" />
 		<property name="attendant" ref="user1" />
 		<property name="rendezvous" ref="rendezvous4" />
@@ -427,7 +423,7 @@
 		<property name="moment" value="02/01/2018 15:30" />
 		<property name="text" value="Tremenda excursión, como lo pasamos el año pasado, este año repetimos!!" />
 		<property name="picture" value="" />
-		<property name="writer" ref="user3" />
+		<property name="user" ref="user3" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
@@ -435,7 +431,7 @@
 		<property name="moment" value="02/16/2018 12:43" />
 		<property name="text" value="¿Cuál es la dirección del pollo loco?" />
 		<property name="picture" value="" />
-		<property name="writer" ref="user3" />
+		<property name="user" ref="user3" />
 		<property name="repliedComment" ref="comment3" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
@@ -444,7 +440,7 @@
 		<property name="moment" value="02/16/2018 15:21" />
 		<property name="text" value="La dirección es Calle 742 Evergreen Terrace" />
 		<property name="picture" value="https://vignette.wikia.nocookie.net/simpsons/images/c/ca/742_Evergreen_Terrace.png/revision/latest/scale-to-width-down/640?cb=20130421182211" />
-		<property name="writer" ref="user1" />
+		<property name="user" ref="user1" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
