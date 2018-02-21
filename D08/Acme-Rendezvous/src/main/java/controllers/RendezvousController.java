@@ -236,7 +236,7 @@ public class RendezvousController extends AbstractController {
 
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			if (this.rsvpService.findByAttendandUserIdAndRendezvousId(user.getId(), rendezvous.getId()) == null)
+			if (this.rsvpService.findByAttendantUserIdAndRendezvousId(user.getId(), rendezvous.getId()) == null)
 				canCreateRSVP = true;
 			else
 				canCreateComment = true;

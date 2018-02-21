@@ -165,8 +165,7 @@ public class RendezvousService {
 
 		//If you are creating the rendezvous, the creator must have a RSVP to that rendezvous
 		if (rendezvous.getId() == 0) {
-			creatorRsvp = this.rsvpService.create(result.getCreator(), result);
-			creatorRsvp.setStatus("ACCEPTED");
+			creatorRsvp = this.rsvpService.create(result);
 			this.rsvpService.saveFromCreator(creatorRsvp);
 		}
 
