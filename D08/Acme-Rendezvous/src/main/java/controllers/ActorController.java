@@ -46,6 +46,16 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
+	
+	// Display
+		@RequestMapping(value = "/terminos", method = RequestMethod.GET)
+		public ModelAndView display() {
+			ModelAndView result;
+
+			result = new ModelAndView("actor/terminos");
+
+			return result;
+		}
 
 	// List
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
