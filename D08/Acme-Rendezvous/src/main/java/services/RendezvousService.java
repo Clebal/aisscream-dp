@@ -282,6 +282,24 @@ public class RendezvousService {
 		return result;
 	}
 
+	public Collection<Rendezvous> findNotLinkedByRendezvous(final Rendezvous rendezvous) {
+		Collection<Rendezvous> result;
+
+		Assert.notNull(rendezvous);
+		result = this.rendezvousRepository.findNotLinkedByRendezvous(rendezvous);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findNotLinkedByRendezvousAllPublics(final Rendezvous rendezvous) {
+		Collection<Rendezvous> result;
+
+		Assert.notNull(rendezvous);
+		result = this.rendezvousRepository.findNotLinkedByRendezvousAllPublics(rendezvous);
+
+		return result;
+	}
+
 	public Double[] avgStandardDRsvpdRendezvouses() {
 		Double[] result;
 		Authority authority;

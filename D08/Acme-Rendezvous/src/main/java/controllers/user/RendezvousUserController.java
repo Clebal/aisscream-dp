@@ -1,7 +1,6 @@
 
 package controllers.user;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -95,8 +94,6 @@ public class RendezvousUserController extends AbstractController {
 		Boolean canUnLink;
 		Calendar birthDatePlus18Years;
 		Actor actor;
-		Collection<Rendezvous> linkedRendezvouses;
-		Collection<Rendezvous> resultRendezvouses;
 		Boolean myRendezvousIsDeleted;
 
 		canLink = false;
@@ -119,20 +116,10 @@ public class RendezvousUserController extends AbstractController {
 		} else
 			canPermit = false;
 
-		System.out.println(birthDatePlus18Years);
-		resultRendezvouses = new ArrayList<Rendezvous>();
-		rendezvouses = this.rendezvousService.findAll();
-		linkedRendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvousId);
-		rendezvouses.removeAll(linkedRendezvouses);
-		resultRendezvouses.addAll(rendezvouses);
-		resultRendezvouses.remove(this.rendezvousService.findOne(rendezvousId));
-
-		for (final Rendezvous r : rendezvouses)
-			if (canPermit == false) {
-				if (r.getAdultOnly() == true || r.getIsDeleted() == true)
-					resultRendezvouses.remove(r);
-			} else if (r.getIsDeleted() == true)
-				resultRendezvouses.remove(r);
+		if (canPermit == false)
+			rendezvouses = this.rendezvousService.findNotLinkedByRendezvousAllPublics(this.rendezvousService.findOne(rendezvousId));
+		else
+			rendezvouses = this.rendezvousService.findNotLinkedByRendezvous(this.rendezvousService.findOne(rendezvousId));
 
 		if (this.rendezvousService.findOne(rendezvousId).getIsDeleted() == false)
 			myRendezvousIsDeleted = false;
@@ -140,7 +127,7 @@ public class RendezvousUserController extends AbstractController {
 			myRendezvousIsDeleted = true;
 
 		result = new ModelAndView("rendezvous/list");
-		result.addObject("rendezvouses", resultRendezvouses);
+		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("requestURI", "rendezvous/user/listRendezvousesForLink.do?rendezvousId=" + rendezvousId);
 		result.addObject("canPermit", canPermit);
 		result.addObject("canLink", canLink);
@@ -150,7 +137,6 @@ public class RendezvousUserController extends AbstractController {
 
 		return result;
 	}
-
 	@RequestMapping(value = "/linkRendezvous", method = RequestMethod.GET)
 	public ModelAndView linkRendezvous(@RequestParam final int myRendezvousId, @RequestParam final int linkedRendezvousId) {
 		ModelAndView result;

@@ -17,7 +17,6 @@ import org.springframework.util.Assert;
 import security.LoginService;
 import utilities.AbstractTest;
 import domain.Rendezvous;
-import domain.TermCondition;
 import domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,13 +28,10 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	// Service under test----------------
 	@Autowired
-	private RendezvousService		rendezvousService;
+	private RendezvousService	rendezvousService;
 
 	@Autowired
-	private UserService				userService;
-
-	@Autowired
-	private TermConditionService	termConditionService;
+	private UserService			userService;
 
 
 	@Test
@@ -89,7 +85,6 @@ public class RendezvousServiceTest extends AbstractTest {
 		SimpleDateFormat format;
 		String momentString;
 		Date momentDate;
-		TermCondition termCondition;
 		Rendezvous saved;
 
 		super.authenticate("user1");
@@ -119,10 +114,6 @@ public class RendezvousServiceTest extends AbstractTest {
 		created.setLatitude(15.0);
 		created.setLongitude(22.0);
 
-		termCondition = (TermCondition) this.termConditionService.findAll().toArray()[0];
-
-		created.setTermCondition(termCondition);
-
 		saved = this.rendezvousService.save(created);
 
 		Assert.isTrue(this.rendezvousService.findAll().contains(saved));
@@ -137,7 +128,6 @@ public class RendezvousServiceTest extends AbstractTest {
 		SimpleDateFormat format;
 		String momentString;
 		Date momentDate;
-		TermCondition termCondition;
 		Rendezvous saved;
 
 		super.authenticate("user1");
@@ -167,9 +157,6 @@ public class RendezvousServiceTest extends AbstractTest {
 		created.setLatitude(15.0);
 		created.setLongitude(22.0);
 
-		termCondition = (TermCondition) this.termConditionService.findAll().toArray()[0];
-
-		created.setTermCondition(termCondition);
 		try {
 			saved = this.rendezvousService.save(created);
 			Assert.isTrue(this.rendezvousService.findAll().contains(saved));
@@ -279,16 +266,33 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testFindTermConditionId() {
+	public void testFindNotLinkedByRendezvous() {
 		Collection<Rendezvous> rendezvouses;
-		TermCondition termCondition;
+		User creator;
+		Rendezvous rendezvous;
 
 		super.authenticate("user1");
-		termCondition = (TermCondition) this.termConditionService.findAll().toArray()[0];
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId()).toArray()[0];
+		rendezvouses = this.rendezvousService.findNotLinkedByRendezvous(rendezvous);
 
-		rendezvouses = this.rendezvousService.findByTermConditionId(termCondition.getId());
+		Assert.isTrue(rendezvouses.size() >= 0);
 
-		Assert.isTrue(!rendezvouses.isEmpty());
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testFindNotLinkedByRendezvousAllPublics() {
+		Collection<Rendezvous> rendezvouses;
+		User creator;
+		Rendezvous rendezvous;
+
+		super.authenticate("user1");
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId()).toArray()[0];
+		rendezvouses = this.rendezvousService.findNotLinkedByRendezvousAllPublics(rendezvous);
+
+		Assert.isTrue(rendezvouses.size() >= 0);
 
 		super.authenticate(null);
 	}
