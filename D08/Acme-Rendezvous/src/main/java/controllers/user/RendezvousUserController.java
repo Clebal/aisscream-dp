@@ -1,6 +1,7 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -95,12 +96,15 @@ public class RendezvousUserController extends AbstractController {
 		Calendar birthDatePlus18Years;
 		Actor actor;
 		Collection<Rendezvous> linkedRendezvouses;
+		Collection<Rendezvous> resultRendezvouses;
+		Boolean myRendezvousIsDeleted;
 
 		canLink = false;
 		canUnLink = false;
 
 		Assert.isTrue(rendezvousId != 0);
 
+		birthDatePlus18Years = null;
 		if (LoginService.isAuthenticated()) {
 			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 			if (actor.getUserAccount().getId() == this.rendezvousService.findOne(rendezvousId).getCreator().getUserAccount().getId())
@@ -114,17 +118,35 @@ public class RendezvousUserController extends AbstractController {
 				canPermit = false;
 		} else
 			canPermit = false;
+
+		System.out.println(birthDatePlus18Years);
+		resultRendezvouses = new ArrayList<Rendezvous>();
 		rendezvouses = this.rendezvousService.findAll();
 		linkedRendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvousId);
 		rendezvouses.removeAll(linkedRendezvouses);
+		resultRendezvouses.addAll(rendezvouses);
+		resultRendezvouses.remove(this.rendezvousService.findOne(rendezvousId));
+
+		for (final Rendezvous r : rendezvouses)
+			if (canPermit == false) {
+				if (r.getAdultOnly() == true || r.getIsDeleted() == true)
+					resultRendezvouses.remove(r);
+			} else if (r.getIsDeleted() == true)
+				resultRendezvouses.remove(r);
+
+		if (this.rendezvousService.findOne(rendezvousId).getIsDeleted() == false)
+			myRendezvousIsDeleted = false;
+		else
+			myRendezvousIsDeleted = true;
 
 		result = new ModelAndView("rendezvous/list");
-		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("rendezvouses", resultRendezvouses);
 		result.addObject("requestURI", "rendezvous/user/listRendezvousesForLink.do?rendezvousId=" + rendezvousId);
 		result.addObject("canPermit", canPermit);
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("rendezvousId", rendezvousId);
+		result.addObject("myRendezvousIsDeleted", myRendezvousIsDeleted);
 
 		return result;
 	}
@@ -174,7 +196,7 @@ public class RendezvousUserController extends AbstractController {
 		ModelAndView result;
 		Rendezvous rendezvous;
 
-		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		rendezvous = this.rendezvousService.findOneToEdit(rendezvousId);
 		Assert.notNull(rendezvous);
 
 		result = this.createEditModelAndView(rendezvous);
@@ -230,6 +252,9 @@ public class RendezvousUserController extends AbstractController {
 			result = new ModelAndView("rendezvous/edit");
 		else
 			result = new ModelAndView("rendezvous/create");
+
+		System.out.println(rendezvous.getDraft());
+		System.out.println(rendezvous.getIsDeleted());
 
 		result.addObject("rendezvous", rendezvous);
 		result.addObject("message", messageCode);

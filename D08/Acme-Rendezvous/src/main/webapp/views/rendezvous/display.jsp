@@ -11,10 +11,10 @@
 
 <jstl:if test="${rendezvous.getAdultOnly()==false || rendezvous.getAdultOnly()==true && canPermit}">
 
-<jstl:if test="${rendezvous.getIsDeleted()!=true}">
+<jstl:if test="${rendezvous.getIsDeleted()==true}">
 <span class="display"><spring:message code="rendezvous.isDeleted.message"/></span>
 </jstl:if>
-
+<br>
 <jstl:if test="${rendezvous.getPicture()!=null}">
 	<img src="${rendezvous.getPicture()}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
 </jstl:if>
@@ -51,10 +51,10 @@
 			<br/>
 			</jstl:if>
 			
-			<span class="display"><spring:message code="rendezvous.latitude"/></span><fmt:formatDate value="${rendezvous.getLatitude()}"/>
+			<span class="display"><spring:message code="rendezvous.latitude"/></span><jstl:out value="${rendezvous.getLatitude()}"/>
 			<br/>
 			
-			<span class="display"><spring:message code="rendezvous.longitude"/></span><fmt:formatDate value="${rendezvous.getLongitude()}"/>
+			<span class="display"><spring:message code="rendezvous.longitude"/></span><jstl:out value="${rendezvous.getLongitude()}"/>
 			<br/>
 			
 		</div>
@@ -129,7 +129,7 @@
 	
 		<!-- Si es un auditor le permitimos crear una note y un audit-->
 		<security:authorize access="hasRole('ADMIN')">
-			
+			<jstl:if test="${rendezvous.getIsDeleted()==false}">
 			<div class="container">
 			
 				<span style="font-size:20px"><spring:message code="rendezvous.administrator.actions"/></span>
@@ -142,7 +142,7 @@
 				<a href="${urlDeleteRendezvous}" ><spring:message code="rendezvous.deleteForAdmin"/></a>
 				<br/>
 			</div>
-				
+				</jstl:if>
 		</security:authorize>
 		
 		<security:authorize access="hasRole('USER')">
@@ -153,7 +153,7 @@
 					<br/>
 			
 			<security:authentication var="principal" property="principal.username"/>
-			<jstl:if test="${rendezvous.getCreator().getUserAccount().getUsername().equals(principal)}">
+			<jstl:if test="${rendezvous.getCreator().getUserAccount().getUsername().equals(principal) && rendezvous.getIsDeleted()==false}">
 					
 					<!-- Lo enlazamos con otro rendezvous-->
 					<spring:url var="urlRendezvousesForLink" value="rendezvous/user/listRendezvousesForLink.do">
@@ -188,6 +188,8 @@
 					<a href="${urlCreateAnnouncement}" ><spring:message code="rendezvous.announcement.create"/></a>
 					<br/>
 			</jstl:if>
+					
+			<jstl:if test="${rendezvous.getIsDeleted()==false }">	
 					<!-- Creamos un RSVPt-->
 			<jstl:if test="${canCreateRSVP }">
 					
@@ -211,7 +213,7 @@
 					<br/>
 					
 			</jstl:if>
-			
+			</jstl:if>	
 			</div>
 			
 			

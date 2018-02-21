@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.util.Assert;
 import repositories.RendezvousRepository;
 import security.Authority;
 import security.LoginService;
+import domain.Actor;
 import domain.Rendezvous;
 import domain.Rsvp;
 import domain.User;
@@ -31,6 +33,9 @@ public class RendezvousService {
 
 	@Autowired
 	private RsvpService				rsvpService;
+
+	@Autowired
+	private ActorService			actorService;
 
 
 	// Constructor
@@ -52,6 +57,7 @@ public class RendezvousService {
 		result = new Rendezvous();
 		result.setCreator(creator);
 		result.setIsDeleted(false);
+		result.setDraft(true);
 		result.setLinkerRendezvouses(linkerRendezvouses);
 
 		return result;
@@ -71,6 +77,59 @@ public class RendezvousService {
 		Assert.isTrue(rendezvousId != 0);
 
 		result = this.rendezvousRepository.findOne(rendezvousId);
+
+		return result;
+	}
+
+	public Rendezvous findOneToEdit(final int rendezvousId) {
+		Rendezvous result;
+		User user;
+		Authority authority;
+		Authority authority2;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+
+		Assert.isTrue(rendezvousId != 0);
+		result = this.rendezvousRepository.findOne(rendezvousId);
+		Assert.notNull(result);
+		if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+			Assert.isTrue(result.getCreator().getId() == user.getId());
+			Assert.isTrue(result.getDraft() == true && result.getIsDeleted() == false);
+		} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+			Assert.isTrue(result.getIsDeleted() == false);
+
+		return result;
+	}
+
+	public Rendezvous findOneToDisplay(final int rendezvousId) {
+		Rendezvous result;
+		Actor actor;
+		Calendar birthDatePlus18Years;
+		Boolean canPermit;
+
+		Assert.isTrue(rendezvousId != 0);
+
+		result = this.rendezvousRepository.findOne(rendezvousId);
+
+		if (LoginService.isAuthenticated()) {
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			birthDatePlus18Years = Calendar.getInstance();
+			birthDatePlus18Years.setTime(actor.getBirthdate());
+			birthDatePlus18Years.add(Calendar.YEAR, 18);
+			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0 || actor.getId() == result.getCreator().getId())
+				canPermit = true;
+			else
+				canPermit = false;
+		} else
+			canPermit = false;
+
+		Assert.isTrue(result.getAdultOnly() == false || result.getAdultOnly() == true && canPermit);
 
 		return result;
 	}
@@ -160,6 +219,7 @@ public class RendezvousService {
 		Assert.notNull(linkedRendezvous);
 		Assert.isTrue(myRendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		Assert.isTrue(!linkedRendezvous.getLinkerRendezvouses().contains(myRendezvous));
+		Assert.isTrue(myRendezvous.getIsDeleted() == false && linkedRendezvous.getIsDeleted() == false);
 
 		linkedRendezvous.getLinkerRendezvouses().add(myRendezvous);
 
@@ -171,6 +231,7 @@ public class RendezvousService {
 		Assert.notNull(linkedRendezvous);
 		Assert.isTrue(myRendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		Assert.isTrue(linkedRendezvous.getLinkerRendezvouses().contains(myRendezvous));
+		Assert.isTrue(myRendezvous.getIsDeleted() == false && linkedRendezvous.getIsDeleted() == false);
 
 		linkedRendezvous.getLinkerRendezvouses().remove(myRendezvous);
 
@@ -191,6 +252,32 @@ public class RendezvousService {
 
 		Assert.isTrue(linkerRendezvousId != 0);
 		result = this.rendezvousRepository.findByLinkerRendezvousId(linkerRendezvousId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findByLinkerRendezvousIdAndAllpublics(final int linkerRendezvousId) {
+		Collection<Rendezvous> result;
+
+		Assert.isTrue(linkerRendezvousId != 0);
+		result = this.rendezvousRepository.findByLinkerRendezvousIdAndAllPublics(linkerRendezvousId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findLinkerRendezvousesAllPublicsByRendezvousId(final int rendezvousId) {
+		Collection<Rendezvous> result;
+
+		Assert.isTrue(rendezvousId != 0);
+		result = this.rendezvousRepository.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvousId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findAllPublics() {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findAllPublics();
 
 		return result;
 	}

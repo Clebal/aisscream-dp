@@ -83,10 +83,8 @@
 	</div>
 	
 	
-	<jstl:if test="${rendezvous.getDraft()==true && rendezvous.getIsDeleted()==false }}">
 		<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="rendezvous.save" />">
-	</jstl:if>
-	<jstl:if test="${rendezvous.getId()!= 0 && rendezvous.getIsDeleted()==false && rendezvous.getDraft()==true }">
+	<jstl:if test="${rendezvous.getId()!= 0}">
 		<input type="submit" class="btn btn-warning" name="delete" value="<spring:message code="rendezvous.delete" />" onclick="return confirm('<spring:message code="rendezvous.confirm.delete" />')">
 	</jstl:if>
 	

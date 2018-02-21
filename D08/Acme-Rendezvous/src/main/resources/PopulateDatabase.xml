@@ -139,7 +139,7 @@
 	<bean id="rendezvous1" class="domain.Rendezvous">
 		<property name="name" value="Reunión para excursión" />
 		<property name="description" value="El próximo jueves vamos a tener una reunión para organizar la salida al campo." />
-		<property name="moment" value="03/19/2018" />
+		<property name="moment" value="03/19/2018 12:00" />
 		<property name="picture" value="" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
@@ -157,7 +157,7 @@
 	<bean id="rendezvous2" class="domain.Rendezvous">
 		<property name="name" value="Almuerzo de empresa" />
 		<property name="description" value="El día 25 realizaremos el ya tradicional almuerzo de empresa en el Restaurante El Pollo Loco." />
-		<property name="moment" value="05/25/2018" />
+		<property name="moment" value="05/25/2018 12:00" />
 		<property name="picture" value="https://difiere.com/wp-content/uploads/sites/4/2017/10/rachel-park-366508-1024x683.jpg" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="true" />
@@ -174,7 +174,7 @@
 	<bean id="rendezvous3" class="domain.Rendezvous">
 		<property name="name" value="Revisión médica" />
 		<property name="description" value="La revisión médica anual tendrá lugar el próximo lunes en el salón de reuniones." />
-		<property name="moment" value="05/15/2018" />
+		<property name="moment" value="05/15/2018 12:00" />
 		<property name="picture" value="" />
 		<property name="draft" value="true" />
 		<property name="adultOnly" value="true" />
@@ -191,7 +191,7 @@
 	<bean id="rendezvous4" class="domain.Rendezvous">
 		<property name="name" value="Cita con el coordinador" />
 		<property name="description" value="Es una cita muy importante a la que no se puede faltar." />
-		<property name="moment" value="06/02/2018" />
+		<property name="moment" value="06/02/2018 12:00" />
 		<property name="picture" value="" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="true" />

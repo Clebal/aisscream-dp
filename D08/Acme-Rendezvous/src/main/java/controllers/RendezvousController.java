@@ -61,7 +61,7 @@ public class RendezvousController extends AbstractController {
 		ModelAndView result;
 		Rendezvous rendezvous;
 
-		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 
 		Assert.notNull(rendezvous);
 		result = this.createEditModelAndView(rendezvous);
@@ -93,7 +93,10 @@ public class RendezvousController extends AbstractController {
 
 		canLink = false;
 		canUnLink = false;
-		rendezvouses = this.rendezvousService.findAll();
+		if (canPermit == true)
+			rendezvouses = this.rendezvousService.findAll();
+		else
+			rendezvouses = this.rendezvousService.findAllPublics();
 
 		result = new ModelAndView("rendezvous/list");
 		result.addObject("rendezvouses", rendezvouses);
@@ -131,7 +134,11 @@ public class RendezvousController extends AbstractController {
 				canPermit = false;
 		} else
 			canPermit = false;
-		rendezvouses = this.rendezvousService.findOne(rendezvousId).getLinkerRendezvouses();
+
+		if (canPermit == true)
+			rendezvouses = this.rendezvousService.findOne(rendezvousId).getLinkerRendezvouses();
+		else
+			rendezvouses = this.rendezvousService.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvousId);
 
 		result = new ModelAndView("rendezvous/list");
 		result.addObject("rendezvouses", rendezvouses);
@@ -152,6 +159,7 @@ public class RendezvousController extends AbstractController {
 		Boolean canUnLink;
 		Calendar birthDatePlus18Years;
 		Actor actor;
+		Boolean myRendezvousIsDeleted;
 
 		canLink = false;
 		canUnLink = false;
@@ -171,7 +179,16 @@ public class RendezvousController extends AbstractController {
 				canPermit = false;
 		} else
 			canPermit = false;
-		rendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvousId);
+
+		if (canPermit == true)
+			rendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvousId);
+		else
+			rendezvouses = this.rendezvousService.findByLinkerRendezvousIdAndAllpublics(rendezvousId);
+
+		if (this.rendezvousService.findOne(rendezvousId).getIsDeleted() == false)
+			myRendezvousIsDeleted = false;
+		else
+			myRendezvousIsDeleted = true;
 
 		result = new ModelAndView("rendezvous/list");
 		result.addObject("rendezvouses", rendezvouses);
@@ -180,6 +197,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("rendezvousId", rendezvousId);
+		result.addObject("myRendezvousIsDeleted", myRendezvousIsDeleted);
 
 		return result;
 	}
