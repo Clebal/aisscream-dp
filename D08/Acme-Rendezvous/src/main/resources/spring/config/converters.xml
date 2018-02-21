@@ -43,6 +43,12 @@
 		<bean class="converters.InternationalizationToStringConverter" />
 		<bean class="converters.StringToInternationalizationConverter" />
 		
+		<bean class="converters.QuestionToStringConverter" />
+		<bean class="converters.StringToQuestionConverter" />
+		
+		<bean class="converters.RsvpToStringConverter" />
+		<bean class="converters.StringToRsvpConverter" />
+		
 	</util:list>
 	
 </beans>
