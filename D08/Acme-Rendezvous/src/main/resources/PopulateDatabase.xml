@@ -243,13 +243,13 @@
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
-	<bean id="rsvp7" class="domain.rsvp">
+	<bean id="rsvp7" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user4" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 		
-	<bean id="rsvp8" class="domain.rsvp">
+	<bean id="rsvp8" class="domain.Rsvp">
 		<property name="status" value="CANCELLED" />
 		<property name="attendant" ref="user1" />
 		<property name="rendezvous" ref="rendezvous4" />
