@@ -15,7 +15,7 @@
 <span class="display"><spring:message code="rendezvous.isDeleted.message"/></span>
 </jstl:if>
 <br>
-<jstl:if test="${rendezvous.getPicture()!=null}">
+<jstl:if test="${rendezvous.getPicture()!=null && rendezvous.getPicture()!='' }">
 	<img src="${rendezvous.getPicture()}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
 </jstl:if>
 	<div>
