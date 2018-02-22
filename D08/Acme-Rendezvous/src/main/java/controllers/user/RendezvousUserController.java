@@ -239,9 +239,6 @@ public class RendezvousUserController extends AbstractController {
 		else
 			result = new ModelAndView("rendezvous/create");
 
-		System.out.println(rendezvous.getDraft());
-		System.out.println(rendezvous.getIsDeleted());
-
 		result.addObject("rendezvous", rendezvous);
 		result.addObject("message", messageCode);
 
