@@ -76,7 +76,7 @@ public class RsvpService {
 
 		if (rsvp.getId() == 0)
 			//TODO QUITAR? Assert.isTrue(this.questionService.findByRendezvousId(rsvp.getRendezvous().getId()).size() == this.answerService.countRendezvousIdAndUserId(rsvp.getRendezvous().getId(), rsvp.getAttendant().getId()));
-			Assert.isTrue(this.rspvRepository.findByAttendandUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
+			Assert.isTrue(this.rspvRepository.findByAttendantUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
 
 		result = this.rspvRepository.save(rsvp);
 
@@ -114,7 +114,7 @@ public class RsvpService {
 		Assert.isTrue(userId != 0);
 		Assert.isTrue(this.userService.findOne(userId).getUserAccount().equals(LoginService.getPrincipal()));
 
-		result = this.rspvRepository.findByAttendandUserId(userId);
+		result = this.rspvRepository.findByAttendantUserId(userId);
 
 		return result;
 	}
@@ -156,7 +156,7 @@ public class RsvpService {
 
 		Assert.isTrue(userId != 0 && rendezvousId != 0);
 
-		result = this.rspvRepository.findByAttendandUserIdAndRendezvousId(userId, rendezvousId);
+		result = this.rspvRepository.findByAttendantUserIdAndRendezvousId(userId, rendezvousId);
 
 		return result;
 	}
