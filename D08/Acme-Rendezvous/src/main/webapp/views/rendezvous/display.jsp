@@ -68,12 +68,8 @@
 			</div>
 		</jstl:if>
 		
-		<spring:url var="urlCreator" value="actor/user/display.do">
-			<spring:param name="userId" value="${rendezvous.getCreator().getId()}" />
-		</spring:url>
-			
-		<spring:url var="urlComments" value="comment/list.do">
-			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+		<spring:url var="urlCreator" value="actor/display.do">
+			<spring:param name="actorId" value="${rendezvous.getCreator().getId()}" />
 		</spring:url>
 		
 		<spring:url var="urlLinkerRendezvouses" value="rendezvous/listLinkerRendezvouses.do">
@@ -99,9 +95,6 @@
 				<br>
 				<br>
 				<a href="${urlCreator}" ><spring:message code="rendezvous.creator.display"/></a>
-				<br>
-				
-				<a href="${urlComments}" ><spring:message code="rendezvous.comments.display"/></a>
 				<br>
 					
 				<a href="${urlLinkerRendezvouses}" ><spring:message code="rendezvous.linkerRendezvouses.display"/></a>
@@ -212,33 +205,33 @@
 			
 			<jstl:if test="${!comments.isEmpty()}">
 		
-			<div class="container">
+			<div>
 				<span style="font-size:20px"><spring:message code="rendezvous.comments"></spring:message></span>
 				<br>
 				<br>
 				<jstl:forEach var="row2" items="${comments}">
-					<div style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
+				
+					<spring:url var="urlMoreComments" value="comment/display.do">
+						<spring:param name="commentId" value="${row2.getId()}" />
+						<spring:param name="page" value="1" />
+					</spring:url>
+					
+					<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
 						<span class="display"><spring:message code="rendezvous.comment.text"/></span><jstl:out value="${row2.getText()}" />
 						<br>
 						
 						<span class="display"><spring:message code="rendezvous.comment.moment"/></span><fmt:formatDate value="${row2.getMoment()}" pattern="${momentFormat }"/>
 						<br>
-						<jstl:if test="${row2.getPicture()!=null}">
+						<jstl:if test="${row2.getPicture()!=null && row2.getPicture()!=''}">
 							<span> 
 								<img src="${row2.getPicture()}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
 							</span>
 						</jstl:if>
-					<jstl:if test="${canCreateComment }">
-				
 					
-					<spring:url var="urlCreateReply" value="comment/user/createReply.do">
-								<spring:param name="commentId" value="${row2.getId()}" />
-					</spring:url>
-							
-					<a href="${urlCreateReply}" ><spring:message code="rendezvous.comment.reply"/></a>
-					<br>
-					
-					</jstl:if>
+						<br/>
+						<br/>	
+					 	<p><a href="${urlMoreComments}" class='btn btn-primary' style='margin-right:10px;'><spring:message code="comment.more"/></a></p>
+
 					</div>
 					<br>
 				</jstl:forEach>

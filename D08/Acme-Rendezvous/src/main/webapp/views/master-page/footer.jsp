@@ -18,7 +18,7 @@
 
 	<hr>
 	
-	<small>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme-Rendezvous</small>
+	<small>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme, Inc.</small>
 	
 	<br>
 
