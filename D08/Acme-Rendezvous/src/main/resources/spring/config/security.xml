@@ -51,7 +51,13 @@
 		<security:intercept-url pattern="/rendezvous/administrator/**" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" /> 
 		
-		
+		<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/actor/user/create.do" access="hasRole('USER') or isAnonymous()" />
+		<security:intercept-url pattern="/actor/terminos.do" access="hasRole('USER') or isAnonymous()" />  
+		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()"  />
+		<security:intercept-url pattern="/actor/display.do" access="permitAll"  />
+		<security:intercept-url pattern="/actor/list.do" access="permitAll"  />	
+		<security:intercept-url pattern="/actor/profile.do" access="isAuthenticated()"  />
 			
 				
 		

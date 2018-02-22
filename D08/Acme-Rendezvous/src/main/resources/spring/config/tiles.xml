@@ -29,6 +29,10 @@
 		<value>/views/termCondition/tiles.xml</value>
 		<value>/views/rsvp/tiles.xml</value>
 		
+		<value>/views/administrator/tiles.xml</value>
+		<value>/views/actor/tiles.xml</value>
+		<value>/views/user/tiles.xml</value>
+		
 	</util:list>
 
 </beans>
