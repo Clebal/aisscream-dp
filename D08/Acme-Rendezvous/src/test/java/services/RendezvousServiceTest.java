@@ -77,6 +77,54 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate(null);
 	}
+	//El user no puede editar ninguno de los suyos porque ambos están en final mode
+	@Test
+	public void testFindOneToEdit() {
+		Rendezvous rendezvous;
+		Rendezvous saved;
+
+		super.authenticate("user1");
+
+		rendezvous = (Rendezvous) this.rendezvousService.findAll().toArray()[0];
+		try {
+
+			saved = this.rendezvousService.findOneToEdit(rendezvous.getId());
+			Assert.notNull(saved);
+		} catch (final IllegalArgumentException e) {
+
+			super.authenticate(null);
+
+		}
+
+		super.authenticate(null);
+	}
+	//User 4 es menor de edad por lo que no puede ver una cita para solo adultos
+	@Test
+	public void testFindOneToDisplay() {
+		Rendezvous rendezvous;
+		Rendezvous saved;
+		Collection<Rendezvous> rendezvouses;
+
+		rendezvous = null;
+		super.authenticate("user4");
+		rendezvouses = this.rendezvousService.findAll();
+		for (final Rendezvous r : rendezvouses)
+			if (r.getAdultOnly() == true) {
+				rendezvous = r;
+				break;
+			}
+		try {
+
+			saved = this.rendezvousService.findOneToDisplay(rendezvous.getId());
+			Assert.notNull(saved);
+		} catch (final IllegalArgumentException e) {
+
+			super.authenticate(null);
+
+		}
+
+		super.authenticate(null);
+	}
 
 	@Test
 	public void testSave() {
@@ -261,6 +309,51 @@ public class RendezvousServiceTest extends AbstractTest {
 		rendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvous.getId());
 
 		Assert.isTrue(rendezvouses.size() >= 0);
+
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testFindByLinkerRendezvousIdAndAllpublics() {
+		Collection<Rendezvous> rendezvouses;
+		User creator;
+		Rendezvous rendezvous;
+
+		super.authenticate("user1");
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId()).toArray()[0];
+		rendezvouses = this.rendezvousService.findByLinkerRendezvousIdAndAllpublics(rendezvous.getId());
+
+		Assert.isTrue(rendezvouses.size() >= 0);
+
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testFindLinkerRendezvousesAllPublicsByRendezvousId() {
+		Collection<Rendezvous> rendezvouses;
+		User creator;
+		Rendezvous rendezvous;
+
+		super.authenticate("user1");
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId()).toArray()[0];
+		rendezvouses = this.rendezvousService.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvous.getId());
+
+		Assert.isTrue(rendezvouses.size() >= 0);
+
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testFindAllPublics() {
+		Collection<Rendezvous> rendezvouses;
+
+		super.authenticate("user1");
+
+		rendezvouses = this.rendezvousService.findAllPublics();
+
+		Assert.isTrue(!rendezvouses.isEmpty());
 
 		super.authenticate(null);
 	}
