@@ -15,13 +15,31 @@
 	<spring:message code="comment.format.moment" var="momentFormat"/>
 	<spring:message code="comment.alt" var="commentAlt"/>
 	
-	<jstl:if test="${comment.getPicture()!=null}">
+	<jstl:if test="${row.getPicture()!=null && row.getPicture()!=''}">
 		<img src="${comment.getPicture()}" alt="${commentAlt}" width="400px" height="200px" style="margin-left:15px;" />
 	</jstl:if>
 	
 	<p><span class="display"><spring:message code="comment.moment"/></span><fmt:formatDate value="${comment.getMoment()}" pattern="${momentFormat }"/></p>
 	
-	<p><span class="display"><spring:message code="comment.text"/></span><jstl:out value="  ${comment.getText()}" /></p>	
+	<p><span class="display"><spring:message code="comment.text"/></span><jstl:out value="  ${comment.getText()}" /></p>
+	
+	<security:authorize access="hasRole('ADMIN')">
+		<spring:url var="urlDeleteComment" value="comment/administrator/edit.do">
+			<spring:param name="commentId" value="${comment.getId()}" />
+		</spring:url>
+		
+		<p><span  style='margin-right:10px;'><a href="${urlDeleteComment}" class='btn btn-primary'><spring:message code="comment.delete"/></a></span></p>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('USER')">
+		<jstl:if test="canComment">
+			<spring:url var="urlCreateComment" value="comment/user/create.do">
+				<spring:param name="commentId" value="${comment.getId()}" />
+			</spring:url>
+			
+			<p><span  style='margin-right:10px;'><a href="${urlCreateComment}" class='btn btn-primary'><spring:message code="comment.delete"/></a></span></p>
+		</jstl:if>
+	</security:authorize>		
 
 </div>
 
@@ -31,10 +49,11 @@
 	
 		<spring:url var="urlMoreComments" value="comment/display.do">
 			<spring:param name="commentId" value="${row.getId()}" />
+			<spring:param name="page" value="1" />
 		</spring:url>
 		
 		<div class="container-square2">
-			<jstl:if test="${row.getPicture()!=null}">
+			<jstl:if test="${row.getPicture()!=null && row.getPicture()!=''}">
 				<img src="${row.getPicture()}" alt="${commentAlt}" width="400px" height="200px" style="margin-left:15px;" />
 			</jstl:if>
 	
@@ -42,12 +61,22 @@
 	
 			<p><span class="display"><spring:message code="comment.text"/></span><jstl:out value="  ${row.getText()}" /></p>	
 			
-			<p><span class='btn btn-primary' style='margin-right:10px;'><a href="${urlMoreComments}" ><spring:message code="comment.more"/></a></span></p>
+			<p><span  style='margin-right:10px;'><a href="${urlMoreComments}" class='btn btn-primary'><spring:message code="comment.more"/></a></span></p>
+			
+			<security:authorize access="hasRole('ADMIN')">
+				<spring:url var="urlDeleteComment" value="comment/administrator/edit.do">
+					<spring:param name="commentId" value="${row.getId()}" />
+				</spring:url>
+				
+				<p><span  style='margin-right:10px;'><a href="${urlDeleteComment}" class='btn btn-primary'><spring:message code="comment.delete"/></a></span></p>
+			
+			</security:authorize>
+			
 		</div>
 		
 	</jstl:forEach>
 	
-	<jstl:forEach var="i" begin="0" end="${pageNumber}">
+	<jstl:forEach var="i" begin="1" end="${pageNumber+1}">
 	
 			<spring:url var="urlMorePage" value="comment/display.do">
 				<spring:param name="commentId" value="${comment.getId()}" />
@@ -55,10 +84,10 @@
 			</spring:url>
 			
 			<jstl:if test="${page==i}">
-				<span class='btn btn-danger' style='margin-right:10px;'><a href="${urlMorePage}" ><jstl:out value="${i}"></jstl:out></a></span>
+				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
 			</jstl:if>
 			<jstl:if test="${page!=i}">
-				<span class='btn btn-primary' style='margin-right:10px;'><a href="${urlMorePage}" ><jstl:out value="${i}"></jstl:out></a></span>
+				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
 			</jstl:if>
 			
 	</jstl:forEach>

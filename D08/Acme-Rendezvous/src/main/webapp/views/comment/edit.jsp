@@ -38,13 +38,13 @@
 		<form:label path="moment">
 			<spring:message code="comment.moment"/>
 		</form:label>
-		<form:input class="form-control" path="moment" placeholder="dd/MM/yyyy HH:mm"/>
+		<form:input class="form-control" path="moment" placeholder="dd/MM/yyyy HH:mm" readonly="true"/>
 		<form:errors class="text-danger" path="moment"/>
 	</div>
 	
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>
-		<jstl:if test="${comment.getUser().getUserAccount().getUsername().equals(principal)}">
+		<jstl:if test="${comment.getUser().getUserAccount().getUsername().equals(principal) && comment.getId()==0}">
 			<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="comment.save" />">
 		</jstl:if>
 	</security:authorize>
