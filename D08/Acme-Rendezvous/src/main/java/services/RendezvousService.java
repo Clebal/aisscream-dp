@@ -246,6 +246,24 @@ public class RendezvousService {
 		return result;
 	}
 
+	public Collection<Rendezvous> findByAttendantId(final int attendantId) {
+		Collection<Rendezvous> result;
+
+		Assert.isTrue(attendantId != 0);
+		result = this.rendezvousRepository.findByAttendantId(attendantId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findByAttendantIdAllPublics(final int attendantId) {
+		Collection<Rendezvous> result;
+
+		Assert.isTrue(attendantId != 0);
+		result = this.rendezvousRepository.findByAttendantIdAllPublics(attendantId);
+
+		return result;
+	}
+
 	public Collection<Rendezvous> findByLinkerRendezvousId(final int linkerRendezvousId) {
 		Collection<Rendezvous> result;
 

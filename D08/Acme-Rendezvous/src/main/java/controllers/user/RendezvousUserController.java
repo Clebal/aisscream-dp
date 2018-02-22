@@ -85,6 +85,49 @@ public class RendezvousUserController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/listByAttendant", method = RequestMethod.GET)
+	public ModelAndView listByAttendant() {
+		ModelAndView result;
+		Collection<Rendezvous> rendezvouses;
+		User attendant;
+		Boolean canPermit;
+		Boolean canLink;
+		Boolean canUnLink;
+		Calendar birthDatePlus18Years;
+		Actor actor;
+
+		canPermit = true;
+		canLink = false;
+		canUnLink = false;
+		attendant = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+		if (LoginService.isAuthenticated()) {
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			birthDatePlus18Years = Calendar.getInstance();
+			birthDatePlus18Years.setTime(actor.getBirthdate());
+			birthDatePlus18Years.add(Calendar.YEAR, 18);
+			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+				canPermit = true;
+			else
+				canPermit = false;
+		} else
+			canPermit = false;
+
+		if (canPermit == true)
+			rendezvouses = this.rendezvousService.findByAttendantId(attendant.getId());
+		else
+			rendezvouses = this.rendezvousService.findByAttendantIdAllPublics(attendant.getId());
+
+		result = new ModelAndView("rendezvous/list");
+		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("requestURI", "rendezvous/user/listByAttendant.do");
+		result.addObject("canPermit", canPermit);
+		result.addObject("canLink", canLink);
+		result.addObject("canUnLink", canUnLink);
+
+		return result;
+	}
+
 	@RequestMapping(value = "/listRendezvousesForLink", method = RequestMethod.GET)
 	public ModelAndView listLinkedRendezvouses(@RequestParam final int rendezvousId) {
 		ModelAndView result;

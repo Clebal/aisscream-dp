@@ -298,6 +298,36 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	@Test
+	public void testFindByAttendantId() {
+		Collection<Rendezvous> rendezvouses;
+		User creator;
+
+		super.authenticate("user1");
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+		rendezvouses = this.rendezvousService.findByAttendantId(creator.getId());
+
+		Assert.isTrue(rendezvouses.size() >= 0);
+
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testFindByAttendantIdAllPublics() {
+		Collection<Rendezvous> rendezvouses;
+		User creator;
+
+		super.authenticate("user1");
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+		rendezvouses = this.rendezvousService.findByAttendantIdAllPublics(creator.getId());
+
+		Assert.isTrue(rendezvouses.size() >= 0);
+
+		super.authenticate(null);
+	}
+
+	@Test
 	public void testFindByLinkerRendezvousId() {
 		Collection<Rendezvous> rendezvouses;
 		User creator;

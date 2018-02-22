@@ -100,10 +100,10 @@
 				<br>
 				<a href="${urlCreator}" ><spring:message code="rendezvous.creator.display"/></a>
 				<br>
-				<!-- 
+				
 				<a href="${urlComments}" ><spring:message code="rendezvous.comments.display"/></a>
-				<br/>
-				 -->	
+				<br>
+					
 				<a href="${urlLinkerRendezvouses}" ><spring:message code="rendezvous.linkerRendezvouses.display"/></a>
 				<br>
 				<a href="${urlLinkedRendezvouses}" ><spring:message code="rendezvous.linkedRendezvouses.display"/></a>
