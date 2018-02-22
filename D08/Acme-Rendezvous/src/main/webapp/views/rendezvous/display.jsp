@@ -22,40 +22,31 @@
 		<div class="container">
 			<spring:message code="rendezvous.format.moment" var="momentFormat"/>
 			
-			<span class="display"><spring:message code="rendezvous.name"/></span><jstl:out value="  ${rendezvous.getName()}" />
-			<br/>
+			<p><span class="display"><spring:message code="rendezvous.name"/></span><jstl:out value="  ${rendezvous.getName()}" /></p>
 		
-			<span class="display"><spring:message code="rendezvous.description"/></span><jstl:out value="  ${rendezvous.getDescription()}" />
-			<br/>
+			<p><span class="display"><spring:message code="rendezvous.description"/></span><jstl:out value="  ${rendezvous.getDescription()}" /></p>
 			
-			<span class="display"><spring:message code="rendezvous.moment"/></span><fmt:formatDate value="${rendezvous.getMoment()}" pattern="${momentFormat }"/>
-			<br/>
+			<p><span class="display"><spring:message code="rendezvous.moment"/></span><fmt:formatDate value="${rendezvous.getMoment()}" pattern="${momentFormat }"/></p>
 			
 			<jstl:if test="${rendezvous.getDraft()==true}">
-				<span class="display"><spring:message code="rendezvous.draft.trueMessage"/></span>
-			<br/>
+				<p><span class="display"><spring:message code="rendezvous.draft.trueMessage"/></span></p>
 			</jstl:if>
 			
 			<jstl:if test="${rendezvous.getDraft()==false}">
-				<span class="display"><spring:message code="rendezvous.draft.falseMessage"/></span>
-			<br/>
+				<p><span class="display"><spring:message code="rendezvous.draft.falseMessage"/></span></p>
 			</jstl:if>
 			
 			<jstl:if test="${rendezvous.getAdultOnly()==true}">
-				<span class="display"><spring:message code="rendezvous.adultOnly.trueMessage"/></span>
-			<br/>
+				<p><span class="display"><spring:message code="rendezvous.adultOnly.trueMessage"/></span></p>
 			</jstl:if>
 			
 			<jstl:if test="${rendezvous.getAdultOnly()==false}">
-				<span class="display"><spring:message code="rendezvous.adultOnly.falseMessage"/></span>
-			<br/>
+				<p><span class="display"><spring:message code="rendezvous.adultOnly.falseMessage"/></span></p>
 			</jstl:if>
 			
-			<span class="display"><spring:message code="rendezvous.latitude"/></span><jstl:out value="${rendezvous.getLatitude()}"/>
-			<br/>
+			<p><span class="display"><spring:message code="rendezvous.latitude"/></span><jstl:out value="${rendezvous.getLatitude()}"/></p>
 			
-			<span class="display"><spring:message code="rendezvous.longitude"/></span><jstl:out value="${rendezvous.getLongitude()}"/>
-			<br/>
+			<p><span class="display"><spring:message code="rendezvous.longitude"/></span><jstl:out value="${rendezvous.getLongitude()}"/></p>
 			
 		</div>
 		
@@ -66,12 +57,11 @@
 		
 			<div class="container">
 				<span style="font-size:20px"><spring:message code="rendezvous.questions"></spring:message></span>
-				<br/>
-				<br/>
+				<br>
+				<br>
 				<jstl:forEach var="row" items="${questions}">
 					<div style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
-						<span class="display"><spring:message code="rendezvous.question.text"/></span><jstl:out value="${row.getText()}" />
-						<br/>
+						<p><span class="display"><spring:message code="rendezvous.question.text"/></span><jstl:out value="${row.getText()}" /></p>
 					</div>
 					<br/>
 				</jstl:forEach>
@@ -106,22 +96,22 @@
 		<div class="container">
 			
 				<span style="font-size:20px"><spring:message code="rendezvous.other.actions"/></span>
-				<br/>
-				<br/>
+				<br>
+				<br>
 				<a href="${urlCreator}" ><spring:message code="rendezvous.creator.display"/></a>
-				<br/>
+				<br>
 				<!-- 
 				<a href="${urlComments}" ><spring:message code="rendezvous.comments.display"/></a>
 				<br/>
 				 -->	
 				<a href="${urlLinkerRendezvouses}" ><spring:message code="rendezvous.linkerRendezvouses.display"/></a>
-				<br/>
+				<br>
 				<a href="${urlLinkedRendezvouses}" ><spring:message code="rendezvous.linkedRendezvouses.display"/></a>
-				<br/>
+				<br>
 				<a href="${urlAnnouncements}" ><spring:message code="rendezvous.announcements.display"/></a>
-				<br/>
+				<br>
 				<a href="${urlRsvps}" ><spring:message code="rendezvous.rsvps.display"/></a>
-				<br/>	
+				<br>	
 				
 		</div>
 		
@@ -133,14 +123,14 @@
 			<div class="container">
 			
 				<span style="font-size:20px"><spring:message code="rendezvous.administrator.actions"/></span>
-				<br/>
-				<br/>
+				<br>
+				<br>
 				<!-- Enlace para borrar el Rendezvous -->
 				<spring:url var="urlDeleteRendezvous" value="rendezvous/administrator/delete.do">
 					<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 				</spring:url>
 				<a href="${urlDeleteRendezvous}" ><spring:message code="rendezvous.deleteForAdmin"/></a>
-				<br/>
+				<br>
 			</div>
 				</jstl:if>
 		</security:authorize>
@@ -149,8 +139,8 @@
 			<div class="container">
 			
 			<span style="font-size:20px"><spring:message code="rendezvous.user.actions"/></span>
-					<br/>
-					<br/>
+					<br>
+					<br>
 			
 			<security:authentication var="principal" property="principal.username"/>
 			<jstl:if test="${rendezvous.getCreator().getUserAccount().getUsername().equals(principal) && rendezvous.getIsDeleted()==false}">
@@ -161,7 +151,7 @@
 					</spring:url>
 					
 					<a href="${urlRendezvousesForLink}" ><spring:message code="rendezvous.rendezvousesForLink"/></a>
-					<br/>
+					<br>
 					 
 					<!-- Lo desenlazamos con otro rendezvous-->
 					<!-- 
@@ -178,7 +168,7 @@
 					</spring:url>
 					
 					<a href="${urlCreateQuestion}" ><spring:message code="rendezvous.question.create"/></a>
-					<br/>
+					<br>
 					
 					<!-- Creamos un announcement-->
 					<spring:url var="urlCreateAnnouncement" value="announcement/user/create.do">
@@ -186,7 +176,7 @@
 					</spring:url>
 					
 					<a href="${urlCreateAnnouncement}" ><spring:message code="rendezvous.announcement.create"/></a>
-					<br/>
+					<br>
 			</jstl:if>
 					
 			<jstl:if test="${rendezvous.getIsDeleted()==false }">	
@@ -198,7 +188,7 @@
 					</spring:url>
 					
 					<a href="${urlCreateRSVP}" ><spring:message code="rendezvous.rsvp.create"/></a>
-					<br/>
+					<br>
 			</jstl:if>
 			
 			<!-- Si es el creador o un attendant de ese trip le permitimos crear un comentario-->
@@ -210,7 +200,7 @@
 					</spring:url>
 							
 					<a href="${urlCreateComment}" ><spring:message code="rendezvous.comment.create"/></a>
-					<br/>
+					<br>
 					
 			</jstl:if>
 			</jstl:if>	
@@ -224,15 +214,15 @@
 		
 			<div class="container">
 				<span style="font-size:20px"><spring:message code="rendezvous.comments"></spring:message></span>
-				<br/>
-				<br/>
+				<br>
+				<br>
 				<jstl:forEach var="row2" items="${comments}">
 					<div style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
 						<span class="display"><spring:message code="rendezvous.comment.text"/></span><jstl:out value="${row2.getText()}" />
-						<br/>
+						<br>
 						
 						<span class="display"><spring:message code="rendezvous.comment.moment"/></span><fmt:formatDate value="${row2.getMoment()}" pattern="${momentFormat }"/>
-						<br/>
+						<br>
 						<jstl:if test="${row2.getPicture()!=null}">
 							<span> 
 								<img src="${row2.getPicture()}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
@@ -246,11 +236,11 @@
 					</spring:url>
 							
 					<a href="${urlCreateReply}" ><spring:message code="rendezvous.comment.reply"/></a>
-					<br/>
+					<br>
 					
 					</jstl:if>
 					</div>
-					<br/>
+					<br>
 				</jstl:forEach>
 			</div>
 		</jstl:if>

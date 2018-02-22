@@ -101,7 +101,7 @@
 
 </display:table>
 
-<br />
+<br>
 <security:authorize access="hasRole('USER')">
 	<div>
 		<a href="rendezvous/user/create.do">
