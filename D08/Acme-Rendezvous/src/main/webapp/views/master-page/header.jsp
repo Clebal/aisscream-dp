@@ -73,12 +73,6 @@
         
       </ul>
       
-      <form class="navbar-form navbar-right" action="rendezvous/list.do" method="GET">
-        <div class="form-group">
-          <input type="text" name="keyword" class="form-control" placeholder="<spring:message code="master.page.user.search" />">
-        </div>
-        <button type="submit" class="btn btn-default"><spring:message code="master.page.submit"/></button>
-      </form>
       
       <div class="navbar-right navbar-btn btn-group">
       
