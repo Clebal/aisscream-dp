@@ -159,7 +159,7 @@ public class CommentService {
 		return result;
 	}
 
-	public Collection<Comment> findByRepliedCommentId(final int userId, final int page, final int size) {
+	public Collection<Comment> findByRepliedCommentId(final int repliedCommentId, final int page, final int size) {
 		Collection<Comment> result;
 		Pageable pageable;
 
@@ -168,8 +168,8 @@ public class CommentService {
 		else
 			pageable = new PageRequest(page - 1, size);
 
-		Assert.isTrue(userId != 0);
-		result = this.commentRepository.findByRepliedCommentId(userId, pageable).getContent();
+		Assert.isTrue(repliedCommentId != 0);
+		result = this.commentRepository.findByRepliedCommentId(repliedCommentId, pageable).getContent();
 
 		return result;
 	}

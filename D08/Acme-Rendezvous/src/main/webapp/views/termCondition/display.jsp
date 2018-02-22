@@ -13,24 +13,30 @@
 <div>
 
 	<jstl:if test="${termCondition==null}">
-		<spring:url var="urlEditSpanish" value="termCondition/edit.do">
+		<spring:url var="urlEditSpanish" value="termCondition/administrator/edit.do">
 			<spring:param name="code" value="es" />
 		</spring:url>
 		
-		<spring:url var="urlEditEnglish" value="termCondition/edit.do">
+		<spring:url var="urlEditEnglish" value="termCondition/administrator/edit.do">
 			<spring:param name="code" value="en" />
 		</spring:url>
 			
-		<p><a href="${urlEditSpanish}"><spring:message code="term.condition.edit.spanish" /></a></p>
-		<p><a href="${urlEditEnglish}"><spring:message code="term.condition.edit.english" /></a></p>
+		<span><a href="${urlEditSpanish}" class="btn btn-primary"><spring:message code="term.condition.edit.spanish" /></a></span>
+		<span><a href="${urlEditEnglish}"  class="btn btn-primary"><spring:message code="term.condition.edit.english" /></a></span>
+		
+		<br/>
+		<br/>
+		<br/>
 		
 		<p class="display"><spring:message code="term.condition.display.spanish" /></p>
 		
-		<jstl:out value="${termConditionSpanish}"></jstl:out>
+		<p><jstl:out value="${termConditionSpanish}"></jstl:out><p>
+		
+		<br/>
 		
 		<p class="display"><spring:message code="term.condition.display.english" /></p>
 		
-		<jstl:out value="${termConditionEnglish}"></jstl:out>
+		<p><jstl:out value="${termConditionEnglish}"></jstl:out></p>
 		
 	</jstl:if>
 	

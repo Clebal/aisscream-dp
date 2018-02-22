@@ -32,8 +32,8 @@ public class TermConditionAdministratorController extends AbstractController {
 		String termConditionEs;
 		String termConditionEn;
 
-		termConditionEs = this.internationalizationService.findByCountryCodeAndMessageCode("es", "termConditionSpanish").getValue();
-		termConditionEn = this.internationalizationService.findByCountryCodeAndMessageCode("en", "termConditionEnglish").getValue();
+		termConditionEs = this.internationalizationService.findByCountryCodeAndMessageCode("es", "term.condition").getValue();
+		termConditionEn = this.internationalizationService.findByCountryCodeAndMessageCode("en", "term.condition").getValue();
 
 		result = new ModelAndView("termCondition/display");
 
@@ -52,9 +52,9 @@ public class TermConditionAdministratorController extends AbstractController {
 		Assert.isTrue(code != null && (code.equals("en") || code.equals("es")));
 
 		if (code.equals("en"))
-			internationalization = this.internationalizationService.findByCountryCodeAndMessageCode(code, "termConditionEnglish");
+			internationalization = this.internationalizationService.findByCountryCodeAndMessageCode(code, "term.condition");
 		else
-			internationalization = this.internationalizationService.findByCountryCodeAndMessageCode(code, "termConditionSpanish");
+			internationalization = this.internationalizationService.findByCountryCodeAndMessageCode(code, "term.condition");
 
 		result = this.createEditModelAndView(internationalization);
 

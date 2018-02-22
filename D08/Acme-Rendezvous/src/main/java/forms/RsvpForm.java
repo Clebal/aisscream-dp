@@ -3,13 +3,11 @@ package forms;
 
 import java.util.Map;
 
-import domain.Answer;
-import domain.Question;
-
 public class RsvpForm {
 
 	private Integer					rendezvousId;
-	private Map<Question, Answer>	questionsAndAnswer;
+	private Map<Integer, String>	questions;
+	private Map<Integer, String>	answers;
 
 
 	public Integer getRendezvousId() {
@@ -20,12 +18,20 @@ public class RsvpForm {
 		this.rendezvousId = rendezvousId;
 	}
 
-	public Map<Question, Answer> getQuestionsAndAnswer() {
-		return this.questionsAndAnswer;
+	public Map<Integer, String> getQuestions() {
+		return this.questions;
 	}
 
-	public void setQuestionsAndAnswer(final Map<Question, Answer> questionsAndAnswer) {
-		this.questionsAndAnswer = questionsAndAnswer;
+	public void setQuestions(final Map<Integer, String> questions) {
+		this.questions = questions;
+	}
+
+	public Map<Integer, String> getAnswers() {
+		return this.answers;
+	}
+
+	public void setAnswers(final Map<Integer, String> answers) {
+		this.answers = answers;
 	}
 
 }

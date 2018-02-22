@@ -1,7 +1,9 @@
+
 package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -9,37 +11,39 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Access(AccessType.PROPERTY)
 public class Internationalization extends DomainEntity {
-	
-	private String countryCode;
-	
-	private String messageCode;
-	
-	private String value;
+
+	private String	countryCode;
+
+	private String	messageCode;
+
+	private String	value;
+
 
 	@NotBlank
 	public String getCountryCode() {
-		return countryCode;
+		return this.countryCode;
 	}
 
-	public void setCountryCode(String countryCode) {
+	public void setCountryCode(final String countryCode) {
 		this.countryCode = countryCode;
 	}
 
 	@NotBlank
 	public String getMessageCode() {
-		return messageCode;
+		return this.messageCode;
 	}
 
-	public void setMessageCode(String messageCode) {
+	public void setMessageCode(final String messageCode) {
 		this.messageCode = messageCode;
 	}
-	
+
 	@NotBlank
+	@Column(length = 1000000000)
 	public String getValue() {
-		return value;
+		return this.value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(final String value) {
 		this.value = value;
 	}
 

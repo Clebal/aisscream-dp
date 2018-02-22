@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -13,18 +14,19 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Answer extends DomainEntity {
 
-	public String text;
+	public String		text;
 
-	private Question question;
+	private Question	question;
 
-	private Rsvp rsvp;
+	private Rsvp		rsvp;
+
 
 	@NotBlank
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
-	public void setText(String text) {
+	public void setText(final String text) {
 		this.text = text;
 	}
 
@@ -32,10 +34,10 @@ public class Answer extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public Question getQuestion() {
-		return question;
+		return this.question;
 	}
 
-	public void setQuestion(Question question) {
+	public void setQuestion(final Question question) {
 		this.question = question;
 	}
 
@@ -43,10 +45,10 @@ public class Answer extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public Rsvp getRsvp() {
-		return rsvp;
+		return this.rsvp;
 	}
 
-	public void setRsvp(Rsvp rsvp) {
+	public void setRsvp(final Rsvp rsvp) {
 		this.rsvp = rsvp;
 	}
 

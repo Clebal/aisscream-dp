@@ -31,9 +31,9 @@ public class TermConditionController extends AbstractController {
 		code = locale.getLanguage();
 
 		if (code.equals("es"))
-			termCondition = this.internationalizationService.findByCountryCodeAndMessageCode("es", "termConditionSpanish").getValue();
+			termCondition = this.internationalizationService.findByCountryCodeAndMessageCode("es", "term.condition").getValue();
 		else
-			termCondition = this.internationalizationService.findByCountryCodeAndMessageCode("en", "termConditionEnglish").getValue();
+			termCondition = this.internationalizationService.findByCountryCodeAndMessageCode("en", "term.condition").getValue();
 
 		result = new ModelAndView("termCondition/display");
 

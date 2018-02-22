@@ -140,8 +140,9 @@ public class AnswerService {
 
 	//TODO Nuevo
 	public Collection<Answer> reconstruct(final RsvpForm rsvpForm, final BindingResult binding) {
-		final Collection<Answer> result;
+		Collection<Answer> result;
 		Answer auxAnswer;
+		Question auxQuestion;
 		Rsvp rsvp;
 		Rendezvous rendezvous;
 
@@ -151,17 +152,19 @@ public class AnswerService {
 		result = new ArrayList<Answer>();
 
 		//Comprobamos que vienen todas las preguntas
-		Assert.isTrue(this.questionService.countByRendezvousId(rendezvous.getId()).equals(rsvpForm.getQuestionsAndAnswer().keySet().size()));
+		Assert.isTrue(this.questionService.countByRendezvousId(rendezvous.getId()).equals(rsvpForm.getQuestions().keySet().size()) && this.questionService.countByRendezvousId(rendezvous.getId()).equals(rsvpForm.getAnswers().keySet().size()));
 
 		//Creamos y guardamos el rsvp para poder añadirlo a cada respuesta
 		rsvp = this.rsvpService.create(rendezvous);
 
 		rsvp = this.rsvpService.save(rsvp);
 
-		for (final Question question : rsvpForm.getQuestionsAndAnswer().keySet()) {
-			auxAnswer = rsvpForm.getQuestionsAndAnswer().get(question);
-			auxAnswer.setQuestion(question);
-			auxAnswer.setRsvp(rsvp);
+		for (final Integer questionId : rsvpForm.getQuestions().keySet()) {
+			auxQuestion = this.questionService.findOne(questionId);
+			Assert.notNull(auxQuestion);
+
+			auxAnswer = this.create(auxQuestion, rsvp);
+			auxAnswer.setText(rsvpForm.getAnswers().get(questionId));
 
 			this.validator.validate(auxAnswer, binding);
 			result.add(auxAnswer);
@@ -170,14 +173,15 @@ public class AnswerService {
 		return result;
 	}
 
-	public Collection<Answer> save(final Collection<Answer> answers) {
+	public Collection<Answer> saveAnswers(final Collection<Answer> answers) {
 		final Collection<Answer> result;
+		Answer saved;
 
 		result = new ArrayList<Answer>();
 
 		for (final Answer answer : answers) {
-			this.save(answer);
-			answers.add(answer);
+			saved = this.save(answer);
+			result.add(saved);
 		}
 
 		return result;

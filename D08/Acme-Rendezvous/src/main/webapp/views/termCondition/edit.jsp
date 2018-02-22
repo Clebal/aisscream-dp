@@ -17,9 +17,17 @@
 	
 	<div class="form-group"> 
 		<form:label path="value">
-			<spring:message code="internationalization.value" />
+			
+			<jstl:if test="${internationalization.countryCode.equals('es')}">
+				<spring:message code="term.condition.edit.spanish" />
+			</jstl:if>
+			
+			<jstl:if test="${internationalization.countryCode.equals('en')}">
+				<spring:message code="term.condition.edit.english" />
+			</jstl:if>
+			
 		</form:label>
-		<form:input class="form-control" path="value"/>
+		<form:textarea class="form-control" rows="20" cols="20" path="value"/>
 		<form:errors css="text-danger" path="value"/>
 	</div>
 	
