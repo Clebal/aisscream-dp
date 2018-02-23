@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,7 @@ public class RsvpService {
 
 	// Supporting services
 	@Autowired
-	private QuestionService	questionService;
-
-	@Autowired
 	private UserService		userService;
-
-	@Autowired
-	private AnswerService	answerService;
 
 
 	// Constructor
@@ -70,13 +65,21 @@ public class RsvpService {
 
 	public Rsvp save(final Rsvp rsvp) {
 		Rsvp result;
+		Rsvp saved;
 
 		Assert.notNull(rsvp);
 		Assert.isTrue(rsvp.getAttendant().getUserAccount().equals(LoginService.getPrincipal()));
 
-		if (rsvp.getId() == 0)
+		if (rsvp.getId() == 0){
 			//TODO QUITAR? Assert.isTrue(this.questionService.findByRendezvousId(rsvp.getRendezvous().getId()).size() == this.answerService.countRendezvousIdAndUserId(rsvp.getRendezvous().getId(), rsvp.getAttendant().getId()));
 			Assert.isTrue(this.rspvRepository.findByAttendantUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
+		}else{
+			saved = this.findOne(rsvp.getId());
+			// Comprobar que no se ha cambiado ni el attendant ni el rendezvous, solo se cambia el status.
+			Assert.isTrue(saved.getAttendant().equals(rsvp.getAttendant()) && saved.getRendezvous().equals(rsvp.getRendezvous()));
+			// Solo se puede actualizar si el rendezvous no se ha pasado. Tampoco se puede actualizar si rendezvous está eliminado
+			Assert.isTrue(rsvp.getRendezvous().getMoment().compareTo(new Date()) > 0 || rsvp.getRendezvous().getIsDeleted());
+		}
 
 		result = this.rspvRepository.save(rsvp);
 
@@ -108,13 +111,24 @@ public class RsvpService {
 	}
 
 	// Other business methods
-	public Collection<Rsvp> findByAttendandUserId(final int userId) {
+	public Collection<Rsvp> findByAttendantUserId(final int userId) {
 		Collection<Rsvp> result;
 
 		Assert.isTrue(userId != 0);
 		Assert.isTrue(this.userService.findOne(userId).getUserAccount().equals(LoginService.getPrincipal()));
 
 		result = this.rspvRepository.findByAttendantUserId(userId);
+
+		return result;
+	}
+	
+	public Collection<Rsvp> findByAttendantUserAccountId(final int userAccountId) {
+		Collection<Rsvp> result;
+
+		Assert.isTrue(userAccountId != 0);
+		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);
+
+		result = this.rspvRepository.findByAttendantUserAccountId(userAccountId);
 
 		return result;
 	}
