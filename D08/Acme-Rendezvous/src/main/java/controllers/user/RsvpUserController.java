@@ -62,87 +62,45 @@ public class RsvpUserController extends AbstractController {
 		ModelAndView result;
 		Collection<Rsvp> rsvps;
 
-		rsvps = this.rsvpService.findByCreatorUserAccountId(LoginService.getPrincipal().getId());
+		rsvps = this.rsvpService.findByAttendantUserAccountId(LoginService.getPrincipal().getId());
 
 		result = new ModelAndView("rsvp/list");
 		result.addObject("rsvps", rsvps);
+		result.addObject("requestURI", "rsvp/user/list.do");
 
 		return result;
 	}
-
-	// Edit
-	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
-	public ModelAndView edit2(@RequestParam final int rsvpId) {
-		ModelAndView result;
-		Rsvp rsvp;
-
-		rsvp = this.rsvpService.findOne(rsvpId);
-		Assert.notNull(rsvp);
-
-		result = this.createEditModelAndView(rsvp);
-
-		return result;
-	}
-
+	
 	// Cancel
-	@RequestMapping(value = "/editCancel", method = RequestMethod.GET)
-	public ModelAndView editCancel(@RequestParam final int rsvpId, final BindingResult binding) {
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	public ModelAndView editCancel(@RequestParam final int rsvpId) {
 		ModelAndView result;
 		Rsvp rsvp;
 
 		rsvp = this.rsvpService.findOne(rsvpId);
 
-		try {
-			rsvp.setStatus("CANCELLED");
-			this.rsvpService.save(rsvp);
-			result = new ModelAndView("redirect:list.do");
-		} catch (final Throwable oops) {
-			// result = super.panic(oops);
-			result = this.createEditModelAndView(rsvp, "rsvp.commit.error");
-		}
+		rsvp.setStatus("CANCELLED");
+		this.rsvpService.save(rsvp);
+		result = new ModelAndView("redirect:list.do");
 
 		return result;
 	}
 
 	// Accept
 	@RequestMapping(value = "/accept", method = RequestMethod.GET)
-	public ModelAndView editAccept(@RequestParam final int rsvpId, final BindingResult binding) {
+	public ModelAndView editAccept(@RequestParam final int rsvpId) {
 		ModelAndView result;
 		Rsvp rsvp;
 
 		rsvp = this.rsvpService.findOne(rsvpId);
 
-		try {
-			rsvp.setStatus("ACCEPTED");
-			this.rsvpService.save(rsvp);
-			result = new ModelAndView("redirect:list.do");
-		} catch (final Throwable oops) {
-			// result = super.panic(oops);
-			result = this.createEditModelAndView(rsvp, "rsvp.commit.error");
-		}
+		rsvp.setStatus("ACCEPTED");
+		this.rsvpService.save(rsvp);
+		result = new ModelAndView("redirect:list.do");
 
 		return result;
 	}
 
-	// Ancillary methods
-	protected ModelAndView createEditModelAndView(final Rsvp rsvp) {
-		ModelAndView result;
-
-		result = this.createEditModelAndView(rsvp, null);
-
-		return result;
-	}
-
-	protected ModelAndView createEditModelAndView(final Rsvp rsvp, final String messageCode) {
-		ModelAndView result;
-
-		result = new ModelAndView("question/edit");
-
-		result.addObject("rsvp", rsvp);
-		result.addObject("message", messageCode);
-
-		return result;
-	}
 
 	//TODO: Nuevo
 	// Create-------------------------------------------------------------------------------------------
@@ -175,7 +133,7 @@ public class RsvpUserController extends AbstractController {
 		rsvpForm.setAnswers(answersMap);
 		rsvpForm.setRendezvousId(rendezvousId);
 
-		result = this.createEditModelAndView2(rsvpForm);
+		result = this.createEditModelAndView(rsvpForm);
 
 		return result;
 	}
@@ -198,16 +156,15 @@ public class RsvpUserController extends AbstractController {
 		//Reconstruimos las respuestas y creamos el rsvp
 		try {
 			answers = this.answerService.reconstruct(rsvpForm, binding);
-
 		} catch (final Throwable e) {
 			next = false;
-			result = this.createEditModelAndView2(rsvpForm, "rsvp.commit.error", new ArrayList<Answer>());
+			result = this.createEditModelAndView(rsvpForm, "rsvp.commit.error", new ArrayList<Answer>());
 		}
 
 		//Si todo ha ido bien anteriormente vemos si hay errores y si no guardamos las respuestas
 		if (next)
 			if (binding.hasErrors()) {
-				result = this.createEditModelAndView2(rsvpForm, null, answers);
+				result = this.createEditModelAndView(rsvpForm, null, answers);
 				deleteRsvp = true;
 
 			} else
@@ -221,7 +178,7 @@ public class RsvpUserController extends AbstractController {
 				} catch (final Throwable oops) {
 
 					deleteRsvp = true;
-					result = this.createEditModelAndView2(rsvpForm, "rsvp.commit.error", new ArrayList<Answer>());
+					result = this.createEditModelAndView(rsvpForm, "rsvp.commit.error", new ArrayList<Answer>());
 				}
 
 		if (deleteRsvp) {
@@ -237,15 +194,15 @@ public class RsvpUserController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView2(final RsvpForm rsvpForm) {
+	protected ModelAndView createEditModelAndView(final RsvpForm rsvpForm) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView2(rsvpForm, null, new ArrayList<Answer>());
+		result = this.createEditModelAndView(rsvpForm, null, new ArrayList<Answer>());
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView2(final RsvpForm rsvpForm, final String messageCode, final Collection<Answer> answers) {
+	protected ModelAndView createEditModelAndView(final RsvpForm rsvpForm, final String messageCode, final Collection<Answer> answers) {
 		ModelAndView result;
 
 		result = new ModelAndView("rsvp/edit");

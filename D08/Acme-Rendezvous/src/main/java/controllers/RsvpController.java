@@ -50,6 +50,7 @@ public class RsvpController extends AbstractController{
 		
 		result = new ModelAndView("rsvp/list");
 		result.addObject("rsvps", rsvps);
+		result.addObject("requestURI", "rsvp/list.do");	
 		
 		return result;
 	}
@@ -66,10 +67,10 @@ public class RsvpController extends AbstractController{
 		rsvp = this.rsvpService.findOne(rsvpId);
 		Assert.notNull(rsvp);
 		
-		for(Question q: this.questionService.findByRsvpId(rsvpId)) {
+		for(Question q: this.questionService.findByRendezvousId(rsvp.getRendezvous().getId())) {
 			questionAnswer.put(q, this.answerService.findByQuestionIdAndUserId(q.getId(), rsvp.getAttendant().getId()));
 		}
-		
+				
 		result = new ModelAndView("rsvp/display");
 		result.addObject("rsvp", rsvp);
 		result.addObject("questionAnswer", questionAnswer);

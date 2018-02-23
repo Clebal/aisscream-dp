@@ -99,16 +99,6 @@ public class QuestionService {
 		return result;
 	}
 	
-	public Collection<Question> findByRsvpId(final int rsvpId) {
-		Collection<Question> result;
-		
-		Assert.isTrue(rsvpId != 0);
-		
-		result = this.questionRepository.findByRsvpId(rsvpId);
-		
-		return result;
-	}
-	
 	public Integer countByRendezvousId(final int rendezvousId) {
 		Integer result;
 

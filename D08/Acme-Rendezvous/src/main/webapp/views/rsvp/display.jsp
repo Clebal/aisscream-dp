@@ -16,7 +16,7 @@
 
 	<p><span class="display"><spring:message code="rsvp.attendant" /></span>: <a href="actor/display.do?userId=${rsvp.getAttendant().getId()}"><jstl:out value="${rsvp.getAttendant().getName()} ${rsvp.getAttendant().getSurname()}" /></a></p>
 
-	<p><span class="display"><spring:message code="rsvp.rendezvous" /></span>: <a href="rendezvous/display.do?rendezvousId=${rsvp.getRendezvous().getId()}"><jstl:out value="${rsvp.getRendezvous().getTitle()}" /></a></p>
+	<p><span class="display"><spring:message code="rsvp.rendezvous" /></span>: <a href="rendezvous/display.do?rendezvousId=${rsvp.getRendezvous().getId()}"><jstl:out value="${rsvp.getRendezvous().getName()}" /></a></p>
 
 	<h3><spring:message code="rsvp.answers" /></h3>
 		

@@ -14,6 +14,9 @@ public interface RsvpRepository extends JpaRepository<Rsvp, Integer>{
 	@Query("select r from Rsvp r where r.attendant.id = ?1")
 	Collection<Rsvp> findByAttendantUserId(final int userId);
 	
+	@Query("select r from Rsvp r where r.attendant.userAccount.id = ?1")
+	Collection<Rsvp> findByAttendantUserAccountId(final int userAccountId);
+	
 	@Query("select r from Rsvp r where r.rendezvous.id = ?1")
 	Collection<Rsvp> findByRendezvousId(final int rendezvousId);
 	
