@@ -1,6 +1,7 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -61,32 +62,46 @@ public class RendezvousUserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam final int page) {
 		ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
 		User creator;
 		Boolean canPermit;
 		Boolean canLink;
 		Boolean canUnLink;
+		Integer pageNumber;
+		Integer size;
+		Boolean haveRendezvousId;
 
+		haveRendezvousId = false;
 		canPermit = true;
 		canLink = false;
 		canUnLink = false;
+		rendezvouses = new ArrayList<Rendezvous>();
+		size = 5;
+		pageNumber = 0;
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvouses = this.rendezvousService.findByCreatorId(creator.getId());
+		rendezvouses = this.rendezvousService.findByCreatorId(creator.getId(), page, size);
+
+		if (rendezvouses.size() != 0)
+			pageNumber = this.rendezvousService.countByCreatorId(creator.getId());
 
 		result = new ModelAndView("rendezvous/list");
+		pageNumber = (int) Math.floor(((pageNumber / size) - 0.1) + 1);
+
+		result.addObject("pageNumber", pageNumber);
+		result.addObject("page", page);
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("requestURI", "rendezvous/user/list.do");
 		result.addObject("canPermit", canPermit);
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
+		result.addObject("haveRendezvousId", haveRendezvousId);
 
 		return result;
 	}
-
 	@RequestMapping(value = "/listByAttendant", method = RequestMethod.GET)
-	public ModelAndView listByAttendant() {
+	public ModelAndView listByAttendant(@RequestParam final int page) {
 		ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
 		User attendant;
@@ -95,10 +110,18 @@ public class RendezvousUserController extends AbstractController {
 		Boolean canUnLink;
 		Calendar birthDatePlus18Years;
 		Actor actor;
+		Integer pageNumber;
+		Integer size;
+		Boolean haveRendezvousId;
+
+		haveRendezvousId = false;
 
 		canPermit = true;
 		canLink = false;
 		canUnLink = false;
+		rendezvouses = new ArrayList<Rendezvous>();
+		size = 5;
+		pageNumber = 0;
 		attendant = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 
 		if (LoginService.isAuthenticated()) {
@@ -114,22 +137,33 @@ public class RendezvousUserController extends AbstractController {
 			canPermit = false;
 
 		if (canPermit == true)
-			rendezvouses = this.rendezvousService.findByAttendantId(attendant.getId());
+			rendezvouses = this.rendezvousService.findByAttendantId(attendant.getId(), page, size);
 		else
-			rendezvouses = this.rendezvousService.findByAttendantIdAllPublics(attendant.getId());
+			rendezvouses = this.rendezvousService.findByAttendantIdAllPublics(attendant.getId(), page, size);
+
+		if (rendezvouses.size() != 0)
+			if (canPermit == true)
+				pageNumber = this.rendezvousService.countByAttendantId(attendant.getId());
+			else
+				pageNumber = this.rendezvousService.countByAttendantIdAllPublics(attendant.getId());
 
 		result = new ModelAndView("rendezvous/list");
+		pageNumber = (int) Math.floor(((pageNumber / size) - 0.1) + 1);
+
+		result.addObject("pageNumber", pageNumber);
+		result.addObject("page", page);
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("requestURI", "rendezvous/user/listByAttendant.do");
 		result.addObject("canPermit", canPermit);
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
+		result.addObject("haveRendezvousId", haveRendezvousId);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/listRendezvousesForLink", method = RequestMethod.GET)
-	public ModelAndView listLinkedRendezvouses(@RequestParam final int rendezvousId) {
+	public ModelAndView listLinkedRendezvouses(@RequestParam final int rendezvousId, @RequestParam final int page) {
 		ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
 		Boolean canPermit;
@@ -138,9 +172,17 @@ public class RendezvousUserController extends AbstractController {
 		Calendar birthDatePlus18Years;
 		Actor actor;
 		Boolean myRendezvousIsDeleted;
+		Integer pageNumber;
+		Integer size;
+		Boolean haveRendezvousId;
+
+		haveRendezvousId = true;
 
 		canLink = false;
 		canUnLink = false;
+		rendezvouses = new ArrayList<Rendezvous>();
+		size = 5;
+		pageNumber = 0;
 
 		Assert.isTrue(rendezvousId != 0);
 
@@ -160,23 +202,34 @@ public class RendezvousUserController extends AbstractController {
 			canPermit = false;
 
 		if (canPermit == false)
-			rendezvouses = this.rendezvousService.findNotLinkedByRendezvousAllPublics(this.rendezvousService.findOne(rendezvousId));
+			rendezvouses = this.rendezvousService.findNotLinkedByRendezvousAllPublics(this.rendezvousService.findOne(rendezvousId), page, size);
 		else
-			rendezvouses = this.rendezvousService.findNotLinkedByRendezvous(this.rendezvousService.findOne(rendezvousId));
+			rendezvouses = this.rendezvousService.findNotLinkedByRendezvous(this.rendezvousService.findOne(rendezvousId), page, size);
 
 		if (this.rendezvousService.findOne(rendezvousId).getIsDeleted() == false)
 			myRendezvousIsDeleted = false;
 		else
 			myRendezvousIsDeleted = true;
 
+		if (rendezvouses.size() != 0)
+			if (canPermit == true)
+				pageNumber = this.rendezvousService.countNotLinkedByRendezvous(this.rendezvousService.findOne(rendezvousId));
+			else
+				pageNumber = this.rendezvousService.countNotLinkedByRendezvousAllPublics(this.rendezvousService.findOne(rendezvousId));
+
 		result = new ModelAndView("rendezvous/list");
+		pageNumber = (int) Math.floor(((pageNumber / size) - 0.1) + 1);
+
+		result.addObject("pageNumber", pageNumber);
+		result.addObject("page", page);
 		result.addObject("rendezvouses", rendezvouses);
-		result.addObject("requestURI", "rendezvous/user/listRendezvousesForLink.do?rendezvousId=" + rendezvousId);
+		result.addObject("requestURI", "rendezvous/user/listRendezvousesForLink.do");
 		result.addObject("canPermit", canPermit);
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("rendezvousId", rendezvousId);
 		result.addObject("myRendezvousIsDeleted", myRendezvousIsDeleted);
+		result.addObject("haveRendezvousId", haveRendezvousId);
 
 		return result;
 	}
@@ -194,7 +247,7 @@ public class RendezvousUserController extends AbstractController {
 
 		this.rendezvousService.addLink(myRendezvous, linkedRendezvous);
 
-		result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId=" + myRendezvousId);
+		result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId=" + myRendezvousId + "&&page=0");
 
 		return result;
 
@@ -214,7 +267,7 @@ public class RendezvousUserController extends AbstractController {
 
 		this.rendezvousService.removeLink(myRendezvous, linkedRendezvous);
 
-		result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId=" + myRendezvousId);
+		result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId=" + myRendezvousId + "&&page=0");
 
 		return result;
 
@@ -241,7 +294,7 @@ public class RendezvousUserController extends AbstractController {
 		else
 			try {
 				this.rendezvousService.save(rendezvous);
-				result = new ModelAndView("redirect:list.do");
+				result = new ModelAndView("redirect:list.do?page=0");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 			}
@@ -257,7 +310,7 @@ public class RendezvousUserController extends AbstractController {
 		else
 			try {
 				this.rendezvousService.virtualDelete(rendezvous);
-				result = new ModelAndView("redirect:list.do");
+				result = new ModelAndView("redirect:list.do?page=0");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 			}

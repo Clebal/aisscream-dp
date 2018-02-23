@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,7 +19,6 @@ import security.Authority;
 import security.LoginService;
 import domain.Actor;
 import domain.Rendezvous;
-import domain.Rsvp;
 import domain.User;
 
 @Service
@@ -30,9 +31,6 @@ public class RendezvousService {
 
 	@Autowired
 	private UserService				userService;
-
-	@Autowired
-	private RsvpService				rsvpService;
 
 	@Autowired
 	private ActorService			actorService;
@@ -138,7 +136,6 @@ public class RendezvousService {
 		Rendezvous result;
 		User user;
 		Date currentMoment;
-		Rsvp creatorRsvp;
 
 		Assert.notNull(rendezvous);
 
@@ -158,16 +155,12 @@ public class RendezvousService {
 		//If you are updating, the rendezvous can not be deletd and must be in draft mode
 		if (rendezvous.getId() != 0) {
 			Assert.isTrue(this.findOne(rendezvous.getId()).getIsDeleted() == false);
-			Assert.isTrue(rendezvous.getDraft() == true);
+			Assert.isTrue(this.findOne(rendezvous.getId()).getDraft() == true);
 		}
 
 		result = this.rendezvousRepository.save(rendezvous);
 
 		//If you are creating the rendezvous, the creator must have a RSVP to that rendezvous
-		if (rendezvous.getId() == 0) {
-			creatorRsvp = this.rsvpService.create(result);
-			this.rsvpService.saveFromCreator(creatorRsvp);
-		}
 
 		return result;
 	}
@@ -237,82 +230,262 @@ public class RendezvousService {
 		this.rendezvousRepository.save(linkedRendezvous);
 	}
 
-	public Collection<Rendezvous> findByCreatorId(final int creatorId) {
+	public Collection<Rendezvous> findByCreatorId(final int creatorId, final int page, final int size) {
 		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
 
 		Assert.isTrue(creatorId != 0);
-		result = this.rendezvousRepository.findByCreatorId(creatorId);
+		result = this.rendezvousRepository.findByCreatorId(creatorId, pageable).getContent();
 
 		return result;
 	}
 
-	public Collection<Rendezvous> findByAttendantId(final int attendantId) {
+	public Integer countByCreatorId(final int creatorId) {
+		Integer result;
+
+		Assert.isTrue(creatorId != 0);
+		result = this.rendezvousRepository.countByCreatorId(creatorId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findByAttendantId(final int attendantId, final int page, final int size) {
 		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
 
 		Assert.isTrue(attendantId != 0);
-		result = this.rendezvousRepository.findByAttendantId(attendantId);
+		result = this.rendezvousRepository.findByAttendantId(attendantId, pageable).getContent();
 
 		return result;
 	}
 
-	public Collection<Rendezvous> findByAttendantIdAllPublics(final int attendantId) {
-		Collection<Rendezvous> result;
+	public Integer countByAttendantId(final int attendantId) {
+		Integer result;
 
 		Assert.isTrue(attendantId != 0);
-		result = this.rendezvousRepository.findByAttendantIdAllPublics(attendantId);
+		result = this.rendezvousRepository.countByAttendantId(attendantId);
 
 		return result;
 	}
 
-	public Collection<Rendezvous> findByLinkerRendezvousId(final int linkerRendezvousId) {
+	public Collection<Rendezvous> findByAttendantIdAllPublics(final int attendantId, final int page, final int size) {
 		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		Assert.isTrue(attendantId != 0);
+		result = this.rendezvousRepository.findByAttendantIdAllPublics(attendantId, pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countByAttendantIdAllPublics(final int attendantId) {
+		Integer result;
+
+		Assert.isTrue(attendantId != 0);
+		result = this.rendezvousRepository.countByAttendantIdAllPublics(attendantId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findByLinkerRendezvousId(final int linkerRendezvousId, final int page, final int size) {
+		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
 
 		Assert.isTrue(linkerRendezvousId != 0);
-		result = this.rendezvousRepository.findByLinkerRendezvousId(linkerRendezvousId);
+		result = this.rendezvousRepository.findByLinkerRendezvousId(linkerRendezvousId, pageable).getContent();
 
 		return result;
 	}
 
-	public Collection<Rendezvous> findByLinkerRendezvousIdAndAllpublics(final int linkerRendezvousId) {
-		Collection<Rendezvous> result;
+	public Integer countByLinkerRendezvousId(final int linkerRendezvousId) {
+		Integer result;
 
 		Assert.isTrue(linkerRendezvousId != 0);
-		result = this.rendezvousRepository.findByLinkerRendezvousIdAndAllPublics(linkerRendezvousId);
+		result = this.rendezvousRepository.countByLinkerRendezvousId(linkerRendezvousId);
 
 		return result;
 	}
 
-	public Collection<Rendezvous> findLinkerRendezvousesAllPublicsByRendezvousId(final int rendezvousId) {
+	public Collection<Rendezvous> findByLinkerRendezvousIdAndAllpublics(final int linkerRendezvousId, final int page, final int size) {
 		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		Assert.isTrue(linkerRendezvousId != 0);
+		result = this.rendezvousRepository.findByLinkerRendezvousIdAndAllPublics(linkerRendezvousId, pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countByLinkerRendezvousIdAndAllpublics(final int linkerRendezvousId) {
+		Integer result;
+
+		Assert.isTrue(linkerRendezvousId != 0);
+		result = this.rendezvousRepository.countByLinkerRendezvousIdAndAllPublics(linkerRendezvousId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findLinkerRendezvousesAllPublicsByRendezvousId(final int rendezvousId, final int page, final int size) {
+		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
 
 		Assert.isTrue(rendezvousId != 0);
-		result = this.rendezvousRepository.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvousId);
+		result = this.rendezvousRepository.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvousId, pageable).getContent();
 
 		return result;
 	}
 
-	public Collection<Rendezvous> findAllPublics() {
-		Collection<Rendezvous> result;
+	public Integer countLinkerRendezvousesAllPublicsByRendezvousId(final int rendezvousId) {
+		Integer result;
 
-		result = this.rendezvousRepository.findAllPublics();
+		Assert.isTrue(rendezvousId != 0);
+		result = this.rendezvousRepository.countLinkerRendezvousesAllPublicsByRendezvousId(rendezvousId);
 
 		return result;
 	}
 
-	public Collection<Rendezvous> findNotLinkedByRendezvous(final Rendezvous rendezvous) {
+	public Collection<Rendezvous> findLinkerRendezvousesByRendezvousId(final int rendezvousId, final int page, final int size) {
 		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		Assert.isTrue(rendezvousId != 0);
+		result = this.rendezvousRepository.findLinkerRendezvousesByRendezvousId(rendezvousId, pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countLinkerRendezvousesByRendezvousId(final int rendezvousId) {
+		Integer result;
+
+		Assert.isTrue(rendezvousId != 0);
+		result = this.rendezvousRepository.countLinkerRendezvousesByRendezvousId(rendezvousId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findAllPublics(final int page, final int size) {
+		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		result = this.rendezvousRepository.findAllPublics(pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countAllPublics() {
+		Integer result;
+
+		result = this.rendezvousRepository.countAllPublics();
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findAllPaginated(final int page, final int size) {
+		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		result = this.rendezvousRepository.findAllPaginated(pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countAllPaginated() {
+		Integer result;
+
+		result = this.rendezvousRepository.countAllPaginated();
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findNotLinkedByRendezvous(final Rendezvous rendezvous, final int page, final int size) {
+		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
 
 		Assert.notNull(rendezvous);
-		result = this.rendezvousRepository.findNotLinkedByRendezvous(rendezvous);
+		result = this.rendezvousRepository.findNotLinkedByRendezvous(rendezvous, pageable).getContent();
 
 		return result;
 	}
 
-	public Collection<Rendezvous> findNotLinkedByRendezvousAllPublics(final Rendezvous rendezvous) {
-		Collection<Rendezvous> result;
+	public Integer countNotLinkedByRendezvous(final Rendezvous rendezvous) {
+		Integer result;
 
 		Assert.notNull(rendezvous);
-		result = this.rendezvousRepository.findNotLinkedByRendezvousAllPublics(rendezvous);
+		result = this.rendezvousRepository.countNotLinkedByRendezvous(rendezvous);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findNotLinkedByRendezvousAllPublics(final Rendezvous rendezvous, final int page, final int size) {
+		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		Assert.notNull(rendezvous);
+		result = this.rendezvousRepository.findNotLinkedByRendezvousAllPublics(rendezvous, pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countNotLinkedByRendezvousAllPublics(final Rendezvous rendezvous) {
+		Integer result;
+
+		Assert.notNull(rendezvous);
+		result = this.rendezvousRepository.countNotLinkedByRendezvousAllPublics(rendezvous);
 
 		return result;
 	}

@@ -11,9 +11,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row"
-	requestURI="${requestURI}" pagesize="5"
-	>
+<display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row">
 	
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>
@@ -70,10 +68,18 @@
 	<display:column property="moment" title="${momentHeader}" format="{0,date,${momentFormat}}"></display:column>
 
 	<spring:message code="rendezvous.draft" var="draftHeader" />
-	<display:column property="draft" title="${draftHeader}"></display:column>
+	<display:column title="${draftHeader}">
+	<jstl:if test="${row.getDraft()==true }">
+	<jstl:out value="X"/>
+	</jstl:if>
+	</display:column>
 		
 	<spring:message code="rendezvous.adultOnly" var="adultOnlyHeader" />
-	<display:column property="adultOnly" title="${adultOnlyHeader}"/>
+	<display:column title="${adultOnlyHeader}">
+	<jstl:if test="${row.getAdultOnly()==true }">
+	<jstl:out value="X"/>
+	</jstl:if>
+	</display:column>
 	
 		
 	<spring:message code="rendezvous.longitude" var="longitudeHeader" />
@@ -93,6 +99,8 @@
 
 	<spring:url var="urlDisplay" value="rendezvous/display.do">
 		<spring:param name="rendezvousId" value="${row.getId()}" />
+		<spring:param name="page" value="0" />
+		
 	</spring:url>
 	
 	<display:column>
@@ -101,6 +109,27 @@
 
 </display:table>
 
+<jstl:if test="${rendezvouses.size()>0 }">
+
+<jstl:forEach var="i" begin="1" end="${pageNumber+1}">
+	
+			<spring:url var="urlMorePage" value="${requestURI }">
+			<jstl:if test="${haveRendezvousId==true }">
+				<spring:param name="rendezvousId" value="${rendezvousId}" />
+			</jstl:if>
+				<spring:param name="page" value="${i}" />
+			</spring:url>
+			
+			<jstl:if test="${page==i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			<jstl:if test="${page!=i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			
+	</jstl:forEach>
+</jstl:if>
+<br>
 <br>
 <security:authorize access="hasRole('USER')">
 	<div>

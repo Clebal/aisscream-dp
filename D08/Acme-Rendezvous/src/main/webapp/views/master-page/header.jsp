@@ -33,7 +33,7 @@
       	<li><a href="welcome/index.do"><spring:message code="master.page.home" /></a></li>
       	
       	<security:authorize access="isAnonymous()">
-			<li><a href="rendezvous/list.do"><spring:message code="master.page.all.rendezvous" /></a></li>
+			<li><a href="rendezvous/list.do?page=0"><spring:message code="master.page.all.rendezvous" /></a></li>
       	</security:authorize>
                
         <li class="dropdown">
@@ -51,9 +51,9 @@
 			<security:authorize access="hasRole('USER')">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="rendezvous/user/list.do"><spring:message code="master.page.user.rendezvouses" /></a></li>
+					<li><a href="rendezvous/user/list.do?page=0"><spring:message code="master.page.user.rendezvouses" /></a></li>
 					<li><a href="rsvp/user/list.do"><spring:message code="master.page.user.rsvps" /></a></li>						
-					<li><a href="rendezvous/user/listByAttendant.do"><spring:message code="master.page.user.rsvp.rendezvouses" /></a></li>
+					<li><a href="rendezvous/user/listByAttendant.do?page=0"><spring:message code="master.page.user.rsvp.rendezvouses" /></a></li>
 				</ul>
 			</security:authorize>
 			
@@ -66,7 +66,7 @@
 				<ul class="dropdown-menu">
 					<li><a href="actor/list.do" class="btn btn-primary"><spring:message code="master.page.list.user" /></a></li>
 					<li><a href="actor/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
-					<li><a href="rendezvous/list.do"><spring:message code="master.page.all.rendezvous" /></a></li>	
+					<li><a href="rendezvous/list.do?page=0"><spring:message code="master.page.all.rendezvous" /></a></li>	
 				</ul>
 			</security:authorize>
         </li>

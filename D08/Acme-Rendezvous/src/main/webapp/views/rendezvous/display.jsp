@@ -51,33 +51,18 @@
 		</div>
 		
 		
-		<!-- Mostramos las preguntas si las hay-->
-		
-		<jstl:if test="${!questions.isEmpty()}">
-		
-			<div class="container">
-				<span style="font-size:20px"><spring:message code="rendezvous.questions"></spring:message></span>
-				<br>
-				<br>
-				<jstl:forEach var="row" items="${questions}">
-					<div style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
-						<p><span class="display"><spring:message code="rendezvous.question.text"/></span><jstl:out value="${row.getText()}" /></p>
-					</div>
-					<br/>
-				</jstl:forEach>
-			</div>
-		</jstl:if>
-		
 		<spring:url var="urlCreator" value="actor/display.do">
 			<spring:param name="actorId" value="${rendezvous.getCreator().getId()}" />
 		</spring:url>
 		
 		<spring:url var="urlLinkerRendezvouses" value="rendezvous/listLinkerRendezvouses.do">
 			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+			<spring:param name="page" value="0" />	
 		</spring:url>
 		
 		<spring:url var="urlLinkedRendezvouses" value="rendezvous/listLinkedRendezvouses.do">
 			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+			<spring:param name="page" value="0" />	
 		</spring:url>
 		
 		<spring:url var="urlAnnouncements" value="announcement/list.do">
@@ -141,6 +126,7 @@
 					<!-- Lo enlazamos con otro rendezvous-->
 					<spring:url var="urlRendezvousesForLink" value="rendezvous/user/listRendezvousesForLink.do">
 						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+						<spring:param name="page" value="0" />
 					</spring:url>
 					
 					<a href="${urlRendezvousesForLink}" ><spring:message code="rendezvous.rendezvousesForLink"/></a>
@@ -228,13 +214,28 @@
 							</span>
 						</jstl:if>
 					
-						<br/>
-						<br/>	
+						<br>
+						<br>	
 					 	<p><a href="${urlMoreComments}" class='btn btn-primary' style='margin-right:10px;'><spring:message code="comment.more"/></a></p>
 
 					</div>
 					<br>
 				</jstl:forEach>
+			<jstl:forEach var="i" begin="1" end="${pageNumber+1}">
+	
+			<spring:url var="urlMorePage" value="rendezvous/display.do">
+				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+				<spring:param name="page" value="${i}" />
+			</spring:url>
+			
+			<jstl:if test="${page==i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			<jstl:if test="${page!=i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			
+	</jstl:forEach>
 			</div>
 		</jstl:if>
 			
