@@ -57,12 +57,12 @@ select avg(cast((select count(r) from Rendezvous r where r.creator.id=u.id) as f
 
 2 - The ratio of users who have ever created a rendezvous versus the users who have never created any rendezvouses.
 
-
+select cast((count(DISTINCT r.creator)) as float)/(-count(DISTINCT r.creator)+(select count(u) from User u)) from Rendezvous r
 
 
 3 - The average and the standard deviation of users per rendezvous.
 
-select avg(cast((select count(us) from User us where r.creator.id=us.id) as float )), sqrt(sum((select count(us) from User us where r.creator.id=us.id)*(select count(us) from User us where r.creator.id=us.id))/(select count(r2) from Rendezvous r2)-avg(cast((select count(us) from User us where r.creator.id=us.id) as float ))*avg(cast((select count(us) from User us where r.creator.id=us.id) as float ))) from Rendezvous r
+select avg(cast((select count(rs.attendant) from Rsvp rs where rs.rendezvous.id=r.id) as float )+1), sqrt(sum((select count(rs.attendant)+1 from Rsvp rs where rs.rendezvous.id=r.id)*(select count(rs.attendant)+1 from Rsvp rs where rs.rendezvous.id=r.id))/(select count(r2) from Rendezvous r2)-avg(cast((select count(rs.attendant) from Rsvp rs where rs.rendezvous.id=r.id) as float )+1)*avg(cast((select count(rs.attendant) from Rsvp rs where rs.rendezvous.id=r.id) as float )+1)) from Rendezvous r
 
 4 - The average and the standard deviation of rendezvouses that are RSVPd per user.
 
@@ -71,12 +71,14 @@ select avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.i
 
 5 - The top-10 rendezvouses in terms of users who have RSVPd them.
 
+select r, (select count(rs) from Rsvp rs where rs.rendezvous.id=r.id) as tam from Rendezvous r ORDER BY tam DESC
 
 6 - The average and the standard deviation of announcements per rendezvous.
+select avg(cast((select count(a) from Announcement a where a.rendezvous.id=r.id)as int)),sqrt(sum((select count(a) from Announcement a where a.rendezvous.id=r.id)*(select count(a) from Announcement a where a.rendezvous.id=r.id))/(select count(r2) from Rendezvous r2)-avg(cast((select count(a) from Announcement a where a.rendezvous.id=r.id) as float ))*avg(cast((select count(a) from Announcement a where a.rendezvous.id=r.id) as float ))) from Rendezvous r;
 
 7 - The rendezvouses that whose number of announcements is above 75% the average number of announcements per rendezvous.
 
-select r from Rendezvous r where cast((select count(a) from Announcement a where a.rendezvous.id=r.id)as float)>(select avg(cast((select count(an) from Announcement an where an.rendezvous.id=r.id)as float))*0.75 from Rendezvous r)
+select r from Rendezvous r where cast((select count(a) from Announcement a where a.rendezvous.id=r.id)as float)>(select avg(cast((select count(an) from Announcement an where an.rendezvous.id=r2.id)as float))*0.75 from Rendezvous r2)
 
 8 - The rendezvouses that are linked to a number of rendezvouses that is great-er than the average plus 10%.
 
@@ -89,12 +91,12 @@ select avg(cast((select count(q) from Question q where q.rendezvous.id=r.id) as 
 
 10 - The average and the standard deviation of the number of answers to the questions per rendezvous.
 
+select avg(cast((select count(a) from Answer a where a.question.rendezvous.id=r.id)as int)),sqrt(sum((select count(a) from Answer a where a.question.rendezvous.id=r.id)*(select count(a) from Answer a where a.question.rendezvous.id=r.id))/(select count(r2) from Rendezvous r2)-avg(cast((select count(a) from Answer a where a.question.rendezvous.id=r.id) as float ))*avg(cast((select count(a) from Answer a where a.question.rendezvous.id=r.id) as float ))) from Rendezvous r
+
 
 11 - The average and the standard deviation of replies per comment.
 
-select avg(cast((select count(c2.repliedComment) from Comment c2 where c2.id=c.id) as float )), sqrt(sum((select count(c2.repliedComment) from Comment c2 where c2.id=c.id)*(select count(c2.repliedComment) from Comment c2 where c2.id=c.id))/(select count(c3) from Comment c3)-avg(cast((select count(c2.repliedComment) from Comment c2 where c2.id=c.id) as float ))*avg(cast((select count(c2.repliedComment) from Comment c2 where c2.id=c.id) as float ))) from Comment c
-
-
+select avg(cast((select count(c2) from Comment c2 where c2.repliedComment.id=c.id) as float )), sqrt(sum((select count(c2) from Comment c2 where c2.repliedComment.id=c.id)*(select count(c2) from Comment c2 where c2.repliedComment.id=c.id))/(select count(c3) from Comment c3)-avg(cast((select count(c2) from Comment c2 where c2.repliedComment.id=c.id) as float ))*avg(cast((select count(c2) from Comment c2 where c2.repliedComment.id=c.id) as float ))) from Comment c
 
 
 
