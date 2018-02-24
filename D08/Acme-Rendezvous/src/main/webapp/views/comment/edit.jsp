@@ -12,10 +12,11 @@
 <form:form action="comment/user/edit.do" modelAttribute="comment">
 
 	<form:hidden path="id"/>
-	<form:hidden path="version"/>
- 	<form:hidden path="user"/>
- 	<form:hidden path="rendezvous"/>
- 	
+	
+	<jstl:if test="${comment.getId()==0}">
+	 	<form:hidden path="rendezvous"/>
+	 	<form:hidden path="repliedComment"/>
+ 	</jstl:if>
 	
 
 	<div class="form-group"> 
@@ -55,6 +56,13 @@
 		</jstl:if>
 	</security:authorize>
 	
-	<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="comment.cancel" />" onclick="javascript: relativeRedir('comment/display.do?commentId=${comment.getId()}');" >
+	<jstl:if test="${comment.getRepliedComment()!=null}">
+		<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="comment.cancel" />" onclick="javascript: relativeRedir('comment/display.do?page=1&commentId=${comment.getRepliedComment().getId()}');" >
+	</jstl:if>
+	
+	<jstl:if test="${comment.getRepliedComment()==null}">
+		<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="comment.cancel" />" onclick="javascript: relativeRedir('rendezvous/display.do?rendezvousId=${comment.getRendezvous().getId()}');" >
+	</jstl:if>
+	
 
 </form:form>

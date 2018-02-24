@@ -3,6 +3,8 @@ package forms;
 
 import java.util.Map;
 
+import utilities.NotBlankMap;
+
 public class RsvpForm {
 
 	private Integer					rendezvousId;
@@ -26,6 +28,7 @@ public class RsvpForm {
 		this.questions = questions;
 	}
 
+	@NotBlankMap
 	public Map<Integer, String> getAnswers() {
 		return this.answers;
 	}

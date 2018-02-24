@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -10,10 +11,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.CommentRepository;
 import security.Authority;
 import security.LoginService;
+import domain.Actor;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.Rsvp;
@@ -33,6 +37,12 @@ public class CommentService {
 
 	@Autowired
 	private RsvpService			rsvpService;
+
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private Validator			validator;
 
 
 	// Constructor
@@ -92,11 +102,13 @@ public class CommentService {
 		Assert.notNull(comment.getUser());
 		Assert.notNull(comment.getRendezvous());
 
-		rsvp = this.rsvpService.findByAttendantUserIdAndRendezvousId(comment.getUser().getId(), comment.getRendezvous().getId());
-		Assert.notNull(rsvp);
+		Assert.isTrue(comment.getId() == 0);
 
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
+
+		rsvp = this.rsvpService.findByAttendantUserIdAndRendezvousId(comment.getUser().getId(), comment.getRendezvous().getId());
+		Assert.isTrue(rsvp != null || comment.getRendezvous().getCreator().equals(user));
 
 		Assert.isTrue(comment.getUser().equals(user));
 
@@ -133,6 +145,34 @@ public class CommentService {
 		commentForDelete = this.findOne(comment.getId());
 		this.commentRepository.delete(commentForDelete);
 
+	}
+
+	//Evitamos que se puedan ver los comentarios de un rendezvous que no se puede ver
+	public Comment findOneToDisplay(final int commentId) {
+		Comment result;
+		Actor actor;
+		Calendar birthDatePlus18Years;
+		Boolean canPermit;
+
+		Assert.isTrue(commentId != 0);
+
+		result = this.commentRepository.findOne(commentId);
+
+		if (LoginService.isAuthenticated()) {
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			birthDatePlus18Years = Calendar.getInstance();
+			birthDatePlus18Years.setTime(actor.getBirthdate());
+			birthDatePlus18Years.add(Calendar.YEAR, 18);
+			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0 || actor.getId() == result.getRendezvous().getCreator().getId())
+				canPermit = true;
+			else
+				canPermit = false;
+		} else
+			canPermit = false;
+
+		Assert.isTrue(result.getRendezvous().getAdultOnly() == false || result.getRendezvous().getAdultOnly() == true && canPermit);
+
+		return result;
 	}
 
 	public Collection<Comment> findByUserId(final int userId) {
@@ -188,6 +228,26 @@ public class CommentService {
 
 		Assert.isTrue(rendezvousId != 0);
 		result = this.commentRepository.countByRendezvousIdAndNoRepliedComment(rendezvousId);
+
+		return result;
+	}
+
+	public Comment reconstruct(final Comment comment, final BindingResult binding) {
+		Comment result;
+		Comment aux;
+
+		aux = this.create(comment.getRendezvous(), comment.getRepliedComment());
+
+		result = comment;
+
+		result.setRendezvous(comment.getRendezvous());
+		result.setUser(aux.getUser());
+		result.setRepliedComment(comment.getRepliedComment());
+		result.setMoment(comment.getMoment());
+		result.setPicture(comment.getPicture());
+		result.setText(comment.getText());
+
+		this.validator.validate(result, binding);
 
 		return result;
 	}

@@ -32,15 +32,28 @@
 	</security:authorize>
 	
 	<security:authorize access="hasRole('USER')">
-		<jstl:if test="canComment">
+		<jstl:if test="${canComment}">
 			<spring:url var="urlCreateComment" value="comment/user/create.do">
-				<spring:param name="commentId" value="${comment.getId()}" />
+				<spring:param name="repliedCommentId" value="${comment.getId()}" />
+				<spring:param name="rendezvousId" value="${comment.getRendezvous().getId()}" />
 			</spring:url>
 			
-			<p><span  style='margin-right:10px;'><a href="${urlCreateComment}" class='btn btn-primary'><spring:message code="comment.delete"/></a></span></p>
+			<p><span  style='margin-right:10px;'><a href="${urlCreateComment}" class='btn btn-primary'><spring:message code="comment.create"/></a></span></p>
 		</jstl:if>
-	</security:authorize>		
+	</security:authorize>
+	
+	<spring:url var="urlRendezvous" value="rendezvous/display.do">
+		<spring:param name="rendezvousId" value="${comment.getRendezvous().getId()}" />
+	</spring:url>
+			
+	<span  style='margin-right:10px;'><a href="${urlRendezvous}" class='btn btn-primary'><spring:message code="comment.rendezvous"/></a></span>		
 
+	<spring:url var="urlUser" value="actor/display.do">
+		<spring:param name="actorId" value="${comment.getUser().getId()}" />
+	</spring:url>
+			
+	<span  style='margin-right:10px;'><a href="${urlUser}" class='btn btn-primary'><spring:message code="comment.user"/></a></span>	
+	
 </div>
 
 <jstl:if test="${comments.size()>0}">
@@ -76,7 +89,7 @@
 		
 	</jstl:forEach>
 	
-	<jstl:forEach var="i" begin="1" end="${pageNumber+1}">
+	<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	
 			<spring:url var="urlMorePage" value="comment/display.do">
 				<spring:param name="commentId" value="${comment.getId()}" />

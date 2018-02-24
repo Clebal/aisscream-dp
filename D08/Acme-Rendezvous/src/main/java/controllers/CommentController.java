@@ -37,13 +37,17 @@ public class CommentController extends AbstractController {
 
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int commentId, @RequestParam final int page) {
+	public ModelAndView display(@RequestParam final int commentId, @RequestParam(required = false) Integer page) {
 		ModelAndView result;
 		Comment comment;
 
-		comment = this.commentService.findOne(commentId);
+		comment = this.commentService.findOneToDisplay(commentId);
 
 		Assert.notNull(comment);
+
+		if (page == null)
+			page = 1;
+
 		result = this.createEditModelAndView(comment, page);
 
 		return result;
@@ -63,10 +67,13 @@ public class CommentController extends AbstractController {
 
 		if (LoginService.isAuthenticated()) {
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			rsvp = this.rsvpService.findByAttendantUserIdAndRendezvousId(user.getId(), comment.getRendezvous().getId());
 
-			if (rsvp != null && rsvp.getStatus().equals("ACCEPTED"))
-				canComment = true;
+			if (user != null) {
+				rsvp = this.rsvpService.findByAttendantUserIdAndRendezvousId(user.getId(), comment.getRendezvous().getId());
+
+				if ((rsvp != null && rsvp.getStatus().equals("ACCEPTED")) || comment.getRendezvous().getCreator().equals(user))
+					canComment = true;
+			}
 		}
 
 		comments = new ArrayList<Comment>();
@@ -80,7 +87,7 @@ public class CommentController extends AbstractController {
 
 		result = new ModelAndView("comment/display");
 
-		pageNumber = (int) Math.floor(((pageNumber / size) - 0.1) + 1);
+		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
 
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);
