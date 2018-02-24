@@ -12,13 +12,16 @@
 <form:form action="rendezvous/user/edit.do" modelAttribute="rendezvous">
 
 	<form:hidden path="id"/>
-	<form:hidden path="version"/>
+	<!--<form:hidden path="version"/>-->
+ 	<jstl:if test="${rendezvous.getId()==0}">
  	<form:hidden path="creator"/>
  	<form:hidden path="isDeleted"/>
  	<form:hidden path="linkerRendezvouses"/>
  	<jstl:if test="${canPermit==false}">
  	 <form:hidden path="adultOnly"/>
  	</jstl:if>
+ 	 </jstl:if>
+ 	
  	
  	
 	

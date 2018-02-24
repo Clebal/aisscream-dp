@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -313,8 +311,9 @@ public class RendezvousUserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Rendezvous rendezvous, final BindingResult binding) {
+	public ModelAndView save(Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
+		rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(rendezvous);
 		else
@@ -328,8 +327,10 @@ public class RendezvousUserController extends AbstractController {
 		return result;
 	}
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid final Rendezvous rendezvous, final BindingResult binding) {
+	public ModelAndView delete(Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
+		rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(rendezvous);
 		else

@@ -55,6 +55,10 @@
 			<spring:param name="actorId" value="${rendezvous.getCreator().getId()}" />
 		</spring:url>
 		
+		<spring:url var="urlListAttendants" value="actor/listAttendants.do">
+			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+		</spring:url>
+		
 		<spring:url var="urlLinkerRendezvouses" value="rendezvous/listLinkerRendezvouses.do">
 			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 		</spring:url>
@@ -78,6 +82,8 @@
 				<br>
 				<br>
 				<a href="${urlCreator}" ><spring:message code="rendezvous.creator.display"/></a>
+				<br>
+				<a href="${urlListAttendants}" ><spring:message code="rendezvous.listAttendants.display"/></a>
 				<br>
 					
 				<a href="${urlLinkerRendezvouses}" ><spring:message code="rendezvous.linkerRendezvouses.display"/></a>

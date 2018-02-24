@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RendezvousRepository;
 import security.Authority;
@@ -34,6 +36,9 @@ public class RendezvousService {
 
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Constructor
@@ -170,7 +175,7 @@ public class RendezvousService {
 		if (rendezvous.getId() == 0) {
 			Assert.isTrue(rendezvous.getMoment().compareTo(currentMoment) > 0);
 			Assert.isTrue(rendezvous.getIsDeleted() == false);
-		} else if (!this.findOne(rendezvous.getId()).getMoment().equals(rendezvous.getMoment()))
+		} else if (this.findOne(rendezvous.getId()).getMoment().compareTo(rendezvous.getMoment()) != 0)
 			Assert.isTrue(rendezvous.getMoment().compareTo(currentMoment) > 0);
 		//If you are updating, the rendezvous can not be deletd and must be in draft mode
 		if (rendezvous.getId() != 0) {
@@ -557,6 +562,47 @@ public class RendezvousService {
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		result = this.rendezvousRepository.rendezvousesLinkedMoreAvgPlus10Percentage();
+
+		return result;
+	}
+
+	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
+		Rendezvous result;
+		Rendezvous aux;
+
+		if (rendezvous.getId() == 0)
+			result = rendezvous;
+		else {
+			result = rendezvous;
+			aux = this.rendezvousRepository.findOne(rendezvous.getId());
+			result.setVersion(aux.getVersion());
+			result.setCreator(aux.getCreator());
+			result.setIsDeleted(aux.getIsDeleted());
+			result.setLinkerRendezvouses(aux.getLinkerRendezvouses());
+			result.setName(rendezvous.getName());
+			result.setDescription(rendezvous.getDescription());
+			result.setMoment(rendezvous.getMoment());
+			result.setPicture(rendezvous.getPicture());
+			result.setDraft(rendezvous.getDraft());
+			if (rendezvous.getAdultOnly() != null)
+				result.setAdultOnly(rendezvous.getAdultOnly());
+			else
+				result.setAdultOnly(aux.getAdultOnly());
+			result.setLatitude(rendezvous.getLatitude());
+			result.setLongitude(rendezvous.getLongitude());
+		}
+		//		aux = this.create(comment.getRendezvous(), comment.getRepliedComment());
+		//
+		//		result = comment;
+		//
+		//		result.setRendezvous(comment.getRendezvous());
+		//		result.setUser(aux.getUser());
+		//		result.setRepliedComment(comment.getRepliedComment());
+		//		result.setMoment(comment.getMoment());
+		//		result.setPicture(comment.getPicture());
+		//		result.setText(comment.getText());
+
+		this.validator.validate(result, binding);
 
 		return result;
 	}

@@ -298,6 +298,21 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	@Test
+	public void testFindByCreatorIdAllPublics() {
+		Collection<Rendezvous> rendezvouses;
+		User creator;
+
+		super.authenticate("user1");
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+		rendezvouses = this.rendezvousService.findByCreatorIdAllPublics(creator.getId(), 0, 0);
+
+		Assert.isTrue(!rendezvouses.isEmpty());
+
+		super.authenticate(null);
+	}
+
+	@Test
 	public void testFindByAttendantId() {
 		Collection<Rendezvous> rendezvouses;
 		User creator;
@@ -376,6 +391,22 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	@Test
+	public void testFindLinkerRendezvousesByRendezvousId() {
+		Collection<Rendezvous> rendezvouses;
+		User creator;
+		Rendezvous rendezvous;
+
+		super.authenticate("user1");
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 0).toArray()[0];
+		rendezvouses = this.rendezvousService.findLinkerRendezvousesByRendezvousId(rendezvous.getId(), 0, 0);
+
+		Assert.isTrue(rendezvouses.size() >= 0);
+
+		super.authenticate(null);
+	}
+
+	@Test
 	public void testFindAllPublics() {
 		Collection<Rendezvous> rendezvouses;
 
@@ -434,7 +465,7 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testAvgStandardDRsvpdRendezvouses() {
+	public void testAvgStandardRsvpdRendezvouses() {
 		Double[] numeros;
 		super.authenticate("admin");
 
