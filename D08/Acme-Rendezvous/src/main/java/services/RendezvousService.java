@@ -56,6 +56,7 @@ public class RendezvousService {
 		result.setCreator(creator);
 		result.setIsDeleted(false);
 		result.setDraft(true);
+		result.setAdultOnly(false);
 		result.setLinkerRendezvouses(linkerRendezvouses);
 
 		return result;
@@ -110,32 +111,41 @@ public class RendezvousService {
 		Actor actor;
 		Calendar birthDatePlus18Years;
 		Boolean canPermit;
+		Authority authority;
+		Authority authority2;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
 
 		Assert.isTrue(rendezvousId != 0);
 
 		result = this.rendezvousRepository.findOne(rendezvousId);
 
-		if (LoginService.isAuthenticated()) {
-			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-			birthDatePlus18Years = Calendar.getInstance();
-			birthDatePlus18Years.setTime(actor.getBirthdate());
-			birthDatePlus18Years.add(Calendar.YEAR, 18);
-			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0 || actor.getId() == result.getCreator().getId())
+		canPermit = false;
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
 				canPermit = true;
-			else
-				canPermit = false;
-		} else
-			canPermit = false;
 
 		Assert.isTrue(result.getAdultOnly() == false || result.getAdultOnly() == true && canPermit);
 
 		return result;
 	}
-
 	public Rendezvous save(final Rendezvous rendezvous) {
 		Rendezvous result;
 		User user;
 		Date currentMoment;
+		Calendar birthDatePlus18Years;
+		Boolean canPermit;
 
 		Assert.notNull(rendezvous);
 
@@ -144,6 +154,16 @@ public class RendezvousService {
 
 		//only can update o create a rendezvous its creator
 		Assert.isTrue(rendezvous.getCreator().equals(user));
+
+		canPermit = false;
+		birthDatePlus18Years = Calendar.getInstance();
+		birthDatePlus18Years.setTime(user.getBirthdate());
+		birthDatePlus18Years.add(Calendar.YEAR, 18);
+		if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+			canPermit = true;
+
+		if (canPermit == false)
+			Assert.isTrue(rendezvous.getAdultOnly() == false);
 
 		//If you are creating a rendezvous the moment must be future, but if you are updated it the moment must be future or if this doesn´t change 
 		// then the moment must be the same
@@ -199,6 +219,7 @@ public class RendezvousService {
 	public void virtualDelete(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
 		//Assert.isTrue(rendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
+		Assert.isTrue(this.rendezvousRepository.findOne(rendezvous.getId()).getIsDeleted() == false);
 
 		rendezvous.setIsDeleted(true);
 
@@ -250,6 +271,30 @@ public class RendezvousService {
 
 		Assert.isTrue(creatorId != 0);
 		result = this.rendezvousRepository.countByCreatorId(creatorId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findByCreatorIdAllPublics(final int creatorId, final int page, final int size) {
+		Collection<Rendezvous> result;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		Assert.isTrue(creatorId != 0);
+		result = this.rendezvousRepository.findByCreatorIdAllPublics(creatorId, pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countByCreatorIdAllPublics(final int creatorId) {
+		Integer result;
+
+		Assert.isTrue(creatorId != 0);
+		result = this.rendezvousRepository.countByCreatorIdAllPublics(creatorId);
 
 		return result;
 	}

@@ -16,6 +16,10 @@
  	<form:hidden path="creator"/>
  	<form:hidden path="isDeleted"/>
  	<form:hidden path="linkerRendezvouses"/>
+ 	<jstl:if test="${canPermit==false}">
+ 	 <form:hidden path="adultOnly"/>
+ 	</jstl:if>
+ 	
  	
 	
 
@@ -59,12 +63,14 @@
 		<form:checkbox path="draft" />
 	</div>
 	
-	<div class="form-group"> 
-		<form:label path="adultOnly">
-			<spring:message code="rendezvous.adultOnly" />:
-		</form:label>
-		<form:checkbox path="adultOnly" />
-	</div>
+	 <jstl:if test="${canPermit==true}">
+		<div class="form-group"> 
+			<form:label path="adultOnly">
+				<spring:message code="rendezvous.adultOnly" />:
+			</form:label>
+			<form:checkbox path="adultOnly" />
+		</div>
+	</jstl:if>
 	
 	<div class="form-group"> 
 		<form:label path="latitude">

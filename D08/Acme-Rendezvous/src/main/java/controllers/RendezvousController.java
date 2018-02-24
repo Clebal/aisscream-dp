@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import security.Authority;
 import security.LoginService;
 import services.ActorService;
+import services.AnnouncementService;
 import services.CommentService;
 import services.RendezvousService;
 import services.RsvpService;
@@ -46,6 +47,9 @@ public class RendezvousController extends AbstractController {
 	@Autowired
 	private RsvpService			rsvpService;
 
+	@Autowired
+	private AnnouncementService	announcementService;
+
 
 	// Constructor
 	public RendezvousController() {
@@ -53,20 +57,26 @@ public class RendezvousController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int rendezvousId, @RequestParam final int page) {
+	public ModelAndView display(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page) {
 		ModelAndView result;
 		Rendezvous rendezvous;
+		Integer pageAux;
+
+		if (page == null)
+			pageAux = 0;
+		else
+			pageAux = page;
 
 		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 
 		Assert.notNull(rendezvous);
-		result = this.createEditModelAndView(rendezvous, page);
+		result = this.createEditModelAndView(rendezvous, pageAux);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int page) {
+	public ModelAndView list(@RequestParam(required = false) final Integer page) {
 		ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
 		Boolean canPermit;
@@ -77,20 +87,33 @@ public class RendezvousController extends AbstractController {
 		Integer pageNumber;
 		Integer size;
 		Boolean haveRendezvousId;
+		Authority authority;
+		Authority authority2;
+		Integer pageAux;
+
+		if (page == null)
+			pageAux = 0;
+		else
+			pageAux = page;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
 
 		haveRendezvousId = false;
-
-		if (LoginService.isAuthenticated()) {
-			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-			birthDatePlus18Years = Calendar.getInstance();
-			birthDatePlus18Years.setTime(actor.getBirthdate());
-			birthDatePlus18Years.add(Calendar.YEAR, 18);
-			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+		canPermit = false;
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
 				canPermit = true;
-			else
-				canPermit = false;
-		} else
-			canPermit = false;
 
 		canLink = false;
 		canUnLink = false;
@@ -99,9 +122,9 @@ public class RendezvousController extends AbstractController {
 		pageNumber = 0;
 
 		if (canPermit == true)
-			rendezvouses = this.rendezvousService.findAllPaginated(page, size);
+			rendezvouses = this.rendezvousService.findAllPaginated(pageAux, size);
 		else
-			rendezvouses = this.rendezvousService.findAllPublics(page, size);
+			rendezvouses = this.rendezvousService.findAllPublics(pageAux, size);
 
 		if (rendezvouses.size() != 0)
 			if (canPermit == true)
@@ -111,10 +134,10 @@ public class RendezvousController extends AbstractController {
 
 		result = new ModelAndView("rendezvous/list");
 
-		pageNumber = (int) Math.floor(((pageNumber / size) - 0.1) + 1);
+		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
 
 		result.addObject("pageNumber", pageNumber);
-		result.addObject("page", page);
+		result.addObject("page", pageAux);
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("requestURI", "rendezvous/list.do");
 		result.addObject("canPermit", canPermit);
@@ -125,8 +148,8 @@ public class RendezvousController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/listLinkerRendezvouses", method = RequestMethod.GET)
-	public ModelAndView listLinkerRendezvouses(@RequestParam final int rendezvousId, @RequestParam final int page) {
+	@RequestMapping(value = "/listByUser", method = RequestMethod.GET)
+	public ModelAndView listByUser(@RequestParam final int userId, @RequestParam(required = false) final Integer page) {
 		ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
 		Boolean canPermit;
@@ -137,33 +160,193 @@ public class RendezvousController extends AbstractController {
 		Integer pageNumber;
 		Integer size;
 		Boolean haveRendezvousId;
+		Authority authority;
+		Authority authority2;
+		Integer pageAux;
+
+		if (page == null)
+			pageAux = 0;
+		else
+			pageAux = page;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+
+		haveRendezvousId = false;
+		canPermit = false;
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+				canPermit = true;
+
+		canLink = false;
+		canUnLink = false;
+		rendezvouses = new ArrayList<Rendezvous>();
+		size = 5;
+		pageNumber = 0;
+
+		if (canPermit == true)
+			rendezvouses = this.rendezvousService.findByCreatorId(userId, pageAux, size);
+		else
+			rendezvouses = this.rendezvousService.findByCreatorIdAllPublics(userId, pageAux, size);
+
+		if (rendezvouses.size() != 0)
+			if (canPermit == true)
+				pageNumber = this.rendezvousService.countByCreatorId(userId);
+			else
+				pageNumber = this.rendezvousService.countByCreatorIdAllPublics(userId);
+
+		result = new ModelAndView("rendezvous/list");
+
+		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
+
+		result.addObject("pageNumber", pageNumber);
+		result.addObject("page", pageAux);
+		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("requestURI", "rendezvous/listByUser.do");
+		result.addObject("canPermit", canPermit);
+		result.addObject("canLink", canLink);
+		result.addObject("canUnLink", canUnLink);
+		result.addObject("haveRendezvousId", haveRendezvousId);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/listByAttendant", method = RequestMethod.GET)
+	public ModelAndView listByAttendant(@RequestParam final int attendantId, @RequestParam(required = false) final Integer page) {
+		ModelAndView result;
+		Collection<Rendezvous> rendezvouses;
+		Boolean canPermit;
+		Boolean canLink;
+		Boolean canUnLink;
+		Calendar birthDatePlus18Years;
+		Actor actor;
+		Integer pageNumber;
+		Integer size;
+		Boolean haveRendezvousId;
+		Authority authority;
+		Authority authority2;
+		Integer pageAux;
+
+		if (page == null)
+			pageAux = 0;
+		else
+			pageAux = page;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+
+		haveRendezvousId = false;
+		canPermit = false;
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+				canPermit = true;
+
+		canLink = false;
+		canUnLink = false;
+		rendezvouses = new ArrayList<Rendezvous>();
+		size = 5;
+		pageNumber = 0;
+
+		if (canPermit == true)
+			rendezvouses = this.rendezvousService.findByAttendantId(attendantId, pageAux, size);
+		else
+			rendezvouses = this.rendezvousService.findByAttendantIdAllPublics(attendantId, pageAux, size);
+
+		if (rendezvouses.size() != 0)
+			if (canPermit == true)
+				pageNumber = this.rendezvousService.countByAttendantId(attendantId);
+			else
+				pageNumber = this.rendezvousService.countByAttendantIdAllPublics(attendantId);
+
+		result = new ModelAndView("rendezvous/list");
+
+		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
+
+		result.addObject("pageNumber", pageNumber);
+		result.addObject("page", pageAux);
+		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("requestURI", "rendezvous/listByAttendant.do");
+		result.addObject("canPermit", canPermit);
+		result.addObject("canLink", canLink);
+		result.addObject("canUnLink", canUnLink);
+		result.addObject("haveRendezvousId", haveRendezvousId);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/listLinkerRendezvouses", method = RequestMethod.GET)
+	public ModelAndView listLinkerRendezvouses(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page) {
+		ModelAndView result;
+		Collection<Rendezvous> rendezvouses;
+		Boolean canPermit;
+		Boolean canLink;
+		Boolean canUnLink;
+		Calendar birthDatePlus18Years;
+		Actor actor;
+		Integer pageNumber;
+		Integer size;
+		Boolean haveRendezvousId;
+		Authority authority;
+		Authority authority2;
+		Integer pageAux;
+
+		if (page == null)
+			pageAux = 0;
+		else
+			pageAux = page;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
 
 		haveRendezvousId = true;
 
 		canLink = false;
 		canUnLink = false;
+		canPermit = false;
 
 		Assert.isTrue(rendezvousId != 0);
 
-		if (LoginService.isAuthenticated()) {
-			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-			birthDatePlus18Years = Calendar.getInstance();
-			birthDatePlus18Years.setTime(actor.getBirthdate());
-			birthDatePlus18Years.add(Calendar.YEAR, 18);
-			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
 				canPermit = true;
-			else
-				canPermit = false;
-		} else
-			canPermit = false;
 
 		rendezvouses = new ArrayList<Rendezvous>();
 		size = 5;
 		pageNumber = 0;
 		if (canPermit == true)
-			rendezvouses = this.rendezvousService.findLinkerRendezvousesByRendezvousId(rendezvousId, page, size);
+			rendezvouses = this.rendezvousService.findLinkerRendezvousesByRendezvousId(rendezvousId, pageAux, size);
 		else
-			rendezvouses = this.rendezvousService.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvousId, page, size);
+			rendezvouses = this.rendezvousService.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvousId, pageAux, size);
 
 		if (rendezvouses.size() != 0)
 			if (canPermit == true)
@@ -173,10 +356,10 @@ public class RendezvousController extends AbstractController {
 
 		result = new ModelAndView("rendezvous/list");
 
-		pageNumber = (int) Math.floor(((pageNumber / size) - 0.1) + 1);
+		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
 
 		result.addObject("pageNumber", pageNumber);
-		result.addObject("page", page);
+		result.addObject("page", pageAux);
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("requestURI", "rendezvous/listLinkerRendezvouses.do");
 		result.addObject("canPermit", canPermit);
@@ -188,7 +371,7 @@ public class RendezvousController extends AbstractController {
 		return result;
 	}
 	@RequestMapping(value = "/listLinkedRendezvouses", method = RequestMethod.GET)
-	public ModelAndView listLinkedRendezvouses(@RequestParam final int rendezvousId, @RequestParam final int page) {
+	public ModelAndView listLinkedRendezvouses(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page) {
 		ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
 		Boolean canPermit;
@@ -200,35 +383,49 @@ public class RendezvousController extends AbstractController {
 		Integer pageNumber;
 		Integer size;
 		Boolean haveRendezvousId;
+		Authority authority;
+		Authority authority2;
+		Integer pageAux;
+
+		if (page == null)
+			pageAux = 0;
+		else
+			pageAux = page;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
 
 		haveRendezvousId = true;
 
 		canLink = false;
 		canUnLink = false;
+		canPermit = false;
 
 		Assert.isTrue(rendezvousId != 0);
 
-		if (LoginService.isAuthenticated()) {
-			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-			if (actor.getUserAccount().getId() == this.rendezvousService.findOne(rendezvousId).getCreator().getUserAccount().getId())
-				canUnLink = true;
-			birthDatePlus18Years = Calendar.getInstance();
-			birthDatePlus18Years.setTime(actor.getBirthdate());
-			birthDatePlus18Years.add(Calendar.YEAR, 18);
-			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				if (actor.getUserAccount().getId() == this.rendezvousService.findOne(rendezvousId).getCreator().getUserAccount().getId())
+					canUnLink = true;
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
 				canPermit = true;
-			else
-				canPermit = false;
-		} else
-			canPermit = false;
 
 		rendezvouses = new ArrayList<Rendezvous>();
 		size = 5;
 		pageNumber = 0;
 		if (canPermit == true)
-			rendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvousId, page, size);
+			rendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvousId, pageAux, size);
 		else
-			rendezvouses = this.rendezvousService.findByLinkerRendezvousIdAndAllpublics(rendezvousId, page, size);
+			rendezvouses = this.rendezvousService.findByLinkerRendezvousIdAndAllpublics(rendezvousId, pageAux, size);
 
 		if (rendezvouses.size() != 0)
 			if (canPermit == true)
@@ -243,10 +440,10 @@ public class RendezvousController extends AbstractController {
 
 		result = new ModelAndView("rendezvous/list");
 
-		pageNumber = (int) Math.floor(((pageNumber / size) - 0.1) + 1);
+		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
 
 		result.addObject("pageNumber", pageNumber);
-		result.addObject("page", page);
+		result.addObject("page", pageAux);
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("requestURI", "rendezvous/listLinkedRendezvouses.do");
 		result.addObject("canPermit", canPermit);
@@ -259,44 +456,54 @@ public class RendezvousController extends AbstractController {
 		return result;
 	}
 	//Ancillary methods -----------------------
-	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous, final int page) {
+	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous, final Integer page) {
 		ModelAndView result;
 		Boolean canPermit;
 		Calendar birthDatePlus18Years;
-		//final Collection<Question> questions;
+		//Collection<Announcement> announcements;
 		Boolean canCreateRSVP;
 		Boolean canCreateComment;
-		Authority authority;
+		Boolean canStreamAnnouncements;
 		User user;
 		Collection<Comment> comments;
 		Actor actor;
 		Integer pageNumber;
 		Integer size;
+		Authority authority;
+		Authority authority2;
+		//Integer pageNumber2;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
-		if (LoginService.isAuthenticated()) {
-			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-			birthDatePlus18Years = Calendar.getInstance();
-			birthDatePlus18Years.setTime(actor.getBirthdate());
-			birthDatePlus18Years.add(Calendar.YEAR, 18);
-			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0 || rendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId())
-				canPermit = true;
-			else
-				canPermit = false;
-		} else
-			canPermit = false;
 
-		//questions = this.questionService.findByRendezvousId(rendezvous.getId());
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+
+		canStreamAnnouncements = false;
+		canPermit = false;
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+				canPermit = true;
+
 		canCreateRSVP = false;
 		canCreateComment = false;
 
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			if (this.rsvpService.findByAttendantUserIdAndRendezvousId(user.getId(), rendezvous.getId()) == null)
+			if (this.rsvpService.findByAttendantUserIdAndRendezvousId(user.getId(), rendezvous.getId()) == null) {
 				canCreateRSVP = true;
-			else
+				canStreamAnnouncements = false;
+			} else {
 				canCreateComment = true;
+				canStreamAnnouncements = true;
+			}
 
 		}
 
@@ -314,17 +521,27 @@ public class RendezvousController extends AbstractController {
 		if (comments.size() != 0)
 			pageNumber = this.commentService.countByRendezvousIdAndNoRepliedComment(rendezvous.getId());
 
+		//		announcements = new ArrayList<Announcement>();
+		//		pageNumber2 = 0;
+
+		//		announcements = this.announcementService.findByRendezvousId(rendezvous.getId(), page2, size);
+		//		if (announcements.size() != 0)
+		//			pageNumber2 = this.announcementService.countByRendezvousId(rendezvous.getId());
+
 		result = new ModelAndView("rendezvous/display");
 
-		pageNumber = (int) Math.floor(((pageNumber / size) - 0.1) + 1);
+		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
+		//pageNumber2 = (int) Math.floor(((pageNumber2 / size) - 0.1) + 1);
 
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);
+		//result.addObject("pageNumber2", pageNumber2);
+		//result.addObject("page2", page2);
 		result.addObject("rendezvous", rendezvous);
 		result.addObject("canPermit", canPermit);
-		//result.addObject("questions", questions);
 		result.addObject("canCreateRSVP", canCreateRSVP);
 		result.addObject("canCreateComment", canCreateComment);
+		result.addObject("canStreamAnnouncements", canStreamAnnouncements);
 		result.addObject("comments", comments);
 
 		return result;

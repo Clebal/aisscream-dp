@@ -20,13 +20,19 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select count(r) from Rendezvous r where r.creator.id=?1")
 	Integer countByCreatorId(int creatorId);
 
+	@Query("select r from Rendezvous r where r.creator.id=?1 and r.adultOnly=false")
+	Page<Rendezvous> findByCreatorIdAllPublics(int cretorId, Pageable pageable);
+
+	@Query("select count(r) from Rendezvous r where r.creator.id=?1 and r.adultOnly=false")
+	Integer countByCreatorIdAllPublics(int creatorId);
+
 	@Query("select r.rendezvous from Rsvp r where r.attendant.id=?1")
 	Page<Rendezvous> findByAttendantId(int attendantId, Pageable pageable);
 
 	@Query("select count(r.rendezvous) from Rsvp r where r.attendant.id=?1")
 	Integer countByAttendantId(int attendantId);
 
-	@Query("select r.rendezvous from Rsvp r where r.attendant.id=?1 and (r.rendezvous.adultOnly=false or r.rendezvous.creator.id=?1)")
+	@Query("select r.rendezvous from Rsvp r where r.attendant.id=?1 and r.rendezvous.adultOnly=false")
 	Page<Rendezvous> findByAttendantIdAllPublics(int attendantId, Pageable pageable);
 
 	@Query("select count(r.rendezvous) from Rsvp r where r.attendant.id=?1 and (r.rendezvous.adultOnly=false or r.rendezvous.creator.id=?1)")

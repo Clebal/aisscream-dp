@@ -57,12 +57,10 @@
 		
 		<spring:url var="urlLinkerRendezvouses" value="rendezvous/listLinkerRendezvouses.do">
 			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-			<spring:param name="page" value="0" />	
 		</spring:url>
 		
 		<spring:url var="urlLinkedRendezvouses" value="rendezvous/listLinkedRendezvouses.do">
 			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-			<spring:param name="page" value="0" />	
 		</spring:url>
 		
 		<spring:url var="urlAnnouncements" value="announcement/list.do">
@@ -126,7 +124,6 @@
 					<!-- Lo enlazamos con otro rendezvous-->
 					<spring:url var="urlRendezvousesForLink" value="rendezvous/user/listRendezvousesForLink.do">
 						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-						<spring:param name="page" value="0" />
 					</spring:url>
 					
 					<a href="${urlRendezvousesForLink}" ><spring:message code="rendezvous.rendezvousesForLink"/></a>
@@ -187,8 +184,7 @@
 			
 			
 			</security:authorize>
-			
-			
+											
 			<jstl:if test="${!comments.isEmpty()}">
 		
 			<div>
@@ -221,7 +217,7 @@
 					</div>
 					<br>
 				</jstl:forEach>
-			<jstl:forEach var="i" begin="1" end="${pageNumber+1}">
+			<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	
 			<spring:url var="urlMorePage" value="rendezvous/display.do">
 				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />

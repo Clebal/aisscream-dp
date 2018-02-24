@@ -111,7 +111,7 @@
 
 <jstl:if test="${rendezvouses.size()>0 }">
 
-<jstl:forEach var="i" begin="1" end="${pageNumber+1}">
+<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	
 			<spring:url var="urlMorePage" value="${requestURI }">
 			<jstl:if test="${haveRendezvousId==true }">

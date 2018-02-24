@@ -37,7 +37,7 @@ public class RendezvousAdministratorController extends AbstractController {
 
 		this.rendezvousService.virtualDelete(rendezvous);
 
-		result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId=" + rendezvousId + "&&page=0");
+		result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId=" + rendezvousId);
 
 		return result;
 	}
