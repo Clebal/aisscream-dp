@@ -19,11 +19,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Announcement extends DomainEntity {
 
-	public Date moment;
+	private Date moment;
 
-	public String title;
+	private String title;
 
-	public String description;
+	private String description;
 
 	private Rendezvous rendezvous;
 

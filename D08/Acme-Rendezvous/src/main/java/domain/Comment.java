@@ -21,15 +21,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Comment extends DomainEntity {
 
-	public Date			moment;
+	private Date			moment;
 
-	public String		text;
+	private String		text;
 
-	public String		picture;
+	private String		picture;
 
-	public User			user;
+	private User			user;
 
-	public Comment		repliedComment;
+	private Comment		repliedComment;
 
 	private Rendezvous	rendezvous;
 

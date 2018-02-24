@@ -22,27 +22,27 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Rendezvous extends DomainEntity {
 
-	public String					name;
+	private String					name;
 
-	public String					description;
+	private String					description;
 
-	public Date						moment;
+	private Date						moment;
 
-	public String					picture;
+	private String					picture;
 
-	public boolean					draft;
+	private boolean					draft;
 
-	public boolean					adultOnly;
+	private boolean					adultOnly;
 
-	public Double					latitude;
+	private Double					latitude;
 
-	public Double					longitude;
+	private Double					longitude;
 
-	public boolean					isDeleted;
+	private boolean					isDeleted;
 
-	public User						creator;
+	private User						creator;
 
-	public Collection<Rendezvous>	linkerRendezvouses;
+	private Collection<Rendezvous>	linkerRendezvouses;
 
 
 	@NotBlank

@@ -24,17 +24,17 @@ import security.UserAccount;
 @Access(AccessType.PROPERTY)
 public abstract class Actor extends DomainEntity {
 
-	public String name;
+	private String name;
 
-	public String surname;
+	private String surname;
 
-	public String email;
+	private String email;
 
-	public String phone;
+	private String phone;
 
-	public String address;
+	private String address;
 
-	public Date birthdate;
+	private Date birthdate;
 
 	private UserAccount userAccount;
 

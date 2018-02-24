@@ -13,9 +13,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Question extends DomainEntity {
 
-	public String text;
+	private String text;
 
-	public int number;
+	private int number;
 
 	private Rendezvous rendezvous;
 

@@ -14,9 +14,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Rsvp extends DomainEntity {
 
-	public String status;
+	private String status;
 
-	public User attendant;
+	private User attendant;
 
 	private Rendezvous rendezvous;
 
