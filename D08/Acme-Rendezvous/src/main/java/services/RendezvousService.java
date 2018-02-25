@@ -584,23 +584,10 @@ public class RendezvousService {
 			result.setMoment(rendezvous.getMoment());
 			result.setPicture(rendezvous.getPicture());
 			result.setDraft(rendezvous.getDraft());
-			if (rendezvous.getAdultOnly() != null)
-				result.setAdultOnly(rendezvous.getAdultOnly());
-			else
-				result.setAdultOnly(aux.getAdultOnly());
+			result.setAdultOnly(rendezvous.getAdultOnly());
 			result.setLatitude(rendezvous.getLatitude());
 			result.setLongitude(rendezvous.getLongitude());
 		}
-		//		aux = this.create(comment.getRendezvous(), comment.getRepliedComment());
-		//
-		//		result = comment;
-		//
-		//		result.setRendezvous(comment.getRendezvous());
-		//		result.setUser(aux.getUser());
-		//		result.setRepliedComment(comment.getRepliedComment());
-		//		result.setMoment(comment.getMoment());
-		//		result.setPicture(comment.getPicture());
-		//		result.setText(comment.getText());
 
 		this.validator.validate(result, binding);
 

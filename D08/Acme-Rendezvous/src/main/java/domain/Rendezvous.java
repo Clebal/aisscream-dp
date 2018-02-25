@@ -26,7 +26,7 @@ public class Rendezvous extends DomainEntity {
 
 	private String					description;
 
-	private Date						moment;
+	private Date					moment;
 
 	private String					picture;
 
@@ -40,7 +40,7 @@ public class Rendezvous extends DomainEntity {
 
 	private boolean					isDeleted;
 
-	private User						creator;
+	private User					creator;
 
 	private Collection<Rendezvous>	linkerRendezvouses;
 
@@ -83,7 +83,7 @@ public class Rendezvous extends DomainEntity {
 		this.picture = picture;
 	}
 
-	public Boolean getDraft() {
+	public boolean getDraft() {
 		return this.draft;
 	}
 
@@ -91,7 +91,7 @@ public class Rendezvous extends DomainEntity {
 		this.draft = draft;
 	}
 
-	public Boolean getAdultOnly() {
+	public boolean getAdultOnly() {
 		return this.adultOnly;
 	}
 
