@@ -24,15 +24,11 @@
  
 <%@ attribute name="code" required="true" %>
 <%@ attribute name="url" required="true" %>
-<%@ attribute name="cssClass" required="false" %>
 
-<jstl:if test="${cssClass == null}">
-	<jstl:set var="cssClass" value="" />
-</jstl:if>
 
 <%-- Definition --%>
 
-<button class="${cssClass}" type="button" onclick="javascript: relativeRedir('${url}')" >
+<button class="btn btn-danger" type="button" onclick="javascript: relativeRedir('${url}')" >
 	<spring:message code="${code}" />
 </button>
 

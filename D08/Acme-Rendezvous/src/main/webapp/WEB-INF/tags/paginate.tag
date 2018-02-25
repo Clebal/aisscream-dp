@@ -32,7 +32,7 @@
 
 	<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	
-		<spring:url var="urlNextPage" value="${requestURI}">
+		<spring:url var="urlNextPage" value="${url}">
 			<spring:param name="page" value="${i}" />
 		</spring:url>
 			

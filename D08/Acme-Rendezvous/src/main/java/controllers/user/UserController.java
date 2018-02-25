@@ -1,7 +1,4 @@
-
 package controllers.user;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +12,7 @@ import security.UserAccount;
 import services.UserService;
 import controllers.AbstractController;
 import domain.User;
+import forms.UserForm;
 
 @Controller
 @RequestMapping(value = "/actor/user")
@@ -22,8 +20,7 @@ public class UserController extends AbstractController {
 
 	// Services
 	@Autowired
-	private UserService			userService;
-
+	private UserService userService;
 
 	// Constructor
 	public UserController() {
@@ -34,42 +31,66 @@ public class UserController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
+		UserForm userForm;
 		User user;
+
+		userForm = new UserForm();
 
 		user = this.userService.create();
 
-		result = this.createEditModelAndView(user);
+		userForm.setUserId(user.getId());
+
+		result = this.createEditModelAndView(userForm);
 
 		return result;
 	}
-	
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final User user, final BindingResult binding) {
-		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(user);
-		} else
-			try {
-				this.userService.save(user);
-				result = new ModelAndView("redirect:/");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(user, "actor.commit.error");
-			}
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(forms.UserForm userForm,
+			final BindingResult binding) {
+		ModelAndView result;
+		User user;
+		boolean next;
+
+		next = true;
+		user = new User();
+		result = null;
+		
+		try {
+			user = this.userService.reconstruct(userForm, binding);
+		} catch (final Throwable e) {
+			result = this
+					.createEditModelAndView(userForm, "actor.commit.error");
+			next = false;
+		}
+
+		if (next) {
+			if (binding.hasErrors()) {
+				result = this.createEditModelAndView(userForm);
+			} else
+				try {
+					this.userService.save(user);
+					result = new ModelAndView("redirect:/");
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(userForm,
+							"actor.commit.error");
+				}
+		}
 
 		return result;
 	}
 
 	// Ancillary methods
-	protected ModelAndView createEditModelAndView(final User user) {
+	protected ModelAndView createEditModelAndView(final UserForm userForm) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(user, null);
+		result = this.createEditModelAndView(userForm, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final User user, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final UserForm userForm,
+			final String messageCode) {
 		ModelAndView result;
 		boolean canEdit;
 		UserAccount userAccount;
@@ -80,7 +101,7 @@ public class UserController extends AbstractController {
 
 		userAccountId = 0;
 		canEdit = false;
-		if (user.getId() == 0)
+		if (userForm.getUserId() == null || userForm.getUserId() == 0)
 			canEdit = true;
 		else {
 
@@ -88,17 +109,17 @@ public class UserController extends AbstractController {
 				userAccount = LoginService.getPrincipal();
 				userAccountId = userAccount.getId();
 			}
-			if (user.getUserAccount().getId() == userAccountId)
+			if (userForm.getUserId() == userAccountId)
 				canEdit = true;
 		}
 
-		if (user.getId() > 0)
-			result = new ModelAndView("user/edit");
-		else
+		if (userForm.getUserId() == null || userForm.getUserId() == 0)
 			result = new ModelAndView("user/create");
+		else
+			result = new ModelAndView("user/edit");
 
 		result.addObject("modelo", "user");
-		result.addObject("user", user);
+		result.addObject("user", userForm);
 		result.addObject("message", messageCode);
 		result.addObject("canEdit", canEdit);
 		result.addObject("requestURI", requestURI);

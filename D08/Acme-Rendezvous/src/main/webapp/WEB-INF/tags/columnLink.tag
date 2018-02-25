@@ -29,10 +29,20 @@
 
 <%-- Definition --%>
 
+<jstl:if test="${property.equals('actor')}">
+
+<spring:url value="${domain}/${action}.do" var="url">
+	<spring:param name="${domain}Id" value="${id}" />
+</spring:url>
+
+</jstl:if>
+<jstl:if test="${!property.equals('actor')}">
 
 <spring:url value="${domain}/user/${action}.do" var="url">
 	<spring:param name="${domain}Id" value="${id}" />
 </spring:url>
+
+</jstl:if>
 
 <display:column>
 	<a href="${url}"><spring:message code="${domain}.${action}" /></a>
