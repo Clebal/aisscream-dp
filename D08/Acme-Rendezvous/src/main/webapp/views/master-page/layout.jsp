@@ -44,6 +44,16 @@
 		<!--[if lt IE 9]>
 			<script src="scripts/respond.min.js"></script>
 		<![endif]-->
+		
+				<!-- forEach compatibilidad IE8 -->
+		<script src="scripts/polyfills.js"></script>
+		
+		
+		
+		<!-- Funciones comunes -->
+		<script src="scripts/helpers.js"></script>
+		
+
 
 	</head>
 	<body>
@@ -71,14 +81,51 @@
 		
 		<!-- Boostrap 3.3.7 -->
 		<script src="scripts/bootstrap.min.js"></script>
+
+<!-- 		<script type="text/javascript">
+		// <![CDATA[
+		cc.initialise({
+			cookies: {
+				necessary: {}
+			},
+			settings: {
+				consenttype: "implicit"
+			}
+		});
+		// ]]>
+		</script> -->
 		
-		<!-- forEach compatibilidad IE8 -->
-		<script src="scripts/polyfills.js"></script>
+		<link rel="stylesheet" type="text/css" href="styles/cookieconsent.min.css" />
+		<script src="scripts/cookieconsent.js"></script>
+		<script>
 		
-		<!-- Funciones comunes -->
-		<script src="scripts/helpers.js"></script>
+		function a() {
+			window.cookieconsent.initialise({
+			  "palette": {
+				  "popup": {
+				      "background": "#252e39"
+				    },
+				    "button": {
+				      "background": "#14a7d0"
+				    }
+				  },
+				  "theme": "edgeless",
+				  "position": "bottom-right",
+				  "content": {
+				    "message": "<spring:message code="master_page.cookies.message" />",
+				    "dismiss": "<spring:message code="master_page.cookies.dismiss" />",
+				    "link": "<spring:message code="master_page.cookies.link" />"
+				  }
+			});
+		}
 		
+		if (window.addEventListener) {
+			window.addEventListener('load', a);
+		} else if (window.attachEvent) {
+			window.attachEvent('onload', a);
+		}
 		
+		</script>
 		
 	</body>
 </html>
