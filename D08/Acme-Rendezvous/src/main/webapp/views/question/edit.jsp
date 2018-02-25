@@ -24,6 +24,6 @@
 		<acme:submit name="delete" code="question.delete" cssClass="btn btn-warning" />
 	</jstl:if>
 	
-	<acme:cancel code="question.cancel" url="question/user/list.do" cssClass="btn btn-danger" />
+	<acme:cancel code="question.cancel" url="question/user/list.do" />
 
 </form:form>
