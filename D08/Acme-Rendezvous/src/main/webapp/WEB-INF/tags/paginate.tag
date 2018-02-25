@@ -23,9 +23,13 @@
 
 <%-- Attributes --%> 
 
-<%@ attribute name="url" required="true" %> 
+<%@ attribute name="url" required="true" %>
+<%@ attribute name="haveRendezvousId" required="false" %>  
 <%@ attribute name="objects" required="true" type="java.util.Collection" %> 
 
+<jstl:if test="${haveRendezvousId == null}">
+	<jstl:set var="haveRendezvousId" value="false" />
+</jstl:if>
 <%-- Definition --%>
 
 <jstl:if test="${objects.size() > 0 }">
@@ -33,6 +37,9 @@
 	<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	
 		<spring:url var="urlNextPage" value="${url}">
+		<jstl:if test="${haveRendezvousId==true }">
+			<spring:param name="rendezvousId" value="${rendezvousId}" />
+		</jstl:if>
 			<spring:param name="page" value="${i}" />
 		</spring:url>
 			
