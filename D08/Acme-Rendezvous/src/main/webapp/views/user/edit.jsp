@@ -11,22 +11,12 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <form:form action="${requestURI }" modelAttribute="userForm">
-
-<%-- 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<jstl:if test="${user.getUserId()!=0 }">
-	<form:hidden path="userAccount.password"/>
-	</jstl:if>
-	<form:hidden path="userAccount.authorities" />
-	<form:hidden path="userAccount.version" />
-	<form:hidden path="userAccount.enabled" />
-	<form:hidden path="userAccount.id" /> --%>
 	
 	<form:hidden path="id" />
 
 	<!-- Username -->
 	<jstl:if test="${userForm.getId()!=0 }">
-	<acme:textbox code="actor.username" readonly="readOnly" path="username"/>
+	<acme:textbox code="actor.username" readonly="readonly" path="username"/>
 	</jstl:if>
 	
 	<jstl:if test="${userForm.getId()==0 }">
@@ -37,7 +27,6 @@
 
 	<!-- Check password -->
 	<acme:password code="actor.checkPassword" path="checkPassword"/>
-
 	</jstl:if>
 	
 	<!-- Name -->
@@ -60,29 +49,34 @@
 			
 	<jstl:if test="${userForm.getId()==0 }">
 		<div class="form-check">
-			<form:checkbox class="form-check-input" path="check" />
+			<form:checkbox class="form-check-input" path="check" onclick="activar(this.form)"/>
 			<form:label path="check"><spring:message code="actor.terminos1" /></form:label> <a href="termCondition/display.do"><spring:message code="actor.terminos2" /></a>
 			<form:errors class="text-danger" path="check"/>
 		</div>
 	</jstl:if>
 	
 	<br>
-		
+	
+	<jstl:if test="${userForm.getId()==0 }">
+		<acme:submit name="save" code="actor.save" disabled="disabled" />
+	</jstl:if>
 
-	<acme:submit name="save" code="actor.save" />
-
+	<jstl:if test="${userForm.getId()!=0 }">
+		<acme:submit name="save" code="actor.save" />
+	</jstl:if>
+	
 	<acme:cancel code="actor.cancel" url="welcome/index.do"/>
 	
 </form:form>
 
 <script type="text/javascript">
  
-	/*function activar(form) {
+	function activar(form) {
     	if (form.check.checked) {
    			 form.save.disabled=false;
  		 } else {     
    			 form.save.disabled=true;
   		 }
- 	}*/
+ 	}
 	
  </script>
