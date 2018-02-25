@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.RendezvousRepository;
 import security.Authority;
@@ -37,9 +36,9 @@ public class RendezvousService {
 	@Autowired
 	private ActorService			actorService;
 
-	@Autowired
-	private Validator				validator;
 
+	//	@Autowired
+	//	private Validator				validator;
 
 	// Constructor
 	public RendezvousService() {
@@ -540,6 +539,45 @@ public class RendezvousService {
 		return result;
 	}
 
+	public Double[] avgStandardDRsvpdCreatedPerUser() {
+		Double[] result;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.rendezvousRepository.avgStandardDRsvpdCreatedPerUser();
+
+		return result;
+	}
+
+	public Double ratioCreatorsVsTotal() {
+		Double result;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.rendezvousRepository.ratioCreatorsVsTotal();
+
+		return result;
+	}
+
+	public Double[] avgStandardDRendezvousesRsvpdPerUser() {
+		Double[] result;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.rendezvousRepository.avgStandardDRendezvousesRsvpdPerUser();
+
+		return result;
+	}
+
 	public Double[] avgStandardDRsvpdRendezvouses() {
 		Double[] result;
 		Authority authority;
@@ -553,15 +591,60 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Collection<Rendezvous> rendezvousesLinkedMoreAvgPlus10Percentage() {
+	public Collection<Rendezvous> top10Rendezvouses() {
 		Collection<Rendezvous> result;
 		Authority authority;
+		List<Object[]> repositoryAnswer;
+
+		result = new ArrayList<Rendezvous>();
 
 		//Solo puede acceder admin
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.rendezvousRepository.rendezvousesLinkedMoreAvgPlus10Percentage();
+
+		repositoryAnswer = this.rendezvousRepository.top10Rendezvouses();
+
+		for (final Object[] aux2 : repositoryAnswer)
+			result.add((Rendezvous) aux2[0]);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> rendezvousesNumberAnnouncementsPlus75Percentage(final int page, final int size) {
+		Collection<Rendezvous> result;
+		Authority authority;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.rendezvousRepository.rendezvousesNumberAnnouncementsPlus75Percentage(pageable).getContent();
+
+		return result;
+	}
+
+	public Collection<Rendezvous> rendezvousesLinkedMoreAvgPlus10Percentage(final int page, final int size) {
+		Collection<Rendezvous> result;
+		Authority authority;
+		Pageable pageable;
+
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.rendezvousRepository.rendezvousesLinkedMoreAvgPlus10Percentage(pageable).getContent();
 
 		return result;
 	}
@@ -589,7 +672,7 @@ public class RendezvousService {
 			result.setLongitude(rendezvous.getLongitude());
 		}
 
-		this.validator.validate(result, binding);
+		//	this.validator.validate(result, binding);
 
 		return result;
 	}
