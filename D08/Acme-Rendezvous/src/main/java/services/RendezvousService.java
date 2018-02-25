@@ -578,19 +578,6 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Double[] avgStandardDLinkedRendezvouses() {
-		Double[] result;
-		Authority authority;
-
-		//Solo puede acceder admin
-		authority = new Authority();
-		authority.setAuthority("ADMIN");
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.rendezvousRepository.avgStandardDLinkedRendezvouses();
-
-		return result;
-	}
-
 	public Collection<Rendezvous> top10Rendezvouses() {
 		Collection<Rendezvous> result;
 		Authority authority;
