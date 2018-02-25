@@ -58,6 +58,7 @@
 		<security:intercept-url pattern="/actor/display.do" access="permitAll"  />
 		<security:intercept-url pattern="/actor/list.do" access="permitAll"  />	
 		<security:intercept-url pattern="/actor/profile.do" access="isAuthenticated()"  />
+		<security:intercept-url pattern="/actor/listAttendants.do" access="permitAll"  />
 		
 			<!-- Carlos -->
 		<security:intercept-url pattern="/rsvp/user/edit.do" access="hasRole('USER')" />
