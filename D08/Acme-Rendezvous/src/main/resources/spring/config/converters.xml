@@ -49,20 +49,12 @@
 		<bean class="converters.RsvpToStringConverter" />
 		<bean class="converters.StringToRsvpConverter" />
 		
-		<bean class="converters.UserAccountToStringConverter" />
-		<bean class="converters.StringToUserAccountConverter" />
-		
-		<bean class="converters.AuthorityToStringConverter" />
-		<bean class="converters.StringToAuthorityConverter" />
-		
 		<bean class="converters.ActorToStringConverter" />
 		<bean class="converters.StringToActorConverter" />
 					
 		<bean class="converters.AdministratorToStringConverter" />
 		<bean class="converters.StringToAdministratorConverter" />
 		
-		<bean class="converters.UserToStringConverter" />
-		<bean class="converters.StringToUserConverter" />
 	</util:list>
 	
 </beans>

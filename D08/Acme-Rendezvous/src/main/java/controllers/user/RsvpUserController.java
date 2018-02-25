@@ -124,7 +124,7 @@ public class RsvpUserController extends AbstractController {
 
 	// Create-------------------------------------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		Rendezvous rendezvous;
@@ -152,13 +152,13 @@ public class RsvpUserController extends AbstractController {
 		rsvpForm.setAnswers(answersMap);
 		rsvpForm.setRendezvousId(rendezvousId);
 
-		result = this.createEditModelAndView(rsvpForm);
+		result = this.createEditModelAndView2(rsvpForm);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final RsvpForm rsvpForm, final BindingResult binding) {
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final RsvpForm rsvpForm, final BindingResult binding) {
 		ModelAndView result;
 		final Rsvp rsvp;
 		Collection<Answer> answers;
@@ -175,15 +175,16 @@ public class RsvpUserController extends AbstractController {
 		//Reconstruimos las respuestas y creamos el rsvp
 		try {
 			answers = this.answerService.reconstruct(rsvpForm, binding);
+
 		} catch (final Throwable e) {
 			next = false;
-			result = this.createEditModelAndView(rsvpForm, "rsvp.commit.error", new ArrayList<Answer>());
+			result = this.createEditModelAndView2(rsvpForm, "rsvp.commit.error", new ArrayList<Answer>());
 		}
 
 		//Si todo ha ido bien anteriormente vemos si hay errores y si no guardamos las respuestas
 		if (next)
 			if (binding.hasErrors()) {
-				result = this.createEditModelAndView(rsvpForm, null, answers);
+				result = this.createEditModelAndView2(rsvpForm, null, answers);
 				deleteRsvp = true;
 
 			} else
@@ -197,7 +198,7 @@ public class RsvpUserController extends AbstractController {
 				} catch (final Throwable oops) {
 
 					deleteRsvp = true;
-					result = this.createEditModelAndView(rsvpForm, "rsvp.commit.error", new ArrayList<Answer>());
+					result = this.createEditModelAndView2(rsvpForm, "rsvp.commit.error", new ArrayList<Answer>());
 				}
 
 		if (deleteRsvp) {
@@ -213,15 +214,15 @@ public class RsvpUserController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final RsvpForm rsvpForm) {
+	protected ModelAndView createEditModelAndView2(final RsvpForm rsvpForm) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(rsvpForm, null, new ArrayList<Answer>());
+		result = this.createEditModelAndView2(rsvpForm, null, new ArrayList<Answer>());
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final RsvpForm rsvpForm, final String messageCode, final Collection<Answer> answers) {
+	protected ModelAndView createEditModelAndView2(final RsvpForm rsvpForm, final String messageCode, final Collection<Answer> answers) {
 		ModelAndView result;
 
 		result = new ModelAndView("rsvp/edit");
@@ -232,5 +233,4 @@ public class RsvpUserController extends AbstractController {
 
 		return result;
 	}
-
 }
