@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.AnswerRepository;
+import security.Authority;
 import security.LoginService;
 import domain.Answer;
 import domain.Question;
@@ -32,7 +33,6 @@ public class AnswerService {
 	@Autowired
 	private UserService			userService;
 
-	//TODO Nuevo
 	@Autowired
 	private RsvpService			rsvpService;
 
@@ -111,6 +111,20 @@ public class AnswerService {
 
 	}
 
+	public void delete(final Answer answer) {
+		User user;
+
+		Assert.notNull(answer);
+
+		//Lo borra el creador de la question
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		Assert.isTrue(answer.getQuestion().getRendezvous().getCreator().equals(user));
+
+		this.answerRepository.delete(answer);
+
+	}
+
 	public Answer findByRSVPIdAndQuestionId(final int RSVPId, final int questionId) {
 		Answer result;
 
@@ -138,7 +152,6 @@ public class AnswerService {
 		return result;
 	}
 
-	//TODO Nuevo
 	public Collection<Answer> reconstruct(final RsvpForm rsvpForm, final BindingResult binding) {
 		Collection<Answer> result;
 		Answer auxAnswer;
@@ -186,6 +199,28 @@ public class AnswerService {
 
 		return result;
 
+	}
+
+	public Double[] avgStandardAnswerPerRendezvous() {
+		Double[] result;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.answerRepository.avgStandardAnswerPerRendezvous();
+
+		return result;
+	}
+
+	public Collection<Answer> findByQuestionId(final int questionId) {
+		Collection<Answer> result;
+
+		Assert.isTrue(questionId != 0);
+		result = this.answerRepository.findByQuestionId(questionId);
+
+		return result;
 	}
 
 }

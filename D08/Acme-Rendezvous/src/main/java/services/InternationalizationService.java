@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.InternationalizationRepository;
 import domain.Internationalization;
@@ -17,8 +19,10 @@ public class InternationalizationService {
 	@Autowired
 	private InternationalizationRepository	internationalizationRepository;
 
-
 	// Supporting services
+	@Autowired
+	Validator								validator;
+
 
 	// Constructor
 	public InternationalizationService() {
@@ -54,5 +58,19 @@ public class InternationalizationService {
 		result = this.internationalizationRepository.findByCountryCodeMessageCode(countryCode, messageCode);
 
 		return result;
+	}
+
+	public Internationalization reconstruct(final Internationalization internationalization, final BindingResult binding) {
+		Internationalization result;
+
+		result = this.internationalizationRepository.findOne(internationalization.getId());
+		Assert.notNull(result);
+
+		result.setValue(internationalization.getValue());
+
+		this.validator.validate(result, binding);
+
+		return result;
+
 	}
 }

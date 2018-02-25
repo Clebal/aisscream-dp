@@ -11,20 +11,10 @@
 <form:form action="termCondition/administrator/edit.do" modelAttribute="internationalization">
 
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="countryCode" />
-	<form:hidden path="messageCode"/>
 	
 	<div class="form-group"> 
 		<form:label path="value">
-			
-			<jstl:if test="${internationalization.countryCode.equals('es')}">
-				<spring:message code="term.condition.edit.spanish" />
-			</jstl:if>
-			
-			<jstl:if test="${internationalization.countryCode.equals('en')}">
-				<spring:message code="term.condition.edit.english" />
-			</jstl:if>
+				<spring:message code="term.condition.edit" />
 			
 		</form:label>
 		<form:textarea class="form-control" rows="20" cols="20" path="value"/>

@@ -252,4 +252,16 @@ public class CommentService {
 		return result;
 	}
 
+	public Double[] avgStandardRepliesPerComment() {
+		Double[] result;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.commentRepository.avgStandardRepliesPerComment();
+
+		return result;
+	}
 }
