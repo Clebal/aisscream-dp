@@ -23,6 +23,7 @@ import services.RendezvousService;
 import services.RsvpService;
 import services.UserService;
 import domain.Actor;
+import domain.Announcement;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
@@ -57,20 +58,26 @@ public class RendezvousController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page) {
+	public ModelAndView display(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page, @RequestParam(required = false) final Integer page2) {
 		ModelAndView result;
 		Rendezvous rendezvous;
 		Integer pageAux;
+		Integer pageAux2;
 
 		if (page == null)
 			pageAux = 0;
 		else
 			pageAux = page;
 
+		if (page2 == null)
+			pageAux2 = 0;
+		else
+			pageAux2 = page2;
+
 		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 
 		Assert.notNull(rendezvous);
-		result = this.createEditModelAndView(rendezvous, pageAux);
+		result = this.createEditModelAndView(rendezvous, pageAux, pageAux2);
 
 		return result;
 	}
@@ -456,11 +463,11 @@ public class RendezvousController extends AbstractController {
 		return result;
 	}
 	//Ancillary methods -----------------------
-	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous, final Integer page) {
+	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous, final Integer page, final Integer page2) {
 		ModelAndView result;
 		Boolean canPermit;
 		Calendar birthDatePlus18Years;
-		//Collection<Announcement> announcements;
+		Collection<Announcement> announcements;
 		Boolean canCreateRSVP;
 		Boolean canCreateComment;
 		Boolean canStreamAnnouncements;
@@ -471,7 +478,7 @@ public class RendezvousController extends AbstractController {
 		Integer size;
 		Authority authority;
 		Authority authority2;
-		//Integer pageNumber2;
+		Integer pageNumber2;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
@@ -502,7 +509,8 @@ public class RendezvousController extends AbstractController {
 				canStreamAnnouncements = false;
 			} else {
 				canCreateComment = true;
-				canStreamAnnouncements = true;
+				if (this.rsvpService.findByAttendantUserIdAndRendezvousId(user.getId(), rendezvous.getId()).getStatus().equals("ACCEPTED"))
+					canStreamAnnouncements = true;
 			}
 
 		}
@@ -521,28 +529,29 @@ public class RendezvousController extends AbstractController {
 		if (comments.size() != 0)
 			pageNumber = this.commentService.countByRendezvousIdAndNoRepliedComment(rendezvous.getId());
 
-		//		announcements = new ArrayList<Announcement>();
-		//		pageNumber2 = 0;
+		announcements = new ArrayList<Announcement>();
+		pageNumber2 = 0;
 
-		//		announcements = this.announcementService.findByRendezvousId(rendezvous.getId(), page2, size);
-		//		if (announcements.size() != 0)
-		//			pageNumber2 = this.announcementService.countByRendezvousId(rendezvous.getId());
+		announcements = this.announcementService.findByRendezvousId(rendezvous.getId(), page2, size);
+		if (announcements.size() != 0)
+			pageNumber2 = this.announcementService.countByRendezvousId(rendezvous.getId());
 
 		result = new ModelAndView("rendezvous/display");
 
 		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
-		//pageNumber2 = (int) Math.floor(((pageNumber2 / size) - 0.1) + 1);
+		pageNumber2 = (int) Math.floor(((pageNumber2 / (size + 0.0)) - 0.1) + 1);
 
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);
-		//result.addObject("pageNumber2", pageNumber2);
-		//result.addObject("page2", page2);
+		result.addObject("pageNumber2", pageNumber2);
+		result.addObject("page2", page2);
 		result.addObject("rendezvous", rendezvous);
 		result.addObject("canPermit", canPermit);
 		result.addObject("canCreateRSVP", canCreateRSVP);
 		result.addObject("canCreateComment", canCreateComment);
 		result.addObject("canStreamAnnouncements", canStreamAnnouncements);
 		result.addObject("comments", comments);
+		result.addObject("announcements", announcements);
 
 		return result;
 

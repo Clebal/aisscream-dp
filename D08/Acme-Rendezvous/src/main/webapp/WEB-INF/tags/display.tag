@@ -25,12 +25,27 @@
 
 <%@ attribute name="code" required="true" %> 
 <%@ attribute name="value" required="true" type="java.lang.Object" %>
+<%@ attribute name="codeMoment" required="false" %> 
+
+
 
 <%-- Definition --%>
-
+<jstl:if test="${codeMoment == null}">
 <p>
 	<span class="display">
 		<spring:message code="${code}" />
 	</span>: 
-	<jstl:out value="${object}" />
+	<jstl:out value="${value}" />
 </p>
+</jstl:if>
+
+<jstl:if test="${codeMoment != null}">
+<spring:message code="${codeMoment }" var="momentFormat"/>
+<p>
+	<span class="display">
+		<spring:message code="${code}" />
+	</span>: 
+<fmt:formatDate value="${value}" pattern="${momentFormat }"/>
+</p>
+</jstl:if>
+

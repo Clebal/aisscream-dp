@@ -8,6 +8,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
 
 <form:form action="rendezvous/user/edit.do" modelAttribute="rendezvous">
 
@@ -24,79 +26,30 @@
  	
  	
  	
+	<acme:textbox path="name" code="rendezvous.name" />
 	
-
-	<div class="form-group"> 
-		<form:label path="name">
-			<spring:message code="rendezvous.name"/>
-		</form:label>
-		<form:input class="form-control" path="name"/>
-		<form:errors class="text-danger" path="name"/>
-	</div>
+	<acme:textarea code="rendezvous.description" path="description"/>
 	
-	<div class="form-group"> 
-		<form:label path="description">
-			<spring:message code="rendezvous.description" />:
-		</form:label>
-		<form:textarea path="description"/>
-		<form:errors class="text-danger" path="description"/>
-	</div>
+	<acme:textbox path="moment" code="rendezvous.moment" placeholder="dd/MM/yyyy HH:mm" />
 	
-		<div class="form-group"> 
-			<form:label path="moment">
-				<spring:message code="rendezvous.moment"/>
-			</form:label>
-			<form:input class="form-control" path="moment" placeholder="dd/MM/yyyy HH:mm"/>
-			<form:errors class="text-danger" path="moment"/>
-		</div>
+	<acme:textbox code="rendezvous.picture" path="picture"/>
 	
-	
-	<div class="form-group"> 
-		<form:label path="picture">
-			<spring:message code="rendezvous.picture" />:
-		</form:label>
-		<form:textarea class="form-control" path="picture"/>
-		<form:errors class="text-danger" path="picture"/>
-	</div>
-	
-	<div class="form-group"> 
-		<form:label path="draft">
-			<spring:message code="rendezvous.draft" />:
-		</form:label>
-		<form:checkbox path="draft" />
-	</div>
+	<acme:checkbox code="rendezvous.draft" path="draft"/>
 	
 	 <jstl:if test="${canPermit==true}">
-		<div class="form-group"> 
-			<form:label path="adultOnly">
-				<spring:message code="rendezvous.adultOnly" />:
-			</form:label>
-			<form:checkbox path="adultOnly" />
-		</div>
+	 	<acme:checkbox code="rendezvous.adultOnly" path="adultOnly"/>
 	</jstl:if>
 	
-	<div class="form-group"> 
-		<form:label path="latitude">
-			<spring:message code="rendezvous.latitude" />:
-		</form:label>
-		<form:input class="form-control" path="latitude"/>
-		<form:errors class="text-danger" path="latitude"/>
-	</div>
+	<acme:textbox path="latitude" code="rendezvous.latitude" />
 	
-	<div class="form-group"> 
-		<form:label path="longitude">
-			<spring:message code="rendezvous.longitude" />:
-		</form:label>
-		<form:input class="form-control" path="longitude"/>
-		<form:errors class="text-danger" path="longitude"/>
-	</div>
+	<acme:textbox path="longitude" code="rendezvous.longitude" />
 	
+	<acme:submit name="save" code="rendezvous.save" cssClass="btn btn-primary" />
 	
-		<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="rendezvous.save" />">
 	<jstl:if test="${rendezvous.getId()!= 0}">
-		<input type="submit" class="btn btn-warning" name="delete" value="<spring:message code="rendezvous.delete" />" onclick="return confirm('<spring:message code="rendezvous.confirm.delete" />')">
+	<acme:submit name="delete" code="rendezvous.delete" cssClass="btn btn-warning" codeDelete="rendezvous.confirm.delete"/>
 	</jstl:if>
 	
-	<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="rendezvous.cancel" />" onclick="javascript: relativeRedir('rendezvous/user/list.do');" >
-
+	<acme:cancel code="rendezvous.cancel" url="rendezvous/user/list.do"/>
+	
 </form:form>

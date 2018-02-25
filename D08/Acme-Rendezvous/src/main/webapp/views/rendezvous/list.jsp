@@ -9,6 +9,8 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
 
 
 <display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row">
@@ -57,49 +59,24 @@
 		
 	</security:authorize>
 	
-	<spring:message code="rendezvous.name" var="nameHeader" />
-	<display:column property="name" title="${nameHeader}"></display:column>
-
-	<spring:message code="rendezvous.description" var="descriptionHeader" />
-	<display:column property="description" title="${descriptionHeader}"></display:column>
-
-	<spring:message code="rendezvous.format.moment" var="momentFormat"/>
-	<spring:message code="rendezvous.moment" var="momentHeader" />
-	<display:column property="moment" title="${momentHeader}" format="{0,date,${momentFormat}}"></display:column>
-
-	<spring:message code="rendezvous.draft" var="draftHeader" />
-	<display:column title="${draftHeader}">
-	<jstl:if test="${row.getDraft()==true }">
-	<jstl:out value="X"/>
-	</jstl:if>
-	</display:column>
+	<acme:column property="name" domain="rendezvous" />
+	
+	<acme:column property="description" domain="rendezvous" />
+	
+	<acme:column property="moment" domain="rendezvous" formatDate="true" />
+	
+	<acme:columnBoolean property="draft" domain="rendezvous" row="${row}"/>
+	
+	<acme:columnBoolean property="adultOnly" domain="rendezvous" row="${row}"/>
+	
+	<acme:column property="longitude" domain="rendezvous"/>
 		
-	<spring:message code="rendezvous.adultOnly" var="adultOnlyHeader" />
-	<display:column title="${adultOnlyHeader}">
-	<jstl:if test="${row.getAdultOnly()==true }">
-	<jstl:out value="X"/>
-	</jstl:if>
-	</display:column>
-	
+	<acme:column property="latitude" domain="rendezvous"/>
 		
-	<spring:message code="rendezvous.longitude" var="longitudeHeader" />
-	<display:column property="longitude" title="${longitudeHeader}"/>
-	
-	
-	<spring:message code="rendezvous.latitude" var="latitudeHeader" />
-	<display:column property="latitude" title="${latitudeHeader}"/>
-
-	
-	<spring:message code="rendezvous.isDeleted" var="isDeletedHeader" />
-	<display:column title="${isDeletedHeader}">
-	<jstl:if test="${row.getIsDeleted()==true }">
-	<jstl:out value="X"/>
-	</jstl:if>
-	</display:column>
-
+	<acme:columnBoolean property="isDeleted" domain="rendezvous" row="${row}"/>
+		
 	<spring:url var="urlDisplay" value="rendezvous/display.do">
 		<spring:param name="rendezvousId" value="${row.getId()}" />
-		<spring:param name="page" value="0" />
 		
 	</spring:url>
 	
@@ -109,26 +86,8 @@
 
 </display:table>
 
-<jstl:if test="${rendezvouses.size()>0 }">
+	<acme:paginate url="${requestURI}" objects="${rendezvouses}" haveRendezvousId="true" />
 
-<jstl:forEach var="i" begin="1" end="${pageNumber}">
-	
-			<spring:url var="urlMorePage" value="${requestURI }">
-			<jstl:if test="${haveRendezvousId==true }">
-				<spring:param name="rendezvousId" value="${rendezvousId}" />
-			</jstl:if>
-				<spring:param name="page" value="${i}" />
-			</spring:url>
-			
-			<jstl:if test="${page==i}">
-				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
-			</jstl:if>
-			<jstl:if test="${page!=i}">
-				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
-			</jstl:if>
-			
-	</jstl:forEach>
-</jstl:if>
 <br>
 <br>
 <security:authorize access="hasRole('USER')">

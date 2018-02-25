@@ -49,13 +49,13 @@ public class RendezvousService {
 	// Simple CRUD methods----------
 	public Rendezvous create(final User creator) {
 		Rendezvous result;
-		Authority authority;
+		//Authority authority;
 		List<Rendezvous> linkerRendezvouses;
 
 		Assert.notNull(creator);
-		authority = new Authority();
-		authority.setAuthority("USER");
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		//		authority = new Authority();
+		//		authority.setAuthority("USER");
+		//		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		linkerRendezvouses = new ArrayList<Rendezvous>();
 		result = new Rendezvous();
 		result.setCreator(creator);
@@ -580,21 +580,33 @@ public class RendezvousService {
 	}
 
 	public Collection<Rendezvous> top10Rendezvouses() {
-		Collection<Rendezvous> result;
-		Authority authority;
-		List<Object[]> repositoryAnswer;
+		Collection<Object[]> listId;
+		List<Rendezvous> result;
+		User creator;
+		Rendezvous r;
 
 		result = new ArrayList<Rendezvous>();
 
-		//Solo puede acceder admin
-		authority = new Authority();
-		authority.setAuthority("ADMIN");
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		listId = this.rendezvousRepository.top10Rendezvouses();
 
-		repositoryAnswer = this.rendezvousRepository.top10Rendezvouses();
+		for (final Object[] o : listId) {
+			creator = this.userService.findOne((int) o[o.length - 1]);
+			r = this.create(creator);
+			r.setId((int) o[0]);
+			r.setVersion((int) o[1]);
+			r.setAdultOnly((boolean) o[2]);
+			r.setDescription((String) o[3]);
+			r.setDraft((boolean) o[4]);
+			r.setIsDeleted((boolean) o[5]);
+			r.setLatitude((Double) o[6]);
+			r.setLongitude((Double) o[7]);
+			r.setMoment((Date) o[8]);
+			r.setName((String) o[9]);
+			r.setPicture((String) o[10]);
+			r.setCreator(creator);
 
-		for (final Object[] aux2 : repositoryAnswer)
-			result.add((Rendezvous) aux2[0]);
+			result.add(r);
+		}
 
 		return result;
 	}

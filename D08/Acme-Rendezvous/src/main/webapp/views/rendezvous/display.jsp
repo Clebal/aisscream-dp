@@ -8,6 +8,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
 
 <jstl:if test="${rendezvous.getAdultOnly()==false || rendezvous.getAdultOnly()==true && canPermit}">
 
@@ -20,14 +22,13 @@
 </jstl:if>
 	<div>
 		<div class="container">
-			<spring:message code="rendezvous.format.moment" var="momentFormat"/>
 			
-			<p><span class="display"><spring:message code="rendezvous.name"/></span><jstl:out value="  ${rendezvous.getName()}" /></p>
+			<acme:display code="rendezvous.name" value="${rendezvous.getName()}"/>
+			
+			<acme:display code="rendezvous.description" value="${rendezvous.getDescription()}"/>
+			
+			<acme:display code="rendezvous.moment" value="${rendezvous.getMoment()}" codeMoment="rendezvous.format.moment"/>
 		
-			<p><span class="display"><spring:message code="rendezvous.description"/></span><jstl:out value="  ${rendezvous.getDescription()}" /></p>
-			
-			<p><span class="display"><spring:message code="rendezvous.moment"/></span><fmt:formatDate value="${rendezvous.getMoment()}" pattern="${momentFormat }"/></p>
-			
 			<jstl:if test="${rendezvous.getDraft()==true}">
 				<p><span class="display"><spring:message code="rendezvous.draft.trueMessage"/></span></p>
 			</jstl:if>
@@ -44,57 +45,32 @@
 				<p><span class="display"><spring:message code="rendezvous.adultOnly.falseMessage"/></span></p>
 			</jstl:if>
 			
-			<p><span class="display"><spring:message code="rendezvous.latitude"/></span><jstl:out value="${rendezvous.getLatitude()}"/></p>
+			<acme:display code="rendezvous.latitude" value="${rendezvous.getLatitude()}"/>
 			
-			<p><span class="display"><spring:message code="rendezvous.longitude"/></span><jstl:out value="${rendezvous.getLongitude()}"/></p>
-			
+			<acme:display code="rendezvous.longitude" value="${rendezvous.getLongitude()}"/>
+						
 		</div>
-		
-		
-		<spring:url var="urlCreator" value="actor/display.do">
-			<spring:param name="actorId" value="${rendezvous.getCreator().getId()}" />
-		</spring:url>
-		
-		<spring:url var="urlListAttendants" value="actor/listAttendants.do">
-			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-		</spring:url>
-		
-		<spring:url var="urlLinkerRendezvouses" value="rendezvous/listLinkerRendezvouses.do">
-			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-		</spring:url>
-		
-		<spring:url var="urlLinkedRendezvouses" value="rendezvous/listLinkedRendezvouses.do">
-			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-		</spring:url>
-		
-		<spring:url var="urlAnnouncements" value="announcement/list.do">
-			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-		</spring:url>
-		
-		<spring:url var="urlRsvps" value="rsvp/list.do">
-			<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-		</spring:url>
-		
-		
+			
 		<div class="container">
 			
 				<span style="font-size:20px"><spring:message code="rendezvous.other.actions"/></span>
 				<br>
 				<br>
-				<a href="${urlCreator}" ><spring:message code="rendezvous.creator.display"/></a>
-				<br>
-				<a href="${urlListAttendants}" ><spring:message code="rendezvous.listAttendants.display"/></a>
-				<br>
-					
-				<a href="${urlLinkerRendezvouses}" ><spring:message code="rendezvous.linkerRendezvouses.display"/></a>
-				<br>
-				<a href="${urlLinkedRendezvouses}" ><spring:message code="rendezvous.linkedRendezvouses.display"/></a>
-				<br>
-				<a href="${urlAnnouncements}" ><spring:message code="rendezvous.announcements.display"/></a>
-				<br>
-				<a href="${urlRsvps}" ><spring:message code="rendezvous.rsvps.display"/></a>
-				<br>	
 				
+				<acme:displayLink parametre="actorId" code="rendezvous.creator.display" action="actor/display.do" parametreValue="${rendezvous.getCreator().getId()}"/>
+				
+				<acme:displayLink parametre="rendezvousId" code="rendezvous.listAttendants.display" action="actor/listAttendants.do" parametreValue="${rendezvous.getId()}"/>
+				
+				<acme:displayLink parametre="rendezvousId" code="rendezvous.linkerRendezvouses.display" action="rendezvous/listLinkerRendezvouses.do" parametreValue="${rendezvous.getId()}"/>
+				
+				<acme:displayLink parametre="rendezvousId" code="rendezvous.linkedRendezvouses.display" action="rendezvous/listLinkedRendezvouses.do" parametreValue="${rendezvous.getId()}"/>
+				
+				
+				<jstl:if test="${!canStreamAnnouncements }">
+					<acme:displayLink parametre="rendezvousId" code="rendezvous.announcements.display" action="announcement/list.do" parametreValue="${rendezvous.getId()}"/>
+				</jstl:if>
+				<acme:displayLink parametre="rendezvousId" code="rendezvous.rsvps.display" action="rsvp/list.do" parametreValue="${rendezvous.getId()}"/>
+								
 		</div>
 		
 		
@@ -102,95 +78,103 @@
 		<!-- Si es un auditor le permitimos crear una note y un audit-->
 		<security:authorize access="hasRole('ADMIN')">
 			<jstl:if test="${rendezvous.getIsDeleted()==false}">
-			<div class="container">
+				<div class="container">
 			
 				<span style="font-size:20px"><spring:message code="rendezvous.administrator.actions"/></span>
 				<br>
 				<br>
-				<!-- Enlace para borrar el Rendezvous -->
-				<spring:url var="urlDeleteRendezvous" value="rendezvous/administrator/delete.do">
-					<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-				</spring:url>
-				<a href="${urlDeleteRendezvous}" ><spring:message code="rendezvous.deleteForAdmin"/></a>
-				<br>
-			</div>
-				</jstl:if>
+			<!-- Enlace para borrar el Rendezvous -->
+			<acme:displayLink parametre="rendezvousId" code="rendezvous.deleteForAdmin" action="rendezvous/administrator/delete.do" parametreValue="${rendezvous.getId()}"/>
+				
+				</div>
+			</jstl:if>
 		</security:authorize>
 		
 		<security:authorize access="hasRole('USER')">
 			<div class="container">
 			
 			<span style="font-size:20px"><spring:message code="rendezvous.user.actions"/></span>
-					<br>
-					<br>
+			<br>
+			<br>
 			
 			<security:authentication var="principal" property="principal.username"/>
 			<jstl:if test="${rendezvous.getCreator().getUserAccount().getUsername().equals(principal) && rendezvous.getIsDeleted()==false}">
 					
 					<!-- Lo enlazamos con otro rendezvous-->
-					<spring:url var="urlRendezvousesForLink" value="rendezvous/user/listRendezvousesForLink.do">
-						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-					</spring:url>
-					
-					<a href="${urlRendezvousesForLink}" ><spring:message code="rendezvous.rendezvousesForLink"/></a>
-					<br>
+					<acme:displayLink parametre="rendezvousId" code="rendezvous.rendezvousesForLink" action="rendezvous/user/listRendezvousesForLink.do" parametreValue="${rendezvous.getId()}"/>
 					 
-					<!-- Lo desenlazamos con otro rendezvous-->
-					<!-- 
-					<spring:url var="urlRendezvousesForUnLink" value="rendezvous/user/listRendezvousesForUnLink.do">
-						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-					</spring:url>
-					
-					<a href="${urlRendezvousesForUnLink}" ><spring:message code="rendezvous.rendezvousesForUnLink"/></a>
-					<br/>
-					-->
 					<!-- Creamos una question-->
-					<spring:url var="urlCreateQuestion" value="question/user/create.do">
-						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-					</spring:url>
-					
-					<a href="${urlCreateQuestion}" ><spring:message code="rendezvous.question.create"/></a>
-					<br>
+					<acme:displayLink parametre="rendezvousId" code="rendezvous.question.create" action="question/user/create.do" parametreValue="${rendezvous.getId()}"/>
 					
 					<!-- Creamos un announcement-->
-					<spring:url var="urlCreateAnnouncement" value="announcement/user/create.do">
-						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-					</spring:url>
+					<acme:displayLink parametre="rendezvousId" code="rendezvous.announcement.create" action="announcement/user/create.do" parametreValue="${rendezvous.getId()}"/>
 					
-					<a href="${urlCreateAnnouncement}" ><spring:message code="rendezvous.announcement.create"/></a>
-					<br>
 			</jstl:if>
 					
 			<jstl:if test="${rendezvous.getIsDeleted()==false }">	
-					<!-- Creamos un RSVPt-->
-			<jstl:if test="${canCreateRSVP }">
-					
-					<spring:url var="urlCreateRSVP" value="rsvp/user/create.do">
-						<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-					</spring:url>
-					
-					<a href="${urlCreateRSVP}" ><spring:message code="rendezvous.rsvp.create"/></a>
-					<br>
-			</jstl:if>
+					<!-- Creamos un RSVP-->
+				<jstl:if test="${canCreateRSVP }">	
+					<acme:displayLink parametre="rendezvousId" code="rendezvous.rsvp.create" action="rsvp/user/create.do" parametreValue="${rendezvous.getId()}"/>		
+				</jstl:if>
 			
 			<!-- Si es el creador o un attendant de ese trip le permitimos crear un comentario-->
-			<jstl:if test="${canCreateComment }">
-				
-					
-					<spring:url var="urlCreateComment" value="comment/user/create.do">
-								<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
-					</spring:url>
-							
-					<a href="${urlCreateComment}" ><spring:message code="rendezvous.comment.create"/></a>
-					<br>
-					
-			</jstl:if>
+				<jstl:if test="${canCreateComment }">
+					<acme:displayLink parametre="rendezvousId" code="rendezvous.comment.create" action="comment/user/create.do" parametreValue="${rendezvous.getId()}"/>					
+				</jstl:if>
 			</jstl:if>	
 			</div>
 			
-			
 			</security:authorize>
-											
+			
+			<jstl:if test="${canStreamAnnouncements }">
+			
+			<jstl:if test="${!announcements.isEmpty()}">
+		
+			<div>
+				<span style="font-size:20px"><spring:message code="rendezvous.announcements"></spring:message></span>
+				<br>
+				<br>
+				<jstl:forEach var="row3" items="${announcements}">
+				
+					
+					<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
+						<span class="display"><spring:message code="rendezvous.announcement.moment"/></span><fmt:formatDate value="${row3.getMoment()}" pattern="${momentFormat }"/>
+						<br>
+						
+						<span class="display"><spring:message code="rendezvous.announcement.title"/></span><jstl:out value="  ${row3.getTitle()}" />
+						<br>
+						
+						<span class="display"><spring:message code="rendezvous.announcement.description"/></span><jstl:out value="  ${row3.getDescription()}" />
+						<br>		
+					
+						<br>
+						<br>	
+
+					</div>
+					<br>
+				</jstl:forEach>
+			<jstl:forEach var="i" begin="1" end="${pageNumber2}">
+	
+			<spring:url var="urlMorePageAnnouncement" value="rendezvous/display.do">
+				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+				<spring:param name="page" value="${page}" />
+				<spring:param name="page2" value="${i}" />
+			</spring:url>
+			
+			<jstl:if test="${page2==i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePageAnnouncement}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			<jstl:if test="${page2!=i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePageAnnouncement}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			
+	</jstl:forEach>
+			</div>
+		</jstl:if>
+		</jstl:if>
+			
+		<br>	
+																
 			<jstl:if test="${!comments.isEmpty()}">
 		
 			<div>
@@ -228,6 +212,8 @@
 			<spring:url var="urlMorePage" value="rendezvous/display.do">
 				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 				<spring:param name="page" value="${i}" />
+				<spring:param name="page" value="${page2}" />
+				
 			</spring:url>
 			
 			<jstl:if test="${page==i}">
