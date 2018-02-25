@@ -27,10 +27,6 @@
 <%@ attribute name="codeDelete" required="false" %>
 <%@ attribute name="disabled" required="false" %>
 
-<jstl:if test="${cssClass == null}">
-	<jstl:set var="cssClass" value="" />
-</jstl:if>
-
 <jstl:if test="${disabled == null}">
 	<jstl:set var="disabled" value="" />
 </jstl:if>
