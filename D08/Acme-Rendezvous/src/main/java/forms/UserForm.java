@@ -1,3 +1,4 @@
+
 package forms;
 
 import java.util.Date;
@@ -14,30 +15,30 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class UserForm {
 
-	private String username;
-	private String password;
-	private String checkPassword;
-	private Integer userId;
-	private boolean check;
-	
-	private String name;
-	private String surname;
-	private String phone;
-	private String email;
-	private Date   birthdate;
-	private String address;
+	private String	username;
+	private String	password;
+	private String	checkPassword;
+	private int		id;
+	private boolean	check;
+
+	private String	name;
+	private String	surname;
+	private String	phone;
+	private String	email;
+	private Date	birthdate;
+	private String	address;
+
 
 	public UserForm() {
 		super();
 	}
-	
-	@NotBlank
-	public Integer getUserId() {
-		return this.userId;
+
+	public int getId() {
+		return this.id;
 	}
 
-	public void setUserId(final Integer userId) {
-		this.userId = userId;
+	public void setId(final int id) {
+		this.id = id;
 	}
 
 	@Size(min = 5, max = 32)
@@ -57,7 +58,7 @@ public class UserForm {
 	public void setPassword(final String password) {
 		this.password = password;
 	}
-	
+
 	@Size(min = 5, max = 32)
 	public String getCheckPassword() {
 		return this.checkPassword;
@@ -67,55 +68,54 @@ public class UserForm {
 		this.checkPassword = checkPassword;
 	}
 
-	@NotNull
 	public boolean isCheck() {
 		return this.check;
 	}
 	public void setCheck(final boolean check) {
 		this.check = check;
 	}
-	
+
 	@NotBlank
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	@NotBlank
 	public String getSurname() {
-		return surname;
+		return this.surname;
 	}
 
-	public void setSurname(String surname) {
+	public void setSurname(final String surname) {
 		this.surname = surname;
 	}
 
 	@Email
 	@NotBlank
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 
 	public String getPhone() {
-		return phone;
+		return this.phone;
 	}
 
-	public void setPhone(String phone) {
+	public void setPhone(final String phone) {
 		this.phone = phone;
 	}
 
 	public String getAddress() {
-		return address;
+		return this.address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(final String address) {
 		this.address = address;
 	}
 
@@ -124,10 +124,10 @@ public class UserForm {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getBirthdate() {
-		return birthdate;
+		return this.birthdate;
 	}
 
-	public void setBirthdate(Date birthdate) {
+	public void setBirthdate(final Date birthdate) {
 		this.birthdate = birthdate;
 	}
 }
