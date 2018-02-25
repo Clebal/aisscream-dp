@@ -104,8 +104,8 @@ public class AnnouncementService {
 		return result;
 	}
 	
-	public double countByRendezvousId(final int rendezvousId) {
-		double result;
+	public Integer countByRendezvousId(final int rendezvousId) {
+		Integer result;
 		
 		Assert.isTrue(rendezvousId != 0);
 		
@@ -125,8 +125,8 @@ public class AnnouncementService {
 		return result;
 	}
 	
-	public double countByCreatorUserAccountId(final int userAccountId) {
-		double result;
+	public Integer countByCreatorUserAccountId(final int userAccountId) {
+		Integer result;
 		
 		Assert.isTrue(userAccountId != 0);
 		

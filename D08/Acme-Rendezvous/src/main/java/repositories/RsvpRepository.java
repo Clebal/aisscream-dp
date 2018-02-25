@@ -17,7 +17,7 @@ public interface RsvpRepository extends JpaRepository<Rsvp, Integer>{
 	Page<Rsvp> findByAttendantUserAccountId(final int userAccountId, final Pageable pageable);
 	
 	@Query("select count(r) from Rsvp r where r.attendant.userAccount.id = ?1")
-	double countByAttendantUserAccountId(final int userAccountId);
+	Integer countByAttendantUserAccountId(final int userAccountId);
 	
 	@Query("select r from Rsvp r where r.rendezvous.id = ?1")
 	Collection<Rsvp> findByRendezvousId(final int rendezvousId);

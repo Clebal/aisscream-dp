@@ -130,8 +130,8 @@ public class RsvpService {
 		return result;
 	}
 	
-	public double countByAttendantUserAccountId(final int userAccountId) {
-		double result;
+	public Integer countByAttendantUserAccountId(final int userAccountId) {
+		Integer result;
 
 		Assert.isTrue(userAccountId != 0);
 		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);

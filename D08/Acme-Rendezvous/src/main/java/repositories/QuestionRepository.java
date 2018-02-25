@@ -18,7 +18,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	Page<Question> findByCreatorUserAccountId(int userAccountId, Pageable pageable);
 
 	@Query("select count(q) from Question q where q.rendezvous.creator.userAccount.id = ?1")
-	double countByCreatorUserAccountId(int userAccountId);
+	Integer countByCreatorUserAccountId(int userAccountId);
 	
 	@Query("select q from Question q where q.rendezvous.id = ?1")
 	Collection<Question> findByRendezvousId(int rendezvousId);
