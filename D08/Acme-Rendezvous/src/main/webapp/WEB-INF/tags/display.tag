@@ -25,12 +25,13 @@
 
 <%@ attribute name="code" required="true" %> 
 <%@ attribute name="value" required="true" type="java.lang.Object" %>
-<%@ attribute name="codeMoment" required="false" %> 
+<%@ attribute name="codeMoment" required="false" %>
+<%@ attribute name="formatNumber" required="false" type="java.lang.Boolean" %>  
 
 
 
 <%-- Definition --%>
-<jstl:if test="${codeMoment == null}">
+<jstl:if test="${codeMoment == null && (formatNumber==null || formatNumber==false)}">
 <p>
 	<span class="display">
 		<spring:message code="${code}" />
@@ -39,13 +40,22 @@
 </p>
 </jstl:if>
 
-<jstl:if test="${codeMoment != null}">
+<jstl:if test="${codeMoment != null && (formatNumber==null || formatNumber==false)}">
 <spring:message code="${codeMoment }" var="momentFormat"/>
 <p>
 	<span class="display">
 		<spring:message code="${code}" />
 	</span>: 
 <fmt:formatDate value="${value}" pattern="${momentFormat }"/>
+</p>
+</jstl:if>
+
+<jstl:if test="${formatNumber == true}">
+<p>
+	<span class="display">
+		<spring:message code="${code}" />
+	</span>: 
+<fmt:formatNumber value="${value}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
 </p>
 </jstl:if>
 
