@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RendezvousRepository;
 import security.Authority;
@@ -36,9 +37,9 @@ public class RendezvousService {
 	@Autowired
 	private ActorService			actorService;
 
+	@Autowired
+	private Validator				validator;
 
-	//	@Autowired
-	//	private Validator				validator;
 
 	// Constructor
 	public RendezvousService() {
@@ -675,7 +676,7 @@ public class RendezvousService {
 			result.setLongitude(rendezvous.getLongitude());
 		}
 
-		//	this.validator.validate(result, binding);
+		this.validator.validate(result, binding);
 
 		return result;
 	}
