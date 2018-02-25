@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -109,26 +111,32 @@ public class RsvpService {
 		this.rspvRepository.delete(rsvp);
 
 	}
+	
+	public void delete(final Rsvp rsvp) {
+
+		this.rspvRepository.delete(rsvp);
+
+	}
 
 	// Other business methods
-	public Collection<Rsvp> findByAttendantUserId(final int userId) {
-		Collection<Rsvp> result;
-
-		Assert.isTrue(userId != 0);
-		Assert.isTrue(this.userService.findOne(userId).getUserAccount().equals(LoginService.getPrincipal()));
-
-		result = this.rspvRepository.findByAttendantUserId(userId);
-
-		return result;
-	}
-	
-	public Collection<Rsvp> findByAttendantUserAccountId(final int userAccountId) {
+	public Collection<Rsvp> findByAttendantUserAccountId(final int userAccountId, final int page, final int size) {
 		Collection<Rsvp> result;
 
 		Assert.isTrue(userAccountId != 0);
 		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);
 
-		result = this.rspvRepository.findByAttendantUserAccountId(userAccountId);
+		result = this.rspvRepository.findByAttendantUserAccountId(userAccountId, this.getPageable(page, size)).getContent();
+
+		return result;
+	}
+	
+	public double countByAttendantUserAccountId(final int userAccountId) {
+		double result;
+
+		Assert.isTrue(userAccountId != 0);
+		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);
+
+		result = this.rspvRepository.countByAttendantUserAccountId(userAccountId);
 
 		return result;
 	}
@@ -143,16 +151,6 @@ public class RsvpService {
 		return result;
 	}
 
-	public Collection<Rsvp> findByCreatorId(final int userId) {
-		Collection<Rsvp> result;
-
-		Assert.isTrue(userId != 0);
-		Assert.isTrue(this.userService.findOne(userId).getUserAccount().equals(LoginService.getPrincipal()));
-
-		result = this.rspvRepository.findByCreatorId(userId);
-
-		return result;
-	}
 
 	public Collection<Rsvp> findByCreatorUserAccountId(final int userAccountId) {
 		Collection<Rsvp> result;
@@ -174,12 +172,17 @@ public class RsvpService {
 
 		return result;
 	}
-
-	//TODO Nuevo
-	public void delete(final Rsvp rsvp) {
-
-		this.rspvRepository.delete(rsvp);
-
+	
+	// Auxiliar methods
+	private Pageable getPageable(final int page, final int size) {
+		Pageable result;
+		
+		if (page == 0 || size <= 0)
+			result = new PageRequest(0, 5);
+		else
+			result = new PageRequest(page - 1, size);
+		
+		return result;
 	}
 
 }

@@ -8,6 +8,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <form:form action="question/user/edit.do" modelAttribute="question">
 
@@ -15,28 +16,14 @@
 	<form:hidden path="version"/>
  	<form:hidden path="rendezvous"/>
  	
-	<div class="form-group"> 
-		<form:label path="number">
-			<spring:message code="question.number"/>
-		</form:label>
-		<form:input class="form-control" path="number" />
-		<form:errors class="text-danger" path="number"/>
-	</div>
- 	
-	<div class="form-group"> 
-		<form:label path="text">
-			<spring:message code="question.text"/>
-		</form:label>
-		<form:input class="form-control" path="text"/>
-		<form:errors class="text-danger" path="text"/>
-	</div>
-	
-	<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="question.save" />">
-	
+	<acme:textbox path="text" code="question.text" />
+
+	<acme:submit name="save" code="question.save" cssClass="btn btn-primary" />
+
 	<jstl:if test="${question.getId()!= 0}">
-		<input type="submit" class="btn btn-warning" name="delete" value="<spring:message code="question.delete" />">
+		<acme:submit name="delete" code="question.delete" cssClass="btn btn-warning" />
 	</jstl:if>
 	
-	<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="question.cancel" />" onclick="javascript: relativeRedir('question/user/list.do');" >
+	<acme:cancel code="question.cancel" url="question/user/list.do" cssClass="btn btn-danger" />
 
 </form:form>

@@ -39,14 +39,18 @@ public class AnnouncementUserController extends AbstractController {
 	
 	// List
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required=false) Integer page) {
 		ModelAndView result;
 		Collection<Announcement> announcements;
+		Integer size;
 		
-		announcements = this.announcementService.findByCreatorUserAccountId(LoginService.getPrincipal().getId());
+		size = 5;
+		if(page == null) page = 1;
+		
+		announcements = this.announcementService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), page, size);
 		Assert.notNull(announcements);
 		
-		result = new ModelAndView("announcement/list");
+		result = super.paginateModelAndView("announcement/list", this.announcementService.countByCreatorUserAccountId(LoginService.getPrincipal().getId()), page, size);
 		result.addObject("requestURI", "announcement/user/list.do");
 		result.addObject("announcements", announcements);
 		
@@ -86,8 +90,8 @@ public class AnnouncementUserController extends AbstractController {
 	}
 	
 	// Edit
-	@RequestMapping(value="/edit", method = RequestMethod.POST)
-	public ModelAndView edit(@Valid Announcement announcement, BindingResult binding) {
+	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid Announcement announcement, BindingResult binding) {
 		ModelAndView result;
 		
 		if(binding.hasErrors()){
@@ -100,6 +104,21 @@ public class AnnouncementUserController extends AbstractController {
 				// result = super.panic(oops);
 				result = this.createEditModelAndView(announcement, "announcement.commit.error");
 			}
+		}
+		
+		return result;
+	}
+	
+	// Delete
+	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(@Valid Announcement announcement) {
+		ModelAndView result;
+		
+		try {
+			this.announcementService.delete(announcement);
+			result = new ModelAndView("redirect:list.do");
+		} catch (Throwable oops) {
+			result = this.createEditModelAndView(announcement, "announcement.commit.error");
 		}
 		
 		return result;

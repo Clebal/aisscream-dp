@@ -67,17 +67,21 @@
 		<security:intercept-url pattern="/comment/administrator/edit.do" access="hasRole('ADMIN')" />   
 		<security:intercept-url pattern="/comment/display.do" access="permitAll" />  
 		<security:intercept-url pattern="/termCondition/display.do" access="permitAll" /> 
-		
-		
-		<!-- Sergio -->
-		<security:intercept-url pattern="/rsvp/*.do" access="permitAll" />
-		<security:intercept-url pattern="/rsvp/user/*.do" access="hasRole('USER')" />
-		<security:intercept-url pattern="/question/user/*.do" access="hasRole('USER')" />
-		<security:intercept-url pattern="/announcement/user/*.do" access="hasRole('USER')" />	
+			
 				
-		
-		
-
+		<!-- Sergio -->
+		<security:intercept-url pattern="/rsvp/list.do" access="permitAll" />
+		<security:intercept-url pattern="/rsvp/display.do" access="permitAll" />
+		<security:intercept-url pattern="/rsvp/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/rsvp/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/rsvp/user/display.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/question/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/question/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/question/user/edit.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/announcement/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/announcement/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/announcement/user/edit.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/announcement/list.do" access="permitAll" />
  	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		

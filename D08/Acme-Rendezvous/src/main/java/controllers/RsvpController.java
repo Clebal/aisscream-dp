@@ -64,7 +64,7 @@ public class RsvpController extends AbstractController{
 		
 		questionAnswer = new HashMap<Question, Answer>();
 		
-		rsvp = this.rsvpService.findOne(rsvpId);
+		rsvp = this.rsvpService.findOneToDisplay(rsvpId);
 		Assert.notNull(rsvp);
 		
 		for(Question q: this.questionService.findByRendezvousId(rsvp.getRendezvous().getId())) {

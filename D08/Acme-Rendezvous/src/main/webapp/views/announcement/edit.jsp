@@ -8,43 +8,27 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <form:form action="announcement/user/edit.do" modelAttribute="announcement">
 
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
  	<form:hidden path="rendezvous"/>
+
+	<acme:textbox path="moment" code="announcement.moment" readonly="true" />
  	
-	<div class="form-group"> 
-		<form:label path="moment">
-			<spring:message code="announcement.moment"/>
-		</form:label>
-		<form:input class="form-control" path="moment" placeholder="dd/MM/yyyy HH:mm" disabled/>
-		<form:errors class="text-danger" path="moment"/>
-	</div>
- 	
-	<div class="form-group"> 
-		<form:label path="title">
-			<spring:message code="announcement.title"/>
-		</form:label>
-		<form:input class="form-control" path="title"/>
-		<form:errors class="text-danger" path="title"/>
-	</div>
+	<acme:textbox path="title" code="announcement.title"/>
 	
-	<div class="form-group"> 
-		<form:label path="description">
-			<spring:message code="announcement.description" />:
-		</form:label>
-		<form:textarea path="description"/>
-		<form:errors class="text-danger" path="description"/>
-	</div>
-	
-	<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="announcement.save" />">
+	<acme:textbox path="description" code="announcement.description"/>
+
+	<acme:submit name="save" code="announcement.save" cssClass="btn btn-primary" />
 	
 	<jstl:if test="${announcement.getId()!= 0}">
-		<input type="submit" class="btn btn-warning" name="delete" value="<spring:message code="announcement.delete" />">
+		<acme:submit name="delete" code="announcement.delete" cssClass="btn btn-warning"/>
 	</jstl:if>
 	
-	<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="announcement.cancel" />" onclick="javascript: relativeRedir('announcement/user/list.do');" >
+	<acme:cancel code="announcement.cancel" url="announcement/user/list.do" cssClass="btn btn-danger" />
+	
 
 </form:form>

@@ -18,20 +18,19 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <%-- Attributes --%> 
 
-<%@ attribute name="name" required="true" %> 
-<%@ attribute name="code" required="true" %>
-<%@ attribute name="cssClass" required="false" %>
-
-<jstl:if test="${cssClass == null}">
-	<jstl:set var="cssClass" value="" />
-</jstl:if>
+<%@ attribute name="code" required="true" %> 
+<%@ attribute name="value" required="true" type="java.lang.Object" %>
 
 <%-- Definition --%>
 
-<button class="${cssClass}" type="submit" name="${name}">
-	<spring:message code="${code}" />
-</button>
+<p>
+	<span class="display">
+		<spring:message code="${code}" />
+	</span>: 
+	<jstl:out value="${object}" />
+</p>

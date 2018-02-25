@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -92,33 +94,57 @@ public class AnnouncementService {
 	}
 	
 	// Other business methods
-	public Collection<Announcement> findByRendezvousId(final int rendezvousId) {
+	public Collection<Announcement> findByRendezvousId(final int rendezvousId, final int page, final int size) {
 		Collection<Announcement> result;
 		
 		Assert.isTrue(rendezvousId != 0);
 		
-		result = this.announcementRepository.findByRendezvousId(rendezvousId);
+		result = this.announcementRepository.findByRendezvousId(rendezvousId, this.getPageable(page, size)).getContent();
 		
 		return result;
 	}
 	
-	public Collection<Announcement> findByCreatorUserId(final int userId) {
-		Collection<Announcement> result;
+	public double countByRendezvousId(final int rendezvousId) {
+		double result;
 		
-		Assert.isTrue(userId != 0);
+		Assert.isTrue(rendezvousId != 0);
 		
-		result = this.announcementRepository.findByCreatorUserId(userId);
+		result = this.announcementRepository.countByRendezvousId(rendezvousId);
 		
 		return result;
 	}
 	
-	public Collection<Announcement> findByCreatorUserAccountId(final int userAccountId) {
+	
+	public Collection<Announcement> findByCreatorUserAccountId(final int userAccountId, final int page, final int size) {
 		Collection<Announcement> result;
 		
 		Assert.isTrue(userAccountId != 0);
 		
-		result = this.announcementRepository.findByCreatorUserAccountId(userAccountId);
+		result = this.announcementRepository.findByCreatorUserAccountId(userAccountId, this.getPageable(page, size)).getContent();
 		
 		return result;
 	}
+	
+	public double countByCreatorUserAccountId(final int userAccountId) {
+		double result;
+		
+		Assert.isTrue(userAccountId != 0);
+		
+		result = this.announcementRepository.countByCreatorUserAccountId(userAccountId);
+		
+		return result;
+	}
+	
+	// Auxiliar methods
+	private Pageable getPageable(final int page, final int size) {
+		Pageable result;
+		
+		if (page == 0 || size <= 0)
+			result = new PageRequest(0, 5);
+		else
+			result = new PageRequest(page - 1, size);
+		
+		return result;
+	}
+	
 }
