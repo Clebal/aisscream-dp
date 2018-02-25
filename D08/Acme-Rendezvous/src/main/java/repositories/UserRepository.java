@@ -27,7 +27,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select count(distinct u) from User u, Rendezvous r, Rsvp rs where rs.rendezvous=?1 and rs.attendant=u")
 	Integer findAttendantsCount(int rendezvousId);
 	
-	@Query("select avg(cast((select count(us) from User us where r.creator=us) as float )), sqrt(sum((select count(us) from User us where r.creator=us)*(select count(us) from User us where r.creator=us))/(select count(r2) from Rendezvous r2)-avg(cast((select count(us) from User us where r.creator=us) as float ))*avg(cast((select count(us) from User us where r.creator=us) as float ))) from Rendezvous r")
+	@Query("select avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float )),sqrt(sum((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id)*(select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float ))*avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float ))) from User u")
 	Double[] avgStandardDUsersPerRendezvous();
 	
 }
