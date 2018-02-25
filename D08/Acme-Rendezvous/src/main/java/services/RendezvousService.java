@@ -578,7 +578,7 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Double[] avgStandardDRsvpdRendezvouses() {
+	public Double[] avgStandardDLinkedRendezvouses() {
 		Double[] result;
 		Authority authority;
 
@@ -586,7 +586,7 @@ public class RendezvousService {
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.rendezvousRepository.avgStandardDRsvpdRendezvouses();
+		result = this.rendezvousRepository.avgStandardDLinkedRendezvouses();
 
 		return result;
 	}
@@ -630,6 +630,14 @@ public class RendezvousService {
 		return result;
 	}
 
+	public Integer countRendezvousesNumberAnnouncementsPlus75Percentage() {
+		Integer result;
+
+		result = this.rendezvousRepository.countRendezvousesNumberAnnouncementsPlus75Percentage();
+
+		return result;
+	}
+
 	public Collection<Rendezvous> rendezvousesLinkedMoreAvgPlus10Percentage(final int page, final int size) {
 		Collection<Rendezvous> result;
 		Authority authority;
@@ -645,6 +653,14 @@ public class RendezvousService {
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		result = this.rendezvousRepository.rendezvousesLinkedMoreAvgPlus10Percentage(pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countRendezvousesLinkedMoreAvgPlus10Percentage() {
+		Integer result;
+
+		result = this.rendezvousRepository.countRendezvousesLinkedMoreAvgPlus10Percentage();
 
 		return result;
 	}
