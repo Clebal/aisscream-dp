@@ -224,7 +224,7 @@ public class RendezvousServiceTest extends AbstractTest {
 		super.authenticate("user1");
 
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 0).toArray()[0];
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 5).toArray()[0];
 
 		this.rendezvousService.virtualDelete(rendezvous);
 		Assert.isTrue(this.rendezvousService.findOne(rendezvous.getId()).getIsDeleted() == true);
@@ -242,17 +242,17 @@ public class RendezvousServiceTest extends AbstractTest {
 		super.authenticate("user1");
 
 		creatorUser1 = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvousUser1 = (Rendezvous) this.rendezvousService.findByCreatorId(creatorUser1.getId(), 0, 0).toArray()[0];
+		rendezvousUser1 = (Rendezvous) this.rendezvousService.findByCreatorId(creatorUser1.getId(), 0, 5).toArray()[0];
 
 		super.authenticate(null);
 
 		super.authenticate("user3");
 
 		creatorUser3 = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvousUser3 = (Rendezvous) this.rendezvousService.findByCreatorId(creatorUser3.getId(), 0, 0).toArray()[0];
+		rendezvousUser3 = (Rendezvous) this.rendezvousService.findByCreatorId(creatorUser3.getId(), 0, 5).toArray()[0];
 		this.rendezvousService.addLink(rendezvousUser3, rendezvousUser1);
 
-		Assert.isTrue(this.rendezvousService.findByLinkerRendezvousId(rendezvousUser3.getId(), 0, 0).size() == 1);
+		Assert.isTrue(this.rendezvousService.findByLinkerRendezvousId(rendezvousUser3.getId(), 0, 5).size() == 1);
 
 		super.authenticate(null);
 	}
@@ -260,23 +260,24 @@ public class RendezvousServiceTest extends AbstractTest {
 	@Test
 	public void testRemoveLink() {
 		Rendezvous rendezvousUser1;
-		Rendezvous rendezvous2User1;
 		User creatorUser1;
+		Rendezvous rendezvousUser2;
 
 		super.authenticate("user1");
 
 		rendezvousUser1 = null;
-		rendezvous2User1 = null;
 		creatorUser1 = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		for (final Rendezvous r : this.rendezvousService.findByCreatorId(creatorUser1.getId(), 0, 0))
-			if (r.getLinkerRendezvouses().isEmpty())
+		for (final Rendezvous r : this.rendezvousService.findByCreatorId(creatorUser1.getId(), 0, 5))
+			if (!r.getLinkerRendezvouses().isEmpty()) {
 				rendezvousUser1 = r;
-			else
-				rendezvous2User1 = r;
+				break;
+			}
 
-		this.rendezvousService.removeLink(rendezvousUser1, rendezvous2User1);
+		rendezvousUser2 = (Rendezvous) rendezvousUser1.getLinkerRendezvouses().toArray()[0];
 
-		Assert.isTrue(this.rendezvousService.findByLinkerRendezvousId(rendezvousUser1.getId(), 0, 0).size() == 0);
+		this.rendezvousService.removeLink(rendezvousUser2, rendezvousUser1);
+
+		Assert.isTrue(this.rendezvousService.findByLinkerRendezvousId(rendezvousUser1.getId(), 0, 5).size() >= 0);
 
 		super.authenticate(null);
 
@@ -290,7 +291,7 @@ public class RendezvousServiceTest extends AbstractTest {
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 
-		rendezvouses = this.rendezvousService.findByCreatorId(creator.getId(), 0, 0);
+		rendezvouses = this.rendezvousService.findByCreatorId(creator.getId(), 0, 5);
 
 		Assert.isTrue(!rendezvouses.isEmpty());
 
@@ -305,7 +306,7 @@ public class RendezvousServiceTest extends AbstractTest {
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 
-		rendezvouses = this.rendezvousService.findByCreatorIdAllPublics(creator.getId(), 0, 0);
+		rendezvouses = this.rendezvousService.findByCreatorIdAllPublics(creator.getId(), 0, 5);
 
 		Assert.isTrue(!rendezvouses.isEmpty());
 
@@ -320,7 +321,7 @@ public class RendezvousServiceTest extends AbstractTest {
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 
-		rendezvouses = this.rendezvousService.findByAttendantId(creator.getId(), 0, 0);
+		rendezvouses = this.rendezvousService.findByAttendantId(creator.getId(), 0, 5);
 
 		Assert.isTrue(rendezvouses.size() >= 0);
 
@@ -335,7 +336,7 @@ public class RendezvousServiceTest extends AbstractTest {
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 
-		rendezvouses = this.rendezvousService.findByAttendantIdAllPublics(creator.getId(), 0, 0);
+		rendezvouses = this.rendezvousService.findByAttendantIdAllPublics(creator.getId(), 0, 5);
 
 		Assert.isTrue(rendezvouses.size() >= 0);
 
@@ -350,8 +351,8 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 0).toArray()[0];
-		rendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvous.getId(), 0, 0);
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 5).toArray()[0];
+		rendezvouses = this.rendezvousService.findByLinkerRendezvousId(rendezvous.getId(), 0, 5);
 
 		Assert.isTrue(rendezvouses.size() >= 0);
 
@@ -366,8 +367,8 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 0).toArray()[0];
-		rendezvouses = this.rendezvousService.findByLinkerRendezvousIdAndAllpublics(rendezvous.getId(), 0, 0);
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 5).toArray()[0];
+		rendezvouses = this.rendezvousService.findByLinkerRendezvousIdAndAllpublics(rendezvous.getId(), 0, 5);
 
 		Assert.isTrue(rendezvouses.size() >= 0);
 
@@ -382,8 +383,8 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 0).toArray()[0];
-		rendezvouses = this.rendezvousService.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvous.getId(), 0, 0);
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 5).toArray()[0];
+		rendezvouses = this.rendezvousService.findLinkerRendezvousesAllPublicsByRendezvousId(rendezvous.getId(), 0, 5);
 
 		Assert.isTrue(rendezvouses.size() >= 0);
 
@@ -398,8 +399,8 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 0).toArray()[0];
-		rendezvouses = this.rendezvousService.findLinkerRendezvousesByRendezvousId(rendezvous.getId(), 0, 0);
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 5).toArray()[0];
+		rendezvouses = this.rendezvousService.findLinkerRendezvousesByRendezvousId(rendezvous.getId(), 0, 5);
 
 		Assert.isTrue(rendezvouses.size() >= 0);
 
@@ -412,7 +413,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate("user1");
 
-		rendezvouses = this.rendezvousService.findAllPublics(0, 0);
+		rendezvouses = this.rendezvousService.findAllPublics(0, 5);
 
 		Assert.isTrue(!rendezvouses.isEmpty());
 
@@ -425,7 +426,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate("user1");
 
-		rendezvouses = this.rendezvousService.findAllPaginated(0, 0);
+		rendezvouses = this.rendezvousService.findAllPaginated(0, 5);
 
 		Assert.isTrue(!rendezvouses.isEmpty());
 
@@ -440,8 +441,8 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 0).toArray()[0];
-		rendezvouses = this.rendezvousService.findNotLinkedByRendezvous(rendezvous, 0, 0);
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 5).toArray()[0];
+		rendezvouses = this.rendezvousService.findNotLinkedByRendezvous(rendezvous, 0, 5);
 
 		Assert.isTrue(rendezvouses.size() >= 0);
 
@@ -456,8 +457,8 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate("user1");
 		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 0).toArray()[0];
-		rendezvouses = this.rendezvousService.findNotLinkedByRendezvousAllPublics(rendezvous, 0, 0);
+		rendezvous = (Rendezvous) this.rendezvousService.findByCreatorId(creator.getId(), 0, 5).toArray()[0];
+		rendezvouses = this.rendezvousService.findNotLinkedByRendezvousAllPublics(rendezvous, 0, 5);
 
 		Assert.isTrue(rendezvouses.size() >= 0);
 
@@ -465,14 +466,61 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testAvgStandardRsvpdRendezvouses() {
+	public void testAvgStandardDRsvpdCreatedPerUser() {
 		Double[] numeros;
 		super.authenticate("admin");
 
 		numeros = new Double[2];
-		numeros = this.rendezvousService.avgStandardDRsvpdRendezvouses();
+		numeros = this.rendezvousService.avgStandardDRsvpdCreatedPerUser();
 
 		Assert.notNull(numeros);
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testRatioVsTotal() {
+		Double ratio;
+		super.authenticate("admin");
+
+		ratio = this.rendezvousService.ratioCreatorsVsTotal();
+
+		Assert.notNull(ratio);
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testAvgStandardDRendezvousesRsvpdPerUser() {
+		Double[] numeros;
+		super.authenticate("admin");
+
+		numeros = new Double[2];
+		numeros = this.rendezvousService.avgStandardDRendezvousesRsvpdPerUser();
+
+		Assert.notNull(numeros);
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testTop10Rendezvouses() {
+		Collection<Rendezvous> rendezvouses;
+
+		super.authenticate("admin");
+
+		rendezvouses = this.rendezvousService.top10Rendezvouses();
+
+		Assert.isTrue(rendezvouses.size() >= 0);
+
+		super.authenticate(null);
+	}
+
+	@Test
+	public void testRendezvousesNumberAnnouncementsPlus75Percentage() {
+		Collection<Rendezvous> rendezvouses;
+		super.authenticate("admin");
+
+		rendezvouses = this.rendezvousService.rendezvousesNumberAnnouncementsPlus75Percentage(0, 5);
+
+		Assert.isTrue(rendezvouses.size() >= 0);
 		super.authenticate(null);
 	}
 
@@ -481,7 +529,7 @@ public class RendezvousServiceTest extends AbstractTest {
 		Collection<Rendezvous> rendezvouses;
 		super.authenticate("admin");
 
-		rendezvouses = this.rendezvousService.rendezvousesLinkedMoreAvgPlus10Percentage();
+		rendezvouses = this.rendezvousService.rendezvousesLinkedMoreAvgPlus10Percentage(0, 5);
 
 		Assert.isTrue(rendezvouses.size() == 1);
 		super.authenticate(null);
