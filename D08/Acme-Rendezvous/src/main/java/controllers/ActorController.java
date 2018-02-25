@@ -53,7 +53,7 @@ public class ActorController extends AbstractController {
 
 	// List
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int page) {
+	public ModelAndView list(@RequestParam(required = false) final int page) {
 		ModelAndView result;
 		Collection<User> users;
 		Actor actor;
@@ -88,7 +88,7 @@ public class ActorController extends AbstractController {
 
 	// List attendans
 	@RequestMapping(value = "/listAttendants", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam final int page) {
+	public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam(required = false) final int page) {
 		ModelAndView result;
 		Collection<User> users;
 		Actor actor;
