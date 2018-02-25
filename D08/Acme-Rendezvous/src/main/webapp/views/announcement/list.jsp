@@ -13,9 +13,11 @@
 <!-- The announcements must be listed chronologically in descending order. -->
 <display:table class="table table-striped table-bordered table-hover" name="announcements" id="row" defaultsort="2" requestURI="${requestURI}">
 	
-	<security:authorize access="hasRole('USER')">
-		<acme:columnLink action="edit" domain="announcement" id="${row.getId()}" />
-	</security:authorize>
+	<jstl:if test="${isCreator != null && isCreator}">
+		<security:authorize access="hasRole('USER')">
+			<acme:columnLink action="edit" domain="announcement" id="${row.getId()}" />
+		</security:authorize>
+	</jstl:if>
 	
 	<acme:column property="moment" domain="announcement" formatDate="true" />
 	

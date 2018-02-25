@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.AnnouncementService;
+import services.RendezvousService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Announcement;
+import domain.Rendezvous;
 
 @Controller
 @RequestMapping("/announcement")
@@ -21,6 +25,12 @@ public class AnnouncementController extends AbstractController {
 	// Services
 	@Autowired
 	private AnnouncementService announcementService;
+	
+	@Autowired
+	private RendezvousService rendezvousService;
+	
+	@Autowired
+	private UserService userService;
 	
 	// Constructor
 	public AnnouncementController() {
@@ -33,17 +43,26 @@ public class AnnouncementController extends AbstractController {
 		ModelAndView result;
 		Collection<Announcement> announcements;
 		Integer size;
+		boolean isCreator;
+		Rendezvous rendezvous;
 		
 		size = 5;
 		if (page == null) page = 1;
 		
+		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		Assert.notNull(rendezvous);
+		
+		isCreator = false;
+		if(userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator())) isCreator = true;
+		
 		announcements = this.announcementService.findByRendezvousId(rendezvousId, page, size);
 		Assert.notNull(announcements);
-		
+				
 		result = super.paginateModelAndView("announcement/list", this.announcementService.countByRendezvousId(rendezvousId), page, size);
 		result.addObject("requestURI", "announcement/list.do");
 		result.addObject("announcements", announcements);
 		result.addObject("rendezvousId", rendezvousId);
+		result.addObject("isCreator", isCreator);
 		
 		return result;
 	}
