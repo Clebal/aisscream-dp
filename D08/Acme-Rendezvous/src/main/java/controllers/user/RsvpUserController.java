@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -57,40 +59,41 @@ public class RsvpUserController extends AbstractController {
 
 	// List
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required=false) Integer page) {
+	public ModelAndView list(@RequestParam(required = false) Integer page) {
 		ModelAndView result;
 		Collection<Rsvp> rsvps;
 		Integer size;
-		
+
 		size = 5;
-		if(page == null) page = 1;
+		if (page == null)
+			page = 1;
 
 		rsvps = this.rsvpService.findByAttendantUserAccountId(LoginService.getPrincipal().getId(), page, size);
 		Assert.notNull(rsvps);
-		
+
 		result = super.paginateModelAndView("rsvp/list", this.rsvpService.countByAttendantUserAccountId(LoginService.getPrincipal().getId()), page, size);
 		result.addObject("rsvps", rsvps);
 		result.addObject("requestURI", "rsvp/user/list.do");
 
 		return result;
 	}
-	
+
 	// Disply
-	@RequestMapping(value="/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam(required=false) final int rsvpId) {
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam(required = false) final int rsvpId) {
 		ModelAndView result;
 		Rsvp rsvp;
-		
+
 		rsvp = this.rsvpService.findOne(rsvpId);
 		Assert.notNull(rsvp);
-		
+
 		result = new ModelAndView("rsvp/display");
 		result.addObject("rsvp", rsvp);
 		result.addObject("requestURI", "rsvp/user/display.do");
-		
+
 		return result;
 	}
-	
+
 	// Cancel
 	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
 	public ModelAndView editCancel(@RequestParam final int rsvpId) {
@@ -120,7 +123,6 @@ public class RsvpUserController extends AbstractController {
 
 		return result;
 	}
-
 
 	// Create-------------------------------------------------------------------------------------------
 
