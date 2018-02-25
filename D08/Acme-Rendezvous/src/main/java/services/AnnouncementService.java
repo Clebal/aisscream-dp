@@ -135,6 +135,14 @@ public class AnnouncementService {
 		return result;
 	}
 	
+	public Double[] avgStandartDerivationAnnouncementPerRendezvous() {
+		Double[] result;
+		
+		result = this.announcementRepository.avgStandartDerivationAnnouncementPerRendezvous();
+		
+		return result;
+	}
+	
 	// Auxiliar methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;

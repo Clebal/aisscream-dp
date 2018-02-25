@@ -140,6 +140,14 @@ public class QuestionService {
 		return result;
 	}
 	
+	public Double[] avgStandartDerivationQuestionsPerRendezvous() {
+		Double[] result;
+		
+		result = this.questionRepository.avgStandartDerivationQuestionsPerRendezvous();
+		
+		return result;
+	}
+	
 	// Auxiliar methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;

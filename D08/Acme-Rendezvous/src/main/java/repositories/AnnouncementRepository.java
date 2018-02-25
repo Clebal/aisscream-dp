@@ -23,4 +23,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
 	@Query("select count(a) from Announcement a where a.rendezvous.creator.userAccount.id = ?1")
 	Integer countByCreatorUserAccountId(final int rendezvousId);
 	
+	@Query("select avg(cast((select count(a) from Announcement a where a.rendezvous.id=r.id)as int)),sqrt(sum((select count(a) from Announcement a where a.rendezvous.id=r.id)*(select count(a) from Announcement a where a.rendezvous.id=r.id))/(select count(r2) from Rendezvous r2)-avg(cast((select count(a) from Announcement a where a.rendezvous.id=r.id) as float ))*avg(cast((select count(a) from Announcement a where a.rendezvous.id=r.id) as float ))) from Rendezvous r")
+	Double[] avgStandartDerivationAnnouncementPerRendezvous();
+
 }
