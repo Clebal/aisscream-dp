@@ -46,6 +46,8 @@
 		<!-- Santos -->
 		<security:intercept-url pattern="/rendezvous/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/rendezvous/display.do" access="permitAll" /> 
+		<security:intercept-url pattern="/rendezvous/listByUser.do" access="permitAll" />
+		<security:intercept-url pattern="/rendezvous/listByAttendant.do" access="permitAll" />
 		<security:intercept-url pattern="/rendezvous/listLinkerRendezvouses.do" access="permitAll" />
 		<security:intercept-url pattern="/rendezvous/listLinkedRendezvouses.do" access="permitAll" /> 
 		<security:intercept-url pattern="/rendezvous/administrator/**" access="hasRole('ADMIN')" /> 
