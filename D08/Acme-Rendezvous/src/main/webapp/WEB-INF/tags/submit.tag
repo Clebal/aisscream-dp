@@ -25,6 +25,7 @@
 <%@ attribute name="name" required="true" %> 
 <%@ attribute name="code" required="true" %>
 <%@ attribute name="cssClass" required="false" %>
+<%@ attribute name="codeDelete" required="false" %>
 <%@ attribute name="disabled" required="false" %>
 
 <jstl:if test="${cssClass == null}">
@@ -37,6 +38,15 @@
 
 <%-- Definition --%>
 
-<button type="submit" name="${name}" ${disabled} class="btn btn-primary">
-	<spring:message code="${code}" />
-</button>
+<jstl:if test=${codeDelete != null}>
+	<button class="${cssClass}" type="submit" name="${name}" ${disabled} onclick="return confirm('<spring:message code="${codeDelete }" />')">
+		<spring:message code="${code}" />
+	</button>
+</jstl:if>
+
+<jstl:if test=${codeDelete == null}>
+	<button class="${cssClass}" type="submit" name="${name}" ${disabled}>
+		<spring:message code="${code}" />
+	</button>
+</jstl:if>
+

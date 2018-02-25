@@ -30,7 +30,7 @@
 
 <jstl:if test="${objects.size() > 0 }">
 
-	<jstl:forEach var="i" begin="1" end="${pageNumber+1}">
+	<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	
 		<spring:url var="urlNextPage" value="${url}">
 			<spring:param name="page" value="${i}" />
