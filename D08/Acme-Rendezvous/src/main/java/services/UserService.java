@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -12,12 +13,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.User;
-
 import repositories.UserRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.User;
+import forms.UserForm;
 
 @Service
 @Transactional
@@ -25,10 +26,11 @@ public class UserService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepository	userRepository;
 
 	@Autowired
-	private Validator validator;
+	private Validator		validator;
+
 
 	// Supporting
 	// services-----------------------------------------------------------
@@ -93,17 +95,13 @@ public class UserService {
 			Assert.isTrue(userAccount.equals(user.getUserAccount()));
 			saved = this.userRepository.findOne(user.getId());
 			Assert.notNull(saved);
-			Assert.isTrue(saved.getUserAccount().getUsername()
-					.equals(user.getUserAccount().getUsername()));
-			Assert.isTrue(user.getUserAccount().getPassword()
-					.equals(saved.getUserAccount().getPassword()));
+			Assert.isTrue(saved.getUserAccount().getUsername().equals(user.getUserAccount().getUsername()));
+			Assert.isTrue(user.getUserAccount().getPassword().equals(saved.getUserAccount().getPassword()));
 		} else {
 			/* Si no existe, debe tratarse de anonimo */
 
 			Assert.isTrue(!LoginService.isAuthenticated());
-			user.getUserAccount().setPassword(
-					encoder.encodePassword(user.getUserAccount().getPassword(),
-							null));
+			user.getUserAccount().setPassword(encoder.encodePassword(user.getUserAccount().getPassword(), null));
 		}
 
 		result = this.userRepository.save(user);
@@ -122,7 +120,7 @@ public class UserService {
 
 		return result;
 	}
-	
+
 	public Collection<User> findAllPaginated(final int page, final int size) {
 		Collection<User> result;
 		Pageable pageable;
@@ -144,8 +142,8 @@ public class UserService {
 
 		return result;
 	}
-	
-	public Collection<User> findAttendantsPaginated(final int page, final int size, int rendezvousId) {
+
+	public Collection<User> findAttendantsPaginated(final int page, final int size, final int rendezvousId) {
 		Collection<User> result;
 		Pageable pageable;
 
@@ -159,36 +157,41 @@ public class UserService {
 		return result;
 	}
 
-	public Integer countAttendatsPaginated(int rendezvousId) {
+	public Integer countAttendatsPaginated(final int rendezvousId) {
 		Integer result;
 
 		result = this.userRepository.findAttendantsCount(rendezvousId);
 
 		return result;
 	}
-	
-	public Double[] avgStandardDUsersPerRendezvous(){
+
+	public Double[] avgStandardDUsersPerRendezvous() {
 		Double[] result;
-		
+
 		result = this.userRepository.avgStandardDUsersPerRendezvous();
-		
+
 		return result;
 	}
 
-	public User reconstruct(final forms.UserForm userForm, final BindingResult binding) {
+	public User reconstruct(final UserForm userForm, final BindingResult binding) {
 		User result;
 
-		if (userForm.getUserId() == null || userForm.getUserId() == 0) {
+		this.validator.validate(userForm, binding);
+
+		if (userForm.getId() == 0) {
 			result = this.create();
+
 			Assert.notNull(result);
+			Assert.isTrue(userForm.getCheckPassword().equals(userForm.getPassword()));
+			Assert.isTrue(userForm.isCheck());
+
 			result.getUserAccount().setUsername(userForm.getUsername());
 			result.getUserAccount().setPassword(userForm.getPassword());
-			Assert.isTrue(result.getUserAccount().getPassword()
-					.equals(userForm.getPassword()));
-			Assert.isTrue(userForm.isCheck());
+
 		} else {
-			result = this.findOne(userForm.getUserId());
+			result = this.findOne(userForm.getId());
 			Assert.notNull(result);
+			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
 		}
 
 		result.setName(userForm.getName());
@@ -197,25 +200,8 @@ public class UserService {
 		result.setBirthdate(userForm.getBirthdate());
 		result.setEmail(userForm.getEmail());
 		result.setPhone(userForm.getPhone());
-		this.validator.validate(result, binding);
 
 		return result;
 	}
-	
-//	public User reconstructUserToUserForm(final User user, final BindingResult binding) {
-//		User result;
-//
-//		result = this.userRepository.findByUserAccountId(LoginService.getPrincipal().getId());
-//
-//		result.setName(user.getName());
-//		result.setSurname(user.getSurname());
-//		result.setAddress(user.getAddress());
-//		result.setBirthdate(user.getBirthdate());
-//		result.setEmail(user.getEmail());
-//		result.setPhone(user.getPhone());
-//		this.validator.validate(result, binding);
-//
-//		return result;
-//	}
 
 }

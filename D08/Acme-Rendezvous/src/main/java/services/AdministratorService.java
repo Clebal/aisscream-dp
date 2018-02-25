@@ -10,6 +10,8 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AdministratorRepository;
 import security.Authority;
@@ -24,6 +26,10 @@ public class AdministratorService {
 	//Managed repository----------
 	@Autowired
 	private AdministratorRepository	administratorRepository;
+
+	@Autowired
+	private Validator				validator;
+
 
 	//Supporting service-------------
 
@@ -68,7 +74,7 @@ public class AdministratorService {
 		Assert.notNull(userAccount);
 
 		/* Si el administrador ya existe, debe ser el que este logueado */
-		
+
 		if (administrator.getId() != 0) {
 			Assert.isTrue(userAccount.equals(administrator.getUserAccount()));
 			saved = this.administratorRepository.findOne(administrator.getId());
@@ -76,7 +82,7 @@ public class AdministratorService {
 			Assert.isTrue(saved.getUserAccount().getUsername().equals(administrator.getUserAccount().getUsername()));
 			Assert.isTrue(administrator.getUserAccount().getPassword().equals(saved.getUserAccount().getPassword()));
 		} else {
-			
+
 			/* Si no existe, debe tratarse de un administrator */
 			Assert.isTrue(userAccount.getAuthorities().contains(authority));
 			administrator.getUserAccount().setPassword(encoder.encodePassword(administrator.getUserAccount().getPassword(), null));
@@ -88,13 +94,29 @@ public class AdministratorService {
 	}
 
 	// Other business methods
-	
+
 	public Administrator findByUserAccountId(final int userAccountId) {
 		Administrator result;
 
 		Assert.isTrue(userAccountId != 0);
 
 		result = this.administratorRepository.findByUserAccountId(userAccountId);
+
+		return result;
+	}
+
+	public Administrator reconstruct(final Administrator administrator, final BindingResult binding) {
+		Administrator result;
+		Administrator aux;
+
+		result = administrator;
+		aux = this.findOne(administrator.getId());
+		Assert.notNull(result);
+
+		result.setUserAccount(aux.getUserAccount());
+		result.setVersion(aux.getVersion());
+
+		this.validator.validate(result, binding);
 
 		return result;
 	}

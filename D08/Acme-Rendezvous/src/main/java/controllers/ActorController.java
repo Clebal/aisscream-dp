@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.util.Collection;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
 import security.LoginService;
 import services.ActorService;
 import services.UserService;
 import domain.Actor;
 import domain.User;
+import forms.UserForm;
 
 @Controller
 @RequestMapping("/actor")
@@ -22,10 +25,11 @@ public class ActorController extends AbstractController {
 
 	// Services
 	@Autowired
-	private ActorService actorService;
+	private ActorService	actorService;
 
 	@Autowired
-	private UserService userService;
+	private UserService		userService;
+
 
 	// Constructors
 	public ActorController() {
@@ -56,27 +60,24 @@ public class ActorController extends AbstractController {
 		Boolean puedeCrear;
 		Integer pageNumber, size;
 
-		size=5;
-		pageNumber=0;
+		size = 5;
+		pageNumber = 0;
 		users = this.userService.findAllPaginated(page, size);
 		puedeCrear = true;
 
-		if(users.size()!=0){
+		if (users.size() != 0)
 			pageNumber = this.userService.countAllPaginated();
-		}
-		
+
 		if (LoginService.isAuthenticated()) {
-			actor = this.actorService.findByUserAccountId(LoginService
-					.getPrincipal().getId());
-			if (actor.getClass().getSimpleName().equals("Administrator")) {
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			if (actor.getClass().getSimpleName().equals("Administrator"))
 				puedeCrear = false;
-			}
 		}
 
 		result = new ModelAndView("actor/list");
-		
+
 		pageNumber = (int) Math.floor(((pageNumber / size + 0.0) - 0.1) + 1);
-		
+
 		result.addObject("users", users);
 		result.addObject("puedeCrear", puedeCrear);
 		result.addObject("pageNumber", pageNumber);
@@ -84,44 +85,41 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
-	
+
 	// List attendans
-		@RequestMapping(value = "/listAttendants", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam final int page) {
-			ModelAndView result;
-			Collection<User> users;
-			Actor actor;
-			Boolean puedeCrear;
-			Integer pageNumber, size;
+	@RequestMapping(value = "/listAttendants", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam final int page) {
+		ModelAndView result;
+		Collection<User> users;
+		Actor actor;
+		Boolean puedeCrear;
+		Integer pageNumber, size;
 
-			size=5;
-			pageNumber=0;
-			users = this.userService.findAttendantsPaginated(page, size, rendezvousId);
-			puedeCrear = true;
+		size = 5;
+		pageNumber = 0;
+		users = this.userService.findAttendantsPaginated(page, size, rendezvousId);
+		puedeCrear = true;
 
-			if(users.size()!=0){
-				pageNumber = this.userService.countAttendatsPaginated(rendezvousId);
-			}
-			
-			if (LoginService.isAuthenticated()) {
-				actor = this.actorService.findByUserAccountId(LoginService
-						.getPrincipal().getId());
-				if (actor.getClass().getSimpleName().equals("Administrator")) {
-					puedeCrear = false;
-				}
-			}
+		if (users.size() != 0)
+			pageNumber = this.userService.countAttendatsPaginated(rendezvousId);
 
-			result = new ModelAndView("actor/list");
-			
-			pageNumber = (int) Math.floor(((pageNumber / size + 0.0) - 0.1) + 1);
-			
-			result.addObject("users", users);
-			result.addObject("puedeCrear", puedeCrear);
-			result.addObject("pageNumber", pageNumber);
-			result.addObject("page", page);
-
-			return result;
+		if (LoginService.isAuthenticated()) {
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			if (actor.getClass().getSimpleName().equals("Administrator"))
+				puedeCrear = false;
 		}
+
+		result = new ModelAndView("actor/list");
+
+		pageNumber = (int) Math.floor(((pageNumber / size + 0.0) - 0.1) + 1);
+
+		result.addObject("users", users);
+		result.addObject("puedeCrear", puedeCrear);
+		result.addObject("pageNumber", pageNumber);
+		result.addObject("page", page);
+
+		return result;
+	}
 
 	// Profile
 
@@ -130,8 +128,7 @@ public class ActorController extends AbstractController {
 		ModelAndView result;
 		Actor actor;
 
-		actor = this.actorService.findByUserAccountId(LoginService
-				.getPrincipal().getId());
+		actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(actor);
 
 		result = this.createEditModelAndView(actor);
@@ -148,27 +145,48 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Actor actor,
-			final String messageCode) {
+	protected ModelAndView createEditModelAndView(final Actor actor, final String messageCode) {
 		ModelAndView result;
 		boolean canEdit;
 		String requestURI;
 		String tipoActor;
-		String modelo;
+		UserForm userForm;
+		Authority authority;
 
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		//Creamos la URI
 		tipoActor = actor.getClass().getSimpleName().toLowerCase();
-		modelo = tipoActor;
 		requestURI = "actor/" + tipoActor + "/edit.do";
 
 		canEdit = false;
-
-		if (actor.getUserAccount().getId() == LoginService.getPrincipal()
-				.getId())
-			canEdit = true;
 		result = new ModelAndView(tipoActor + "/edit");
 
-		result.addObject("modelo", modelo);
-		result.addObject(modelo, actor);
+		if (actor.getUserAccount().getId() == LoginService.getPrincipal().getId())
+			canEdit = true;
+
+		//Añadimos los parámetros
+		if (actor.getUserAccount().getAuthorities().contains(authority)) {
+
+			userForm = new UserForm();
+
+			userForm.setAddress(actor.getAddress());
+			userForm.setBirthdate(actor.getBirthdate());
+			userForm.setEmail(actor.getEmail());
+			userForm.setId(actor.getId());
+			userForm.setName(actor.getName());
+			userForm.setPhone(actor.getPhone());
+			userForm.setSurname(actor.getSurname());
+			userForm.setUsername(actor.getUserAccount().getUsername());
+
+			result.addObject("userForm", userForm);
+
+		} else
+			result.addObject("administrator", actor);
+
+		//Añadimos objetos comunes
 		result.addObject("message", messageCode);
 		result.addObject("canEdit", canEdit);
 		result.addObject("requestURI", requestURI);

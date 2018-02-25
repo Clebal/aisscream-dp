@@ -10,7 +10,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="${requestURI }" modelAttribute="${modelo }" id="formulario">
+<form:form action="${requestURI }" modelAttribute="userForm">
 
 <%-- 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -21,13 +21,15 @@
 	<form:hidden path="userAccount.version" />
 	<form:hidden path="userAccount.enabled" />
 	<form:hidden path="userAccount.id" /> --%>
+	
+	<form:hidden path="id" />
 
 	<!-- Username -->
-	<jstl:if test="${user.getUserId()!=0 }">
+	<jstl:if test="${userForm.getId()!=0 }">
 	<acme:textbox code="actor.username" readonly="readOnly" path="username"/>
 	</jstl:if>
 	
-	<jstl:if test="${user.getUserId()==0 }">
+	<jstl:if test="${userForm.getId()==0 }">
 	<acme:textbox code="actor.username" path="username"/>
 
 	<!--  Password -->
@@ -56,35 +58,31 @@
 	<!-- Phone -->
 	<acme:textbox code="actor.phone" path="phone"/>
 			
-	<jstl:if test="${user.getUserId()==0 }">
-	<div class="form-check">
-	<input type="checkbox" class="form-check-input" id="condicion" name="checkbox" onclick="activar(this.form)" />
-	<spring:message code="actor.terminos1" /><a href="termCondition/display.do"><spring:message code="actor.terminos2" /></a>
-	</div>
+	<jstl:if test="${userForm.getId()==0 }">
+		<div class="form-check">
+			<form:checkbox class="form-check-input" path="check" />
+			<form:label path="check"><spring:message code="actor.terminos1" /></form:label> <a href="termCondition/display.do"><spring:message code="actor.terminos2" /></a>
+			<form:errors class="text-danger" path="check"/>
+		</div>
 	</jstl:if>
 	
 	<br>
 		
-	<jstl:if test="${canEdit==true && user.getUserId()==0}">	
-		<acme:submit name="save" code="actor.save" disabled="disabled"/>
-	</jstl:if>
-	
-	<jstl:if test="${canEdit==true && user.getUserId()!=0}">	
-		<acme:submit name="save" code="actor.save"/>
-	</jstl:if>
-	
+
+	<acme:submit name="save" code="actor.save" />
+
 	<acme:cancel code="actor.cancel" url="welcome/index.do"/>
 	
 </form:form>
 
 <script type="text/javascript">
  
-	function activar(form) {
-    	if (form.checkbox.checked) {
+	/*function activar(form) {
+    	if (form.check.checked) {
    			 form.save.disabled=false;
  		 } else {     
    			 form.save.disabled=true;
   		 }
- 	}
+ 	}*/
 	
  </script>
