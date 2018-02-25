@@ -110,7 +110,7 @@ public class QuestionService {
 		return result;
 	}
 	
-	public double findByCreatorUserAccountId(final int userAccountId) {
+	public double countByCreatorUserAccountId(final int userAccountId) {
 		double result;
 		
 		Assert.isTrue(userAccountId != 0);
