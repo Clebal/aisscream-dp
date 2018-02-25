@@ -11,21 +11,13 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<form:form action="${requestURI }" modelAttribute="${modelo }">
+<form:form action="${requestURI}" modelAttribute="administrator">
 
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<jstl:if test="${administrator.getId()!=0 }">
-	<form:hidden path="userAccount.password"/>
-	</jstl:if>
-	<form:hidden path="userAccount.authorities" />
-	<form:hidden path="userAccount.version" />
-	<form:hidden path="userAccount.enabled" />
-	<form:hidden path="userAccount.id" />
 
 	<!-- Username -->
 	<jstl:if test="${administrator.getId()!=0 }">
-	<acme:textbox code="actor.username" readonly="readOnly" path="userAccount.username"/>
+	<acme:textbox code="actor.username" readonly="readonly" path="userAccount.username"/>
 	</jstl:if>
 	
 	<jstl:if test="${administrator.getId()==0 }">

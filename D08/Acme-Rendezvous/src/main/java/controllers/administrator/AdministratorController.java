@@ -10,8 +10,6 @@
 
 package controllers.administrator;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -32,6 +30,7 @@ public class AdministratorController extends AbstractController {
 	@Autowired
 	private AdministratorService	administratorService;
 
+
 	// Constructors -----------------------------------------------------------
 
 	public AdministratorController() {
@@ -39,12 +38,14 @@ public class AdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Administrator administrator, final BindingResult binding) {
+	public ModelAndView save(Administrator administrator, final BindingResult binding) {
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
+		administrator = this.administratorService.reconstruct(administrator, binding);
+
+		if (binding.hasErrors())
 			result = this.createEditModelAndView(administrator);
-		} else
+		else
 			try {
 				this.administratorService.save(administrator);
 				result = new ModelAndView("redirect:/");
@@ -54,7 +55,7 @@ public class AdministratorController extends AbstractController {
 
 		return result;
 	}
-	
+
 	// Ancillary methods
 	protected ModelAndView createEditModelAndView(final Administrator administrator) {
 		ModelAndView result;
