@@ -45,15 +45,7 @@
 			<script src="scripts/respond.min.js"></script>
 		<![endif]-->
 		
-				<!-- forEach compatibilidad IE8 -->
-		<script src="scripts/polyfills.js"></script>
-		
-		
-		
-		<!-- Funciones comunes -->
-		<script src="scripts/helpers.js"></script>
-		
-
+		<link rel="stylesheet" type="text/css" href="styles/cookieconsent.min.css" />
 
 	</head>
 	<body>
@@ -81,24 +73,15 @@
 		
 		<!-- Boostrap 3.3.7 -->
 		<script src="scripts/bootstrap.min.js"></script>
-
-<!-- 		<script type="text/javascript">
-		// <![CDATA[
-		cc.initialise({
-			cookies: {
-				necessary: {}
-			},
-			settings: {
-				consenttype: "implicit"
-			}
-		});
-		// ]]>
-		</script> -->
 		
-		<link rel="stylesheet" type="text/css" href="styles/cookieconsent.min.css" />
+		<!-- Compatibilidad ES5 con IE8 -->
+		<script src="scripts/polyfills.js"></script>
+		
+		<!-- Funciones comunes -->
+		<script src="scripts/helpers.js"></script>
+		
 		<script src="scripts/cookieconsent.js"></script>
 		<script>
-		
 		function a() {
 			window.cookieconsent.initialise({
 			  "palette": {
@@ -124,7 +107,6 @@
 		} else if (window.attachEvent) {
 			window.attachEvent('onload', a);
 		}
-		
 		</script>
 		
 	</body>
