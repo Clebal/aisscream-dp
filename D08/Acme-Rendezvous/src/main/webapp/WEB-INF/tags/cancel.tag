@@ -32,7 +32,7 @@
 
 <%-- Definition --%>
 
-<button class="${cssClass}" type="button" onclick="javascript: relativeRedir('${url}')" >
+<button class="btn btn-danger" type="button" onclick="javascript: relativeRedir('${url}')" >
 	<spring:message code="${code}" />
 </button>
 

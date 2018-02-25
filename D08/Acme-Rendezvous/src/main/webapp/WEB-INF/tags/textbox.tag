@@ -26,6 +26,7 @@
 <%@ attribute name="code" required="true" %>
 
 <%@ attribute name="readonly" required="false" %>
+<%@ attribute name="placeholder" required="false" %>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
@@ -34,9 +35,9 @@
 <%-- Definition --%>
 
 <div class="form-group">
-	<form:label path="${path}">
+	<form:label path="${path}" placeholder="${placeholder}">
 		<spring:message code="${code}" />
 	</form:label>	
-	<form:input class="form-control" path="${path}" readonly="${readonly}" />	
+	<form:input class="form-control" path="${path}" readonly="${readonly}" placeholder="${placeholder}"/>	
 	<form:errors class="text-danger" path="${path}" />
 </div>	

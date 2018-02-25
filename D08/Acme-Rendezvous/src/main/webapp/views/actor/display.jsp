@@ -1,5 +1,7 @@
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
+<%@taglib prefix="acme"	tagdir="/WEB-INF/tags"%>
+
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
@@ -11,28 +13,26 @@
 <div class="container">
 
 	
-	<p><span class="display"><spring:message code="actor.name"/></span><jstl:out value="  ${actor.getName()}" /></p>
+	<acme:display code="actor.name" value="${actor.getName()}"/>
 	
-	<p><span class="display"><spring:message code="actor.surname"/></span><jstl:out value="  ${actor.getSurname()}" /></p>
+	<acme:display code="actor.surname" value="${actor.getSurname()}"/>
 	
-	<p><span class="display"><spring:message code="actor.email"/></span><jstl:out value="  ${actor.getEmail()}" /></p>
+	<acme:display code="actor.email" value="${actor.getEmail()}"/>
 	
-	<p><span class="display"><spring:message code="actor.phone"/></span><jstl:out value="  ${actor.getPhone()}" /></p>
+	<acme:display code="actor.phone" value="${actor.getPhone()}"/>
 	
-	<p><span class="display"><spring:message code="actor.address"/></span><jstl:out value="  ${actor.getAddress()}" /></p>
+	<acme:display code="actor.address" value="${actor.getAddress()}"/>
 	
-	<p><span class="display"><spring:message code="actor.birthdate"/></span><jstl:out value="  ${actor.getBirthdate()}" /></p>
+	<acme:display code="actor.birthdate" value="${actor.getBirthdate()}"/>
 	
-	
-	<spring:url var="urlRendezvous" value="rendezvous/list.do">
+	<spring:url var="urlRendezvousCreated" value="rendezvous/listByUser.do">
 	<spring:param name="userId" value="${actor.getId()}" />
 	</spring:url>
-	<p><a href="${urlRendezvous }"> <spring:message code="actor.rendezvous" /></a></p>
+	<p><a href="${urlRendezvousCreated }"> <spring:message code="actor.rendezvous.created" /></a></p>
 	
-	<spring:url var="urlQuestion" value="question/list.do">
-	<spring:param name="userId" value="${actor.getId()}" />
+	<spring:url var="urlRendezvousAttendent" value="rendezvous/listByAttendant.do">
+	<spring:param name="attendantId" value="${actor.getId()}" />
 	</spring:url>
-	<p><a href="${urlQuestion }"> <spring:message code="actor.question" /></a></p>
-	
+	<p><a href="${urlRendezvousAttendent }"> <spring:message code="actor.rendezvous.attendant" /></a></p>
 		
 </div>

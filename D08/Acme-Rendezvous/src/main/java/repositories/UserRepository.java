@@ -1,5 +1,8 @@
 package repositories;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,4 +15,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u where u.userAccount.id = ?1")
 	User findByUserAccountId(int id);
 
+	@Query("select u from User u")
+	Page<User> findAllPageable(Pageable pageable);
+
+	@Query("select count(u) from User u")
+	Integer findAllCount();
+
+	@Query("select distinct u from User u, Rendezvous r, Rsvp rs where rs.rendezvous=?1 and rs.attendant=u")
+	Page<User> findAttendantsPageable(int rendezvousId, Pageable pageable);
+
+	@Query("select count(distinct u) from User u, Rendezvous r, Rsvp rs where rs.rendezvous=?1 and rs.attendant=u")
+	Integer findAttendantsCount(int rendezvousId);
 }

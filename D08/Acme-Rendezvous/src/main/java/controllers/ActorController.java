@@ -46,28 +46,25 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
-	
-	// Display
-		@RequestMapping(value = "/terminos", method = RequestMethod.GET)
-		public ModelAndView display() {
-			ModelAndView result;
-
-			result = new ModelAndView("actor/terminos");
-
-			return result;
-		}
 
 	// List
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam final int page) {
 		ModelAndView result;
 		Collection<User> users;
 		Actor actor;
 		Boolean puedeCrear;
+		Integer pageNumber, size;
 
-		users = this.userService.findAll();
+		size=5;
+		pageNumber=0;
+		users = this.userService.findAllPaginated(page, size);
 		puedeCrear = true;
 
+		if(users.size()!=0){
+			pageNumber = this.userService.countAllPaginated();
+		}
+		
 		if (LoginService.isAuthenticated()) {
 			actor = this.actorService.findByUserAccountId(LoginService
 					.getPrincipal().getId());
@@ -77,11 +74,54 @@ public class ActorController extends AbstractController {
 		}
 
 		result = new ModelAndView("actor/list");
+		
+		pageNumber = (int) Math.floor(((pageNumber / size + 0.0) - 0.1) + 1);
+		
 		result.addObject("users", users);
 		result.addObject("puedeCrear", puedeCrear);
+		result.addObject("pageNumber", pageNumber);
+		result.addObject("page", page);
 
 		return result;
 	}
+	
+	// List attendans
+		@RequestMapping(value = "/listAttendants", method = RequestMethod.GET)
+		public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam final int page) {
+			ModelAndView result;
+			Collection<User> users;
+			Actor actor;
+			Boolean puedeCrear;
+			Integer pageNumber, size;
+
+			size=5;
+			pageNumber=0;
+			users = this.userService.findAttendantsPaginated(page, size, rendezvousId);
+			puedeCrear = true;
+
+			if(users.size()!=0){
+				pageNumber = this.userService.countAttendatsPaginated(rendezvousId);
+			}
+			
+			if (LoginService.isAuthenticated()) {
+				actor = this.actorService.findByUserAccountId(LoginService
+						.getPrincipal().getId());
+				if (actor.getClass().getSimpleName().equals("Administrator")) {
+					puedeCrear = false;
+				}
+			}
+
+			result = new ModelAndView("actor/list");
+			
+			pageNumber = (int) Math.floor(((pageNumber / size + 0.0) - 0.1) + 1);
+			
+			result.addObject("users", users);
+			result.addObject("puedeCrear", puedeCrear);
+			result.addObject("pageNumber", pageNumber);
+			result.addObject("page", page);
+
+			return result;
+		}
 
 	// Profile
 
