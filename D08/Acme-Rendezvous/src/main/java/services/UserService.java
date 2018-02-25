@@ -166,6 +166,14 @@ public class UserService {
 
 		return result;
 	}
+	
+	public Double[] avgStandardDUsersPerRendezvous(){
+		Double[] result;
+		
+		result = this.userRepository.avgStandardDUsersPerRendezvous();
+		
+		return result;
+	}
 
 	public User reconstruct(final forms.UserForm userForm, final BindingResult binding) {
 		User result;
