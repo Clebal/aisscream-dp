@@ -37,7 +37,6 @@ public class RsvpUserController extends AbstractController {
 	@Autowired
 	private RsvpService			rsvpService;
 
-	//TODO: Nuevo
 	@Autowired
 	private AnswerService		answerService;
 
@@ -58,16 +57,37 @@ public class RsvpUserController extends AbstractController {
 
 	// List
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required=false) Integer page) {
 		ModelAndView result;
 		Collection<Rsvp> rsvps;
+		Integer size;
+		
+		size = 5;
+		if(page == null) page = 1;
 
-		rsvps = this.rsvpService.findByAttendantUserAccountId(LoginService.getPrincipal().getId());
-
-		result = new ModelAndView("rsvp/list");
+		rsvps = this.rsvpService.findByAttendantUserAccountId(LoginService.getPrincipal().getId(), page, size);
+		Assert.notNull(rsvps);
+		
+		result = super.paginateModelAndView("rsvp/list", this.rsvpService.countByAttendantUserAccountId(LoginService.getPrincipal().getId()), page, size);
 		result.addObject("rsvps", rsvps);
 		result.addObject("requestURI", "rsvp/user/list.do");
 
+		return result;
+	}
+	
+	// Disply
+	@RequestMapping(value="/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam(required=false) final int rsvpId) {
+		ModelAndView result;
+		Rsvp rsvp;
+		
+		rsvp = this.rsvpService.findOne(rsvpId);
+		Assert.notNull(rsvp);
+		
+		result = new ModelAndView("rsvp/display");
+		result.addObject("rsvp", rsvp);
+		result.addObject("requestURI", "rsvp/user/display.do");
+		
 		return result;
 	}
 	
@@ -78,7 +98,7 @@ public class RsvpUserController extends AbstractController {
 		Rsvp rsvp;
 
 		rsvp = this.rsvpService.findOne(rsvpId);
-		Assert.notNull(rsvp);
+
 		rsvp.setStatus("CANCELLED");
 		this.rsvpService.save(rsvp);
 		result = new ModelAndView("redirect:list.do");
@@ -102,8 +122,9 @@ public class RsvpUserController extends AbstractController {
 	}
 
 
-	//TODO: Nuevo
-		@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	// Create-------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		Rendezvous rendezvous;
@@ -136,7 +157,7 @@ public class RsvpUserController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final RsvpForm rsvpForm, final BindingResult binding) {
 		ModelAndView result;
 		final Rsvp rsvp;

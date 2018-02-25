@@ -6,34 +6,45 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <!-- The announcements must be listed chronologically in descending order. -->
-<display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row" defaultsort="2" requestURI="${requestURI}" pagesize="5" >
+<display:table class="table table-striped table-bordered table-hover" name="announcements" id="row" defaultsort="2" requestURI="${requestURI}">
 	
-	<spring:url value="announcement/user/edit.do" var="urlEdit">
-	<spring:param name="announcementId" value="${row.getId()}" />
-	</spring:url>
+	<security:authorize access="hasRole('USER')">
+		<acme:columnLink action="edit" domain="announcement" id="${row.getId()}" />
+	</security:authorize>
 	
-	<display:column>
-		<a href="${urlEdit}"><spring:message code="announcement.edit" /></a>
-	</display:column>
+	<acme:column property="moment" domain="announcement" formatDate="true" />
 	
-	<spring:message code="announcement.format.moment" var="momentFormat"/>
-	<spring:message code="announcement.moment" var="momentHeader" />
-	<display:column property="moment" title="${momentHeader}" format="{0,date,${momentFormat}}"></display:column>
-	
-	<spring:message code="announcement.title" var="titleHeader" />
-	<display:column property="title" title="${titleHeader}"></display:column>
+	<acme:column property="title" domain="announcement" />
 
-	<spring:message code="announcement.description" var="descriptionHeader" />
-	<display:column property="description" title="${descriptionHeader}"></display:column>
-	
-	<spring:message code="announcement.rendezvous" var="rendezvousHeader" />
-	<display:column>
-		<a href="rendezvous/display.do?rendezvousId=${row.getRendezvous().getId()}"><jstl:out value="${row.getRendezvous().getTitle()}" /></a>
-	</display:column>
+	<acme:column property="description" domain="announcement" />
+
+	<acme:column property="rendezvous" domain="announcement" row="${row}" />
 	
 </display:table>
+
+<jstl:if test="${announcements.size() > 0 }">
+
+	<jstl:forEach var="i" begin="1" end="${pageNumber}">
+	
+		<spring:url var="urlNextPage" value="${requestURI}">
+			<jstl:if test="${requestURI.equals('announcement/list.do') }">
+				<spring:param name="rendezvousId" value="${rendezvousId}" />
+			</jstl:if>
+			<spring:param name="page" value="${i}" />
+		</spring:url>
+			
+		<jstl:if test="${page==i || page == 0}">
+			<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
+		</jstl:if>
+		<jstl:if test="${page!=i && page != 0}">
+			<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
+		</jstl:if>
+			
+	</jstl:forEach>
+	
+</jstl:if>

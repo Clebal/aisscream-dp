@@ -255,11 +255,12 @@
 		<property name="rendezvous" ref="rendezvous4" />
 	</bean>
 	
+	
 	<!-- Question -->
 	<bean id="question1" class="domain.Question">
 		<property name="text" value="¿Tienes alergia a algo?" />
 		<property name="number" value="1" />
-		<property name="rendezvous" ref="rendezvous4" />
+		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
 	<bean id="question2" class="domain.Question">
@@ -313,13 +314,13 @@
 	
 	<bean id="answer4" class="domain.Answer">
 		<property name="text" value="Ninguno" />
-		<property name="question" ref="question3" />
+		<property name="question" ref="question4" />
 		<property name="rsvp" ref="rsvp3" />
 	</bean>
 	
 	<bean id="answer5" class="domain.Answer">
 		<property name="text" value="No" />
-		<property name="question" ref="question4" />
+		<property name="question" ref="question5" />
 		<property name="rsvp" ref="rsvp3" />
 	</bean>
 	
@@ -355,13 +356,13 @@
 	
 	<bean id="answer11" class="domain.Answer">
 		<property name="text" value="Crudivegano." />
-		<property name="question" ref="question1" />
+		<property name="question" ref="question3" />
 		<property name="rsvp" ref="rsvp7" />
 	</bean>
-	
+	 
 	<bean id="answer12" class="domain.Answer">
 		<property name="text" value="Sí, es un buen tipo." />
-		<property name="question" ref="question1" />
+		<property name="question" ref="question6" />
 		<property name="rsvp" ref="rsvp8" />
 	</bean>
 	

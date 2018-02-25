@@ -9,19 +9,20 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <div>
 
-	<p><span class="display"><spring:message code="rsvp.status" /></span>: <jstl:out value="${rsvp.getStatus()}" /></p>
-
-	<p><span class="display"><spring:message code="rsvp.attendant" /></span>: <a href="actor/display.do?userId=${rsvp.getAttendant().getId()}"><jstl:out value="${rsvp.getAttendant().getName()} ${rsvp.getAttendant().getSurname()}" /></a></p>
+	<acme:display code="rsvp.status" value="${rsvp.getStatus()}" />
+		
+	<p><span class="display"><spring:message code="rsvp.attendant" /></span>: <a href="actor/display.do?actorId=${rsvp.getAttendant().getId()}"><jstl:out value="${rsvp.getAttendant().getName()} ${rsvp.getAttendant().getSurname()}" /></a></p>
 
 	<p><span class="display"><spring:message code="rsvp.rendezvous" /></span>: <a href="rendezvous/display.do?rendezvousId=${rsvp.getRendezvous().getId()}"><jstl:out value="${rsvp.getRendezvous().getName()}" /></a></p>
 
-	<h3><spring:message code="rsvp.answers" /></h3>
-		
+	<h2><spring:message code="rsvp.answers" /></h2>
+
 	<c:forEach items="${questionAnswer}" var="entry">
-  		<p style="font-size: 25px;"><span class="display"><spring:message code="rsvp.question" /> N. <jstl:out value="${entry.key.getNumber()}" /></span>: <jstl:out value="${entry.key.getText()}" /></p>
+  		<p style="font-size: 17.5px;"><span class="display"><spring:message code="rsvp.question" /> N. <jstl:out value="${entry.key.getNumber()}" /></span>: <jstl:out value="${entry.key.getText()}" /></p>
   		<p><span class="display"><spring:message code="rsvp.answer" /></span>: <jstl:out value="${entry.value.getText()}" /></p>
 	</c:forEach>
 

@@ -39,14 +39,18 @@ public class QuestionUserController extends AbstractController {
 	
 	// List
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required = false) Integer page) {
 		ModelAndView result;
 		Collection<Question> questions;
-		
-		questions = this.questionService.findByCreatorUserId(LoginService.getPrincipal().getId());
+		Integer size;
+
+		size = 5;
+		if (page == null) page = 1;
+				
+		questions = this.questionService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), page, size);
 		Assert.notNull(questions);
 		
-		result = new ModelAndView("question/list");
+		result = super.paginateModelAndView("question/list", this.questionService.countByCreatorUserAccountId(LoginService.getPrincipal().getId()), page, size);
 		result.addObject("requestURI", "question/user/list.do");
 		result.addObject("questions", questions);
 		
@@ -86,8 +90,8 @@ public class QuestionUserController extends AbstractController {
 	}
 	
 	// Edit
-	@RequestMapping(value="/edit", method = RequestMethod.POST)
-	public ModelAndView edit(@Valid Question question, BindingResult binding) {
+	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid Question question, BindingResult binding) {
 		ModelAndView result;
 		
 		if(binding.hasErrors()){
@@ -97,9 +101,24 @@ public class QuestionUserController extends AbstractController {
 				this.questionService.save(question);
 				result = new ModelAndView("redirect:list.do");
 			} catch (Throwable oops) {
-				// result = super.panic(oops);
-				result = this.createEditModelAndView(question, "question.commit.error");
+				result = super.panic(oops);
+//				result = this.createEditModelAndView(question, "question.commit.error");
 			}
+		}
+		
+		return result;
+	}
+	
+	// Delete
+	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(@Valid Question question) {
+		ModelAndView result;
+		
+		try {
+			this.questionService.delete(question);
+			result = new ModelAndView("redirect:list.do");
+		} catch (Throwable oops) {
+			result = this.createEditModelAndView(question, "question.commit.error");
 		}
 		
 		return result;
@@ -116,7 +135,7 @@ public class QuestionUserController extends AbstractController {
 	
 	protected ModelAndView createEditModelAndView(final Question question, final String messageCode) {
 		ModelAndView result;
-
+		
 		result = new ModelAndView("question/edit");
 		
 		result.addObject("question", question);

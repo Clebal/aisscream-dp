@@ -9,7 +9,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="rsvp/user/edit.do" modelAttribute="rsvpForm">
+<form:form action="rsvp/user/create.do" modelAttribute="rsvpForm">
 
 	<form:hidden path="rendezvousId"/>
 	
