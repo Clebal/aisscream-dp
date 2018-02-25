@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Answer;
 import domain.Question;
 import domain.Rendezvous;
 
@@ -90,7 +91,7 @@ public class QuestionService {
 		
 		Assert.notNull(question);
 		
-		for(final Answer a: this.answerService.findByQuestionId(question.getId()){
+		for(final Answer a: this.answerService.findByQuestionId(question.getId())){
 			this.answerService.delete(a);
 		}
 		
