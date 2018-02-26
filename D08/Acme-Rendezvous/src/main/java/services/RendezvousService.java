@@ -240,6 +240,7 @@ public class RendezvousService {
 	public void addLink(final Rendezvous myRendezvous, final Rendezvous linkedRendezvous) {
 		Assert.notNull(myRendezvous);
 		Assert.notNull(linkedRendezvous);
+		Assert.isTrue(!myRendezvous.equals(linkedRendezvous));
 		Assert.isTrue(myRendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		Assert.isTrue(!linkedRendezvous.getLinkerRendezvouses().contains(myRendezvous));
 		Assert.isTrue(myRendezvous.getIsDeleted() == false && linkedRendezvous.getIsDeleted() == false);
@@ -252,6 +253,7 @@ public class RendezvousService {
 	public void removeLink(final Rendezvous myRendezvous, final Rendezvous linkedRendezvous) {
 		Assert.notNull(myRendezvous);
 		Assert.notNull(linkedRendezvous);
+		Assert.isTrue(!myRendezvous.equals(linkedRendezvous));
 		Assert.isTrue(myRendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		Assert.isTrue(linkedRendezvous.getLinkerRendezvouses().contains(myRendezvous));
 		Assert.isTrue(myRendezvous.getIsDeleted() == false && linkedRendezvous.getIsDeleted() == false);
