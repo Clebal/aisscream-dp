@@ -39,7 +39,7 @@
 	
 		<spring:url var="urlNextPage" value="${url}">
 		<jstl:if test="${parameter!=null && parameterValue!=null}">
-			<spring:param name="rendezvousId" value="${parameterValue}" />
+			<spring:param name="${parameter}" value="${parameterValue}" />
 		</jstl:if>
 			<spring:param name="page" value="${i}" />
 		</spring:url>
