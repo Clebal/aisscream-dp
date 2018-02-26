@@ -20,7 +20,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	@Query("select count(q) from Question q where q.rendezvous.creator.userAccount.id = ?1")
 	Integer countByCreatorUserAccountId(int userAccountId);
 	
-	@Query("select q from Question q where q.rendezvous.id = ?1")
+	@Query("select q from Question q where q.rendezvous.id = ?1 order by q.number")
 	Collection<Question> findByRendezvousId(int rendezvousId);
 
 	@Query("select count(q) from Question q where q.rendezvous.id=?1")
