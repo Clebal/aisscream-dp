@@ -86,7 +86,24 @@
 
 </display:table>
 
-	<acme:paginate url="${requestURI}" objects="${rendezvouses}" haveRendezvousId="true" />
+	<jstl:if test="${requestURI.equals('rendezvous/listByUser.do') }">
+		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${rendezvouses}" page="${page }" parameter="userId" parameterValue="${userId}"/>
+	</jstl:if>
+	
+	<jstl:if test="${requestURI.equals('rendezvous/listByAttendant.do') }">
+		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${rendezvouses}" page="${page }" parameter="attendantId" parameterValue="${attendantId}"/>
+	</jstl:if>
+	
+<jstl:if test="${!requestURI.equals('rendezvous/listByUser.do') && !requestURI.equals('rendezvous/listByAttendant.do')  }">
+	
+	<jstl:if test="${haveRendezvousId==true }">
+	<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${rendezvouses}" page="${page }" parameter="rendezvousId" parameterValue="${rendezvousId}"/>
+	</jstl:if>
+	
+	<jstl:if test="${haveRendezvousId==false}">
+	<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${rendezvouses}" page="${page }"/>
+	</jstl:if>
+</jstl:if>	
 
 <br>
 <br>

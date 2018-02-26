@@ -44,10 +44,10 @@
 	
 	<acme:textbox path="longitude" code="rendezvous.longitude" />
 	
-	<acme:submit name="save" code="rendezvous.save" cssClass="btn btn-primary" />
+	<acme:submit name="save" code="rendezvous.save" />
 	
 	<jstl:if test="${rendezvous.getId()!= 0}">
-	<acme:submit name="delete" code="rendezvous.delete" cssClass="btn btn-warning" codeDelete="rendezvous.confirm.delete"/>
+	<acme:submit name="delete" code="rendezvous.delete" codeDelete="rendezvous.confirm.delete"/>
 	</jstl:if>
 	
 	<acme:cancel code="rendezvous.cancel" url="rendezvous/user/list.do"/>

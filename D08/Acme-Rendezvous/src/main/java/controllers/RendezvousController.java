@@ -224,6 +224,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("haveRendezvousId", haveRendezvousId);
+		result.addObject("userId", userId);
 
 		return result;
 	}
@@ -297,6 +298,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("haveRendezvousId", haveRendezvousId);
+		result.addObject("attendantId", attendantId);
 
 		return result;
 	}

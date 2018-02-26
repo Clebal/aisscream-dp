@@ -183,6 +183,11 @@ public class RendezvousService {
 			Assert.isTrue(this.findOne(rendezvous.getId()).getDraft() == true);
 		}
 
+		if (rendezvous.getLongitude() != null || rendezvous.getLatitude() != null) {
+			Assert.isTrue(rendezvous.getLongitude() != null);
+			Assert.isTrue(rendezvous.getLatitude() != null);
+		}
+
 		result = this.rendezvousRepository.save(rendezvous);
 
 		//If you are creating the rendezvous, the creator must have a RSVP to that rendezvous
