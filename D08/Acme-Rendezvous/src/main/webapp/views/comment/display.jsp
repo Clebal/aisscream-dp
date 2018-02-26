@@ -8,30 +8,22 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <div class="container">
 
-	<spring:message code="comment.format.moment" var="momentFormat"/>
 	<spring:message code="comment.alt" var="commentAlt"/>
 	
-	<jstl:if test="${row.getPicture()!=null && row.getPicture()!=''}">
-		<img src="${comment.getPicture()}" alt="${commentAlt}" width="400px" height="200px" style="margin-left:15px;" />
+	<jstl:if test="${comment.getPicture()!=null && comment.getPicture()!=''}">
+		<acme:image value="${comment.getPicture()}" alt="${commentAlt}"/>
 	</jstl:if>
 	
-	<p><span class="display"><spring:message code="comment.moment"/></span><fmt:formatDate value="${comment.getMoment()}" pattern="${momentFormat }"/></p>
+	<acme:display code="comment.moment" value="${comment.getMoment()}" codeMoment="comment.format.moment"/>
 	
-	<p><span class="display"><spring:message code="comment.text"/></span><jstl:out value="  ${comment.getText()}" /></p>
+	<acme:display code="comment.text" value="${comment.getText()}"/>
+
 	
-	<security:authorize access="hasRole('ADMIN')">
-		<spring:url var="urlDeleteComment" value="comment/administrator/edit.do">
-			<spring:param name="commentId" value="${comment.getId()}" />
-		</spring:url>
-		
-		<p><span  style='margin-right:10px;'><a href="${urlDeleteComment}" class='btn btn-primary'><spring:message code="comment.delete"/></a></span></p>
-	</security:authorize>
-	
-	<security:authorize access="hasRole('USER')">
+	<security:authorize access="hasRole('USER')"> 
 		<jstl:if test="${canComment}">
 			<spring:url var="urlCreateComment" value="comment/user/create.do">
 				<spring:param name="repliedCommentId" value="${comment.getId()}" />
@@ -42,70 +34,39 @@
 		</jstl:if>
 	</security:authorize>
 	
-	<spring:url var="urlRendezvous" value="rendezvous/display.do">
-		<spring:param name="rendezvousId" value="${comment.getRendezvous().getId()}" />
-	</spring:url>
-			
-	<span  style='margin-right:10px;'><a href="${urlRendezvous}" class='btn btn-primary'><spring:message code="comment.rendezvous"/></a></span>		
-
-	<spring:url var="urlUser" value="actor/display.do">
-		<spring:param name="actorId" value="${comment.getUser().getId()}" />
-	</spring:url>
-			
-	<span  style='margin-right:10px;'><a href="${urlUser}" class='btn btn-primary'><spring:message code="comment.user"/></a></span>	
+	<security:authorize access="hasRole('ADMIN')">
+		<acme:displayLink parametre="commentId" code="comment.delete" action="comment/administrator/edit.do" parametreValue="${comment.getId()}" css="btn btn-warning"></acme:displayLink>
+	</security:authorize>
+	
+	<acme:displayLink parametre="rendezvousId" code="comment.rendezvous" action="rendezvous/display.do" parametreValue="${comment.getRendezvous().getId()}" css="btn btn-primary"></acme:displayLink>		
+	<acme:displayLink parametre="actorId" code="comment.user" action="actor/display.do" parametreValue="${comment.getUser().getId()}" css="btn btn-primary"></acme:displayLink>		
 	
 </div>
 
 <jstl:if test="${comments.size()>0}">
 	
 	<jstl:forEach var="row" items="${comments}">
-	
-		<spring:url var="urlMoreComments" value="comment/display.do">
-			<spring:param name="commentId" value="${row.getId()}" />
-			<spring:param name="page" value="1" />
-		</spring:url>
 		
 		<div class="container-square2">
+		
 			<jstl:if test="${row.getPicture()!=null && row.getPicture()!=''}">
-				<img src="${row.getPicture()}" alt="${commentAlt}" width="400px" height="200px" style="margin-left:15px;" />
+				<acme:image value="${row.getPicture()}" alt="${commentAlt}"/>
 			</jstl:if>
 	
-			<p><span class="display"><spring:message code="comment.moment"/></span><fmt:formatDate value="${row.getMoment()}" pattern="${momentFormat }"/></p>
+			<acme:display code="comment.moment" value="${row.getMoment()}" codeMoment="comment.format.moment"/>
 	
-			<p><span class="display"><spring:message code="comment.text"/></span><jstl:out value="  ${row.getText()}" /></p>	
+			<acme:display code="comment.text" value="${row.getText()}"/>
 			
-			<p><span  style='margin-right:10px;'><a href="${urlMoreComments}" class='btn btn-primary'><spring:message code="comment.more"/></a></span></p>
+			<acme:displayLink parametre="commentId" code="comment.more" action="comment/display.do" parametreValue="${row.getId()}" css="btn btn-primary"></acme:displayLink>		
 			
-			<security:authorize access="hasRole('ADMIN')">
-				<spring:url var="urlDeleteComment" value="comment/administrator/edit.do">
-					<spring:param name="commentId" value="${row.getId()}" />
-				</spring:url>
-				
-				<p><span  style='margin-right:10px;'><a href="${urlDeleteComment}" class='btn btn-primary'><spring:message code="comment.delete"/></a></span></p>
-			
-			</security:authorize>
 			
 		</div>
 		
 	</jstl:forEach>
 	
-	<jstl:forEach var="i" begin="1" end="${pageNumber}">
+	<acme:paginate url="comment/display.do" objects="${comments}" parameter="commentId" parameterValue="${comment.getId()}" page="${page}" pageNumber="${pageNumber}"/>
 	
-			<spring:url var="urlMorePage" value="comment/display.do">
-				<spring:param name="commentId" value="${comment.getId()}" />
-				<spring:param name="page" value="${i}" />
-			</spring:url>
-			
-			<jstl:if test="${page==i}">
-				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
-			</jstl:if>
-			<jstl:if test="${page!=i}">
-				<span  style='margin-right:10px;'><a href="${urlMorePage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
-			</jstl:if>
-			
-	</jstl:forEach>
-	
-</jstl:if>
+</jstl:if> 
 	
 	
 

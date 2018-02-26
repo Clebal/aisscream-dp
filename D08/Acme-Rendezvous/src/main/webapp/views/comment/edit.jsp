@@ -8,8 +8,9 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="comment/user/edit.do" modelAttribute="comment">
+<form:form action="comment/${actor}/edit.do" modelAttribute="comment">
 
 	<form:hidden path="id"/>
 	
@@ -17,51 +18,37 @@
 	 	<form:hidden path="rendezvous"/>
 	 	<form:hidden path="repliedComment"/>
  	</jstl:if>
-	
+ 	
+ 	<jstl:if test="${comment.getId()!=0}">
+		<form:hidden path="rendezvous"/>
+	</jstl:if>
 
-	<div class="form-group"> 
-		<form:label path="picture">
-			<spring:message code="comment.picture"/>
-		</form:label>
-		<form:input class="form-control" path="picture"/>
-		<form:errors class="text-danger" path="picture"/>
-	</div>
+	<acme:textbox code="comment.picture" path="picture"/>
 	
-	<div class="form-group"> 
-		<form:label path="text">
-			<spring:message code="comment.text" />:
-		</form:label>
-		<form:textarea path="text"/>
-		<form:errors class="text-danger" path="text"/>
-	</div>
+	<acme:textbox code="comment.text" path="text"/>
 	
-	<div class="form-group"> 
-		<form:label path="moment">
-			<spring:message code="comment.moment"/>
-		</form:label>
-		<form:input class="form-control" path="moment" placeholder="dd/MM/yyyy HH:mm" readonly="true"/>
-		<form:errors class="text-danger" path="moment"/>
-	</div>
+	<acme:textbox code="comment.moment" path="moment" readonly="readonly" placeholder="dd/MM/yyyy HH:mm"/>
+	
 	
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>
 		<jstl:if test="${comment.getUser().getUserAccount().getUsername().equals(principal) && comment.getId()==0}">
-			<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="comment.save" />">
+			<acme:submit name="save" code="comment.save" />
 		</jstl:if>
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">
 		<jstl:if test="${comment.getId()!= 0}">
-			<input type="submit" class="btn btn-warning" name="delete" value="<spring:message code="comment.delete" />" onclick="return confirm('<spring:message code="comment.confirm.delete" />')">
+			<acme:submit name="delete" code="comment.delete" codeDelete="comment.confirm.delete"/>
 		</jstl:if>
 	</security:authorize>
 	
 	<jstl:if test="${comment.getRepliedComment()!=null}">
-		<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="comment.cancel" />" onclick="javascript: relativeRedir('comment/display.do?page=1&commentId=${comment.getRepliedComment().getId()}');" >
+		<acme:cancel url="comment/display.do?commentId=${comment.getRepliedComment().getId()}" code="comment.cancel"/>
 	</jstl:if>
 	
 	<jstl:if test="${comment.getRepliedComment()==null}">
-		<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="comment.cancel" />" onclick="javascript: relativeRedir('rendezvous/display.do?rendezvousId=${comment.getRendezvous().getId()}');" >
+		<acme:cancel url="rendezvous/display.do?rendezvousId=${comment.getRendezvous().getId()}" code="comment.cancel"/>
 	</jstl:if>
 	
 

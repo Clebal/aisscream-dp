@@ -46,5 +46,5 @@
 	</jstl:if>
 	
 	
-	<form:errors css="text-danger" path="${path}" />
+	<form:errors class="text-danger" path="${path}" />
 </div>

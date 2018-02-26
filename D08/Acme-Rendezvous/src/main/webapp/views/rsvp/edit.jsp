@@ -8,6 +8,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <form:form action="rsvp/user/create.do" modelAttribute="rsvpForm">
 
@@ -31,10 +32,11 @@
 	</jstl:if>
 	
 	
+	
 	<security:authorize access="hasRole('USER')">
-		<input type="submit" class="btn btn-primary" name="save" value="<spring:message code="rsvp.save" />">
+		<acme:submit name="save" code="rsvp.save" />
 	</security:authorize>
 	
-	<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="rsvp.cancel" />" onclick="javascript: relativeRedir('rendezvous/list.do');" >
+	<acme:cancel url="rendezvous/list.do" code="rsvp.cancel"/>
 
 </form:form>

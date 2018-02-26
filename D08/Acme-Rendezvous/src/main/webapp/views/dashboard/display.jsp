@@ -7,41 +7,37 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 
 	<div>
 	
 		
 		<div class="container">
-			<span class="display"><spring:message code="dashboard.average.rendezvouses.per.user"/></span><fmt:formatNumber value="${rendezvousesPerUser[0]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			<span class="display"><spring:message code="dashboard.standard.rendezvouses.per.user"/></span><fmt:formatNumber value="${rendezvousesPerUser[1]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
+			<acme:display code="dashboard.average.rendezvouses.per.user" value="${rendezvousesPerUser[0]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.standard.rendezvouses.per.user" value="${rendezvousesPerUser[1]}" formatNumber="true"/>
+		 
+		</div>
+		<br/> 
+		
+		<div class="container">
+			<acme:display code="dashboard.ratio.user.rendezvous.vs.no" value="${ratioUserRendezvousVsNo}" formatNumber="true"/>
 			
 		</div>
 		<br/>
 		
 		<div class="container">
-			<span class="display"><spring:message code="dashboard.ratio.user.rendezvous.vs.no"/></span><fmt:formatNumber value="${ratioUserRendezvousVsNo}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
+			<acme:display code="dashboard.average.users.per.rendezvous" value="${usersPerRendezvous[0]}" formatNumber="true"/>
+			<acme:display code="dashboard.standard.users.per.rendezvous" value="${usersPerRendezvous[1]}" formatNumber="true"/>
+			
 			
 		</div>
 		<br/>
 		
 		<div class="container">
-			<span class="display"><spring:message code="dashboard.average.users.per.rendezvous"/></span><fmt:formatNumber value="${usersPerRendezvous[0]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			<span class="display"><spring:message code="dashboard.standard.users.per.rendezvous"/></span><fmt:formatNumber value="${usersPerRendezvous[1]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			
-		</div>
-		<br/>
-		
-		<div class="container">
-			<span class="display"><spring:message code="dashboard.average.rendezvouses.rsvpd.per.user"/></span><fmt:formatNumber value="${rendezvousesRsvpdPerUser[0]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			<span class="display"><spring:message code="dashboard.standard.rendezvouses.rsvpd.per.user"/></span><fmt:formatNumber value="${rendezvousesRsvpdPerUser[1]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
+			<acme:display code="dashboard.average.rendezvouses.rsvpd.per.user" value="${rendezvousesRsvpdPerUser[0]}" formatNumber="true"/>
+			<acme:display code="dashboard.standard.rendezvouses.rsvpd.per.user" value="${rendezvousesRsvpdPerUser[1]}" formatNumber="true"/>
 			
 		</div>
 		<br/>
@@ -59,11 +55,9 @@
 		<br/>
 		
 		<div class="container">
-			<span class="display"><spring:message code="dashboard.average.announcements.per.rendezvous"/></span><fmt:formatNumber value="${announcementsPerRendezvous[0]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			<span class="display"><spring:message code="dashboard.standard.announcements.per.rendezvous"/></span><fmt:formatNumber value="${announcementsPerRendezvous[1]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			
+			<acme:display code="dashboard.average.announcements.per.rendezvous" value="${announcementsPerRendezvous[0]}" formatNumber="true"/>
+			<acme:display code="dashboard.standard.announcements.per.rendezvous" value="${announcementsPerRendezvous[1]}" formatNumber="true"/>
+		
 		</div>
 		<br/>
 		
@@ -78,35 +72,29 @@
 		
 		<div class="container">
 			
-				<spring:url var="urlRendezvousesLinked" value="rendezvous/administrator/listByLinkedNumber.do"/>
-				<a href="${urlRendezvousesLinked}" ><spring:message code="dashboard.rendezvouses.linked"/></a>
+			<spring:url var="urlRendezvousesLinked" value="rendezvous/administrator/listByLinkedNumber.do"/>
+			<a href="${urlRendezvousesLinked}" ><spring:message code="dashboard.rendezvouses.linked"/></a>
 			
 		</div>
 		<br/>
 		
 		<div class="container">
-			<span class="display"><spring:message code="dashboard.average.questions.per.rendezvous"/></span><fmt:formatNumber value="${questionsPerRendezvous[0]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			<span class="display"><spring:message code="dashboard.standard.questions.per.rendezvous"/></span><fmt:formatNumber value="${questionsPerRendezvous[1]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
+			<acme:display code="dashboard.average.questions.per.rendezvous" value="${questionsPerRendezvous[0]}" formatNumber="true"/>
+			<acme:display code="dashboard.standard.questions.per.rendezvous" value="${questionsPerRendezvous[1]}" formatNumber="true"/>
 			
 		</div>
 		<br/>
 		
 		<div class="container">
-			<span class="display"><spring:message code="dashboard.average.answers.per.rendezvous"/></span><fmt:formatNumber value="${answersPerRendezvous[0]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			<span class="display"><spring:message code="dashboard.standard.answers.per.rendezvous"/></span><fmt:formatNumber value="${answersPerRendezvous[1]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
+			<acme:display code="dashboard.average.answers.per.rendezvous" value="${answersPerRendezvous[0]}" formatNumber="true"/>
+			<acme:display code="dashboard.standard.answers.per.rendezvous" value="${answersPerRendezvous[1]}" formatNumber="true"/>
 			
 		</div>
 		<br/>
 		
 		<div class="container">
-			<span class="display"><spring:message code="dashboard.average.replies.per.comment"/></span><fmt:formatNumber value="${repliesPerComment[0]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
-			<span class="display"><spring:message code="dashboard.standard.replies.per.comment"/></span><fmt:formatNumber value="${repliesPerComment[1]}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-			<br/>
+			<acme:display code="dashboard.average.replies.per.comment" value="${repliesPerComment[0]}" formatNumber="true"/>
+			<acme:display code="dashboard.standard.replies.per.comment" value="${repliesPerComment[1]}" formatNumber="true"/>
 			
 		</div>
 		<br/>

@@ -10,16 +10,21 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <div>
 	
 	<br/>
-	<img src="http://acme-world.com/wp-content/themes/immersivegarden/images/logo-acme-grey.png" alt="<spring:message code="about.us.alt" />" width="400px" height="200px" style="text-align: center; margin:auto;" />
+	<spring:message code="about.us.alt" var="aboutAlt"/>
+	<acme:image alt="${aboutAlt}" value="http://acme-world.com/wp-content/themes/immersivegarden/images/logo-acme-grey.png"/>
+	<br/>
+	<br/>
 	
-	<br/>
-	<br/>
-	<p><span class="display"><spring:message code="about.us.name"/></span>: <spring:message code="about.us.name.value"/></p>
-	<p><span class="display"><spring:message code="about.us.vat.number"/></span>: <spring:message code="about.us.vat.number.value"/></p>
+	<spring:message code="about.us.name.value" var="nameValue"/>
+	<spring:message code="about.us.vat.number.value" var="vatValue"/>
+	
+	<acme:display code="about.us.name" value="${nameValue}"/>
+	<acme:display code="about.us.vat.number" value="${vatValue}"/>
 	
 	
 

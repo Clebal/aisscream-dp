@@ -54,19 +54,6 @@ public class CommentUserController extends AbstractController {
 	}
 
 	//Edit
-	//	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	//	public ModelAndView edit(@RequestParam final int commentId) {
-	//		ModelAndView result;
-	//		Comment comment;
-	//
-	//		comment = this.commentService.findOne(commentId);
-	//		Assert.notNull(comment);
-	//
-	//		result = this.createEditModelAndView(comment);
-	//
-	//		return result;
-	//	}
-
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(Comment comment, final BindingResult binding) {
 		ModelAndView result;
@@ -106,6 +93,7 @@ public class CommentUserController extends AbstractController {
 		result = new ModelAndView("comment/create");
 
 		result.addObject("comment", comment);
+		result.addObject("actor", "user");
 		result.addObject("message", messageCode);
 
 		return result;

@@ -12,7 +12,8 @@
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="parametre" required="true" %> 
 <%@ attribute name="parametreValue" required="true" type="java.lang.Object" %>   
-<%@ attribute name="code" required="true" %> 
+<%@ attribute name="code" required="true" %>
+<%@ attribute name="css" required="false" %>  
 
 <%-- Definition --%>
 
@@ -22,5 +23,5 @@
 		</spring:url>
 
 		<p>
-			<a href="${urlDisplayLink}" ><spring:message code="${code }"/></a>
+			<a href="${urlDisplayLink}" class="${css}"><spring:message code="${code }"/></a>
 		</p>

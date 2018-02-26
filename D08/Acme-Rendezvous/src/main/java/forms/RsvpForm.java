@@ -7,16 +7,16 @@ import utilities.NotBlankMap;
 
 public class RsvpForm {
 
-	private Integer					rendezvousId;
+	private int						rendezvousId;
 	private Map<Integer, String>	questions;
 	private Map<Integer, String>	answers;
 
 
-	public Integer getRendezvousId() {
+	public int getRendezvousId() {
 		return this.rendezvousId;
 	}
 
-	public void setRendezvousId(final Integer rendezvousId) {
+	public void setRendezvousId(final int rendezvousId) {
 		this.rendezvousId = rendezvousId;
 	}
 

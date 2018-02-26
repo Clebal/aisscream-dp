@@ -29,7 +29,7 @@
 <%-- Definition --%>
 
 <jstl:if test="${alt==null}">
-	<img src="http://acme-world.com/wp-content/themes/immersivegarden/images/logo-acme-grey.png" alt="<spring:message code="about.us.alt" />" width="400px" height="200px" style="text-align: center; margin:auto;" />
+	<img src="${value}" width="400px" height="200px" style="text-align: center; margin:auto;" />
 </jstl:if>
 
 <jstl:if test="${alt!=null}">
