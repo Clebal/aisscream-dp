@@ -91,8 +91,10 @@ public class QuestionUserController extends AbstractController {
 	
 	// Edit
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Question question, BindingResult binding) {
+	public ModelAndView save(Question question, BindingResult binding) {
 		ModelAndView result;
+		
+		question = this.questionService.reconstruct(question, binding);
 		
 		if(binding.hasErrors()){
 			result = this.createEditModelAndView(question);
@@ -101,8 +103,8 @@ public class QuestionUserController extends AbstractController {
 				this.questionService.save(question);
 				result = new ModelAndView("redirect:list.do");
 			} catch (Throwable oops) {
-				result = super.panic(oops);
-//				result = this.createEditModelAndView(question, "question.commit.error");
+//				result = super.panic(oops);
+				result = this.createEditModelAndView(question, "question.commit.error");
 			}
 		}
 		
@@ -111,8 +113,10 @@ public class QuestionUserController extends AbstractController {
 	
 	// Delete
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid Question question) {
+	public ModelAndView delete(Question question, BindingResult binding) {
 		ModelAndView result;
+		
+		question = this.questionService.reconstruct(question, binding);
 		
 		try {
 			this.questionService.delete(question);
