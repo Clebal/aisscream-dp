@@ -21,14 +21,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select count(u) from User u")
 	Integer findAllCount();
 
-	//	@Query("select distinct u from User u, Rendezvous r, Rsvp rs where rs.rendezvous.id=?1 and rs.attendant=u")
-	//	Page<User> findAttendantsPageables(int rendezvousId, Pageable pageable);
-
 	@Query("select rs.attendant from Rsvp rs where rs.rendezvous.id=?1")
 	Page<User> findAttendantsPageable(int rendezvousId, Pageable pageable);
-
-	//	@Query("select count(distinct u) from User u, Rendezvous r, Rsvp rs where rs.rendezvous.id=?1 and rs.attendant=u")
-	//	Integer findAttendantsCount(int rendezvousId);
 
 	@Query("select count(rs.attendant)from Rsvp rs where rs.rendezvous.id=?1")
 	Integer findAttendantsCount(int rendezvousId);

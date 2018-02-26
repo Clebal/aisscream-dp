@@ -11,7 +11,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table class="table table-striped table-bordered table-hover" name="users" id="row">
+<display:table class="table table-striped table-bordered table-hover" name="users" id="row" requestURI="${requestURI}">
 	
 	<acme:column property="name" domain="actor"/>
 	
@@ -29,14 +29,10 @@
 	
 </display:table>
 
-<div id="paginacion">
-<acme:paginate url="${requestURI}" objects="${users}" page="${page}" pageNumber="${pageNumber}" />
-</div>
+<acme:paginate url="${requestURI}" objects="${users}" pageNumber="${pageNumber}" page="${page}" />
 
-<br><br>
-
-<spring:url var="urlCreate" value="actor/user/create.do">
-</spring:url>
+<spring:url var="urlCreate" value="actor/user/create.do"></spring:url>
 <jstl:if test="${puedeCrear}">
+<br><br>
 <a href="${urlCreate }"> <spring:message code="actor.create" /></a>
 </jstl:if>
