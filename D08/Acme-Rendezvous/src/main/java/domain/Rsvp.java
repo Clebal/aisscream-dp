@@ -1,9 +1,12 @@
+
 package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -12,21 +15,27 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(uniqueConstraints = {
+	@UniqueConstraint(columnNames = {
+		"attendant_id", "rendezvous_id"
+	})
+})
 public class Rsvp extends DomainEntity {
 
-	private String status;
+	private String		status;
 
-	private User attendant;
+	private User		attendant;
 
-	private Rendezvous rendezvous;
+	private Rendezvous	rendezvous;
+
 
 	@NotBlank
 	@Pattern(regexp = "^(ACCEPTED|CANCELLED)$")
 	public String getStatus() {
-		return status;
+		return this.status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 
@@ -34,10 +43,10 @@ public class Rsvp extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public User getAttendant() {
-		return attendant;
+		return this.attendant;
 	}
 
-	public void setAttendant(User attendant) {
+	public void setAttendant(final User attendant) {
 		this.attendant = attendant;
 	}
 
@@ -45,10 +54,10 @@ public class Rsvp extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Rendezvous getRendezvous() {
-		return rendezvous;
+		return this.rendezvous;
 	}
 
-	public void setRendezvous(Rendezvous rendezvous) {
+	public void setRendezvous(final Rendezvous rendezvous) {
 		this.rendezvous = rendezvous;
 	}
 
