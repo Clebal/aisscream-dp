@@ -24,6 +24,8 @@
 <%-- Attributes --%> 
 
 <%@ attribute name="url" required="true" %>
+<%@ attribute name="page" required="true" %>
+<%@ attribute name="pageNumber" required="true" %>
 <%@ attribute name="parameter" required="false" %>
 <%@ attribute name="parameterValue" required="false" %>   
 <%@ attribute name="objects" required="true" type="java.util.Collection" %> 
