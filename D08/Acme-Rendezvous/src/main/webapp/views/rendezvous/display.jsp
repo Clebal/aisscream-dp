@@ -191,7 +191,7 @@
 					<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
 						<span class="display"><spring:message code="rendezvous.comment.text"/></span><jstl:out value="${row2.getText()}" />
 						<br>
-						
+						<spring:message code="rendezvous.format.moment" var="momentFormat"/>	
 						<span class="display"><spring:message code="rendezvous.comment.moment"/></span><fmt:formatDate value="${row2.getMoment()}" pattern="${momentFormat }"/>
 						<br>
 						<jstl:if test="${row2.getPicture()!=null && row2.getPicture()!=''}">
