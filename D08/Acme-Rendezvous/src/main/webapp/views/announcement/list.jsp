@@ -13,7 +13,7 @@
 <!-- The announcements must be listed chronologically in descending order. -->
 <display:table class="table table-striped table-bordered table-hover" name="announcements" id="row" defaultsort="2" requestURI="${requestURI}">
 	
-	<jstl:if test="${isCreator != null && isCreator}">
+	<jstl:if test="${isCreator == null || isCreator}">
 		<security:authorize access="hasRole('USER')">
 			<acme:columnLink action="edit" domain="announcement" id="${row.getId()}" />
 		</security:authorize>

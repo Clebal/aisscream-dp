@@ -13,8 +13,9 @@
 <form:form action="announcement/user/edit.do" modelAttribute="announcement">
 
 	<form:hidden path="id"/>
-	<form:hidden path="version"/>
- 	<form:hidden path="rendezvous"/>
+	<jstl:if test="${announcement.getId() == 0}">
+	 	<form:hidden path="rendezvous"/>
+ 	</jstl:if>
 
 	<acme:textbox path="moment" code="announcement.moment" readonly="true" />
  	

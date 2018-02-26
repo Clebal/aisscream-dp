@@ -2,8 +2,6 @@ package controllers.user;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -91,9 +89,10 @@ public class AnnouncementUserController extends AbstractController {
 	
 	// Edit
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Announcement announcement, BindingResult binding) {
+	public ModelAndView save(Announcement announcement, BindingResult binding) {
 		ModelAndView result;
 		
+		announcement = this.announcementService.reconstruct(announcement, binding);
 		if(binding.hasErrors()){
 			result = this.createEditModelAndView(announcement);
 		}else{
@@ -101,7 +100,6 @@ public class AnnouncementUserController extends AbstractController {
 				this.announcementService.save(announcement);
 				result = new ModelAndView("redirect:list.do");
 			} catch (Throwable oops) {
-				// result = super.panic(oops);
 				result = this.createEditModelAndView(announcement, "announcement.commit.error");
 			}
 		}
@@ -111,13 +109,16 @@ public class AnnouncementUserController extends AbstractController {
 	
 	// Delete
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid Announcement announcement) {
+	public ModelAndView delete(Announcement announcement, BindingResult binding) {
 		ModelAndView result;
+		
+		announcement = this.announcementService.reconstruct(announcement, binding);
 		
 		try {
 			this.announcementService.delete(announcement);
 			result = new ModelAndView("redirect:list.do");
 		} catch (Throwable oops) {
+//			result = super.panic(oops);
 			result = this.createEditModelAndView(announcement, "announcement.commit.error");
 		}
 		

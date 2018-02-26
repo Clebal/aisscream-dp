@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import domain.Announcement;
 import domain.Rendezvous;
@@ -26,6 +28,8 @@ public class AnnouncementService {
 	private AnnouncementRepository announcementRepository;
 	
 	// Supporting services
+	@Autowired
+	private Validator			validator;
 	
 	// Constructor
 	public AnnouncementService() {
@@ -153,6 +157,21 @@ public class AnnouncementService {
 			result = new PageRequest(page - 1, size);
 		
 		return result;
+	}
+	
+	// Pruned object domain
+	public Announcement reconstruct(final Announcement announcement, final BindingResult binding) {
+		Announcement aux;
+
+		if(announcement.getId() != 0) {
+			aux = this.announcementRepository.findOne(announcement.getId());
+			announcement.setVersion(aux.getVersion());
+			announcement.setRendezvous(aux.getRendezvous());
+		}
+		
+		this.validator.validate(announcement, binding);
+
+		return announcement;
 	}
 	
 }

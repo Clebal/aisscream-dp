@@ -72,7 +72,7 @@ public class RsvpController extends AbstractController{
 		Assert.notNull(rsvp);
 		
 		for(Question q: this.questionService.findByRendezvousId(rsvp.getRendezvous().getId())) {
-			questionAnswer.put(q, this.answerService.findByQuestionIdAndUserId(q.getId(), rsvp.getAttendant().getId()));
+			questionAnswer.put(q, this.answerService.findByRSVPIdAndQuestionId(rsvpId, q.getId()));
 		}
 				
 		result = new ModelAndView("rsvp/display");

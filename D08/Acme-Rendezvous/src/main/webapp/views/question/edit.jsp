@@ -13,8 +13,9 @@
 <form:form action="question/user/edit.do" modelAttribute="question">
 
 	<form:hidden path="id"/>
-	<form:hidden path="version"/>
- 	<form:hidden path="rendezvous"/>
+	<jstl:if test="${question.getId() == 0}">
+ 		<form:hidden path="rendezvous"/>
+ 	</jstl:if>
  	
 	<acme:textbox path="text" code="question.text" />
 

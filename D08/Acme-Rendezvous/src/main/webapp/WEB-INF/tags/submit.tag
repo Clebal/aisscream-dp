@@ -34,12 +34,18 @@
 <%-- Definition --%>
 
 <jstl:if test="${codeDelete != null}">
-	<button class="btn btn-danger" type="submit" name="${name}" ${disabled} onclick="return confirm('<spring:message code="${codeDelete }" />')">
+	<button class="btn btn-warning" type="submit" name="${name}" ${disabled} onclick="return confirm('<spring:message code="${codeDelete }" />')">
 		<spring:message code="${code}" />
 	</button>
 </jstl:if>
 
-<jstl:if test="${codeDelete == null}">
+<jstl:if test="${name.equals('delete')}">
+	<button class="btn btn-warning" type="submit" name="${name}" ${disabled}>
+		<spring:message code="${code}" />
+	</button>
+</jstl:if>
+
+<jstl:if test="${codeDelete == null && !name.equals('delete')}">
 	<button class="btn btn-primary" type="submit" name="${name}" ${disabled}>
 		<spring:message code="${code}" />
 	</button>

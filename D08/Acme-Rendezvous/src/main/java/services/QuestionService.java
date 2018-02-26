@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
-import domain.Answer;
 import domain.Question;
+import domain.Answer;
 import domain.Rendezvous;
 
 import repositories.QuestionRepository;
@@ -27,6 +29,9 @@ public class QuestionService {
 	// Supporting services
 	@Autowired
 	private AnswerService answerService;
+	
+	@Autowired
+	private Validator			validator;
 	
 	// Constructor
 	public QuestionService(){
@@ -159,6 +164,22 @@ public class QuestionService {
 			result = new PageRequest(page - 1, size);
 		
 		return result;
+	}
+	
+	// Pruned object domain
+	public Question reconstruct(final Question question, final BindingResult binding) {
+		Question aux;
+
+		if(question.getId() != 0) {
+			aux = this.questionRepository.findOne(question.getId());
+			
+			question.setVersion(aux.getVersion());
+			question.setRendezvous(aux.getRendezvous());
+		}
+		
+		this.validator.validate(question, binding);
+
+		return question;
 	}
 	
 }
