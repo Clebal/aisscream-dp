@@ -32,8 +32,9 @@
 		
 		
 		<!-- Para que aparezcan los enlaces de addlink cuando accedamos desde el diplay para enlazar -->
-		<jstl:if test="${canLink && !myRendezvousIsDeleted && row.getIsDeleted()==false}">
+		<jstl:if test="${requestURI.equals('rendezvous/user/listRendezvousesForLink.do') }">
 		<display:column>
+		<jstl:if test="${canLink && !myRendezvousIsDeleted && row.getIsDeleted()==false}">
 		<spring:url var="urlLinkRendezvous" value="rendezvous/user/linkRendezvous.do">
 						<spring:param name="myRendezvousId" value="${rendezvousId}" />
 						<spring:param name="linkedRendezvousId" value="${row.getId()}" />
@@ -41,12 +42,15 @@
 		<a href="${urlLinkRendezvous }"> <spring:message
 					code="rendezvous.link" />
 			</a>
+					</jstl:if>
+			
 		</display:column>
 		</jstl:if>
 		
 		<!-- Para que aparezcan los enlaces de removelink cuando accedamos desde el diplay para desenlazar -->
-		<jstl:if test="${canUnLink && !myRendezvousIsDeleted && row.getIsDeleted()==false}">
+		<jstl:if test="${requestURI.equals('rendezvous/listLinkedRendezvouses.do') }">
 		<display:column>
+		<jstl:if test="${canUnLink && !myRendezvousIsDeleted && row.getIsDeleted()==false}">
 		<spring:url var="urlUnLinkRendezvous" value="rendezvous/user/unLinkRendezvous.do">
 						<spring:param name="myRendezvousId" value="${rendezvousId}" />
 						<spring:param name="linkedRendezvousId" value="${row.getId()}" />
@@ -54,6 +58,7 @@
 		<a href="${urlUnLinkRendezvous }"> <spring:message
 					code="rendezvous.unLink" />
 			</a>
+			</jstl:if>
 		</display:column>
 		</jstl:if>
 		
