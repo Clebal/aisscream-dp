@@ -98,8 +98,6 @@ public class ActorController extends AbstractController {
 	public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page) {
 		ModelAndView result;
 		Collection<User> users;
-		Actor actor;
-		Boolean puedeCrear;
 		Integer pageNumber, size, pageAux;
 
 		size = 5;
@@ -112,23 +110,16 @@ public class ActorController extends AbstractController {
 		
 		
 		users = this.userService.findAttendantsPaginated(pageAux, size, rendezvousId);
-		puedeCrear = true;
 
 		if (users.size() != 0)
 			pageNumber = this.userService.countAttendatsPaginated(rendezvousId);
-
-		if (LoginService.isAuthenticated()) {
-			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-			if (actor.getClass().getSimpleName().equals("Administrator"))
-				puedeCrear = false;
-		}
 
 		result = new ModelAndView("actor/list");
 
 		pageNumber = (int) Math.floor(((pageNumber / size + 0.0) - 0.1) + 1);
 
 		result.addObject("users", users);
-		result.addObject("puedeCrear", puedeCrear);
+		result.addObject("puedeCrear", false);
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", pageAux);
 

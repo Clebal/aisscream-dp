@@ -31,10 +31,8 @@
 
 <acme:paginate url="${requestURI}" objects="${users}" pageNumber="${pageNumber}" page="${page}" />
 
-<br><br>
-
-<spring:url var="urlCreate" value="actor/user/create.do">
-</spring:url>
+<spring:url var="urlCreate" value="actor/user/create.do"></spring:url>
 <jstl:if test="${puedeCrear}">
+<br><br>
 <a href="${urlCreate }"> <spring:message code="actor.create" /></a>
 </jstl:if>
