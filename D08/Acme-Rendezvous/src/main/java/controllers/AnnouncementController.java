@@ -47,7 +47,7 @@ public class AnnouncementController extends AbstractController {
 		Rendezvous rendezvous;
 		
 		size = 5;
-		if (page == null) page = 0;
+		if (page == null) page = 1;
 		
 		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 		Assert.notNull(rendezvous);

@@ -47,7 +47,7 @@ public class RsvpController extends AbstractController{
 		Integer size; 
 		
 		size = 5;
-		if (page == null) page = 0;
+		if (page == null) page = 1;
 				
 		rsvps = this.rsvpService.findByRendezvousIdToDisplay(rendezvousId, page, size);
 		Assert.notNull(rsvps);

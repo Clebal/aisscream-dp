@@ -65,7 +65,7 @@ public class RsvpUserController extends AbstractController {
 		Integer size;
 
 		size = 5;
-		if (page == null) page = 0;
+		if (page == null) page = 1;
 
 		rsvps = this.rsvpService.findByAttendantUserAccountId(LoginService.getPrincipal().getId(), page, size);
 		Assert.notNull(rsvps);

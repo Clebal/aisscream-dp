@@ -43,7 +43,7 @@ public class QuestionUserController extends AbstractController {
 		Integer size;
 
 		size = 5;
-		if (page == null) page = 0;
+		if (page == null) page = 1;
 				
 		questions = this.questionService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), page, size);
 		Assert.notNull(questions);
