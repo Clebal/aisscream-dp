@@ -59,8 +59,11 @@ public class AnnouncementService {
 		Announcement result;
 		
 		Assert.isTrue(announcementId != 0);
-		
+				
 		result = this.announcementRepository.findOne(announcementId);
+		
+		// Solo puede editarlo el creator
+		Assert.isTrue(result.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		return result;
 	}

@@ -68,6 +68,9 @@ public class QuestionService {
 		
 		result = this.questionRepository.findOne(questionId);
 		
+		// Solo puede editarlo el creator
+		Assert.isTrue(result.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
+		
 		return result;
 	}
 	
