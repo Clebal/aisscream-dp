@@ -24,12 +24,11 @@
 <%-- Attributes --%> 
 
 <%@ attribute name="url" required="true" %>
-<%@ attribute name="haveRendezvousId" required="false" %>  
+<%@ attribute name="parameter" required="false" %>
+<%@ attribute name="parameterValue" required="false" %>   
 <%@ attribute name="objects" required="true" type="java.util.Collection" %> 
 
-<jstl:if test="${haveRendezvousId == null}">
-	<jstl:set var="haveRendezvousId" value="false" />
-</jstl:if>
+
 <%-- Definition --%>
 
 <jstl:if test="${objects.size() > 0 }">
@@ -37,16 +36,16 @@
 	<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	
 		<spring:url var="urlNextPage" value="${url}">
-		<jstl:if test="${haveRendezvousId==true }">
-			<spring:param name="rendezvousId" value="${rendezvousId}" />
+		<jstl:if test="${parameter!=null && parameterValue!=null}">
+			<spring:param name="rendezvousId" value="${parameterValue}" />
 		</jstl:if>
 			<spring:param name="page" value="${i}" />
 		</spring:url>
 			
-		<jstl:if test="${page==i || page == 0}">
+		<jstl:if test="${page==i}">
 			<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
 		</jstl:if>
-		<jstl:if test="${page!=i && page != 0}">
+		<jstl:if test="${page!=i}">
 			<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
 		</jstl:if>
 			
