@@ -39,7 +39,7 @@
 	</button>
 </jstl:if>
 
-<jstl:if test="${name.equals('delete')}">
+<jstl:if test="${codeDelete == null && name.equals('delete')}">
 	<button class="btn btn-warning" type="submit" name="${name}" ${disabled}>
 		<spring:message code="${code}" />
 	</button>
