@@ -46,10 +46,10 @@
 
 	<!-- Phone -->
 	<acme:textbox code="actor.phone" path="phone"/>
-			
+	
 	<jstl:if test="${userForm.getId()==0 }">
 		<div class="form-check">
-			<form:checkbox class="form-check-input" path="check" onclick="activar(this.form)"/>
+			<form:checkbox class="form-check-input" path="check" onclick="activar(this.form)" id="check" checked=''/>
 			<form:label path="check"><spring:message code="actor.terminos1" /></form:label> <a href="termCondition/display.do"><spring:message code="actor.terminos2" /></a>
 			<form:errors class="text-danger" path="check"/>
 		</div>
@@ -71,6 +71,10 @@
 
 <script type="text/javascript">
  
+	window.onload = function() {
+    	document.getElementById("check").checked = false;
+	}
+	
 	function activar(form) {
     	if (form.check.checked) {
    			 form.save.disabled=false;

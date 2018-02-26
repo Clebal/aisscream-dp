@@ -106,7 +106,7 @@ public class ActorController extends AbstractController {
 
 		result = new ModelAndView("actor/list");
 
-		pageNumber = (int) Math.floor(((pageNumber / size + 0.0) - 0.1) + 1);
+		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
 
 		result.addObject("users", users);
 		result.addObject("pageNumber", pageNumber);
