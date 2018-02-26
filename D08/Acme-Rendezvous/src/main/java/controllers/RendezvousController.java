@@ -65,12 +65,12 @@ public class RendezvousController extends AbstractController {
 		Integer pageAux2;
 
 		if (page == null)
-			pageAux = 0;
+			pageAux = 1;
 		else
 			pageAux = page;
 
 		if (page2 == null)
-			pageAux2 = 0;
+			pageAux2 = 1;
 		else
 			pageAux2 = page2;
 
@@ -99,7 +99,7 @@ public class RendezvousController extends AbstractController {
 		Integer pageAux;
 
 		if (page == null)
-			pageAux = 0;
+			pageAux = 1;
 		else
 			pageAux = page;
 
@@ -172,7 +172,7 @@ public class RendezvousController extends AbstractController {
 		Integer pageAux;
 
 		if (page == null)
-			pageAux = 0;
+			pageAux = 1;
 		else
 			pageAux = page;
 
@@ -246,7 +246,7 @@ public class RendezvousController extends AbstractController {
 		Integer pageAux;
 
 		if (page == null)
-			pageAux = 0;
+			pageAux = 1;
 		else
 			pageAux = page;
 
@@ -320,7 +320,7 @@ public class RendezvousController extends AbstractController {
 		Integer pageAux;
 
 		if (page == null)
-			pageAux = 0;
+			pageAux = 1;
 		else
 			pageAux = page;
 
@@ -397,7 +397,7 @@ public class RendezvousController extends AbstractController {
 		Integer pageAux;
 
 		if (page == null)
-			pageAux = 0;
+			pageAux = 1;
 		else
 			pageAux = page;
 

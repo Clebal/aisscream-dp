@@ -212,7 +212,7 @@
 			<spring:url var="urlMorePage" value="rendezvous/display.do">
 				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 				<spring:param name="page" value="${i}" />
-				<spring:param name="page" value="${page2}" />
+				<spring:param name="page2" value="${page2}" />
 				
 			</spring:url>
 			
