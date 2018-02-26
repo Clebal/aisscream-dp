@@ -83,10 +83,34 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccountUser5" class="security.UserAccount">
+		<property name="username" value="user5" />
+		<property name="password" value="0a791842f52a0acfbb3a783378c066b8" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser6" class="security.UserAccount">
+		<property name="username" value="user6" />
+		<property name="password" value="affec3b64cf90492377a8114c86fc093" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- User -->
 	<bean id="user1" class="domain.User">
-		<property name="name" value="User" />
-		<property name="surname" value="1" />
+		<property name="name" value="Alejandro" />
+		<property name="surname" value="Martínez ruiz" />
 		<property name="email" value="user1@acme.com" />
 		<property name="phone" value="+34618396001" />
 		<property name="address" value="Calle Sin Número, 123" />
@@ -95,33 +119,47 @@
 	</bean>
 	
 	<bean id="user2" class="domain.User">
-		<property name="name" value="User" />
-		<property name="surname" value="2" />
+		<property name="name" value="Luis" />
+		<property name="surname" value="López González" />
 		<property name="email" value="user2@acme.com" />
-		<property name="phone" value="" />
 		<property name="address" value="Calle Falsa, 123" />
 		<property name="birthdate" value="02/12/1998" />
 		<property name="userAccount" ref="userAccountUser2" />
 	</bean>
 	
 	<bean id="user3" class="domain.User">
-		<property name="name" value="User" />
-		<property name="surname" value="3" />
+		<property name="name" value="María" />
+		<property name="surname" value="García Trinidad" />
 		<property name="email" value="user3@acme.com" />
 		<property name="phone" value="+3461738000" />
-		<property name="address" value="" />
 		<property name="birthdate" value="16/02/1996" />
 		<property name="userAccount" ref="userAccountUser3" />
 	</bean>
 	
 	<bean id="user4" class="domain.User">
-		<property name="name" value="User" />
-		<property name="surname" value="4" />
+		<property name="name" value="Sergio" />
+		<property name="surname" value="Sánchez Ortiz" />
 		<property name="email" value="user4@acme.com" />
-		<property name="phone" value="" />
-		<property name="address" value="" />
 		<property name="birthdate" value="02/11/2002" />
 		<property name="userAccount" ref="userAccountUser4" />
+	</bean>
+	
+	<bean id="user5" class="domain.User">
+		<property name="name" value="Pepe" />
+		<property name="surname" value="Casillas Martín" />
+		<property name="email" value="user5@acme.com" />
+		<property name="phone" value="+3461738010" />
+		<property name="birthdate" value="16/02/1996" />
+		<property name="userAccount" ref="userAccountUser5" />
+	</bean>
+	
+	<bean id="user6" class="domain.User">
+		<property name="name" value="Rocío" />
+		<property name="surname" value="Crespo Sánchez" />
+		<property name="email" value="user6@acme.com" />
+		<property name="phone" value="+3461738011" />
+		<property name="birthdate" value="18/02/1996" />
+		<property name="userAccount" ref="userAccountUser6" />
 	</bean>
 	
 	<!-- Administrator -->
@@ -129,8 +167,6 @@
 		<property name="name" value="Administrator" />
 		<property name="surname" value="1" />
 		<property name="email" value="administrator@acme.com" />
-		<property name="phone" value="" />
-		<property name="address" value="" />
 		<property name="birthdate" value="25/08/1995" />
 		<property name="userAccount" ref="userAccountAdministrator" />
 	</bean>
@@ -140,11 +176,10 @@
 		<property name="name" value="Reunión para excursión" />
 		<property name="description" value="El próximo jueves vamos a tener una reunión para organizar la salida al campo." />
 		<property name="moment" value="03/19/2018 23:44" />
-		<property name="picture" value="" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
-		<property name="latitude" value="" />
-		<property name="longitude" value="" />
+		<property name="latitude" value="11.2" />
+		<property name="longitude" value="36.7" />
 		<property name="isDeleted" value="false" />
 		<property name="creator" ref="user1" />
 		<property name="linkerRendezvouses">
@@ -175,7 +210,6 @@
 		<property name="name" value="Revisión médica" />
 		<property name="description" value="La revisión médica anual tendrá lugar el próximo lunes en el salón de reuniones." />
 		<property name="moment" value="05/15/2018 20:05" />
-		<property name="picture" value="" />
 		<property name="draft" value="true" />
 		<property name="adultOnly" value="true" />
 		<property name="latitude" value="40.741895" />
@@ -192,7 +226,6 @@
 		<property name="name" value="Cita con el coordinador" />
 		<property name="description" value="Es una cita muy importante a la que no se puede faltar." />
 		<property name="moment" value="06/02/2018 09:13" />
-		<property name="picture" value="" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="true" />
 		<property name="latitude" value="40.741895" />
@@ -204,6 +237,86 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!-- Añadido -->
+	<bean id="rendezvous5" class="domain.Rendezvous">
+		<property name="name" value="Cita con mis amigos" />
+		<property name="description" value="Es una cita de reencuentro" />
+		<property name="moment" value="06/17/2018 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="latitude" value="40.741895" />
+		<property name="longitude" value="111.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="rendezvous6" class="domain.Rendezvous">
+		<property name="name" value="Cita con mis primos" />
+		<property name="description" value="Es una cita para organizar un asunto familiar" />
+		<property name="moment" value="08/17/2018 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous7" class="domain.Rendezvous">
+		<property name="name" value="Cita romántica con mi pareja" />
+		<property name="description" value="Es una cita por nuestro aniversario" />
+		<property name="moment" value="08/21/2018 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous8" class="domain.Rendezvous">
+		<property name="name" value="Reunión de viejos amigos" />
+		<property name="description" value="Para recordar viejos momentos" />
+		<property name="moment" value="06/17/2019 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="latitude" value="40.741895" />
+		<property name="longitude" value="112.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous9" class="domain.Rendezvous">
+		<property name="name" value="Reunión con los amigos del club" />
+		<property name="description" value="Para disfrutar de nuestro hobby" />
+		<property name="moment" value="06/20/2019 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="latitude" value="45.741895" />
+		<property name="longitude" value="112.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!--  -->
 	
 	
 	<!-- RSVP -->
@@ -254,7 +367,13 @@
 		<property name="attendant" ref="user1" />
 		<property name="rendezvous" ref="rendezvous4" />
 	</bean>
-	
+	<!-- Añadido -->
+	<bean id="rsvp9" class="domain.Rsvp">
+		<property name="status" value="ACCEPTED" />
+		<property name="attendant" ref="user5" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	<!-- Añadido -->
 	
 	<!-- Question -->
 	<bean id="question1" class="domain.Question">
@@ -292,6 +411,45 @@
 		<property name="number" value="1" />
 		<property name="rendezvous" ref="rendezvous4" />
 	</bean>
+	
+	<!-- Añadido -->
+	<bean id="question7" class="domain.Question">
+		<property name="text" value="¿Te cae bien el coordinador?" />
+		<property name="number" value="1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question8" class="domain.Question">
+		<property name="text" value="¿Cuál es tu comida favorita?" />
+		<property name="number" value="2" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question9" class="domain.Question">
+		<property name="text" value="¿Por qué quieres venir con nosotros?" />
+		<property name="number" value="3" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question10" class="domain.Question">
+		<property name="text" value="¿Cuál es tu animal favorito?" />
+		<property name="number" value="4" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question11" class="domain.Question">
+		<property name="text" value="¿Cuánto mides?" />
+		<property name="number" value="5" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question12" class="domain.Question">
+		<property name="text" value="¿De donde eres?" />
+		<property name="number" value="6" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<!--  -->
 	
 	<!-- Answer -->
 	<bean id="answer1" class="domain.Answer">
@@ -366,6 +524,44 @@
 		<property name="rsvp" ref="rsvp8" />
 	</bean>
 	
+	<!-- Añadido -->
+	<bean id="answer13" class="domain.Answer">
+		<property name="text" value="Sí, es un buen tipo." />
+		<property name="question" ref="question7" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer14" class="domain.Answer">
+		<property name="text" value="Los macarrones." />
+		<property name="question" ref="question8" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer15" class="domain.Answer">
+		<property name="text" value="Porque me hace ilusión conocer gente nueva" />
+		<property name="question" ref="question9" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer16" class="domain.Answer">
+		<property name="text" value="El cocodrilo" />
+		<property name="question" ref="question10" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer17" class="domain.Answer">
+		<property name="text" value="1,80 metros" />
+		<property name="question" ref="question11" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer18" class="domain.Answer">
+		<property name="text" value="De Sevilla" />
+		<property name="question" ref="question12" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	<!--  -->
+	
 	<!-- Announcement -->
 	<bean id="announcement1" class="domain.Announcement">
 		<property name="moment" value="01/15/2018" />
@@ -402,12 +598,54 @@
 		<property name="rendezvous" ref="rendezvous4" />
 	</bean>
 	
+	<!-- Añadido -->
+	<bean id="announcement6" class="domain.Announcement">
+		<property name="moment" value="02/13/2018" />
+		<property name="title" value="El coordinador cita una reunión con los empleados" />
+		<property name="description" value="Reunión de vital importancia" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement7" class="domain.Announcement">
+		<property name="moment" value="02/16/2018" />
+		<property name="title" value="Nuevos datos disponibles" />
+		<property name="description" value="Mirar la descripción" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement8" class="domain.Announcement">
+		<property name="moment" value="02/17/2018" />
+		<property name="title" value="Nuevos temas disponibles en mi web personal" />
+		<property name="description" value="Miradlos, son geniales" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement9" class="domain.Announcement">
+		<property name="moment" value="02/18/2018" />
+		<property name="title" value="Cambiada la fecha de la reunión" />
+		<property name="description" value="Se retrasa una hora" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement10" class="domain.Announcement">
+		<property name="moment" value="02/19/2018" />
+		<property name="title" value="Nos falta gente para llegar al tope" />
+		<property name="description" value="Necesitamos diez personas más" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement11" class="domain.Announcement">
+		<property name="moment" value="02/20/2018" />
+		<property name="title" value="¡Estamos todos!" />
+		<property name="description" value="Por fin podremos disfrutar del día" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	<!--  -->
 	
 	<!-- Comment -->
 	<bean id="comment1" class="domain.Comment">
 		<property name="moment" value="02/01/2018 15:30" />
 		<property name="text" value="Tremenda excursión, como lo pasamos el año pasado, este año repetimos!!" />
-		<property name="picture" value="" />
 		<property name="user" ref="user3" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
@@ -415,7 +653,6 @@
 	<bean id="comment2" class="domain.Comment">
 		<property name="moment" value="02/16/2018 12:43" />
 		<property name="text" value="¿Cuál es la dirección del pollo loco?" />
-		<property name="picture" value="" />
 		<property name="user" ref="user3" />
 		<property name="repliedComment" ref="comment3" />
 		<property name="rendezvous" ref="rendezvous2" />
@@ -428,6 +665,50 @@
 		<property name="user" ref="user1" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
+	
+	<!-- Añadido -->
+	<bean id="comment4" class="domain.Comment">
+		<property name="moment" value="02/01/2018 15:30" />
+		<property name="text" value="Ha sido muy divertido" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment5" class="domain.Comment">
+		<property name="moment" value="02/02/2018 15:30" />
+		<property name="text" value="Ya falta menos" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment6" class="domain.Comment">
+		<property name="moment" value="02/03/2018 15:30" />
+		<property name="text" value="Gracias por apuntarse" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment7" class="domain.Comment">
+		<property name="moment" value="02/04/2018 15:30" />
+		<property name="text" value="Bienvenidos a todos" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment8" class="domain.Comment">
+		<property name="moment" value="02/05/2018 15:30" />
+		<property name="text" value="Que buen día hace hoy" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment9" class="domain.Comment">
+		<property name="moment" value="02/06/2018 15:30" />
+		<property name="text" value="Qué ganas que llegue el día" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	<!--  -->
 	
 	<bean id="internationalization1" class="domain.Internationalization">
 
@@ -651,4 +932,3 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 </beans>
-
