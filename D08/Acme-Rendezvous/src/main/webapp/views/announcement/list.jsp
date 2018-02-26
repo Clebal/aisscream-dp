@@ -40,10 +40,10 @@
 			<spring:param name="page" value="${i}" />
 		</spring:url>
 			
-		<jstl:if test="${page==i || page == 0}">
+		<jstl:if test="${page==i}">
 			<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
 		</jstl:if>
-		<jstl:if test="${page!=i && page != 0}">
+		<jstl:if test="${page!=i}">
 			<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
 		</jstl:if>
 			

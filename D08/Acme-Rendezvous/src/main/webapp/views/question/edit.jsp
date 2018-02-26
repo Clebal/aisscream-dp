@@ -17,6 +17,10 @@
  		<form:hidden path="rendezvous"/>
  	</jstl:if>
  	
+ 	<jstl:if test="${question.getId()!= 0}">
+ 		<acme:textbox path="number" code="question.number" readonly="true" />
+ 	</jstl:if>
+ 	
 	<acme:textbox path="text" code="question.text" />
 
 	<acme:submit name="save" code="question.save" />

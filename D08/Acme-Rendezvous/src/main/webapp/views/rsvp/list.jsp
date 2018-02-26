@@ -41,10 +41,35 @@
 	<jstl:if test="${!requestURI.equals('rsvp/list.do')}">
 		<acme:columnLink action="display" domain="rsvp" id="${row.getId()}" />
 	</jstl:if>
+	
 	<jstl:if test="${requestURI.equals('rsvp/list.do')}">
 		<acme:columnLink action="display" domain="rsvp" id="${row.getId()}" url="rsvp/display.do?rsvpId=${row.getId()}" />
 	</jstl:if>
 	
 </display:table>
 
-<acme:paginate url="${requestURI}" objects="${rsvps}" pageNumber="${pageNumber}" page="${page}" />
+<jstl:if test="${!requestURI.equals('rsvp/list.do')}">
+	<acme:paginate url="${requestURI}" objects="${rsvps}" pageNumber="${pageNumber}" page="${page}" />
+</jstl:if>
+
+<jstl:if test="${requestURI.equals('rsvp/list.do')}">
+	<jstl:if test="${announcements.size() > 0 }">
+	
+		<jstl:forEach var="i" begin="1" end="${pageNumber}">
+		
+			<spring:url var="urlNextPage" value="${requestURI}">
+				<spring:param name="rendezvousId" value="${rendezvousId}" />
+				<spring:param name="page" value="${i}" />
+			</spring:url>
+				
+			<jstl:if test="${page==i}">
+				<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			<jstl:if test="${page!=i}">
+				<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+				
+		</jstl:forEach>
+		
+	</jstl:if>
+</jstl:if>

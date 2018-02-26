@@ -66,11 +66,16 @@ public class AnnouncementService {
 	}
 	
 	public Announcement save(final Announcement announcement) {
-		Announcement result;
+		Announcement result, saved;
 		
 		Assert.notNull(announcement);
 		Assert.isTrue(announcement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 		
+		if(announcement.getId() != 0) {
+			saved = this.announcementRepository.findOne(announcement.getId());
+			Assert.isTrue(saved.getMoment().equals(announcement.getMoment()));
+		}
+
 		result = this.announcementRepository.save(announcement);
 		
 		return result;

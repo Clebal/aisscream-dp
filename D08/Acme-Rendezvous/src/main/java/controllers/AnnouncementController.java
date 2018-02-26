@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
 import security.LoginService;
 import services.AnnouncementService;
 import services.RendezvousService;
@@ -45,6 +46,10 @@ public class AnnouncementController extends AbstractController {
 		Integer size;
 		boolean isCreator;
 		Rendezvous rendezvous;
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
 		
 		size = 5;
 		if (page == null) page = 1;
@@ -53,7 +58,7 @@ public class AnnouncementController extends AbstractController {
 		Assert.notNull(rendezvous);
 		
 		isCreator = false;
-		if(LoginService.isAuthenticated()){
+		if(LoginService.isAuthenticated() && !LoginService.getPrincipal().getAuthorities().contains(authority)){
 			if(userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator())) isCreator = true;
 		}
 		announcements = this.announcementService.findByRendezvousId(rendezvousId, page, size);
