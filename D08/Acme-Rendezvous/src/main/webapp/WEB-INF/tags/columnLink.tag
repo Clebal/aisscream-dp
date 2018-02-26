@@ -30,13 +30,13 @@
 
 <%-- Definition --%>
 
-<jstl:if test="${property.equals('actor') && url == null}">
+<jstl:if test="${domain.equals('actor') && url == null}">
 	<spring:url value="${domain}/${action}.do" var="url">
 		<spring:param name="${domain}Id" value="${id}" />
 	</spring:url>
 </jstl:if>
 
-<jstl:if test="${!property.equals('actor') && url == null}">
+<jstl:if test="${!domain.equals('actor') && url == null}">
 	<spring:url value="${domain}/user/${action}.do" var="url">
 		<spring:param name="${domain}Id" value="${id}" />
 	</spring:url>
