@@ -16,18 +16,13 @@
        
 <tiles-definitions>
 
-	<definition name="question/create" extends="master.page">	
-		<put-attribute name="title" value="Create question" />
-		<put-attribute name="body" value="/views/question/edit.jsp" />
-	</definition>
-	
 	<definition name="question/list" extends="master.page">	
 		<put-attribute name="title" value="Questions" />
 		<put-attribute name="body" value="/views/question/list.jsp" />
 	</definition>
 	
 	<definition name="question/edit" extends="master.page">	
-		<put-attribute name="title" value="Edit question" />
+		<put-attribute name="title" value="Question" />
 		<put-attribute name="body" value="/views/question/edit.jsp" />
 	</definition>
 	
