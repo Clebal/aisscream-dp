@@ -64,7 +64,7 @@ public class AnnouncementService {
 		
 		return result;
 	}
-	
+	 
 	public Announcement save(final Announcement announcement) {
 		Announcement result, saved;
 		
@@ -73,7 +73,7 @@ public class AnnouncementService {
 		
 		if(announcement.getId() != 0) {
 			saved = this.announcementRepository.findOne(announcement.getId());
-			Assert.isTrue(saved.getMoment().equals(announcement.getMoment()));
+			Assert.isTrue(saved.getMoment().compareTo(announcement.getMoment()) == 0);
 		}
 
 		result = this.announcementRepository.save(announcement);
