@@ -157,6 +157,7 @@ public class CommentService {
 		Assert.isTrue(commentId != 0);
 
 		result = this.commentRepository.findOne(commentId);
+		Assert.notNull(result);
 
 		if (LoginService.isAuthenticated()) {
 			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
