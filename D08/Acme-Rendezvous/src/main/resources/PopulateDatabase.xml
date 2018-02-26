@@ -564,35 +564,35 @@
 	
 	<!-- Announcement -->
 	<bean id="announcement1" class="domain.Announcement">
-		<property name="moment" value="01/15/2018" />
+		<property name="moment" value="01/15/2018 12:24" />
 		<property name="title" value="¡Excursión a la vista!" />
 		<property name="description" value="En dos meses tendrá lugar la ya típica excursión que organizamos bianualmente, no tarde y pilla tu entrada!" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
 	<bean id="announcement2" class="domain.Announcement">
-		<property name="moment" value="02/05/2018" />
+		<property name="moment" value="02/05/2018 11:30" />
 		<property name="title" value="¡Ya está cerca la excursión!" />
 		<property name="description" value="Queda poco menos de un mes para la excursión, no olviden conseguir sus entradas, ¡niños gratis!" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
 	<bean id="announcement3" class="domain.Announcement">
-		<property name="moment" value="02/15/2018" />
+		<property name="moment" value="02/15/2018 11:30" />
 		<property name="title" value="Prepara el estómago para el almuerzo de la empresa" />
 		<property name="description" value="Nadie se queda con hambre es este suculento almuerzo que preparamos todos los años en nuestro sitio favorito del mundo, El Pollo Loco." />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
 	<bean id="announcement4" class="domain.Announcement">
-		<property name="moment" value="01/05/2018" />
+		<property name="moment" value="01/05/2018 11:30" />
 		<property name="title" value="Anuncio Importante: Revisión médica" />
 		<property name="description" value="Es necesario que todos los empleados que puedan pasen por la revisión que realizará la empresa con el objetivo de mantenter un ambiente sanitario seguro." />
 		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
 	
 	<bean id="announcement5" class="domain.Announcement">
-		<property name="moment" value="02/13/2018" />
+		<property name="moment" value="02/13/2018 11:30" />
 		<property name="title" value="El coordinador cita una reunión con los empleados" />
 		<property name="description" value="Nuestro amado coordinador quiere tener una reunión con los empleados para evaluar la motivación y escuchar las quejas que puedan surgir para mejorar la empresa." />
 		<property name="rendezvous" ref="rendezvous4" />
@@ -600,42 +600,42 @@
 	
 	<!-- Añadido -->
 	<bean id="announcement6" class="domain.Announcement">
-		<property name="moment" value="02/13/2018" />
+		<property name="moment" value="02/13/2018 12:30" />
 		<property name="title" value="El coordinador cita una reunión con los empleados" />
 		<property name="description" value="Reunión de vital importancia" />
 		<property name="rendezvous" ref="rendezvous5" />
 	</bean>
 	
 	<bean id="announcement7" class="domain.Announcement">
-		<property name="moment" value="02/16/2018" />
+		<property name="moment" value="02/16/2018 15:40" />
 		<property name="title" value="Nuevos datos disponibles" />
 		<property name="description" value="Mirar la descripción" />
 		<property name="rendezvous" ref="rendezvous5" />
 	</bean>
 	
 	<bean id="announcement8" class="domain.Announcement">
-		<property name="moment" value="02/17/2018" />
+		<property name="moment" value="02/17/2018 12:00" />
 		<property name="title" value="Nuevos temas disponibles en mi web personal" />
 		<property name="description" value="Miradlos, son geniales" />
 		<property name="rendezvous" ref="rendezvous5" />
 	</bean>
 	
 	<bean id="announcement9" class="domain.Announcement">
-		<property name="moment" value="02/18/2018" />
+		<property name="moment" value="02/18/2018 11:30" />
 		<property name="title" value="Cambiada la fecha de la reunión" />
 		<property name="description" value="Se retrasa una hora" />
 		<property name="rendezvous" ref="rendezvous5" />
 	</bean>
 	
 	<bean id="announcement10" class="domain.Announcement">
-		<property name="moment" value="02/19/2018" />
+		<property name="moment" value="02/19/2018 12:00" />
 		<property name="title" value="Nos falta gente para llegar al tope" />
 		<property name="description" value="Necesitamos diez personas más" />
 		<property name="rendezvous" ref="rendezvous5" />
 	</bean>
 	
 	<bean id="announcement11" class="domain.Announcement">
-		<property name="moment" value="02/20/2018" />
+		<property name="moment" value="02/20/2018 15:30" />
 		<property name="title" value="¡Estamos todos!" />
 		<property name="description" value="Por fin podremos disfrutar del día" />
 		<property name="rendezvous" ref="rendezvous5" />

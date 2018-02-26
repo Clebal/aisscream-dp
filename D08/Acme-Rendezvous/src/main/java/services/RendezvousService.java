@@ -129,6 +129,8 @@ public class RendezvousService {
 
 		result = this.rendezvousRepository.findOne(rendezvousId);
 
+		Assert.notNull(result);
+
 		canPermit = false;
 		if (LoginService.isAuthenticated())
 			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
