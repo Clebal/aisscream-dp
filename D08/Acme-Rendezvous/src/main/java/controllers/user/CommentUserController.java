@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.CommentService;
 import services.RendezvousService;
+import services.RsvpService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Comment;
 import domain.Rendezvous;
+import domain.Rsvp;
+import domain.User;
 
 @Controller
 @RequestMapping("/comment/user")
@@ -26,6 +31,12 @@ public class CommentUserController extends AbstractController {
 	@Autowired
 	private RendezvousService	rendezvousService;
 
+	@Autowired
+	private UserService			userService;
+
+	@Autowired
+	private RsvpService			rsvpService;
+
 
 	//Create
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -35,7 +46,7 @@ public class CommentUserController extends AbstractController {
 		final Comment comment;
 		Rendezvous rendezvous;
 
-		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 		Assert.notNull(rendezvous);
 
 		if (repliedCommentId != null) {
@@ -89,9 +100,22 @@ public class CommentUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Comment comment, final String messageCode) {
 		ModelAndView result;
+		Boolean canEdit;
+		User user;
+		Rsvp rsvp;
 
 		result = new ModelAndView("comment/create");
 
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		rsvp = this.rsvpService.findByAttendantUserIdAndRendezvousId(user.getId(), comment.getRendezvous().getId());
+
+		canEdit = false;
+
+		if (rsvp != null || comment.getUser().equals(user))
+			canEdit = true;
+
+		result.addObject("canEdit", canEdit);
 		result.addObject("comment", comment);
 		result.addObject("actor", "user");
 		result.addObject("message", messageCode);

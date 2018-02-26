@@ -22,9 +22,15 @@
 	
 	<spring:message code="about.us.name.value" var="nameValue"/>
 	<spring:message code="about.us.vat.number.value" var="vatValue"/>
+	<spring:message code="about.us.email.value" var="emailValue"/>
+	<spring:message code="about.us.group.value" var="groupValue"/>
+	<spring:message code="about.us.address.value" var="addressValue"/>
 	
 	<acme:display code="about.us.name" value="${nameValue}"/>
 	<acme:display code="about.us.vat.number" value="${vatValue}"/>
+	<acme:display code="about.us.email" value="${emailValue}"/>
+	<acme:display code="about.us.group" value="${groupValue}"/>
+	<acme:display code="about.us.address" value="${addressValue}"/>
 	
 	
 

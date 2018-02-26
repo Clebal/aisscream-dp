@@ -32,7 +32,7 @@
 	
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>
-		<jstl:if test="${comment.getUser().getUserAccount().getUsername().equals(principal) && comment.getId()==0}">
+		<jstl:if test="${canEdit && comment.getId()==0}">
 			<acme:submit name="save" code="comment.save" />
 		</jstl:if>
 	</security:authorize>

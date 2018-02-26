@@ -65,7 +65,8 @@ public class RsvpUserController extends AbstractController {
 		Integer size;
 
 		size = 5;
-		if (page == null) page = 1;
+		if (page == null)
+			page = 1;
 
 		rsvps = this.rsvpService.findByAttendantUserAccountId(LoginService.getPrincipal().getId(), page, size);
 		Assert.notNull(rsvps);
@@ -83,20 +84,19 @@ public class RsvpUserController extends AbstractController {
 		ModelAndView result;
 		Rsvp rsvp;
 		Map<Question, Answer> questionAnswer;
-		
+
 		questionAnswer = new HashMap<Question, Answer>();
-		
+
 		rsvp = this.rsvpService.findOneToDisplay(rsvpId);
 		Assert.notNull(rsvp);
-		
-		for(Question q: this.questionService.findByRendezvousId(rsvp.getRendezvous().getId())) {
+
+		for (final Question q : this.questionService.findByRendezvousId(rsvp.getRendezvous().getId()))
 			questionAnswer.put(q, this.answerService.findByRSVPIdAndQuestionId(rsvp.getId(), q.getId()));
-		}
-						
+
 		result = new ModelAndView("rsvp/display");
 		result.addObject("rsvp", rsvp);
 		result.addObject("questionAnswer", questionAnswer);
-		
+
 		return result;
 	}
 
@@ -140,27 +140,42 @@ public class RsvpUserController extends AbstractController {
 		Map<Integer, String> questionsMap;
 		Map<Integer, String> answersMap;
 		RsvpForm rsvpForm;
+		Rsvp rsvp;
 
-		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 		Assert.notNull(rendezvous);
 
 		questions = this.questionService.findByRendezvousId(rendezvousId);
 
-		questionsMap = new HashMap<Integer, String>();
-		answersMap = new HashMap<Integer, String>();
+		if (questions.size() == 0)
+			//Guardamos automaticamente el rsvp
+			try {
+				rsvp = this.rsvpService.create(rendezvous);
+				this.rsvpService.save(rsvp);
+				result = new ModelAndView("redirect:list.do");
 
-		rsvpForm = new RsvpForm();
+				//Si se produce algún fallo en este momento, borramos el rsvp creado anteriormente	
+			} catch (final Throwable oops) {
+				result = new ModelAndView("redirect:list.do");
+			}
+		else {
+			questionsMap = new HashMap<Integer, String>();
+			answersMap = new HashMap<Integer, String>();
 
-		for (final Question question : questions) {
-			questionsMap.put(question.getId(), question.getText());
-			answersMap.put(question.getId(), "");
+			rsvpForm = new RsvpForm();
+
+			for (final Question question : questions) {
+				questionsMap.put(question.getId(), question.getText());
+				answersMap.put(question.getId(), "");
+			}
+
+			rsvpForm.setQuestions(questionsMap);
+			rsvpForm.setAnswers(answersMap);
+			rsvpForm.setRendezvousId(rendezvousId);
+
+			result = this.createEditModelAndView2(rsvpForm);
+
 		}
-
-		rsvpForm.setQuestions(questionsMap);
-		rsvpForm.setAnswers(answersMap);
-		rsvpForm.setRendezvousId(rendezvousId);
-
-		result = this.createEditModelAndView2(rsvpForm);
 
 		return result;
 	}
@@ -179,6 +194,12 @@ public class RsvpUserController extends AbstractController {
 		answers = new ArrayList<Answer>();
 		deleteRsvp = false;
 		result = null;
+
+		if (rsvpForm.getQuestions() == null)
+			rsvpForm.setQuestions(new HashMap<Integer, String>());
+
+		if (rsvpForm.getAnswers() == null)
+			rsvpForm.setAnswers(new HashMap<Integer, String>());
 
 		//Reconstruimos las respuestas y creamos el rsvp
 		try {
