@@ -14,7 +14,7 @@ import domain.Question;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
-	@Query("select q from Question q where q.rendezvous.creator.userAccount.id = ?1")
+	@Query("select q from Question q where q.rendezvous.creator.userAccount.id = ?1 order by q.number")
 	Page<Question> findByCreatorUserAccountId(int userAccountId, Pageable pageable);
 
 	@Query("select count(q) from Question q where q.rendezvous.creator.userAccount.id = ?1")
