@@ -21,10 +21,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select count(u) from User u")
 	Integer findAllCount();
 
-	@Query("select distinct u from User u, Rendezvous r, Rsvp rs where rs.rendezvous=?1 and rs.attendant=u")
+	@Query("select distinct u from User u, Rendezvous r, Rsvp rs where rs.rendezvous.id=?1 and rs.attendant=u")
 	Page<User> findAttendantsPageable(int rendezvousId, Pageable pageable);
 
-	@Query("select count(distinct u) from User u, Rendezvous r, Rsvp rs where rs.rendezvous=?1 and rs.attendant=u")
+	@Query("select count(distinct u) from User u, Rendezvous r, Rsvp rs where rs.rendezvous.id=?1 and rs.attendant=u")
 	Integer findAttendantsCount(int rendezvousId);
 	
 	@Query("select avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float )),sqrt(sum((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id)*(select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float ))*avg(cast((select count(r.rendezvous) from Rsvp r where r.attendant.id=u.id) as float ))) from User u")

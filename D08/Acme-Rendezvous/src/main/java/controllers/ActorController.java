@@ -53,16 +53,22 @@ public class ActorController extends AbstractController {
 
 	// List
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) final int page) {
+	public ModelAndView list(@RequestParam(required = false) final Integer page) {
 		ModelAndView result;
 		Collection<User> users;
 		Actor actor;
 		Boolean puedeCrear;
-		Integer pageNumber, size;
+		Integer pageNumber, size, pageAux;
 
 		size = 5;
 		pageNumber = 0;
-		users = this.userService.findAllPaginated(page, size);
+		
+		if (page == null)
+			pageAux = 0;
+		else
+			pageAux = page;
+		
+		users = this.userService.findAllPaginated(pageAux, size);
 		puedeCrear = true;
 
 		if (users.size() != 0)
@@ -81,23 +87,31 @@ public class ActorController extends AbstractController {
 		result.addObject("users", users);
 		result.addObject("puedeCrear", puedeCrear);
 		result.addObject("pageNumber", pageNumber);
-		result.addObject("page", page);
+		result.addObject("page", pageAux);
+		result.addObject("requestURI", "actor/list.do");
 
 		return result;
 	}
 
 	// List attendans
 	@RequestMapping(value = "/listAttendants", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam(required = false) final int page) {
+	public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page) {
 		ModelAndView result;
 		Collection<User> users;
 		Actor actor;
 		Boolean puedeCrear;
-		Integer pageNumber, size;
+		Integer pageNumber, size, pageAux;
 
 		size = 5;
 		pageNumber = 0;
-		users = this.userService.findAttendantsPaginated(page, size, rendezvousId);
+		
+		if (page == null)
+			pageAux = 0;
+		else
+			pageAux = page;
+		
+		
+		users = this.userService.findAttendantsPaginated(pageAux, size, rendezvousId);
 		puedeCrear = true;
 
 		if (users.size() != 0)
@@ -116,7 +130,7 @@ public class ActorController extends AbstractController {
 		result.addObject("users", users);
 		result.addObject("puedeCrear", puedeCrear);
 		result.addObject("pageNumber", pageNumber);
-		result.addObject("page", page);
+		result.addObject("page", pageAux);
 
 		return result;
 	}

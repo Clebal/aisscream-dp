@@ -29,7 +29,9 @@
 	
 </display:table>
 
-<acme:paginate url="actor/list.do" objects="${users}"/>
+<div id="paginacion">
+<acme:paginate url="${requestURI}" objects="${users}" page="${page}" pageNumber="${pageNumber}" />
+</div>
 
 <br><br>
 
