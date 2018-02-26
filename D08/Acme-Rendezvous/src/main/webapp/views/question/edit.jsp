@@ -18,10 +18,10 @@
  	
 	<acme:textbox path="text" code="question.text" />
 
-	<acme:submit name="save" code="question.save" cssClass="btn btn-primary" />
+	<acme:submit name="save" code="question.save" />
 
 	<jstl:if test="${question.getId()!= 0}">
-		<acme:submit name="delete" code="question.delete" cssClass="btn btn-warning" />
+		<acme:submit name="delete" code="question.delete" />
 	</jstl:if>
 	
 	<acme:cancel code="question.cancel" url="question/user/list.do" />

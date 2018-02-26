@@ -22,13 +22,12 @@
 	
 	<acme:textbox path="description" code="announcement.description"/>
 
-	<acme:submit name="save" code="announcement.save" cssClass="btn btn-primary" />
+	<acme:submit name="save" code="announcement.save" />
 	
 	<jstl:if test="${announcement.getId()!= 0}">
-		<acme:submit name="delete" code="announcement.delete" cssClass="btn btn-warning"/>
+		<acme:submit name="delete" code="announcement.delete" />
 	</jstl:if>
 	
 	<acme:cancel code="announcement.cancel" url="announcement/user/list.do" />
 	
-
 </form:form>

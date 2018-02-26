@@ -14,26 +14,37 @@
 	
 	<jsp:useBean id="today" class="java.util.Date" />
 	
-	<jstl:if test="${row.getRendezvous().getMoment().compareTo(today) < 0 || !row.getRendezvous().getIsDeleted()}">
-		<jstl:if test="${row.getStatus().equals('ACCEPTED')}">
-			<acme:columnLink action="cancel" domain="rsvp" id="${row.getId()}" />
+	<jstl:if test="${!requestURI.equals('rsvp/list.do')}">
+		<jstl:if test="${row.getRendezvous().getMoment().compareTo(today) < 0 || !row.getRendezvous().getIsDeleted()}">
+			<jstl:if test="${row.getStatus().equals('ACCEPTED')}">
+				<acme:columnLink action="cancel" domain="rsvp" id="${row.getId()}" />
+			</jstl:if>
+			
+			<jstl:if test="${row.getStatus().equals('CANCELLED')}">
+				<acme:columnLink action="accept" domain="rsvp" id="${row.getId()}" />
+			</jstl:if>
 		</jstl:if>
-		
-		<jstl:if test="${row.getStatus().equals('CANCELLED')}">
-			<acme:columnLink action="accept" domain="rsvp" id="${row.getId()}" />
+		<jstl:if test="${row.getRendezvous().getMoment().compareTo(today) > 0 && row.getRendezvous().getIsDeleted()}">
+			<display:column>
+			</display:column>
 		</jstl:if>
 	</jstl:if>
 	
 	<acme:column property="status" domain="rsvp" />
 	
 	<jstl:if test="${requestURI.equals('rsvp/list.do')}">
-		<acme:column property="user" domain="rsvp" />
+		<acme:column property="user" domain="rsvp" row="${row}" />
 	</jstl:if>
 
 	<acme:column property="rendezvous" domain="rsvp" row="${row}" />
 	
-	<acme:columnLink action="display" domain="rsvp" id="${row.getId()}" />
-		
+	<jstl:if test="${!requestURI.equals('rsvp/list.do')}">
+		<acme:columnLink action="display" domain="rsvp" id="${row.getId()}" />
+	</jstl:if>
+	<jstl:if test="${requestURI.equals('rsvp/list.do')}">
+		<acme:columnLink action="display" domain="rsvp" id="${row.getId()}" url="rsvp/display.do?rsvpId=${row.getId()}" />
+	</jstl:if>
+	
 </display:table>
 
-<acme:paginate url="${requestURI}" objects="${rsvps}"/>
+<acme:paginate url="${requestURI}" objects="${rsvps}" pageNumber="${pageNumber}" page="${page}" />

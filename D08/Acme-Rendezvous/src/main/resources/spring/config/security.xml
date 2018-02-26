@@ -80,6 +80,8 @@
 		<security:intercept-url pattern="/rsvp/user/create.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/rsvp/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/rsvp/user/display.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/rsvp/user/cancel.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/rsvp/user/accept.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/question/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/question/user/create.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/question/user/edit.do" access="hasRole('USER')" />

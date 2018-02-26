@@ -47,14 +47,15 @@ public class AnnouncementController extends AbstractController {
 		Rendezvous rendezvous;
 		
 		size = 5;
-		if (page == null) page = 1;
+		if (page == null) page = 0;
 		
-		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 		Assert.notNull(rendezvous);
 		
 		isCreator = false;
-		if(userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator())) isCreator = true;
-		
+		if(LoginService.isAuthenticated()){
+			if(userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator())) isCreator = true;
+		}
 		announcements = this.announcementService.findByRendezvousId(rendezvousId, page, size);
 		Assert.notNull(announcements);
 				

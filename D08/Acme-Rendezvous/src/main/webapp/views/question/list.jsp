@@ -22,4 +22,4 @@
 
 </display:table>
 
-<acme:paginate url="${requestURI}" objects="${questions}" />
+<acme:paginate url="${requestURI}" objects="${questions}" pageNumber="${pageNumber}" page="${page}" />

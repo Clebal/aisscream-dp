@@ -44,7 +44,7 @@
 <jstl:if test="${property.equals('user')}">
 	<jstl:if test="${domain.equals('rsvp')}">
 		<display:column title="${headerTitle}">
-			<a href="actor/display.do?userId=${row.getAttendat().getId()}"><jstl:out value="${row.getAttendant().getName()}" /></a>
+			<a href="actor/display.do?userId=${row.getAttendant().getId()}"><jstl:out value="${row.getAttendant().getName()}" /></a>
 		</display:column>
 	</jstl:if>
 </jstl:if>

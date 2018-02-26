@@ -25,7 +25,6 @@ public class AbstractController {
 		
         pageNumber = (int) Math.floor(((collectionSize / (size + 0.0)) - 0.1) + 1);
 
-		
         result = new ModelAndView(path);
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);

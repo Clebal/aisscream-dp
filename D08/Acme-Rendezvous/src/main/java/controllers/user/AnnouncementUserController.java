@@ -45,7 +45,7 @@ public class AnnouncementUserController extends AbstractController {
 		Integer size;
 		
 		size = 5;
-		if(page == null) page = 1;
+		if(page == null) page = 0;
 		
 		announcements = this.announcementService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), page, size);
 		Assert.notNull(announcements);

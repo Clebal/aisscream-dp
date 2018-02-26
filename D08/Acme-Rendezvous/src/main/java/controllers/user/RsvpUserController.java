@@ -65,8 +65,7 @@ public class RsvpUserController extends AbstractController {
 		Integer size;
 
 		size = 5;
-		if (page == null)
-			page = 1;
+		if (page == null) page = 0;
 
 		rsvps = this.rsvpService.findByAttendantUserAccountId(LoginService.getPrincipal().getId(), page, size);
 		Assert.notNull(rsvps);
@@ -83,14 +82,21 @@ public class RsvpUserController extends AbstractController {
 	public ModelAndView display(@RequestParam(required = false) final int rsvpId) {
 		ModelAndView result;
 		Rsvp rsvp;
-
-		rsvp = this.rsvpService.findOne(rsvpId);
+		Map<Question, Answer> questionAnswer;
+		
+		questionAnswer = new HashMap<Question, Answer>();
+		
+		rsvp = this.rsvpService.findOneToDisplay(rsvpId);
 		Assert.notNull(rsvp);
-
+		
+		for(Question q: this.questionService.findByRendezvousId(rsvp.getRendezvous().getId())) {
+			questionAnswer.put(q, this.answerService.findByQuestionIdAndUserId(q.getId(), rsvp.getAttendant().getId()));
+		}
+				
 		result = new ModelAndView("rsvp/display");
 		result.addObject("rsvp", rsvp);
-		result.addObject("requestURI", "rsvp/user/display.do");
-
+		result.addObject("questionAnswer", questionAnswer);
+		
 		return result;
 	}
 

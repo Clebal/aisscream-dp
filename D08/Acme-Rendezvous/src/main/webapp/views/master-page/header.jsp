@@ -54,6 +54,8 @@
 					<li><a href="rendezvous/user/list.do"><spring:message code="master.page.user.rendezvouses" /></a></li>
 					<li><a href="rsvp/user/list.do"><spring:message code="master.page.user.rsvps" /></a></li>						
 					<li><a href="rendezvous/user/listByAttendant.do"><spring:message code="master.page.user.rsvp.rendezvouses" /></a></li>
+					<li><a href="question/user/list.do"><spring:message code="master.page.user.questions" /></a></li>
+					<li><a href="announcement/user/list.do"><spring:message code="master.page.user.announcement" /></a></li>
 				</ul>
 			</security:authorize>
 			

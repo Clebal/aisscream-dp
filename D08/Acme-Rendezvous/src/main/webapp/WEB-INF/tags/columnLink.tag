@@ -26,22 +26,20 @@
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="domain" required="true" %>
 <%@ attribute name="id" required="true" %>
+<%@ attribute name="url" required="false" %>
 
 <%-- Definition --%>
 
-<jstl:if test="${property.equals('actor')}">
-
-<spring:url value="${domain}/${action}.do" var="url">
-	<spring:param name="${domain}Id" value="${id}" />
-</spring:url>
-
+<jstl:if test="${property.equals('actor') && url == null}">
+	<spring:url value="${domain}/${action}.do" var="url">
+		<spring:param name="${domain}Id" value="${id}" />
+	</spring:url>
 </jstl:if>
-<jstl:if test="${!property.equals('actor')}">
 
-<spring:url value="${domain}/user/${action}.do" var="url">
-	<spring:param name="${domain}Id" value="${id}" />
-</spring:url>
-
+<jstl:if test="${!property.equals('actor') && url == null}">
+	<spring:url value="${domain}/user/${action}.do" var="url">
+		<spring:param name="${domain}Id" value="${id}" />
+	</spring:url>
 </jstl:if>
 
 <display:column>

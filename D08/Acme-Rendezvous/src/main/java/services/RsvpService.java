@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import org.springframework.util.Assert;
 import repositories.RsvpRepository;
 import security.Authority;
 import security.LoginService;
+import domain.Actor;
 import domain.Rendezvous;
 import domain.Rsvp;
 
@@ -28,6 +30,12 @@ public class RsvpService {
 	// Supporting services
 	@Autowired
 	private UserService		userService;
+	
+	@Autowired
+	private ActorService actorService;
+	
+	@Autowired
+	private RendezvousService rendezvousService;
 
 
 	// Constructor
@@ -62,6 +70,18 @@ public class RsvpService {
 
 		result = this.rspvRepository.findOne(rsvpId);
 
+		return result;
+	}
+	
+	public Rsvp findOneToDisplay(final int rsvpId) {
+		Rsvp result;
+		
+		Assert.isTrue(rsvpId != 0);
+		
+		result = this.rspvRepository.findOne(rsvpId);
+		
+		isOlderThan18Rsvp(result);
+		
 		return result;
 	}
 
@@ -141,16 +161,30 @@ public class RsvpService {
 		return result;
 	}
 
-	public Collection<Rsvp> findByRendezvousId(final int rendezvousId) {
+	public Collection<Rsvp> findByRendezvousIdToDisplay(final int rendezvousId, final int page, final int size) {
 		Collection<Rsvp> result;
+		Rendezvous rendezvous;
 
 		Assert.isTrue(rendezvousId != 0);
 
-		result = this.rspvRepository.findByRendezvousId(rendezvousId);
+		result = this.rspvRepository.findByRendezvousId(rendezvousId, this.getPageable(page, size)).getContent();
+
+		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		
+		isOlderThan18Rendezvous(rendezvous);
+		
+		return result;
+	}
+	
+	public Integer countByRendezvousId(final int rendezvousId) {
+		Integer result;
+
+		Assert.isTrue(rendezvousId != 0);
+
+		result = this.rspvRepository.countByRendezvousId(rendezvousId);
 
 		return result;
 	}
-
 
 	public Collection<Rsvp> findByCreatorUserAccountId(final int userAccountId) {
 		Collection<Rsvp> result;
@@ -183,6 +217,62 @@ public class RsvpService {
 			result = new PageRequest(page - 1, size);
 		
 		return result;
+	}
+	
+	private void isOlderThan18Rsvp(final Rsvp rsvp) {
+		Boolean canPermit;
+		Calendar birthDatePlus18Years;
+		Actor actor;
+		Authority authority;
+		Authority authority2;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+		
+		canPermit = false;
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+				canPermit = true;
+
+		Assert.isTrue(rsvp.getRendezvous().getAdultOnly() == false || rsvp.getRendezvous().getAdultOnly() == true && canPermit);
+	}
+	
+	private void isOlderThan18Rendezvous(final Rendezvous rendezvous) {
+		Boolean canPermit;
+		Calendar birthDatePlus18Years;
+		Actor actor;
+		Authority authority;
+		Authority authority2;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+		
+		canPermit = false;
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					canPermit = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+				canPermit = true;
+
+		Assert.isTrue(rendezvous.getAdultOnly() == false || rendezvous.getAdultOnly() == true && canPermit);
 	}
 
 }

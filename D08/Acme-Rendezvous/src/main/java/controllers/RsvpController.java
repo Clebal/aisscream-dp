@@ -41,16 +41,20 @@ public class RsvpController extends AbstractController{
 	
 	// List
 	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public ModelAndView list(@RequestParam int rendezvousId) {
+	public ModelAndView list(@RequestParam int rendezvousId, @RequestParam(required=false) Integer page) {
 		ModelAndView result;
 		Collection<Rsvp> rsvps;
+		Integer size; 
 		
-		rsvps = this.rsvpService.findByRendezvousId(rendezvousId);
+		size = 5;
+		if (page == null) page = 0;
+				
+		rsvps = this.rsvpService.findByRendezvousIdToDisplay(rendezvousId, page, size);
 		Assert.notNull(rsvps);
 		
-		result = new ModelAndView("rsvp/list");
-		result.addObject("rsvps", rsvps);
+		result = super.paginateModelAndView("rsvp/list", this.rsvpService.countByRendezvousId(rendezvousId), page, size);
 		result.addObject("requestURI", "rsvp/list.do");	
+		result.addObject("rsvps", rsvps);
 		
 		return result;
 	}
