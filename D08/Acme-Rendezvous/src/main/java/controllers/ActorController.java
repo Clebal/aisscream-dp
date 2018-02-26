@@ -64,7 +64,7 @@ public class ActorController extends AbstractController {
 		pageNumber = 0;
 		
 		if (page == null)
-			pageAux = 0;
+			pageAux = 1;
 		else
 			pageAux = page;
 		
@@ -104,7 +104,7 @@ public class ActorController extends AbstractController {
 		pageNumber = 0;
 		
 		if (page == null)
-			pageAux = 0;
+			pageAux = 1;
 		else
 			pageAux = page;
 		
