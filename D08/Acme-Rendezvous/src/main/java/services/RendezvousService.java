@@ -49,13 +49,9 @@ public class RendezvousService {
 	// Simple CRUD methods----------
 	public Rendezvous create(final User creator) {
 		Rendezvous result;
-		//Authority authority;
 		List<Rendezvous> linkerRendezvouses;
 
 		Assert.notNull(creator);
-		//		authority = new Authority();
-		//		authority.setAuthority("USER");
-		//		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		linkerRendezvouses = new ArrayList<Rendezvous>();
 		result = new Rendezvous();
 		result.setCreator(creator);
@@ -196,37 +192,6 @@ public class RendezvousService {
 
 		return result;
 	}
-
-	//	public void delete(final Rendezvous rendezvous) {
-	//		final Authority authority;
-	//		Rendezvous rendezvousForDelete;
-	//
-	//		authority.setAuthority("ADMIN");
-	//
-	//		Assert.notNull(rendezvous);
-	//
-	//		//only can deleted it an admin
-	//		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-	//
-	//		//Delete the comments
-	//		for (final Comment comment : this.commentService.findWithoutFatherByRendezvousId(rendezvous.getId()))
-	//			this.commentService.deleteFromRendezvous(rendezvous.getId()); //Este metodo te borra los comentarios para ese rendezvous teniendo en cuenta de borrar pri
-	//		//Delete answers
-	//		for (final Answer answer : this.answerService.findByRendezvousId(rendezvous.getId()))
-	//			this.answerService.deleteFromRendezvous(answer);
-	//
-	//		//Deletes rsvps
-	//		for (final Rsvp rsvp : this.rsvpService.findByRendezvousId(rendezvous.getId()))
-	//			this.rsvpService.deleteFromRendezvous(rsvp);
-	//
-	//		//Delete announcemments
-	//		for (final Announcement announcement : this.announcementService.findByRendezvousId(rendezvous.getId()))
-	//			this.announcementService.deleteFromRendezvous(announcement);
-	//
-	//		rendezvousForDelete = this.findOne(rendezvous.getId());
-	//		this.rendezvousRepository.delete(rendezvousForDelete);
-	//
-	//	}
 
 	public void virtualDelete(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
