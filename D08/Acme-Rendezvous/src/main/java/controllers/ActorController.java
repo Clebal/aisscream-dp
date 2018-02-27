@@ -111,6 +111,8 @@ public class ActorController extends AbstractController {
 		result.addObject("users", users);
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", pageAux);
+		result.addObject("requestURI", "actor/listAttendants.do");
+		result.addObject("rendezvousId", rendezvousId);
 
 		return result;
 	}

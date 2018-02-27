@@ -29,4 +29,9 @@
 	
 </display:table>
 
+<jstl:if test="${requestURI!='actor/listAttendants.do'}">
 <acme:paginate url="${requestURI}" objects="${users}" pageNumber="${pageNumber}" page="${page}" />
+</jstl:if>
+<jstl:if test="${requestURI=='actor/listAttendants.do'}">
+<acme:paginate url="${requestURI}" objects="${users}" pageNumber="${pageNumber}" page="${page}" parameter="rendezvousId" parameterValue="${rendezvousId}"/>
+</jstl:if>
