@@ -68,6 +68,9 @@ public class AnnouncementUserController extends AbstractController {
         // Solo puede crearlo el creator
         Assert.isTrue(rendezvous.getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 		
+        // No puede crearse si está borrado el rendezvous
+        Assert.isTrue(!rendezvous.getIsDeleted());
+        
 		announcement = this.announcementService.create(rendezvous);
 		Assert.notNull(announcement);
 
@@ -124,7 +127,6 @@ public class AnnouncementUserController extends AbstractController {
 			this.announcementService.delete(announcement);
 			result = new ModelAndView("redirect:list.do");
 		} catch (Throwable oops) {
-//			result = super.panic(oops);
 			result = this.createEditModelAndView(announcement, "announcement.commit.error");
 		}
 		

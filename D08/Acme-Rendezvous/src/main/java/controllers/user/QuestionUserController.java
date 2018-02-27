@@ -64,6 +64,9 @@ public class QuestionUserController extends AbstractController {
 		
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 		Assert.notNull(rendezvous);
+
+		// Solo puede editarlo el creator
+		Assert.isTrue(rendezvous.getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		question = this.questionService.create(rendezvous);
 		Assert.notNull(question);
@@ -81,6 +84,9 @@ public class QuestionUserController extends AbstractController {
 				
 		question = this.questionService.findOne(questionId);
 		Assert.notNull(question);
+		
+		// Solo puede editarlo el creator
+		Assert.isTrue(question.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 
 		result = this.createEditModelAndView(question);
 		
