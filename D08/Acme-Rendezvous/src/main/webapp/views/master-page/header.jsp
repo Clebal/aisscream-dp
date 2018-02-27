@@ -43,7 +43,7 @@
         		<ul class="dropdown-menu">
 					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.admin.dashboard" /></a></li>
 					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>		
-							
+					<li><a href="announcement/administrator/list.do"><spring:message code="master.page.admin.announcement" /></a></li>		
 				</ul>
 			</security:authorize>
 	

@@ -62,9 +62,6 @@ public class AnnouncementService {
 				
 		result = this.announcementRepository.findOne(announcementId);
 		
-		// Solo puede editarlo el creator
-		Assert.isTrue(result.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
-		
 		return result;
 	}
 	 
@@ -85,9 +82,13 @@ public class AnnouncementService {
 	}
 	
 	public void delete(final Announcement announcement) {
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
 		
 		Assert.notNull(announcement);
-		Assert.isTrue(announcement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
+		Assert.isTrue(announcement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()) || LoginService.getPrincipal().getAuthorities().contains(authority));
 		
 		this.announcementRepository.delete(announcement);
 		
@@ -151,6 +152,22 @@ public class AnnouncementService {
 		Double[] result;
 		
 		result = this.announcementRepository.avgStandartDerivationAnnouncementPerRendezvous();
+		
+		return result;
+	}
+	
+	public Collection<Announcement> findAll(final Integer page, final Integer size) {
+		Collection<Announcement> result;
+		
+		result = this.announcementRepository.findAll(this.getPageable(page, size)).getContent();
+		
+		return result;
+	}
+	
+	public Integer countAll() {
+		Integer result;
+		
+		result = this.announcementRepository.countAll();
 		
 		return result;
 	}

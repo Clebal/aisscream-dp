@@ -65,6 +65,9 @@ public class AnnouncementUserController extends AbstractController {
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 		Assert.notNull(rendezvous);
 		
+        // Solo puede crearlo el creator
+        Assert.isTrue(rendezvous.getCreator().getUserAccount().equals(LoginService.getPrincipal()));
+		
 		announcement = this.announcementService.create(rendezvous);
 		Assert.notNull(announcement);
 
@@ -81,6 +84,9 @@ public class AnnouncementUserController extends AbstractController {
 				
 		announcement = this.announcementService.findOne(announcementId);
 		Assert.notNull(announcement);
+		
+        // Solo puede editarlo el creator
+        Assert.isTrue(announcement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 
 		result = this.createEditModelAndView(announcement);
 		
