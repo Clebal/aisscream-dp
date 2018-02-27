@@ -196,6 +196,7 @@ public class RendezvousUserController extends AbstractController {
 		Integer size;
 		Boolean haveRendezvousId;
 		Integer pageAux;
+		Rendezvous rendezvousAux;
 
 		if (page == null)
 			pageAux = 1;
@@ -212,6 +213,10 @@ public class RendezvousUserController extends AbstractController {
 		pageNumber = 0;
 
 		Assert.isTrue(rendezvousId != 0);
+
+		rendezvousAux = this.rendezvousService.findOne(rendezvousId);
+		Assert.notNull(rendezvousAux);
+		Assert.isTrue(rendezvousAux.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId() && !rendezvousAux.getIsDeleted());
 
 		birthDatePlus18Years = null;
 		if (LoginService.isAuthenticated()) {
