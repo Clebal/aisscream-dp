@@ -71,7 +71,7 @@ public class CommentController extends AbstractController {
 			if (user != null) {
 				rsvp = this.rsvpService.findByAttendantUserIdAndRendezvousId(user.getId(), comment.getRendezvous().getId());
 
-				if ((rsvp != null && rsvp.getStatus().equals("ACCEPTED")) || comment.getRendezvous().getCreator().equals(user))
+				if (((rsvp != null) || comment.getRendezvous().getCreator().equals(user)) && !comment.getRendezvous().getIsDeleted())
 					canComment = true;
 			}
 		}

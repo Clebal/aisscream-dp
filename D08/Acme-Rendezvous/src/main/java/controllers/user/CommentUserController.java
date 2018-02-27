@@ -112,9 +112,10 @@ public class CommentUserController extends AbstractController {
 
 		canEdit = false;
 
-		if (rsvp != null || comment.getUser().equals(user))
+		if (((rsvp != null) || comment.getRendezvous().getCreator().equals(user)) && !comment.getRendezvous().getIsDeleted())
 			canEdit = true;
 
+		Assert.isTrue(canEdit);
 		result.addObject("canEdit", canEdit);
 		result.addObject("comment", comment);
 		result.addObject("actor", "user");
