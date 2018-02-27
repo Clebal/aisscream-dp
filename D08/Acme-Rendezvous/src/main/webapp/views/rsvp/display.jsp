@@ -22,7 +22,7 @@
 	<h2><spring:message code="rsvp.answers" /></h2>
 
 	<c:forEach items="${questionAnswer}" var="entry">
-  		<p style="font-size: 17.5px;"><span class="display"><spring:message code="rsvp.question" /> N. <jstl:out value="${entry.key.getNumber()}" /></span>: <jstl:out value="${entry.key.getText()}" /></p>
+  		<p style="font-size: 17.5px;"><span class="display"><spring:message code="rsvp.question" /> No <jstl:out value="${entry.key.getNumber()}" /></span>: <jstl:out value="${entry.key.getText()}" /></p>
   		<p><span class="display"><spring:message code="rsvp.answer" /></span>: <jstl:out value="${entry.value.getText()}" /></p>
 	</c:forEach>
 

@@ -21,6 +21,12 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
 	@Query("select a from Announcement a where a.rendezvous.creator.userAccount.id = ?1")
 	Page<Announcement> findByCreatorUserAccountId(final int userAccountId, final Pageable pageable);
 
+    @Query("select count(a) from Announcement a")
+    Integer countAll();
+    
+    @Query("select count(a) from Announcement a")
+    Page<Announcement> findAll(final Pageable pageable);
+	
 	@Query("select count(a) from Announcement a where a.rendezvous.creator.userAccount.id = ?1")
 	Integer countByCreatorUserAccountId(final int rendezvousId);
 

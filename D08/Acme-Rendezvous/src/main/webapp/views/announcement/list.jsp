@@ -11,12 +11,24 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <!-- The announcements must be listed chronologically in descending order. -->
-<display:table class="table table-striped table-bordered table-hover" name="announcements" id="row" defaultsort="2" requestURI="${requestURI}">
+<display:table class="table table-striped table-bordered table-hover" name="announcements" id="row" requestURI="${requestURI}">
 	
-	<jstl:if test="${isCreator == null || isCreator}">
-		<security:authorize access="hasRole('USER')">
-			<acme:columnLink action="edit" domain="announcement" id="${row.getId()}" />
-		</security:authorize>
+	<jstl:if test="${!requestURI.equals('announcement/administrator/list.do')}">
+		<jstl:if test="${isCreator == null || isCreator}">
+			<security:authorize access="hasRole('USER')">
+				<acme:columnLink action="edit" domain="announcement" id="${row.getId()}" />
+			</security:authorize>
+		</jstl:if>
+	</jstl:if>
+
+	
+	<jstl:if test="${requestURI.equals('announcement/administrator/list.do')}">
+		<spring:url value="announcement/administrator/delete.do" var="urlDelete">
+			<spring:param name="announcementId" value="${row.getId()}" />
+		</spring:url>
+		<display:column>
+			<a href="${urlDelete}"><spring:message code="announcement.delete" /></a>
+		</display:column>
 	</jstl:if>
 	
 	<acme:column property="moment" domain="announcement" formatDate="true" />
