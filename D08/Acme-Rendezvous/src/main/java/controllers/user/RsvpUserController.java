@@ -146,6 +146,10 @@ public class RsvpUserController extends AbstractController {
 		Assert.notNull(rendezvous);
 
 		questions = this.questionService.findByRendezvousId(rendezvousId);
+		
+		
+		Assert.isTrue(!rendezvous.getIsDeleted());
+		Assert.isTrue(!this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator()));
 
 		if (questions.size() == 0)
 			//Guardamos automaticamente el rsvp

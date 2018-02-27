@@ -95,6 +95,8 @@ public class RsvpService {
 		if (rsvp.getId() == 0){
 			Assert.isTrue(this.rspvRepository.findByAttendantUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
 			isOlderThan18Rsvp(rsvp);
+			Assert.isTrue(!rsvp.getAttendant().equals(rsvp.getRendezvous().getCreator()));
+			Assert.isTrue(!rsvp.getRendezvous().getIsDeleted());
 		}else{
 			saved = this.findOne(rsvp.getId());
 			// Comprobar que no se ha cambiado ni el attendant ni el rendezvous, solo se cambia el status.
