@@ -15,6 +15,7 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row">
 	
+	<jsp:useBean id="currentMomentVar" class="java.util.Date"/>
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>
 
@@ -80,6 +81,13 @@
 		
 	<acme:columnBoolean property="isDeleted" domain="rendezvous" row="${row}"/>
 		
+	<spring:message code="rendezvous.moment.isPast" var="momentIsPast"/>
+	<display:column title="${momentIsPast}">
+		<jstl:if test="${row.getMoment().compareTo(currentMomentVar)<=0}">
+		 	<jstl:out value="X"/>
+		</jstl:if>
+	</display:column>
+		
 	<spring:url var="urlDisplay" value="rendezvous/display.do">
 		<spring:param name="rendezvousId" value="${row.getId()}" />
 		
@@ -88,7 +96,7 @@
 	<display:column>
 		<a href="${urlDisplay }"> <spring:message code="rendezvous.display" /></a>
 	</display:column>
-
+	
 </display:table>
 
 	<jstl:if test="${requestURI.equals('rendezvous/listByUser.do') }">

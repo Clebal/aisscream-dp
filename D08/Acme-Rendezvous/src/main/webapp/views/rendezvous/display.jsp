@@ -126,6 +126,170 @@
 			
 			</security:authorize>
 			
+			<spring:message code="rendezvous.format.moment" var="momentFormat"/>	
+			<jsp:useBean id="currentMomentVar" class="java.util.Date"/>
+			
+			
+			<jstl:if test="${!rendezvousesLinked.isEmpty()}">
+		
+			<div>
+				<span style="font-size:20px"><spring:message code="rendezvous.rendezvousesLinked"></spring:message></span>
+				<br>
+				<br>
+				<jstl:forEach var="row4" items="${rendezvousesLinked}">
+				
+					
+					<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
+					
+					<jstl:if test="${row4.getIsDeleted()==true}">
+						<span class="display"><spring:message code="rendezvous.isDeleted.message"/></span>
+						<br>
+					</jstl:if>
+					
+					<jstl:if test="${row4.getMoment().compareTo(currentMomentVar)<=0}">
+						<span class="display"><spring:message code="rendezvous.momentIsPast.message"/></span>
+						<br>
+					</jstl:if>
+					
+					
+						<span class="display"><spring:message code="rendezvous.name"/></span><jstl:out value="  ${row4.getName()}" />
+						<br>
+						
+						<span class="display"><spring:message code="rendezvous.description"/></span><jstl:out value="  ${row4.getDescription()}" />
+						<br>
+						
+						<span class="display"><spring:message code="rendezvous.moment"/></span><fmt:formatDate value="${row4.getMoment()}" pattern="${momentFormat }"/>
+						<br>		
+					
+						<jstl:if test="${row4.getDraft()==true}">
+							<p><span class="display"><spring:message code="rendezvous.draft.trueMessage"/></span></p>
+						</jstl:if>
+			
+						<jstl:if test="${row4.getDraft()==false}">
+							<p><span class="display"><spring:message code="rendezvous.draft.falseMessage"/></span></p>
+						</jstl:if>
+			
+						<jstl:if test="${row4.getAdultOnly()==true}">
+						<p><span class="display"><spring:message code="rendezvous.adultOnly.trueMessage"/></span></p>
+						</jstl:if>
+			
+						<jstl:if test="${row4.getAdultOnly()==false}">
+						<p><span class="display"><spring:message code="rendezvous.adultOnly.falseMessage"/></span></p>
+						</jstl:if>
+						
+						<span class="display"><spring:message code="rendezvous.latitude"/></span><jstl:out value="  ${row4.getLatitude()}" />
+						<br>
+						
+						<span class="display"><spring:message code="rendezvous.longitude"/></span><jstl:out value="  ${row4.getLongitude()}" />
+						<br>	
+
+					</div>
+					<br>
+				</jstl:forEach>
+			<jstl:forEach var="i" begin="1" end="${pageNumber3}">
+	
+			<spring:url var="urlMorePageLinkedRendezvouses" value="rendezvous/display.do">
+				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+				<spring:param name="page" value="${page}" />
+				<spring:param name="page2" value="${page2}" />
+				<spring:param name="page3" value="${i}" />
+				<spring:param name="page4" value="${page4}" />
+				
+			</spring:url>
+			
+			<jstl:if test="${page3==i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePageLinkedRendezvouses}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			<jstl:if test="${page3!=i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePageLinkedRendezvouses}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			
+	</jstl:forEach>
+			</div>
+		</jstl:if>
+			
+			
+			
+			<jstl:if test="${!rendezvousesListForLink.isEmpty()}">
+		
+			<div>
+				<span style="font-size:20px"><spring:message code="rendezvous.rendezvousesListForLink"></spring:message></span>
+				<br>
+				<br>
+				<jstl:forEach var="row5" items="${rendezvousesListForLink}">
+				
+					
+					<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
+					
+					<jstl:if test="${row5.getIsDeleted()==true}">
+						<span class="display"><spring:message code="rendezvous.isDeleted.message"/></span>
+						<br>
+					</jstl:if>
+					
+					<jstl:if test="${row5.getMoment().compareTo(currentMomentVar)<=0}">
+						<span class="display"><spring:message code="rendezvous.momentIsPast.message"/></span>
+						<br>
+					</jstl:if>
+						<span class="display"><spring:message code="rendezvous.name"/></span><jstl:out value="  ${row5.getName()}" />
+						<br>
+						
+						<span class="display"><spring:message code="rendezvous.description"/></span><jstl:out value="  ${row5.getDescription()}" />
+						<br>
+						
+						<span class="display"><spring:message code="rendezvous.moment"/></span><fmt:formatDate value="${row5.getMoment()}" pattern="${momentFormat }"/>
+						<br>		
+					
+						<jstl:if test="${row5.getDraft()==true}">
+							<p><span class="display"><spring:message code="rendezvous.draft.trueMessage"/></span></p>
+						</jstl:if>
+			
+						<jstl:if test="${row5.getDraft()==false}">
+							<p><span class="display"><spring:message code="rendezvous.draft.falseMessage"/></span></p>
+						</jstl:if>
+			
+						<jstl:if test="${row5.getAdultOnly()==true}">
+						<p><span class="display"><spring:message code="rendezvous.adultOnly.trueMessage"/></span></p>
+						</jstl:if>
+			
+						<jstl:if test="${row5.getAdultOnly()==false}">
+						<p><span class="display"><spring:message code="rendezvous.adultOnly.falseMessage"/></span></p>
+						</jstl:if>
+											
+						<span class="display"><spring:message code="rendezvous.latitude"/></span><jstl:out value="  ${row5.getLatitude()}" />
+						<br>
+						
+						<span class="display"><spring:message code="rendezvous.longitude"/></span><jstl:out value="  ${row5.getLongitude()}" />
+						<br>	
+
+					</div>
+					<br>
+				</jstl:forEach>
+			<jstl:forEach var="i" begin="1" end="${pageNumber4}">
+	
+			<spring:url var="urlMorePageLinkedRendezvouses" value="rendezvous/display.do">
+				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
+				<spring:param name="page" value="${page}" />
+				<spring:param name="page2" value="${page2}" />
+				<spring:param name="page3" value="${page3}" />
+				<spring:param name="page4" value="${i}" />
+				
+			</spring:url>
+			
+			<jstl:if test="${page4==i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePageLinkedRendezvouses}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			<jstl:if test="${page4!=i}">
+				<span  style='margin-right:10px;'><a href="${urlMorePageLinkedRendezvouses}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
+			</jstl:if>
+			
+	</jstl:forEach>
+			</div>
+		</jstl:if>
+			
+			
+			
+			
+			
 			<jstl:if test="${canStreamAnnouncements }">
 			
 			<jstl:if test="${!announcements.isEmpty()}">
@@ -159,6 +323,9 @@
 				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 				<spring:param name="page" value="${page}" />
 				<spring:param name="page2" value="${i}" />
+				<spring:param name="page3" value="${page3}" />
+				<spring:param name="page4" value="${page4}" />
+				
 			</spring:url>
 			
 			<jstl:if test="${page2==i}">
@@ -191,7 +358,6 @@
 					<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
 						<span class="display"><spring:message code="rendezvous.comment.text"/></span><jstl:out value="${row2.getText()}" />
 						<br>
-						<spring:message code="rendezvous.format.moment" var="momentFormat"/>	
 						<span class="display"><spring:message code="rendezvous.comment.moment"/></span><fmt:formatDate value="${row2.getMoment()}" pattern="${momentFormat }"/>
 						<br>
 						<jstl:if test="${row2.getPicture()!=null && row2.getPicture()!=''}">
@@ -213,6 +379,9 @@
 				<spring:param name="rendezvousId" value="${rendezvous.getId()}" />
 				<spring:param name="page" value="${i}" />
 				<spring:param name="page2" value="${page2}" />
+				<spring:param name="page3" value="${page3}" />
+				<spring:param name="page4" value="${page4}" />
+				
 				
 			</spring:url>
 			

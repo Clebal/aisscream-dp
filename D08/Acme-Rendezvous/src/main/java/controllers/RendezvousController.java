@@ -58,11 +58,14 @@ public class RendezvousController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page, @RequestParam(required = false) final Integer page2) {
+	public ModelAndView display(@RequestParam final int rendezvousId, @RequestParam(required = false) final Integer page, @RequestParam(required = false) final Integer page2, @RequestParam(required = false) final Integer page3, @RequestParam(
+		required = false) final Integer page4) {
 		ModelAndView result;
 		Rendezvous rendezvous;
 		Integer pageAux;
 		Integer pageAux2;
+		Integer pageAux3;
+		Integer pageAux4;
 
 		if (page == null)
 			pageAux = 1;
@@ -74,10 +77,20 @@ public class RendezvousController extends AbstractController {
 		else
 			pageAux2 = page2;
 
+		if (page3 == null)
+			pageAux3 = 1;
+		else
+			pageAux3 = page3;
+
+		if (page4 == null)
+			pageAux4 = 1;
+		else
+			pageAux4 = page4;
+
 		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 
 		Assert.notNull(rendezvous);
-		result = this.createEditModelAndView(rendezvous, pageAux, pageAux2);
+		result = this.createEditModelAndView(rendezvous, pageAux, pageAux2, pageAux3, pageAux4);
 
 		return result;
 	}
@@ -465,7 +478,7 @@ public class RendezvousController extends AbstractController {
 		return result;
 	}
 	//Ancillary methods -----------------------
-	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous, final Integer page, final Integer page2) {
+	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous, final Integer page, final Integer page2, final Integer page3, final Integer page4) {
 		ModelAndView result;
 		Boolean canPermit;
 		Calendar birthDatePlus18Years;
@@ -481,6 +494,10 @@ public class RendezvousController extends AbstractController {
 		Authority authority;
 		Authority authority2;
 		Integer pageNumber2;
+		Integer pageNumber3;
+		Integer pageNumber4;
+		Collection<Rendezvous> rendezvousesLinked;
+		Collection<Rendezvous> rendezvousesListForLink;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
@@ -538,15 +555,48 @@ public class RendezvousController extends AbstractController {
 		if (announcements.size() != 0)
 			pageNumber2 = this.announcementService.countByRendezvousId(rendezvous.getId());
 
+		rendezvousesLinked = new ArrayList<Rendezvous>();
+		pageNumber3 = 0;
+
+		if (canPermit == true)
+			rendezvousesLinked = this.rendezvousService.findByLinkerRendezvousId(rendezvous.getId(), page3, size);
+		else
+			rendezvousesLinked = this.rendezvousService.findByLinkerRendezvousIdAndAllpublics(rendezvous.getId(), page3, size);
+
+		if (rendezvousesLinked.size() != 0)
+			if (canPermit == true)
+				pageNumber3 = this.rendezvousService.countByLinkerRendezvousId(rendezvous.getId());
+			else
+				pageNumber3 = this.rendezvousService.countByLinkerRendezvousIdAndAllpublics(rendezvous.getId());
+
+		rendezvousesListForLink = new ArrayList<Rendezvous>();
+		pageNumber4 = 0;
+		if (canPermit == false)
+			rendezvousesListForLink = this.rendezvousService.findNotLinkedByRendezvousAllPublics(this.rendezvousService.findOne(rendezvous.getId()), page4, size);
+		else
+			rendezvousesListForLink = this.rendezvousService.findNotLinkedByRendezvous(this.rendezvousService.findOne(rendezvous.getId()), page4, size);
+
+		if (rendezvousesListForLink.size() != 0)
+			if (canPermit == true)
+				pageNumber4 = this.rendezvousService.countNotLinkedByRendezvous(this.rendezvousService.findOne(rendezvous.getId()));
+			else
+				pageNumber4 = this.rendezvousService.countNotLinkedByRendezvousAllPublics(this.rendezvousService.findOne(rendezvous.getId()));
+
 		result = new ModelAndView("rendezvous/display");
 
 		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
 		pageNumber2 = (int) Math.floor(((pageNumber2 / (size + 0.0)) - 0.1) + 1);
+		pageNumber3 = (int) Math.floor(((pageNumber3 / (size + 0.0)) - 0.1) + 1);
+		pageNumber4 = (int) Math.floor(((pageNumber4 / (size + 0.0)) - 0.1) + 1);
 
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);
 		result.addObject("pageNumber2", pageNumber2);
 		result.addObject("page2", page2);
+		result.addObject("pageNumber3", pageNumber3);
+		result.addObject("page3", page3);
+		result.addObject("pageNumber4", pageNumber4);
+		result.addObject("page4", page4);
 		result.addObject("rendezvous", rendezvous);
 		result.addObject("canPermit", canPermit);
 		result.addObject("canCreateRSVP", canCreateRSVP);
@@ -554,6 +604,8 @@ public class RendezvousController extends AbstractController {
 		result.addObject("canStreamAnnouncements", canStreamAnnouncements);
 		result.addObject("comments", comments);
 		result.addObject("announcements", announcements);
+		result.addObject("rendezvousesLinked", rendezvousesLinked);
+		result.addObject("rendezvousesListForLink", rendezvousesListForLink);
 
 		return result;
 
