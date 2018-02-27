@@ -71,6 +71,8 @@ public class AnnouncementService {
 		Assert.notNull(announcement);
 		Assert.isTrue(announcement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 		
+		if(announcement.getId() == 0) announcement.setMoment(new Date(System.currentTimeMillis() - 1));
+		
 		if(announcement.getId() != 0) {
 			saved = this.announcementRepository.findOne(announcement.getId());
 			Assert.isTrue(saved.getMoment().compareTo(announcement.getMoment()) == 0);
