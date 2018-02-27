@@ -78,6 +78,8 @@ public class AnnouncementService {
 			calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), 0);
 			calendar.getTime().setTime(calendar.getTimeInMillis() - 1);
 			announcement.setMoment(calendar.getTime());
+			// No puedo crear un announcement si el rendezvous está borrado
+			Assert.isTrue(!announcement.getRendezvous().getIsDeleted());
 		}
 		
 		if(announcement.getId() != 0) {
