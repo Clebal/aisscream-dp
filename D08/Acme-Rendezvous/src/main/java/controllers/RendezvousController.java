@@ -110,6 +110,9 @@ public class RendezvousController extends AbstractController {
 		Authority authority;
 		Authority authority2;
 		Integer pageAux;
+		Date currentMomentVar;
+
+		currentMomentVar = new Date();
 
 		if (page == null)
 			pageAux = 1;
@@ -164,6 +167,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("haveRendezvousId", haveRendezvousId);
+		result.addObject("currentMomentVar", currentMomentVar);
 
 		return result;
 	}
@@ -183,6 +187,9 @@ public class RendezvousController extends AbstractController {
 		Authority authority;
 		Authority authority2;
 		Integer pageAux;
+		Date currentMomentVar;
+
+		currentMomentVar = new Date();
 
 		if (page == null)
 			pageAux = 1;
@@ -238,6 +245,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("haveRendezvousId", haveRendezvousId);
 		result.addObject("userId", userId);
+		result.addObject("currentMomentVar", currentMomentVar);
 
 		return result;
 	}
@@ -257,6 +265,9 @@ public class RendezvousController extends AbstractController {
 		Authority authority;
 		Authority authority2;
 		Integer pageAux;
+		Date currentMomentVar;
+
+		currentMomentVar = new Date();
 
 		if (page == null)
 			pageAux = 1;
@@ -312,6 +323,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("haveRendezvousId", haveRendezvousId);
 		result.addObject("attendantId", attendantId);
+		result.addObject("currentMomentVar", currentMomentVar);
 
 		return result;
 	}
@@ -331,6 +343,9 @@ public class RendezvousController extends AbstractController {
 		Authority authority;
 		Authority authority2;
 		Integer pageAux;
+		Date currentMomentVar;
+
+		currentMomentVar = new Date();
 
 		if (page == null)
 			pageAux = 1;
@@ -389,6 +404,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("haveRendezvousId", haveRendezvousId);
 		result.addObject("rendezvousId", rendezvousId);
+		result.addObject("currentMomentVar", currentMomentVar);
 
 		return result;
 	}
@@ -408,6 +424,9 @@ public class RendezvousController extends AbstractController {
 		Authority authority;
 		Authority authority2;
 		Integer pageAux;
+		Date currentMomentVar;
+
+		currentMomentVar = new Date();
 
 		if (page == null)
 			pageAux = 1;
@@ -474,6 +493,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("rendezvousId", rendezvousId);
 		result.addObject("myRendezvousIsDeleted", myRendezvousIsDeleted);
 		result.addObject("haveRendezvousId", haveRendezvousId);
+		result.addObject("currentMomentVar", currentMomentVar);
 
 		return result;
 	}
@@ -498,6 +518,9 @@ public class RendezvousController extends AbstractController {
 		Integer pageNumber4;
 		Collection<Rendezvous> rendezvousesLinked;
 		Collection<Rendezvous> rendezvousesListForLink;
+		Date currentMomentVar;
+
+		currentMomentVar = new Date();
 
 		authority = new Authority();
 		authority.setAuthority("USER");
@@ -606,6 +629,7 @@ public class RendezvousController extends AbstractController {
 		result.addObject("announcements", announcements);
 		result.addObject("rendezvousesLinked", rendezvousesLinked);
 		result.addObject("rendezvousesListForLink", rendezvousesListForLink);
+		result.addObject("currentMomentVar", currentMomentVar);
 
 		return result;
 

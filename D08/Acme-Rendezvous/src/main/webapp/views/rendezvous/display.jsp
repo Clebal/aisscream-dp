@@ -127,7 +127,6 @@
 			</security:authorize>
 			
 			<spring:message code="rendezvous.format.moment" var="momentFormat"/>	
-			<jsp:useBean id="currentMomentVar" class="java.util.Date"/>
 			
 			
 			<jstl:if test="${!rendezvousesLinked.isEmpty()}">

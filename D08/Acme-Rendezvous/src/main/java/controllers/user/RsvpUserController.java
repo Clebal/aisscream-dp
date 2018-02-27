@@ -3,6 +3,7 @@ package controllers.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +64,9 @@ public class RsvpUserController extends AbstractController {
 		ModelAndView result;
 		Collection<Rsvp> rsvps;
 		Integer size;
+		Date today;
+
+		today = new Date();
 
 		size = 5;
 		if (page == null)
@@ -74,6 +78,7 @@ public class RsvpUserController extends AbstractController {
 		result = super.paginateModelAndView("rsvp/list", this.rsvpService.countByAttendantUserAccountId(LoginService.getPrincipal().getId()), page, size);
 		result.addObject("rsvps", rsvps);
 		result.addObject("requestURI", "rsvp/user/list.do");
+		result.addObject("today", today);
 
 		return result;
 	}
@@ -146,8 +151,7 @@ public class RsvpUserController extends AbstractController {
 		Assert.notNull(rendezvous);
 
 		questions = this.questionService.findByRendezvousId(rendezvousId);
-		
-		
+
 		Assert.isTrue(!rendezvous.getIsDeleted());
 		Assert.isTrue(!this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator()));
 

@@ -3,6 +3,7 @@ package controllers.administrator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,7 +57,9 @@ public class RendezvousAdministratorController extends AbstractController {
 		Integer size;
 		Boolean haveRendezvousId;
 		Integer pageAux;
+		Date currentMomentVar;
 
+		currentMomentVar = new Date();
 		if (page == null)
 			pageAux = 1;
 		else
@@ -85,6 +88,7 @@ public class RendezvousAdministratorController extends AbstractController {
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("haveRendezvousId", haveRendezvousId);
+		result.addObject("currentMomentVar", currentMomentVar);
 
 		return result;
 	}
@@ -100,6 +104,9 @@ public class RendezvousAdministratorController extends AbstractController {
 		Integer size;
 		Boolean haveRendezvousId;
 		Integer pageAux;
+		Date currentMomentVar;
+
+		currentMomentVar = new Date();
 
 		if (page == null)
 			pageAux = 1;
@@ -129,6 +136,7 @@ public class RendezvousAdministratorController extends AbstractController {
 		result.addObject("canLink", canLink);
 		result.addObject("canUnLink", canUnLink);
 		result.addObject("haveRendezvousId", haveRendezvousId);
+		result.addObject("currentMomentVar", currentMomentVar);
 
 		return result;
 	}

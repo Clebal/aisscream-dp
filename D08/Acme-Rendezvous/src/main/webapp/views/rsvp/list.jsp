@@ -12,7 +12,6 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="rsvps" id="row" requestURI="${requestURI}">
 	
-	<jsp:useBean id="today" class="java.util.Date" />
 	
 	<jstl:if test="${!requestURI.equals('rsvp/list.do')}">
 		<jstl:if test="${row.getRendezvous().getMoment().compareTo(today) < 0 || !row.getRendezvous().getIsDeleted()}">

@@ -15,7 +15,6 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row">
 	
-	<jsp:useBean id="currentMomentVar" class="java.util.Date"/>
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>
 
