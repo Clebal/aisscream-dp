@@ -1,0 +1,946 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<!-- * PopulateDatabase.xml * * Copyright (C) 2017 Universidad de Sevilla 
+
+	* * The use of this project is hereby constrained to the conditions of the 
+
+	* TDG Licence, a copy of which you may download from * http://www.tdg-seville.info/License.html -->
+
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xsi:schemaLocation="
+
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ 
+	">
+
+
+
+	<!-- User accounts -->
+	<bean id="userAccountAdministrator" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser1" class="security.UserAccount">
+		<property name="username" value="user1" />
+		<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser2" class="security.UserAccount">
+		<property name="username" value="user2" />
+		<property name="password" value="7e58d63b60197ceb55a1c487989a3720" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser3" class="security.UserAccount">
+		<property name="username" value="user3" />
+		<property name="password" value="92877af70a45fd6a2ed7fe81e1236b78" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountUser4" class="security.UserAccount">
+		<property name="username" value="user4" />
+		<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser5" class="security.UserAccount">
+		<property name="username" value="user5" />
+		<property name="password" value="0a791842f52a0acfbb3a783378c066b8" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser6" class="security.UserAccount">
+		<property name="username" value="user6" />
+		<property name="password" value="affec3b64cf90492377a8114c86fc093" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- User -->
+	<bean id="user1" class="domain.User">
+		<property name="name" value="Alejandro" />
+		<property name="surname" value="Martínez ruiz" />
+		<property name="email" value="user1@acme.com" />
+		<property name="phone" value="+34618396001" />
+		<property name="address" value="Calle Sin Número, 123" />
+		<property name="birthdate" value="18/11/1997" />
+		<property name="userAccount" ref="userAccountUser1" />
+	</bean>
+	
+	<bean id="user2" class="domain.User">
+		<property name="name" value="Luis" />
+		<property name="surname" value="López González" />
+		<property name="email" value="user2@acme.com" />
+		<property name="address" value="Calle Falsa, 123" />
+		<property name="birthdate" value="02/12/1998" />
+		<property name="userAccount" ref="userAccountUser2" />
+	</bean>
+	
+	<bean id="user3" class="domain.User">
+		<property name="name" value="María" />
+		<property name="surname" value="García Trinidad" />
+		<property name="email" value="user3@acme.com" />
+		<property name="phone" value="+3461738000" />
+		<property name="birthdate" value="16/02/1996" />
+		<property name="userAccount" ref="userAccountUser3" />
+	</bean>
+	
+	<bean id="user4" class="domain.User">
+		<property name="name" value="Sergio" />
+		<property name="surname" value="Sánchez Ortiz" />
+		<property name="email" value="user4@acme.com" />
+		<property name="birthdate" value="02/11/2002" />
+		<property name="userAccount" ref="userAccountUser4" />
+	</bean>
+	
+	<bean id="user5" class="domain.User">
+		<property name="name" value="Pepe" />
+		<property name="surname" value="Casillas Martín" />
+		<property name="email" value="user5@acme.com" />
+		<property name="phone" value="+3461738010" />
+		<property name="birthdate" value="16/02/1996" />
+		<property name="userAccount" ref="userAccountUser5" />
+	</bean>
+	
+	<bean id="user6" class="domain.User">
+		<property name="name" value="Rocío" />
+		<property name="surname" value="Crespo Sánchez" />
+		<property name="email" value="user6@acme.com" />
+		<property name="phone" value="+3461738011" />
+		<property name="birthdate" value="18/02/1996" />
+		<property name="userAccount" ref="userAccountUser6" />
+	</bean>
+	
+	<!-- Administrator -->
+	<bean id="administrator" class="domain.Administrator">
+		<property name="name" value="Administrator" />
+		<property name="surname" value="1" />
+		<property name="email" value="administrator@acme.com" />
+		<property name="birthdate" value="25/08/1995" />
+		<property name="userAccount" ref="userAccountAdministrator" />
+	</bean>
+	
+	<!-- Rendezvous -->
+	<bean id="rendezvous1" class="domain.Rendezvous">
+		<property name="name" value="Reunión para excursión" />
+		<property name="description" value="El próximo jueves vamos a tener una reunión para organizar la salida al campo." />
+		<property name="moment" value="03/19/2018 23:44" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="latitude" value="11.2" />
+		<property name="longitude" value="36.7" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+				<ref bean="rendezvous2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous2" class="domain.Rendezvous">
+		<property name="name" value="Almuerzo de empresa" />
+		<property name="description" value="El día 25 realizaremos el ya tradicional almuerzo de empresa en el Restaurante El Pollo Loco." />
+		<property name="moment" value="05/25/2018 12:00" />
+		<property name="picture" value="https://difiere.com/wp-content/uploads/sites/4/2017/10/rachel-park-366508-1024x683.jpg" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="true" />
+		<property name="latitude" value="40.741895" />
+		<property name="longitude" value="-73.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous3" class="domain.Rendezvous">
+		<property name="name" value="Revisión médica" />
+		<property name="description" value="La revisión médica anual tendrá lugar el próximo lunes en el salón de reuniones." />
+		<property name="moment" value="05/15/2018 20:05" />
+		<property name="draft" value="true" />
+		<property name="adultOnly" value="true" />
+		<property name="latitude" value="40.741895" />
+		<property name="longitude" value="-73.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user3" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous4" class="domain.Rendezvous">
+		<property name="name" value="Cita con el coordinador" />
+		<property name="description" value="Es una cita muy importante a la que no se puede faltar." />
+		<property name="moment" value="06/02/2018 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="true" />
+		<property name="latitude" value="40.741895" />
+		<property name="longitude" value="-73.989308" />
+		<property name="isDeleted" value="true" />
+		<property name="creator" ref="user3" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Añadido -->
+	<bean id="rendezvous5" class="domain.Rendezvous">
+		<property name="name" value="Cita con mis amigos" />
+		<property name="description" value="Es una cita de reencuentro" />
+		<property name="moment" value="06/17/2018 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="latitude" value="40.741895" />
+		<property name="longitude" value="111.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="rendezvous6" class="domain.Rendezvous">
+		<property name="name" value="Cita con mis primos" />
+		<property name="description" value="Es una cita para organizar un asunto familiar" />
+		<property name="moment" value="08/17/2018 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous7" class="domain.Rendezvous">
+		<property name="name" value="Cita romántica con mi pareja" />
+		<property name="description" value="Es una cita por nuestro aniversario" />
+		<property name="moment" value="08/21/2018 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous8" class="domain.Rendezvous">
+		<property name="name" value="Reunión de viejos amigos" />
+		<property name="description" value="Para recordar viejos momentos" />
+		<property name="moment" value="06/17/2019 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="latitude" value="40.741895" />
+		<property name="longitude" value="112.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous9" class="domain.Rendezvous">
+		<property name="name" value="Reunión con los amigos del club" />
+		<property name="description" value="Para disfrutar de nuestro hobby" />
+		<property name="moment" value="06/20/2019 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="latitude" value="45.741895" />
+		<property name="longitude" value="112.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user1" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!--  -->
+	
+	
+	<!-- RSVP -->
+	<bean id="rsvp1" class="domain.Rsvp">
+		<property name="status" value="ACCEPTED" />
+		<property name="attendant" ref="user2" />
+		<property name="rendezvous" ref="rendezvous1" />
+	</bean>
+	
+	<bean id="rsvp2" class="domain.Rsvp">
+		<property name="status" value="ACCEPTED" />
+		<property name="attendant" ref="user2" />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
+	
+	<bean id="rsvp3" class="domain.Rsvp">
+		<property name="status" value="CANCELLED" />
+		<property name="attendant" ref="user2" />
+		<property name="rendezvous" ref="rendezvous3" />
+	</bean>
+	
+	<bean id="rsvp4" class="domain.Rsvp">
+		<property name="status" value="ACCEPTED" />
+		<property name="attendant" ref="user3" />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
+	
+	<bean id="rsvp5" class="domain.Rsvp">
+		<property name="status" value="ACCEPTED" />
+		<property name="attendant" ref="user3" />
+		<property name="rendezvous" ref="rendezvous1" />
+	</bean>
+	
+	<bean id="rsvp6" class="domain.Rsvp">
+		<property name="status" value="CANCELLED" />
+		<property name="attendant" ref="user4" />
+		<property name="rendezvous" ref="rendezvous1" />
+	</bean>
+	
+	<bean id="rsvp7" class="domain.Rsvp">
+		<property name="status" value="ACCEPTED" />
+		<property name="attendant" ref="user4" />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
+		
+	<bean id="rsvp8" class="domain.Rsvp">
+		<property name="status" value="CANCELLED" />
+		<property name="attendant" ref="user1" />
+		<property name="rendezvous" ref="rendezvous4" />
+	</bean>
+	<!-- Añadido -->
+	<bean id="rsvp9" class="domain.Rsvp">
+		<property name="status" value="ACCEPTED" />
+		<property name="attendant" ref="user5" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	<!-- Añadido -->
+	
+	<!-- Question -->
+	<bean id="question1" class="domain.Question">
+		<property name="text" value="¿Tienes alergia a algo?" />
+		<property name="number" value="1" />
+		<property name="rendezvous" ref="rendezvous1" />
+	</bean>
+	
+	<bean id="question2" class="domain.Question">
+		<property name="text" value="¿Sufres alguna enfermedad cardiaca?" />
+		<property name="number" value="2" />
+		<property name="rendezvous" ref="rendezvous1" />
+	</bean>
+	
+	<bean id="question3" class="domain.Question">
+		<property name="text" value="¿Menú especial?" />
+		<property name="number" value="1" />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
+	
+	<bean id="question4" class="domain.Question">
+		<property name="text" value="¿Tienes alguna problema en que te haga el chequeo alguien del sexo opuesto?" />
+		<property name="number" value="1" />
+		<property name="rendezvous" ref="rendezvous3" />
+	</bean>
+	
+	<bean id="question5" class="domain.Question">
+		<property name="text" value="¿En el anterior chequeo se descubrió algun problema?" />
+		<property name="number" value="2" />
+		<property name="rendezvous" ref="rendezvous3" />
+	</bean>
+	
+	<bean id="question6" class="domain.Question">
+		<property name="text" value="¿Te cae bien el coordinador?" />
+		<property name="number" value="1" />
+		<property name="rendezvous" ref="rendezvous4" />
+	</bean>
+	
+	<!-- Añadido -->
+	<bean id="question7" class="domain.Question">
+		<property name="text" value="¿Te cae bien el coordinador?" />
+		<property name="number" value="1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question8" class="domain.Question">
+		<property name="text" value="¿Cuál es tu comida favorita?" />
+		<property name="number" value="2" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question9" class="domain.Question">
+		<property name="text" value="¿Por qué quieres venir con nosotros?" />
+		<property name="number" value="3" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question10" class="domain.Question">
+		<property name="text" value="¿Cuál es tu animal favorito?" />
+		<property name="number" value="4" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question11" class="domain.Question">
+		<property name="text" value="¿Cuánto mides?" />
+		<property name="number" value="5" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="question12" class="domain.Question">
+		<property name="text" value="¿De donde eres?" />
+		<property name="number" value="6" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<!--  -->
+	
+	<!-- Answer -->
+	<bean id="answer1" class="domain.Answer">
+		<property name="text" value="No" />
+		<property name="question" ref="question1" />
+		<property name="rsvp" ref="rsvp1" />
+	</bean>
+	
+	<bean id="answer2" class="domain.Answer">
+		<property name="text" value="No" />
+		<property name="question" ref="question2" />
+		<property name="rsvp" ref="rsvp1" />
+	</bean>
+	
+	<bean id="answer3" class="domain.Answer">
+		<property name="text" value="Vegano" />
+		<property name="question" ref="question3" />
+		<property name="rsvp" ref="rsvp2" />
+	</bean>
+	
+	<bean id="answer4" class="domain.Answer">
+		<property name="text" value="Ninguno" />
+		<property name="question" ref="question4" />
+		<property name="rsvp" ref="rsvp3" />
+	</bean>
+	
+	<bean id="answer5" class="domain.Answer">
+		<property name="text" value="No" />
+		<property name="question" ref="question5" />
+		<property name="rsvp" ref="rsvp3" />
+	</bean>
+	
+	<bean id="answer6" class="domain.Answer">
+		<property name="text" value="Vegano" />
+		<property name="question" ref="question3" />
+		<property name="rsvp" ref="rsvp4" />
+	</bean>
+	
+	<bean id="answer7" class="domain.Answer">
+		<property name="text" value="No" />
+		<property name="question" ref="question1" />
+		<property name="rsvp" ref="rsvp5" />
+	</bean>
+	
+	<bean id="answer8" class="domain.Answer">
+		<property name="text" value="No que yo sepa" />
+		<property name="question" ref="question2" />
+		<property name="rsvp" ref="rsvp5" />
+	</bean>
+	
+	<bean id="answer9" class="domain.Answer">
+		<property name="text" value="Sí, a las amapolas." />
+		<property name="question" ref="question1" />
+		<property name="rsvp" ref="rsvp6" />
+	</bean>
+	
+	<bean id="answer10" class="domain.Answer">
+		<property name="text" value="No, ninguna." />
+		<property name="question" ref="question2" />
+		<property name="rsvp" ref="rsvp6" />
+	</bean>
+	
+	<bean id="answer11" class="domain.Answer">
+		<property name="text" value="Crudivegano." />
+		<property name="question" ref="question3" />
+		<property name="rsvp" ref="rsvp7" />
+	</bean>
+	 
+	<bean id="answer12" class="domain.Answer">
+		<property name="text" value="Sí, es un buen tipo." />
+		<property name="question" ref="question6" />
+		<property name="rsvp" ref="rsvp8" />
+	</bean>
+	
+	<!-- Añadido -->
+	<bean id="answer13" class="domain.Answer">
+		<property name="text" value="Sí, es un buen tipo." />
+		<property name="question" ref="question7" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer14" class="domain.Answer">
+		<property name="text" value="Los macarrones." />
+		<property name="question" ref="question8" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer15" class="domain.Answer">
+		<property name="text" value="Porque me hace ilusión conocer gente nueva" />
+		<property name="question" ref="question9" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer16" class="domain.Answer">
+		<property name="text" value="El cocodrilo" />
+		<property name="question" ref="question10" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer17" class="domain.Answer">
+		<property name="text" value="1,80 metros" />
+		<property name="question" ref="question11" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	
+	<bean id="answer18" class="domain.Answer">
+		<property name="text" value="De Sevilla" />
+		<property name="question" ref="question12" />
+		<property name="rsvp" ref="rsvp9" />
+	</bean>
+	<!--  -->
+	
+	<!-- Announcement -->
+	<bean id="announcement1" class="domain.Announcement">
+		<property name="moment" value="01/15/2018 12:24" />
+		<property name="title" value="¡Excursión a la vista!" />
+		<property name="description" value="En dos meses tendrá lugar la ya típica excursión que organizamos bianualmente, no tarde y pilla tu entrada!" />
+		<property name="rendezvous" ref="rendezvous1" />
+	</bean>
+	
+	<bean id="announcement2" class="domain.Announcement">
+		<property name="moment" value="02/05/2018 11:30" />
+		<property name="title" value="¡Ya está cerca la excursión!" />
+		<property name="description" value="Queda poco menos de un mes para la excursión, no olviden conseguir sus entradas, ¡niños gratis!" />
+		<property name="rendezvous" ref="rendezvous1" />
+	</bean>
+	
+	<bean id="announcement3" class="domain.Announcement">
+		<property name="moment" value="02/15/2018 11:30" />
+		<property name="title" value="Prepara el estómago para el almuerzo de la empresa" />
+		<property name="description" value="Nadie se queda con hambre es este suculento almuerzo que preparamos todos los años en nuestro sitio favorito del mundo, El Pollo Loco." />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
+	
+	<bean id="announcement4" class="domain.Announcement">
+		<property name="moment" value="01/05/2018 11:30" />
+		<property name="title" value="Anuncio Importante: Revisión médica" />
+		<property name="description" value="Es necesario que todos los empleados que puedan pasen por la revisión que realizará la empresa con el objetivo de mantenter un ambiente sanitario seguro." />
+		<property name="rendezvous" ref="rendezvous3" />
+	</bean>
+	
+	<bean id="announcement5" class="domain.Announcement">
+		<property name="moment" value="02/13/2018 11:30" />
+		<property name="title" value="El coordinador cita una reunión con los empleados" />
+		<property name="description" value="Nuestro amado coordinador quiere tener una reunión con los empleados para evaluar la motivación y escuchar las quejas que puedan surgir para mejorar la empresa." />
+		<property name="rendezvous" ref="rendezvous4" />
+	</bean>
+	
+	<!-- Añadido -->
+	<bean id="announcement6" class="domain.Announcement">
+		<property name="moment" value="02/13/2018 12:30" />
+		<property name="title" value="El coordinador cita una reunión con los empleados" />
+		<property name="description" value="Reunión de vital importancia" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement7" class="domain.Announcement">
+		<property name="moment" value="02/16/2018 15:40" />
+		<property name="title" value="Nuevos datos disponibles" />
+		<property name="description" value="Mirar la descripción" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement8" class="domain.Announcement">
+		<property name="moment" value="02/17/2018 12:00" />
+		<property name="title" value="Nuevos temas disponibles en mi web personal" />
+		<property name="description" value="Miradlos, son geniales" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement9" class="domain.Announcement">
+		<property name="moment" value="02/18/2018 11:30" />
+		<property name="title" value="Cambiada la fecha de la reunión" />
+		<property name="description" value="Se retrasa una hora" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement10" class="domain.Announcement">
+		<property name="moment" value="02/19/2018 12:00" />
+		<property name="title" value="Nos falta gente para llegar al tope" />
+		<property name="description" value="Necesitamos diez personas más" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="announcement11" class="domain.Announcement">
+		<property name="moment" value="02/20/2018 15:30" />
+		<property name="title" value="¡Estamos todos!" />
+		<property name="description" value="Por fin podremos disfrutar del día" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	<!--  -->
+	
+	<!-- Comment -->
+	<bean id="comment1" class="domain.Comment">
+		<property name="moment" value="02/01/2018 15:30" />
+		<property name="text" value="Tremenda excursión, como lo pasamos el año pasado, este año repetimos!!" />
+		<property name="user" ref="user3" />
+		<property name="rendezvous" ref="rendezvous1" />
+	</bean>
+	
+	<bean id="comment2" class="domain.Comment">
+		<property name="moment" value="02/16/2018 12:43" />
+		<property name="text" value="¿Cuál es la dirección del pollo loco?" />
+		<property name="user" ref="user3" />
+		<property name="repliedComment" ref="comment3" />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
+	
+	<bean id="comment3" class="domain.Comment">
+		<property name="moment" value="02/16/2018 15:21" />
+		<property name="text" value="La dirección es Calle 742 Evergreen Terrace" />
+		<property name="picture" value="https://vignette.wikia.nocookie.net/simpsons/images/c/ca/742_Evergreen_Terrace.png/revision/latest/scale-to-width-down/640?cb=20130421182211" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
+	
+	<!-- Añadido -->
+	<bean id="comment4" class="domain.Comment">
+		<property name="moment" value="02/01/2018 15:30" />
+		<property name="text" value="Ha sido muy divertido" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment5" class="domain.Comment">
+		<property name="moment" value="02/02/2018 15:30" />
+		<property name="text" value="Ya falta menos" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment6" class="domain.Comment">
+		<property name="moment" value="02/03/2018 15:30" />
+		<property name="text" value="Gracias por apuntarse" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment7" class="domain.Comment">
+		<property name="moment" value="02/04/2018 15:30" />
+		<property name="text" value="Bienvenidos a todos" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment8" class="domain.Comment">
+		<property name="moment" value="02/05/2018 15:30" />
+		<property name="text" value="Que buen día hace hoy" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	
+	<bean id="comment9" class="domain.Comment">
+		<property name="moment" value="02/06/2018 15:30" />
+		<property name="text" value="Qué ganas que llegue el día" />
+		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous5" />
+	</bean>
+	<!--  -->
+	
+	<bean id="internationalization1" class="domain.Internationalization">
+
+		<property name="countryCode" value="es" />
+		
+		<property name="messageCode" value="term.condition" />
+
+		<property name="value" value="INFORMACIÓN RELEVANTE
+
+Es requisito necesario para la adquisición de los productos que
+	se ofrecen en este sitio, que lea y acepte los siguientes Términos y
+	Condiciones que a continuación se redactan. El uso de nuestros
+	servicios así como la compra de nuestros productos implicará que usted
+	ha leído y aceptado los Términos y Condiciones de Uso en el presente
+	documento. Todas los productos que son ofrecidos por nuestro
+	sitio web pudieran ser creadas, cobradas, enviadas o presentadas por
+	una página web tercera y en tal caso estarían sujetas a sus propios
+	Términos y Condiciones. En algunos casos, para adquirir un producto,
+	será necesario el registro por parte del usuario, con ingreso de datos
+	personales fidedignos y definicián de una contraseña.
+El usuario puede elegir y cambiar la clave para su acceso de
+	administracián de la cuenta en cualquier momento, en caso de que se
+	haya registrado y que sea necesario para la compra de alguno de
+	nuestros productos. www.acme.com no asume la responsabilidad en caso de
+	que entregue dicha clave a terceros.
+Todas las compras y transacciones que se lleven a cabo por medio
+	de este sitio web, están sujetas a un proceso de confirmacián y
+	verificacián, el cual podría incluir la verificacián del stock y
+	disponibilidad de producto, validacián de la forma de pago, validacián
+	de la factura (en caso de existir) y el cumplimiento de las condiciones
+	requeridas por el medio de pago seleccionado. En algunos casos puede
+	que se requiera una verificacián por medio de correo electránico.
+Los precios de los productos ofrecidos en esta Tienda Online es
+	válido solamente en las compras realizadas en este sitio web.
+	
+
+	INFORMACIÓN PERSONAL
+	
+	Un administrador puede marcar como eliminado una cita si considera que tiene contenido inadecuado. Además, puede borrar un comentario o anuncio si considera que afecta moralmente a otros usuarios.
+	Si cualquier usuario quiere borrar algún dato personal y la aplicación no le ofrece la posibilidad de hacerlo, debe ponerse en contacto con aisscreamacas@gmail.com
+
+	LICENCIA
+
+Acme-Rendezvous a través de su sitio web concede una
+	licencia para que los usuarios utilicen los productos que son
+	vendidos en este sitio web de acuerdo a los Términos y Condiciones que
+	se describen en este documento.
+
+	USO NO AUTORIZADO
+
+En caso de que aplique (para venta de software, templetes, u otro
+	producto de diseño y programacián) usted no puede colocar uno de
+	nuestros productos, modificado o sin modificar, en un CD, sitio web o
+	ningún otro medio y ofrecerlos para la redistribucián o la reventa de
+	ningún tipo.
+
+	PROPIEDAD
+
+Usted no puede declarar propiedad intelectual o exclusiva a
+	ninguno de nuestros productos, modificado o sin modificar. Todos los
+	productos son propiedad de los proveedores del contenido. En caso
+	de que no se especifique lo contrario, nuestros productos se
+	proporcionan sin ningún tipo de garantía, expresa o implícita. En
+	ningún esta compañía será responsables de ningún daño incluyendo,
+	pero no limitado a, daños directos, indirectos, especiales, fortuitos o
+	consecuentes u otras pérdidas resultantes del uso o de la imposibilidad
+	de utilizar nuestros productos.
+
+	POLíTICA DE REEMBOLSO Y GARANTíA
+
+En el caso de productos que sean mercancías irrevocables
+	no-tangibles, no realizamos reembolsos después de que se envíe el
+	producto, usted tiene la responsabilidad de entender antes de
+	comprarlo. Le pedimos que lea cuidadosamente antes de comprarlo.
+	Hacemos solamente excepciones con esta regla cuando la descripcián no
+	se ajusta al producto. Hay algunos productos que pudieran tener
+	garantía y posibilidad de reembolso pero este será especificado al
+	comprar el producto. En tales casos la garantía solo cubrirá fallas de
+	fábrica y sólo se hará efectiva cuando el producto se haya usado
+	correctamente. La garantía no cubre averías o daños ocasionados por uso
+	indebido. Los términos de la garantía están asociados a fallas de
+	fabricación y funcionamiento en condiciones normales de los productos y
+	sólo se harán efectivos estos términos si el equipo ha sido usado
+	correctamente. Esto incluye:
+
+	- De acuerdo a las especificaciones técnicas indicadas para cada producto.
+	- En condiciones ambientales acorde con las especificaciones indicadas por el fabricante.
+	- En uso específico para la función con que fue diseñado de fábrica.
+	- En condiciones de operación eléctricas acorde con las especificaciones y tolerancias indicadas.
+
+
+	COMPROBACIÓN ANTIFRAUDE
+
+La compra del cliente puede ser aplazada para la comprobación
+	antifraude. También puede ser suspendida por más tiempo para una
+	investigación más rigurosa, para evitar transacciones fraudulentas.
+
+	PRIVACIDAD
+
+Este sitio web www.acme.com garantiza que la información personal que usted envía
+	cuenta con la seguridad necesaria. Los datos ingresados por usuario o
+	en el caso de requerir una validación de los pedidos no serán
+	entregados a terceros, salvo que deba ser revelada en cumplimiento a
+	una orden judicial o requerimientos legales.
+
+La suscripción a boletines de correos electrónicos publicitarios
+	es voluntaria y podría ser seleccionada al momento de crear su cuenta.
+Acme-Rendezvous reserva los derechos de cambiar o de modificar
+	estos términos sin previo aviso.
+	
+	LEGISLACIÓN APLICABLE
+El Aviso Legal y las Condiciones Generales de Uso se rigen por las siguientes normas:
+
+La Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE) (particularmente, su artículo 10).
+La Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal (LOPD).
+El Real Decreto 1720/2007, de 21 de diciembre, por el que se aprueba el Reglamento de desarrollo de la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal." />
+
+	</bean>
+	
+	<bean id="internationalization2" class="domain.Internationalization">
+
+		<property name="countryCode" value="en" />
+		
+		<property name="messageCode" value="term.condition" />
+
+		<property name="value" value="RELEVANT INFORMATION 
+
+ It is a necessary requirement for the acquisition of products that
+are offered on this site, that you read and accept the following Terms and
+Conditions that are written below. The use of our
+services as well as the purchase of our products will mean that you
+You have read and accepted the Terms and Conditions of Use in this
+document. All products that are offered by our
+website could be created, collected, sent or presented by
+a third web page and in that case they would be subject to their own
+Terms and Conditions. In some cases, to acquire a product,
+registration by the user will be necessary, with data entry
+reliable personal and definition of a password. 
+ The user can choose and change the password for their access
+administration of the account at any time, should it be
+have registered and that is necessary for the purchase of any of
+our products. www.acme.com does not assume responsibility in case of
+that deliver this key to third parties. 
+ All purchases and transactions carried out by means of
+of this website, are subject to a confirmation process and
+verification, which could include verification of the stock and
+Product availability, validation of the payment method, validation
+of the invoice (if any) and compliance with the conditions
+required by the selected means of payment. In some cases you can
+that verification by email is required. 
+ The prices of the products offered in this Online Store is
+valid only in purchases made on this website. 
+
+ PERSONAL INFORMATION
+ 
+ 
+An administrator can mark an appointment as deleted if he/she considers it has inappropriate content. In addition, he/she can delete a comment or announcement if think that it affects other users morally.
+If any user wants to delete some personal data and the application does not have the possibility to do that, you should contact with aisscreamacas@gmail.com
+
+ LICENSE 
+
+ Acme-Rendezvous  through its website grants a
+license for users to use  the products that are
+sold on this website according to the Terms and Conditions that
+are described in this document. 
+
+ UNAUTHORIZED USE 
+
+ If applicable (for sale of software, templates, or other
+product design and programming) you can not place one of
+our products, modified or unmodified, on a CD, website or
+no other means and offer them for the redistribution or resale of
+no type. 
+
+ PROPERTY 
+
+ You can not declare intellectual or exclusive property to
+none of our products, modified or unmodified. All the
+Products are property  of the content providers. In case
+unless otherwise specified, our products are
+provide  without any warranty, express or implied. In
+No this company will be responsible for any damages including,
+but not limited to, direct, indirect, special, incidental or
+Consequences or other losses resulting from the use or impossibility
+to use our products. 
+
+ REIMBURSEMENT AND GUARANTEE POLICY 
+
+ In the case of products that are  irrevocable merchandise
+non-tangible, we do not make refunds after the
+product, you have the responsibility to understand before
+buy.  We ask you to read carefully before buying it.
+We only make exceptions with this rule when the description does not
+It fits the product. There are some products that could have
+guarantee and possibility of reimbursement but this will be specified at
+buy the product In such cases the guarantee will only cover failures of
+factory and will only be effective when the product has been used
+correctly. The guarantee does not cover faults or damages caused by use
+improper. The terms of the guarantee are associated with failures of
+manufacture and operation under normal conditions of the products and
+These terms will only be effective if the equipment has been used
+correctly. This includes: 
+
+- According to the technical specifications indicated for each product.  
+- In environmental conditions in accordance with the specifications indicated by the manufacturer.  
+- In use specific to the function with which it was designed from the factory.  -
+In electrical operating conditions in accordance with the specifications
+and tolerances indicated.
+
+
+ ANTI-FRAUD VERIFICATION 
+
+ The customer's purchase can be postponed for checking
+anti fraud. It can also be suspended for a longer time for a
+more rigorous investigation, to avoid fraudulent transactions. 
+
+ PRIVACY 
+
+This site web www.acme.com guarantees that the personal information you send
+has the necessary security. The data entered by user or
+In the case of requiring a validation of the orders, they will not be
+delivered to third parties, unless it must be disclosed in compliance with
+an order
+
+   APPLICABLE LEGISLATION 
+    
+ The  Legal Notice and the General Conditions of Use  are governed by the following rules: 
+
+The Law 34/2002, of 11 July, on Services of the Society of Information and Electronic Commerce (LSSI-CE)(particularly, article 10).
+The Organic Law 15/1999, of December 13, Protection of Personal Data (LOPD).
+The Royal Decree 1720/2007, of December 21, which approves the Regulation of development of the Organic Law 15/1999, of December 13, Protection of Personal Data." />
+
+	</bean>
+	
+</beans>
