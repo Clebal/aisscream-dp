@@ -127,6 +127,7 @@
 			</security:authorize>
 			
 			<spring:message code="rendezvous.format.moment" var="momentFormat"/>	
+			<jsp:useBean id="currentMomentVar" class="java.util.Date"/>
 			
 			
 			<jstl:if test="${!rendezvousesLinked.isEmpty()}">
@@ -145,7 +146,7 @@
 						<br>
 					</jstl:if>
 					
-					<jstl:if test="${row4.getMoment().compareTo(currentMomentVar)<=0}">
+					<jstl:if test="${row4.getMoment()<=(currentMomentVar)}">
 						<span class="display"><spring:message code="rendezvous.momentIsPast.message"/></span>
 						<br>
 					</jstl:if>
@@ -225,7 +226,7 @@
 						<br>
 					</jstl:if>
 					
-					<jstl:if test="${row5.getMoment().compareTo(currentMomentVar)<=0}">
+					<jstl:if test="${row5.getMoment()<=(currentMomentVar)}">
 						<span class="display"><spring:message code="rendezvous.momentIsPast.message"/></span>
 						<br>
 					</jstl:if>

@@ -15,6 +15,7 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="rendezvouses" id="row">
 	
+	<jsp:useBean id="currentMomentVar" class="java.util.Date"/>
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>
 
@@ -82,7 +83,7 @@
 		
 	<spring:message code="rendezvous.moment.isPast" var="momentIsPast"/>
 	<display:column title="${momentIsPast}">
-		<jstl:if test="${row.getMoment().compareTo(currentMomentVar)<=0}">
+		<jstl:if test="${row.getMoment()<=(currentMomentVar)}">
 		 	<jstl:out value="X"/>
 		</jstl:if>
 	</display:column>
