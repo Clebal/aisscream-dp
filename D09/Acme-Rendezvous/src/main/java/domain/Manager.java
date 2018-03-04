@@ -21,5 +21,4 @@ public class Manager extends Actor{
 		this.vat = vat;
 	}
 
-	
 }

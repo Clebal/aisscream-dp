@@ -4,6 +4,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -17,7 +19,7 @@ public class Service extends DomainEntity {
 
 	private String description;
 
-	private String[] picture;
+	private String picture;
 
 	private String status;
 
@@ -44,11 +46,11 @@ public class Service extends DomainEntity {
 	}
 
 	@URL
-	public String[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 
-	public void setPicture(String[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 
@@ -62,6 +64,8 @@ public class Service extends DomainEntity {
 		this.status = status;
 	}
 
+	@Valid
+	@NotNull
 	@ManyToOne(optional = false)
 	public Manager getManager() {
 		return manager;
@@ -71,6 +75,8 @@ public class Service extends DomainEntity {
 		this.manager = manager;
 	}
 
+	@Valid
+	@NotNull
 	@ManyToOne(optional = false)
 	public Category getCategory() {
 		return category;

@@ -13,6 +13,8 @@ public class Configuration extends DomainEntity {
 	private String name;
 
 	private String banner;
+	
+	private String welcomeMessage;
 
 	@NotBlank
 	public String getName() {
@@ -30,6 +32,15 @@ public class Configuration extends DomainEntity {
 
 	public void setBanner(String banner) {
 		this.banner = banner;
+	}
+	
+	@NotBlank
+	public String getWelcomeMessage() {
+		return this.welcomeMessage;
+	}
+	
+	public void setWelcomeMessage(final String welcomeMessage) {
+		this.welcomeMessage = welcomeMessage;
 	}
 
 }

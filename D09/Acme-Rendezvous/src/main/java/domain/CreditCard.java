@@ -3,7 +3,10 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,6 +27,8 @@ public class CreditCard extends DomainEntity {
 	private int expirationYear;
 
 	private int cvvcode;
+	
+	private User user;
 
 	@NotBlank
 	public String getHolderName() {
@@ -78,6 +83,17 @@ public class CreditCard extends DomainEntity {
 
 	public void setCvvcode(final int cvvcode) {
 		this.cvvcode = cvvcode;
+	}
+	
+	@Valid
+	@NotNull
+	@ManyToOne(optional = false)
+	public User getUser() {
+		return this.user;
+	}
+	
+	public void setUser(final User user) {
+		this.user = user;
 	}
 
 }
