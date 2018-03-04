@@ -24,6 +24,10 @@ public class Internationalization extends DomainEntity {
 	private String	messageCode;
 
 	private String	value;
+	
+	private String 	welcomeMessageCode;
+	
+	private String	valueWelcomeMessage;
 
 
 	@NotBlank
@@ -54,4 +58,23 @@ public class Internationalization extends DomainEntity {
 		this.value = value;
 	}
 
+	@NotBlank
+	public String getWelcomeMessageCode() {
+		return welcomeMessageCode;
+	}
+
+	public void setWelcomeMessageCode(String welcomeMessageCode) {
+		this.welcomeMessageCode = welcomeMessageCode;
+	}
+
+	@NotBlank
+	public String getValueWelcomeMessage() {
+		return valueWelcomeMessage;
+	}
+
+	public void setValueWelcomeMessage(String valueWelcomeMessage) {
+		this.valueWelcomeMessage = valueWelcomeMessage;
+	}
+
+	
 }
