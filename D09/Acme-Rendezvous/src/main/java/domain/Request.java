@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -11,41 +12,42 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.PROPERTY)
 public class Request extends DomainEntity {
 
-	private String comments;
+	private String		comments;
 
-	private Service service;
+	private Servicio	servicio;
 
-	private Rendezvous rendezvous;
+	private Rendezvous	rendezvous;
 
-	private CreditCard creditCard;
+	private CreditCard	creditCard;
+
 
 	public String getComments() {
-		return comments;
+		return this.comments;
 	}
 
-	public void setComments(String comments) {
+	public void setComments(final String comments) {
 		this.comments = comments;
 	}
 
 	@Valid
 	@NotNull
 	@ManyToOne(optional = false)
-	public Service getService() {
-		return service;
+	public Servicio getServicio() {
+		return this.servicio;
 	}
 
-	public void setService(Service service) {
-		this.service = service;
+	public void setServicio(final Servicio servicio) {
+		this.servicio = servicio;
 	}
 
 	@Valid
 	@NotNull
 	@ManyToOne(optional = false)
 	public Rendezvous getRendezvous() {
-		return rendezvous;
+		return this.rendezvous;
 	}
 
-	public void setRendezvous(Rendezvous rendezvous) {
+	public void setRendezvous(final Rendezvous rendezvous) {
 		this.rendezvous = rendezvous;
 	}
 
@@ -53,10 +55,10 @@ public class Request extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public CreditCard getCreditCard() {
-		return creditCard;
+		return this.creditCard;
 	}
 
-	public void setCreditCard(CreditCard creditCard) {
+	public void setCreditCard(final CreditCard creditCard) {
 		this.creditCard = creditCard;
 	}
 

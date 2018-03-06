@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Service extends DomainEntity {
+public class Servicio extends DomainEntity {
 
 	private String name;
 
