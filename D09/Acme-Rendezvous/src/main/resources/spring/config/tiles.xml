@@ -38,6 +38,10 @@
 		<value>/views/aboutUs/tiles.xml</value>
 		<value>/views/dashboard/tiles.xml</value>
 		
+		<!-- D09 -->
+		<value>/views/creditcard/tiles.xml</value>
+		<value>/views/manager/tiles.xml</value>
+		
 	</util:list>
 
 </beans>

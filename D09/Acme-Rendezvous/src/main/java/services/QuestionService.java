@@ -50,6 +50,9 @@ public class QuestionService {
 		
 		result.setRendezvous(rendezvous);
 		
+		// Solo puede asignarse un rendezvous del creator
+		Assert.isTrue(rendezvous.getCreator().getUserAccount().equals(LoginService.getPrincipal()));
+		
 		return result;
 	}
 	
@@ -67,6 +70,19 @@ public class QuestionService {
 		Assert.isTrue(questionId != 0);
 		
 		result = this.questionRepository.findOne(questionId);
+		
+		return result;
+	}
+	
+	public Question findOneToEdit(final int questionId) {
+		Question result;
+		
+		Assert.isTrue(questionId != 0);
+		
+		result = this.questionRepository.findOne(questionId);
+		
+		// Solo puede editarlo el creator
+		Assert.isTrue(result.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		return result;
 	}

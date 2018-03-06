@@ -41,6 +41,12 @@ public class AnnouncementService {
 	public Announcement create(final Rendezvous rendezvous) {
 		Announcement result;
 		
+        // Solo puede crearlo el creator
+        Assert.isTrue(rendezvous.getCreator().getUserAccount().equals(LoginService.getPrincipal()));
+		
+        // No puede crearse si está borrado el rendezvous
+        Assert.isTrue(!rendezvous.getIsDeleted());
+		
 		result = new Announcement();
 		result.setRendezvous(rendezvous);
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
@@ -64,6 +70,20 @@ public class AnnouncementService {
 		result = this.announcementRepository.findOne(announcementId);
 		
 		return result;
+	}
+	
+	public Announcement findOneToEdit(final int announcementId) {
+		Announcement result;
+		
+		Assert.isTrue(announcementId != 0);
+				
+		result = this.announcementRepository.findOne(announcementId);
+		
+		// Solo puede editarlo el creator
+        Assert.isTrue(result.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		return result;
+		
 	}
 	 
 	public Announcement save(final Announcement announcement) {

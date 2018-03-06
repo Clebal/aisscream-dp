@@ -1,8 +1,11 @@
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -25,7 +28,7 @@ public class Service extends DomainEntity {
 
 	private Manager manager;
 
-	private Category category;
+	private Collection<Category> categories;
 
 	@NotBlank
 	public String getName() {
@@ -77,13 +80,13 @@ public class Service extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@ManyToOne(optional = false)
-	public Category getCategory() {
-		return category;
+	@ManyToMany
+	public Collection<Category> getCategories() {
+		return categories;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategories(Collection<Category> categories) {
+		this.categories = categories;
 	}
 
 }

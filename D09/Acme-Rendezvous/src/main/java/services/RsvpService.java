@@ -102,7 +102,7 @@ public class RsvpService {
 			// Comprobar que no se ha cambiado ni el attendant ni el rendezvous, solo se cambia el status.
 			Assert.isTrue(saved.getAttendant().equals(rsvp.getAttendant()) && saved.getRendezvous().equals(rsvp.getRendezvous()));
 			// Solo se puede actualizar si el rendezvous no se ha pasado. Tampoco se puede actualizar si rendezvous está eliminado
-			Assert.isTrue(rsvp.getRendezvous().getMoment().compareTo(new Date()) > 0 || rsvp.getRendezvous().getIsDeleted());
+			Assert.isTrue(rsvp.getRendezvous().getMoment().compareTo(new Date()) > 0 || !rsvp.getRendezvous().getIsDeleted());
 		}
 
 		result = this.rspvRepository.save(rsvp);

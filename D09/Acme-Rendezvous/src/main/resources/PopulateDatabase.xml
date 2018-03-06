@@ -1007,7 +1007,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="picture" value="https://lh3.googleusercontent.com/p/AF1QipNhthr2MNv4L_ckPDh_oieqC3rEOCY99cLX1TiV=w600-k" />
 		<property name="status" value="ACCEPTED" />
 		<property name="manager" ref="manager1" />
-		<property name="category" ref="category1" />
+		<property name="categories">
+			<list>
+				<ref bean="category1" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="service2" class="domain.Service">
@@ -1015,7 +1019,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="description" value="Si sus amigos están pensando en ir o no ir a una quedada por sus mascotas, no se preocupe que nosotros nos encargaremos." />
 		<property name="status" value="ACCEPTED" />
 		<property name="manager" ref="manager1" />
-		<property name="category" ref="category2" />
+		<property name="categories">
+			<list>
+				<ref bean="category2" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="service3" class="domain.Service">
@@ -1024,7 +1032,12 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="picture" value="https://buhomag-cms.imgix.net/2015/11/11162815/br.jpg?auto=compress,format" />
 		<property name="status" value="CANCELLED" />
 		<property name="manager" ref="manager2" />
-		<property name="category" ref="category3" />
+		<property name="categories">
+			<list>
+				<ref bean="category1" />
+				<ref bean="category8" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="service4" class="domain.Service">
@@ -1033,7 +1046,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="picture" value="http://www.cheatsheet.com/wp-content/uploads/2015/11/Men-Clothing-in-Fashion-Store.jpg" />
 		<property name="status" value="ACCEPTED" />
 		<property name="manager" ref="manager2" />
-		<property name="category" ref="category3" />
+		<property name="categories">
+			<list>
+				<ref bean="category3" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="service5" class="domain.Service">
@@ -1042,7 +1059,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="picture" value="https://articles-images.sftcdn.net/wp-content/uploads/sites/2/2014/10/Android-Lollipop-568x319.jpg" />
 		<property name="status" value="ACCEPTED" />
 		<property name="manager" ref="manager2" />
-		<property name="category" ref="category1" />
+		<property name="categories">
+			<list>
+				<ref bean="category1" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="service6" class="domain.Service">
@@ -1050,7 +1071,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="description" value="Medicos e hijos ofrecen una amplia gama de equipo médico para revisiones médicas, conferencias, etc." />
 		<property name="status" value="ACCEPTED" />
 		<property name="manager" ref="manager2" />
-		<property name="category" ref="category2" />
+		<property name="categories">
+			<list>
+				<ref bean="category2" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="service7" class="domain.Service">
@@ -1058,7 +1083,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="description" value="GRANDES S.L. ofrece un amplio servicio de limusinas para sus ocasiones más especiales." />
 		<property name="status" value="ACCEPTED" />
 		<property name="manager" ref="manager2" />
-		<property name="category" ref="category2" />
+		<property name="categories">
+			<list>
+				<ref bean="category2" />
+			</list>
+		</property>
 	</bean>
 	
 	<!-- Request -->

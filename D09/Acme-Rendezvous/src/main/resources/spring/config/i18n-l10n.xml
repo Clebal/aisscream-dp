@@ -38,6 +38,10 @@
 		<value>/views/aboutUs/messages</value>
 		<value>/views/dashboard/messages</value>
 		
+		<!-- D09 -->
+		<value>/views/creditcard/messages</value>
+		<value>/views/manager/messages</value>
+		
 	</util:list>
 
 </beans>

@@ -15,7 +15,7 @@
 	<jsp:useBean id="today" class="java.util.Date" />
 	
 	<jstl:if test="${!requestURI.equals('rsvp/list.do')}">
-		<jstl:if test="${row.getRendezvous().getMoment()<(today)  || !row.getRendezvous().getIsDeleted()}">
+		<jstl:if test="${row.getRendezvous().getMoment()>=(today)  || !row.getRendezvous().getIsDeleted()}">
 			<jstl:if test="${row.getStatus().equals('ACCEPTED')}">
 				<acme:columnLink action="cancel" domain="rsvp" id="${row.getId()}" />
 			</jstl:if>
@@ -24,7 +24,7 @@
 				<acme:columnLink action="accept" domain="rsvp" id="${row.getId()}" />
 			</jstl:if>
 		</jstl:if>
-		<jstl:if test="${row.getRendezvous().getMoment()>(today) && row.getRendezvous().getIsDeleted()}">
+		<jstl:if test="${row.getRendezvous().getMoment()<(today) && row.getRendezvous().getIsDeleted()}">
 			<display:column>
 			</display:column>
 		</jstl:if>

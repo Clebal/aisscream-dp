@@ -64,9 +64,6 @@ public class QuestionUserController extends AbstractController {
 		
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 		Assert.notNull(rendezvous);
-
-		// Solo puede editarlo el creator
-		Assert.isTrue(rendezvous.getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		question = this.questionService.create(rendezvous);
 		Assert.notNull(question);
@@ -82,12 +79,9 @@ public class QuestionUserController extends AbstractController {
 		ModelAndView result;
 		Question question;
 				
-		question = this.questionService.findOne(questionId);
+		question = this.questionService.findOneToEdit(questionId);
 		Assert.notNull(question);
 		
-		// Solo puede editarlo el creator
-		Assert.isTrue(question.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
-
 		result = this.createEditModelAndView(question);
 		
 		return result;
@@ -107,7 +101,6 @@ public class QuestionUserController extends AbstractController {
 				this.questionService.save(question);
 				result = new ModelAndView("redirect:list.do");
 			} catch (Throwable oops) {
-//				result = super.panic(oops);
 				result = this.createEditModelAndView(question, "question.commit.error");
 			}
 		}
