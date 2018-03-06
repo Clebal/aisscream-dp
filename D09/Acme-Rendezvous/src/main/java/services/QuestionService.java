@@ -116,6 +116,11 @@ public class QuestionService {
 			this.answerService.delete(a);
 		}
 		
+		for(final Question q: this.findByHigherNumber(question.getNumber())){
+			q.setNumber(q.getNumber()-1);
+			this.save(q);
+		}
+		
 		this.questionRepository.delete(question);
 		
 	}
@@ -166,6 +171,16 @@ public class QuestionService {
 		Double[] result;
 		
 		result = this.questionRepository.avgStandartDerivationQuestionsPerRendezvous();
+		
+		return result;
+	}
+	
+	public Collection<Question> findByHigherNumber(final int number) {
+		Collection<Question> result;
+		
+		Assert.isTrue(number != 0);
+		
+		result = this.questionRepository.findByHigherNumber(number);
 		
 		return result;
 	}

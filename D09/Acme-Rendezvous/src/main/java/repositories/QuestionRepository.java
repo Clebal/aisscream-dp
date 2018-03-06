@@ -29,4 +29,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	@Query("select avg(cast((select count(q) from Question q where q.rendezvous.id=r.id) as float )), sqrt(sum((select count(q) from Question q where q.rendezvous.id=r.id)*(select count(q) from Question q where q.rendezvous.id=r.id))/(select count(r2) from Rendezvous r2)-avg(cast((select count(q) from Question q where q.rendezvous.id=r.id) as float ))*avg(cast((select count(q) from Question q where q.rendezvous.id=r.id) as float ))) from Rendezvous r")
 	Double[] avgStandartDerivationQuestionsPerRendezvous();
 	
+	@Query("select q from Question q where q.number > ?1")
+	Collection<Question> findByHigherNumber(int number);
+	
 }
