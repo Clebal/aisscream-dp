@@ -62,6 +62,9 @@
 		<bean class="converters.ManagerToStringConverter" />
 		<bean class="converters.StringToManagerConverter" />
 		
+		<bean class="converters.ServicioToStringConverter" />
+		<bean class="converters.StringToServicioConverter" />
+		
 	</util:list>
 	
 </beans>

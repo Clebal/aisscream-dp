@@ -41,6 +41,8 @@
 		<!-- D09 -->
 		<value>/views/creditcard/tiles.xml</value>
 		<value>/views/manager/tiles.xml</value>
+		<value>/views/servicio/tiles.xml</value>
+		
 		
 	</util:list>
 
