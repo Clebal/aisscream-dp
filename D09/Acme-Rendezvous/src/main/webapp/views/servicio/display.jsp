@@ -15,6 +15,7 @@
 <jstl:if test="${servicio.getPicture()!=null && servicio.getPicture()!='' }">
 	<img src="${servicio.getPicture()}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
 </jstl:if>
+<br>
 	<div>
 		<div class="container">
 			
@@ -42,9 +43,6 @@
 				</div>
 			</jstl:if>
 		</security:authorize>
-		
-		<acme:displayLink parametre="servicioId" code="servicio.categories" action="category/listByServicioId.do" parametreValue="${servicio.getId()}"/>
-		
 																
 			<jstl:if test="${!categories.isEmpty()}">
 		

@@ -55,7 +55,7 @@ public class ServicioController extends AbstractController {
 		result = new ModelAndView("servicio/list");
 		result.addObject("pageNumber", servicios.getTotalPages());
 		result.addObject("page", page);
-		result.addObject("servicios", servicios);
+		result.addObject("servicios", servicios.getContent());
 		result.addObject("requestURI", "servicio/list.do");
 
 		return result;
@@ -72,7 +72,7 @@ public class ServicioController extends AbstractController {
 		result = new ModelAndView("servicio/list");
 		result.addObject("pageNumber", servicios.getTotalPages());
 		result.addObject("page", page);
-		result.addObject("servicios", servicios);
+		result.addObject("servicios", servicios.getContent());
 		result.addObject("requestURI", "servicio/listByCategoryId.do");
 		result.addObject("categoryId", categoryId);
 
@@ -90,7 +90,7 @@ public class ServicioController extends AbstractController {
 		result = new ModelAndView("servicio/list");
 		result.addObject("pageNumber", servicios.getTotalPages());
 		result.addObject("page", page);
-		result.addObject("servicios", servicios);
+		result.addObject("servicios", servicios.getContent());
 		result.addObject("requestURI", "servicio/listByRendezvousId.do");
 		result.addObject("rendezvousId", rendezvousId);
 
@@ -103,8 +103,8 @@ public class ServicioController extends AbstractController {
 		Integer pageNumber, fromId, toId;
 
 		categories = new ArrayList<Category>(servicio.getCategories());
-		fromId = this.fromIdAndToId(5, page)[0];
-		toId = this.fromIdAndToId(5, page)[1];
+		fromId = this.fromIdAndToId(categories.size(), page)[0];
+		toId = this.fromIdAndToId(categories.size(), page)[1];
 
 		pageNumber = categories.size();
 

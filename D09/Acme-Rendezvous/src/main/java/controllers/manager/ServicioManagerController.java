@@ -62,7 +62,7 @@ public class ServicioManagerController extends AbstractController {
 		result = new ModelAndView("servicio/list");
 		result.addObject("pageNumber", servicios.getTotalPages());
 		result.addObject("page", page);
-		result.addObject("servicios", servicios);
+		result.addObject("servicios", servicios.getContent());
 		result.addObject("requestURI", "servicio/manager/list.do");
 
 		return result;

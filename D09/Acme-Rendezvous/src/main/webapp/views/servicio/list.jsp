@@ -15,6 +15,8 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="servicios" id="row">
 	
+<jstl:if test="${requestURI.equals('servicio/manager/list.do')}">
+	
 	<security:authorize access="hasRole('MANAGER')">
 		<security:authentication var="principal" property="principal.username"/>
 
@@ -28,27 +30,27 @@
 		</display:column>
 				
 	</security:authorize>	
-		
+</jstl:if>	
 		<!-- Para que aparezcan los enlaces de addlink cuando accedamos desde el diplay para enlazar -->
 		<security:authorize access="hasRole('ADMIN')">
 		
 			<display:column>
 		
-			<jstl:if test="${row.getStatus.equals('ACCEPTED')}">
-					<spring:url var="urlAcceptServicio" value="servicio/administrator/accept.do">
+			<jstl:if test="${row.getStatus().equals('ACCEPTED')}">
+					<spring:url var="urlAcceptServicio" value="servicio/administrator/cancel.do">
 						<spring:param name="servicioId" value="${row.getId()}" />
 					</spring:url>
 					<a href="${urlAcceptServicio }"> <spring:message
-					code="servicio.accept" />
+					code="servicio.cancel" />
 					</a>
 			</jstl:if>
 			
-			<jstl:if test="${row.getStatus.equals('CANCELLED')}">
-					<spring:url var="urlCancelledServicio" value="servicio/administrator/cancel.do">
+			<jstl:if test="${row.getStatus().equals('CANCELLED')}">
+					<spring:url var="urlCancelledServicio" value="servicio/administrator/accept.do">
 						<spring:param name="servicioId" value="${row.getId()}" />
 					</spring:url>
 					<a href="${urlCancelledServicio }"> <spring:message
-					code="servicio.cancel" />
+					code="servicio.accept" />
 					</a>
 			</jstl:if>
 			
@@ -62,10 +64,12 @@
 						<spring:param name="servicioId" value="${row.getId()}" />
 						
 					</spring:url>
+					<display:column>
+					
 					<a href="${urlCreateRequest }"> <spring:message
 					code="servicio.create.request" />
 					</a>
-		
+					</display:column>
 			</jstl:if>
 		</security:authorize>
 		
@@ -108,6 +112,7 @@
 
 <security:authorize access="hasRole('MANAGER')">
 	<div>
+	<br>
 		<a href="servicio/manager/create.do">
 			<spring:message code="servicio.create" />
 		</a>
