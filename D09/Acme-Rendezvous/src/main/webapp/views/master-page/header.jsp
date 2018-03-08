@@ -34,6 +34,7 @@
       	
       	<security:authorize access="isAnonymous()">
 			<li><a href="rendezvous/list.do"><spring:message code="master.page.all.rendezvous" /></a></li>
+			<li><a href="category/display.do"><spring:message code="master.page.all.category" /></a></li>
       	</security:authorize>
                
         <li class="dropdown">
@@ -56,6 +57,9 @@
 					<li><a href="rendezvous/user/listByAttendant.do"><spring:message code="master.page.user.rsvp.rendezvouses" /></a></li>
 					<li><a href="question/user/list.do"><spring:message code="master.page.user.questions" /></a></li>
 					<li><a href="announcement/user/list.do"><spring:message code="master.page.user.announcement" /></a></li>
+					<li><a href="creditcard/user/list.do"><spring:message code="master.page.user.creditCard" /></a></li>
+					<li><a href="request/user/list.do"><spring:message code="master.page.user.request" /></a></li>
+							
 				</ul>
 			</security:authorize>
 			
@@ -76,7 +80,9 @@
 					<li><a href="actor/list.do"><spring:message code="master.page.list.user" /></a></li>
 					<li><a href="actor/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
 					<li><a href="rendezvous/list.do"><spring:message code="master.page.all.rendezvous" /></a></li>
-					<li><a href="servicio/list.do"><spring:message code="master.page.all.servicio" /></a></li>	
+					<li><a href="servicio/list.do"><spring:message code="master.page.all.servicio" /></a></li>
+					<li><a href="category/display.do"><spring:message code="master.page.all.category" /></a></li>
+						
 						
 				</ul>
 			</security:authorize>
