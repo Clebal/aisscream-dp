@@ -82,8 +82,11 @@ public class RequestService {
 		Assert.isTrue(user.getUserAccount().getAuthorities().contains(authority));
 		Assert.isTrue(request.getRendezvous().getCreator().equals(user));
 		
-		/* Si ya fue creado, no puede cambiar el rendezvous ni el service */ 
+		/*  El rendezvous no pueda estar borrado y además debes mirar que no exista un request ya para ese servicio y ese rendezvous */ 
 
+		Assert.isTrue(!request.getRendezvous().getIsDeleted());
+		Assert.isNull(this.findRequestEqualRendezvousServicio(request.getRendezvous().getId(), request.getServicio().getId()));
+		
 		result = this.requestRepository.save(request);
 
 		return result;
@@ -104,6 +107,16 @@ public class RequestService {
 	}
 
 	// Other business methods
+	
+	public Request findRequestEqualRendezvousServicio(final int rendezvousId, final int servicioId) {
+		Request result;
+
+		Assert.isTrue(rendezvousId != 0 && servicioId != 0);
+
+		result = this.requestRepository.findRequestEqualRendezvousServicio(rendezvousId, servicioId);
+
+		return result;
+	}
 	
 	public Collection<Request> findAllPaginated(final int userId, final int page, final int size) {
 		Collection<Request> result;
