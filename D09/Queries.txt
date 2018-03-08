@@ -1,3 +1,6 @@
+Query 1 - The best-selling services
+select s from Servicio s where cast((select count(r) from Request r where r.servicio.id=s.id) as float)=(select max(cast((select count(r2) from Request r2 where r2.servicio.id=s2.id) as float)) from Servicio s2);
+
 QUERY 2 - The managers who provide more services than the average.
 
 select distinct m from Servicio s join s.manager m where cast((select count(s2.manager) from Servicio s2 join s2.manager m2 where m.id=m2.id)as float)>(select avg(cast((select count(s2.manager) from Servicio s2 join s2.manager m2 where m.id=m2.id)as float)) from Manager m)
@@ -8,7 +11,11 @@ select m from Manager m where cast((select count(s2) from Servicio s2 where s2.s
 
 QUERY 6 - The average, the minimum, the maximum, and the standard deviation of services requested per rendezvous.
 
+<<<<<<< HEAD
 select  avg(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as float )), min(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as int )), max(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as int )), sqrt(sum((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id)*(select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id))/(select count(r2) from Rendezvous r2)-avg(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as float ))*avg(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as float ))) from Rendezvous r
 
 --Query 7--
 "select s.id from Servicio s ORDER BY (select count(r.id) from Request r where r.servicio_id=s.id) DESC LIMIT ?1", nativeQuery = true
+=======
+select  avg(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as float )), min(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as int )), max(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as int )), sqrt(sum((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id)*(select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id))/(select count(r2) from Rendezvous r2)-avg(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as float ))*avg(cast((select count(s) from Servicio s, Request rq where rq.servicio.id=s.id and rq.rendezvous.id=r.id) as float ))) from Rendezvous r
+>>>>>>> 8553b47fdcdeaed5d524aec79dbbd45988b8ffd5
