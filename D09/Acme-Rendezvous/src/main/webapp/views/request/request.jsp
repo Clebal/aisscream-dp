@@ -10,10 +10,26 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="request/request.do" modelAttribute="request">
+<form:form action="request/user/request.do" modelAttribute="request">
+
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+	<form:hidden path="rendezvous" />
+	<form:hidden path="servicio" />
+
+	<div class="form-group"> 
+		<form:label path="creditCard">
+			<spring:message code="request.creditCards" />:
+		</form:label>
+		<form:select class="form-control" path="creditCard">
+			<form:option value="0" label="----" />		
+			<form:options items="${creditcards}" itemValue="id" itemLabel="number" />
+		</form:select>
+		<form:errors class="text-danger" path="creditCard" />
+	</div>
 	
-	<acme:select path="creditCard" code="request.creditCards" items="creditCards" itemLabel="number" />
-	
+<%-- 	<acme:select path="creditCard" code="request.creditCards" items="creditcards" itemLabel="number" id="id" />
+ --%>
 	<acme:textbox code="request.comments" path="comments"/>
 	
 	<acme:submit name="save" code="request.save" />

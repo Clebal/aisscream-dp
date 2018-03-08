@@ -15,6 +15,7 @@ import services.CommentService;
 import services.ManagerService;
 import services.QuestionService;
 import services.RendezvousService;
+import services.ServicioService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Manager;
@@ -44,14 +45,14 @@ public class DashboardAdministratorController extends AbstractController {
 	@Autowired
 	AnswerService		answerService;
 	
-//	@Autowired
-//	ServicioService servicioService;
-//	
-//	@Autowired
-//	ManagerService managerService;
-//
-//	@Autowired
-//	CategoryService categoryService;
+	@Autowired
+	ServicioService servicioService;
+	
+	@Autowired
+	ManagerService managerService;
+
+	@Autowired
+	CategoryService categoryService;
 	
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)

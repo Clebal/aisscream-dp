@@ -1,10 +1,7 @@
 
 package controllers.user;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -18,26 +15,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
-import services.AnswerService;
 import services.CreditCardService;
-import services.QuestionService;
 import services.RendezvousService;
 import services.RequestService;
-import services.RsvpService;
+import services.ServicioService;
 import services.UserService;
 import controllers.AbstractController;
-import domain.Actor;
-import domain.Announcement;
-import domain.Answer;
-import domain.Comment;
 import domain.CreditCard;
-import domain.Question;
 import domain.Rendezvous;
 import domain.Request;
-import domain.Rsvp;
 import domain.Servicio;
 import domain.User;
-import forms.RsvpForm;
 
 @Controller
 @RequestMapping("/request/user")
@@ -55,6 +43,9 @@ public class RequestUserController extends AbstractController {
 	
 	@Autowired
 	private UserService					userService;
+	
+	@Autowired
+	private ServicioService				servicioService;
 	
 	// Constructor
 	public RequestUserController() {
@@ -89,7 +80,6 @@ public class RequestUserController extends AbstractController {
 
 			pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
 
-			//			result.addObject("requestURI", "announcement/user/list.do");
 			result.addObject("requests", requests);
 			result.addObject("pageNumber", pageNumber);
 			result.addObject("page", pageAux);
@@ -119,71 +109,52 @@ public class RequestUserController extends AbstractController {
 		public ModelAndView delete(@RequestParam final int requestId) {
 			ModelAndView result;
 			Request request;
-			Collection<Request> requests;
-			Integer size, pageNumber;
-			User user;
-			
+
 			request = this.requestService.findOne(requestId);
-			this.requestService.delete(request);
-			
-			size = 5;
-			pageNumber = 0;
-			
-			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			
-			requests = this.requestService.findAllPaginated(user.getId(), 1, size);
-			Assert.notNull(requests);
-			
-			if (requests.size() != 0)
-				pageNumber = this.requestService.countAllPaginated(user.getId());
-			
-			result = new ModelAndView("request/list");
-
-			pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
-
-			result.addObject("requests", requests);
-			result.addObject("pageNumber", pageNumber);
-			result.addObject("page", 1);
-			result.addObject("userId", user.getId());
-			result.addObject("requestURI", "request/user/list.do");
+			this.requestService.delete(request);			
+			result = new ModelAndView("redirect:list.do");
 			
 			return result;
 		}
 		
 	// Request -------------------------------------------------------------------------------------------
 
-	//Create
 		@RequestMapping(value = "/request", method = RequestMethod.GET)
-		public ModelAndView create(@RequestParam final int rendezvousId) {
+		public ModelAndView request(@RequestParam final int rendezvousId, @RequestParam final int servicioId) {
 			ModelAndView result;
 			Rendezvous rendezvous;
+			Servicio servicio;
 			Request request;
 
 			rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 			Assert.notNull(rendezvous);
+			
+			servicio = this.servicioService.findOne(servicioId);
+			Assert.notNull(servicio);
 
-			request = this.requestService.create(rendezvous);
+			request = this.requestService.create(rendezvous, servicio);
 
 			result = this.createEditModelAndView(request);
+
 
 			return result;
 
 		}
 		
 	@RequestMapping(value = "/request", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(Request request, final BindingResult binding) {
+	public ModelAndView save(@Valid Request request, final BindingResult binding) {
 		ModelAndView result = null;
 
 //		request = this.requestService.reconstruct(request, binding);
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()){
 			result = this.createEditModelAndView(request);
-		else
+		}else
 			try {
 				this.requestService.save(request);
 				result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId=" + request.getRendezvous().getId());
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(request, "comment.commit.error");
+				result = this.createEditModelAndView(request, "request.commit.error");
 			}
 
 		return result;
@@ -205,7 +176,12 @@ public class RequestUserController extends AbstractController {
 		creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
 
 		result = new ModelAndView("request/request");
-		result.addObject("creditCards", creditCards);
+		
+		result.addObject("creditcards", creditCards);
+		result.addObject("request", request);
+		result.addObject("message", messageCode);
+		result.addObject("servicio", request.getServicio());
+		result.addObject("rendezvous", request.getRendezvous());
 
 		return result;
 	}
