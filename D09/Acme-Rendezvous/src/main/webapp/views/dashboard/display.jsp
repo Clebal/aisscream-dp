@@ -99,9 +99,74 @@
 		</div>
 		<br/>
 		
+		<!-- Nuevos -->
 		
+		<div class="container">
+			<p class="display"><spring:message code="dashboard.bestSellingServices"/></p>
+			<jstl:forEach items="${bestSellingServices}" var="row">
+				<spring:url var="urlBestSellingServices" value="servicio/display.do">
+					<spring:param name="servicioId" value="${row.getId()}"></spring:param>
+				</spring:url>
+				<p style="margin-left: 15px;"><a href="${urlBestSellingServices}" ><jstl:out value="${row.name}"></jstl:out></a></p>
+			</jstl:forEach>
+			
+		</div>
+		<br/>
+		
+		<div class="container">
+			<p class="display"><spring:message code="dashboard.managerMoreServicesAverage"/></p>
+			<jstl:forEach items="${managerMoreServicesAverage}" var="row">
+				<spring:url var="urlManagerMoreServicesAverage" value="manager/display.do">
+					<spring:param name="managerId" value="${row.getId()}"></spring:param>
+				</spring:url>
+				<p style="margin-left: 15px;"><a href="${urlManagerMoreServicesAverage}" ><jstl:out value="${row.name}"></jstl:out></a></p>
+			</jstl:forEach>
+			
+		</div>
+		<br/>
 
+		<div class="container">
+			<p class="display"><spring:message code="dashboard.managerMoreServicesCancelled"/></p>
+			<jstl:forEach items="${managerMoreServicesCancelled}" var="row">
+				<spring:url var="urlManagerMoreServicesCancelled" value="manager/display.do">
+					<spring:param name="managerId" value="${row.getId()}"></spring:param>
+				</spring:url>
+				<p style="margin-left: 15px;"><a href="${urlManagerMoreServicesCancelled}" ><jstl:out value="${row.name}"></jstl:out></a></p>
+			</jstl:forEach>
+			
+		</div>
+		<br/>
+		
+		<div class="container">
+			<acme:display code="dashboard.avgNumberCategoriesPerRendezvous" value="${avgNumberCategoriesPerRendezvous}" formatNumber="true"/>
+		</div>
+		<br/>
+		
+		<div class="container">
+			<acme:display code="dashboard.avgRatioServicesCategory" value="${avgRatioServicesCategory}" formatNumber="true"/>
+		</div>
+		<br/>
+		
+		<div class="container">
+			<acme:display code="dashboard.avgServicesPerRendezvous" value="${avgMinMaxStandardDesviationServicesPerRendezvous[0]}" formatNumber="true"/>
+			<acme:display code="dashboard.minServicesPerRendezvous" value="${avgMinMaxStandardDesviationServicesPerRendezvous[1]}" formatNumber="true"/>
+			<acme:display code="dashboard.maxServicesPerRendezvous" value="${avgMinMaxStandardDesviationServicesPerRendezvous[2]}" formatNumber="true"/>
+			<acme:display code="dashboard.standardDesviationServicesPerRendezvous" value="${avgMinMaxStandardDesviationServicesPerRendezvous[3]}" formatNumber="true"/>
+		</div>
+		<br/>
 	
+		<div class="container">
+			<p class="display"><spring:message code="dashboard.topSellingServices"/></p>
+			<jstl:forEach items="${topSellingServices}" var="row">
+				<spring:url var="urlTopSellingServices" value="servicio/display.do">
+					<spring:param name="servicioId" value="${row.getId()}"></spring:param>
+				</spring:url>
+				<p style="margin-left: 15px;"><a href="${urlTopSellingServices}" ><jstl:out value="${row.name}"></jstl:out></a></p>
+			</jstl:forEach>
+			
+		</div>
+		<br/>
+		
 	</div>
 	
 	

@@ -65,6 +65,9 @@
 		<bean class="converters.ServicioToStringConverter" />
 		<bean class="converters.StringToServicioConverter" />
 		
+		<bean class="converters.RequestToStringConverter" />
+		<bean class="converters.StringToRequestConverter" />
+		
 	</util:list>
 	
 </beans>

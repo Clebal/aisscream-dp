@@ -26,6 +26,8 @@ import services.RequestService;
 import services.RsvpService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.Actor;
+import domain.Announcement;
 import domain.Answer;
 import domain.Comment;
 import domain.CreditCard;
@@ -33,6 +35,7 @@ import domain.Question;
 import domain.Rendezvous;
 import domain.Request;
 import domain.Rsvp;
+import domain.Servicio;
 import domain.User;
 import forms.RsvpForm;
 
@@ -51,12 +54,102 @@ public class RequestUserController extends AbstractController {
 	private CreditCardService			creditCardService;
 	
 	@Autowired
-	private ServicioService			servicioService;
+	private UserService					userService;
+	
 	// Constructor
 	public RequestUserController() {
 		super();
 	}
 
+	// List
+		@RequestMapping(value="/list", method = RequestMethod.GET)
+		public ModelAndView list(@RequestParam(required=false) Integer page) {
+			ModelAndView result;
+			Collection<Request> requests;
+			Integer size, pageAux, pageNumber;
+			User user;
+			
+			size = 5;
+			pageNumber = 0;
+			
+			if (page == null)
+				pageAux = 1;
+			else
+				pageAux = page;
+			
+			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+			
+			requests = this.requestService.findAllPaginated(user.getId(), pageAux, size);
+			Assert.notNull(requests);
+			
+			if (requests.size() != 0)
+				pageNumber = this.requestService.countAllPaginated(user.getId());
+			
+			result = new ModelAndView("request/list");
+
+			pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
+
+			//			result.addObject("requestURI", "announcement/user/list.do");
+			result.addObject("requests", requests);
+			result.addObject("pageNumber", pageNumber);
+			result.addObject("page", pageAux);
+			result.addObject("userId", user.getId());
+			result.addObject("requestURI", "request/user/list.do");
+			
+			return result;
+		}
+		
+		// Display
+		@RequestMapping(value = "/display", method = RequestMethod.GET)
+		public ModelAndView display(@RequestParam final int requestId) {
+			ModelAndView result;
+			Request request;
+
+			request = this.requestService.findOne(requestId);
+			Assert.notNull(request);
+
+			result = new ModelAndView("request/display");
+			result.addObject("request", request);
+
+			return result;
+		}
+		
+		// Delete
+		@RequestMapping(value = "/delete", method = RequestMethod.GET)
+		public ModelAndView delete(@RequestParam final int requestId) {
+			ModelAndView result;
+			Request request;
+			Collection<Request> requests;
+			Integer size, pageNumber;
+			User user;
+			
+			request = this.requestService.findOne(requestId);
+			this.requestService.delete(request);
+			
+			size = 5;
+			pageNumber = 0;
+			
+			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+			
+			requests = this.requestService.findAllPaginated(user.getId(), 1, size);
+			Assert.notNull(requests);
+			
+			if (requests.size() != 0)
+				pageNumber = this.requestService.countAllPaginated(user.getId());
+			
+			result = new ModelAndView("request/list");
+
+			pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
+
+			result.addObject("requests", requests);
+			result.addObject("pageNumber", pageNumber);
+			result.addObject("page", 1);
+			result.addObject("userId", user.getId());
+			result.addObject("requestURI", "request/user/list.do");
+			
+			return result;
+		}
+		
 	// Request -------------------------------------------------------------------------------------------
 
 	//Create
@@ -107,15 +200,11 @@ public class RequestUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Request request, final String messageCode) {
 		ModelAndView result;
-		Collection<Service> services;
 		Collection<CreditCard> creditCards;
-
-		services = this.servicioService.findByRendezvousId(request.getRendezvous().getId());
 		
 		creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
 
 		result = new ModelAndView("request/request");
-		result.addObject("services", services);
 		result.addObject("creditCards", creditCards);
 
 		return result;
