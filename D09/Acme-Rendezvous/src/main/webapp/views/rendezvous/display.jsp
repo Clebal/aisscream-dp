@@ -70,6 +70,13 @@
 					<acme:displayLink parametre="rendezvousId" code="rendezvous.announcements.display" action="announcement/list.do" parametreValue="${rendezvous.getId()}"/>
 				</jstl:if>
 				<acme:displayLink parametre="rendezvousId" code="rendezvous.rsvps.display" action="rsvp/list.do" parametreValue="${rendezvous.getId()}"/>
+				
+				<security:authorize access="isAuthenticated()">
+				
+				<acme:displayLink parametre="rendezvousId" code="rendezvous.servicios.display" action="servicio/listByRendezvousId.do" parametreValue="${rendezvous.getId()}"/>
+				
+				</security:authorize>
+				
 								
 		</div>
 		
@@ -108,6 +115,9 @@
 					
 					<!-- Creamos un announcement-->
 					<acme:displayLink parametre="rendezvousId" code="rendezvous.announcement.create" action="announcement/user/create.do" parametreValue="${rendezvous.getId()}"/>
+					
+					<!-- Creamos un request-->
+					<acme:displayLink parametre="rendezvousId" code="rendezvous.request.create" action="servicio/user/listForRequestByRendezvous.do" parametreValue="${rendezvous.getId()}"/>
 					
 			</jstl:if>
 					

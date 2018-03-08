@@ -35,9 +35,9 @@
 				<div class="container">
 			
 				
-			<acme:displayLink parametre="servicioId" code="servicio.addCategory" action="category/administrator/listAddCategory.do" parametreValue="${servicio.getId()}"/>
+			<acme:displayLink parametre="servicioId" code="servicio.addCategory" action="category/manager/listAddCategory.do" parametreValue="${servicio.getId()}"/>
 			
-			<acme:displayLink parametre="servicioId" code="servicio.removeCategory" action="category/administrator/listRemoveCategory.do" parametreValue="${servicio.getId()}"/>
+			<acme:displayLink parametre="servicioId" code="servicio.removeCategory" action="category/manager/listRemoveCategory.do" parametreValue="${servicio.getId()}"/>
 			
 				
 				</div>
