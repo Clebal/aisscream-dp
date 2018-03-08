@@ -15,6 +15,7 @@ import security.Authority;
 import security.LoginService;
 import domain.Rendezvous;
 import domain.Request;
+import domain.Servicio;
 import domain.User;
 
 @Service
@@ -41,11 +42,12 @@ public class RequestService {
 
 	// Simple CRUD
 	// methods-----------------------------------------------------------
-	public Request create(final Rendezvous rendezvous) {
+	public Request create(final Rendezvous rendezvous, final Servicio servicio) {
 		Request result;
 		
 		result = new Request();
 		result.setRendezvous(rendezvous);
+		result.setServicio(servicio);
 
 		return result;
 	}

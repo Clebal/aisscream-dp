@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AnnouncementService;
 import services.AnswerService;
+import services.CategoryService;
 import services.CommentService;
 import services.ManagerService;
 import services.QuestionService;
@@ -85,7 +86,7 @@ public class DashboardAdministratorController extends AbstractController {
 		bestSellingServices = this.servicioService.bestSellingServices();
 		managerMoreServicesAverage = this.managerService.managerMoreServicesAverage();
 		managerMoreServicesCancelled = this.managerService.managerMoreServicesCancelled();
-		avgNumberCategoriesPerRendezvous = this.categoryService.avgNumberCategoriesPerRendezvous();
+		avgNumberCategoriesPerRendezvous = this.categoryService.aavgNumberCategoriesPerRendezvous();
 		avgRatioServicesCategory = this.categoryService.avgRatioServicesCategory();
 		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandardDesviationServicesPerRendezvous();
 		topSellingServices = this.servicioService.topSellingServices();

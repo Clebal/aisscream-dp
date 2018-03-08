@@ -59,7 +59,7 @@
 		
 		<security:authorize access="hasRole('USER')">
 			<jstl:if test="${requestURI.equals('servicio/user/listForRequestByRendezvous.do')}">
-					<spring:url var="urlCreateRequest" value="request/user/create.do">
+					<spring:url var="urlCreateRequest" value="request/user/request.do">
 						<spring:param name="rendezvousId" value="${rendezvousId}" />
 						<spring:param name="servicioId" value="${row.getId()}" />
 						
