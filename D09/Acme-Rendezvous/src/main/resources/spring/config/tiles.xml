@@ -42,6 +42,8 @@
 		<value>/views/creditcard/tiles.xml</value>
 		<value>/views/manager/tiles.xml</value>
 		<value>/views/servicio/tiles.xml</value>
+        <value>/views/request/tiles.xml</value>
+
 		
 		
 	</util:list>

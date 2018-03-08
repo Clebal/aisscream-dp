@@ -1,6 +1,8 @@
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
+<%@taglib prefix="acme"	tagdir="/WEB-INF/tags"%>
+
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
@@ -8,16 +10,16 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="request/request.do" modelAttribute="request">
+<display:table class="table table-striped table-bordered table-hover" name="requests" id="row" requestURI="${requestURI}">
 	
-	<acme:select path="creditCard" code="request.creditCards" items="creditCards" itemLabel="number" />
+	<acme:columnLink action="delete" domain="request" id="${row.getId()}" />
 	
-	<acme:textbox code="request.comments" path="comments"/>
+	<acme:column property="comments" domain="request"/>
 	
-	<acme:submit name="save" code="request.save" />
+	<acme:columnLink domain="request" action="display" id="${row.getId()}"/>
 	
-	<acme:cancel url="rendezvous/list.do" code="request.cancel"/>
+</display:table>
 
-</form:form>
+<acme:paginate url="${requestURI}" objects="${requests}" pageNumber="${pageNumber}" page="${page}"/>
+

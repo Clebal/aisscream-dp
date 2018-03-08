@@ -115,6 +115,11 @@
 		 <security:intercept-url pattern="/servicio/listByCategoryId.do" access="permitAll" />
 		 <security:intercept-url pattern="/servicio/listByRendezvousId.do" access="permitAll" />
 		 
+		 <security:intercept-url pattern="/request/user/list.do" access="hasRole('USER')" />
+         <security:intercept-url pattern="/request/user/display.do" access="hasRole('USER')" />
+		 <security:intercept-url pattern="/request/user/request.do" access="hasRole('USER')" />
+		 <security:intercept-url pattern="/request/user/delete.do" access="hasRole('USER')" />
+		 
 		 
 		 
 		 

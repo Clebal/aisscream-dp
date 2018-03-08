@@ -12,11 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AnnouncementService;
 import services.AnswerService;
 import services.CommentService;
+import services.ManagerService;
 import services.QuestionService;
 import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.Manager;
 import domain.Rendezvous;
+import domain.Servicio;
 
 @Controller
 @RequestMapping("/dashboard/administrator")
@@ -40,8 +43,16 @@ public class DashboardAdministratorController extends AbstractController {
 
 	@Autowired
 	AnswerService		answerService;
-
-
+	
+//	@Autowired
+//	ServicioService servicioService;
+//	
+//	@Autowired
+//	ManagerService managerService;
+//
+//	@Autowired
+//	CategoryService categoryService;
+	
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display() {
@@ -55,6 +66,11 @@ public class DashboardAdministratorController extends AbstractController {
 		final Double[] questionsPerRendezvous;
 		final Double[] answersPerRendezvous;
 		final Double[] repliesPerComment;
+		Collection<Servicio> bestSellingServices, topSellingServices;
+		Collection<Manager> managerMoreServicesAverage, managerMoreServicesCancelled;
+		final Double avgNumberCategoriesPerRendezvous;
+		final Double avgRatioServicesCategory;
+		final Double[] avgMinMaxStandardDesviationServicesPerRendezvous;
 
 		rendezvousesPerUser = this.rendezvousService.avgStandardDRsvpdCreatedPerUser();
 		ratioUserRendezvousVsNo = this.rendezvousService.ratioCreatorsVsTotal();
@@ -65,7 +81,14 @@ public class DashboardAdministratorController extends AbstractController {
 		questionsPerRendezvous = this.questionService.avgStandartDerivationQuestionsPerRendezvous();
 		answersPerRendezvous = this.answerService.avgStandardAnswerPerRendezvous();
 		repliesPerComment = this.commentService.avgStandardRepliesPerComment();
-
+		bestSellingServices = this.servicioService.bestSellingServices();
+		managerMoreServicesAverage = this.managerService.managerMoreServicesAverage();
+		managerMoreServicesCancelled = this.managerService.managerMoreServicesCancelled();
+		avgNumberCategoriesPerRendezvous = this.categoryService.avgNumberCategoriesPerRendezvous();
+		avgRatioServicesCategory = this.categoryService.avgRatioServicesCategory();
+		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandardDesviationServicesPerRendezvous();
+		topSellingServices = this.servicioService.topSellingServices();
+		
 		result = new ModelAndView("dashboard/display");
 
 		result.addObject("rendezvousesPerUser", rendezvousesPerUser);
@@ -77,7 +100,14 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("questionsPerRendezvous", questionsPerRendezvous);
 		result.addObject("answersPerRendezvous", answersPerRendezvous);
 		result.addObject("repliesPerComment", repliesPerComment);
-
+		result.addObject("bestSellingServices", bestSellingServices);
+		result.addObject("managerMoreServicesAverage", managerMoreServicesAverage);
+		result.addObject("managerMoreServicesCancelled", managerMoreServicesCancelled);
+		result.addObject("avgNumberCategoriesPerRendezvous", avgNumberCategoriesPerRendezvous);
+		result.addObject("avgRatioServicesCategory", avgRatioServicesCategory);
+		result.addObject("avgMinMaxStandardDesviationServicesPerRendezvous", avgMinMaxStandardDesviationServicesPerRendezvous);
+		result.addObject("topSellingServices", topSellingServices);
+		
 		return result;
 
 	}

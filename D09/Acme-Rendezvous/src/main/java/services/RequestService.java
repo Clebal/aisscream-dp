@@ -4,12 +4,13 @@ package services;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.RequestRepository;
-import repositories.UserRepository;
 import security.Authority;
 import security.LoginService;
 import domain.Rendezvous;
@@ -22,7 +23,7 @@ public class RequestService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private UserRepository	userRepository;
+	private UserService userService;
 	
 	@Autowired
 	private RequestRepository requestRepository;
@@ -77,7 +78,7 @@ public class RequestService {
 		
 		/* Solo puede crearlo o editarlo un user y debe ser el del rendezvous*/
 		Assert.isTrue(LoginService.isAuthenticated());
-		user = this.userRepository.findByUserAccountId(LoginService.getPrincipal().getId());
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.isTrue(user.getUserAccount().getAuthorities().contains(authority));
 		Assert.isTrue(request.getRendezvous().getCreator().equals(user));
 		
@@ -87,8 +88,48 @@ public class RequestService {
 
 		return result;
 	}
+	
+	public void delete(final Request request) {
+		User user;
+
+		Assert.notNull(request);
+
+		//Lo borra el creador de la question
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		Assert.isTrue(request.getRendezvous().getCreator().equals(user));
+
+		this.requestRepository.delete(request);
+
+	}
 
 	// Other business methods
+	
+	public Collection<Request> findAllPaginated(final int userId, final int page, final int size) {
+		Collection<Request> result;
+		Pageable pageable;
+
+		Assert.isTrue(userId != 0);
+		
+		if (page == 0 || size <= 0)
+			pageable = new PageRequest(0, 5);
+		else
+			pageable = new PageRequest(page - 1, size);
+
+		result = this.requestRepository.findAllPageable(userId, pageable).getContent();
+
+		return result;
+	}
+
+	public Integer countAllPaginated(final int userId) {
+		Integer result;
+		
+		Assert.isTrue(userId != 0);
+
+		result = this.requestRepository.findAllCount(userId);
+
+		return result;
+	}
 	
 	public Integer countByCreditCardId(final int creditCardId) {
 		Integer result;
@@ -96,6 +137,16 @@ public class RequestService {
 		Assert.isTrue(creditCardId != 0);
 
 		result = this.requestRepository.countByCreditCardId(creditCardId);
+
+		return result;
+	}
+	
+	public Integer countByServicioId(final int servicioId) {
+		Integer result;
+
+		Assert.isTrue(servicioId != 0);
+
+		result = this.requestRepository.countByServicioId(servicioId);
 
 		return result;
 	}
