@@ -157,6 +157,22 @@
 	
 		<div class="container">
 			<p class="display"><spring:message code="dashboard.topSellingServices"/></p>
+			<div class="container"><div class="text-danger">
+			<p class="display"><spring:message code="dashboard.mostrar"/>${size}</p>
+			<div class="container"><ul class="nav nav-pills">
+			<jstl:if test="${size == 5}">
+				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=10"><spring:message code="dashboard.display10" /></a><br /></li>
+				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=20"><spring:message code="dashboard.display20" /></a><br /></li>
+			</jstl:if>
+			<jstl:if test="${size == 10}">
+				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=5"><spring:message code="dashboard.display5" /></a><br /></li>
+				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=20"><spring:message code="dashboard.display20" /></a><br /><li>
+			</jstl:if>
+			<jstl:if test="${size == 20}">
+				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=5"><spring:message code="dashboard.display5" /></a><br /></li>
+				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=10"><spring:message code="dashboard.display10" /></a><br /></li>
+			</jstl:if>
+			</ul></div></div></div>
 			<jstl:forEach items="${topSellingServices}" var="row">
 				<spring:url var="urlTopSellingServices" value="servicio/display.do">
 					<spring:param name="servicioId" value="${row.getId()}"></spring:param>

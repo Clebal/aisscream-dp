@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AnnouncementService;
@@ -57,7 +58,8 @@ public class DashboardAdministratorController extends AbstractController {
 	
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display() {
+	public ModelAndView display(@RequestParam(required=false) Integer size) {
+		Integer sizeAux;
 		final ModelAndView result;
 		Double[] rendezvousesPerUser;
 		final Double ratioUserRendezvousVsNo;
@@ -82,14 +84,20 @@ public class DashboardAdministratorController extends AbstractController {
 		announcementsPerRendezvous = this.announcementService.avgStandartDerivationAnnouncementPerRendezvous();
 		questionsPerRendezvous = this.questionService.avgStandartDerivationQuestionsPerRendezvous();
 		answersPerRendezvous = this.answerService.avgStandardAnswerPerRendezvous();
-		repliesPerComment = this.commentService.avgStandardRepliesPerComment();
+		repliesPerComment = this.commentService.avgStandardRepliesPerComment();/*
 		bestSellingServices = this.servicioService.bestSellingServices();
 		managerMoreServicesAverage = this.managerService.managerMoreServicesAverage();
 		managerMoreServicesCancelled = this.managerService.managerMoreServicesCancelled();
-		avgNumberCategoriesPerRendezvous = this.categoryService.aavgNumberCategoriesPerRendezvous();
+		avgNumberCategoriesPerRendezvous = this.servicioService.avgNumberCategoriesPerRendezvous();
 		avgRatioServicesCategory = this.categoryService.avgRatioServicesCategory();
-		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandardDesviationServicesPerRendezvous();
-		topSellingServices = this.servicioService.topSellingServices();
+		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandardDesviationServicesPerRendezvous();*/
+		
+		if (size == null)
+			sizeAux = 5;
+		else
+			sizeAux = size;
+		
+		topSellingServices = this.servicioService.topBestSellingServices(sizeAux);
 		
 		result = new ModelAndView("dashboard/display");
 
@@ -102,13 +110,14 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("questionsPerRendezvous", questionsPerRendezvous);
 		result.addObject("answersPerRendezvous", answersPerRendezvous);
 		result.addObject("repliesPerComment", repliesPerComment);
-		result.addObject("bestSellingServices", bestSellingServices);
+	/*	result.addObject("bestSellingServices", bestSellingServices);
 		result.addObject("managerMoreServicesAverage", managerMoreServicesAverage);
 		result.addObject("managerMoreServicesCancelled", managerMoreServicesCancelled);
 		result.addObject("avgNumberCategoriesPerRendezvous", avgNumberCategoriesPerRendezvous);
 		result.addObject("avgRatioServicesCategory", avgRatioServicesCategory);
-		result.addObject("avgMinMaxStandardDesviationServicesPerRendezvous", avgMinMaxStandardDesviationServicesPerRendezvous);
+		result.addObject("avgMinMaxStandardDesviationServicesPerRendezvous", avgMinMaxStandardDesviationServicesPerRendezvous);*/
 		result.addObject("topSellingServices", topSellingServices);
+		result.addObject("size", sizeAux);
 		
 		return result;
 
