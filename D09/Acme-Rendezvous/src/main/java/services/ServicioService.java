@@ -223,6 +223,17 @@ public class ServicioService {
 
 	}
 
+	public Collection<Servicio> findByCategoryId(final int categoryId) {
+		Collection<Servicio> result;
+
+		Assert.isTrue(categoryId != 0);
+
+		result = this.servicioRepository.findByCategoryIdNotPaginated(categoryId);
+
+		return result;
+
+	}
+
 	public Page<Servicio> findByRendezvousId(final int rendezvousId, final int page, final int size) {
 		Page<Servicio> result;
 

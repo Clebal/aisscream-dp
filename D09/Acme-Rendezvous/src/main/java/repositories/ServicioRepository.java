@@ -23,6 +23,9 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
 	@Query("select s from Servicio s join s.categories c where c.id = ?1")
 	Page<Servicio> findByCategoryId(final int categoryId, final Pageable pageable);
 
+	@Query("select s from Servicio s join s.categories c where c.id = ?1")
+	Collection<Servicio> findByCategoryIdNotPaginated(final int categoryId);
+
 	@Query("select r.servicio from Request r where r.rendezvous.id = ?1")
 	Page<Servicio> findByRendezvousId(final int rendezvousId, final Pageable pageable);
 
