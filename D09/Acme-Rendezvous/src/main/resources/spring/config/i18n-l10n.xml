@@ -43,6 +43,7 @@
 		<value>/views/manager/messages</value>
 		<value>/views/servicio/messages</value>
         <value>/views/request/messages</value>
+		<value>/views/category/messages</value>
 		
 		
 	</util:list>

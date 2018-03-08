@@ -10,8 +10,12 @@
 
 <!-- Atributes -->
 <%@ attribute name="action" required="true" %>
-<%@ attribute name="parametre" required="true" %> 
-<%@ attribute name="parametreValue" required="true" type="java.lang.Object" %>   
+<%@ attribute name="parametre" required="false" %> 
+<%@ attribute name="parametreValue" required="false" type="java.lang.Object" %>   
+<%@ attribute name="parametre2" required="false" %> 
+<%@ attribute name="parametreValue2" required="false" type="java.lang.Object" %> 
+<%@ attribute name="parametre3" required="false" %> 
+<%@ attribute name="parametreValue3" required="false" type="java.lang.Object" %> 
 <%@ attribute name="code" required="true" %>
 <%@ attribute name="css" required="false" %>  
 
@@ -19,7 +23,15 @@
 
 
 		<spring:url var="urlDisplayLink" value="${action}">
-			<spring:param name="${parametre }" value="${parametreValue}" />
+			<jstl:if test="${parametre!=null && parametreValue!=null}">
+				<spring:param name="${parametre }" value="${parametreValue}" />
+			</jstl:if>
+			<jstl:if test="${parametre2!=null && parametreValue2!=null}">
+				<spring:param name="${parametre2 }" value="${parametreValue2}" />
+			</jstl:if>
+			<jstl:if test="${parametre3!=null && parametreValue3!=null}">
+				<spring:param name="${parametre3 }" value="${parametreValue3}" />
+			</jstl:if>
 		</spring:url>
 
 		<p>

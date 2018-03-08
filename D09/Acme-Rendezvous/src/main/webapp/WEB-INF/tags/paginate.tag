@@ -27,7 +27,9 @@
 <%@ attribute name="page" required="true" %>
 <%@ attribute name="pageNumber" required="true" %>
 <%@ attribute name="parameter" required="false" %>
-<%@ attribute name="parameterValue" required="false" %>   
+<%@ attribute name="parameterValue" required="false" %> 
+<%@ attribute name="parameter2" required="false" %>
+<%@ attribute name="parameterValue2" required="false" %>    
 <%@ attribute name="objects" required="true" type="java.util.Collection" %> 
 
 
@@ -40,6 +42,9 @@
 		<spring:url var="urlNextPage" value="${url}">
 		<jstl:if test="${parameter!=null && parameterValue!=null}">
 			<spring:param name="${parameter}" value="${parameterValue}" />
+		</jstl:if>
+		<jstl:if test="${parameter2!=null && parameterValue2!=null}">
+			<spring:param name="${parameter2}" value="${parameterValue2}" />
 		</jstl:if>
 			<spring:param name="page" value="${i}" />
 		</spring:url>

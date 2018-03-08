@@ -120,6 +120,13 @@
 		 <security:intercept-url pattern="/request/user/request.do" access="hasRole('USER')" />
 		 <security:intercept-url pattern="/request/user/delete.do" access="hasRole('USER')" />
 		 
+		<!-- Carlos -->
+		<security:intercept-url pattern="/category/administrator/edit.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/category/administrator/create.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/category/administrator/reorganising.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/category/display.do" access="permitAll" /> 
+		<security:intercept-url pattern="/rendezvous/bycategory.do" access="permitAll" /> 
+		 
 		 
 		 
 		 
