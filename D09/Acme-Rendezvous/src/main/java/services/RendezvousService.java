@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -670,6 +671,62 @@ public class RendezvousService {
 		Integer result;
 
 		result = this.rendezvousRepository.countRendezvousesLinkedMoreAvgPlus10Percentage();
+
+		return result;
+	}
+
+	public Boolean canPermit() {
+		Authority authority, authority2;
+		Actor actor;
+		Calendar birthDatePlus18Years;
+		Boolean result;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+
+		result = false;
+
+		if (LoginService.isAuthenticated())
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+					result = true;
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+				result = true;
+
+		return result;
+	}
+
+	public Page<Rendezvous> findByCategoryId(final int categoryId, final int page, final int size) {
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findByCategoryId(categoryId, this.getPageable(page, size));
+
+		return result;
+	}
+
+	public Page<Rendezvous> findByCategoryIdAllPublics(final int categoryId, final int page, final int size) {
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findByCategoryIdAllPublics(categoryId, this.getPageable(page, size));
+
+		return result;
+	}
+
+	//Auxilary methods
+	private Pageable getPageable(final int page, final int size) {
+		Pageable result;
+
+		if (page == 0 || size <= 0)
+			result = new PageRequest(0, 5);
+		else
+			result = new PageRequest(page - 1, size);
 
 		return result;
 	}

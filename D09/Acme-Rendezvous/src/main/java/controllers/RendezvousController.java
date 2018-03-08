@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -474,6 +475,35 @@ public class RendezvousController extends AbstractController {
 		result.addObject("rendezvousId", rendezvousId);
 		result.addObject("myRendezvousIsDeleted", myRendezvousIsDeleted);
 		result.addObject("haveRendezvousId", haveRendezvousId);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/bycategory", method = RequestMethod.GET)
+	public ModelAndView byCategory(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam final int categoryId) {
+		ModelAndView result;
+		Page<Rendezvous> rendezvouses;
+		Boolean canPermit;
+
+		canPermit = this.rendezvousService.canPermit();
+
+		if (canPermit == true)
+			rendezvouses = this.rendezvousService.findByCategoryId(categoryId, page, 5);
+
+		else
+			rendezvouses = this.rendezvousService.findByCategoryIdAllPublics(categoryId, page, 5);
+
+		result = new ModelAndView("rendezvous/list");
+
+		result.addObject("pageNumber", rendezvouses.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("rendezvouses", rendezvouses.getContent());
+		result.addObject("requestURI", "rendezvous/bycategory.do");
+		result.addObject("canPermit", canPermit);
+		result.addObject("canLink", false);
+		result.addObject("canUnLink", false);
+		result.addObject("haveRendezvousId", false);
+		result.addObject("categoryId", categoryId);
 
 		return result;
 	}

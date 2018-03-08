@@ -107,7 +107,11 @@
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${rendezvouses}" page="${page }" parameter="attendantId" parameterValue="${attendantId}"/>
 	</jstl:if>
 	
-<jstl:if test="${!requestURI.equals('rendezvous/listByUser.do') && !requestURI.equals('rendezvous/listByAttendant.do')  }">
+	<jstl:if test="${requestURI.equals('rendezvous/bycategory.do') }">
+		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${rendezvouses}" page="${page }" parameter="categoryId" parameterValue="${categoryId}"/>
+	</jstl:if>
+	
+<jstl:if test="${!requestURI.equals('rendezvous/listByUser.do') && !requestURI.equals('rendezvous/listByAttendant.do') && !requestURI.equals('rendezvous/bycategory.do')  }">
 	
 	<jstl:if test="${haveRendezvousId==true }">
 	<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${rendezvouses}" page="${page }" parameter="rendezvousId" parameterValue="${rendezvousId}"/>
