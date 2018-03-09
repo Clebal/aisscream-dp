@@ -9,6 +9,18 @@ select distinct m from Servicio s join s.manager m where cast((select count(s2.m
 select m from Manager m where cast((select count(s2) from Servicio s2 where s2.status='CANCELLED' and s2.manager.id=m.id)as float)=(select max(cast((select count(s3) from Servicio s3 where s3.status='CANCELLED' and s3.manager.id=m2.id)as float)) from Manager m2) 
 
 
+
+Query 4
+//Sin contar duplicados
+select avg(cast((select count(distinct c ) from Request req join req.servicio.categories c where req.rendezvous.id=r.id)as float)) from Rendezvous r;
+	
+//Contando duplicados
+select avg(cast((select sum(req.servicio.categories.size) from Request req where req.rendezvous.id=r.id)as float)) from Rendezvous r;
+
+
+
+
+
 Query 5 - The average ratio of services in each category.
 select avg(cast((select count(s) from Servicio s where c member of s.categories) as float) / cast((select count(s2) from Servicio s2) as float )) from Category c;
 
