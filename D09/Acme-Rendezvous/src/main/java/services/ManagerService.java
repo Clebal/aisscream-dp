@@ -7,8 +7,11 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import domain.Manager;
+import forms.ManagerForm;
 
 import repositories.ManagerRepository;
 import security.Authority;
@@ -24,6 +27,8 @@ public class ManagerService {
 	private ManagerRepository managerRepository;
 	
 	// Supporting services
+	@Autowired
+	private Validator		validator;
 	
 	// Constructor
 	public ManagerService() {
@@ -118,6 +123,39 @@ public class ManagerService {
 		
 		result = this.managerRepository.managerMoreServicesCancelled();
 		
+		return result;
+	}
+	
+	// Reconstruct
+	public Manager reconstruct(final ManagerForm managerForm, final BindingResult binding) {
+		Manager result;
+
+		this.validator.validate(managerForm, binding);
+
+		if (managerForm.getId() == 0) {
+			result = this.create();
+
+			Assert.notNull(result);
+			Assert.isTrue(managerForm.getCheckPassword().equals(managerForm.getPassword()));
+			Assert.isTrue(managerForm.isCheck());
+
+			result.getUserAccount().setUsername(managerForm.getUsername());
+			result.getUserAccount().setPassword(managerForm.getPassword());
+
+		} else {
+			result = this.findOne(managerForm.getId());
+			Assert.notNull(result);
+			Assert.isTrue(result.getUserAccount().getUsername().equals(managerForm.getUsername()));
+		}
+
+		result.setName(managerForm.getName());
+		result.setSurname(managerForm.getSurname());
+		result.setAddress(managerForm.getAddress());
+		result.setBirthdate(managerForm.getBirthdate());
+		result.setEmail(managerForm.getEmail());
+		result.setPhone(managerForm.getPhone());
+		result.setVat(managerForm.getVat());
+
 		return result;
 	}
 	

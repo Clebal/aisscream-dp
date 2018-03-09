@@ -100,6 +100,7 @@
 	      <security:authorize access="isAnonymous()">
 	      	<a href="security/login.do" class="btn btn-primary"><spring:message code="master.page.login"/></a>
 		   	<a href="actor/user/create.do" class="btn btn-primary"><spring:message code="master.page.create.user" /></a>
+		   	<a href="actor/manager/create.do" class="btn btn-primary"><spring:message code="master.page.create.manager" /></a>
 		   	<a href="actor/list.do" class="btn btn-primary"><spring:message code="master.page.list.user" /></a>
 		   		
 	      </security:authorize>
