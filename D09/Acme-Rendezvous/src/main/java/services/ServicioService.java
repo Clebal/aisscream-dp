@@ -245,30 +245,6 @@ public class ServicioService {
 
 	}
 
-	//	public Collection<Servicio> findByRendezvousIdNotPaginated(final int rendezvousId) {
-	//		Collection<Servicio> result;
-	//
-	//		Assert.isTrue(rendezvousId != 0);
-	//
-	//		result = this.servicioRepository.findByRendezvousIdNotPaginated(rendezvousId);
-	//
-	//		return result;
-	//
-	//	}
-	//
-	//	public Page<Servicio> findServicesForRequetsByRendezvousId(final int rendezvousId, final int page, final int size) {
-	//		Page<Servicio> result;
-	//		Collection<Servicio> myServices;
-	//
-	//		Assert.isTrue(rendezvousId != 0);
-	//
-	//		myServices = this.findByRendezvousIdNotPaginated(rendezvousId);
-	//		result = this.servicioRepository.findServicesForRequetsByRendezvousId(myServices, this.getPageable(page, size));
-	//
-	//		return result;
-	//
-	//	}
-
 	public Collection<Servicio> findServicesForRequetsByRendezvousId(final int rendezvousId, final int page) {
 		List<Integer> listId;
 		List<Servicio> result;
@@ -314,6 +290,33 @@ public class ServicioService {
 
 		return result;
 	}
+
+	public Page<Servicio> bestSellingServices(final int page, final int size) {
+		Page<Servicio> result;
+
+		result = this.servicioRepository.bestSellingServices(this.getPageable(page, size));
+
+		return result;
+
+	}
+
+	public Double ratioServicesEachCategory() {
+		Double result;
+
+		result = this.servicioRepository.ratioServicesEachCategory();
+
+		return result;
+
+	}
+
+	public Double[] avgMinMaxStandartDerivationServicesPerRendezvous() {
+		Double[] result;
+
+		result = this.servicioRepository.avgMinMaxStandartDerivationServicesPerRendezvous();
+
+		return result;
+	}
+
 	public Collection<Servicio> topBestSellingServices(final int size) {
 		Collection<Integer> listId;
 		List<Servicio> result;

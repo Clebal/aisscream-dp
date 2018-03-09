@@ -96,7 +96,7 @@
 	
 </display:table>
 
-<jstl:if test="${requestURI.equals('servicio/manager/list.do') || requestURI.equals('servicio/list.do')}">
+<jstl:if test="${requestURI.equals('servicio/manager/list.do') || requestURI.equals('servicio/list.do') || requestURI.equals('servicio/administrator/bestSellingServices.do')}">
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${servicios}" page="${page}"/>
 </jstl:if>
 

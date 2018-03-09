@@ -104,6 +104,7 @@
 		 <!-- Santos -->
 		 <security:intercept-url pattern="/servicio/administrator/accept.do" access="hasRole('ADMIN')" />
 		 <security:intercept-url pattern="/servicio/administrator/cancel.do" access="hasRole('ADMIN')" />
+		 <security:intercept-url pattern="/servicio/administrator/bestSellingServices.do" access="hasRole('ADMIN')" />
 		 <security:intercept-url pattern="/servicio/manager/create.do" access="hasRole('MANAGER')" />
 		 <security:intercept-url pattern="/servicio/manager/edit.do" access="hasRole('MANAGER')" />
 		 <security:intercept-url pattern="/servicio/manager/list.do" access="hasRole('MANAGER')" />
