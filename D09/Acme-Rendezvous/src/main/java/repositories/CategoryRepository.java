@@ -23,10 +23,10 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	@Query("select c from Category c where c.fatherCategory is null")
 	Page<Category> findWithoutFather(Pageable pageable);
 
-	@Query("select c from Category c, Servicio s where s.id=?1 and c not member of s.categories;")
+	@Query("select c from Category c, Servicio s where s.id=?1 and c not member of s.categories")
 	Page<Category> findByServicioId(int servicioId, Pageable pageable);
 
-	@Query("select avg(cast((select count(distinct c ) from Request req join req.servicio.categories c where req.rendezvous.id=r.id)as float)) from Rendezvous r;")
+	@Query("select avg(cast((select count(distinct c ) from Request req join req.servicio.categories c where req.rendezvous.id=r.id)as float)) from Rendezvous r")
 	double avgNumberCategoriesPerRendezvous();
 	//Contando duplicados
 	//select avg(cast((select sum(req.servicio.categories.size) from Request req where req.rendezvous.id=r.id)as float)) from Rendezvous r;
