@@ -1,5 +1,7 @@
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +15,8 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Integer>
 
 	@Query("select c from CreditCard c where c.user.userAccount.id = ?1")
 	Page<CreditCard> findByUserAccountId(int userAccountId, Pageable pageable);
+	
+	@Query("select c from CreditCard c where c.user.userAccount.id = ?1")
+	Collection<CreditCard> findByUserAccountId(int userAccountId);
 	
 }

@@ -115,6 +115,16 @@ public class CreditCardService {
 		return result;
 	}
 	
+	public Collection<CreditCard> findByUserAccountId(final int userAccountId) {
+		Collection<CreditCard> result;
+		
+		Assert.isTrue(userAccountId != 0);
+		
+		result = this.creditCardRepository.findByUserAccountId(userAccountId);
+		
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
