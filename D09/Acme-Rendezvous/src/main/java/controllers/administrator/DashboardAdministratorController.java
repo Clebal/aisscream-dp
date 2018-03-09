@@ -84,13 +84,13 @@ public class DashboardAdministratorController extends AbstractController {
 		announcementsPerRendezvous = this.announcementService.avgStandartDerivationAnnouncementPerRendezvous();
 		questionsPerRendezvous = this.questionService.avgStandartDerivationQuestionsPerRendezvous();
 		answersPerRendezvous = this.answerService.avgStandardAnswerPerRendezvous();
-		repliesPerComment = this.commentService.avgStandardRepliesPerComment();/*
+		repliesPerComment = this.commentService.avgStandardRepliesPerComment();
 		bestSellingServices = this.servicioService.bestSellingServices();
 		managerMoreServicesAverage = this.managerService.managerMoreServicesAverage();
 		managerMoreServicesCancelled = this.managerService.managerMoreServicesCancelled();
-		avgNumberCategoriesPerRendezvous = this.servicioService.avgNumberCategoriesPerRendezvous();
+		avgNumberCategoriesPerRendezvous = this.categoryService.avgNumberCategoriesPerRendezvous();
 		avgRatioServicesCategory = this.categoryService.avgRatioServicesCategory();
-		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandardDesviationServicesPerRendezvous();*/
+		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandardDesviationServicesPerRendezvous();
 		
 		if (size == null)
 			sizeAux = 5;
@@ -110,12 +110,12 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("questionsPerRendezvous", questionsPerRendezvous);
 		result.addObject("answersPerRendezvous", answersPerRendezvous);
 		result.addObject("repliesPerComment", repliesPerComment);
-	/*	result.addObject("bestSellingServices", bestSellingServices);
+		result.addObject("bestSellingServices", bestSellingServices);
 		result.addObject("managerMoreServicesAverage", managerMoreServicesAverage);
 		result.addObject("managerMoreServicesCancelled", managerMoreServicesCancelled);
 		result.addObject("avgNumberCategoriesPerRendezvous", avgNumberCategoriesPerRendezvous);
 		result.addObject("avgRatioServicesCategory", avgRatioServicesCategory);
-		result.addObject("avgMinMaxStandardDesviationServicesPerRendezvous", avgMinMaxStandardDesviationServicesPerRendezvous);*/
+		result.addObject("avgMinMaxStandardDesviationServicesPerRendezvous", avgMinMaxStandardDesviationServicesPerRendezvous);
 		result.addObject("topSellingServices", topSellingServices);
 		result.addObject("size", sizeAux);
 		
