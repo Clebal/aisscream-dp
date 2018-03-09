@@ -105,4 +105,20 @@ public class ManagerService {
 		return result;
 	}
 	
+	public Collection<Manager> managerMoreServicesAverage() {
+		Collection<Manager> result;
+		
+		result = this.managerRepository.managerMoreServicesAverage();
+		
+		return result;
+	}
+	
+	public Collection<Manager> managerMoreServicesCancelled() {
+		Collection<Manager> result;
+		
+		result = this.managerRepository.managerMoreServicesCancelled();
+		
+		return result;
+	}
+	
 }
