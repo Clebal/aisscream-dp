@@ -35,9 +35,14 @@
 			</jstl:if>
 			
 			<jstl:if test="${categoryToMoveId!=null}">
-	
+				
 				<jstl:if test="${categoryToMoveId!= category.getId()}">
 					<acme:displayLink parametre="categoryNewFatherId" code="category.move.here" action="category/administrator/reorganising.do" parametreValue="${category.getId()}" parametre2="categoryToMoveId" parametreValue2="${categoryToMoveId}" css="btn btn-warning"></acme:displayLink>
+				</jstl:if>
+				
+				<jstl:if test="${categoryToMoveId== category.getId()}">
+					<spring:message code="category.navigation" var="navigation"></spring:message>
+					<p><jstl:out value="${navigation}"></jstl:out></p>
 				</jstl:if>
 				<acme:displayLink parametre="categoryId" code="category.move.cancel" action="category/display.do" parametreValue="${category.getId()}" parametre2="page" parametreValue2="${page}" parametre3="categoryToMoveId" parametreValue3="" css="btn btn-danger"></acme:displayLink>
 			

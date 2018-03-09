@@ -100,8 +100,8 @@ public class CategoryService {
 		Authority authority;
 		Category saved;
 		Collection<Category> childrenCategories;
-		Collection<Category> childrenCategoriesOfChildren;
 		Collection<Category> servicioCategories;
+		Collection<Servicio> services;
 		Servicio servicio;
 
 		Assert.notNull(category);
@@ -114,17 +114,13 @@ public class CategoryService {
 		childrenCategories = this.findAllByFatherCategoryId(category.getId());
 		Assert.notNull(childrenCategories);
 
-		for (final Category c : childrenCategories) {
+		//Si tiene hijos usamos recursión
+		for (final Category c : childrenCategories)
+			this.delete(c);
 
-			childrenCategoriesOfChildren = this.findAllByFatherCategoryId(c.getId());
-			//Si borras una categoria borras sus hijas empezando desde el fondo del arbol
-			if (childrenCategoriesOfChildren && this.servicioService.findByCategoryId(c.getId()).isEmpty())
-				this.categoryRepository.delete(c);
-			else
-				this.delete(c);
-		}
-
-		for (final Servicio s : this.servicioService.findByCategoryId(category.getId())) {
+		//Cuando ya no tiene hijos, actualizamos el servicio
+		services = this.servicioService.findByCategoryId(category.getId());
+		for (final Servicio s : services) {
 			servicio = s;
 			servicioCategories = servicio.getCategories();
 			servicioCategories.remove(category);
@@ -133,31 +129,57 @@ public class CategoryService {
 
 		}
 
+		//		//Vemos todas las categorias hijas de la que queremos borrar
+		//		for (final Category c : childrenCategories) {
+		//
+		//			childrenCategoriesOfChildren = this.findAllByFatherCategoryId(c.getId());
+		//
+		//			//Si borras una categoria borras sus hijas empezando desde el fondo del arbol
+		//			if (childrenCategoriesOfChildren.isEmpty()) {
+		//				//Miras si la categoria c es usada en servicios
+		//				services = this.servicioService.findByCategoryId(c.getId());
+		//				//Si es usada, la borramos
+		//				if (services.isEmpty())
+		//					for (final Servicio s : services) {
+		//						servicio = s;
+		//						servicioCategories = servicio.getCategories();
+		//						servicioCategories.remove(category);
+		//						servicio.setCategories(servicioCategories);
+		//						this.servicioService.saveFromCategory(servicio);
+		//
+		//					}
+		//				this.categoryRepository.delete(c);
+		//				//Si tiene hijos hacemos su	
+		//			} else
+		//				this.delete(c);
+		//		}
+
 		saved = this.findOne(category.getId());
 		Assert.notNull(saved);
 		this.categoryRepository.delete(saved);
 
 	}
-
 	//Other business methods
 	public void reorganising(final Category category, final Category newFather) {
 		Authority authority;
-		//Si quisieramos que solo se moviera una categoría sin sus hijas
-		//		Collection<Category> childrenCategory;
-		//		
-		//		childrenCategory= findByFatherCategoryId(category.getId());
-		//		
-		//		//A los hijos le ponemos el abuelo como padre
-		//		for(Category childCategory: childrenCategory){
-		//			childCategory.setFatherCategory(category.getFatherCategory());
-		//			categoryRepository.save(childCategory);
-		//		}
+		Collection<Category> childrenCategory;
 
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		//Movemos una categoría
+
+		//Si quisieramos que solo se moviera una categoría sin sus hijas
+
+		childrenCategory = this.findAllByFatherCategoryId(category.getId());
+
+		//A los hijos le ponemos el abuelo como padre
+		for (final Category childCategory : childrenCategory) {
+			childCategory.setFatherCategory(category.getFatherCategory());
+			this.categoryRepository.save(childCategory);
+		}
+
 		category.setFatherCategory(newFather);
+		//Movemos una categoría
 		this.save(category);
 
 	}
@@ -188,6 +210,23 @@ public class CategoryService {
 		Assert.isTrue(fatherCategoryId != 0);
 
 		result = this.categoryRepository.findAllByFatherCategoryId(fatherCategoryId);
+
+		return result;
+	}
+
+	public Page<Category> findByServicioId(final int servicioId, final int page, final int size) {
+		Page<Category> result;
+
+		Assert.isTrue(servicioId != 0);
+		result = this.categoryRepository.findByServicioId(servicioId, this.getPageable(page, size));
+
+		return result;
+	}
+
+	public double avgNumberCategoriesPerRendezvous() {
+		double result;
+
+		result = this.categoryRepository.avgNumberCategoriesPerRendezvous();
 
 		return result;
 	}
