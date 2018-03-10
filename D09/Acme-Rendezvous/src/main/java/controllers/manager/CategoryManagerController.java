@@ -1,6 +1,9 @@
 
 package controllers.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -45,7 +48,7 @@ public class CategoryManagerController extends AbstractController {
 		result.addObject("pageNumber", categories.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("servicioId", servicioId);
-		result.addObject("action", "remove");
+		result.addObject("action", "add");
 		result.addObject("categories", categories.getContent());
 		result.addObject("requestURI", "category/manager/addCategory.do");
 
@@ -57,17 +60,55 @@ public class CategoryManagerController extends AbstractController {
 	public ModelAndView removeCategory(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam final int servicioId) {
 		ModelAndView result;
 		Servicio servicio;
+		List<Category> categories;
+		Integer fromId, toId, pageNumber;
 
 		servicio = this.servicioService.findOne(servicioId);
 		Assert.notNull(servicio);
+		categories = new ArrayList<Category>(servicio.getCategories());
+		fromId = this.fromIdAndToId(categories.size(), page)[0];
+		toId = this.fromIdAndToId(categories.size(), page)[1];
+
+		pageNumber = categories.size();
+
+		pageNumber = (int) Math.floor(((pageNumber / (5 + 0.0)) - 0.1) + 1);
 
 		result = new ModelAndView("category/list");
-		result.addObject("pageNumber", servicio.getCategories().size());
+		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);
 		result.addObject("servicioId", servicioId);
-		result.addObject("action", "add");
-		result.addObject("categories", servicio.getCategories());
+		result.addObject("action", "remove");
+		result.addObject("categories", categories.subList(fromId, toId));
 		result.addObject("requestURI", "category/manager/removeCategory.do");
+
+		return result;
+	}
+
+	private Integer[] fromIdAndToId(final Integer tamañoAux, final Integer page) {
+		Integer tamaño, pageAux, fromId, toId;
+		tamaño = tamañoAux;
+		Integer[] result;
+
+		result = new Integer[2];
+
+		pageAux = page;
+		if (page <= 0)
+			pageAux = 1;
+
+		fromId = (pageAux - 1) * 5;
+		if (fromId > tamaño)
+			fromId = 0;
+		toId = (pageAux * 5);
+		if (tamaño > 5) {
+			if (toId > tamaño && fromId == 0)
+				toId = 5;
+			else if (toId > tamaño && fromId != 0)
+				toId = tamaño;
+		} else
+			toId = tamaño;
+
+		result[0] = fromId;
+		result[1] = toId;
 
 		return result;
 	}

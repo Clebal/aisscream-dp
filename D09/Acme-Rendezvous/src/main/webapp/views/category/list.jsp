@@ -25,7 +25,7 @@
 						<spring:param name="servicioId" value="${servicioId}" />
 						<spring:param name="categoryId" value="${row.getId()}" />
 					</spring:url>
-					<a href="${urlAcceptServicio }"> <spring:message code="category.add" /></a>
+					<a href="${urlAddCategory }"> <spring:message code="category.add" /></a>
 			</jstl:if>
 			
 			<jstl:if test="${action.equals('remove')}">
@@ -33,7 +33,7 @@
 					<spring:param name="servicioId" value="${servicioId}" />
 					<spring:param name="categoryId" value="${row.getId()}" />
 				</spring:url>
-				<a href="${urlRemoveServicio }"> <spring:message code="category.remove" /></a>
+				<a href="${urlRemoveCategory }"> <spring:message code="category.remove" /></a>
 			</jstl:if>
 			
 			
@@ -51,7 +51,7 @@
 	
 </display:table>
 
-<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}" parameter="serviceId" parameterValue="${servicioId}"/>
+<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}" parameter="servicioId" parameterValue="${servicioId}"/>
 
 
 
