@@ -110,6 +110,8 @@
 				<p style="margin-left: 15px;"><a href="${urlBestSellingServices}" ><jstl:out value="${row.name}"></jstl:out></a></p>
 			</jstl:forEach>
 			
+			<acme:paginate pageNumber="${pageNumber}" url="dashboard/administrator/display.do" objects="${bestSellingServices}" page="${page}"/>
+			
 		</div>
 		<br/>
 		

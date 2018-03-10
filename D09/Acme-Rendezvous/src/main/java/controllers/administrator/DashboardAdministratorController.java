@@ -4,6 +4,7 @@ package controllers.administrator;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,8 +59,8 @@ public class DashboardAdministratorController extends AbstractController {
 	
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam(required=false) Integer size) {
-		Integer sizeAux;
+	public ModelAndView display(@RequestParam(required=false) Integer page, @RequestParam(required=false) Integer size) {
+		Integer pageAux, sizeAux;
 		final ModelAndView result;
 		Double[] rendezvousesPerUser;
 		final Double ratioUserRendezvousVsNo;
@@ -70,11 +71,22 @@ public class DashboardAdministratorController extends AbstractController {
 		final Double[] questionsPerRendezvous;
 		final Double[] answersPerRendezvous;
 		final Double[] repliesPerComment;
-		Collection<Servicio> bestSellingServices, topSellingServices;
+		Page<Servicio> bestSellingServices;
+		Collection<Servicio> topSellingServices;
 		Collection<Manager> managerMoreServicesAverage, managerMoreServicesCancelled;
 		final Double avgNumberCategoriesPerRendezvous;
 		final Double avgRatioServicesCategory;
 		final Double[] avgMinMaxStandardDesviationServicesPerRendezvous;
+
+		if (page == null)
+			pageAux = 1;
+		else
+			pageAux = page;
+		
+		if (size == null)
+			sizeAux = 5;
+		else
+			sizeAux = size;
 
 		rendezvousesPerUser = this.rendezvousService.avgStandardDRsvpdCreatedPerUser();
 		ratioUserRendezvousVsNo = this.rendezvousService.ratioCreatorsVsTotal();
@@ -85,18 +97,12 @@ public class DashboardAdministratorController extends AbstractController {
 		questionsPerRendezvous = this.questionService.avgStandartDerivationQuestionsPerRendezvous();
 		answersPerRendezvous = this.answerService.avgStandardAnswerPerRendezvous();
 		repliesPerComment = this.commentService.avgStandardRepliesPerComment();
-		bestSellingServices = this.servicioService.bestSellingServices();
+		bestSellingServices = this.servicioService.bestSellingServices(pageAux, sizeAux);
 		managerMoreServicesAverage = this.managerService.managerMoreServicesAverage();
 		managerMoreServicesCancelled = this.managerService.managerMoreServicesCancelled();
 		avgNumberCategoriesPerRendezvous = this.categoryService.avgNumberCategoriesPerRendezvous();
-		avgRatioServicesCategory = this.categoryService.avgRatioServicesCategory();
-		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandardDesviationServicesPerRendezvous();
-		
-		if (size == null)
-			sizeAux = 5;
-		else
-			sizeAux = size;
-		
+		avgRatioServicesCategory = this.servicioService.ratioServicesEachCategory();
+		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandartDerivationServicesPerRendezvous();		
 		topSellingServices = this.servicioService.topBestSellingServices(sizeAux);
 		
 		result = new ModelAndView("dashboard/display");
@@ -110,14 +116,16 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("questionsPerRendezvous", questionsPerRendezvous);
 		result.addObject("answersPerRendezvous", answersPerRendezvous);
 		result.addObject("repliesPerComment", repliesPerComment);
-		result.addObject("bestSellingServices", bestSellingServices);
+		result.addObject("bestSellingServices", bestSellingServices.getContent());
 		result.addObject("managerMoreServicesAverage", managerMoreServicesAverage);
 		result.addObject("managerMoreServicesCancelled", managerMoreServicesCancelled);
 		result.addObject("avgNumberCategoriesPerRendezvous", avgNumberCategoriesPerRendezvous);
 		result.addObject("avgRatioServicesCategory", avgRatioServicesCategory);
 		result.addObject("avgMinMaxStandardDesviationServicesPerRendezvous", avgMinMaxStandardDesviationServicesPerRendezvous);
 		result.addObject("topSellingServices", topSellingServices);
+		result.addObject("page", pageAux);
 		result.addObject("size", sizeAux);
+		result.addObject("pageNumber", bestSellingServices.getTotalPages());
 		
 		return result;
 
