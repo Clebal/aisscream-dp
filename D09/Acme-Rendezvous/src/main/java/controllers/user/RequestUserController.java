@@ -3,12 +3,15 @@ package controllers.user;
 
 import java.util.Collection;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +24,7 @@ import services.RequestService;
 import services.ServicioService;
 import services.UserService;
 import controllers.AbstractController;
+import converters.CreditCardToStringConverter;
 import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
@@ -46,6 +50,10 @@ public class RequestUserController extends AbstractController {
 	
 	@Autowired
 	private ServicioService				servicioService;
+	
+	// Converter
+	@Autowired
+	private CreditCardToStringConverter creditCardToStringConverter;
 	
 	// Constructor
 	public RequestUserController() {
@@ -120,7 +128,7 @@ public class RequestUserController extends AbstractController {
 	// Request -------------------------------------------------------------------------------------------
 
 		@RequestMapping(value = "/request", method = RequestMethod.GET)
-		public ModelAndView request(@RequestParam final int rendezvousId, @RequestParam final int servicioId) {
+		public ModelAndView request(@RequestParam final int rendezvousId, @RequestParam final int servicioId, @CookieValue(value="lastCreditCard", defaultValue="") String lastCreditCardCookie) {
 			ModelAndView result;
 			Rendezvous rendezvous;
 			Servicio servicio;
@@ -135,6 +143,8 @@ public class RequestUserController extends AbstractController {
 			request = this.requestService.create(rendezvous, servicio);
 
 			result = this.createEditModelAndView(request);
+			
+			result.addObject("lastCreditCard", lastCreditCardCookie);
 
 
 			return result;
@@ -142,10 +152,17 @@ public class RequestUserController extends AbstractController {
 		}
 		
 	@RequestMapping(value = "/request", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Request request, final BindingResult binding) {
+	public ModelAndView save(@Valid Request request, final BindingResult binding, HttpServletResponse response) {
 		ModelAndView result = null;
 
 //		request = this.requestService.reconstruct(request, binding);
+		
+		// --- COOKIE --- //
+		Cookie lastCreditCard = new Cookie("lastCreditCard", this.creditCardToStringConverter.convert(request.getCreditCard()));
+		lastCreditCard.setHttpOnly(true);
+//		lastCreditCard.setSecure(true);
+		response.addCookie(lastCreditCard);
+		// --- COOKIE --- //
 
 		if (binding.hasErrors()){
 			result = this.createEditModelAndView(request);

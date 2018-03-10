@@ -16,14 +16,16 @@
 	<form:hidden path="version" />
 	<form:hidden path="rendezvous" />
 	<form:hidden path="servicio" />
-
+	
 	<div class="form-group"> 
 		<form:label path="creditCard">
 			<spring:message code="request.creditCards" />:
 		</form:label>
-		<form:select class="form-control" path="creditCard">
-			<form:option value="0" label="----" />		
-			<form:options items="${creditcards}" itemValue="id" itemLabel="number" />
+		<form:select id="selectCreditCardId" path="creditCard" class="form-control">
+      		<option value="0">-- Select --</option>
+      		<jstl:forEach items="${creditcards}" var="cc">
+				<option value="${cc.id}" ${cc.id == lastCreditCard ? 'selected' : ''} >${cc.number}</option>
+        	</jstl:forEach>
 		</form:select>
 		<form:errors class="text-danger" path="creditCard" />
 	</div>
