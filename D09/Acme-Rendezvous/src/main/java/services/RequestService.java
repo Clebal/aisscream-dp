@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import repositories.RequestRepository;
 import security.Authority;
 import security.LoginService;
+import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
 import domain.Servicio;
@@ -29,8 +30,8 @@ public class RequestService {
 	@Autowired
 	private RequestRepository requestRepository;
 
-//	@Autowired
-//	private Validator		validator;
+	@Autowired
+	private CreditCardService		creditCardService;
 
 	// Supporting
 	// services-----------------------------------------------------------
@@ -74,6 +75,7 @@ public class RequestService {
 		Request result;
 		Authority authority;
 		User user;
+		Collection<CreditCard> creditCards;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
@@ -88,6 +90,11 @@ public class RequestService {
 
 		Assert.isTrue(!request.getRendezvous().getIsDeleted());
 		Assert.isNull(this.findRequestEqualRendezvousServicio(request.getRendezvous().getId(), request.getServicio().getId()));
+		
+		/* La creditCard debe pertenecer al usuario */
+		
+		creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.isTrue(creditCards.contains(request.getCreditCard()));
 		
 		result = this.requestRepository.save(request);
 
