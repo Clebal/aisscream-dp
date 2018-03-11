@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import domain.Request;
-import services.RequestService;
+import domain.CreditCard;
+import services.CreditCardService;
 import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
@@ -17,12 +17,12 @@ import utilities.AbstractTest;
 	})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class DeleteRequestTest extends AbstractTest {
+public class DeleteCreditCardTest extends AbstractTest {
 
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private RequestService		requestService;
+	private CreditCardService		creditCardService;
 
 	// Tests ------------------------------------------------------------------
 
@@ -30,13 +30,7 @@ public class DeleteRequestTest extends AbstractTest {
 	public void positiveTest() {
 		final Object testingData[][] = {
 			{
-				"user1", "request1", null
-			}, {
-				"user3", "request4", null
-			}, {
-				"user1", "request7", null
-			}, {
-				"user3", "request2", null
+				"user2", "creditCard2", null
 			}
 		};
 			
@@ -57,15 +51,17 @@ public class DeleteRequestTest extends AbstractTest {
 	public void negativeTest() {
 		final Object testingData[][] = {
 			{
-				null, "request1", IllegalArgumentException.class // Solo puede borrarlo un user
+				null, "creditCard1", IllegalArgumentException.class // Solo puede borrarlo un user
 			}, 	{
-				"admin", "request1", IllegalArgumentException.class // Solo puede borrarlo un user
+				"admin", "creditCard1", IllegalArgumentException.class // Solo puede borrarlo un user
 			}, {
-				"manager1", "request2", IllegalArgumentException.class // Solo puede borrarlo un user
+				"manager1", "creditCard2", IllegalArgumentException.class // Solo puede borrarlo un user
 			}, {
-				"user1", "request5", IllegalArgumentException.class // El user logueado debe ser el creador del rendezvous del request
+				"user1", "creditCard2", IllegalArgumentException.class // El user logueado debe ser el creador del rendezvous del request
 			}, {
-				"user3", "request1", IllegalArgumentException.class // El rendezvous no puede estar borrado
+				"user3", "creditCard1", IllegalArgumentException.class // El rendezvous no puede estar borrado
+			}, {
+				"user4", "creditCard3", IllegalArgumentException.class // El rendezvous no puede estar borrado
 			}
 		};
 		
@@ -83,17 +79,17 @@ public class DeleteRequestTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
-	protected void template(final String user, final String request, final Class<?> expected) {
+	protected void template(final String user, final String creditCard, final Class<?> expected) {
 		Class<?> caught;
-		int requestId;
-		Request requestEntity;
+		int creditCardId;
+		CreditCard creditCardEntity;
 
 		caught = null;
 		try {
 			super.authenticate(user);
-			requestId = super.getEntityId(request);
-			requestEntity = this.requestService.findOne(requestId);
-			this.requestService.delete(requestEntity);
+			creditCardId = super.getEntityId(creditCard);
+			creditCardEntity = this.creditCardService.findOneToEdit(creditCardId);
+			this.creditCardService.delete(creditCardEntity);
 			super.unauthenticate();
 			super.flushTransaction();
 		} catch (final Throwable oops) {

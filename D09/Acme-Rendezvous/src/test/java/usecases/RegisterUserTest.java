@@ -1,7 +1,6 @@
 package usecases;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -45,51 +44,22 @@ public class RegisterUserTest extends AbstractTest {
 			created.getUserAccount().setUsername("antonio");
 			created.getUserAccount().setPassword("antonio");
 			
-			super.unauthenticate();
+			super.authenticate(null);
+			
 			saved = this.userService.save(created);
 
 			Assert.isTrue(this.userService.findAll().contains(saved));
 
-			super.authenticate(null);
-
 		}
 		
-	//@Test
+	@Test
 	public void positiveTest() {
-		/*Calendar calendar;
-		SimpleDateFormat format;
-		Date date = null;
+		Calendar calendar;
+		Date date;
 		
 		calendar = Calendar.getInstance();
 		calendar.set(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-		System.out.println(calendar.getTime().);
-		
-		format = new SimpleDateFormat("dd/MM/yyyy");
-
-		SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yy");
-
-		try {
-			date = parseador.parse("31-03-2016");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println(date);*/
-		
-		
-		// el que parsea
-		SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
-		// el que formatea
-		SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-
-		Date date = null;
-		try {
-			date = parseador.parse("31-03-2016");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		System.out.println(formateador.format(date));
-		
+		date = calendar.getTime();
 		
 		final Object testingData[][] = {
 			{
@@ -146,7 +116,7 @@ public class RegisterUserTest extends AbstractTest {
 
 	protected void template(final String user, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final Class<?> expected) {
 		Class<?> caught;
-		User userEntity, saved;
+		User userEntity;
 
 		caught = null;
 		try {
@@ -162,7 +132,7 @@ public class RegisterUserTest extends AbstractTest {
 			userEntity.setAddress(address);
 			userEntity.setBirthdate(birthdate);
 			userEntity.setEmail(email);
-			saved = this.userService.save(userEntity);
+			this.userService.save(userEntity);
 			super.unauthenticate();
 			super.flushTransaction();
 		} catch (final Throwable oops) {
