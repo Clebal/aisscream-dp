@@ -33,8 +33,11 @@ public class SaveCreditCardTest extends AbstractTest {
 	
 	// Tests ------------------------------------------------------------------
 
+	/*
+	 * Probando la creaci贸n de varias creditCards por parte de diferentes usuarios
+	 */
 	@Test
-	public void positiveTest() {
+	public void positiveSaveCreditCardTest() {
 		final Object testingData[][] = {
 			{
 				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", null
@@ -61,40 +64,56 @@ public class SaveCreditCardTest extends AbstractTest {
 			}
 	}
 	
-	
+	/*
+	 * 1. Solo puede crearlo un user
+	 * 2. Solo puede crearlo un user
+	 * 3. Solo puede crearlo su user
+	 * 4. HolderName no puede estar vac铆o
+	 * 5. HolderName no puede ser null
+	 * 6. BrandName no puede estar vac铆o
+	 * 7. BrandName no peude ser null
+	 * 8. Number debe ser un n煤mero de tarjeta de cr茅dito v谩lido
+	 * 9. El mes de expiraci贸n debe estar comprendido entre 1 y 12
+	 * 10. El mes de expiraci贸n debe estar comprendido entre 1 y 12
+	 * 11. El a帽o de expiraci贸n debe ser mayor que 0 
+	 * 12. El c贸digo CVV debe estar comprendido entre 100 y 999
+	 * 13. El c贸digo CVV debe estar comprendido entre 100 y 999
+	 * 14. El user debe ser v谩lido 
+	 * 15. El user no puede ser nulo
+	 */
 	@Test()
-	public void negativeTest() {
+	public void negativeSaveCreditCardTest() {
 		final Object testingData[][] = {
 			{
-				null, "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class // Solo puede crearlo un user
+				null, "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class 
 			}, 	{
-				"manager1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class // Solo puede crearlo un user
+				"manager1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class 
 			}, {
-				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class// Solo puede crearlo su user
+				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class
 			}, {
-				"user1", "", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", ConstraintViolationException.class // HolderName no puede estar vac韔
+				"user1", "", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", ConstraintViolationException.class 
 			}, {
-				"user1", null, "MasterCard", "5471664286416252", 9, 2019, 258, "user1", ConstraintViolationException.class // HolderName no puede ser null
+				"user1", null, "MasterCard", "5471664286416252", 9, 2019, 258, "user1", ConstraintViolationException.class 
 			}, {
-				"user5", "Estefania", "", "5429007233826913", 2, 2021, 258, "user5", ConstraintViolationException.class // BrandName no peude estar vac韔
+				"user5", "Estefania", "", "5429007233826913", 2, 2021, 258, "user5", ConstraintViolationException.class
 			}, {
-				"user5", "Estefania", null, "5429007233826913", 2, 2021, 258, "user5", ConstraintViolationException.class // BrandName no peude ser null
+				"user5", "Estefania", null, "5429007233826913", 2, 2021, 258, "user5", ConstraintViolationException.class 
 			}, {
-				"user4", "Manuel", "Credit Links", "1005", 5, 2017, 365, "user4", ConstraintViolationException.class // Number debe ser un n鷐ero de tarjeta de cr閐ito v醠ido
+				"user4", "Manuel", "Credit Links", "1005", 5, 2017, 365, "user4", ConstraintViolationException.class 
 			}, {
-				"user4", "Manuel", "Credit Links", "5429007233826913", 0, 2017, 365, "user4", ConstraintViolationException.class // El mes de expiraci髇 debe estar comprendido entre 1 y 12
+				"user4", "Manuel", "Credit Links", "5429007233826913", 0, 2017, 365, "user4", ConstraintViolationException.class
 			}, {
-				"user4", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, "user4", ConstraintViolationException.class // El mes de expiraci髇 debe estar comprendido entre 1 y 12
+				"user4", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, "user4", ConstraintViolationException.class 
 			}, {
-				"user3", "Paco", "American Express", "345035739479236", 4, -52, 147, "user3", ConstraintViolationException.class // El a駉 de expiraci髇 debe ser mayor que 0 
+				"user3", "Paco", "American Express", "345035739479236", 4, -52, 147, "user3", ConstraintViolationException.class 
 			}, {
-				"user2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 50, "user2", ConstraintViolationException.class // El c骴igo CVV debe estar comprendido entre 100 y 999
+				"user2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 50, "user2", ConstraintViolationException.class 
 			}, {
-				"user2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, "user2", ConstraintViolationException.class // El c骴igo CVV debe estar comprendido entre 100 y 999
+				"user2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, "user2", ConstraintViolationException.class 
 			}, {
-				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "manager1", NullPointerException.class // El user debe ser v醠ido 
+				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "manager1", NullPointerException.class 
 			}, {
-				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null, NullPointerException.class // El user no puede ser nulo
+				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null, NullPointerException.class 
 			}
 		};
 		
@@ -112,6 +131,12 @@ public class SaveCreditCardTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * An actor who is authenticated as a user must be able to request a service for 
+	 * one of the rendezvouses that he or she鈥檚 created. He or she must specify a 
+	 * valid credit card in every request for a service. Optionally, he or she can 
+	 * provide some comments in the request. 
+	 */
 	protected void template(final String user, final String holderName, final String brandName, final String number, final int expirationMonth, final int expirationYear, final int cvvcode, final String userCredit, final Class<?> expected) {
 		Class<?> caught;
 		int userId;

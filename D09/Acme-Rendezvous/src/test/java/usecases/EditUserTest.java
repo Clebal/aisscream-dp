@@ -31,11 +31,20 @@ public class EditUserTest extends AbstractTest {
 
 	@Autowired
 	private UserService		userService;
-
+	
 	// Tests ------------------------------------------------------------------
 
+	/*
+	 * 1. Probando editar usuario con telefono y dirección a null
+	 * 2. Probando editar usuario con telefono pero con dirección a null
+	 * 3. Probando editar usuario con telefono a vacío y dirección a null
+	 * 4. Probando editar usuario con telefono a null y dirección
+	 * 5. Probando editar usuario con telefono a null y dirección a vacío
+	 * 6. Probando editar usuario con telefono y dirección
+	 * 7. Probando editar usuario con telefono y dirección a vacío
+	 */
 	@Test
-	public void positiveTest() {
+	public void positiveEditUserTest() {
 		Calendar calendar;
 		Date date;
 		
@@ -45,17 +54,17 @@ public class EditUserTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 			{
-				"user1", "user1", "user1", "user1", "Antonio", "Azaña", null, null, date, "ant@mail.com", null
+				"user1", "user1", "user1", "user1", "Antonio", "Azaña", null, null, date, "ant@mail.com", null 
 			}, {
 				"user2", "user2", "user2", "user2", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", null
 			}, {
 				"user3", "user3", "user3", "user3", "Carlos", "Sánchez", "", null, date, "carlosuser@mail.com", null
 			}, {
-				"user4", "user4", "user4", "user4", "Paco", "Millán", null, "Calle Real Nº6", date, "paquito@mail.com", null
+				"user4", "user4", "user4", "user4", "Paco", "Millán", null, "Calle Real Nº6", date, "paquito@mail.com", null 
 			}, {
-				"user5", "user5", "user5", "user5", "Manolo", "Guillen", null, "", date, "manolete@mail.com", null
+				"user5", "user5", "user5", "user5", "Manolo", "Guillen", null, "", date, "manolete@mail.com", null 
 			}, {
-				"user6", "user6", "user6", "user6", "Pepe", "Escolar", "321456987", "Dirección incorrecta", date, "pepe@mail.com", null
+				"user6", "user6", "user6", "user6", "Pepe", "Escolar", "321456987", "Dirección incorrecta", date, "pepe@mail.com", null 
 			}, {
 				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", "", "", date, "fran@mail.com", null
 			}
@@ -73,9 +82,24 @@ public class EditUserTest extends AbstractTest {
 			}
 	}
 	
-	
+	/*
+	 * 1. Solo un usuario registrado puede registrarse a si mismo
+	 * 2. Solo un usuario registrado puede registrarse a si mismo
+	 * 3. Solo un usuario registrado puede registrarse a si mismo
+	 * 4. La fecha debe ser pasada
+	 * 5. La fecha no puede ser nula
+	 * 6. El email tiene que tener el formato de un email
+	 * 7. El nombre no puede ser nulo
+	 * 8. El apellido no puede ser nulo
+	 * 9. El nombre no puede ser vacío
+	 * 10. El apellido no puede ser vacío
+	 * 11. El email no puede ser nulo
+	 * 12. El email no puede ser vacío
+	 * 13. El username no puede cambiar
+	 * 14. La password no puede cambiar
+	 */
 	@Test()
-	public void negativeTest() {
+	public void negativeEditUserTest() {
 			Calendar calendar;
 			Date dateGood, dateBad;
 		
@@ -88,34 +112,34 @@ public class EditUserTest extends AbstractTest {
 			
 		final Object testingData[][] = {
 			{
-				"user1", "user2", "user2", "user2", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class // Solo un usuario registrado puede editarse a si mismo
+				"user1", "user2", "user2", "user2", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class 
 			}, {
-				"admin", "user2", "user2", "user2", "Antonio", "Azaña", "652147893", null, dateGood, "ant@mail.com", IllegalArgumentException.class // Solo un usuario registrado puede editarse a si mismo
+				"admin", "user2", "user2", "user2", "Antonio", "Azaña", "652147893", null, dateGood, "ant@mail.com", IllegalArgumentException.class
 			}, {
-				"manager1", "user2", "user2", "user2", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", IllegalArgumentException.class // Solo un usuario registrado puede editarse a si mismo
+				"manager1", "user2", "user2", "user2", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", IllegalArgumentException.class
 			}, {
-				"user1", "user1", "user1", "user1", "Alejandro", "Azaña", null, null, dateBad, "ant@mail.com", ConstraintViolationException.class // La fecha debe ser pasada
+				"user1", "user1", "user1", "user1", "Alejandro", "Azaña", null, null, dateBad, "ant@mail.com", ConstraintViolationException.class
 			}, {
-				"user1", "user1", "user1", "user1", "Manuel", "Azaña", null, null, null, "ant@mail.com", ConstraintViolationException.class // La fecha no puede ser nula
+				"user1", "user1", "user1", "user1", "Manuel", "Azaña", null, null, null, "ant@mail.com", ConstraintViolationException.class
 			}, {
-				"user1", "user1", "user1", "user1", "Marta", "Sanchez", "664857123", "Calle Falsa 23", dateGood, "manuelito", ConstraintViolationException.class // El email tiene que tener el formato de un email
+				"user1", "user1", "user1", "user1", "Marta", "Sanchez", "664857123", "Calle Falsa 23", dateGood, "manuelito", ConstraintViolationException.class 
 			}, {
-				"user2", "user2", "user2", "user2", null, "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class // El nombre no puede ser nulo
+				"user2", "user2", "user2", "user2", null, "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class
 			}, {
-				"user1", "user1", "user1", "user1", "Marta", null, "664857123", "Calle sin numero", dateGood, "martita@gmail.es", ConstraintViolationException.class // El apellido no puede ser nulo
+				"user1", "user1", "user1", "user1", "Marta", null, "664857123", "Calle sin numero", dateGood, "martita@gmail.es", ConstraintViolationException.class
 			}, {
-				"user3", "user3", "user3", "user3", "", "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class // El nombre no puede ser vacío
+				"user3", "user3", "user3", "user3", "", "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class
 			}, {
-				"user1", "user1", "user1", "user1", "Marta", "", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", ConstraintViolationException.class // El apellido no puede ser vacío
+				"user1", "user1", "user1", "user1", "Marta", "", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", ConstraintViolationException.class 
 			},{
-				"user4", "user4", "user4", "user4", "Marta", "Azaña", "664857123", "Calle Novena", dateGood, null, ConstraintViolationException.class // El email no puede ser nulo
+				"user4", "user4", "user4", "user4", "Marta", "Azaña", "664857123", "Calle Novena", dateGood, null, ConstraintViolationException.class 
 			}, {
-				"user1", "user1", "user1", "user1", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", ConstraintViolationException.class // El email no puede ser vacío
+				"user1", "user1", "user1", "user1", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", ConstraintViolationException.class 
 			}, {
-				"user1", "user1", "manager", "user1", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class // El username no puede cambiar
+				"user1", "user1", "manager", "user1", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class
 			}, {
-				"user3", "user3", "user3", "admin", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class // La password no puede cambiar
-			},
+				"user3", "user3", "user3", "admin", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class
+			}
 		};
 		
 		for (int i = 0; i < testingData.length; i++)
@@ -132,6 +156,9 @@ public class EditUserTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * Se desea probar la correcta edición de un usuario
+	 */
 	protected void template(final String userAuthenticate, final String userEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final Class<?> expected) {
 		Class<?> caught;
 		int userId;

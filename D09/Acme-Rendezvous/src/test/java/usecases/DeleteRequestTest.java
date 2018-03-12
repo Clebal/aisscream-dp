@@ -23,20 +23,26 @@ public class DeleteRequestTest extends AbstractTest {
 
 	@Autowired
 	private RequestService		requestService;
-
+	
 	// Tests ------------------------------------------------------------------
 
+	/*
+	 * 1. Probando que el user1 borra el request1
+	 * 2. Probando que el user3 borra el request4
+	 * 3. Probando que el user1 borra el request7
+	 * 4. Probando que el user3 borra el request2
+	 */
 	@Test
-	public void positiveTest() {
+	public void positiveDeleteRequestTest() {
 		final Object testingData[][] = {
 			{
-				"user1", "request1", null
+				"user1", "request1", null 
 			}, {
-				"user3", "request4", null
+				"user3", "request4", null 
 			}, {
-				"user1", "request7", null
+				"user1", "request7", null 
 			}, {
-				"user3", "request2", null
+				"user3", "request2", null 
 			}
 		};
 			
@@ -52,20 +58,26 @@ public class DeleteRequestTest extends AbstractTest {
 			}
 	}
 	
-	
+	/*
+	 * 1. Solo puede borrarlo un user
+	 * 2. Solo puede borrarlo un user
+	 * 3. Solo puede borrarlo un user
+	 * 4. El user logueado debe ser el creador del rendezvous del request
+	 * 5. El rendezvous no puede estar borrado
+	 */
 	@Test()
-	public void negativeTest() {
+	public void negativeDeleteRequestTest() {
 		final Object testingData[][] = {
 			{
-				null, "request1", IllegalArgumentException.class // Solo puede borrarlo un user
+				null, "request1", IllegalArgumentException.class 
 			}, 	{
-				"admin", "request1", IllegalArgumentException.class // Solo puede borrarlo un user
+				"admin", "request1", IllegalArgumentException.class 
 			}, {
-				"manager1", "request2", IllegalArgumentException.class // Solo puede borrarlo un user
+				"manager1", "request2", IllegalArgumentException.class
 			}, {
-				"user1", "request5", IllegalArgumentException.class // El user logueado debe ser el creador del rendezvous del request
+				"user1", "request5", IllegalArgumentException.class 
 			}, {
-				"user3", "request1", IllegalArgumentException.class // El rendezvous no puede estar borrado
+				"user3", "request1", IllegalArgumentException.class 
 			}
 		};
 		
@@ -83,6 +95,11 @@ public class DeleteRequestTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * An actor who is authenticated as a user must be able to request a service for one of the rendezvouses 
+	 * that he or she’s created. He or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
+	 */
 	protected void template(final String user, final String request, final Class<?> expected) {
 		Class<?> caught;
 		int requestId;

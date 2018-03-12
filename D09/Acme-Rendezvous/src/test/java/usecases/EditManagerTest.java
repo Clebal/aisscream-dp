@@ -35,7 +35,7 @@ public class EditManagerTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	@Test
-	public void positiveTest() {
+	public void positiveEditManagerTest() {
 		Calendar calendar;
 		Date date;
 		
@@ -73,9 +73,26 @@ public class EditManagerTest extends AbstractTest {
 			}
 	}
 	
-	
+	/*
+	 * 1. Solo un manager registrado puede registrarse a si mismo
+	 * 2. Solo un manager registrado puede registrarse a si mismo
+	 * 3. Solo un manager registrado puede registrarse a si mismo
+	 * 4. La fecha debe ser pasada
+	 * 5. La fecha no puede ser nula
+	 * 6. El email tiene que tener el formato de un email
+	 * 7. El nombre no puede ser nulo
+	 * 8. El apellido no puede ser nulo
+	 * 9. El nombre no puede ser vacío
+	 * 10. El apellido no puede ser vacío
+	 * 11. El email no puede ser nulo
+	 * 12. El email no puede ser vacío
+	 * 13. El username no puede cambiar
+	 * 14. La password no puede cambiar
+	 * 15. El vat no puede ser vacío
+	 * 16. El vat no puede ser nulo
+	 */
 	@Test()
-	public void negativeTest() {
+	public void negativeEditManagerTest() {
 			Calendar calendar;
 			Date dateGood, dateBad;
 		
@@ -88,37 +105,37 @@ public class EditManagerTest extends AbstractTest {
 			
 		final Object testingData[][] = {
 			{
-				"manager1", "manager2", "manager2", "manager2", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class // Solo un usuario registrado puede editarse a si mismo
+				"manager1", "manager2", "manager2", "manager2", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class
 			}, {
-				"admin", "manager2", "manager2", "manager2", "Antonio", "Azaña", "652147893", null, dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class // Solo un usuario registrado puede editarse a si mismo
+				"admin", "manager2", "manager2", "manager2", "Antonio", "Azaña", "652147893", null, dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class 
 			}, {
-				"user1", "manager2", "manager2", "manager2", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class // Solo un usuario registrado puede editarse a si mismo
+				"user1", "manager2", "manager2", "manager2", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Alejandro", "Azaña", null, null, dateBad, "ant@mail.com", "20063918-Y", ConstraintViolationException.class // La fecha debe ser pasada
+				"manager1", "manager1", "manager1", "manager1", "Alejandro", "Azaña", null, null, dateBad, "ant@mail.com", "20063918-Y", ConstraintViolationException.class
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Manuel", "Azaña", null, null, null, "ant@mail.com", "20063918-Y", ConstraintViolationException.class // La fecha no puede ser nula
+				"manager1", "manager1", "manager1", "manager1", "Manuel", "Azaña", null, null, null, "ant@mail.com", "20063918-Y", ConstraintViolationException.class
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Marta", "Sanchez", "664857123", "Calle Falsa 23", dateGood, "manuelito", "20063918-Y", ConstraintViolationException.class // El email tiene que tener el formato de un email
+				"manager1", "manager1", "manager1", "manager1", "Marta", "Sanchez", "664857123", "Calle Falsa 23", dateGood, "manuelito", "20063918-Y", ConstraintViolationException.class
 			}, {
-				"manager2", "manager2", "manager2", "manager2", null, "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", "20063918-Y", ConstraintViolationException.class // El nombre no puede ser nulo
+				"manager2", "manager2", "manager2", "manager2", null, "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", "20063918-Y", ConstraintViolationException.class 
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Marta", null, "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "20063918-Y", ConstraintViolationException.class // El apellido no puede ser nulo
+				"manager1", "manager1", "manager1", "manager1", "Marta", null, "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "20063918-Y", ConstraintViolationException.class 
 			}, {
-				"manager2", "manager2", "manager2", "manager2", "", "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", "20063918-Y", ConstraintViolationException.class // El nombre no puede ser vacío
+				"manager2", "manager2", "manager2", "manager2", "", "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", "20063918-Y", ConstraintViolationException.class 
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Marta", "", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "20063918-Y", ConstraintViolationException.class // El apellido no puede ser vacío
+				"manager1", "manager1", "manager1", "manager1", "Marta", "", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "20063918-Y", ConstraintViolationException.class
 			},{
-				"manager2", "manager2", "manager2", "manager2", "Marta", "Azaña", "664857123", "Calle Novena", dateGood, null, "20063918-Y", ConstraintViolationException.class // El email no puede ser nulo
+				"manager2", "manager2", "manager2", "manager2", "Marta", "Azaña", "664857123", "Calle Novena", dateGood, null, "20063918-Y", ConstraintViolationException.class 
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", "20063918-Y", ConstraintViolationException.class // El email no puede ser vacío
+				"manager1", "manager1", "manager1", "manager1", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", "20063918-Y", ConstraintViolationException.class 
 			}, {
-				"manager1", "manager1", "user", "manager1", "Gostin", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "20063918-Y", IllegalArgumentException.class // El managername no puede cambiar
+				"manager1", "manager1", "user", "manager1", "Gostin", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "20063918-Y", IllegalArgumentException.class
 			}, {
-				"manager2", "manager2", "manager2", "admin", "Olga", "Martinez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "20063918-Y", IllegalArgumentException.class // La password no puede cambiar
+				"manager2", "manager2", "manager2", "admin", "Olga", "Martinez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "20063918-Y", IllegalArgumentException.class
 			}, {
-				"manager2", "manager2", "manager2", "manager2", "Zema", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "", ConstraintViolationException.class // El vat no puede ser vacío
+				"manager2", "manager2", "manager2", "manager2", "Zema", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "", ConstraintViolationException.class 
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Javier", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", null, ConstraintViolationException.class // El vat no puede ser nulo
+				"manager1", "manager1", "manager1", "manager1", "Javier", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", null, ConstraintViolationException.class 
 			}
 		};
 		
@@ -136,6 +153,9 @@ public class EditManagerTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * Se desea probar la correcta edición de un manager
+	 */
 	protected void template(final String managerAuthenticate, final String managerEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final String vat, final Class<?> expected) {
 		Class<?> caught;
 		int userId;

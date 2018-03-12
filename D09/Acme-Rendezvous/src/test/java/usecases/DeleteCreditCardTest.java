@@ -23,11 +23,14 @@ public class DeleteCreditCardTest extends AbstractTest {
 
 	@Autowired
 	private CreditCardService		creditCardService;
-
+	
 	// Tests ------------------------------------------------------------------
 
+	/*
+	 * 1. Probando que el user2 borra la creditCard2
+	 */
 	@Test
-	public void positiveTest() {
+	public void positiveDeleteCreditCardTest() {
 		final Object testingData[][] = {
 			{
 				"user2", "creditCard2", null
@@ -46,22 +49,29 @@ public class DeleteCreditCardTest extends AbstractTest {
 			}
 	}
 	
-	
+	/*
+	 * 1. Solo puede borrarlo un user
+	 * 2. Solo puede borrarlo un user
+	 * 3. Solo puede borrarlo un user
+	 * 4. El user logueado debe ser el creador del rendezvous del request
+	 * 5. El rendezvous no puede estar borrado
+	 * 6. El rendezvous no puede estar borrado
+	 */
 	@Test()
-	public void negativeTest() {
+	public void negativeDeleteCreditCardTest() {
 		final Object testingData[][] = {
 			{
-				null, "creditCard1", IllegalArgumentException.class // Solo puede borrarlo un user
+				null, "creditCard1", IllegalArgumentException.class 
 			}, 	{
-				"admin", "creditCard1", IllegalArgumentException.class // Solo puede borrarlo un user
+				"admin", "creditCard1", IllegalArgumentException.class
 			}, {
-				"manager1", "creditCard2", IllegalArgumentException.class // Solo puede borrarlo un user
+				"manager1", "creditCard2", IllegalArgumentException.class 
 			}, {
-				"user1", "creditCard2", IllegalArgumentException.class // El user logueado debe ser el creador del rendezvous del request
+				"user1", "creditCard2", IllegalArgumentException.class 
 			}, {
-				"user3", "creditCard1", IllegalArgumentException.class // El rendezvous no puede estar borrado
+				"user3", "creditCard1", IllegalArgumentException.class 
 			}, {
-				"user4", "creditCard3", IllegalArgumentException.class // El rendezvous no puede estar borrado
+				"user4", "creditCard3", IllegalArgumentException.class 
 			}
 		};
 		
@@ -79,6 +89,12 @@ public class DeleteCreditCardTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * An actor who is authenticated as a user must be able to request a service for 
+	 * one of the rendezvouses that he or she’s created. He or she must specify a 
+	 * valid credit card in every request for a service. Optionally, he or she can 
+	 * provide some comments in the request. 
+	 */
 	protected void template(final String user, final String creditCard, final Class<?> expected) {
 		Class<?> caught;
 		int creditCardId;

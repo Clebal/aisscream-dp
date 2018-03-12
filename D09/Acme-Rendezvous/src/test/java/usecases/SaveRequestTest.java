@@ -40,21 +40,28 @@ public class SaveRequestTest extends AbstractTest {
 	@Autowired
 	private CreditCardService		creditCardService;
 
-	// Tests ------------------------------------------------------------------
-
+	// Tests ------------------------------------------------------------------	
+	
+	/*
+	 * 1. Probando crear request con comentario
+	 * 2. Probando crear request con comentario vacío
+	 * 3. Probando crear request con comentario
+	 * 4. Probando crear request con comentario a null
+	 * 5. Probando crear request con comentario
+	 */
 	@Test
-	public void positiveTest() {
+	public void positiveSaveRequestTest() {
 		final Object testingData[][] = {
 			{
-				"user1", "rendezvous1", "service3", "creditCard3", "Hola", null
+				"user1", "rendezvous1", "service3", "creditCard3", "Hola", null 
 			}, {
-				"user3", "rendezvous3", "service1", "creditCard4", "", null
+				"user3", "rendezvous3", "service1", "creditCard4", "", null 
 			}, {
-				"user1", "rendezvous5", "service3", "creditCard1", "Un comentario", null
+				"user1", "rendezvous5", "service3", "creditCard1", "Un comentario", null 
 			}, {
-				"user3", "rendezvous3", "service6", "creditCard4", null, null
+				"user3", "rendezvous3", "service6", "creditCard4", null, null 
 			}, {
-				"user1", "rendezvous8", "service2", "creditCard3", "Nueva prueba", null
+				"user1", "rendezvous8", "service2", "creditCard3", "Nueva prueba", null 
 			}
 		};
 			
@@ -70,26 +77,35 @@ public class SaveRequestTest extends AbstractTest {
 			}
 	}
 	
-	
+	/*
+	 * 1. Solo puede crearlo un user
+	 * 2. Solo puede crearlo un user
+	 * 3. Solo puede crearlo un user
+	 * 4. La creditCard debe pertenecer al user logueado
+	 * 5. El rendezvous no puede estar borrado
+	 * 6. No puede existir un request con mismo rendezvous y service
+	 * 7. No puede existir un request con mismo rendezvous y service
+	 * 8. El user logueado debe ser el creador del rendezvous
+	 */
 	@Test()
-	public void negativeTest() {
+	public void negativeSaveRequestTest() {
 		final Object testingData[][] = {
 			{
-				null, "rendezvous1", "service1", "creditCard1", "", IllegalArgumentException.class // Solo puede crearlo un user
+				null, "rendezvous1", "service1", "creditCard1", "", IllegalArgumentException.class 
 			}, 	{
-				"admin", "rendezvous1", "service1", "creditCard1", "", NullPointerException.class // Solo puede crearlo un user
+				"admin", "rendezvous1", "service1", "creditCard1", "", NullPointerException.class 
 			}, {
-				"manager1", "rendezvous2", "service5", "creditCard4", "Otro comentario m�s", NullPointerException.class // Solo puede crearlo un user
+				"manager1", "rendezvous2", "service5", "creditCard4", "Otro comentario más", NullPointerException.class
 			}, {
-				"user1", "rendezvous5", "service3", "creditCard2", "", IllegalArgumentException.class // La creditCard debe pertenecer al user logueado
+				"user1", "rendezvous5", "service3", "creditCard2", "", IllegalArgumentException.class 
 			}, {
-				"user3", "rendezvous4", "service6", "creditCard4", "", IllegalArgumentException.class // El rendezvous no puede estar borrado
+				"user3", "rendezvous4", "service6", "creditCard4", "", IllegalArgumentException.class 
 			}, {
-				"user3", "rendezvous9", "service7", "creditCard4", "Comentario poco �til", IllegalArgumentException.class // No puede existir un request con mismo rendezvous y service
+				"user3", "rendezvous9", "service7", "creditCard4", "Comentario poco útil", IllegalArgumentException.class 
 			}, {
-				"user1", "rendezvous6", "service4", "creditCard1", "", IllegalArgumentException.class // No puede existir un request con mismo rendezvous y service
+				"user1", "rendezvous6", "service4", "creditCard1", "", IllegalArgumentException.class 
 			}, {
-				"user1", "rendezvous3", "service3", "creditCard3", null, IllegalArgumentException.class // El user logueado debe ser el creador del rendezvous
+				"user1", "rendezvous3", "service3", "creditCard3", null, IllegalArgumentException.class
 			}
 		};
 		
@@ -107,6 +123,11 @@ public class SaveRequestTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * An actor who is authenticated as a user must be able to request a service for one of the rendezvouses 
+	 * that he or she’s created. He or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
+	 */
 	protected void template(final String user, final String rendezvous, final String servicio, final String creditCard, final String comments, final Class<?> expected) {
 		Class<?> caught;
 		int rendezvousId;
@@ -116,11 +137,9 @@ public class SaveRequestTest extends AbstractTest {
 		Servicio servicioEntity;
 		CreditCard creditCardEntity;
 		Request request;
-//		int countPre, countPost;
 
 		caught = null;
 		try {
-//			countPre = this.requestService.findAll().size();
 			super.authenticate(user);
 			rendezvousId = super.getEntityId(rendezvous);
 			servicioId = super.getEntityId(servicio);
@@ -133,9 +152,6 @@ public class SaveRequestTest extends AbstractTest {
 			request.setComments(comments);
 			this.requestService.save(request);
 			super.unauthenticate();
-			super.flushTransaction();
-//			countPost = this.requestService.findAll().size();
-//			Assert.isTrue(countPost == countPre + 1);
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
