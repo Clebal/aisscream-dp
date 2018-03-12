@@ -111,10 +111,10 @@
 		 <security:intercept-url pattern="/servicio/manager/addCategory.do" access="hasRole('MANAGER')" />
 		 <security:intercept-url pattern="/servicio/manager/removeCategory.do" access="hasRole('MANAGER')" />
 		 <security:intercept-url pattern="/servicio/user/listForRequestByRendezvous.do" access="hasRole('USER')" />
-		 <security:intercept-url pattern="/servicio/display.do" access="permitAll" />
-		 <security:intercept-url pattern="/servicio/list.do" access="permitAll" />
-		 <security:intercept-url pattern="/servicio/listByCategoryId.do" access="permitAll" />
-		 <security:intercept-url pattern="/servicio/listByRendezvousId.do" access="permitAll" />
+		 <security:intercept-url pattern="/servicio/display.do" access="isAuthenticated()" />
+		 <security:intercept-url pattern="/servicio/list.do" access="isAuthenticated()" />
+		 <security:intercept-url pattern="/servicio/listByCategoryId.do" access="isAuthenticated()" />
+		 <security:intercept-url pattern="/servicio/listByRendezvousId.do" access="isAuthenticated()" />
 		 
 		 <security:intercept-url pattern="/request/user/list.do" access="hasRole('USER')" />
          <security:intercept-url pattern="/request/user/display.do" access="hasRole('USER')" />
