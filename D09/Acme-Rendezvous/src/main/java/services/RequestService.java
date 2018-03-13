@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import repositories.RequestRepository;
 import security.Authority;
 import security.LoginService;
+import security.UserAccount;
 import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
@@ -106,7 +107,7 @@ public class RequestService {
 
 		Assert.notNull(request);
 
-		//Lo borra el creador de la question
+		//Lo borra el creador de la request
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
 		Assert.isTrue(request.getRendezvous().getCreator().equals(user));
@@ -130,7 +131,18 @@ public class RequestService {
 	public Collection<Request> findAllPaginated(final int userId, final int page, final int size) {
 		Collection<Request> result;
 		Pageable pageable;
+		Authority authority;
+		UserAccount userAccount;
 
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		if(LoginService.isAuthenticated()) {
+			userAccount = LoginService.getPrincipal();
+			Assert.notNull(userAccount);
+			Assert.isTrue(userAccount.getAuthorities().contains(authority));
+		}
+		
 		Assert.isTrue(userId != 0);
 		
 		if (page == 0 || size <= 0)

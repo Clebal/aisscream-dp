@@ -92,6 +92,7 @@ public class UserService {
 		if (user.getId() != 0) {
 			userAccount = LoginService.getPrincipal();
 			Assert.notNull(userAccount);
+			Assert.isTrue(userAccount.getAuthorities().contains(authority));
 			Assert.isTrue(userAccount.equals(user.getUserAccount()));
 			saved = this.userRepository.findOne(user.getId());
 			Assert.notNull(saved);
@@ -124,7 +125,18 @@ public class UserService {
 	public Collection<User> findAllPaginated(final int page, final int size) {
 		Collection<User> result;
 		Pageable pageable;
+		Authority authority;
+		UserAccount userAccount;
 
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		if(LoginService.isAuthenticated()) {
+			userAccount = LoginService.getPrincipal();
+			Assert.notNull(userAccount);
+			Assert.isTrue(userAccount.getAuthorities().contains(authority));
+		}
+		
 		if (page == 0 || size <= 0)
 			pageable = new PageRequest(0, 5);
 		else

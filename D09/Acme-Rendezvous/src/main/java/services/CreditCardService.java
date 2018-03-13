@@ -18,6 +18,7 @@ import domain.User;
 import repositories.CreditCardRepository;
 import security.Authority;
 import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -107,6 +108,17 @@ public class CreditCardService {
 	// Other business methods
 	public Page<CreditCard> findByUserAccountId(final int userAccountId, final int page, final int size) {
 		Page<CreditCard> result;
+		Authority authority;
+		UserAccount userAccount;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		if(LoginService.isAuthenticated()) {
+			userAccount = LoginService.getPrincipal();
+			Assert.notNull(userAccount);
+			Assert.isTrue(userAccount.getAuthorities().contains(authority));
+		}
 		
 		Assert.isTrue(userAccountId != 0);
 		
