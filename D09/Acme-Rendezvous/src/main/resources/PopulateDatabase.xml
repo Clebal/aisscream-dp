@@ -1201,7 +1201,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	
 	<bean id="category2" class="domain.Category">
 		<property name="name" value="Varios" />
-		<property name="description" value="Servicios varios sin categoría" />
+		<property name="description" value="Servicios varios con categorías" />
 	</bean>
 	
 	<bean id="category3" class="domain.Category">
@@ -1242,4 +1242,15 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="description" value="Servicios para los mejores puros" />
 	</bean>
 	
+	<bean id="category10" class="domain.Category">
+		<property name="name" value="Varios 1.1" />
+		<property name="description" value="Servicios varios 1.1 con categorías" />
+		<property name="fatherCategory" ref="category2" />
+	</bean>
+	
+	<bean id="category11" class="domain.Category">
+		<property name="name" value="Varios 1.1.1" />
+		<property name="description" value="Servicios varios 1.1.1 sin categorías" />
+		<property name="fatherCategory" ref="category10" />
+	</bean>
 </beans>
