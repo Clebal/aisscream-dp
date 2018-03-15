@@ -3,6 +3,7 @@ package usecases;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,19 +37,19 @@ public class EditCreditCardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * Probando la edición de varias creditCards por parte de diferentes usuarios
+	 * Probando la edicion de varias creditCards por parte de diferentes usuarios
 	 */
 	@Test
 	public void positiveEditCreditCardTest() {
 		final Object testingData[][] = {
-			{
-				"user1", "creditCard1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null //TODO: EL TESTS DA ERRORES NO DETECTADOS AÚN
+			{	
+				"user1", "creditCard1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null
 			}, {
 				"user2", "creditCard2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 317, null
 			}, {
-				"user3", "creditCard1", "Paco", "American Express", "345035739479236", 4, 2018, 147, null
+				"user3", "creditCard4", "Paco", "American Express", "345035739479236", 4, 2018, 147, null
 			}, {
-				"user4", "creditCard4", "Manuel", "Credit Links", "6011516686715805", 5, 2017, 365, null
+				"user4", "creditCard5", "Manuel", "Credit Links", "6011516686715805", 5, 2017, 365, null
 			}, {
 				"user4", "creditCard5", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, null
 			}
@@ -60,7 +61,6 @@ public class EditCreditCardTest extends AbstractTest {
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
 			} catch (final Throwable oops) {
-				System.out.println(oops.getStackTrace());
 				throw new RuntimeException(oops);
 			} finally {
 				super.rollbackTransaction();
@@ -71,18 +71,18 @@ public class EditCreditCardTest extends AbstractTest {
 	 * 1. Solo puede editarlo un user
 	 * 2. Solo puede editarlo un user
 	 * 3. Solo puede editarlo su user
-	 * 4. HolderName no puede estar vacío
+	 * 4. HolderName no puede estar vacio
 	 * 5. HolderName no puede ser null
-	 * 6. BrandName no puede estar vacío
+	 * 6. BrandName no puede estar vacio
 	 * 7. BrandName no peude ser null
-	 * 8. Number debe ser un número de tarjeta de crédito válido
-	 * 9. El mes de expiración debe estar comprendido entre 1 y 12
-	 * 10. El mes de expiración debe estar comprendido entre 1 y 12
-	 * 11. El año de expiración debe ser mayor que 0 
-	 * 12. El código CVV debe estar comprendido entre 100 y 999
-	 * 13. El código CVV debe estar comprendido entre 100 y 999
+	 * 8. Number debe ser un numero de tarjeta de credito valido
+	 * 9. El mes de expiracion debe estar comprendido entre 1 y 12
+	 * 10. El mes de expiracion debe estar comprendido entre 1 y 12
+	 * 11. El ano de expiracion debe ser mayor que 0 
+	 * 12. El codigo CVV debe estar comprendido entre 100 y 999
+	 * 13. El codigo CVV debe estar comprendido entre 100 y 999
 	 */
-	//@Test()
+	@Test()
 	public void negativeEditCreditCardTest() {
 		final Object testingData[][] = {
 			{
@@ -92,25 +92,25 @@ public class EditCreditCardTest extends AbstractTest {
 			}, {
 				"user2", "creditCard1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, IllegalArgumentException.class
 			}, {
-				"user1", "creditCard1", "", "MasterCard", "5471664286416252", 9, 2019, 258, IllegalArgumentException.class 
+				"user1", "creditCard1", "", "MasterCard", "5471664286416252", 9, 2019, 258, ConstraintViolationException.class 
 			}, {
-				"user1", "creditCard1", null, "MasterCard", "5471664286416252", 9, 2019, 258, IllegalArgumentException.class 
+				"user1", "creditCard1", null, "MasterCard", "5471664286416252", 9, 2019, 258, ConstraintViolationException.class 
 			}, {
-				"user2", "creditCard2", "Estefania", "", "5429007233826913", 2, 2021, 258, IllegalArgumentException.class
+				"user2", "creditCard2", "Estefania", "", "5429007233826913", 2, 2021, 258, ConstraintViolationException.class
 			}, {
-				"user2", "creditCard2", "Estefania", null, "5429007233826913", 2, 2021, 258, IllegalArgumentException.class 
+				"user2", "creditCard2", "Estefania", null, "5429007233826913", 2, 2021, 258, ConstraintViolationException.class 
 			}, {
-				"user4", "creditCard4", "Manuel", "Credit Links", "1005", 5, 2017, 365, IllegalArgumentException.class 
+				"user4", "creditCard5", "Manuel", "Credit Links", "1005", 5, 2017, 365, ConstraintViolationException.class 
 			}, {
-				"user4", "creditCard4", "Manuel", "Credit Links", "5429007233826913", 0, 2017, 365, IllegalArgumentException.class
+				"user4", "creditCard5", "Manuel", "Credit Links", "5429007233826913", 0, 2017, 365, ConstraintViolationException.class
 			}, {
-				"user2", "creditCard2", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, IllegalArgumentException.class 
+				"user2", "creditCard2", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, ConstraintViolationException.class 
 			}, {
-				"user1", "creditCard1", "Paco", "American Express", "345035739479236", 4, -52, 147, IllegalArgumentException.class 
+				"user1", "creditCard1", "Paco", "American Express", "345035739479236", 4, -52, 147, ConstraintViolationException.class 
 			}, {
-				"user2", "creditCard2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 50, IllegalArgumentException.class 
+				"user2", "creditCard2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 50, ConstraintViolationException.class 
 			}, {
-				"user2", "creditCard2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, IllegalArgumentException.class 
+				"user2", "creditCard2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, ConstraintViolationException.class 
 			}
 		};
 		
@@ -130,7 +130,7 @@ public class EditCreditCardTest extends AbstractTest {
 
 	/*
 	 * An actor who is authenticated as a user must be able to request a service for 
-	 * one of the rendezvouses that he or she’s created. He or she must specify a 
+	 * one of the rendezvouses that he or shes created. He or she must specify a 
 	 * valid credit card in every request for a service. Optionally, he or she can 
 	 * provide some comments in the request. 
 	 */
@@ -149,28 +149,25 @@ public class EditCreditCardTest extends AbstractTest {
 			userId = super.getEntityId(user);
 			userEntity = this.userService.findOne(userId);
 			Assert.notNull(userEntity);
-			Assert.notNull(creditCard);
 			creditCardId = super.getEntityId(creditCardEdit);
 			Assert.notNull(creditCardId);
-			creditCardEntity = this.creditCardService.findOne(creditCardId);
-			Assert.notNull(creditCardEntity);
-			creditCards = this.creditCardService.findByUserAccountId(userEntity.getUserAccount().getId(), 1, 10).getContent();
-			System.out.println(creditCards);
+			creditCards = this.creditCardService.findByUserAccountId(userEntity.getUserAccount().getId(), 1, 5).getContent();
 			for (CreditCard c : creditCards) {
-				if(c.equals(creditCardEntity)){
+				if(c.getId() == creditCardId){
 					creditCard = c;
 					break;
 				}
 			}
-			System.out.println(creditCard);
-			creditCard.setHolderName(holderName);
-			creditCard.setBrandName(brandName);
-			creditCard.setNumber(number);
-			creditCard.setExpirationMonth(expirationMonth);
-			creditCard.setExpirationYear(expirationYear);
-			creditCard.setCvvcode(cvvcode);
-			creditCard.setUser(userEntity);
-			this.creditCardService.save(creditCard);
+			Assert.notNull(creditCard);
+			creditCardEntity = this.copyCreditCard(creditCard);
+			creditCardEntity.setHolderName(holderName);
+			creditCardEntity.setBrandName(brandName);
+			creditCardEntity.setNumber(number);
+			creditCardEntity.setExpirationMonth(expirationMonth);
+			creditCardEntity.setExpirationYear(expirationYear);
+			creditCardEntity.setCvvcode(cvvcode);
+			creditCardEntity.setUser(userEntity);
+			this.creditCardService.save(creditCardEntity);
 			super.unauthenticate();
 			super.flushTransaction();
 		} catch (final Throwable oops) {
@@ -181,5 +178,22 @@ public class EditCreditCardTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 	}
 
-}
 
+	private CreditCard copyCreditCard(final CreditCard creditCard) {
+		CreditCard result;
+	
+		result = new CreditCard();
+		result.setId(creditCard.getId());
+		result.setVersion(creditCard.getVersion());
+		result.setBrandName(creditCard.getBrandName());
+		result.setCvvcode(creditCard.getCvvcode());
+		result.setExpirationMonth(creditCard.getExpirationMonth());
+		result.setExpirationYear(creditCard.getExpirationYear());
+		result.setNumber(creditCard.getNumber());
+		result.setUser(creditCard.getUser());
+		result.setHolderName(creditCard.getHolderName());
+		
+		return result;
+	}
+	
+}
