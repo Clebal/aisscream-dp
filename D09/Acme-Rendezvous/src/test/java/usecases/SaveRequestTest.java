@@ -11,12 +11,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
-import domain.Servicio;
+import domain.Service;
 
 import services.CreditCardService;
 import services.RendezvousService;
 import services.RequestService;
-import services.ServicioService;
+import services.ServiceService;
 import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
@@ -35,7 +35,7 @@ public class SaveRequestTest extends AbstractTest {
 	private RendezvousService	rendezvousService;
 	
 	@Autowired
-	private ServicioService			servicioService;
+	private ServiceService			serviceService;
 	
 	@Autowired
 	private CreditCardService		creditCardService;
@@ -95,13 +95,13 @@ public class SaveRequestTest extends AbstractTest {
 			}, 	{
 				"admin", "rendezvous1", "service1", "creditCard1", "", IllegalArgumentException.class 
 			}, {
-				"manager1", "rendezvous2", "service5", "creditCard4", "Otro comentario más", IllegalArgumentException.class
+				"manager1", "rendezvous2", "service5", "creditCard4", "Otro comentario mas", IllegalArgumentException.class
 			}, {
 				"user1", "rendezvous5", "service3", "creditCard2", "", IllegalArgumentException.class 
 			}, {
 				"user3", "rendezvous4", "service6", "creditCard4", "", IllegalArgumentException.class 
 			}, {
-				"user3", "rendezvous9", "service7", "creditCard4", "Comentario poco útil", IllegalArgumentException.class 
+				"user3", "rendezvous9", "service7", "creditCard4", "Comentario poco util", IllegalArgumentException.class 
 			}, {
 				"user1", "rendezvous6", "service4", "creditCard1", "", IllegalArgumentException.class 
 			}, {
@@ -134,7 +134,7 @@ public class SaveRequestTest extends AbstractTest {
 		int servicioId;
 		int creditCardId;
 		Rendezvous rendezvousEntity;
-		Servicio servicioEntity;
+		Service servicioEntity;
 		CreditCard creditCardEntity;
 		Request request;
 
@@ -145,7 +145,7 @@ public class SaveRequestTest extends AbstractTest {
 			servicioId = super.getEntityId(servicio);
 			creditCardId = super.getEntityId(creditCard);
 			rendezvousEntity = this.rendezvousService.findOne(rendezvousId);
-			servicioEntity = this.servicioService.findOne(servicioId);
+			servicioEntity = this.serviceService.findOne(servicioId);
 			creditCardEntity = this.creditCardService.findOne(creditCardId);
 			request = this.requestService.create(rendezvousEntity, servicioEntity);
 			request.setCreditCard(creditCardEntity);

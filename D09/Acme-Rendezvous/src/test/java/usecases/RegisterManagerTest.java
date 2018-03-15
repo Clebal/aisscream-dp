@@ -33,13 +33,13 @@ public class RegisterManagerTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 	
 	/*
-	 * 1. Probando registrar manager con telefono y dirección a null
-	 * 2. Probando registrar manager con telefono pero con dirección a null
-	 * 3. Probando registrar manager con telefono a vacío y dirección a null
-	 * 4. Probando registrar manager con telefono a null y dirección
-	 * 5. Probando registrar manager con telefono a null y dirección a vacío
-	 * 6. Probando registrar manager con telefono y dirección
-	 * 7. Probando registrar manager con telefono y dirección a vacío
+	 * 1. Probando registrar manager con telefono y direccion a null
+	 * 2. Probando registrar manager con telefono pero con direccion a null
+	 * 3. Probando registrar manager con telefono a vacio y direccion a null
+	 * 4. Probando registrar manager con telefono a null y direccion
+	 * 5. Probando registrar manager con telefono a null y direccion a vacio
+	 * 6. Probando registrar manager con telefono y direccion
+	 * 7. Probando registrar manager con telefono y direccion a vacio
 	 */
 	@Test
 	public void positiveRegisterManagerTest() {
@@ -52,17 +52,17 @@ public class RegisterManagerTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 				{
-					null, "antonio1", "antonio1", "Antonio", "Azaña", null, null, date, "ant@mail.com", "20063918-Y", null 
+					null, "antonio1", "antonio1", "Antonio", "Azan", null, null, date, "ant@mail.com", "20063918-Y", null 
 				}, {
 					null, "alexito", "alexito", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", "20063918-Y", null 
 				}, {
 					null, "carlos", "carlos", "Carlos", "Sánchez", "", null, date, "carlosuser@mail.com", "20483918-Y", null 
 				}, {
-					null, "paquito", "paquito", "Paco", "Millán", null, "Calle Real Nº6", date, "paquito@mail.com", "20063918-Y", null 
+					null, "paquito", "paquito", "Paco", "Millán", null, "Calle Real N�6", date, "paquito@mail.com", "20063918-Y", null 
 				}, {
 					null, "manolo", "manolo", "Manolo", "Guillen", null, "", date, "manolete@mail.com", "20893918-Y", null 
 				}, {
-					null, "pepito", "pepito", "Pepe", "Escolar", "321456987", "Dirección incorrecta", date, "pepe@mail.com", "20063918-Y", null
+					null, "pepito", "pepito", "Pepe", "Escolar", "321456987", "Direccion incorrecta", date, "pepe@mail.com", "20063918-Y", null
 				}, {
 					null, "francisco", "francisco", "Francisco", "Cerrada", "", "", date, "fran@mail.com", "21473918-Y", null 
 				}
@@ -89,13 +89,13 @@ public class RegisterManagerTest extends AbstractTest {
 	 * 6. El email tiene que tener el formato de un email
 	 * 7. El nombre no puede ser nulo
 	 * 8. El apellido no puede ser nulo
-	 * 9. El nombre no puede ser vacío
-	 * 10. El apellido no puede ser vacío
+	 * 9. El nombre no puede ser vacio
+	 * 10. El apellido no puede ser vacio
 	 * 11. El email no puede ser nulo
-	 * 12. El email no puede ser vacío
+	 * 12. El email no puede ser vacio
 	 * 13. El username debe estar entre 5 y 32
 	 * 14. La password debe estar entre 5 y 32
-	 * 	15. El vat no puede ser vacío
+	 * 	15. El vat no puede ser vacio
 	 * 16. El vat no puede ser nulo
 	 */
 	@Test()
@@ -112,37 +112,37 @@ public class RegisterManagerTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 				{
-					"user2", "manager13", "manager13", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", "21473918-Y", IllegalArgumentException.class 
+					"user2", "manager13", "manager13", "Antonio", "Azan", null, null, dateGood, "ant@mail.com", "21473918-Y", IllegalArgumentException.class 
 				}, {
-					"admin", "manager23", "manager23", "Antonio", "Azaña", "652147893", null, dateGood, "ant@mail.com", "21473918-Y", IllegalArgumentException.class 
+					"admin", "manager23", "manager23", "Antonio", "Azan", "652147893", null, dateGood, "ant@mail.com", "21473918-Y", IllegalArgumentException.class 
 				}, {
-					"manager1", "manager23", "manager23", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", "21473918-Y", IllegalArgumentException.class 
+					"manager1", "manager23", "manager23", "Antonio", "Perez", "", "Calle Manager N�41", dateGood, "ant@mail.com", "21473918-Y", IllegalArgumentException.class 
 				}, {
-					null, "alexito", "alexito","Alejandro", "Azaña", null, null, dateBad, "ant@mail.com", "21473918-Y", ConstraintViolationException.class 
+					null, "alexito", "alexito","Alejandro", "Azan", null, null, dateBad, "ant@mail.com", "21473918-Y", ConstraintViolationException.class 
 				}, {
-					null, "manuel", "manuel", "Manuel", "Azaña", null, null, null, "ant@mail.com", "21473918-Y", ConstraintViolationException.class 
+					null, "manuel", "manuel", "Manuel", "Azan", null, null, null, "ant@mail.com", "21473918-Y", ConstraintViolationException.class 
 				}, {
 					null, "marta", "marta", "Marta", "Sanchez", "664857123", "Calle Falsa 23", dateGood, "manuelito", "21473918-Y", ConstraintViolationException.class 
 				}, {
-					null, "azaña", "azaña", null, "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", "21473918-Y", ConstraintViolationException.class 
+					null, "azan", "azan", null, "Azan", "664857123", "Calle Inventada", dateGood, "m@mail.com", "21473918-Y", ConstraintViolationException.class 
 				}, {
 					null, "marta", "marta", "Marta", null, "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "21473918-Y", ConstraintViolationException.class 
 				}, {
-					null, "azaña2", "azaña2", "", "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", "21473918-Y", ConstraintViolationException.class 
+					null, "azan2", "azan2", "", "Azan", "664857123", "Calle Inventada", dateGood, "m@mail.com", "21473918-Y", ConstraintViolationException.class 
 				}, {
 					null, "marta2", "marta2", "Marta", "", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "21473918-Y", ConstraintViolationException.class 
 				},{
-					null, "marta3", "marta3", "Marta", "Azaña", "664857123", "Calle Novena", dateGood, null, "21473918-Y", ConstraintViolationException.class 
+					null, "marta3", "marta3", "Marta", "Azan", "664857123", "Calle Novena", dateGood, null, "21473918-Y", ConstraintViolationException.class 
 				}, {
-					null, "maria", "maria", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", "21473918-Y", ConstraintViolationException.class 
+					null, "maria", "maria", "Maria", "Villarin", "664254123", "Inserte direccion", dateGood, "", "21473918-Y", ConstraintViolationException.class 
 				}, {
-					null, "gost", "gostino", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", "21473918-Y", ConstraintViolationException.class 
+					null, "gost", "gostino", "Gostin", "Perez", "", "Calle User N�41", dateGood, "gostin@mail.com", "21473918-Y", ConstraintViolationException.class 
 				}, {
-					null, "administratoradministratoradministrator", "admin", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", "21473918-Y", ConstraintViolationException.class 
+					null, "administratoradministratoradministrator", "admin", "Gostin", "Perez", "", "Calle User N�41", dateGood, "gostin@mail.com", "21473918-Y", ConstraintViolationException.class 
 				}, {
-					null, "manager2", "manager2", "Zema", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "", DataIntegrityViolationException.class 
+					null, "manager2", "manager2", "Zema", "Perez", "", "Calle manager N�41", dateGood, "gostin@mail.com", "", DataIntegrityViolationException.class 
 				}, {
-					null, "manager1", "manager1", "Javier", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", null, DataIntegrityViolationException.class 
+					null, "manager1", "manager1", "Javier", "Perez", "", "Calle manager N�41", dateGood, "gostin@mail.com", null, DataIntegrityViolationException.class 
 				}		
 			};
 		

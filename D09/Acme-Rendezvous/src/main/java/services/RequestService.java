@@ -84,6 +84,7 @@ public class RequestService {
 		/* Solo puede crearlo o editarlo un user y debe ser el del rendezvous */
 		Assert.isTrue(LoginService.isAuthenticated());
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
 		Assert.isTrue(user.getUserAccount().getAuthorities().contains(authority));
 		Assert.isTrue(request.getRendezvous().getCreator().equals(user));
 
