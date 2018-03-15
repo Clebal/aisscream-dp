@@ -9,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.InternationalizationRepository;
+import security.Authority;
+import security.LoginService;
 import domain.Internationalization;
 
 @Service
@@ -21,7 +23,7 @@ public class InternationalizationService {
 
 	// Supporting services
 	@Autowired
-	Validator								validator;
+	private Validator						validator;
 
 
 	// Constructor
@@ -39,10 +41,23 @@ public class InternationalizationService {
 	}
 
 	public Internationalization save(final Internationalization internationalization) {
-		Internationalization result;
-
+		Internationalization result, saved;
+		Authority authority;
+		
 		Assert.notNull(internationalization);
-
+		
+		// No puede cambiar ni el countryCode ni el messageCode
+		if(internationalization.getId() != 0){
+			saved = this.internationalizationRepository.findOne(internationalization.getId());
+			Assert.isTrue(internationalization.getMessageCode().equals(saved.getMessageCode()));
+			Assert.isTrue(internationalization.getCountryCode().equals(saved.getCountryCode()));
+		}
+		
+		// Debe ser un admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+	
 		result = this.internationalizationRepository.save(internationalization);
 
 		return result;
@@ -71,6 +86,5 @@ public class InternationalizationService {
 		this.validator.validate(result, binding);
 
 		return result;
-
 	}
 }
