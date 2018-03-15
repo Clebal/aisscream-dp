@@ -1257,6 +1257,5 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<bean id="category12" class="domain.Category">
 		<property name="name" value="Categoría por defecto" />
 		<property name="description" value="Esta es una categoría por defecto. Puedes eliminarla si asocias más categorías a tu servicio." />
-		<property name="fatherCategory" ref="category10" />
 	</bean>
 </beans>
