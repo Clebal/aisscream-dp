@@ -31,7 +31,6 @@ public class UserService {
 	@Autowired
 	private Validator		validator;
 
-
 	// Supporting
 	// services-----------------------------------------------------------
 
@@ -73,7 +72,7 @@ public class UserService {
 		Assert.isTrue(userId != 0);
 
 		result = this.userRepository.findOne(userId);
-
+		
 		return result;
 	}
 
