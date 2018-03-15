@@ -93,6 +93,8 @@ public class CategoryService {
 		Assert.notNull(defaultCategory);
 		if (category.isDefaultCategory())
 			Assert.isTrue(defaultCategory.getId() == category.getId());
+		if (defaultCategory.getId() != category.getId())
+			Assert.isTrue(!category.isDefaultCategory());
 
 		//Vemos que su padre no sea ella misma
 		if (category.getFatherCategory() != null)
@@ -259,6 +261,14 @@ public class CategoryService {
 		Page<Category> result;
 
 		result = this.categoryRepository.findAllPaginated(this.getPageable(page, size));
+
+		return result;
+	}
+
+	public Category findByDefaultCategory() {
+		Category result;
+
+		result = this.categoryRepository.findByDefaultCategory();
 
 		return result;
 	}
