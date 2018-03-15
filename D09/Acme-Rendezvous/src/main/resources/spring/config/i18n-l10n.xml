@@ -44,7 +44,7 @@
 		<value>/views/service/messages</value>
         <value>/views/request/messages</value>
 		<value>/views/category/messages</value>
-		
+		<value>/views/configuration/messages</value>
 		
 	</util:list>
 

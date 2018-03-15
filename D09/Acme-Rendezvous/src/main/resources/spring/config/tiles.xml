@@ -37,15 +37,14 @@
 		
 		<value>/views/aboutUs/tiles.xml</value>
 		<value>/views/dashboard/tiles.xml</value>
-		
+
 		<!-- D09 -->
 		<value>/views/creditcard/tiles.xml</value>
 		<value>/views/manager/tiles.xml</value>
 		<value>/views/service/tiles.xml</value>
         <value>/views/request/tiles.xml</value>
 		<value>/views/category/tiles.xml</value>
-
-		
+		<value>/views/configuration/tiles.xml</value>
 		
 	</util:list>
 
