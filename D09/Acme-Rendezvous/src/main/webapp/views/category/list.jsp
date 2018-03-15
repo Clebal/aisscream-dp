@@ -59,11 +59,11 @@
 </display:table>
 
 
-<jstl:if test="${serviceId==0}">
+<jstl:if test="${serviceId!=0}">
 	<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}" parameter="serviceId" parameterValue="${serviceId}"/>
 </jstl:if>
 
-<jstl:if test="${serviceId!=0}">
+<jstl:if test="${serviceId==0}">
 	<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}"/>
 </jstl:if>
 
