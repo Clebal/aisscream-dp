@@ -28,7 +28,7 @@
 					<a href="${urlAddCategory }"> <spring:message code="category.add" /></a>
 			</jstl:if>
 			
-			<jstl:if test="${action.equals('remove') && !(row().isDefaultCategory() && categories.size()==1)}">
+			<jstl:if test="${action.equals('remove') && !(row.isDefaultCategory() && categories.size()==1)}">
 				<spring:url var="urlRemoveCategory" value="service/manager/removeCategory.do">
 					<spring:param name="serviceId" value="${serviceId}" />
 					<spring:param name="categoryId" value="${row.getId()}" />
