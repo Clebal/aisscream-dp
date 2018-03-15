@@ -113,7 +113,7 @@
 <security:authorize access="hasRole('MANAGER')">
 	<div>
 	<br>
-		<a href="service/manager/create.do">
+		<a href="category/manager/createService.do">
 			<spring:message code="service.create" />
 		</a>
 	</div>

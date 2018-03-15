@@ -40,11 +40,13 @@ public class ServiceManagerController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int categoryId) {
 		ModelAndView result;
 		Service service;
 
-		service = this.serviceService.create();
+		Assert.isTrue(categoryId != 0);
+
+		service = this.serviceService.create(categoryId);
 
 		result = this.createEditModelAndView(service);
 

@@ -43,23 +43,30 @@ public class ServiceService {
 	@Autowired
 	private RendezvousService	rendezvousService;
 
+	@Autowired
+	private CategoryService		categoryService;
+
 
 	// Constructors -----------------------------------------------------------
 	public ServiceService() {
 		super();
 	}
 
-	public Service create() {
+	public Service create(final int categoryId) {
 		Service result;
 		Collection<Category> categories;
 		Authority authority;
+		Category category;
 
 		authority = new Authority();
 		authority.setAuthority("MANAGER");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
+		category = this.categoryService.findOne(categoryId);
+		Assert.notNull(category);
 		categories = new ArrayList<Category>();
+		categories.add(category);
 		result = new Service();
 		result.setManager(this.managerService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		result.setStatus("ACCEPTED");
@@ -67,7 +74,6 @@ public class ServiceService {
 
 		return result;
 	}
-
 	public Collection<Service> findAll() {
 		Collection<Service> result;
 
@@ -112,7 +118,7 @@ public class ServiceService {
 		Assert.isTrue(service.getManager().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		if (service.getId() == 0) {
 			Assert.isTrue(service.getStatus().equals("ACCEPTED"));
-			Assert.isTrue(service.getCategories().isEmpty());
+			Assert.isTrue(service.getCategories().size() == 1);
 		} else {
 			saved = this.findOne(service.getId());
 			Assert.isTrue(service.getManager().getId() == saved.getManager().getId()); //No puede cambiar de manager
@@ -160,6 +166,10 @@ public class ServiceService {
 
 	public void removeCategory(final Service service, final Category category) {
 
+		Category defaulcategory;
+
+		defaulcategory = this.categoryService.findByDefaultCategory();
+
 		Assert.notNull(service);
 
 		Assert.notNull(category);
@@ -170,7 +180,13 @@ public class ServiceService {
 
 		Assert.isTrue(service.getManager().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
-		service.getCategories().remove(category);
+		if (service.getCategories().size() == 1) {
+			if (category.isDefaultCategory() == false) {
+				service.getCategories().add(defaulcategory);
+				service.getCategories().remove(category);
+			}
+		} else
+			service.getCategories().remove(category);
 
 		this.serviceRepository.save(service);
 
