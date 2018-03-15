@@ -57,6 +57,11 @@
 		<security:authorize access="hasRole('ADMIN')">		
 			<acme:displayLink code="category.create" action="category/administrator/create.do" css="btn btn-primary"></acme:displayLink>
 		</security:authorize>
+		
+		<!-- Mover a la raíz -->
+		<jstl:if test="${categoryToMoveId!=null}">
+			<acme:displayLink parametre="categoryNewFatherId" code="category.move.here" action="category/administrator/reorganising.do" parametreValue="${0}" parametre2="categoryToMoveId" parametreValue2="${categoryToMoveId}" css="btn btn-warning"></acme:displayLink>
+		</jstl:if>
 	</jstl:if>
 	
 	

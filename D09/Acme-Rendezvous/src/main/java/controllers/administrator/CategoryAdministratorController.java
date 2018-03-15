@@ -50,8 +50,12 @@ public class CategoryAdministratorController extends AbstractController {
 		Category categoryNewFather;
 		Category categoryToMove;
 
-		categoryNewFather = this.categoryService.findOne(categoryNewFatherId);
-		Assert.notNull(categoryNewFather);
+		if (categoryNewFatherId == 0)
+			categoryNewFather = null;
+		else {
+			categoryNewFather = this.categoryService.findOne(categoryNewFatherId);
+			Assert.notNull(categoryNewFather);
+		}
 
 		categoryToMove = this.categoryService.findOne(categoryToMoveId);
 		Assert.notNull(categoryToMove);
