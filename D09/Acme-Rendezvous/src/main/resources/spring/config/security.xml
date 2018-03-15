@@ -129,6 +129,7 @@
 		<security:intercept-url pattern="/rendezvous/bycategory.do" access="permitAll" /> 
 		<security:intercept-url pattern="/category/manager/removeCategory.do" access="hasRole('MANAGER')" /> 
 		<security:intercept-url pattern="/category/manager/addCategory.do" access="hasRole('MANAGER')" />   
+		<security:intercept-url pattern="/category/manager/createService.do" access="hasRole('MANAGER')" /> 
 		 
 		 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

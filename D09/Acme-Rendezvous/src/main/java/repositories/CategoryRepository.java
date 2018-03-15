@@ -31,6 +31,12 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
 	@Query("select avg(cast((select count(distinct c ) from Request req join req.service.categories c where req.rendezvous.id=r.id)as float)) from Rendezvous r")
 	double avgNumberCategoriesPerRendezvous();
+
+	@Query("select c from Category c where c.defaultCategory=true")
+	Category findByDefaultCategory();
+
+	@Query("select c from Category c")
+	Page<Category> findAllPaginated(Pageable pageable);
 	//Contando duplicados
 	//select avg(cast((select sum(req.service.categories.size) from Request req where req.rendezvous.id=r.id)as float)) from Rendezvous r;
 

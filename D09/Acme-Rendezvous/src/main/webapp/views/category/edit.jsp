@@ -26,8 +26,9 @@
 		
 	
 	<acme:submit name="save" code="category.save" />
-		
-	<jstl:if test="${category.getId()!= 0}">
+	
+	<!-- Si es una category por defecto no se puede borrar -->	
+	<jstl:if test="${category.getId()!= 0 && !category.isDefaultCategory()}">
 		<acme:submit name="delete" code="category.delete" codeDelete="category.confirm.delete"/>
 	</jstl:if>
 

@@ -1196,78 +1196,78 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<!-- Category -->
 	<bean id="category1" class="domain.Category">
 		<property name="name" value="Comida" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Services de comida para tus momentos más especiales" />
 	</bean>
 	
 	<bean id="category2" class="domain.Category">
 		<property name="name" value="Varios" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Services varios con categorías" />
 	</bean>
 	
 	<bean id="category3" class="domain.Category">
 		<property name="name" value="Ropa" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Services para vertir muy bien" />
 	</bean>
 	
 	<bean id="category4" class="domain.Category">
 		<property name="name" value="Verdes" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Service de comida vegetariana o vegana" />
 		<property name="fatherCategory" ref="category1" />
 	</bean>
 	
 	<bean id="category5" class="domain.Category">
 		<property name="name" value="Vegana" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Service de comida vegana" />
 		<property name="fatherCategory" ref="category4" />
 	</bean>
 	
 	<bean id="category6" class="domain.Category">
 		<property name="name" value="Vegetariana" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Service de comida vegetariana" />
 		<property name="fatherCategory" ref="category4" />
 	</bean>
 	
 	<bean id="category7" class="domain.Category">
 		<property name="name" value="Viajes" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Services de las mejores agencias de viajes" />
 	</bean>
 	
 	<bean id="category8" class="domain.Category">
 		<property name="name" value="Lujos" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Services para tus citas más exclusivas y elegantes" />
 	</bean>
 
 	<bean id="category9" class="domain.Category">
 		<property name="name" value="Puros" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Services para los mejores puros" />
 	</bean>
 	
 	<bean id="category10" class="domain.Category">
 		<property name="name" value="Varios 1.1" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Services varios 1.1 con categorías" />
 		<property name="fatherCategory" ref="category2" />
 	</bean>
 	
 	<bean id="category11" class="domain.Category">
 		<property name="name" value="Varios 1.1.1" />
-		<property name="default" value="false" />
+		<property name="defaultCategory" value="false" />
 		<property name="description" value="Services varios 1.1.1 sin categorías" />
 		<property name="fatherCategory" ref="category10" />
 	</bean>
 	
 	<bean id="category12" class="domain.Category">
 		<property name="name" value="Categoría por defecto" />
-		<property name="default" value="true" />
+		<property name="defaultCategory" value="true" />
 		<property name="description" value="Esta es una categoría por defecto. Puedes eliminarla si asocias más categorías a tu servicio." />
 	</bean>
 </beans>

@@ -13,10 +13,21 @@
 <div class="container">
 
 	<jstl:if test="${category!=null}">
+	
+		<!-- Marcamos la categoría como por defecto -->
+		<jstl:if test="${category.isDefaultCategory()}">
+			<div style="background: #8BC34A; text-align: center; padding:5px; font-weight:bold;">
+				<spring:message code="category.default"/>
+			</div>
+			<br/>
+		</jstl:if>
+		
+		
 		<acme:display code="category.name" value="${category.getName()}"/>
 	
 		<acme:display code="category.description" value="${category.getDescription()}"/>
 		
+		<!-- Navegamos a la categoría padre -->
 		<jstl:if test="${category.getFatherCategory()!=null}">
 			<acme:displayLink parametre="categoryId" code="category.father.category" action="category/display.do" parametreValue="${category.getFatherCategory().getId()}" parametre2="categoryToMoveId" parametreValue2="${categoryToMoveId}" css="btn btn-primary"></acme:displayLink>		
 		</jstl:if>
@@ -25,21 +36,26 @@
 			<acme:displayLink code="category.father.category" action="category/display.do"  parametre="categoryToMoveId" parametreValue="${categoryToMoveId}" css="btn btn-primary"></acme:displayLink>		
 		</jstl:if>
 		
+		<!-- Si es un admin -->
 		<security:authorize access="hasRole('ADMIN')">
+			
+			<!-- Creación y edición de categoria -->
 			<acme:displayLink parametre="categoryId" code="category.edit" action="category/administrator/edit.do" parametreValue="${category.getId()}" css="btn btn-primary"></acme:displayLink>
 			<acme:displayLink parametre="fatherCategoryId" code="category.create" action="category/administrator/create.do" parametreValue="${category.getId()}" css="btn btn-primary"></acme:displayLink>
 			
 			<!-- Ponemos enlaces para controlar la reorganización -->
-			<jstl:if test="${categoryToMoveId==null}">
+			<jstl:if test="${categoryToMoveId==null && !category.isDefaultCategory()}">
 				<acme:displayLink parametre="categoryId" code="category.move.this" action="category/display.do" parametreValue="${category.getId()}" parametre2="page" parametreValue2="${page}" parametre3="categoryToMoveId" parametreValue3="${category.getId()}" css="btn btn-primary"></acme:displayLink>
 			</jstl:if>
 			
 			<jstl:if test="${categoryToMoveId!=null}">
 				
+				<!-- Si movemos a una categoría distinta, mostramos el botón -->
 				<jstl:if test="${categoryToMoveId!= category.getId()}">
 					<acme:displayLink parametre="categoryNewFatherId" code="category.move.here" action="category/administrator/reorganising.do" parametreValue="${category.getId()}" parametre2="categoryToMoveId" parametreValue2="${categoryToMoveId}" css="btn btn-warning"></acme:displayLink>
 				</jstl:if>
 				
+				<!-- Si estamos en la categoría que vamos a mover mostramos un mensaje -->
 				<jstl:if test="${categoryToMoveId== category.getId()}">
 					<spring:message code="category.navigation" var="navigation"></spring:message>
 					<p><jstl:out value="${navigation}"></jstl:out></p>
@@ -49,10 +65,12 @@
 			</jstl:if>
 		</security:authorize>
 		
+		<!-- Mostramos los rendezvous asociados a una categoría -->
 		<acme:displayLink code="category.rendezvous" action="rendezvous/bycategory.do"  parametre="categoryId" parametreValue="${category.getId()}" css="btn btn-primary"></acme:displayLink>	
 		
 	</jstl:if>
 	
+	<!-- Si estamos en la raíz damos opción a crear categoría o mover una categoría a la raíz -->
 	<jstl:if test="${category==null}">
 		<security:authorize access="hasRole('ADMIN')">		
 			<acme:displayLink code="category.create" action="category/administrator/create.do" css="btn btn-primary"></acme:displayLink>

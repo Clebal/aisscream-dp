@@ -55,7 +55,25 @@ public class CategoryManagerController extends AbstractController {
 		return result;
 	}
 
-	//TODO Falta paginar
+	@RequestMapping(value = "/createService", method = RequestMethod.GET)
+	public ModelAndView createService(@RequestParam(required = false, defaultValue = "1") final Integer page) {
+		ModelAndView result;
+		Page<Category> categories;
+
+		categories = this.categoryService.findAllPaginated(page, 5);
+		Assert.notNull(categories);
+
+		result = new ModelAndView("category/list");
+		result.addObject("pageNumber", categories.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("serviceId", 0);
+		result.addObject("action", "create");
+		result.addObject("categories", categories.getContent());
+		result.addObject("requestURI", "category/manager/createService.do");
+
+		return result;
+	}
+
 	@RequestMapping(value = "/removeCategory", method = RequestMethod.GET)
 	public ModelAndView removeCategory(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam final int serviceId) {
 		ModelAndView result;

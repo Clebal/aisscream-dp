@@ -37,6 +37,13 @@
 			</jstl:if>
 			
 			
+			<jstl:if test="${action.equals('create')}">
+				<spring:url var="urlCreateService" value="service/manager/create.do">
+					<spring:param name="categoryId" value="${row.getId()}" />
+				</spring:url>
+				<a href="${urlCreateService}"> <spring:message code="category.choose.create" /></a>
+			</jstl:if>
+			
 			
 			</display:column>
 			
@@ -51,7 +58,15 @@
 	
 </display:table>
 
-<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}" parameter="serviceId" parameterValue="${serviceId}"/>
+
+<jstl:if test="${serviceId==0}">
+	<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}" parameter="serviceId" parameterValue="${serviceId}"/>
+</jstl:if>
+
+<jstl:if test="${serviceId!=0}">
+	<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}"/>
+</jstl:if>
+
 
 
 

@@ -51,9 +51,12 @@ public class CategoryService {
 		if (category != null)
 			result.setFatherCategory(category);
 
+		category.setDefaultCategory(false);
+
 		return result;
 	}
 
+	//Lo usamos para escoger la primera categoría
 	//	public Collection<Category> findAll() {
 	//		Collection<Category> result;
 	//
@@ -76,6 +79,7 @@ public class CategoryService {
 		Authority authority;
 		Actor actor;
 		Category result;
+		Category defaultCategory;
 
 		//Vemos que sea un admin el que modifica las categorias
 		authority = new Authority();
@@ -83,6 +87,12 @@ public class CategoryService {
 		actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+
+		//Cogemos la categoría por defecto. Solo se puede actualizar, no crear ni cambiar una a default.
+		defaultCategory = this.categoryRepository.findByDefaultCategory();
+		Assert.notNull(defaultCategory);
+		if (category.isDefaultCategory())
+			Assert.isTrue(defaultCategory.getId() == category.getId());
 
 		//Vemos que su padre no sea ella misma
 		if (category.getFatherCategory() != null)
@@ -100,6 +110,7 @@ public class CategoryService {
 		Collection<Category> serviceCategories;
 		Collection<Service> services;
 		Service service;
+		Category defaultCategory;
 
 		Assert.notNull(category);
 
@@ -107,6 +118,12 @@ public class CategoryService {
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		//Cogemos la categoría por defecto
+		defaultCategory = this.categoryRepository.findByDefaultCategory();
+		Assert.notNull(defaultCategory);
+		//Vemos que el administrador no borre la categoría por defecto
+		Assert.isTrue(category.getId() != defaultCategory.getId());
 
 		childrenCategories = this.findAllByFatherCategoryId(category.getId());
 		Assert.notNull(childrenCategories);
@@ -122,6 +139,13 @@ public class CategoryService {
 			serviceCategories = service.getCategories();
 			serviceCategories.remove(category);
 			service.setCategories(serviceCategories);
+
+			//Vemos que no se quede sin categoría, si es así metemos la categoria por defecto
+			if (service.getCategories().size() == 0) {
+				serviceCategories.add(defaultCategory);
+				service.setCategories(serviceCategories);
+			}
+
 			this.serviceService.saveFromCategory(service);
 
 		}
@@ -140,6 +164,7 @@ public class CategoryService {
 	public void reorganising(final Category category, final Category newFather) {
 		Authority authority;
 		Collection<Category> childrenCategory;
+		Category defaultCategory;
 
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
@@ -147,6 +172,12 @@ public class CategoryService {
 
 		//La categoría a mover no puede ser null
 		Assert.notNull(category);
+
+		//No se puede mover la categoría por defecto
+		//Cogemos la categoría por defecto
+		defaultCategory = this.categoryRepository.findByDefaultCategory();
+		Assert.notNull(defaultCategory);
+		Assert.isTrue(!category.equals(defaultCategory));
 
 		//Si quisieramos que solo se moviera una categoría sin sus hijas
 
@@ -224,6 +255,14 @@ public class CategoryService {
 		return result;
 	}
 
+	public Page<Category> findAllPaginated(final int page, final int size) {
+		Page<Category> result;
+
+		result = this.categoryRepository.findAllPaginated(this.getPageable(page, size));
+
+		return result;
+	}
+
 	//Auxilary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
@@ -244,9 +283,11 @@ public class CategoryService {
 			aux = this.categoryRepository.findOne(category.getId());
 			category.setVersion(aux.getVersion());
 			category.setFatherCategory(aux.getFatherCategory());
+			category.setDefaultCategory(aux.isDefaultCategory());
 		} else {
 			aux = this.create(category.getFatherCategory());
 			category.setVersion(aux.getVersion());
+			category.setDefaultCategory(false);
 		}
 
 		this.validator.validate(category, binding);
