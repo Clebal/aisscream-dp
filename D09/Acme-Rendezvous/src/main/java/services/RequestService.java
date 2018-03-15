@@ -6,7 +6,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -17,22 +16,23 @@ import security.UserAccount;
 import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
-import domain.Servicio;
+import domain.Service;
 import domain.User;
 
-@Service
+@org.springframework.stereotype.Service
 @Transactional
 public class RequestService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private RequestRepository requestRepository;
+	private UserService			userService;
 
 	@Autowired
-	private CreditCardService		creditCardService;
+	private RequestRepository	requestRepository;
+
+	@Autowired
+	private CreditCardService	creditCardService;
+
 
 	// Supporting
 	// services-----------------------------------------------------------
@@ -44,12 +44,12 @@ public class RequestService {
 
 	// Simple CRUD
 	// methods-----------------------------------------------------------
-	public Request create(final Rendezvous rendezvous, final Servicio servicio) {
+	public Request create(final Rendezvous rendezvous, final Service service) {
 		Request result;
-		
+
 		result = new Request();
 		result.setRendezvous(rendezvous);
-		result.setServicio(servicio);
+		result.setService(service);
 
 		return result;
 	}
@@ -80,28 +80,28 @@ public class RequestService {
 
 		authority = new Authority();
 		authority.setAuthority("USER");
-		
-		/* Solo puede crearlo o editarlo un user y debe ser el del rendezvous*/
+
+		/* Solo puede crearlo o editarlo un user y debe ser el del rendezvous */
 		Assert.isTrue(LoginService.isAuthenticated());
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.isTrue(user.getUserAccount().getAuthorities().contains(authority));
 		Assert.isTrue(request.getRendezvous().getCreator().equals(user));
-		
-		/*  El rendezvous no pueda estar borrado y además debes mirar que no exista un request ya para ese servicio y ese rendezvous */ 
+
+		/* El rendezvous no pueda estar borrado y además debes mirar que no exista un request ya para ese service y ese rendezvous */
 
 		Assert.isTrue(!request.getRendezvous().getIsDeleted());
-		Assert.isNull(this.findRequestEqualRendezvousServicio(request.getRendezvous().getId(), request.getServicio().getId()));
-		
+		Assert.isNull(this.findRequestEqualRendezvousService(request.getRendezvous().getId(), request.getService().getId()));
+
 		/* La creditCard debe pertenecer al usuario */
-		
+
 		creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.isTrue(creditCards.contains(request.getCreditCard()));
-		
+
 		result = this.requestRepository.save(request);
 
 		return result;
 	}
-	
+
 	public void delete(final Request request) {
 		User user;
 
@@ -117,17 +117,17 @@ public class RequestService {
 	}
 
 	// Other business methods
-	
-	public Request findRequestEqualRendezvousServicio(final int rendezvousId, final int servicioId) {
+
+	public Request findRequestEqualRendezvousService(final int rendezvousId, final int serviceId) {
 		Request result;
 
-		Assert.isTrue(rendezvousId != 0 && servicioId != 0);
+		Assert.isTrue(rendezvousId != 0 && serviceId != 0);
 
-		result = this.requestRepository.findRequestEqualRendezvousServicio(rendezvousId, servicioId);
+		result = this.requestRepository.findRequestEqualRendezvousService(rendezvousId, serviceId);
 
 		return result;
 	}
-	
+
 	public Collection<Request> findAllPaginated(final int userId, final int page, final int size) {
 		Collection<Request> result;
 		Pageable pageable;
@@ -137,14 +137,14 @@ public class RequestService {
 		authority = new Authority();
 		authority.setAuthority("USER");
 
-		if(LoginService.isAuthenticated()) {
+		if (LoginService.isAuthenticated()) {
 			userAccount = LoginService.getPrincipal();
 			Assert.notNull(userAccount);
 			Assert.isTrue(userAccount.getAuthorities().contains(authority));
 		}
-		
+
 		Assert.isTrue(userId != 0);
-		
+
 		if (page == 0 || size <= 0)
 			pageable = new PageRequest(0, 5);
 		else
@@ -157,14 +157,14 @@ public class RequestService {
 
 	public Integer countAllPaginated(final int userId) {
 		Integer result;
-		
+
 		Assert.isTrue(userId != 0);
 
 		result = this.requestRepository.findAllCount(userId);
 
 		return result;
 	}
-	
+
 	public Integer countByCreditCardId(final int creditCardId) {
 		Integer result;
 
@@ -174,46 +174,48 @@ public class RequestService {
 
 		return result;
 	}
-	
-	public Integer countByServicioId(final int servicioId) {
+
+	public Integer countByServiceId(final int serviceId) {
 		Integer result;
 
-		Assert.isTrue(servicioId != 0);
+		Assert.isTrue(serviceId != 0);
 
-		result = this.requestRepository.countByServicioId(servicioId);
+		result = this.requestRepository.countByServiceId(serviceId);
 
 		return result;
 	}
 
-	/*public User reconstruct(final UserForm userForm, final BindingResult binding) {
-		User result;
-
-		this.validator.validate(userForm, binding);
-
-		if (userForm.getId() == 0) {
-			result = this.create();
-
-			Assert.notNull(result);
-			Assert.isTrue(userForm.getCheckPassword().equals(userForm.getPassword()));
-			Assert.isTrue(userForm.isCheck());
-
-			result.getUserAccount().setUsername(userForm.getUsername());
-			result.getUserAccount().setPassword(userForm.getPassword());
-
-		} else {
-			result = this.findOne(userForm.getId());
-			Assert.notNull(result);
-			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
-		}
-
-		result.setName(userForm.getName());
-		result.setSurname(userForm.getSurname());
-		result.setAddress(userForm.getAddress());
-		result.setBirthdate(userForm.getBirthdate());
-		result.setEmail(userForm.getEmail());
-		result.setPhone(userForm.getPhone());
-
-		return result;
-	}*/
+	/*
+	 * public User reconstruct(final UserForm userForm, final BindingResult binding) {
+	 * User result;
+	 * 
+	 * this.validator.validate(userForm, binding);
+	 * 
+	 * if (userForm.getId() == 0) {
+	 * result = this.create();
+	 * 
+	 * Assert.notNull(result);
+	 * Assert.isTrue(userForm.getCheckPassword().equals(userForm.getPassword()));
+	 * Assert.isTrue(userForm.isCheck());
+	 * 
+	 * result.getUserAccount().setUsername(userForm.getUsername());
+	 * result.getUserAccount().setPassword(userForm.getPassword());
+	 * 
+	 * } else {
+	 * result = this.findOne(userForm.getId());
+	 * Assert.notNull(result);
+	 * Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
+	 * }
+	 * 
+	 * result.setName(userForm.getName());
+	 * result.setSurname(userForm.getSurname());
+	 * result.setAddress(userForm.getAddress());
+	 * result.setBirthdate(userForm.getBirthdate());
+	 * result.setEmail(userForm.getEmail());
+	 * result.setPhone(userForm.getPhone());
+	 * 
+	 * return result;
+	 * }
+	 */
 
 }

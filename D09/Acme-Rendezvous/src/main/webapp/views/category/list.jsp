@@ -21,16 +21,16 @@
 			<display:column>
 		
 			<jstl:if test="${action.equals('add')}">
-					<spring:url var="urlAddCategory" value="servicio/manager/addCategory.do">
-						<spring:param name="servicioId" value="${servicioId}" />
+					<spring:url var="urlAddCategory" value="service/manager/addCategory.do">
+						<spring:param name="serviceId" value="${serviceId}" />
 						<spring:param name="categoryId" value="${row.getId()}" />
 					</spring:url>
 					<a href="${urlAddCategory }"> <spring:message code="category.add" /></a>
 			</jstl:if>
 			
 			<jstl:if test="${action.equals('remove')}">
-				<spring:url var="urlRemoveCategory" value="servicio/manager/removeCategory.do">
-					<spring:param name="servicioId" value="${servicioId}" />
+				<spring:url var="urlRemoveCategory" value="service/manager/removeCategory.do">
+					<spring:param name="serviceId" value="${serviceId}" />
 					<spring:param name="categoryId" value="${row.getId()}" />
 				</spring:url>
 				<a href="${urlRemoveCategory }"> <spring:message code="category.remove" /></a>
@@ -51,7 +51,7 @@
 	
 </display:table>
 
-<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}" parameter="servicioId" parameterValue="${servicioId}"/>
+<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${categories}" page="${page}" parameter="serviceId" parameterValue="${serviceId}"/>
 
 
 

@@ -735,7 +735,7 @@
 Es requisito necesario para la adquisición de los productos que
 	se ofrecen en este sitio, que lea y acepte los siguientes Términos y
 	Condiciones que a continuación se redactan. El uso de nuestros
-	servicios así como la compra de nuestros productos implicará que usted
+	services así como la compra de nuestros productos implicará que usted
 	ha leído y aceptado los Términos y Condiciones de Uso en el presente
 	documento. Todas los productos que son ofrecidos por nuestro
 	sitio web pudieran ser creadas, cobradas, enviadas o presentadas por
@@ -836,7 +836,7 @@ Acme-Rendezvous reserva los derechos de cambiar o de modificar
 	LEGISLACIÓN APLICABLE
 El Aviso Legal y las Condiciones Generales de Uso se rigen por las siguientes normas:
 
-La Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE) (particularmente, su artículo 10).
+La Ley 34/2002, de 11 de julio, de Services de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE) (particularmente, su artículo 10).
 La Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal (LOPD).
 El Real Decreto 1720/2007, de 21 de diciembre, por el que se aprueba el Reglamento de desarrollo de la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal." />
 
@@ -1001,7 +1001,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 	<!-- Service -->
-	<bean id="service1" class="domain.Servicio">
+	<bean id="service1" class="domain.Service">
 		<property name="name" value="Comida extragrande" />
 		<property name="description" value="Lo que a ti te gusta es comer bien ;)" />
 		<property name="picture" value="https://lh3.googleusercontent.com/p/AF1QipNhthr2MNv4L_ckPDh_oieqC3rEOCY99cLX1TiV=w600-k" />
@@ -1014,8 +1014,8 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		</property>
 	</bean>
 	
-	<bean id="service2" class="domain.Servicio">
-		<property name="name" value="Servicio de mascotas" />
+	<bean id="service2" class="domain.Service">
+		<property name="name" value="Service de mascotas" />
 		<property name="description" value="Si sus amigos están pensando en ir o no ir a una quedada por sus mascotas, no se preocupe que nosotros nos encargaremos." />
 		<property name="status" value="ACCEPTED" />
 		<property name="manager" ref="manager1" />
@@ -1026,7 +1026,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		</property>
 	</bean>
 	
-	<bean id="service3" class="domain.Servicio">
+	<bean id="service3" class="domain.Service">
 		<property name="name" value="Matones a sueldo" />
 		<property name="description" value="¿Hay algún compañero de trabajo que te molesta? ¿Alguien que no te cae bien? No digas más. Nos encargamos." />
 		<property name="picture" value="https://buhomag-cms.imgix.net/2015/11/11162815/br.jpg?auto=compress,format" />
@@ -1040,7 +1040,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		</property>
 	</bean>
 	
-	<bean id="service4" class="domain.Servicio">
+	<bean id="service4" class="domain.Service">
 		<property name="name" value="Ropa de gala" />
 		<property name="description" value="Durante una cena elegante no puede faltar un buen modelito. Ofréceles a tus compañeros vestir de primera." />
 		<property name="picture" value="http://www.cheatsheet.com/wp-content/uploads/2015/11/Men-Clothing-in-Fashion-Store.jpg" />
@@ -1053,8 +1053,8 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		</property>
 	</bean>
 	
-	<bean id="service5" class="domain.Servicio">
-		<property name="name" value="Servicio de piruletas" />
+	<bean id="service5" class="domain.Service">
+		<property name="name" value="Service de piruletas" />
 		<property name="description" value="Si os dan miedo las agujas, nada vendrá mejor que una piruleta post-inyección. ¡Disfrútadlas!" />
 		<property name="picture" value="https://articles-images.sftcdn.net/wp-content/uploads/sites/2/2014/10/Android-Lollipop-568x319.jpg" />
 		<property name="status" value="ACCEPTED" />
@@ -1066,7 +1066,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		</property>
 	</bean>
 	
-	<bean id="service6" class="domain.Servicio">
+	<bean id="service6" class="domain.Service">
 		<property name="name" value="Equipo médico de primera" />
 		<property name="description" value="Medicos e hijos ofrecen una amplia gama de equipo médico para revisiones médicas, conferencias, etc." />
 		<property name="status" value="ACCEPTED" />
@@ -1078,9 +1078,9 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		</property>
 	</bean>
 	
-	<bean id="service7" class="domain.Servicio">
+	<bean id="service7" class="domain.Service">
 		<property name="name" value="Limusinas GRANDES" />
-		<property name="description" value="GRANDES S.L. ofrece un amplio servicio de limusinas para sus ocasiones más especiales." />
+		<property name="description" value="GRANDES S.L. ofrece un amplio service de limusinas para sus ocasiones más especiales." />
 		<property name="status" value="ACCEPTED" />
 		<property name="manager" ref="manager2" />
 		<property name="categories">
@@ -1093,51 +1093,51 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<!-- Request -->
 	<bean id="request1" class="domain.Request">
 		<property name="comments" value="La limusina rosa es nuestra favorita." />
-		<property name="servicio" ref="service7" />
+		<property name="service" ref="service7" />
 		<property name="rendezvous" ref="rendezvous9" />
 		<property name="creditCard" ref="creditCard3" />
 	</bean>
 	
 	<bean id="request2" class="domain.Request">
-		<property name="servicio" ref="service7" />
+		<property name="service" ref="service7" />
 		<property name="rendezvous" ref="rendezvous3" />
 		<property name="creditCard" ref="creditCard4" />
 	</bean>
 	
 	<bean id="request3" class="domain.Request">
-		<property name="servicio" ref="service2" />
+		<property name="service" ref="service2" />
 		<property name="rendezvous" ref="rendezvous2" />
 		<property name="creditCard" ref="creditCard3" />
 	</bean>
 	
 	<bean id="request4" class="domain.Request">
-		<property name="servicio" ref="service5" />
+		<property name="service" ref="service5" />
 		<property name="rendezvous" ref="rendezvous3" />
 		<property name="creditCard" ref="creditCard4" />
 	</bean>
 	
 	<bean id="request5" class="domain.Request">
-		<property name="servicio" ref="service3" />
+		<property name="service" ref="service3" />
 		<property name="rendezvous" ref="rendezvous4" />
 		<property name="creditCard" ref="creditCard1" />
 	</bean>
 	
 	<bean id="request6" class="domain.Request">
 		<property name="comments" value="Que sea bien grande :D No me fallen." />
-		<property name="servicio" ref="service1" />
+		<property name="service" ref="service1" />
 		<property name="rendezvous" ref="rendezvous8" />
 		<property name="creditCard" ref="creditCard3" />
 	</bean>
 	
 	<bean id="request7" class="domain.Request">
-		<property name="servicio" ref="service4" />
+		<property name="service" ref="service4" />
 		<property name="rendezvous" ref="rendezvous6" />
 		<property name="creditCard" ref="creditCard3" />
 	</bean>
 	
 	<bean id="request8" class="domain.Request">
 		<property name="comments" value="Piruletas sobre todo de fresa." />
-		<property name="servicio" ref="service5" />
+		<property name="service" ref="service5" />
 		<property name="rendezvous" ref="rendezvous3" />
 		<property name="creditCard" ref="creditCard4" />
 	</bean>
@@ -1196,61 +1196,61 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<!-- Category -->
 	<bean id="category1" class="domain.Category">
 		<property name="name" value="Comida" />
-		<property name="description" value="Servicios de comida para tus momentos más especiales" />
+		<property name="description" value="Services de comida para tus momentos más especiales" />
 	</bean>
 	
 	<bean id="category2" class="domain.Category">
 		<property name="name" value="Varios" />
-		<property name="description" value="Servicios varios con categorías" />
+		<property name="description" value="Services varios con categorías" />
 	</bean>
 	
 	<bean id="category3" class="domain.Category">
 		<property name="name" value="Ropa" />
-		<property name="description" value="Servicios para vertir muy bien" />
+		<property name="description" value="Services para vertir muy bien" />
 	</bean>
 	
 	<bean id="category4" class="domain.Category">
 		<property name="name" value="Verdes" />
-		<property name="description" value="Servicio de comida vegetariana o vegana" />
+		<property name="description" value="Service de comida vegetariana o vegana" />
 		<property name="fatherCategory" ref="category1" />
 	</bean>
 	
 	<bean id="category5" class="domain.Category">
 		<property name="name" value="Vegana" />
-		<property name="description" value="Servicio de comida vegana" />
+		<property name="description" value="Service de comida vegana" />
 		<property name="fatherCategory" ref="category4" />
 	</bean>
 	
 	<bean id="category6" class="domain.Category">
 		<property name="name" value="Vegetariana" />
-		<property name="description" value="Servicio de comida vegetariana" />
+		<property name="description" value="Service de comida vegetariana" />
 		<property name="fatherCategory" ref="category4" />
 	</bean>
 	
 	<bean id="category7" class="domain.Category">
 		<property name="name" value="Viajes" />
-		<property name="description" value="Servicios de las mejores agencias de viajes" />
+		<property name="description" value="Services de las mejores agencias de viajes" />
 	</bean>
 	
 	<bean id="category8" class="domain.Category">
 		<property name="name" value="Lujos" />
-		<property name="description" value="Servicios para tus citas más exclusivas y elegantes" />
+		<property name="description" value="Services para tus citas más exclusivas y elegantes" />
 	</bean>
 
 	<bean id="category9" class="domain.Category">
 		<property name="name" value="Puros" />
-		<property name="description" value="Servicios para los mejores puros" />
+		<property name="description" value="Services para los mejores puros" />
 	</bean>
 	
 	<bean id="category10" class="domain.Category">
 		<property name="name" value="Varios 1.1" />
-		<property name="description" value="Servicios varios 1.1 con categorías" />
+		<property name="description" value="Services varios 1.1 con categorías" />
 		<property name="fatherCategory" ref="category2" />
 	</bean>
 	
 	<bean id="category11" class="domain.Category">
 		<property name="name" value="Varios 1.1.1" />
-		<property name="description" value="Servicios varios 1.1.1 sin categorías" />
+		<property name="description" value="Services varios 1.1.1 sin categorías" />
 		<property name="fatherCategory" ref="category10" />
 	</bean>
 </beans>

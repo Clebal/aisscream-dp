@@ -73,7 +73,7 @@
 				
 				<security:authorize access="isAuthenticated()">
 				
-				<acme:displayLink parametre="rendezvousId" code="rendezvous.servicios.display" action="servicio/listByRendezvousId.do" parametreValue="${rendezvous.getId()}"/>
+				<acme:displayLink parametre="rendezvousId" code="rendezvous.services.display" action="service/listByRendezvousId.do" parametreValue="${rendezvous.getId()}"/>
 				
 				</security:authorize>
 				
@@ -117,7 +117,7 @@
 					<acme:displayLink parametre="rendezvousId" code="rendezvous.announcement.create" action="announcement/user/create.do" parametreValue="${rendezvous.getId()}"/>
 					
 					<!-- Creamos un request-->
-					<acme:displayLink parametre="rendezvousId" code="rendezvous.request.create" action="servicio/user/listForRequestByRendezvous.do" parametreValue="${rendezvous.getId()}"/>
+					<acme:displayLink parametre="rendezvousId" code="rendezvous.request.create" action="service/user/listForRequestByRendezvous.do" parametreValue="${rendezvous.getId()}"/>
 					
 			</jstl:if>
 					

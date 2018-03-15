@@ -41,8 +41,6 @@
 
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 
-		
-			
 		<!-- Santos -->
 		<security:intercept-url pattern="/rendezvous/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/rendezvous/display.do" access="permitAll" /> 
@@ -53,16 +51,16 @@
 		<security:intercept-url pattern="/rendezvous/administrator/**" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" /> 
 		
+		<!-- Villarín -->
 		<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/actor/user/create.do" access="hasRole('USER') or isAnonymous()" />
-		<security:intercept-url pattern="/actor/terminos.do" access="hasRole('USER') or isAnonymous()" />  
 		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()"  />
 		<security:intercept-url pattern="/actor/display.do" access="permitAll"  />
-		<security:intercept-url pattern="/actor/list.do" access="permitAll"  />	
+		<security:intercept-url pattern="/actor/list.do" access="isAnonymous()"  />	
 		<security:intercept-url pattern="/actor/profile.do" access="isAuthenticated()"  />
 		<security:intercept-url pattern="/actor/listAttendants.do" access="permitAll"  />
 		
-			<!-- Carlos -->
+		<!-- Carlos -->
 		<security:intercept-url pattern="/rsvp/user/edit.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/comment/user/edit.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/comment/user/create.do" access="hasRole('USER')" />
@@ -92,6 +90,51 @@
 		<security:intercept-url pattern="/announcement/administrator/delete.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/announcement/list.do" access="permitAll" />
  	
+ 		<!-- D09 -->
+ 		<!-- Sergio -->
+		<security:intercept-url pattern="/creditcard/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/creditcard/user/edit.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/creditcard/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/creditcard/user/display.do" access="hasRole('USER')" />
+		 	
+ 		<security:intercept-url pattern="/actor/manager/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/actor/manager/edit.do" access="hasRole('USER') or isAnonymous()"  />
+		 
+		 <!-- Santos -->
+		 <security:intercept-url pattern="/service/administrator/accept.do" access="hasRole('ADMIN')" />
+		 <security:intercept-url pattern="/service/administrator/cancel.do" access="hasRole('ADMIN')" />
+		 <security:intercept-url pattern="/service/administrator/bestSellingServices.do" access="hasRole('ADMIN')" />
+		 <security:intercept-url pattern="/service/manager/create.do" access="hasRole('MANAGER')" />
+		 <security:intercept-url pattern="/service/manager/edit.do" access="hasRole('MANAGER')" />
+		 <security:intercept-url pattern="/service/manager/list.do" access="hasRole('MANAGER')" />
+		 <security:intercept-url pattern="/service/manager/addCategory.do" access="hasRole('MANAGER')" />
+		 <security:intercept-url pattern="/service/manager/removeCategory.do" access="hasRole('MANAGER')" />
+		 <security:intercept-url pattern="/service/user/listForRequestByRendezvous.do" access="hasRole('USER')" />
+		 <security:intercept-url pattern="/service/display.do" access="isAuthenticated()" />
+		 <security:intercept-url pattern="/service/list.do" access="isAuthenticated()" />
+		 <security:intercept-url pattern="/service/listByCategoryId.do" access="isAuthenticated()" />
+		 <security:intercept-url pattern="/service/listByRendezvousId.do" access="isAuthenticated()" />
+		 
+		 <security:intercept-url pattern="/request/user/list.do" access="hasRole('USER')" />
+         <security:intercept-url pattern="/request/user/display.do" access="hasRole('USER')" />
+		 <security:intercept-url pattern="/request/user/request.do" access="hasRole('USER')" />
+		 <security:intercept-url pattern="/request/user/delete.do" access="hasRole('USER')" />
+		 
+		<!-- Carlos -->
+		<security:intercept-url pattern="/category/administrator/edit.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/category/administrator/create.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/category/administrator/reorganising.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/category/display.do" access="permitAll" /> 
+		<security:intercept-url pattern="/rendezvous/bycategory.do" access="permitAll" /> 
+		<security:intercept-url pattern="/category/manager/removeCategory.do" access="hasRole('MANAGER')" /> 
+		<security:intercept-url pattern="/category/manager/addCategory.do" access="hasRole('MANAGER')" />   
+		 
+		 
+		 
+		 
+		 
+		 
+		 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		
 		<security:form-login 

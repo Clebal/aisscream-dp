@@ -55,6 +55,22 @@
 		<bean class="converters.AdministratorToStringConverter" />
 		<bean class="converters.StringToAdministratorConverter" />
 		
+		<!-- D09 -->
+		<bean class="converters.CreditCardToStringConverter" />
+		<bean class="converters.StringToCreditCardConverter" />
+	
+		<bean class="converters.ManagerToStringConverter" />
+		<bean class="converters.StringToManagerConverter" />
+		
+		<bean class="converters.ServiceToStringConverter" />
+		<bean class="converters.StringToServiceConverter" />
+		
+		<bean class="converters.RequestToStringConverter" />
+		<bean class="converters.StringToRequestConverter" />
+		
+		<bean class="converters.CategoryToStringConverter" />
+		<bean class="converters.StringToCategoryConverter" />
+		
 	</util:list>
 	
 </beans>

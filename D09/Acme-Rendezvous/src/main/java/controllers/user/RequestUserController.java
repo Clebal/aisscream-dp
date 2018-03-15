@@ -21,14 +21,14 @@ import security.LoginService;
 import services.CreditCardService;
 import services.RendezvousService;
 import services.RequestService;
-import services.ServicioService;
+import services.ServiceService;
 import services.UserService;
 import controllers.AbstractController;
 import converters.CreditCardToStringConverter;
 import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
-import domain.Servicio;
+import domain.Service;
 import domain.User;
 
 @Controller
@@ -49,7 +49,7 @@ public class RequestUserController extends AbstractController {
 	private UserService					userService;
 	
 	@Autowired
-	private ServicioService				servicioService;
+	private ServiceService				serviceService;
 	
 	// Converter
 	@Autowired
@@ -128,19 +128,19 @@ public class RequestUserController extends AbstractController {
 	// Request -------------------------------------------------------------------------------------------
 
 		@RequestMapping(value = "/request", method = RequestMethod.GET)
-		public ModelAndView request(@RequestParam final int rendezvousId, @RequestParam final int servicioId, @CookieValue(value="lastCreditCard", defaultValue="") String lastCreditCardCookie) {
+		public ModelAndView request(@RequestParam final int rendezvousId, @RequestParam final int serviceId, @CookieValue(value="lastCreditCard", defaultValue="") String lastCreditCardCookie) {
 			ModelAndView result;
 			Rendezvous rendezvous;
-			Servicio servicio;
+			Service service;
 			Request request;
 
 			rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 			Assert.notNull(rendezvous);
 			
-			servicio = this.servicioService.findOne(servicioId);
-			Assert.notNull(servicio);
+			service = this.serviceService.findOne(serviceId);
+			Assert.notNull(service);
 
-			request = this.requestService.create(rendezvous, servicio);
+			request = this.requestService.create(rendezvous, service);
 
 			result = this.createEditModelAndView(request);
 			
@@ -197,7 +197,7 @@ public class RequestUserController extends AbstractController {
 		result.addObject("creditcards", creditCards);
 		result.addObject("request", request);
 		result.addObject("message", messageCode);
-		result.addObject("servicio", request.getServicio());
+		result.addObject("service", request.getService());
 		result.addObject("rendezvous", request.getRendezvous());
 
 		return result;

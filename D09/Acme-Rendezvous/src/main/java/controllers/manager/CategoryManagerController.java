@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CategoryService;
-import services.ServicioService;
+import services.ServiceService;
 import controllers.AbstractController;
 import domain.Category;
-import domain.Servicio;
+import domain.Service;
 
 @Controller
 @RequestMapping("/category/manager")
@@ -25,7 +25,7 @@ public class CategoryManagerController extends AbstractController {
 
 	//Services
 	@Autowired
-	private ServicioService	servicioService;
+	private ServiceService	serviceService;
 
 	@Autowired
 	private CategoryService	categoryService;
@@ -37,17 +37,17 @@ public class CategoryManagerController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
-	public ModelAndView addCategory(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam final int servicioId) {
+	public ModelAndView addCategory(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam final int serviceId) {
 		ModelAndView result;
 		Page<Category> categories;
 
-		categories = this.categoryService.findByServicioId(servicioId, page, 5);
+		categories = this.categoryService.findByServiceId(serviceId, page, 5);
 		Assert.notNull(categories);
 
 		result = new ModelAndView("category/list");
 		result.addObject("pageNumber", categories.getTotalPages());
 		result.addObject("page", page);
-		result.addObject("servicioId", servicioId);
+		result.addObject("serviceId", serviceId);
 		result.addObject("action", "add");
 		result.addObject("categories", categories.getContent());
 		result.addObject("requestURI", "category/manager/addCategory.do");
@@ -57,15 +57,15 @@ public class CategoryManagerController extends AbstractController {
 
 	//TODO Falta paginar
 	@RequestMapping(value = "/removeCategory", method = RequestMethod.GET)
-	public ModelAndView removeCategory(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam final int servicioId) {
+	public ModelAndView removeCategory(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam final int serviceId) {
 		ModelAndView result;
-		Servicio servicio;
+		Service service;
 		List<Category> categories;
 		Integer fromId, toId, pageNumber;
 
-		servicio = this.servicioService.findOne(servicioId);
-		Assert.notNull(servicio);
-		categories = new ArrayList<Category>(servicio.getCategories());
+		service = this.serviceService.findOne(serviceId);
+		Assert.notNull(service);
+		categories = new ArrayList<Category>(service.getCategories());
 		fromId = this.fromIdAndToId(categories.size(), page)[0];
 		toId = this.fromIdAndToId(categories.size(), page)[1];
 
@@ -76,7 +76,7 @@ public class CategoryManagerController extends AbstractController {
 		result = new ModelAndView("category/list");
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);
-		result.addObject("servicioId", servicioId);
+		result.addObject("serviceId", serviceId);
 		result.addObject("action", "remove");
 		result.addObject("categories", categories.subList(fromId, toId));
 		result.addObject("requestURI", "category/manager/removeCategory.do");

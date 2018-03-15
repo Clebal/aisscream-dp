@@ -66,7 +66,7 @@
 			<security:authorize access="hasRole('MANAGER')">
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.manager" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
-					<li><a href="servicio/manager/list.do"><spring:message code="master.page.manager.servicio" /></a></li>
+					<li><a href="service/manager/list.do"><spring:message code="master.page.manager.service" /></a></li>
 				</ul>
 			</security:authorize>
 			
@@ -80,7 +80,7 @@
 					<li><a href="actor/list.do"><spring:message code="master.page.list.user" /></a></li>
 					<li><a href="actor/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
 					<li><a href="rendezvous/list.do"><spring:message code="master.page.all.rendezvous" /></a></li>
-					<li><a href="servicio/list.do"><spring:message code="master.page.all.servicio" /></a></li>
+					<li><a href="service/list.do"><spring:message code="master.page.all.service" /></a></li>
 					<li><a href="category/display.do"><spring:message code="master.page.all.category" /></a></li>
 						
 						

@@ -104,8 +104,8 @@
 		<div class="container">
 			<p class="display"><spring:message code="dashboard.bestSellingServices"/></p>
 			<jstl:forEach items="${bestSellingServices}" var="row">
-				<spring:url var="urlBestSellingServices" value="servicio/display.do">
-					<spring:param name="servicioId" value="${row.getId()}"></spring:param>
+				<spring:url var="urlBestSellingServices" value="service/display.do">
+					<spring:param name="serviceId" value="${row.getId()}"></spring:param>
 				</spring:url>
 				<p style="margin-left: 15px;"><a href="${urlBestSellingServices}" ><jstl:out value="${row.name}"></jstl:out></a></p>
 			</jstl:forEach>
@@ -176,8 +176,8 @@
 			</jstl:if>
 			</ul></div></div></div>
 			<jstl:forEach items="${topSellingServices}" var="row">
-				<spring:url var="urlTopSellingServices" value="servicio/display.do">
-					<spring:param name="servicioId" value="${row.getId()}"></spring:param>
+				<spring:url var="urlTopSellingServices" value="service/display.do">
+					<spring:param name="serviceId" value="${row.getId()}"></spring:param>
 				</spring:url>
 				<p style="margin-left: 15px;"><a href="${urlTopSellingServices}" ><jstl:out value="${row.name}"></jstl:out></a></p>
 			</jstl:forEach>

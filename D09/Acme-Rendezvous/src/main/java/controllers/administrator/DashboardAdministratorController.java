@@ -18,12 +18,12 @@ import services.CommentService;
 import services.ManagerService;
 import services.QuestionService;
 import services.RendezvousService;
-import services.ServicioService;
+import services.ServiceService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Manager;
 import domain.Rendezvous;
-import domain.Servicio;
+import domain.Service;
 
 @Controller
 @RequestMapping("/dashboard/administrator")
@@ -49,7 +49,7 @@ public class DashboardAdministratorController extends AbstractController {
 	AnswerService		answerService;
 	
 	@Autowired
-	ServicioService servicioService;
+	ServiceService serviceService;
 	
 	@Autowired
 	ManagerService managerService;
@@ -71,8 +71,8 @@ public class DashboardAdministratorController extends AbstractController {
 		final Double[] questionsPerRendezvous;
 		final Double[] answersPerRendezvous;
 		final Double[] repliesPerComment;
-		Page<Servicio> bestSellingServices;
-		Collection<Servicio> topSellingServices;
+		Page<Service> bestSellingServices;
+		Collection<Service> topSellingServices;
 		Collection<Manager> managerMoreServicesAverage, managerMoreServicesCancelled;
 		final Double avgNumberCategoriesPerRendezvous;
 		final Double avgRatioServicesCategory;
@@ -97,13 +97,13 @@ public class DashboardAdministratorController extends AbstractController {
 		questionsPerRendezvous = this.questionService.avgStandartDerivationQuestionsPerRendezvous();
 		answersPerRendezvous = this.answerService.avgStandardAnswerPerRendezvous();
 		repliesPerComment = this.commentService.avgStandardRepliesPerComment();
-		bestSellingServices = this.servicioService.bestSellingServices(pageAux, sizeAux);
+		bestSellingServices = this.serviceService.bestSellingServices(pageAux, sizeAux);
 		managerMoreServicesAverage = this.managerService.managerMoreServicesAverage();
 		managerMoreServicesCancelled = this.managerService.managerMoreServicesCancelled();
 		avgNumberCategoriesPerRendezvous = this.categoryService.avgNumberCategoriesPerRendezvous();
-		avgRatioServicesCategory = this.servicioService.ratioServicesEachCategory();
-		avgMinMaxStandardDesviationServicesPerRendezvous = this.servicioService.avgMinMaxStandartDerivationServicesPerRendezvous();		
-		topSellingServices = this.servicioService.topBestSellingServices(sizeAux);
+		avgRatioServicesCategory = this.serviceService.ratioServicesEachCategory();
+		avgMinMaxStandardDesviationServicesPerRendezvous = this.serviceService.avgMinMaxStandartDerivationServicesPerRendezvous();		
+		topSellingServices = this.serviceService.topBestSellingServices(sizeAux);
 		
 		result = new ModelAndView("dashboard/display");
 

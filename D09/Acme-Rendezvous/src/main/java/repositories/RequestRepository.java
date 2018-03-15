@@ -22,10 +22,10 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 	@Query("select count(r) from Request r where r.creditCard.id = ?1")
 	Integer countByCreditCardId(final int creditCardId);
 	
-	@Query("select count(r) from Request r where r.servicio.id = ?1")
-	Integer countByServicioId(final int servicioId);
+	@Query("select count(r) from Request r where r.service.id = ?1")
+	Integer countByServiceId(final int serviceId);
 	
-	@Query("select r from Request r where r.rendezvous.id=?1 and r.servicio.id = ?2")
-	Request findRequestEqualRendezvousServicio(final int rendezvousId, final int servicioId);
+	@Query("select r from Request r where r.rendezvous.id=?1 and r.service.id = ?2")
+	Request findRequestEqualRendezvousService(final int rendezvousId, final int serviceId);
 	
 }

@@ -15,7 +15,7 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="rendezvous" />
-	<form:hidden path="servicio" />
+	<form:hidden path="service" />
 	
 	<div class="form-group"> 
 		<form:label path="creditCard">

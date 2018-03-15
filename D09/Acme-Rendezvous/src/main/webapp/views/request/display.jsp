@@ -26,9 +26,9 @@
 	</spring:url>
 	<p><a href="${urlCreditCard}"> <spring:message code="request.creditCards" /></a></p>
 	
-	<spring:url var="urlServicio" value="servicio/display.do">
-	<spring:param name="servicioId" value="${request.getServicio().getId()}" />
+	<spring:url var="urlService" value="service/display.do">
+	<spring:param name="serviceId" value="${request.getService().getId()}" />
 	</spring:url>
-	<p><a href="${urlServicio}"> <spring:message code="request.services" /></a></p>
+	<p><a href="${urlService}"> <spring:message code="request.services" /></a></p>
 		
 </div>

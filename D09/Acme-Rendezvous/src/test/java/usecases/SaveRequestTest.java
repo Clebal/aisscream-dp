@@ -11,12 +11,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
-import domain.Servicio;
+import domain.Service;
 
 import services.CreditCardService;
 import services.RendezvousService;
 import services.RequestService;
-import services.ServicioService;
+import services.ServiceService;
 import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
@@ -35,7 +35,7 @@ public class SaveRequestTest extends AbstractTest {
 	private RendezvousService	rendezvousService;
 	
 	@Autowired
-	private ServicioService			servicioService;
+	private ServiceService			serviceService;
 	
 	@Autowired
 	private CreditCardService		creditCardService;
@@ -128,13 +128,13 @@ public class SaveRequestTest extends AbstractTest {
 	 * that he or she’s created. He or she must specify a valid credit card in every request for a service. 
 	 * Optionally, he or she can provide some comments in the request. 
 	 */
-	protected void template(final String user, final String rendezvous, final String servicio, final String creditCard, final String comments, final Class<?> expected) {
+	protected void template(final String user, final String rendezvous, final String service, final String creditCard, final String comments, final Class<?> expected) {
 		Class<?> caught;
 		int rendezvousId;
-		int servicioId;
+		int serviceId;
 		int creditCardId;
 		Rendezvous rendezvousEntity;
-		Servicio servicioEntity;
+		Service serviceEntity;
 		CreditCard creditCardEntity;
 		Request request;
 
@@ -142,12 +142,12 @@ public class SaveRequestTest extends AbstractTest {
 		try {
 			super.authenticate(user);
 			rendezvousId = super.getEntityId(rendezvous);
-			servicioId = super.getEntityId(servicio);
+			serviceId = super.getEntityId(service);
 			creditCardId = super.getEntityId(creditCard);
 			rendezvousEntity = this.rendezvousService.findOne(rendezvousId);
-			servicioEntity = this.servicioService.findOne(servicioId);
+			serviceEntity = this.serviceService.findOne(serviceId);
 			creditCardEntity = this.creditCardService.findOne(creditCardId);
-			request = this.requestService.create(rendezvousEntity, servicioEntity);
+			request = this.requestService.create(rendezvousEntity, serviceEntity);
 			request.setCreditCard(creditCardEntity);
 			request.setComments(comments);
 			this.requestService.save(request);

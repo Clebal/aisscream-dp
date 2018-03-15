@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -18,9 +17,9 @@ import security.Authority;
 import security.LoginService;
 import domain.Actor;
 import domain.Category;
-import domain.Servicio;
+import domain.Service;
 
-@Service
+@org.springframework.stereotype.Service
 @Transactional
 public class CategoryService {
 
@@ -33,7 +32,7 @@ public class CategoryService {
 	private ActorService		actorService;
 
 	@Autowired
-	private ServicioService		servicioService;
+	private ServiceService		serviceService;
 
 	@Autowired
 	private Validator			validator;
@@ -100,9 +99,9 @@ public class CategoryService {
 		Authority authority;
 		Category saved;
 		Collection<Category> childrenCategories;
-		Collection<Category> servicioCategories;
-		Collection<Servicio> services;
-		Servicio servicio;
+		Collection<Category> serviceCategories;
+		Collection<Service> services;
+		Service service;
 
 		Assert.notNull(category);
 
@@ -118,14 +117,14 @@ public class CategoryService {
 		for (final Category c : childrenCategories)
 			this.delete(c);
 
-		//Cuando ya no tiene hijos, actualizamos el servicio
-		services = this.servicioService.findByCategoryId(category.getId());
-		for (final Servicio s : services) {
-			servicio = s;
-			servicioCategories = servicio.getCategories();
-			servicioCategories.remove(category);
-			servicio.setCategories(servicioCategories);
-			this.servicioService.saveFromCategory(servicio);
+		//Cuando ya no tiene hijos, actualizamos el service
+		services = this.serviceService.findByCategoryId(category.getId());
+		for (final Service s : services) {
+			service = s;
+			serviceCategories = service.getCategories();
+			serviceCategories.remove(category);
+			service.setCategories(serviceCategories);
+			this.serviceService.saveFromCategory(service);
 
 		}
 
@@ -136,16 +135,16 @@ public class CategoryService {
 		//
 		//			//Si borras una categoria borras sus hijas empezando desde el fondo del arbol
 		//			if (childrenCategoriesOfChildren.isEmpty()) {
-		//				//Miras si la categoria c es usada en servicios
-		//				services = this.servicioService.findByCategoryId(c.getId());
+		//				//Miras si la categoria c es usada en services
+		//				services = this.serviceService.findByCategoryId(c.getId());
 		//				//Si es usada, la borramos
 		//				if (services.isEmpty())
-		//					for (final Servicio s : services) {
-		//						servicio = s;
-		//						servicioCategories = servicio.getCategories();
-		//						servicioCategories.remove(category);
-		//						servicio.setCategories(servicioCategories);
-		//						this.servicioService.saveFromCategory(servicio);
+		//					for (final Service s : services) {
+		//						service = s;
+		//						serviceCategories = service.getCategories();
+		//						serviceCategories.remove(category);
+		//						service.setCategories(serviceCategories);
+		//						this.serviceService.saveFromCategory(service);
 		//
 		//					}
 		//				this.categoryRepository.delete(c);
@@ -214,11 +213,11 @@ public class CategoryService {
 		return result;
 	}
 
-	public Page<Category> findByServicioId(final int servicioId, final int page, final int size) {
+	public Page<Category> findByServiceId(final int serviceId, final int page, final int size) {
 		Page<Category> result;
 
-		Assert.isTrue(servicioId != 0);
-		result = this.categoryRepository.findByServicioId(servicioId, this.getPageable(page, size));
+		Assert.isTrue(serviceId != 0);
+		result = this.categoryRepository.findByServiceId(serviceId, this.getPageable(page, size));
 
 		return result;
 	}

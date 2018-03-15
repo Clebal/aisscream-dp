@@ -14,7 +14,7 @@ public class Request extends DomainEntity {
 
 	private String		comments;
 
-	private Servicio	servicio;
+	private Service	service;
 
 	private Rendezvous	rendezvous;
 
@@ -32,12 +32,12 @@ public class Request extends DomainEntity {
 	@Valid
 	@NotNull
 	@ManyToOne(optional = false)
-	public Servicio getServicio() {
-		return this.servicio;
+	public Service getService() {
+		return this.service;
 	}
 
-	public void setServicio(final Servicio servicio) {
-		this.servicio = servicio;
+	public void setService(final Service service) {
+		this.service = service;
 	}
 
 	@Valid
