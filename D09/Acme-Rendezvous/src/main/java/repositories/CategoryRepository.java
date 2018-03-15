@@ -23,6 +23,9 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	@Query("select c from Category c where c.fatherCategory is null")
 	Page<Category> findWithoutFather(Pageable pageable);
 
+	@Query("select c from Category c where c.fatherCategory is null")
+	Collection<Category> findAllWithoutFather();
+
 	@Query("select c from Category c, Service s where s.id=?1 and c not member of s.categories")
 	Page<Category> findByServiceId(int serviceId, Pageable pageable);
 

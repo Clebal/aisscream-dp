@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -20,7 +19,6 @@ import domain.Category;
 import domain.Service;
 
 @org.springframework.stereotype.Service
-@Transactional
 public class CategoryService {
 
 	// Managed repository
@@ -117,7 +115,7 @@ public class CategoryService {
 		for (final Category c : childrenCategories)
 			this.delete(c);
 
-		//Cuando ya no tiene hijos, actualizamos el service
+		//Cuando ya no tiene hijos, actualizamos el servicio
 		services = this.serviceService.findByCategoryId(category.getId());
 		for (final Service s : services) {
 			service = s;
@@ -128,36 +126,16 @@ public class CategoryService {
 
 		}
 
-		//		//Vemos todas las categorias hijas de la que queremos borrar
-		//		for (final Category c : childrenCategories) {
-		//
-		//			childrenCategoriesOfChildren = this.findAllByFatherCategoryId(c.getId());
-		//
-		//			//Si borras una categoria borras sus hijas empezando desde el fondo del arbol
-		//			if (childrenCategoriesOfChildren.isEmpty()) {
-		//				//Miras si la categoria c es usada en services
-		//				services = this.serviceService.findByCategoryId(c.getId());
-		//				//Si es usada, la borramos
-		//				if (services.isEmpty())
-		//					for (final Service s : services) {
-		//						service = s;
-		//						serviceCategories = service.getCategories();
-		//						serviceCategories.remove(category);
-		//						service.setCategories(serviceCategories);
-		//						this.serviceService.saveFromCategory(service);
-		//
-		//					}
-		//				this.categoryRepository.delete(c);
-		//				//Si tiene hijos hacemos su	
-		//			} else
-		//				this.delete(c);
-		//		}
-
 		saved = this.findOne(category.getId());
 		Assert.notNull(saved);
 		this.categoryRepository.delete(saved);
 
 	}
+
+	public void flush() {
+		this.categoryRepository.flush();
+	}
+
 	//Other business methods
 	public void reorganising(final Category category, final Category newFather) {
 		Authority authority;
@@ -166,6 +144,9 @@ public class CategoryService {
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		//La categoría a mover no puede ser null
+		Assert.notNull(category);
 
 		//Si quisieramos que solo se moviera una categoría sin sus hijas
 
@@ -176,6 +157,10 @@ public class CategoryService {
 			childCategory.setFatherCategory(category.getFatherCategory());
 			this.categoryRepository.save(childCategory);
 		}
+
+		//Si son distintas de null, no sean iguales
+		if (newFather != null)
+			Assert.isTrue(!(category.equals(newFather)));
 
 		category.setFatherCategory(newFather);
 		//Movemos una categoría
@@ -209,6 +194,15 @@ public class CategoryService {
 		Assert.isTrue(fatherCategoryId != 0);
 
 		result = this.categoryRepository.findAllByFatherCategoryId(fatherCategoryId);
+
+		return result;
+	}
+
+	//Usado en los test
+	public Collection<Category> findAllWithoutFather() {
+		Collection<Category> result;
+
+		result = this.categoryRepository.findAllWithoutFather();
 
 		return result;
 	}
