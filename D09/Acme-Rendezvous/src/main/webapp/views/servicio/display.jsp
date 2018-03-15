@@ -52,8 +52,8 @@
 				<br>
 				<jstl:forEach var="row" items="${categories}">
 				
-					<spring:url var="urlMoreCategories" value="servicio/display.do">
-						<spring:param name="servicioId" value="${row.getId()}" />
+					<spring:url var="urlMoreCategories" value="category/display.do">
+						<spring:param name="categoryId" value="${row.getId()}" />
 					</spring:url>
 					
 					<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
