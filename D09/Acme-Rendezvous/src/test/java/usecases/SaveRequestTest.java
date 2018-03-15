@@ -11,12 +11,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
-import domain.Service;
+import domain.Servicio;
 
 import services.CreditCardService;
 import services.RendezvousService;
 import services.RequestService;
-import services.ServiceService;
+import services.ServicioService;
 import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
@@ -35,7 +35,7 @@ public class SaveRequestTest extends AbstractTest {
 	private RendezvousService	rendezvousService;
 	
 	@Autowired
-	private ServiceService			serviceService;
+	private ServicioService			servicioService;
 	
 	@Autowired
 	private CreditCardService		creditCardService;
@@ -93,9 +93,9 @@ public class SaveRequestTest extends AbstractTest {
 			{
 				null, "rendezvous1", "service1", "creditCard1", "", IllegalArgumentException.class 
 			}, 	{
-				"admin", "rendezvous1", "service1", "creditCard1", "", NullPointerException.class 
+				"admin", "rendezvous1", "service1", "creditCard1", "", IllegalArgumentException.class 
 			}, {
-				"manager1", "rendezvous2", "service5", "creditCard4", "Otro comentario más", NullPointerException.class
+				"manager1", "rendezvous2", "service5", "creditCard4", "Otro comentario más", IllegalArgumentException.class
 			}, {
 				"user1", "rendezvous5", "service3", "creditCard2", "", IllegalArgumentException.class 
 			}, {
@@ -128,13 +128,13 @@ public class SaveRequestTest extends AbstractTest {
 	 * that he or she’s created. He or she must specify a valid credit card in every request for a service. 
 	 * Optionally, he or she can provide some comments in the request. 
 	 */
-	protected void template(final String user, final String rendezvous, final String service, final String creditCard, final String comments, final Class<?> expected) {
+	protected void template(final String user, final String rendezvous, final String servicio, final String creditCard, final String comments, final Class<?> expected) {
 		Class<?> caught;
 		int rendezvousId;
-		int serviceId;
+		int servicioId;
 		int creditCardId;
 		Rendezvous rendezvousEntity;
-		Service serviceEntity;
+		Servicio servicioEntity;
 		CreditCard creditCardEntity;
 		Request request;
 
@@ -142,12 +142,12 @@ public class SaveRequestTest extends AbstractTest {
 		try {
 			super.authenticate(user);
 			rendezvousId = super.getEntityId(rendezvous);
-			serviceId = super.getEntityId(service);
+			servicioId = super.getEntityId(servicio);
 			creditCardId = super.getEntityId(creditCard);
 			rendezvousEntity = this.rendezvousService.findOne(rendezvousId);
-			serviceEntity = this.serviceService.findOne(serviceId);
+			servicioEntity = this.servicioService.findOne(servicioId);
 			creditCardEntity = this.creditCardService.findOne(creditCardId);
-			request = this.requestService.create(rendezvousEntity, serviceEntity);
+			request = this.requestService.create(rendezvousEntity, servicioEntity);
 			request.setCreditCard(creditCardEntity);
 			request.setComments(comments);
 			this.requestService.save(request);

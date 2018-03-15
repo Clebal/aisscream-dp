@@ -45,11 +45,11 @@ public class ListCreditCardTest extends AbstractTest {
 	public void testFindAll() {
 		final Object testingData[][] = {
 			{
-				"user1", "findAll", 5, null, null, null
+				"user1", "findAll", 5, 0, 0, null
 			}, {
-				null, "findAll", 5, null, null, null
+				null, "findAll", 5, 0, 0, null
 			}, {
-				"manager2", "findAll", 5, null, null, null
+				"manager2", "findAll", 5, 0, 0, null
 			}
 		};
 		
@@ -67,7 +67,7 @@ public class ListCreditCardTest extends AbstractTest {
 
 	/*
 	 * 1. Probamos obtener el resultado previsto para el método findByUserAccountId logueados como user1, para la página 1 y el tamaño 5
-	 * 	2. Probamos obtener el resultado previsto para el método findByUserAccountId logueados como sin loguear, para la página 2 y el tamaño 4
+	 * 	2. Probamos obtener el resultado previsto para el método findByUserAccountId sin loguear, para la página 2 y el tamaño 4
 	 * 3. Probamos obtener el resultado previsto para el método findByUserAccountId logueados como user2, para la página 2 y el tamaño 3
 	 * 4. Probamos no poder obtener el resultado previsto para el método findByUserAccountId logueados como un manager
 	 * 5. Probamos no poder obtener el resultado previsto para el método findByUserAccountId logueados como un admin
@@ -80,17 +80,13 @@ public class ListCreditCardTest extends AbstractTest {
 				{
 					"user1", "findByUserAccountId", 2, 1, 5, null
 				}, {
-					null, "findByUserAccountId", null, 2, 4, NullPointerException.class
+					null, "findByUserAccountId", null, 2, 4, IllegalArgumentException.class
 				}, {
 					"user2", "findByUserAccountId", 1, 1, 1, null
 				}, {
-					"manager2", "findByUserAccountId", 1, 2, 1, NullPointerException.class
+					"manager2", "findByUserAccountId", 1, 2, 1, IllegalArgumentException.class
 				}, {
 					"admin", "findByUserAccountId", 1, 1, 5, NumberFormatException.class //TODO: Porque da este error?
-				}, {
-					"user4", "findByUserAccountId", 1, null, 5, NullPointerException.class
-				}, {
-					"user3", "findByUserAccountId", 1, 1, null, NullPointerException.class
 				}
 
 		};
@@ -112,7 +108,7 @@ public class ListCreditCardTest extends AbstractTest {
 	/*
 	 * He or she must specify a valid credit card in every request for a service.
 	 */
-	protected void template(final String user, final String method, final Integer tamano, final Integer page, final Integer size, final Class<?> expected) {
+	protected void template(final String user, final String method, final Integer tamano, final int page, final int size, final Class<?> expected) {
 		Class<?> caught;
 		Collection<CreditCard> creditCardsCollection;
 		List<CreditCard> creditCardsList;
@@ -129,8 +125,11 @@ public class ListCreditCardTest extends AbstractTest {
 				creditCardsCollection = this.creditCardService.findAll();
 				sizeCreditCard = creditCardsCollection.size();
 			} else {
+				Assert.notNull(user);
 				userId = super.getEntityId(user);
+				Assert.notNull(userId);
 				userEntity = this.userService.findOne(userId);
+				Assert.notNull(userEntity);
 				userAccountId = userEntity.getUserAccount().getId();
 				creditCardsList = this.creditCardService.findByUserAccountId(userAccountId, page, size).getContent();
 				sizeCreditCard = creditCardsList.size();

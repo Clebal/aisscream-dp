@@ -39,11 +39,11 @@ public class ListRequestTest extends AbstractTest {
 	public void testFindAll() {
 		final Object testingData[][] = {
 			{
-				"user1", "findAll", 8, null, null, null
+				"user1", "findAll", 8, 0, 0, null
 			}, {
-				null, "findAll", 8, null, null, null
+				null, "findAll", 8, 0, 0, null
 			}, {
-				"manager2", "findAll", 8, null, null, null
+				"manager2", "findAll", 8, 0, 0, null
 			}
 		};
 		
@@ -61,12 +61,10 @@ public class ListRequestTest extends AbstractTest {
 
 	/*
 	 * 1. Probamos obtener el resultado previsto para el método findAllPaginated logueados como user1, para la página 1 y el tamaño 5
-	 * 	2. Probamos obtener el resultado previsto para el método findAllPaginated logueados como sin loguear, para la página 2 y el tamaño 4
+	 * 	2. Probamos obtener el resultado previsto para el método findAllPaginated sin loguear, para la página 2 y el tamaño 4
 	 * 3. Probamos obtener el resultado previsto para el método findAllPaginated logueados como user2, para la página 2 y el tamaño 3
 	 * 4. Probamos no poder obtener el resultado previsto para el método findAllPaginated logueados como un manager
 	 * 5. Probamos no poder obtener el resultado previsto para el método findAllPaginated logueados como un admin
-	 * 6. Probamos no poder obtener el resultado previsto para el método findAllPaginated logueados como user4 y la página a null
-	 * 7. Probamos no poder obtener el resultado previsto para el método findAllPaginated logueados como user3 y el tamaño a null
 	 */
 	@Test()
 	public void testFindByUserAccountId() {
@@ -74,17 +72,13 @@ public class ListRequestTest extends AbstractTest {
 				{
 					"user1", "findAllPaginated", 4, 1, 5, null
 				}, {
-					null, "findAllPaginated", null, 0, 4, NullPointerException.class
+					null, "findAllPaginated", 0, 0, 4, IllegalArgumentException.class
 				}, {
 					"user3", "findAllPaginated", 4, 1, 10, null
 				}, {
 					"manager2", "findAllPaginated", 0, 2, 1, IllegalArgumentException.class
 				}, {
 					"admin", "findAllPaginated", 1, 1, 5, NumberFormatException.class //TODO: Porque da este error?
-				}, {
-					"user4", "findAllPaginated", 1, null, 5, NullPointerException.class
-				}, {
-					"user3", "findAllPaginated", 1, 1, null, NullPointerException.class
 				}
 
 		};
@@ -108,7 +102,7 @@ public class ListRequestTest extends AbstractTest {
 	 * that he or she’s created. He or she must specify a valid credit card in every request for a service. 
 	 * Optionally, he or she can provide some comments in the request. 
 	 */
-	protected void template(final String user, final String method, final Integer tamano, final Integer page, final Integer size, final Class<?> expected) {
+	protected void template(final String user, final String method, final Integer tamano, final int page, final int size, final Class<?> expected) {
 		Class<?> caught;
 		Collection<Request> requests;
 		int userId;
@@ -120,6 +114,7 @@ public class ListRequestTest extends AbstractTest {
 			if (method.equals("findAll")) {
 				requests = this.requestService.findAll();
 			} else {
+				Assert.notNull(user);
 				userId = super.getEntityId(user);
 				requests = this.requestService.findAllPaginated(userId, page, size);
 			}

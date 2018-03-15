@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import domain.CreditCard;
 import domain.User;
@@ -111,9 +112,9 @@ public class SaveCreditCardTest extends AbstractTest {
 			}, {
 				"user2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, "user2", ConstraintViolationException.class 
 			}, {
-				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "manager1", NullPointerException.class 
+				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "manager1", IllegalArgumentException.class 
 			}, {
-				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null, NullPointerException.class 
+				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null, IllegalArgumentException.class 
 			}
 		};
 		
@@ -139,15 +140,18 @@ public class SaveCreditCardTest extends AbstractTest {
 	 */
 	protected void template(final String user, final String holderName, final String brandName, final String number, final int expirationMonth, final int expirationYear, final int cvvcode, final String userCredit, final Class<?> expected) {
 		Class<?> caught;
-		int userId;
+		Integer userId;
 		User userEntity;
 		CreditCard creditCard;
 
 		caught = null;
 		try {
 			super.authenticate(user);
+			Assert.notNull(userCredit);
 			userId = super.getEntityId(userCredit);
+			Assert.notNull(userId);
 			userEntity = this.userService.findOne(userId);
+			Assert.notNull(userEntity);
 			creditCard = this.creditCardService.create(userEntity);
 			creditCard.setHolderName(holderName);
 			creditCard.setBrandName(brandName);
