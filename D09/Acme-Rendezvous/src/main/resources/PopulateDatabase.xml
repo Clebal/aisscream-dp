@@ -199,6 +199,9 @@
 		<property name="linkerRendezvouses">
 			<list>
 				<ref bean="rendezvous2" />
+				<ref bean="rendezvous8" />
+				<ref bean="rendezvous9" />
+				
 			</list>
 		</property>
 	</bean>
