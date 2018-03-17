@@ -232,6 +232,7 @@
 		<property name="creator" ref="user3" />
 		<property name="linkerRendezvouses">
 			<list>
+			<ref bean="rendezvous2" />
 			</list>
 		</property>
 	</bean>
@@ -294,6 +295,7 @@
 		<property name="creator" ref="user1" />
 		<property name="linkerRendezvouses">
 			<list>
+			<ref bean="rendezvous2" />
 			</list>
 		</property>
 	</bean>
