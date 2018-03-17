@@ -330,6 +330,22 @@
 		</property>
 	</bean>
 	
+	<bean id="rendezvous10" class="domain.Rendezvous">
+		<property name="name" value="Fiesta de cumpleaños infantil" />
+		<property name="description" value="Para disfrutar de un buen día" />
+		<property name="moment" value="06/20/2019 09:13" />
+		<property name="draft" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="latitude" value="48.741895" />
+		<property name="longitude" value="114.989308" />
+		<property name="isDeleted" value="false" />
+		<property name="creator" ref="user4" />
+		<property name="linkerRendezvouses">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 	<!--  -->
 	
 	
@@ -373,7 +389,7 @@
 	<bean id="rsvp7" class="domain.Rsvp">
 		<property name="status" value="ACCEPTED" />
 		<property name="attendant" ref="user4" />
-		<property name="rendezvous" ref="rendezvous2" />
+		<property name="rendezvous" ref="rendezvous7" />
 	</bean>
 		
 	<bean id="rsvp8" class="domain.Rsvp">
@@ -525,51 +541,45 @@
 		<property name="question" ref="question2" />
 		<property name="rsvp" ref="rsvp6" />
 	</bean>
-	
-	<bean id="answer11" class="domain.Answer">
-		<property name="text" value="Crudivegano." />
-		<property name="question" ref="question3" />
-		<property name="rsvp" ref="rsvp7" />
-	</bean>
 	 
-	<bean id="answer12" class="domain.Answer">
+	<bean id="answer11" class="domain.Answer">
 		<property name="text" value="Sí, es un buen tipo." />
 		<property name="question" ref="question6" />
 		<property name="rsvp" ref="rsvp8" />
 	</bean>
 	
 	<!-- Añadido -->
-	<bean id="answer13" class="domain.Answer">
+	<bean id="answer12" class="domain.Answer">
 		<property name="text" value="Sí, es un buen tipo." />
 		<property name="question" ref="question7" />
 		<property name="rsvp" ref="rsvp9" />
 	</bean>
 	
-	<bean id="answer14" class="domain.Answer">
+	<bean id="answer13" class="domain.Answer">
 		<property name="text" value="Los macarrones." />
 		<property name="question" ref="question8" />
 		<property name="rsvp" ref="rsvp9" />
 	</bean>
 	
-	<bean id="answer15" class="domain.Answer">
+	<bean id="answer14" class="domain.Answer">
 		<property name="text" value="Porque me hace ilusión conocer gente nueva" />
 		<property name="question" ref="question9" />
 		<property name="rsvp" ref="rsvp9" />
 	</bean>
 	
-	<bean id="answer16" class="domain.Answer">
+	<bean id="answer15" class="domain.Answer">
 		<property name="text" value="El cocodrilo" />
 		<property name="question" ref="question10" />
 		<property name="rsvp" ref="rsvp9" />
 	</bean>
 	
-	<bean id="answer17" class="domain.Answer">
+	<bean id="answer16" class="domain.Answer">
 		<property name="text" value="1,80 metros" />
 		<property name="question" ref="question11" />
 		<property name="rsvp" ref="rsvp9" />
 	</bean>
 	
-	<bean id="answer18" class="domain.Answer">
+	<bean id="answer17" class="domain.Answer">
 		<property name="text" value="De Sevilla" />
 		<property name="question" ref="question12" />
 		<property name="rsvp" ref="rsvp9" />
