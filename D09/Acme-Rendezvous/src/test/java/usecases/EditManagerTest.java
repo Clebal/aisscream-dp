@@ -63,7 +63,6 @@ public class EditManagerTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7], (Date) testingData[i][8], (String) testingData[i][9], (String) testingData[i][10], (Class<?>) testingData[i][11]);
 			} catch (final Throwable oops) {
@@ -141,7 +140,6 @@ public class EditManagerTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7], (Date) testingData[i][8], (String) testingData[i][9], (String) testingData[i][10], (Class<?>) testingData[i][11]);
 			} catch (final Throwable oops) {
@@ -185,8 +183,6 @@ public class EditManagerTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 	

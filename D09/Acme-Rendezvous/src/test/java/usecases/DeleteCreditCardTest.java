@@ -1,5 +1,7 @@
 package usecases;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -7,9 +9,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import domain.CreditCard;
+import domain.User;
 import services.CreditCardService;
+import services.UserService;
 import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
@@ -23,6 +28,9 @@ public class DeleteCreditCardTest extends AbstractTest {
 
 	@Autowired
 	private CreditCardService		creditCardService;
+	
+	@Autowired
+	private UserService				userService;
 	
 	// Tests ------------------------------------------------------------------
 
@@ -39,7 +47,6 @@ public class DeleteCreditCardTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
@@ -63,7 +70,7 @@ public class DeleteCreditCardTest extends AbstractTest {
 			{
 				null, "creditCard1", IllegalArgumentException.class 
 			}, 	{
-				"admin", "creditCard1", IllegalArgumentException.class
+				"administrator", "creditCard1", IllegalArgumentException.class
 			}, {
 				"manager1", "creditCard2", IllegalArgumentException.class 
 			}, {
@@ -77,7 +84,6 @@ public class DeleteCreditCardTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
@@ -97,13 +103,27 @@ public class DeleteCreditCardTest extends AbstractTest {
 	 */
 	protected void template(final String user, final String creditCard, final Class<?> expected) {
 		Class<?> caught;
-		int creditCardId;
+		int userId, creditCardId;
+		User userEntity;
 		CreditCard creditCardEntity;
+		Collection<CreditCard> creditCards;
 
 		caught = null;
 		try {
 			super.authenticate(user);
+			Assert.notNull(user);
+			userId = super.getEntityId(user);
+			userEntity = this.userService.findOne(userId);
+			Assert.notNull(userEntity);
 			creditCardId = super.getEntityId(creditCard);
+			Assert.notNull(creditCardId);
+			creditCards = this.creditCardService.findByUserAccountId(userEntity.getUserAccount().getId(), 1, 5).getContent();
+			for (CreditCard c : creditCards) {
+				if(c.getId() == creditCardId){
+					creditCardEntity = c;
+					break;
+				}
+			}
 			creditCardEntity = this.creditCardService.findOneToEdit(creditCardId);
 			this.creditCardService.delete(creditCardEntity);
 			super.unauthenticate();
@@ -111,8 +131,6 @@ public class DeleteCreditCardTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 

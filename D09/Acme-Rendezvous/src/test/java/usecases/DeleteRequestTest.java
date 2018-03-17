@@ -1,5 +1,7 @@
 package usecases;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -7,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import domain.Request;
 import services.RequestService;
@@ -48,7 +51,6 @@ public class DeleteRequestTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
@@ -71,7 +73,7 @@ public class DeleteRequestTest extends AbstractTest {
 			{
 				null, "request1", IllegalArgumentException.class 
 			}, 	{
-				"admin", "request1", IllegalArgumentException.class 
+				"administrator", "request1", IllegalArgumentException.class 
 			}, {
 				"manager1", "request2", IllegalArgumentException.class
 			}, {
@@ -83,7 +85,6 @@ public class DeleteRequestTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
@@ -102,13 +103,25 @@ public class DeleteRequestTest extends AbstractTest {
 	 */
 	protected void template(final String user, final String request, final Class<?> expected) {
 		Class<?> caught;
-		int requestId;
+		int requestId, userId;
+		Collection<Request> requests;
 		Request requestEntity;
 
+		requestEntity = null;
 		caught = null;
 		try {
 			super.authenticate(user);
+			Assert.notNull(user);
+			userId = super.getEntityId(user);
+			requests = this.requestService.findAllPaginated(userId, 1, 5);
 			requestId = super.getEntityId(request);
+			for (Request r : requests) {
+				if(r.getId() == requestId){
+					requestEntity = r;
+					break;
+				}
+			}
+			Assert.notNull(requestEntity);
 			requestEntity = this.requestService.findOne(requestId);
 			this.requestService.delete(requestEntity);
 			super.unauthenticate();
@@ -116,8 +129,6 @@ public class DeleteRequestTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 

@@ -50,7 +50,6 @@ public class ListUserTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -85,7 +84,6 @@ public class ListUserTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -124,7 +122,6 @@ public class ListUserTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -160,15 +157,12 @@ public class ListUserTest extends AbstractTest {
 				Assert.notNull(rendezvous);
 				rendezvousId = super.getEntityId(rendezvous);
 				users = this.userService.findAttendantsPaginated(page, size, rendezvousId);
-				System.out.println(users.size());
 			}
 			Assert.isTrue(users.size() == tamano);
 			super.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 }

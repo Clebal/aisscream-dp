@@ -35,13 +35,13 @@ public class EditUserTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. Probando editar usuario con telefono y dirección a null
-	 * 2. Probando editar usuario con telefono pero con dirección a null
-	 * 3. Probando editar usuario con telefono a vacío y dirección a null
-	 * 4. Probando editar usuario con telefono a null y dirección
-	 * 5. Probando editar usuario con telefono a null y dirección a vacío
-	 * 6. Probando editar usuario con telefono y dirección
-	 * 7. Probando editar usuario con telefono y dirección a vacío
+	 * 1. Probando editar usuario con telefono y direccion a null
+	 * 2. Probando editar usuario con telefono pero con direccion a null
+	 * 3. Probando editar usuario con telefono a vacio y direccion a null
+	 * 4. Probando editar usuario con telefono a null y direccion
+	 * 5. Probando editar usuario con telefono a null y direccion a vacio
+	 * 6. Probando editar usuario con telefono y direccion
+	 * 7. Probando editar usuario con telefono y direccion a vacio
 	 */
 	@Test
 	public void positiveEditUserTest() {
@@ -54,7 +54,7 @@ public class EditUserTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 			{
-				"user1", "user1", "user1", "user1", "Antonio", "Azaña", null, null, date, "ant@mail.com", null 
+				"user1", "user1", "user1", "user1", "Antonio", "Azana", null, null, date, "ant@mail.com", null 
 			}, {
 				"user2", "user2", "user2", "user2", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", null
 			}, {
@@ -64,7 +64,7 @@ public class EditUserTest extends AbstractTest {
 			}, {
 				"user5", "user5", "user5", "user5", "Manolo", "Guillen", null, "", date, "manolete@mail.com", null 
 			}, {
-				"user6", "user6", "user6", "user6", "Pepe", "Escolar", "321456987", "Dirección incorrecta", date, "pepe@mail.com", null 
+				"user6", "user6", "user6", "user6", "Pepe", "Escolar", "321456987", "Direccion incorrecta", date, "pepe@mail.com", null 
 			}, {
 				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", "", "", date, "fran@mail.com", null
 			}
@@ -72,7 +72,6 @@ public class EditUserTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7], (Date) testingData[i][8], (String) testingData[i][9], (Class<?>) testingData[i][10]);
 			} catch (final Throwable oops) {
@@ -91,10 +90,10 @@ public class EditUserTest extends AbstractTest {
 	 * 6. El email tiene que tener el formato de un email
 	 * 7. El nombre no puede ser nulo
 	 * 8. El apellido no puede ser nulo
-	 * 9. El nombre no puede ser vacío
-	 * 10. El apellido no puede ser vacío
+	 * 9. El nombre no puede ser vacio
+	 * 10. El apellido no puede ser vacio
 	 * 11. El email no puede ser nulo
-	 * 12. El email no puede ser vacío
+	 * 12. El email no puede ser vacio
 	 * 13. El username no puede cambiar
 	 * 14. La password no puede cambiar
 	 */
@@ -112,29 +111,29 @@ public class EditUserTest extends AbstractTest {
 			
 		final Object testingData[][] = {
 			{
-				"user1", "user2", "user2", "user2", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class 
+				"user1", "user2", "user2", "user2", "Antonio", "Azana", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class 
 			}, {
-				"admin", "user2", "user2", "user2", "Antonio", "Azaña", "652147893", null, dateGood, "ant@mail.com", IllegalArgumentException.class
+				"admin", "user2", "user2", "user2", "Antonio", "Azana", "652147893", null, dateGood, "ant@mail.com", IllegalArgumentException.class
 			}, {
 				"manager1", "user2", "user2", "user2", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", IllegalArgumentException.class
 			}, {
-				"user1", "user1", "user1", "user1", "Alejandro", "Azaña", null, null, dateBad, "ant@mail.com", ConstraintViolationException.class
+				"user1", "user1", "user1", "user1", "Alejandro", "Azana", null, null, dateBad, "ant@mail.com", ConstraintViolationException.class
 			}, {
-				"user1", "user1", "user1", "user1", "Manuel", "Azaña", null, null, null, "ant@mail.com", ConstraintViolationException.class
+				"user1", "user1", "user1", "user1", "Manuel", "Azana", null, null, null, "ant@mail.com", ConstraintViolationException.class
 			}, {
 				"user1", "user1", "user1", "user1", "Marta", "Sanchez", "664857123", "Calle Falsa 23", dateGood, "manuelito", ConstraintViolationException.class 
 			}, {
-				"user2", "user2", "user2", "user2", null, "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class
+				"user2", "user2", "user2", "user2", null, "Azana", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class
 			}, {
 				"user1", "user1", "user1", "user1", "Marta", null, "664857123", "Calle sin numero", dateGood, "martita@gmail.es", ConstraintViolationException.class
 			}, {
-				"user3", "user3", "user3", "user3", "", "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class
+				"user3", "user3", "user3", "user3", "", "Azana", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class
 			}, {
 				"user1", "user1", "user1", "user1", "Marta", "", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", ConstraintViolationException.class 
 			},{
-				"user4", "user4", "user4", "user4", "Marta", "Azaña", "664857123", "Calle Novena", dateGood, null, ConstraintViolationException.class 
+				"user4", "user4", "user4", "user4", "Marta", "Azana", "664857123", "Calle Novena", dateGood, null, ConstraintViolationException.class 
 			}, {
-				"user1", "user1", "user1", "user1", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", ConstraintViolationException.class 
+				"user1", "user1", "user1", "user1", "Maria", "Villarin", "664254123", "Inserte direccion", dateGood, "", ConstraintViolationException.class 
 			}, {
 				"user1", "user1", "manager", "user1", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class
 			}, {
@@ -144,7 +143,6 @@ public class EditUserTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7], (Date) testingData[i][8], (String) testingData[i][9], (Class<?>) testingData[i][10]);
 			} catch (final Throwable oops) {
@@ -157,7 +155,7 @@ public class EditUserTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se desea probar la correcta edición de un usuario
+	 * Se desea probar la correcta edicion de un usuario
 	 */
 	protected void template(final String userAuthenticate, final String userEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final Class<?> expected) {
 		Class<?> caught;
@@ -187,8 +185,6 @@ public class EditUserTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 	
