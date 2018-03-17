@@ -42,6 +42,36 @@ public class EditConfigurationTest extends AbstractTest {
 	}
 	
 	/*
+	 * findName debe devolver el nombre por defecto
+	 */
+	@Test
+	public void testFindName() {
+		Assert.isTrue(this.configurationService.findName().equals("Adventure meetups"));
+	}
+	
+	/*
+	 * findBanner debe devolver la URL por defecto
+	 */
+	@Test
+	public void testFindBanner() {
+		Assert.isTrue(this.configurationService.findBanner().equals("https://tinyurl.com/adventure-meetup"));
+	}
+	
+	/*
+	 * findWelcomeMessage debe devolver un welcomeMessage para el inglés y otro para español
+	 */
+	@Test
+	public void testFindWelcomeMessage() {
+		Assert.isTrue(this.configurationService.findWelcomeMessage("es").equals("Tu sitio para organizar quedadas de aventura"));
+		Assert.isTrue(this.configurationService.findWelcomeMessage("en").equals("Your place to organise your adventure meetups!"));
+	}
+	
+	@Test
+	public void testFindWelcomeMessage2() {
+		Assert.isNull(this.configurationService.findWelcomeMessage("crac"));
+	}
+	
+	/*
 	 * El admin guarda la configuración tal y como está
 	 * El admin guarda la configuración cambiando la propiedad name
 	 * El admin guarda la configuración cambiando la propiedad banner
