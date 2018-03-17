@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -12,58 +13,60 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Service extends DomainEntity {
 
-	private String name;
+	private String					name;
 
-	private String description;
+	private String					description;
 
-	private String picture;
+	private String					picture;
 
-	private String status;
+	private String					status;
 
-	private Manager manager;
+	private Manager					manager;
 
-	private Collection<Category> categories;
+	private Collection<Category>	categories;
+
 
 	@NotBlank
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	@NotBlank
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
 	@URL
 	public String getPicture() {
-		return picture;
+		return this.picture;
 	}
 
-	public void setPicture(String picture) {
+	public void setPicture(final String picture) {
 		this.picture = picture;
 	}
 
 	@NotBlank
 	@Pattern(regexp = "ACCEPTED|CANCELLED")
 	public String getStatus() {
-		return status;
+		return this.status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 
@@ -71,21 +74,21 @@ public class Service extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public Manager getManager() {
-		return manager;
+		return this.manager;
 	}
 
-	public void setManager(Manager manager) {
+	public void setManager(final Manager manager) {
 		this.manager = manager;
 	}
 
 	@Valid
-	@NotNull
+	@NotEmpty
 	@ManyToMany
 	public Collection<Category> getCategories() {
-		return categories;
+		return this.categories;
 	}
 
-	public void setCategories(Collection<Category> categories) {
+	public void setCategories(final Collection<Category> categories) {
 		this.categories = categories;
 	}
 
