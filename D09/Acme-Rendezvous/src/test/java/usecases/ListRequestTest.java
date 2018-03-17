@@ -31,9 +31,9 @@ public class ListRequestTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. Probamos obtener el resultado previsto para el método findAll logueados como user1
-	 * 	2. Probamos obtener el resultado previsto para el método findAll sin loguear
-	 * 3. Probamos obtener el resultado previsto para el método findAll logueados como manager2
+	 * 1. Probamos obtener el resultado previsto para el metodo findAll logueados como user1
+	 * 	2. Probamos obtener el resultado previsto para el metodo findAll sin loguear
+	 * 3. Probamos obtener el resultado previsto para el metodo findAll logueados como manager2
 	 */
 	@Test()
 	public void testFindAll() {
@@ -49,7 +49,6 @@ public class ListRequestTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
@@ -60,11 +59,11 @@ public class ListRequestTest extends AbstractTest {
 	}
 
 	/*
-	 * 1. Probamos obtener el resultado previsto para el método findAllPaginated logueados como user1, para la página 1 y el tamaño 5
-	 * 	2. Probamos obtener el resultado previsto para el método findAllPaginated sin loguear, para la página 2 y el tamaño 4
-	 * 3. Probamos obtener el resultado previsto para el método findAllPaginated logueados como user2, para la página 2 y el tamaño 3
-	 * 4. Probamos no poder obtener el resultado previsto para el método findAllPaginated logueados como un manager
-	 * 5. Probamos no poder obtener el resultado previsto para el método findAllPaginated logueados como un admin
+	 * 1. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user1, para la página 1 y el tamaño 5
+	 * 	2. Probamos obtener el resultado previsto para el metodo findAllPaginated sin loguear, para la página 2 y el tamaño 4
+	 * 3. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user2, para la página 2 y el tamaño 3
+	 * 4. Probamos no poder obtener el resultado previsto para el metodo findAllPaginated logueados como un manager
+	 * 5. Probamos no poder obtener el resultado previsto para el metodo findAllPaginated logueados como un admin
 	 */
 	@Test()
 	public void testFindByUserAccountId() {
@@ -78,13 +77,12 @@ public class ListRequestTest extends AbstractTest {
 				}, {
 					"manager2", "findAllPaginated", 0, 2, 1, IllegalArgumentException.class
 				}, {
-					"admin", "findAllPaginated", 1, 1, 5, NumberFormatException.class //TODO: Porque da este error?
+					"administrator", "findAllPaginated", 1, 1, 5, IllegalArgumentException.class
 				}
 
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
@@ -123,8 +121,6 @@ public class ListRequestTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 }

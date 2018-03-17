@@ -37,9 +37,9 @@ public class ListCreditCardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. Probamos obtener el resultado previsto para el método findAll logueados como user1
-	 * 	2. Probamos obtener el resultado previsto para el método findAll sin loguear
-	 * 3. Probamos obtener el resultado previsto para el método findAll logueados como manager2
+	 * 1. Probamos obtener el resultado previsto para el metodo findAll logueados como user1
+	 * 	2. Probamos obtener el resultado previsto para el metodo findAll sin loguear
+	 * 3. Probamos obtener el resultado previsto para el metodo findAll logueados como manager2
 	 */
 	@Test()
 	public void testFindAll() {
@@ -55,7 +55,6 @@ public class ListCreditCardTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
@@ -66,13 +65,13 @@ public class ListCreditCardTest extends AbstractTest {
 	}
 
 	/*
-	 * 1. Probamos obtener el resultado previsto para el método findByUserAccountId logueados como user1, para la página 1 y el tamaño 5
-	 * 	2. Probamos obtener el resultado previsto para el método findByUserAccountId sin loguear, para la página 2 y el tamaño 4
-	 * 3. Probamos obtener el resultado previsto para el método findByUserAccountId logueados como user2, para la página 2 y el tamaño 3
-	 * 4. Probamos no poder obtener el resultado previsto para el método findByUserAccountId logueados como un manager
-	 * 5. Probamos no poder obtener el resultado previsto para el método findByUserAccountId logueados como un admin
-	 * 6. Probamos no poder obtener el resultado previsto para el método findByUserAccountId logueados como user4 y la página a null
-	 * 7. Probamos no poder obtener el resultado previsto para el método findByUserAccountId logueados como user3 y el tamaño a null
+	 * 1. Probamos obtener el resultado previsto para el metodo findByUserAccountId logueados como user1, para la pagina 1 y el tamano 5
+	 * 	2. Probamos obtener el resultado previsto para el metodo findByUserAccountId sin loguear, para la pagina 2 y el tamano 4
+	 * 3. Probamos obtener el resultado previsto para el metodo findByUserAccountId logueados como user2, para la pagina 2 y el tamano 3
+	 * 4. Probamos no poder obtener el resultado previsto para el metodo findByUserAccountId logueados como un manager
+	 * 5. Probamos no poder obtener el resultado previsto para el metodo findByUserAccountId logueados como un admin
+	 * 6. Probamos no poder obtener el resultado previsto para el metodo findByUserAccountId logueados como user4 y la pagina a null
+	 * 7. Probamos no poder obtener el resultado previsto para el metodo findByUserAccountId logueados como user3 y el tamano a null
 	 */
 	@Test()
 	public void testFindByUserAccountId() {
@@ -86,13 +85,12 @@ public class ListCreditCardTest extends AbstractTest {
 				}, {
 					"manager2", "findByUserAccountId", 1, 2, 1, IllegalArgumentException.class
 				}, {
-					"admin", "findByUserAccountId", 1, 1, 5, NumberFormatException.class //TODO: Porque da este error?
+					"administrator", "findByUserAccountId", 1, 1, 5, IllegalArgumentException.class
 				}
 
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
@@ -134,14 +132,11 @@ public class ListCreditCardTest extends AbstractTest {
 				creditCardsList = this.creditCardService.findByUserAccountId(userAccountId, page, size).getContent();
 				sizeCreditCard = creditCardsList.size();
 			}
-			System.out.println(sizeCreditCard);
 			Assert.isTrue(sizeCreditCard == tamano); 
 			super.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 }
