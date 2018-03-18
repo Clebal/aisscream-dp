@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import domain.CreditCard;
 import domain.Rendezvous;
@@ -134,7 +135,7 @@ public class SaveRequestTest extends AbstractTest {
 		Rendezvous rendezvousEntity;
 		Service servicioEntity;
 		CreditCard creditCardEntity;
-		Request request;
+		Request request, requestSave;
 
 		caught = null;
 		try {
@@ -148,8 +149,11 @@ public class SaveRequestTest extends AbstractTest {
 			request = this.requestService.create(rendezvousEntity, servicioEntity);
 			request.setCreditCard(creditCardEntity);
 			request.setComments(comments);
-			this.requestService.save(request);
+			requestSave = this.requestService.save(request);
 			super.unauthenticate();
+			
+			Assert.isTrue(this.requestService.findAll().contains(requestSave));
+
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

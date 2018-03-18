@@ -45,11 +45,11 @@ public class ListCreditCardTest extends AbstractTest {
 	public void testFindAll() {
 		final Object testingData[][] = {
 			{
-				"user1", "findAll", 5, 0, 0, null
+				"user1", "findAll", 6, 0, 0, null
 			}, {
-				null, "findAll", 5, 0, 0, null
+				null, "findAll", 6, 0, 0, null
 			}, {
-				"manager2", "findAll", 5, 0, 0, null
+				"manager2", "findAll", 6, 0, 0, null
 			}
 		};
 		

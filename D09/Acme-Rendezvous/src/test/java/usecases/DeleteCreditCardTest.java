@@ -36,12 +36,15 @@ public class DeleteCreditCardTest extends AbstractTest {
 
 	/*
 	 * 1. Probando que el user2 borra la creditCard2
+	 * 	2. Probando que el user4 borra la creditCard6
 	 */
 	@Test
 	public void positiveDeleteCreditCardTest() {
 		final Object testingData[][] = {
 			{
 				"user2", "creditCard2", null
+			}, {
+				"user4", "creditCard6", null
 			}
 		};
 			
@@ -127,6 +130,9 @@ public class DeleteCreditCardTest extends AbstractTest {
 			creditCardEntity = this.creditCardService.findOneToEdit(creditCardId);
 			this.creditCardService.delete(creditCardEntity);
 			super.unauthenticate();
+			
+			Assert.isTrue(!this.creditCardService.findAll().contains(creditCardEntity));
+
 			super.flushTransaction();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

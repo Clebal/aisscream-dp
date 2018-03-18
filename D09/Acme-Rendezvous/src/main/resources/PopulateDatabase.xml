@@ -1209,6 +1209,16 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user4" />
 	</bean>
 	
+	<bean id="creditCard6" class="domain.CreditCard">
+		<property name="holderName" value="Alejandro" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="345035739479236" />
+		<property name="expirationMonth" value="2" />
+		<property name="expirationYear" value="2020" />
+		<property name="cvvcode" value="147" />
+		<property name="user" ref="user4" />
+	</bean>
+	
 	<!-- Category -->
 	<bean id="category1" class="domain.Category">
 		<property name="name" value="Comida" />

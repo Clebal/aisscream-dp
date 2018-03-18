@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import domain.Manager;
 
@@ -163,7 +164,7 @@ public class RegisterManagerTest extends AbstractTest {
 	 */
 	protected void template(final String manager, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final String vat, final Class<?> expected) {
 		Class<?> caught;
-		Manager managerEntity;
+		Manager managerEntity, managerSave;
 
 		caught = null;
 		try {
@@ -180,9 +181,12 @@ public class RegisterManagerTest extends AbstractTest {
 			managerEntity.setEmail(email);
 			managerEntity.setVat(vat);
 			
-			this.managerService.save(managerEntity);
+			managerSave = this.managerService.save(managerEntity);
 			super.unauthenticate();
 			super.flushTransaction();
+			
+			Assert.isTrue(this.managerService.findAll().contains(managerSave));
+
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

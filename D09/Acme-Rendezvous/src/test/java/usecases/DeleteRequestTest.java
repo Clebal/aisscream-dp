@@ -126,6 +126,9 @@ public class DeleteRequestTest extends AbstractTest {
 			this.requestService.delete(requestEntity);
 			super.unauthenticate();
 			super.flushTransaction();
+			
+			Assert.isTrue(!this.requestService.findAll().contains(requestEntity));
+
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

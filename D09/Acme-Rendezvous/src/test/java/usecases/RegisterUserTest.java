@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import domain.User;
 
@@ -156,7 +157,7 @@ public class RegisterUserTest extends AbstractTest {
 	 */
 	protected void template(final String user, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final Class<?> expected) {
 		Class<?> caught;
-		User userEntity;
+		User userEntity, userSave;
 
 		caught = null;
 		try {
@@ -172,9 +173,12 @@ public class RegisterUserTest extends AbstractTest {
 			userEntity.setBirthdate(birthdate);
 			userEntity.setEmail(email);
 			
-			this.userService.save(userEntity);
+			userSave = this.userService.save(userEntity);
 			super.unauthenticate();
 			super.flushTransaction();
+			
+			Assert.isTrue(this.userService.findAll().contains(userSave));
+
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

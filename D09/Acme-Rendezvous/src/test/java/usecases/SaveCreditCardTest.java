@@ -140,7 +140,7 @@ public class SaveCreditCardTest extends AbstractTest {
 		Class<?> caught;
 		Integer userId;
 		User userEntity;
-		CreditCard creditCard;
+		CreditCard creditCard, creditCardEntity;
 
 		caught = null;
 		try {
@@ -157,9 +157,12 @@ public class SaveCreditCardTest extends AbstractTest {
 			creditCard.setExpirationMonth(expirationMonth);
 			creditCard.setExpirationYear(expirationYear);
 			creditCard.setCvvcode(cvvcode);
-			this.creditCardService.save(creditCard);
+			creditCardEntity = this.creditCardService.save(creditCard);
 			super.unauthenticate();
 			super.flushTransaction();
+			
+			Assert.isTrue(this.creditCardService.findAll().contains(creditCardEntity));
+
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
