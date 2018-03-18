@@ -133,16 +133,19 @@ public class ServiceService {
 	}
 
 	public void delete(final Service service) {
+		Service serviceToDelete;
 
-		Assert.notNull(service);
+		serviceToDelete = this.findOne(service.getId());
+
+		Assert.notNull(serviceToDelete);
 
 		Assert.isTrue(LoginService.isAuthenticated());
 
-		Assert.isTrue(service.getManager().getUserAccount().getId() == LoginService.getPrincipal().getId());
+		Assert.isTrue(serviceToDelete.getManager().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
-		Assert.isTrue(this.requestService.countByServiceId(service.getId()) == 0);
+		Assert.isTrue(this.requestService.countByServiceId(serviceToDelete.getId()) == 0);
 
-		this.serviceRepository.delete(service);
+		this.serviceRepository.delete(serviceToDelete);
 
 	}
 

@@ -48,10 +48,8 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView create() {
 		ModelAndView result;
 		Rendezvous rendezvous;
-		User creator;
 
-		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		rendezvous = this.rendezvousService.create(creator);
+		rendezvous = this.rendezvousService.create();
 
 		result = this.createEditModelAndView(rendezvous);
 

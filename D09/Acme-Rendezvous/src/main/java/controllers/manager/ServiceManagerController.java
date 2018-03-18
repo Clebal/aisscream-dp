@@ -141,19 +141,15 @@ public class ServiceManagerController extends AbstractController {
 		return result;
 	}
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(Service service, final BindingResult binding) {
+	public ModelAndView delete(final Service service, final BindingResult binding) {
 		ModelAndView result;
-		service = this.serviceService.reconstruct(service, binding);
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(service);
-		else
-			try {
-				this.serviceService.delete(service);
-				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(service, "service.commit.error");
-			}
+		try {
+			this.serviceService.delete(service);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(service, "service.commit.error");
+		}
 
 		return result;
 	}

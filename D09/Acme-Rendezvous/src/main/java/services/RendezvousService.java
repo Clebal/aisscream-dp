@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,16 +47,19 @@ public class RendezvousService {
 	}
 
 	// Simple CRUD methods----------
-	public Rendezvous create(final User creator) {
+	public Rendezvous create() {
 		Rendezvous result;
-		//Authority authority;
 		List<Rendezvous> linkerRendezvouses;
+		Authority authority;
+		User creator;
 
-		Assert.notNull(creator);
-		//		authority = new Authority();
-		//		authority.setAuthority("USER");
-		//		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		linkerRendezvouses = new ArrayList<Rendezvous>();
+		creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		result = new Rendezvous();
 		result.setCreator(creator);
 		result.setIsDeleted(false);
@@ -101,6 +103,8 @@ public class RendezvousService {
 		Assert.isTrue(rendezvousId != 0);
 		result = this.rendezvousRepository.findOne(rendezvousId);
 		Assert.notNull(result);
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority) || LoginService.getPrincipal().getAuthorities().contains(authority2));
 		if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 
@@ -114,17 +118,17 @@ public class RendezvousService {
 
 	public Rendezvous findOneToDisplay(final int rendezvousId) {
 		Rendezvous result;
-		Actor actor;
-		Calendar birthDatePlus18Years;
+		//		Actor actor;
+		//		Calendar birthDatePlus18Years;
 		Boolean canPermit;
-		Authority authority;
-		Authority authority2;
+		//		Authority authority;
+		//		Authority authority2;
 
-		authority = new Authority();
-		authority.setAuthority("USER");
-
-		authority2 = new Authority();
-		authority2.setAuthority("ADMIN");
+		//		authority = new Authority();
+		//		authority.setAuthority("USER");
+		//
+		//		authority2 = new Authority();
+		//		authority2.setAuthority("ADMIN");
 
 		Assert.isTrue(rendezvousId != 0);
 
@@ -132,17 +136,17 @@ public class RendezvousService {
 
 		Assert.notNull(result);
 
-		canPermit = false;
-		if (LoginService.isAuthenticated())
-			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
-				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-				birthDatePlus18Years = Calendar.getInstance();
-				birthDatePlus18Years.setTime(actor.getBirthdate());
-				birthDatePlus18Years.add(Calendar.YEAR, 18);
-				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
-					canPermit = true;
-			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
-				canPermit = true;
+		canPermit = this.canPermit();
+		//		if (LoginService.isAuthenticated())
+		//			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+		//				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		//				birthDatePlus18Years = Calendar.getInstance();
+		//				birthDatePlus18Years.setTime(actor.getBirthdate());
+		//				birthDatePlus18Years.add(Calendar.YEAR, 18);
+		//				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+		//					canPermit = true;
+		//			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+		//				canPermit = true;
 
 		Assert.isTrue(result.getAdultOnly() == false || result.getAdultOnly() == true && canPermit);
 
@@ -158,7 +162,9 @@ public class RendezvousService {
 		Assert.notNull(rendezvous);
 
 		currentMoment = new Date();
+		Assert.isTrue(LoginService.isAuthenticated());
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
 
 		//only can update o create a rendezvous its creator
 		Assert.isTrue(rendezvous.getCreator().equals(user));
@@ -175,15 +181,18 @@ public class RendezvousService {
 
 		//If you are creating a rendezvous the moment must be future, but if you are updated it the moment must be future or if this doesn´t change 
 		// then the moment must be the same
+		Assert.notNull(rendezvous.getMoment());
 		if (rendezvous.getId() == 0) {
 			Assert.isTrue(rendezvous.getMoment().compareTo(currentMoment) > 0);
 			Assert.isTrue(rendezvous.getIsDeleted() == false);
+			Assert.isTrue(rendezvous.getLinkerRendezvouses().size() == 0);
 		} else if (this.findOne(rendezvous.getId()).getMoment().compareTo(rendezvous.getMoment()) != 0)
 			Assert.isTrue(rendezvous.getMoment().compareTo(currentMoment) > 0);
 		//If you are updating, the rendezvous can not be deletd and must be in draft mode
 		if (rendezvous.getId() != 0) {
 			Assert.isTrue(this.findOne(rendezvous.getId()).getIsDeleted() == false);
 			Assert.isTrue(this.findOne(rendezvous.getId()).getDraft() == true);
+			Assert.isTrue(this.findOne(rendezvous.getId()).getLinkerRendezvouses().containsAll(rendezvous.getLinkerRendezvouses()));
 		}
 
 		if (rendezvous.getLongitude() != null || rendezvous.getLatitude() != null) {
@@ -193,46 +202,28 @@ public class RendezvousService {
 
 		result = this.rendezvousRepository.save(rendezvous);
 
-		//If you are creating the rendezvous, the creator must have a RSVP to that rendezvous
-
 		return result;
 	}
-
-	//	public void delete(final Rendezvous rendezvous) {
-	//		final Authority authority;
-	//		Rendezvous rendezvousForDelete;
-	//
-	//		authority.setAuthority("ADMIN");
-	//
-	//		Assert.notNull(rendezvous);
-	//
-	//		//only can deleted it an admin
-	//		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-	//
-	//		//Delete the comments
-	//		for (final Comment comment : this.commentService.findWithoutFatherByRendezvousId(rendezvous.getId()))
-	//			this.commentService.deleteFromRendezvous(rendezvous.getId()); //Este metodo te borra los comentarios para ese rendezvous teniendo en cuenta de borrar pri
-	//		//Delete answers
-	//		for (final Answer answer : this.answerService.findByRendezvousId(rendezvous.getId()))
-	//			this.answerService.deleteFromRendezvous(answer);
-	//
-	//		//Deletes rsvps
-	//		for (final Rsvp rsvp : this.rsvpService.findByRendezvousId(rendezvous.getId()))
-	//			this.rsvpService.deleteFromRendezvous(rsvp);
-	//
-	//		//Delete announcemments
-	//		for (final Announcement announcement : this.announcementService.findByRendezvousId(rendezvous.getId()))
-	//			this.announcementService.deleteFromRendezvous(announcement);
-	//
-	//		rendezvousForDelete = this.findOne(rendezvous.getId());
-	//		this.rendezvousRepository.delete(rendezvousForDelete);
-	//
-	//	}
-
 	public void virtualDelete(final Rendezvous rendezvous) {
+		Authority authority;
+		Authority authority2;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+
 		Assert.notNull(rendezvous);
-		//Assert.isTrue(rendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
-		Assert.isTrue(this.rendezvousRepository.findOne(rendezvous.getId()).getIsDeleted() == false);
+
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority) || LoginService.getPrincipal().getAuthorities().contains(authority2));
+		if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+			Assert.isTrue(this.findOne(rendezvous.getId()).getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
+			Assert.isTrue(rendezvous.getDraft() == true);
+		}
+		Assert.isTrue(this.rendezvousRepository.findOne(rendezvous.getId()).getIsDeleted() == false && this.rendezvousRepository.findOne(rendezvous.getId()).getDraft() == true);
 
 		rendezvous.setIsDeleted(true);
 
@@ -244,6 +235,7 @@ public class RendezvousService {
 		Assert.notNull(myRendezvous);
 		Assert.notNull(linkedRendezvous);
 		Assert.isTrue(!myRendezvous.equals(linkedRendezvous));
+		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(myRendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		Assert.isTrue(!linkedRendezvous.getLinkerRendezvouses().contains(myRendezvous));
 		Assert.isTrue(myRendezvous.getIsDeleted() == false && linkedRendezvous.getIsDeleted() == false);
@@ -257,6 +249,7 @@ public class RendezvousService {
 		Assert.notNull(myRendezvous);
 		Assert.notNull(linkedRendezvous);
 		Assert.isTrue(!myRendezvous.equals(linkedRendezvous));
+		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(myRendezvous.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		Assert.isTrue(linkedRendezvous.getLinkerRendezvouses().contains(myRendezvous));
 		Assert.isTrue(myRendezvous.getIsDeleted() == false && linkedRendezvous.getIsDeleted() == false);
@@ -269,6 +262,10 @@ public class RendezvousService {
 	public Collection<Rendezvous> findByCreatorId(final int creatorId, final int page, final int size) {
 		Collection<Rendezvous> result;
 		Pageable pageable;
+
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		Assert.isTrue(this.isPlus18Year() == true);
 
 		if (page == 0 || size <= 0)
 			pageable = new PageRequest(0, 5);
@@ -318,6 +315,10 @@ public class RendezvousService {
 		Collection<Rendezvous> result;
 		Pageable pageable;
 
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		Assert.isTrue(this.isPlus18Year() == true);
+
 		if (page == 0 || size <= 0)
 			pageable = new PageRequest(0, 5);
 		else
@@ -365,6 +366,10 @@ public class RendezvousService {
 	public Collection<Rendezvous> findByLinkerRendezvousId(final int linkerRendezvousId, final int page, final int size) {
 		Collection<Rendezvous> result;
 		Pageable pageable;
+
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		Assert.isTrue(this.isPlus18Year() == true);
 
 		if (page == 0 || size <= 0)
 			pageable = new PageRequest(0, 5);
@@ -438,6 +443,10 @@ public class RendezvousService {
 		Collection<Rendezvous> result;
 		Pageable pageable;
 
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		Assert.isTrue(this.isPlus18Year() == true);
+
 		if (page == 0 || size <= 0)
 			pageable = new PageRequest(0, 5);
 		else
@@ -484,6 +493,10 @@ public class RendezvousService {
 		Collection<Rendezvous> result;
 		Pageable pageable;
 
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		Assert.isTrue(this.isPlus18Year() == true);
+
 		if (page == 0 || size <= 0)
 			pageable = new PageRequest(0, 5);
 		else
@@ -505,6 +518,10 @@ public class RendezvousService {
 	public Collection<Rendezvous> findNotLinkedByRendezvous(final Rendezvous rendezvous, final int page, final int size) {
 		Collection<Rendezvous> result;
 		Pageable pageable;
+
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		Assert.isTrue(this.isPlus18Year() == true);
 
 		if (page == 0 || size <= 0)
 			pageable = new PageRequest(0, 5);
@@ -592,28 +609,35 @@ public class RendezvousService {
 	public Collection<Rendezvous> top10Rendezvouses() {
 		Collection<Object[]> listId;
 		List<Rendezvous> result;
-		User creator;
+		//final User creator;
 		Rendezvous r;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
 		result = new ArrayList<Rendezvous>();
 
 		listId = this.rendezvousRepository.top10Rendezvouses();
 
 		for (final Object[] o : listId) {
-			creator = this.userService.findOne((int) o[o.length - 1]);
-			r = this.create(creator);
-			r.setId((int) o[0]);
-			r.setVersion((int) o[1]);
-			r.setAdultOnly((boolean) o[2]);
-			r.setDescription((String) o[3]);
-			r.setDraft((boolean) o[4]);
-			r.setIsDeleted((boolean) o[5]);
-			r.setLatitude((Double) o[6]);
-			r.setLongitude((Double) o[7]);
-			r.setMoment((Date) o[8]);
-			r.setName((String) o[9]);
-			r.setPicture((String) o[10]);
-			r.setCreator(creator);
+			r = this.findOne((int) o[0]);
+			//			creator = this.userService.findOne((int) o[o.length - 1]);
+			//			r = this.create(creator);
+			//			r.setId((int) o[0]);
+			//			r.setVersion((int) o[1]);
+			//			r.setAdultOnly((boolean) o[2]);
+			//			r.setDescription((String) o[3]);
+			//			r.setDraft((boolean) o[4]);
+			//			r.setIsDeleted((boolean) o[5]);
+			//			r.setLatitude((Double) o[6]);
+			//			r.setLongitude((Double) o[7]);
+			//			r.setMoment((Date) o[8]);
+			//			r.setName((String) o[9]);
+			//			r.setPicture((String) o[10]);
+			//			r.setCreator(creator);
 
 			result.add(r);
 		}
@@ -676,7 +700,7 @@ public class RendezvousService {
 	}
 
 	public Boolean canPermit() {
-		Authority authority, authority2;
+		Authority authority, authority2, authority3;
 		Actor actor;
 		Calendar birthDatePlus18Years;
 		Boolean result;
@@ -687,10 +711,13 @@ public class RendezvousService {
 		authority2 = new Authority();
 		authority2.setAuthority("ADMIN");
 
+		authority3 = new Authority();
+		authority3.setAuthority("MANAGER");
+
 		result = false;
 
 		if (LoginService.isAuthenticated())
-			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+			if (LoginService.getPrincipal().getAuthorities().contains(authority) || LoginService.getPrincipal().getAuthorities().contains(authority3)) {
 				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 				birthDatePlus18Years = Calendar.getInstance();
 				birthDatePlus18Years.setTime(actor.getBirthdate());
@@ -703,33 +730,105 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Page<Rendezvous> findByCategoryId(final int categoryId, final int page, final int size) {
-		Page<Rendezvous> result;
+	public Collection<Rendezvous> findByCategoryId(final int categoryId, final int page, final int size) {
+		Collection<Rendezvous> result;
+		List<Rendezvous> rendezvouses;
+		int pageAux, tamaño, fromId, toId;
 
-		result = this.rendezvousRepository.findByCategoryId(categoryId, this.getPageable(page, size));
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		Assert.isTrue(this.isPlus18Year() == true);
+
+		Assert.isTrue(categoryId != 0);
+
+		result = new ArrayList<Rendezvous>();
+
+		rendezvouses = new ArrayList<Rendezvous>(this.rendezvousRepository.findByCategoryId(categoryId));
+
+		tamaño = rendezvouses.size();
+		pageAux = page;
+		if (page <= 0)
+			pageAux = 1;
+
+		fromId = (pageAux - 1) * size;
+		if (fromId > tamaño)
+			fromId = 0;
+		toId = (pageAux * size);
+		if (tamaño > size) {
+			if (toId > tamaño && fromId == 0)
+				toId = size;
+			else if (toId > tamaño && fromId != 0)
+				toId = tamaño;
+		} else
+			toId = tamaño;
+
+		for (final Rendezvous r : rendezvouses.subList(fromId, toId))
+			result.add(r);
 
 		return result;
 	}
 
-	public Page<Rendezvous> findByCategoryIdAllPublics(final int categoryId, final int page, final int size) {
-		Page<Rendezvous> result;
+	public Integer countByCategoryId(final int categoryId) {
+		Integer result;
 
-		result = this.rendezvousRepository.findByCategoryIdAllPublics(categoryId, this.getPageable(page, size));
+		result = this.rendezvousRepository.countFindByCategoryId(categoryId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> findByCategoryIdAllPublics(final int categoryId, final int page, final int size) {
+		Collection<Rendezvous> result;
+		List<Rendezvous> rendezvouses;
+		int pageAux, tamaño, fromId, toId;
+
+		Assert.isTrue(categoryId != 0);
+
+		result = new ArrayList<Rendezvous>();
+
+		rendezvouses = new ArrayList<Rendezvous>(this.rendezvousRepository.findByCategoryIdAllPublics(categoryId));
+
+		tamaño = rendezvouses.size();
+		pageAux = page;
+		if (page <= 0)
+			pageAux = 1;
+
+		fromId = (pageAux - 1) * size;
+		if (fromId > tamaño)
+			fromId = 0;
+		toId = (pageAux * size);
+		if (tamaño > size) {
+			if (toId > tamaño && fromId == 0)
+				toId = size;
+			else if (toId > tamaño && fromId != 0)
+				toId = tamaño;
+		} else
+			toId = tamaño;
+
+		for (final Rendezvous r : rendezvouses.subList(fromId, toId))
+			result.add(r);
+
+		return result;
+	}
+
+	public Integer countByCategoryIdAllPublics(final int categoryId) {
+		Integer result;
+
+		result = this.rendezvousRepository.countFindByCategoryIdAllPublics(categoryId);
 
 		return result;
 	}
 
 	//Auxilary methods
-	private Pageable getPageable(final int page, final int size) {
-		Pageable result;
-
-		if (page == 0 || size <= 0)
-			result = new PageRequest(0, 5);
-		else
-			result = new PageRequest(page - 1, size);
-
-		return result;
-	}
+	//	private Pageable getPageable(final int page, final int size) {
+	//		Pageable result;
+	//
+	//		if (page == 0 || size <= 0)
+	//			result = new PageRequest(0, 5);
+	//		else
+	//			result = new PageRequest(page - 1, size);
+	//
+	//		return result;
+	//	}
 
 	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
 		Rendezvous result;
@@ -757,6 +856,38 @@ public class RendezvousService {
 		this.validator.validate(result, binding);
 
 		return result;
+	}
+
+	private Boolean isPlus18Year() {
+		Authority authority;
+		Authority authority2;
+		Authority authority3;
+		Actor actor;
+		Boolean result;
+		Calendar birthDatePlus18Years;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
+
+		authority3 = new Authority();
+		authority3.setAuthority("MANAGER");
+
+		result = false;
+		if (LoginService.getPrincipal().getAuthorities().contains(authority) || LoginService.getPrincipal().getAuthorities().contains(authority3)) {
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			birthDatePlus18Years = Calendar.getInstance();
+			birthDatePlus18Years.setTime(actor.getBirthdate());
+			birthDatePlus18Years.add(Calendar.YEAR, 18);
+			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
+				result = true;
+		} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+			result = true;
+
+		return result;
+
 	}
 
 }
