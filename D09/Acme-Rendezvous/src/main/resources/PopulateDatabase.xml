@@ -340,7 +340,7 @@
 		<property name="name" value="Fiesta de cumpleaños infantil" />
 		<property name="description" value="Para disfrutar de un buen día" />
 		<property name="moment" value="06/20/2019 09:13" />
-		<property name="draft" value="false" />
+		<property name="draft" value="true" />
 		<property name="adultOnly" value="false" />
 		<property name="latitude" value="48.741895" />
 		<property name="longitude" value="114.989308" />
