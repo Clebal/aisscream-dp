@@ -316,6 +316,7 @@
 		<property name="creator" ref="user1" />
 		<property name="linkerRendezvouses">
 			<list>
+			<ref bean="rendezvous10" />
 			</list>
 		</property>
 	</bean>
