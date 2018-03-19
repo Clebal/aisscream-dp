@@ -15,15 +15,16 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<jstl:if test="${name==''}">
-	<p><spring:message code="welcome.greeting.prefix" /> <spring:message code="welcome.default.user" /><spring:message code="welcome.greeting.suffix" /></p>
-</jstl:if>
 
-<jstl:if test="${name!=''}">
-	<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
-</jstl:if>
-
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
-
-<p>${welcomeMessage}</p>
+<div style="text-align: center">
+	<h3>${welcomeMessage}</h3>
+	<jstl:if test="${nameUser != null}">
+		<h4><spring:message code="welcome.greeting.prefix" /> ${nameUser}<spring:message code="welcome.greeting.suffix" /></h4>
+	</jstl:if>
+	
+	<spring:message code="welcome.format.moment" var="format"/>
+	<fmt:parseDate value="${moment}" pattern="${format}" var="myDate"/>
+	<p><spring:message code="welcome.greeting.current.time"/> <fmt:formatDate value="${myDate}" pattern="${format}"/></p>
+</div>

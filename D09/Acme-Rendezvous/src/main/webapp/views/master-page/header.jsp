@@ -23,7 +23,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a style="background-image: url(http://www.uwyo.edu/reslife-dining/_files/re-design-images/dining-logos/rendezvouslogo_2016.png); -ms-behavior: url(styles/backgroundsize.min.htc);" class="navbar-brand" href="#"><span>Acme Rendezvous</span></a>
+	  <a style="background-image: url(${banner}); -ms-behavior: url(styles/backgroundsize.min.htc);" class="navbar-brand" href="#"><span>${nameHeader}</span></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -44,7 +44,8 @@
         		<ul class="dropdown-menu">
 					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.admin.dashboard" /></a></li>
 					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>		
-					<li><a href="announcement/administrator/list.do"><spring:message code="master.page.admin.announcement" /></a></li>		
+					<li><a href="announcement/administrator/list.do"><spring:message code="master.page.admin.announcement" /></a></li>
+					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.admin.configuration" /></a></li>		
 				</ul>
 			</security:authorize>
 	
