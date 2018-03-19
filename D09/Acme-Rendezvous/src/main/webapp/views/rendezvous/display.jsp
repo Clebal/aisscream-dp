@@ -121,9 +121,11 @@
 					
 			</jstl:if>
 					
-			<jstl:if test="${rendezvous.getIsDeleted()==false }">	
+			<jstl:if test="${rendezvous.getIsDeleted()==false }">
+					<jsp:useBean id="currentMomentVarAux" class="java.util.Date"/>
+				
 					<!-- Creamos un RSVP-->
-				<jstl:if test="${canCreateRSVP }">	
+				<jstl:if test="${canCreateRSVP && rendezvous.getMoment() > (currentMomentVarAux)}">	
 					<acme:displayLink parametre="rendezvousId" code="rendezvous.rsvp.create" action="rsvp/user/create.do" parametreValue="${rendezvous.getId()}"/>		
 				</jstl:if>
 			
