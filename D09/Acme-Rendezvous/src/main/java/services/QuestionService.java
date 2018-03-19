@@ -109,20 +109,25 @@ public class QuestionService {
 	}
 	
 	public void delete(final Question question) {
+		Question savedQuestion;
 		
 		Assert.notNull(question);
+		
+		savedQuestion = this.questionRepository.findOne(question.getId());
+		
+		// La question solo puede ser borrada por el creado del rendezvous.
+		Assert.isTrue(savedQuestion.getRendezvous().getCreator().equals(LoginService.getPrincipal()));
 		
 		for(final Answer a: this.answerService.findByQuestionId(question.getId())){
 			this.answerService.delete(a);
 		}
 		
-		for(final Question q: this.findByHigherNumber(question.getNumber())){
+		for(final Question q: this.findByHigherNumber(question.getNumber(), savedQuestion.getRendezvous().getId())){
 			q.setNumber(q.getNumber()-1);
-			this.save(q);
+			this.questionRepository.save(q);
 		}
 		
 		this.questionRepository.delete(question);
-		
 	}
 	
 	// Other business methods
@@ -175,17 +180,15 @@ public class QuestionService {
 		return result;
 	}
 	
-	public Collection<Question> findByHigherNumber(final int number) {
+	public Collection<Question> findByHigherNumber(final int number, final int rendezvousId) {
 		Collection<Question> result;
-		
-		Assert.isTrue(number != 0);
-		
-		result = this.questionRepository.findByHigherNumber(number);
+				
+		result = this.questionRepository.findByHigherNumber(number, rendezvousId);
 		
 		return result;
 	}
 	
-	// Auxiliar methods
+	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
 		
@@ -195,6 +198,10 @@ public class QuestionService {
 			result = new PageRequest(page - 1, size);
 		
 		return result;
+	}
+	
+	public void flush(){
+		this.questionRepository.flush();
 	}
 	
 	// Pruned object domain

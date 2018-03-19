@@ -57,6 +57,12 @@ public class ConfigurationService {
 	//Other business methods
 	public Configuration findUnique() {
 		Configuration result;
+		Authority authority;
+		
+		// Solo puede ser modificado por el admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		if(LoginService.isAuthenticated()) Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
 		result = this.configurationRepository.findUnique();
 		
@@ -65,15 +71,15 @@ public class ConfigurationService {
 	
 	public String findName() {
 		String result;
-
+		
 		result = this.configurationRepository.findName();
 
 		return result;
 	}
 
 	public String findBanner() {
-		String result;
-
+		String result;		
+		
 		result = this.configurationRepository.findBanner();
 
 		return result;
@@ -82,10 +88,16 @@ public class ConfigurationService {
 	public String findWelcomeMessage(final String countryCode) {
 		String result;
 		Internationalization internationalizationWelcomeMessage;
-		String welcomeMessageCode;
-
-		welcomeMessageCode = this.configurationRepository.findWelcomeMessage();
-		internationalizationWelcomeMessage = this.internationalizationService.findByCountryCodeAndMessageCode(countryCode, welcomeMessageCode);
+		String messageCode;
+		
+		Assert.notNull(countryCode);
+		
+		messageCode = this.configurationRepository.findWelcomeMessage();
+		
+		// El countryCode debe estar entre los idiomas disponibles
+		Assert.isTrue(this.internationalizationService.findAvailableLanguagesByMessageCode(messageCode).contains(countryCode));
+		
+		internationalizationWelcomeMessage = this.internationalizationService.findByCountryCodeAndMessageCode(countryCode, messageCode);
 		result = internationalizationWelcomeMessage.getValue();
 
 		return result;

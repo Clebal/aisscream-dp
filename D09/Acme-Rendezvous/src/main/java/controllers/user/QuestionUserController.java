@@ -113,8 +113,6 @@ public class QuestionUserController extends AbstractController {
 	public ModelAndView delete(Question question, BindingResult binding) {
 		ModelAndView result;
 		
-		question = this.questionService.reconstruct(question, binding);
-		
 		try {
 			this.questionService.delete(question);
 			result = new ModelAndView("redirect:list.do");

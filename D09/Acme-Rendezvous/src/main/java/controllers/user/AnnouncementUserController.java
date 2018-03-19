@@ -111,9 +111,7 @@ public class AnnouncementUserController extends AbstractController {
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(Announcement announcement, BindingResult binding) {
 		ModelAndView result;
-		
-		announcement = this.announcementService.reconstruct(announcement, binding);
-		
+				
 		try {
 			this.announcementService.delete(announcement);
 			result = new ModelAndView("redirect:list.do");

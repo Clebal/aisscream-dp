@@ -89,17 +89,25 @@ public class AnnouncementService {
 	public Announcement save(final Announcement announcement) {
 		Announcement result, saved;
 		Calendar calendar;
+		Authority authority;
 		
 		Assert.notNull(announcement);
 		Assert.isTrue(announcement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		authority = new Authority();
+		authority.setAuthority("USER");
 		
 		if(announcement.getId() == 0){
 			calendar = Calendar.getInstance();
 			calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), 0);
 			calendar.getTime().setTime(calendar.getTimeInMillis() - 1);
 			announcement.setMoment(calendar.getTime());
+			
 			// No puedo crear un announcement si el rendezvous está borrado
 			Assert.isTrue(!announcement.getRendezvous().getIsDeleted());
+			
+			// Solo puede ser creado por un USER
+			Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		}
 		
 		if(announcement.getId() != 0) {
@@ -114,14 +122,19 @@ public class AnnouncementService {
 	
 	public void delete(final Announcement announcement) {
 		Authority authority;
-		
+		Announcement savedAnnouncement;
+
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
 		
 		Assert.notNull(announcement);
-		Assert.isTrue(announcement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()) || LoginService.getPrincipal().getAuthorities().contains(authority));
 		
-		this.announcementRepository.delete(announcement);
+		savedAnnouncement = this.announcementRepository.findOne(announcement.getId());
+		
+		// Solo puede ser borrado por el administrador o por el creador del announcement
+		Assert.isTrue(savedAnnouncement.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()) || LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		this.announcementRepository.delete(savedAnnouncement);
 		
 	}
 	
@@ -158,11 +171,16 @@ public class AnnouncementService {
 		return result;
 	}
 	
-	
 	public Collection<Announcement> findByCreatorUserAccountId(final int userAccountId, final int page, final int size) {
 		Collection<Announcement> result;
+		Authority authority;
 		
 		Assert.isTrue(userAccountId != 0);
+		
+		// Solo puede ser accedido por un actor de tipo USER
+		authority = new Authority();
+		authority.setAuthority("USER");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
 		result = this.announcementRepository.findByCreatorUserAccountId(userAccountId, this.getPageable(page, size)).getContent();
 		
@@ -178,7 +196,7 @@ public class AnnouncementService {
 		
 		return result;
 	}
-	
+		
 	public Double[] avgStandartDerivationAnnouncementPerRendezvous() {
 		Double[] result;
 		
@@ -189,6 +207,12 @@ public class AnnouncementService {
 	
 	public Collection<Announcement> findAll(final Integer page, final Integer size) {
 		Collection<Announcement> result;
+		Authority authority;
+		
+		// Solo puede ser accedido por un administrador
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
 		result = this.announcementRepository.findAll(this.getPageable(page, size)).getContent();
 		
@@ -203,7 +227,7 @@ public class AnnouncementService {
 		return result;
 	}
 	
-	// Auxiliar methods
+	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
 		
@@ -213,6 +237,10 @@ public class AnnouncementService {
 			result = new PageRequest(page - 1, size);
 		
 		return result;
+	}
+	
+	public void flush(){
+		this.announcementRepository.flush();
 	}
 	
 	// Pruned object domain

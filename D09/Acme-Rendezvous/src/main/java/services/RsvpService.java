@@ -25,7 +25,7 @@ public class RsvpService {
 
 	// Managed repository
 	@Autowired
-	private RsvpRepository	rspvRepository;
+	private RsvpRepository	rsvpRepository;
 
 	// Supporting services
 	@Autowired
@@ -58,7 +58,7 @@ public class RsvpService {
 	public Collection<Rsvp> findAll() {
 		Collection<Rsvp> result;
 
-		result = this.rspvRepository.findAll();
+		result = this.rsvpRepository.findAll();
 
 		return result;
 	}
@@ -68,7 +68,7 @@ public class RsvpService {
 
 		Assert.isTrue(rsvpId != 0);
 
-		result = this.rspvRepository.findOne(rsvpId);
+		result = this.rsvpRepository.findOne(rsvpId);
 
 		return result;
 	}
@@ -78,7 +78,7 @@ public class RsvpService {
 		
 		Assert.isTrue(rsvpId != 0);
 		
-		result = this.rspvRepository.findOne(rsvpId);
+		result = this.rsvpRepository.findOne(rsvpId);
 		
 		isOlderThan18Rsvp(result);
 		
@@ -93,10 +93,11 @@ public class RsvpService {
 		Assert.isTrue(rsvp.getAttendant().getUserAccount().equals(LoginService.getPrincipal()));
 
 		if (rsvp.getId() == 0){
-			Assert.isTrue(this.rspvRepository.findByAttendantUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
+			Assert.isTrue(this.rsvpRepository.findByAttendantUserIdAndRendezvousId(rsvp.getAttendant().getId(), rsvp.getRendezvous().getId()) == null);
 			isOlderThan18Rsvp(rsvp);
 			Assert.isTrue(!rsvp.getAttendant().equals(rsvp.getRendezvous().getCreator()));
 			Assert.isTrue(!rsvp.getRendezvous().getIsDeleted());
+			Assert.isTrue(rsvp.getRendezvous().getMoment().compareTo(new Date()) > 0);
 		}else{
 			saved = this.findOne(rsvp.getId());
 			// Comprobar que no se ha cambiado ni el attendant ni el rendezvous, solo se cambia el status.
@@ -105,7 +106,7 @@ public class RsvpService {
 			Assert.isTrue(rsvp.getRendezvous().getMoment().compareTo(new Date()) > 0 || !rsvp.getRendezvous().getIsDeleted());
 		}
 
-		result = this.rspvRepository.save(rsvp);
+		result = this.rsvpRepository.save(rsvp);
 
 		return result;
 	}
@@ -116,7 +117,7 @@ public class RsvpService {
 		Assert.notNull(rsvp);
 		Assert.isTrue(rsvp.getAttendant().getUserAccount().equals(LoginService.getPrincipal()));
 
-		result = this.rspvRepository.save(rsvp);
+		result = this.rsvpRepository.save(rsvp);
 
 		return result;
 	}
@@ -130,13 +131,13 @@ public class RsvpService {
 		Assert.notNull(rsvp);
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
-		this.rspvRepository.delete(rsvp);
+		this.rsvpRepository.delete(rsvp);
 
 	}
 	
 	public void delete(final Rsvp rsvp) {
 
-		this.rspvRepository.delete(rsvp);
+		this.rsvpRepository.delete(rsvp);
 
 	}
 
@@ -147,7 +148,7 @@ public class RsvpService {
 		Assert.isTrue(userAccountId != 0);
 		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);
 
-		result = this.rspvRepository.findByAttendantUserAccountId(userAccountId, this.getPageable(page, size)).getContent();
+		result = this.rsvpRepository.findByAttendantUserAccountId(userAccountId, this.getPageable(page, size)).getContent();
 
 		return result;
 	}
@@ -158,7 +159,7 @@ public class RsvpService {
 		Assert.isTrue(userAccountId != 0);
 		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);
 
-		result = this.rspvRepository.countByAttendantUserAccountId(userAccountId);
+		result = this.rsvpRepository.countByAttendantUserAccountId(userAccountId);
 
 		return result;
 	}
@@ -169,7 +170,7 @@ public class RsvpService {
 
 		Assert.isTrue(rendezvousId != 0);
 
-		result = this.rspvRepository.findByRendezvousId(rendezvousId, this.getPageable(page, size)).getContent();
+		result = this.rsvpRepository.findByRendezvousId(rendezvousId, this.getPageable(page, size)).getContent();
 
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 		
@@ -183,7 +184,7 @@ public class RsvpService {
 
 		Assert.isTrue(rendezvousId != 0);
 
-		result = this.rspvRepository.countByRendezvousId(rendezvousId);
+		result = this.rsvpRepository.countByRendezvousId(rendezvousId);
 
 		return result;
 	}
@@ -194,7 +195,7 @@ public class RsvpService {
 		Assert.isTrue(userAccountId != 0);
 		Assert.isTrue(this.userService.findByUserAccountId(userAccountId).getUserAccount().equals(LoginService.getPrincipal()));
 
-		result = this.rspvRepository.findByCreatorUserAccountId(userAccountId);
+		result = this.rsvpRepository.findByCreatorUserAccountId(userAccountId);
 
 		return result;
 	}
@@ -204,12 +205,12 @@ public class RsvpService {
 
 		Assert.isTrue(userId != 0 && rendezvousId != 0);
 
-		result = this.rspvRepository.findByAttendantUserIdAndRendezvousId(userId, rendezvousId);
+		result = this.rsvpRepository.findByAttendantUserIdAndRendezvousId(userId, rendezvousId);
 
 		return result;
 	}
 	
-	// Auxiliar methods
+	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
 		
@@ -219,6 +220,10 @@ public class RsvpService {
 			result = new PageRequest(page - 1, size);
 		
 		return result;
+	}
+	
+	public void flush(){
+		this.rsvpRepository.flush();
 	}
 	
 	private void isOlderThan18Rsvp(final Rsvp rsvp) {
