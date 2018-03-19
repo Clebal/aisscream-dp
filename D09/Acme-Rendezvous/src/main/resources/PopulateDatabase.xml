@@ -410,6 +410,12 @@
 		<property name="attendant" ref="user5" />
 		<property name="rendezvous" ref="rendezvous5" />
 	</bean>
+	
+	<bean id="rsvp10" class="domain.Rsvp">
+		<property name="status" value="ACCEPTED" />
+		<property name="attendant" ref="user6" />
+		<property name="rendezvous" ref="rendezvous9" />
+	</bean>
 	<!-- Añadido -->
 	
 	<!-- Question -->
