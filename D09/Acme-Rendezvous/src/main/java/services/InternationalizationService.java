@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +74,16 @@ public class InternationalizationService {
 
 		result = this.internationalizationRepository.findByCountryCodeMessageCode(countryCode, messageCode);
 
+		return result;
+	}
+	
+	public Collection<String> findAvailableLanguagesByMessageCode(final String messageCode) {
+		Collection<String> result;
+		
+		Assert.notNull(messageCode);
+		
+		result = this.internationalizationRepository.findAvailableLanguagesByMessageCode(messageCode);
+		
 		return result;
 	}
 
