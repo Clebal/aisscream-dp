@@ -105,15 +105,17 @@ public class RequestService {
 
 	public void delete(final Request request) {
 		User user;
+		Request requestToDelete;
 
-		Assert.notNull(request);
+		requestToDelete = this.findOne(request.getId());
+		Assert.notNull(requestToDelete);
 
 		//Lo borra el creador de la request
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
-		Assert.isTrue(request.getRendezvous().getCreator().equals(user));
+		Assert.isTrue(requestToDelete.getRendezvous().getCreator().equals(user));
 
-		this.requestRepository.delete(request);
+		this.requestRepository.delete(requestToDelete);
 
 	}
 
