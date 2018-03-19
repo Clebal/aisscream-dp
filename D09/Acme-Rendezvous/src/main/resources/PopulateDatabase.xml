@@ -189,7 +189,7 @@
 	<bean id="rendezvous1" class="domain.Rendezvous">
 		<property name="name" value="Reunión para excursión" />
 		<property name="description" value="El próximo jueves vamos a tener una reunión para organizar la salida al campo." />
-		<property name="moment" value="03/19/2018 23:44" />
+		<property name="moment" value="03/19/2019 23:44" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
 		<property name="latitude" value="11.2" />
@@ -209,7 +209,7 @@
 	<bean id="rendezvous2" class="domain.Rendezvous">
 		<property name="name" value="Almuerzo de empresa" />
 		<property name="description" value="El día 25 realizaremos el ya tradicional almuerzo de empresa en el Restaurante El Pollo Loco." />
-		<property name="moment" value="05/25/2018 12:00" />
+		<property name="moment" value="05/25/2019 12:00" />
 		<property name="picture" value="https://difiere.com/wp-content/uploads/sites/4/2017/10/rachel-park-366508-1024x683.jpg" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="true" />
@@ -226,7 +226,7 @@
 	<bean id="rendezvous3" class="domain.Rendezvous">
 		<property name="name" value="Revisión médica" />
 		<property name="description" value="La revisión médica anual tendrá lugar el próximo lunes en el salón de reuniones." />
-		<property name="moment" value="05/15/2018 20:05" />
+		<property name="moment" value="05/15/2019 20:05" />
 		<property name="draft" value="true" />
 		<property name="adultOnly" value="true" />
 		<property name="latitude" value="40.741895" />
@@ -243,7 +243,7 @@
 	<bean id="rendezvous4" class="domain.Rendezvous">
 		<property name="name" value="Cita con el coordinador" />
 		<property name="description" value="Es una cita muy importante a la que no se puede faltar." />
-		<property name="moment" value="06/02/2018 09:13" />
+		<property name="moment" value="06/02/2019 09:13" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="true" />
 		<property name="latitude" value="40.741895" />
@@ -260,7 +260,7 @@
 	<bean id="rendezvous5" class="domain.Rendezvous">
 		<property name="name" value="Cita con mis amigos" />
 		<property name="description" value="Es una cita de reencuentro" />
-		<property name="moment" value="06/17/2018 09:13" />
+		<property name="moment" value="06/17/2019 09:13" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
 		<property name="latitude" value="40.741895" />
@@ -277,7 +277,7 @@
 	<bean id="rendezvous6" class="domain.Rendezvous">
 		<property name="name" value="Cita con mis primos" />
 		<property name="description" value="Es una cita para organizar un asunto familiar" />
-		<property name="moment" value="08/17/2018 09:13" />
+		<property name="moment" value="08/17/2019 09:13" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
 		<property name="isDeleted" value="false" />
@@ -292,7 +292,7 @@
 	<bean id="rendezvous7" class="domain.Rendezvous">
 		<property name="name" value="Cita romántica con mi pareja" />
 		<property name="description" value="Es una cita por nuestro aniversario" />
-		<property name="moment" value="08/21/2018 09:13" />
+		<property name="moment" value="08/21/2019 09:13" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
 		<property name="isDeleted" value="false" />
@@ -307,7 +307,7 @@
 	<bean id="rendezvous8" class="domain.Rendezvous">
 		<property name="name" value="Reunión de viejos amigos" />
 		<property name="description" value="Para recordar viejos momentos" />
-		<property name="moment" value="06/17/2019 09:13" />
+		<property name="moment" value="06/17/2017 09:13" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
 		<property name="latitude" value="40.741895" />
@@ -324,7 +324,7 @@
 	<bean id="rendezvous9" class="domain.Rendezvous">
 		<property name="name" value="Reunión con los amigos del club" />
 		<property name="description" value="Para disfrutar de nuestro hobby" />
-		<property name="moment" value="06/20/2019 09:13" />
+		<property name="moment" value="06/20/2017 09:13" />
 		<property name="draft" value="false" />
 		<property name="adultOnly" value="false" />
 		<property name="latitude" value="45.741895" />
