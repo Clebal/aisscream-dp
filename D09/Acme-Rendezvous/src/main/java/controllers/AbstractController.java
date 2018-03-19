@@ -23,9 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 
 import security.LoginService;
+import services.ActorService;
 import services.ConfigurationService;
-import services.ManagerService;
-import services.UserService;
 
 @Controller
 public class AbstractController {
@@ -34,10 +33,8 @@ public class AbstractController {
 	private ConfigurationService configurationService;
 	
 	@Autowired
-	private UserService userService;
+	private ActorService actorService;
 	
-	@Autowired
-	private ManagerService managerService;
 	
 	public ModelAndView paginateModelAndView(final String path, final double collectionSize, final Integer page, final Integer size){
 		ModelAndView result;
@@ -65,8 +62,7 @@ public class AbstractController {
 		model.addAttribute("nameHeader", result2);
 		
 		if(LoginService.isAuthenticated()){
-			actor = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			if(actor == null) this.managerService.findByUserAccountId(LoginService.getPrincipal().getId());
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 			result4 = actor.getName() + " " + actor.getSurname();
 			model.addAttribute("nameUser", result4);
 		}
