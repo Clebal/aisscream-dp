@@ -88,6 +88,9 @@ public class EditTermConditionTest extends AbstractTest {
 	}
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * Se prueba la edición de términos y condiciones.
+	 */
 	protected void template(final String user, final String username, final String countryCode, final String messageCode, final String value, final Class<?> expected) {
 		Class<?> caught;
 		Internationalization termCondition, termConditionEntity;

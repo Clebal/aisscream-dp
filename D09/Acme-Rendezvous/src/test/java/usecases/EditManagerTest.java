@@ -34,6 +34,15 @@ public class EditManagerTest extends AbstractTest {
 
 	// Tests ------------------------------------------------------------------
 
+	/*
+	 * 1. Probando editar manager con telefono y dirección a null
+	 * 2. Probando editar manager con telefono pero con dirección a null
+	 * 3. Probando editar manager con telefono a vacío y dirección a null
+	 * 4. Probando editar manager con telefono a null y dirección
+	 * 5. Probando editar manager con telefono a null y dirección a vacío
+	 * 6. Probando editar manager con telefono y dirección
+	 * 7. Probando editar manager con telefono y dirección a vacío
+	 */
 	@Test
 	public void positiveEditManagerTest() {
 		Calendar calendar;
@@ -45,17 +54,17 @@ public class EditManagerTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 			{
-				"manager1", "manager1", "manager1", "manager1", "Antonio", "AzaÃ±a", null, null, date, "ant@mail.com", "20063918-Y", null
+				"manager1", "manager1", "manager1", "manager1", "Antonio", "Azaña", null, null, date, "ant@mail.com", "20063918-Y", null
 			}, {
 				"manager2", "manager2", "manager2", "manager2", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", "30063918-Y", null
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Carlos", "SÃ¡nchez", "", null, date, "carlosmanager@mail.com", "45063918-Y", null
+				"manager1", "manager1", "manager1", "manager1", "Carlos", "Sánchez", "", null, date, "carlosmanager@mail.com", "45063918-Y", null
 			}, {
-				"manager2", "manager2", "manager2", "manager2", "Paco", "MillÃ¡n", null, "Calle Real NÂº6", date, "paquito@mail.com", "20063918-A", null
+				"manager2", "manager2", "manager2", "manager2", "Paco", "Millán", null, "Calle Real Nº6", date, "paquito@mail.com", "20063918-A", null
 			}, {
 				"manager1", "manager1", "manager1", "manager1", "Manolo", "Guillen", null, "", date, "manolete@mail.com", "20063918-Y", null
 			}, {
-				"manager2", "manager2", "manager2", "manager2", "Pepe", "Escolar", "321456987", "DirecciÃ³n incorrecta", date, "pepe@mail.com", "20547918-G", null
+				"manager2", "manager2", "manager2", "manager2", "Pepe", "Escolar", "321456987", "Dirección incorrecta", date, "pepe@mail.com", "20547918-G", null
 			}, {
 				"manager1", "manager1", "manager1", "manager1", "Francisco", "Cerrada", "", "", date, "fran@mail.com", "29863918-H", null
 			}
@@ -81,13 +90,13 @@ public class EditManagerTest extends AbstractTest {
 	 * 6. El email tiene que tener el formato de un email
 	 * 7. El nombre no puede ser nulo
 	 * 8. El apellido no puede ser nulo
-	 * 9. El nombre no puede ser vacÃ­o
-	 * 10. El apellido no puede ser vacÃ­o
+	 * 9. El nombre no puede ser vacío
+	 * 10. El apellido no puede ser vacío
 	 * 11. El email no puede ser nulo
-	 * 12. El email no puede ser vacÃ­o
+	 * 12. El email no puede ser vacío
 	 * 13. El username no puede cambiar
 	 * 14. La password no puede cambiar
-	 * 15. El vat no puede ser vacÃ­o
+	 * 15. El vat no puede ser vacío
 	 * 16. El vat no puede ser nulo
 	 */
 	@Test()
@@ -104,37 +113,37 @@ public class EditManagerTest extends AbstractTest {
 			
 		final Object testingData[][] = {
 			{
-				"manager1", "manager2", "manager2", "manager2", "Antonio", "AzaÃ±a", null, null, dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class
+				"manager1", "manager2", "manager2", "manager2", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class
 			}, {
-				"admin", "manager2", "manager2", "manager2", "Antonio", "AzaÃ±a", "652147893", null, dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class 
+				"admin", "manager2", "manager2", "manager2", "Antonio", "Azaña", "652147893", null, dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class 
 			}, {
-				"user1", "manager2", "manager2", "manager2", "Antonio", "Perez", "", "Calle Manager NÂº41", dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class
+				"user1", "manager2", "manager2", "manager2", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", "20063918-Y", IllegalArgumentException.class
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Alejandro", "AzaÃ±a", null, null, dateBad, "ant@mail.com", "20063918-Y", ConstraintViolationException.class
+				"manager1", "manager1", "manager1", "manager1", "Alejandro", "Azaña", null, null, dateBad, "ant@mail.com", "20063918-Y", ConstraintViolationException.class
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Manuel", "AzaÃ±a", null, null, null, "ant@mail.com", "20063918-Y", ConstraintViolationException.class
+				"manager1", "manager1", "manager1", "manager1", "Manuel", "Azaña", null, null, null, "ant@mail.com", "20063918-Y", ConstraintViolationException.class
 			}, {
 				"manager1", "manager1", "manager1", "manager1", "Marta", "Sanchez", "664857123", "Calle Falsa 23", dateGood, "manuelito", "20063918-Y", ConstraintViolationException.class
 			}, {
-				"manager2", "manager2", "manager2", "manager2", null, "AzaÃ±a", "664857123", "Calle Inventada", dateGood, "m@mail.com", "20063918-Y", ConstraintViolationException.class 
+				"manager2", "manager2", "manager2", "manager2", null, "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", "20063918-Y", ConstraintViolationException.class 
 			}, {
 				"manager1", "manager1", "manager1", "manager1", "Marta", null, "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "20063918-Y", ConstraintViolationException.class 
 			}, {
-				"manager2", "manager2", "manager2", "manager2", "", "AzaÃ±a", "664857123", "Calle Inventada", dateGood, "m@mail.com", "20063918-Y", ConstraintViolationException.class 
+				"manager2", "manager2", "manager2", "manager2", "", "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", "20063918-Y", ConstraintViolationException.class 
 			}, {
 				"manager1", "manager1", "manager1", "manager1", "Marta", "", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "20063918-Y", ConstraintViolationException.class
 			},{
-				"manager2", "manager2", "manager2", "manager2", "Marta", "AzaÃ±a", "664857123", "Calle Novena", dateGood, null, "20063918-Y", ConstraintViolationException.class 
+				"manager2", "manager2", "manager2", "manager2", "Marta", "Azaña", "664857123", "Calle Novena", dateGood, null, "20063918-Y", ConstraintViolationException.class 
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "MarÃ­a", "VillarÃ­n", "664254123", "Inserte direcciÃ³n", dateGood, "", "20063918-Y", ConstraintViolationException.class 
+				"manager1", "manager1", "manager1", "manager1", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", "20063918-Y", ConstraintViolationException.class 
 			}, {
-				"manager1", "manager1", "user", "manager1", "Gostin", "Perez", "", "Calle manager NÂº41", dateGood, "gostin@mail.com", "20063918-Y", IllegalArgumentException.class
+				"manager1", "manager1", "user", "manager1", "Gostin", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "20063918-Y", IllegalArgumentException.class
 			}, {
-				"manager2", "manager2", "manager2", "admin", "Olga", "Martinez", "", "Calle manager NÂº41", dateGood, "gostin@mail.com", "20063918-Y", IllegalArgumentException.class
+				"manager2", "manager2", "manager2", "admin", "Olga", "Martinez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "20063918-Y", IllegalArgumentException.class
 			}, {
-				"manager2", "manager2", "manager2", "manager2", "Zema", "Perez", "", "Calle manager NÂº41", dateGood, "gostin@mail.com", "", ConstraintViolationException.class 
+				"manager2", "manager2", "manager2", "manager2", "Zema", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "", ConstraintViolationException.class 
 			}, {
-				"manager1", "manager1", "manager1", "manager1", "Javier", "Perez", "", "Calle manager NÂº41", dateGood, "gostin@mail.com", null, ConstraintViolationException.class 
+				"manager1", "manager1", "manager1", "manager1", "Javier", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", null, ConstraintViolationException.class 
 			}
 		};
 		
@@ -152,7 +161,7 @@ public class EditManagerTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se desea probar la correcta ediciÃ³n de un manager
+	 * Se desea probar la correcta edición de un manager.
 	 */
 	protected void template(final String managerAuthenticate, final String managerEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final String vat, final Class<?> expected) {
 		Class<?> caught;

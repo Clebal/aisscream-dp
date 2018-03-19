@@ -93,6 +93,9 @@ public class ListTermConditionTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * Se desea probar el listado correcto de los términos y condiciones.
+	 */
 	protected void template(final String user, final String username, final String countryCode, final String messageCode, final Class<?> expected) {
 		Class<?> caught;
 		Internationalization termCondition;
@@ -114,7 +117,7 @@ public class ListTermConditionTest extends AbstractTest {
 			
 			termCondition = this.internationalizationService.findByCountryCodeAndMessageCode(countryCode, messageCode);
 			
-			if(termCondition.getCountryCode().equals("es")) {
+			if (termCondition.getCountryCode().equals("es")) {
 				Assert.isTrue(termCondition.getValue().substring(0, 50).equals("INFORMACIÓN RELEVANTE  Es requisito necesario para"));
 			} else { 
 				Assert.isTrue(termCondition.getValue().substring(0, 50).equals("RELEVANT INFORMATION    It is a necessary requirem"));

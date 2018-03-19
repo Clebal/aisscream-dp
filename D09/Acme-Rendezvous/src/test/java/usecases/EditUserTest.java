@@ -58,9 +58,9 @@ public class EditUserTest extends AbstractTest {
 			}, {
 				"user2", "user2", "user2", "user2", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", null
 			}, {
-				"user3", "user3", "user3", "user3", "Carlos", "SÃ¡nchez", "", null, date, "carlosuser@mail.com", null
+				"user3", "user3", "user3", "user3", "Carlos", "Sánchez", "", null, date, "carlosuser@mail.com", null
 			}, {
-				"user4", "user4", "user4", "user4", "Paco", "MillÃ¡n", null, "Calle Real NÂº6", date, "paquito@mail.com", null 
+				"user4", "user4", "user4", "user4", "Paco", "Millán", null, "Calle Real Nº6", date, "paquito@mail.com", null 
 			}, {
 				"user5", "user5", "user5", "user5", "Manolo", "Guillen", null, "", date, "manolete@mail.com", null 
 			}, {
@@ -115,7 +115,7 @@ public class EditUserTest extends AbstractTest {
 			}, {
 				"admin", "user2", "user2", "user2", "Antonio", "Azana", "652147893", null, dateGood, "ant@mail.com", IllegalArgumentException.class
 			}, {
-				"manager1", "user2", "user2", "user2", "Antonio", "Perez", "", "Calle Manager NÂº41", dateGood, "ant@mail.com", IllegalArgumentException.class
+				"manager1", "user2", "user2", "user2", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", IllegalArgumentException.class
 			}, {
 				"user1", "user1", "user1", "user1", "Alejandro", "Azana", null, null, dateBad, "ant@mail.com", ConstraintViolationException.class
 			}, {
@@ -135,9 +135,9 @@ public class EditUserTest extends AbstractTest {
 			}, {
 				"user1", "user1", "user1", "user1", "Maria", "Villarin", "664254123", "Inserte direccion", dateGood, "", ConstraintViolationException.class 
 			}, {
-				"user1", "user1", "manager", "user1", "Gostin", "Perez", "", "Calle User NÂº41", dateGood, "gostin@mail.com", IllegalArgumentException.class
+				"user1", "user1", "manager", "user1", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class
 			}, {
-				"user3", "user3", "user3", "admin", "Gostin", "Perez", "", "Calle User NÂº41", dateGood, "gostin@mail.com", IllegalArgumentException.class
+				"user3", "user3", "user3", "admin", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class
 			}
 		};
 		
@@ -155,7 +155,7 @@ public class EditUserTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se desea probar la correcta edicion de un usuario
+	 * Se desea probar la correcta edicion de un usuario.
 	 */
 	protected void template(final String userAuthenticate, final String userEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final Class<?> expected) {
 		Class<?> caught;

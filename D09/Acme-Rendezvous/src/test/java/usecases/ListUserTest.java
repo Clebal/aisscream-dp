@@ -135,8 +135,8 @@ public class ListUserTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is not authenticated must be able to list the users of 
-	 * the system and navigate to their profiles, which include personal data 
+	 * An actor who is not authenticated must be able to list the users 
+	 * of the system and navigate to their profiles, which include personal data
 	 * and the list of rendezvouses that they’ve attended or are going to attend.
 	 */
 	protected void template(final String user, final String method, final String rendezvous, final Integer tamano, final int page, final int size, final Class<?> expected) {

@@ -35,13 +35,13 @@ public class EditAdministratorTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. Probando editar administrador con telefono y dirección a null
-	 * 2. Probando editar administrador con telefono pero con dirección a null
-	 * 3. Probando editar usuario con telefono a vacío y dirección a null
-	 * 4. Probando editar administrador con telefono a null y dirección
-	 * 5. Probando editar administrador con telefono a null y dirección a vacío
-	 * 6. Probando editar administrador con telefono y dirección
-	 * 7. Probando editar administrador con telefono y dirección a vacío
+	 * 1. Probando editar administrador con telefono y direcci�n a null
+	 * 2. Probando editar administrador con telefono pero con direcci�n a null
+	 * 3. Probando editar administrador con telefono a vac�o y direcci�n a null
+	 * 4. Probando editar administrador con telefono a null y direcci�n
+	 * 5. Probando editar administrador con telefono a null y direcci�n a vac�o
+	 * 6. Probando editar administrador con telefono y direcci�n
+	 * 7. Probando editar administrador con telefono y direcci�n a vac�o
 	 */
 	@Test
 	public void positiveEditAdministratorTest() {
@@ -64,7 +64,7 @@ public class EditAdministratorTest extends AbstractTest {
 			}, {
 				"admin", "administrator", "admin", "admin", "José", "Rumer", null, "", date, "joselito@mail.com", null
 			}, {
-				"admin", "administrator", "admin", "admin", "Pepe", "Escolar", "258753159", "Dirección Correcta", date, "pepe@mail.com", null
+				"admin", "administrator", "admin", "admin", "Pepe", "Escolar", "258753159", "Direcci�n Correcta", date, "pepe@mail.com", null
 			}, {
 				"admin", "administrator", "admin", "admin", "Fran", "Vinson", "", "", date, "fran@mail.com", null
 			}
@@ -90,10 +90,10 @@ public class EditAdministratorTest extends AbstractTest {
 	 * 6. El email tiene que tener el formato de un email
 	 * 7. El nombre no puede ser nulo
 	 * 8. El apellido no puede ser nulo
-	 * 9. El nombre no puede ser vacío
-	 * 10. El apellido no puede ser vacío
+	 * 9. El nombre no puede ser vac�o
+	 * 10. El apellido no puede ser vac�o
 	 * 11. El email no puede ser nulo
-	 * 12. El email no puede ser vacío
+	 * 12. El email no puede ser vac�o
 	 * 13. El username no puede cambiar
 	 * 14. La password no puede cambiar
 	 */
@@ -111,17 +111,17 @@ public class EditAdministratorTest extends AbstractTest {
 			
 		final Object testingData[][] = {
 			{
-				"user1", "administrator", "admin", "admin", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class 
+				"user1", "administrator", "admin", "admin", "Antonio", "Aza�a", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class 
 			}, {
 				"manager2", "administrator", "admin", "admin", "Jesús", "Harvey", "652147893", null, dateGood, "harvey@mail.com", IllegalArgumentException.class 
 			}, {
 				"user1", "administrator", "admin", "admin", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class 
 			}, {
-				"admin", "administrator", "admin", "admin", "Alejandro", "Azaña", null, null, dateBad, "alexito@mail.com", ConstraintViolationException.class 
+				"admin", "administrator", "admin", "admin", "Alejandro", "Aza�a", null, null, dateBad, "alexito@mail.com", ConstraintViolationException.class 
 			}, {
 				"admin", "administrator", "admin", "admin", "Manuel", "Sterne", null, null, null, "sterne@mail.com", ConstraintViolationException.class 
 			}, {
-				"admin", "administrator", "admin", "admin", "Diana", "Martín", "664857123", "Calle Falsa 23", dateGood, "diana", ConstraintViolationException.class 
+				"admin", "administrator", "admin", "admin", "Diana", "Mart�n", "664857123", "Calle Falsa 23", dateGood, "diana", ConstraintViolationException.class 
 			}, {
 				"admin", "administrator", "admin", "admin", null, "Ahmed", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class 
 			}, {
@@ -129,11 +129,11 @@ public class EditAdministratorTest extends AbstractTest {
 			}, {
 				"admin", "administrator", "admin", "admin", "", "Ahmed", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class 
 			}, {
-				"admin", "administrator", "admin", "admin", "Lucía", "", "664857123", "Calle sin numero", dateGood, "lucia@gmail.es", ConstraintViolationException.class 
+				"admin", "administrator", "admin", "admin", "Luc�a", "", "664857123", "Calle sin numero", dateGood, "lucia@gmail.es", ConstraintViolationException.class 
 			},{
 				"admin", "administrator", "admin", "admin", "Marta", "Merdoz", "664857123", "Calle Novena", dateGood, null, ConstraintViolationException.class 
 			}, {
-				"admin", "administrator", "admin", "admin", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", ConstraintViolationException.class 
+				"admin", "administrator", "admin", "admin", "Mar�a", "Villar�n", "664254123", "Inserte direcci�n", dateGood, "", ConstraintViolationException.class 
 			}, {
 				"admin", "administrator", "user50", "admin", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", IllegalArgumentException.class 
 			}, {
@@ -155,7 +155,7 @@ public class EditAdministratorTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se desea probar la correcta edición de un administrador
+	 * Se desea probar la correcta edici�n de un administrador.
 	 */
 	protected void template(final String administratorAuthenticate, final String administratorEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final Class<?> expected) {
 		Class<?> caught;

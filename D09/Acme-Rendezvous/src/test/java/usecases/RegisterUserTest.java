@@ -33,13 +33,13 @@ public class RegisterUserTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 	
 	/*
-	 * 1. Probando registrar usuario con telefono y direcciÃ³n a null
-	 * 2. Probando registrar usuario con telefono pero con direcciÃ³n a null
-	 * 3. Probando registrar usuario con telefono a vacÃ­o y direcciÃ³n a null
-	 * 4. Probando registrar usuario con telefono a null y direcciÃ³n
-	 * 5. Probando registrar usuario con telefono a null y direcciÃ³n a vacÃ­o
-	 * 6. Probando registrar usuario con telefono y direcciÃ³n
-	 * 7. Probando registrar usuario con telefono y direcciÃ³n a vacÃ­o
+	 * 1. Probando registrar usuario con telefono y dirección a null
+	 * 2. Probando registrar usuario con telefono pero con dirección a null
+	 * 3. Probando registrar usuario con telefono a vacío y dirección a null
+	 * 4. Probando registrar usuario con telefono a null y dirección
+	 * 5. Probando registrar usuario con telefono a null y dirección a vacío
+	 * 6. Probando registrar usuario con telefono y dirección
+	 * 7. Probando registrar usuario con telefono y dirección a vacío
 	 */
 	@Test
 	public void positiveRegisterUserTest() {
@@ -52,17 +52,17 @@ public class RegisterUserTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 				{
-					null, "antonio1", "antonio1", "Antonio", "AzaÃ±a", null, null, date, "ant@mail.com", null 
+					null, "antonio1", "antonio1", "Antonio", "Azaña", null, null, date, "ant@mail.com", null 
 				}, {
 					null, "alexito", "alexito", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", null 
 				}, {
 					null, "carlos", "carlos", "Carlos", "SÃ¡nchez", "", null, date, "carlosuser@mail.com", null 
 				}, {
-					null, "paquito", "paquito", "Paco", "MillÃ¡n", null, "Calle Real NÂº6", date, "paquito@mail.com", null 
+					null, "paquito", "paquito", "Paco", "MillÃ¡n", null, "Calle Real Nº6", date, "paquito@mail.com", null 
 				}, {
 					null, "manolo", "manolo", "Manolo", "Guillen", null, "", date, "manolete@mail.com", null 
 				}, {
-					null, "pepito", "pepito", "Pepe", "Escolar", "321456987", "DirecciÃ³n incorrecta", date, "pepe@mail.com", null
+					null, "pepito", "pepito", "Pepe", "Escolar", "321456987", "Dirección incorrecta", date, "pepe@mail.com", null
 				}, {
 					null, "francisco", "francisco", "Francisco", "Cerrada", "", "", date, "fran@mail.com", null 
 				}
@@ -88,10 +88,10 @@ public class RegisterUserTest extends AbstractTest {
 	 * 6. El email tiene que tener el formato de un email
 	 * 7. El nombre no puede ser nulo
 	 * 8. El apellido no puede ser nulo
-	 * 9. El nombre no puede ser vacÃ­o
-	 * 10. El apellido no puede ser vacÃ­o
+	 * 9. El nombre no puede ser vacío
+	 * 10. El apellido no puede ser vacío
 	 * 11. El email no puede ser nulo
-	 * 12. El email no puede ser vacÃ­o
+	 * 12. El email no puede ser vacío
 	 * 13. El username debe estar entre 5 y 32
 	 * 14. La password debe estar entre 5 y 32
 	 */
@@ -109,33 +109,33 @@ public class RegisterUserTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 				{
-					"user2", "user13", "user13", "Antonio", "AzaÃ±a", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class 
+					"user2", "user13", "user13", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class 
 				}, {
-					"admin", "user23", "user23", "Antonio", "AzaÃ±a", "652147893", null, dateGood, "ant@mail.com", IllegalArgumentException.class 
+					"admin", "user23", "user23", "Antonio", "Azaña", "652147893", null, dateGood, "ant@mail.com", IllegalArgumentException.class 
 				}, {
-					"manager1", "user23", "user23", "Antonio", "Perez", "", "Calle Manager NÂº41", dateGood, "ant@mail.com", IllegalArgumentException.class 
+					"manager1", "user23", "user23", "Antonio", "Perez", "", "Calle Manager Nº41", dateGood, "ant@mail.com", IllegalArgumentException.class 
 				}, {
-					null, "alexito", "alexito","Alejandro", "AzaÃ±a", null, null, dateBad, "ant@mail.com", ConstraintViolationException.class 
+					null, "alexito", "alexito","Alejandro", "Azaña", null, null, dateBad, "ant@mail.com", ConstraintViolationException.class 
 				}, {
-					null, "manuel", "manuel", "Manuel", "AzaÃ±a", null, null, null, "ant@mail.com", ConstraintViolationException.class 
+					null, "manuel", "manuel", "Manuel", "Azaña", null, null, null, "ant@mail.com", ConstraintViolationException.class 
 				}, {
 					null, "marta", "marta", "Marta", "Sanchez", "664857123", "Calle Falsa 23", dateGood, "manuelito", ConstraintViolationException.class 
 				}, {
-					null, "azaÃ±a", "azaÃ±a", null, "AzaÃ±a", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class 
+					null, "azaña", "azaña", null, "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class 
 				}, {
 					null, "marta", "marta", "Marta", null, "664857123", "Calle sin numero", dateGood, "martita@gmail.es", ConstraintViolationException.class 
 				}, {
-					null, "azaÃ±a2", "azaÃ±a2", "", "AzaÃ±a", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class 
+					null, "azaña2", "azaña2", "", "Azaña", "664857123", "Calle Inventada", dateGood, "m@mail.com", ConstraintViolationException.class 
 				}, {
 					null, "marta2", "marta2", "Marta", "", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", ConstraintViolationException.class 
 				},{
-					null, "marta3", "marta3", "Marta", "AzaÃ±a", "664857123", "Calle Novena", dateGood, null, ConstraintViolationException.class 
+					null, "marta3", "marta3", "Marta", "Azaña", "664857123", "Calle Novena", dateGood, null, ConstraintViolationException.class 
 				}, {
-					null, "maria", "maria", "MarÃ­a", "VillarÃ­n", "664254123", "Inserte direcciÃ³n", dateGood, "", ConstraintViolationException.class 
+					null, "maria", "maria", "María", "Villarín", "664254123", "Inserte dirección", dateGood, "", ConstraintViolationException.class 
 				}, {
-					null, "gost", "gostino", "Gostin", "Perez", "", "Calle User NÂº41", dateGood, "gostin@mail.com", ConstraintViolationException.class 
+					null, "gost", "gostino", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", ConstraintViolationException.class 
 				}, {
-					null, "administratoradministratoradministrator", "admin", "Gostin", "Perez", "", "Calle User NÂº41", dateGood, "gostin@mail.com", ConstraintViolationException.class 
+					null, "administratoradministratoradministrator", "admin", "Gostin", "Perez", "", "Calle User Nº41", dateGood, "gostin@mail.com", ConstraintViolationException.class 
 				}
 		};
 		

@@ -96,10 +96,11 @@ public class ListRequestTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is authenticated as a user must be able to request a service for one of the rendezvouses 
-	 * that he or she’s created. He or she must specify a valid credit card in every request for a service. 
+	 * An actor who is authenticated as a user must be able to request 
+	 * a service for one of the rendezvouses that he or she’s created. He 
+	 * or she must specify a valid credit card in every request for a service. 
 	 * Optionally, he or she can provide some comments in the request. 
-	 */
+	*/
 	protected void template(final String user, final String method, final Integer tamano, final int page, final int size, final Class<?> expected) {
 		Class<?> caught;
 		Collection<Request> requests;
