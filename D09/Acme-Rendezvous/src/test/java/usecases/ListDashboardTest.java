@@ -1,0 +1,233 @@
+
+package usecases;
+
+import java.util.Collection;
+
+import javax.transaction.Transactional;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
+import security.Authority;
+import security.LoginService;
+import services.AnnouncementService;
+import services.AnswerService;
+import services.CategoryService;
+import services.CommentService;
+import services.ManagerService;
+import services.QuestionService;
+import services.RendezvousService;
+import services.ServiceService;
+import services.UserService;
+import utilities.AbstractTest;
+import domain.Manager;
+import domain.Rendezvous;
+import domain.Service;
+
+@ContextConfiguration(locations = {
+	"classpath:spring/junit.xml"
+})
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
+public class ListDashboardTest extends AbstractTest {
+
+	// System under test ------------------------------------------------------
+	@Autowired
+	private UserService			userService;
+
+	@Autowired
+	private AnnouncementService	announcementService;
+
+	@Autowired
+	private RendezvousService	rendezvousService;
+
+	@Autowired
+	private QuestionService		questionService;
+
+	@Autowired
+	private CommentService		commentService;
+
+	@Autowired
+	private AnswerService		answerService;
+	
+	@Autowired
+	private ServiceService 		serviceService;
+	
+	@Autowired
+	private ManagerService 		managerService;
+
+	@Autowired
+	private CategoryService 	categoryService;
+	
+	// Tests ------------------------------------------------------------------
+
+	/*
+	 * 1.
+	 * 2.
+	 * 3.
+	 */
+	@Test()
+	public void testPositiveTest() {
+		final Object testingData[][] = {
+			{
+				"admin", 1, 5, null
+			}, {
+				"admin", 2, 5, null
+			}, {
+				"admin", 1, 10, null
+			}, {
+				"admin", 1, 20, null
+			}
+		};
+		
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				System.out.println(i);
+				super.startTransaction();
+				this.template((String) testingData[i][0], (Integer) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+	
+	/*
+	 * 1.
+	 * 2.
+	 * 3.
+	 */
+	@Test()
+	public void testNegativeTest() {
+		final Object testingData[][] = {
+			{
+				"manager1", 0, 0, IllegalArgumentException.class
+			}, {
+				"user1", 0, 0, IllegalArgumentException.class
+			}, {
+				"admin", 1, 30, IllegalArgumentException.class
+			}
+		};
+		
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				System.out.println(i);
+				super.startTransaction();
+				this.template((String) testingData[i][0], (Integer) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+	
+	// Ancillary methods ------------------------------------------------------
+
+	/*
+	 * Listar las queries en Dashboard. Pasos:
+	 * 1. Autenticar administrador
+	 * 2. Obtener todos los datos
+	 */
+	protected void template(final String user, final Integer page, final Integer sizeTopSellingServices, final Class<?> expected) {
+		Class<?> caught;
+		Authority authority;
+		
+		Double[] rendezvousesPerUser, avgMinMaxStandardDesviationServicesPerRendezvous, usersPerRendezvous, rendezvousesRsvpdPerUser, announcementsPerRendezvous, questionsPerRendezvous, answersPerRendezvous ,repliesPerComment;
+		Collection<Rendezvous> rendezvousesTop;
+		Page<Service> bestSellingServices;
+		Collection<Service> topSellingServices;
+		Collection<Manager> managerMoreServicesAverage, managerMoreServicesCancelled;
+		Double ratioUserRendezvousVsNo, avgNumberCategoriesPerRendezvous, avgRatioServicesCategory;
+		Integer size;
+		
+		size = 5;
+		caught = null;
+		try {
+			
+			authority = new Authority();
+			authority.setAuthority("ADMIN");
+
+			// 1. Autenticar administrador
+			super.authenticate(user);
+			// Comprobar que el usuario autenticado es un administrador
+			Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+			
+			// 2. Obtener todos los datos
+			rendezvousesPerUser = this.rendezvousService.avgStandardDRsvpdCreatedPerUser();
+			Assert.isTrue(rendezvousesPerUser[0] == 1.50); // The average of rendezvouses created per user
+			Assert.isTrue(rendezvousesPerUser[1] == 2.565800719658485); // The standard deviation of rendezvouses created per user 
+			
+			ratioUserRendezvousVsNo = this.rendezvousService.ratioCreatorsVsTotal();
+			Assert.isTrue(ratioUserRendezvousVsNo == 0.5); // The ratio of users who have ever created a rendezvous versus the users who have never created any rendezvouses
+			
+			usersPerRendezvous = this.userService.avgStandardDUsersPerRendezvous();
+			Assert.isTrue(usersPerRendezvous[0] == 1.50); // The average of users per rendezvous 
+			Assert.isTrue(usersPerRendezvous[1] == 0.9574271074081828); // The standard deviation of users per rendezvous
+			
+			rendezvousesRsvpdPerUser = this.rendezvousService.avgStandardDRendezvousesRsvpdPerUser();
+			Assert.isTrue(rendezvousesRsvpdPerUser[0] == 1.50); // The average of rendezvouses that are RSVPd per user
+			Assert.isTrue(rendezvousesRsvpdPerUser[1] == 0.9574271074081828); // The standard deviation of rendezvouses that are RSVPd per user
+			
+			rendezvousesTop = this.rendezvousService.top10Rendezvouses();
+			Assert.isTrue(rendezvousesTop.size() == 9); // The top-10 rendezvouses in terms of users who have RSVPd them
+			
+			announcementsPerRendezvous = this.announcementService.avgStandartDerivationAnnouncementPerRendezvous();
+			Assert.isTrue(announcementsPerRendezvous[0] == 1.2222); // The average of announcements per rendezvous
+			Assert.isTrue(announcementsPerRendezvous[1] == 1.8121673810797343); // The standard deviation of announcements per rendezvous
+			
+			questionsPerRendezvous = this.questionService.avgStandartDerivationQuestionsPerRendezvous();
+			Assert.isTrue(questionsPerRendezvous[0] == 1.3333); // The average of the number of questions per rendezvous
+			Assert.isTrue(questionsPerRendezvous[1] == 1.825741858563557); // The standard deviation of the number of questions per rendezvous
+			
+			answersPerRendezvous = this.answerService.avgStandardAnswerPerRendezvous();
+			Assert.isTrue(answersPerRendezvous[0] == 2.00); // The average of the number of answers to the questions per rendezvous
+			Assert.isTrue(answersPerRendezvous[1] == 2.3570226038373074); // The standard deviation of the number of answers to the questions per rendezvous
+			
+			repliesPerComment = this.commentService.avgStandardRepliesPerComment();
+			Assert.isTrue(repliesPerComment[0] == 0.1818); // The average of replies per comment
+			Assert.isTrue(repliesPerComment[1] == 0.38569460724496946); // The standard deviation of replies per comment
+			
+			bestSellingServices = this.serviceService.bestSellingServices(page, size);
+			if(page == 1) Assert.isTrue(bestSellingServices.getContent().size() == 2);
+			if(page == 2) Assert.isTrue(bestSellingServices.getContent().size() == 0);
+
+			managerMoreServicesAverage = this.managerService.managerMoreServicesAverage();
+			Assert.isTrue(managerMoreServicesAverage.size() == 1);
+			for(Manager m: managerMoreServicesAverage) {
+				Assert.isTrue(m.getName().equals("José María"));
+			}
+			
+			managerMoreServicesCancelled = this.managerService.managerMoreServicesCancelled();
+			Assert.isTrue(managerMoreServicesCancelled.size() == 1);
+			for(Manager m: managerMoreServicesCancelled) {
+				Assert.isTrue(m.getName().equals("José María"));
+			}
+			
+			avgNumberCategoriesPerRendezvous = this.categoryService.avgNumberCategoriesPerRendezvous();
+			Assert.isTrue(avgNumberCategoriesPerRendezvous == 0.8889);
+			
+			avgRatioServicesCategory = this.serviceService.ratioServicesEachCategory();
+			Assert.isTrue(avgRatioServicesCategory == 0.0952381);
+			
+			avgMinMaxStandardDesviationServicesPerRendezvous = this.serviceService.avgMinMaxStandartDerivationServicesPerRendezvous();		
+			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[0] == 0.8889);
+			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[1] == 0.00);
+			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[2] == 3.00);
+			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[3] == 0.8748897643647018);
+			
+			topSellingServices = this.serviceService.topBestSellingServices(sizeTopSellingServices);
+			Assert.isTrue(topSellingServices.size() == 5 || topSellingServices.size() == 7);
+			
+			super.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		System.out.println("Expected " + expected);
+		System.out.println("Caught " + caught);
+		super.checkExceptions(expected, caught);
+	}
+}

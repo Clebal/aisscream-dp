@@ -30,53 +30,11 @@ public class EditConfigurationTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * findUnique debe devolver solo un configuration
-	 */
-	@Test
-	public void testFindUnique() {
-		Configuration configuration;
-		
-		configuration = this.configurationService.findUnique();
-		
-		Assert.notNull(configuration);
-	}
-	
-	/*
-	 * findName debe devolver el nombre por defecto
-	 */
-	@Test
-	public void testFindName() {
-		Assert.isTrue(this.configurationService.findName().equals("Adventure meetups"));
-	}
-	
-	/*
-	 * findBanner debe devolver la URL por defecto
-	 */
-	@Test
-	public void testFindBanner() {
-		Assert.isTrue(this.configurationService.findBanner().equals("https://tinyurl.com/adventure-meetup"));
-	}
-	
-	/*
-	 * findWelcomeMessage debe devolver un welcomeMessage para el inglés y otro para español
-	 */
-	@Test
-	public void testFindWelcomeMessage() {
-		Assert.isTrue(this.configurationService.findWelcomeMessage("es").equals("Tu sitio para organizar quedadas de aventura"));
-		Assert.isTrue(this.configurationService.findWelcomeMessage("en").equals("Your place to organise your adventure meetups!"));
-	}
-	
-	@Test
-	public void testFindWelcomeMessage2() {
-		Assert.isNull(this.configurationService.findWelcomeMessage("crac"));
-	}
-	
-	/*
-	 * El admin guarda la configuración tal y como está
-	 * El admin guarda la configuración cambiando la propiedad name
-	 * El admin guarda la configuración cambiando la propiedad banner
-	 * El admin guarda la configuración cambiando la propiedad welcomeMessage
-	 * El admin guarda la configuración cambiando todas las propiedades
+	 * 1. El admin guarda la configuración tal y como está
+	 * 2. El admin guarda la configuración cambiando la propiedad name
+	 * 3. El admin guarda la configuración cambiando la propiedad banner
+	 * 4. El admin guarda la configuración cambiando la propiedad welcomeMessage
+	 * 5. El admin guarda la configuración cambiando todas las propiedades
 	 */
 	@Test
 	public void driverConfigurationPositiveTest() {
@@ -107,9 +65,9 @@ public class EditConfigurationTest extends AbstractTest {
 	}
 	
 	/*
-	 * Un actor de tipo usuario no puede modificar configuration
-	 * Un actor de tipo manager no puede modificar configuration
-	 * La propiedad banner debe cumplir el pattern URL
+	 * 1. Un actor de tipo usuario no puede modificar configuration
+	 * 2. Un actor de tipo manager no puede modificar configuration
+	 * 3. La propiedad banner debe cumplir el pattern URL
 	 */
 	@Test
 	public void driverConfigurationNegativeTest() {
@@ -137,27 +95,45 @@ public class EditConfigurationTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * Editar configuration. Pasos:
+	 * 1. Autenticarnos como administrador.
+	 * 2. Obtener el único configuration que existe
+	 * 3. Editamos el configuration
+	 * 4. Guardamos el configuration
+	 * 5. Volvemos a la vista de configuration
+	 */
 	protected void template(final String user, final String name, final String banner, final String welcomeMessage, final Class<?> expected) {
 		Class<?> caught;
-		Configuration oldConfiguration, newConfiguration;
+		Configuration oldConfiguration, newConfiguration, savedConfiguration;
 
 		caught = null;
 		try {
 			
+			// 1. Autenticarnos como administrador.
 			super.authenticate(user);
 			
+			// 2. Obtener el único configuration que existe
 			oldConfiguration = this.configurationService.findUnique();
 			
+			// 3. Editamos el configuration
 			newConfiguration = this.copyConfiguration(oldConfiguration);
-			
 			if(name != null) newConfiguration.setName(name);
 			if(banner != null) newConfiguration.setBanner(banner);
 			if(welcomeMessage != null) newConfiguration.setWelcomeMessage(welcomeMessage);
 				
+			// 4. Guardamos el configuration
 			this.configurationService.save(newConfiguration);
+			
+			// 5. Volvemos a la vista de configuration
+			savedConfiguration = this.configurationService.findUnique();
+			if(name != null) Assert.isTrue(savedConfiguration.getName().equals(name));
+			if(banner != null) Assert.isTrue(savedConfiguration.getBanner().equals(banner));
+			if(welcomeMessage != null) Assert.isTrue(savedConfiguration.getWelcomeMessage().equals(welcomeMessage));
 			
 			super.unauthenticate();
 			super.flushTransaction();
+			
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
