@@ -96,7 +96,7 @@ public class ConfigurationService {
 		
 		// El countryCode debe estar entre los idiomas disponibles
 		Assert.isTrue(this.internationalizationService.findAvailableLanguagesByMessageCode(messageCode).contains(countryCode));
-		
+	
 		internationalizationWelcomeMessage = this.internationalizationService.findByCountryCodeAndMessageCode(countryCode, messageCode);
 		result = internationalizationWelcomeMessage.getValue();
 

@@ -98,10 +98,16 @@ public class CreditCardService {
 	}
 	
 	public void delete(final CreditCard creditCard) {
+		CreditCard savedCreditCard;
 		
 		Assert.notNull(creditCard);
 		
-		this.creditCardRepository.delete(creditCard);
+		savedCreditCard = this.creditCardRepository.findOne(creditCard.getId());
+		
+		// Solo puede borrarlo el creador del mismo
+		Assert.isTrue(savedCreditCard.getUser().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		this.creditCardRepository.delete(savedCreditCard);
 		
 	}
 	

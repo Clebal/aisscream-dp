@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.CreditCardService;
+import services.RequestService;
 import services.UserService;
 
 import controllers.AbstractController;
@@ -28,8 +29,8 @@ public class CreditCardUserController extends AbstractController {
 	@Autowired
 	private UserService userService;
 	
-//	@Autowired
-//	private RequestService requestService;
+	@Autowired
+	private RequestService requestService;
 	
 	// Constructor
 	public CreditCardUserController() {
@@ -72,16 +73,16 @@ public class CreditCardUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam int creditcardId) {
 		ModelAndView result;
 		CreditCard creditCard;
-//		boolean isAdded;
-				
+		boolean isAdded;
+
 		creditCard = this.creditCardService.findOneToEdit(creditcardId);
 		Assert.notNull(creditCard);
-		
-//		isAdded = this.requestService.countByCreditCardId(creditCardId) == 0;
-	
+
+		isAdded = this.requestService.countByCreditCardId(creditcardId) == 0;
+
 		result = this.createEditModelAndView(creditCard);
-//		result.addObject("isAdded", isAdded);
-		
+		result.addObject("isAdded", isAdded);
+
 		return result;
 	}
 	
@@ -111,8 +112,6 @@ public class CreditCardUserController extends AbstractController {
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(CreditCard creditCard, BindingResult binding) {
 		ModelAndView result;
-		
-		creditCard = this.creditCardService.reconstruct(creditCard, binding);
 		
 		try {
 			this.creditCardService.delete(creditCard);

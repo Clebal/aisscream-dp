@@ -1,7 +1,5 @@
 package repositories;
 
-import java.util.Collection;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,9 +22,6 @@ public interface RsvpRepository extends JpaRepository<Rsvp, Integer>{
 	
 	@Query("select count(r) from Rsvp r where r.rendezvous.id = ?1")
 	Integer countByRendezvousId(final int rendezvousId);
-	
-	@Query("select r from Rsvp r where r.rendezvous.creator.userAccount.id = ?1")
-	Collection<Rsvp> findByCreatorUserAccountId(final int userAccountId);
 	
 	@Query("select r from Rsvp r where r.attendant.id = ?1 and r.rendezvous.id = ?2")
 	Rsvp findByAttendantUserIdAndRendezvousId(final int userId, final int rendezvousId);
