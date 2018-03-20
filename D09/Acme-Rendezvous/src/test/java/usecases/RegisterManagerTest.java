@@ -53,19 +53,19 @@ public class RegisterManagerTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 				{
-					null, "antonio1", "antonio1", "Antonio", "Azan", null, null, date, "ant@mail.com", "20063918-Y", null 
+					null, "antonio1", "antonio1", "Antonio", "Azan", null, null, date, "ant@mail.com", "20063919-Y", null 
 				}, {
-					null, "alexito", "alexito", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", "20063918-Y", null 
+					null, "alexito", "alexito", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", "20063920-Y", null 
 				}, {
-					null, "carlos", "carlos", "Carlos", "Sánchez", "", null, date, "carlosuser@mail.com", "20483918-Y", null 
+					null, "carlos", "carlos", "Carlos", "Sánchez", "", null, date, "carlosuser@mail.com", "20063921-Y", null 
 				}, {
-					null, "paquito", "paquito", "Paco", "Millán", null, "Calle Real Nº6", date, "paquito@mail.com", "20063918-Y", null 
+					null, "paquito", "paquito", "Paco", "Millán", null, "Calle Real Nº6", date, "paquito@mail.com", "20063922-Y", null 
 				}, {
-					null, "manolo", "manolo", "Manolo", "Guillen", null, "", date, "manolete@mail.com", "20893918-Y", null 
+					null, "manolo", "manolo", "Manolo", "Guillen", null, "", date, "manolete@mail.com", "20063923-Y", null 
 				}, {
-					null, "pepito", "pepito", "Pepe", "Escolar", "321456987", "Direccion incorrecta", date, "pepe@mail.com", "20063918-Y", null
+					null, "pepito", "pepito", "Pepe", "Escolar", "321456987", "Direccion incorrecta", date, "pepe@mail.com", "20063924-Y", null
 				}, {
-					null, "francisco", "francisco", "Francisco", "Cerrada", "", "", date, "fran@mail.com", "21473918-Y", null 
+					null, "francisco", "francisco", "Francisco", "Cerrada", "", "", date, "fran@mail.com", "20063925-Y", null 
 				}
 		};
 			
@@ -97,6 +97,7 @@ public class RegisterManagerTest extends AbstractTest {
 	 * 14. La password debe estar entre 5 y 32
 	 * 	15. El vat no puede ser vacio
 	 * 16. El vat no puede ser nulo
+	 * 17. El vat tiene que ser único
 	 */
 	@Test()
 	public void negativeRegisterManagerTest() {
@@ -143,7 +144,9 @@ public class RegisterManagerTest extends AbstractTest {
 					null, "manager2", "manager2", "Zema", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", "", DataIntegrityViolationException.class 
 				}, {
 					null, "manager1", "manager1", "Javier", "Perez", "", "Calle manager Nº41", dateGood, "gostin@mail.com", null, DataIntegrityViolationException.class 
-				}		
+				}, {
+					null, "martita", "martita", "Martita", "Marta", "664857123", "Calle sin numero", dateGood, "martita@gmail.es", "20063918-Y", DataIntegrityViolationException.class
+				}
 			};
 		
 		for (int i = 0; i < testingData.length; i++)
@@ -151,6 +154,7 @@ public class RegisterManagerTest extends AbstractTest {
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (Date) testingData[i][7], (String) testingData[i][8], (String) testingData[i][9], (Class<?>) testingData[i][10]);
 			} catch (final Throwable oops) {
+				System.out.println(oops);
 				throw new RuntimeException(oops);
 			} finally {
 				super.rollbackTransaction();
