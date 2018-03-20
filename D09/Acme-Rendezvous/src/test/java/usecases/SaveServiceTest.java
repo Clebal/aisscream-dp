@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import services.CategoryService;
 import services.ManagerService;
@@ -138,6 +139,8 @@ public class SaveServiceTest extends AbstractTest {
 		int categoryId;
 		Category categoryEntity;
 		int categoryAddedId;
+		DataBinder binder;
+		Service serviceReconstruct;
 
 		caught = null;
 		try {
@@ -169,7 +172,9 @@ public class SaveServiceTest extends AbstractTest {
 				categoryEntity = this.categoryService.findOne(categoryId);
 				service.getCategories().add(categoryEntity); //Le añadimos una categoria de más para probar hackeos
 			}
-			saved = this.servicioService.save(service); //Guardamos el servicio
+			binder = new DataBinder(service);
+			serviceReconstruct = this.servicioService.reconstruct(service, binder.getBindingResult());
+			saved = this.servicioService.save(serviceReconstruct); //Guardamos el servicio
 			super.flushTransaction();
 
 			Assert.isTrue(this.servicioService.findAll().contains(saved)); //Miramos si están entre todos los servicos de la BD

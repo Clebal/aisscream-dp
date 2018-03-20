@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import security.LoginService;
 import services.CategoryService;
@@ -88,12 +89,9 @@ public class EditServiceTest extends AbstractTest {
 	 * 5. Editamos el servicio1 poniendo la descripción es vacía (salta un ConstraintViolationException)
 	 * 6. Editamos el servicio1 poniendo la descripción a nulo (salta un ConstraintViolationException)
 	 * 7. Editamos el servicio1 poniendo un formato de foto inválido (salta un ConstraintViolationException)
-	 * 8. Editamos el servicio1 intentando cambiar el status (salta un IllegalArgumentException)
-	 * 9. Editamos el servicio1 intentando sobreescribir el manager por otro (salta un IllegalArgumentException)
-	 * 10.Editamos el servicio1 sin estar logeados (salta un IllegalArgumentException)
-	 * 11.Editamos el servicio1 logeados como un user (salta un IllegalArgumentException)
-	 * 12.Editamos el servicio1 intentando añadirle una categoría (salta un IllegalArgumentException)
-	 * 13 Editamos el servicio1 sobreescribiendo el manager por un manager que no es del servicio (salta un IllegalArgumentException)
+	 * 8. Editamos el servicio1 intentando sobreescribir el manager por otro (salta un IllegalArgumentException)
+	 * 9.Editamos el servicio1 sin estar logeados (salta un IllegalArgumentException)
+	 * 10.Editamos el servicio1 logeados como un user (salta un IllegalArgumentException)
 	 */
 	@Test()
 	public void negativeEditTest() {
@@ -111,15 +109,9 @@ public class EditServiceTest extends AbstractTest {
 			}, {
 				"manager", "manager1", "service2", "Servicio 3", "Descripción 3", "ndiwdiowq", null, null, null, false, ConstraintViolationException.class
 			}, {
-				"manager", "manager1", "service1", "Servicio 4", "Descripción 4", "http://www.imagenes.com/imagen4", "CANCELLED", null, null, false, IllegalArgumentException.class
-			}, {
-				"manager", "manager1", "service1", "Servicio 5", "Descripción 5", "http://www.imagenes.com/imagen5", null, "manager2", null, false, IllegalArgumentException.class
-			}, {
 				null, null, "service1", "Servicio 5", "Descripción 5", "http://www.imagenes.com/imagen5", null, null, null, false, IllegalArgumentException.class
 			}, {
 				"user", "user1", "service1", "Servicio 1", "Descripción 1", "http://www.imagenes.com/imagen1", null, null, null, false, IllegalArgumentException.class
-			}, {
-				"manager", "manager1", "service1", "Servicio 6", "Descripción 6", "http://www.imagenes.com/imagen6", null, null, "category3", false, IllegalArgumentException.class
 			}, {
 				"manager", "manager1", "service3", "Servicio 6", "Descripción 6", "http://www.imagenes.com/imagen6", null, null, null, true, IllegalArgumentException.class
 			}, {
@@ -313,6 +305,8 @@ public class EditServiceTest extends AbstractTest {
 		Manager managerEntity;
 		int categoryId;
 		Category categoryEntity;
+		DataBinder binder;
+		Service serviceReconstruct;
 
 		caught = null;
 		try {
@@ -353,7 +347,9 @@ public class EditServiceTest extends AbstractTest {
 				categoryEntity = this.categoryService.findOne(categoryId);
 				service.getCategories().add(categoryEntity); //Probamos a añadir una nueva categoria para probar hackeos
 			}
-			saved = this.serviceService.save(service); //Guardamos el servicio
+			binder = new DataBinder(service);
+			serviceReconstruct = this.serviceService.reconstruct(service, binder.getBindingResult());
+			saved = this.serviceService.save(serviceReconstruct); //Guardamos el servicio
 			super.flushTransaction();
 
 			Assert.isTrue(this.serviceService.findAll().contains(saved)); //Miramos que el servicio guardado esté entre la lista de servicios

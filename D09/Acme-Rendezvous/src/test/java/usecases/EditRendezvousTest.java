@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import services.RendezvousService;
 import services.UserService;
@@ -99,34 +100,28 @@ public class EditRendezvousTest extends AbstractTest {
 
 	/*
 	 * Pruebas
-	 * 1.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre, la descripción y el picture y dejamos a nulo el momento (salta un IllegalArgumentException)
-	 * 2.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre, la descripción y el picture (salta un ConstraintViolationException)
-	 * 3.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío la descripción y el picture (salta un ConstraintViolationException)
-	 * 4.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre y el picture (salta un ConstraintViolationException)
-	 * 5.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre y la descripción (salta un ConstraintViolationException)
-	 * 6.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío la descripción (salta un ConstraintViolationException)
-	 * 7.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre (salta un ConstraintViolationException)
-	 * 8.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, pones el picture con un formato incorrecto (salta un ConstraintViolationException)
-	 * 9.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, sobreescribimos el creador del rendezvous por otro usuario (salta un IllegalArgumentException)
-	 * 10.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, intentamos añadirle un nuevo rendezvous a su lista de linkerRendezvouses (salta un IllegalArgumentException)
-	 * 11.Intentamos modificar el rendezvous1 logeados como user1 el cual tiene ese rendezvous, el rendezvous1 está en final mode (salta un IllegalArgumentException)
-	 * 12.Intentamos modificar el rendezvous4 logeados como user3 el cual tiene ese rendezvous, el rendezvous4 está borrado (salta un IllegalArgumentException)
-	 * 13.Intentamos modificar el rendezvous10 logeados como user1 el cual no tiene ese rendezvous (salta un IllegalArgumentException)
-	 * 14.Intentamos modificar el rendezvous3 logeados como manager1 (salta un IllegalArgumentException)
-	 * 15.Intentamos modificar el rendezvous3 logeados como admin (salta un IllegalArgumentException)
-	 * 16.Intentamos modificar el rendezvous3 sin estar logeados (salta un IllegalArgumentException)
-	 * 17.Intentamos modificar el rendezvous10 logeados como user4 que es menor de edad el cual tiene ese rendezvous, le ponemos el rendezvous solo para adultos (salta un IllegalArgumentException)
-	 * 18.Intentamos modificar el rendezvous10 logeados como user4 que es menor de edad el cual tiene ese rendezvous, le cambiamos el creador del rendezvous por otro usuario (salta un IllegalArgumentException)
-	 * 19.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, le ponemos la fecha en el pasado (salta un IllegalArgumentException)
-	 * 20.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, el campo latitude se queda a nulo solo (salta un IllegalArgumentException)
-	 * 21.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, el campo longitude se queda a nulo solo (salta un IllegalArgumentException)
+	 * 1.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre, la descripción y el picture (salta un ConstraintViolationException)
+	 * 2.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío la descripción y el picture (salta un ConstraintViolationException)
+	 * 3.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre y el picture (salta un ConstraintViolationException)
+	 * 4.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre y la descripción (salta un ConstraintViolationException)
+	 * 5.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío la descripción (salta un ConstraintViolationException)
+	 * 6.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, dejamos vacío el nombre (salta un ConstraintViolationException)
+	 * 7.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, pones el picture con un formato incorrecto (salta un ConstraintViolationException)
+	 * 8.Intentamos modificar el rendezvous1 logeados como user1 el cual tiene ese rendezvous, el rendezvous1 está en final mode (salta un IllegalArgumentException)
+	 * 9.Intentamos modificar el rendezvous4 logeados como user3 el cual tiene ese rendezvous, el rendezvous4 está borrado (salta un IllegalArgumentException)
+	 * 10.Intentamos modificar el rendezvous10 logeados como user1 el cual no tiene ese rendezvous (salta un IllegalArgumentException)
+	 * 11.Intentamos modificar el rendezvous3 logeados como manager1 (salta un IllegalArgumentException)
+	 * 12.Intentamos modificar el rendezvous3 logeados como admin (salta un IllegalArgumentException)
+	 * 13.Intentamos modificar el rendezvous3 sin estar logeados (salta un IllegalArgumentException)
+	 * 14.Intentamos modificar el rendezvous10 logeados como user4 que es menor de edad el cual tiene ese rendezvous, le ponemos el rendezvous solo para adultos (salta un IllegalArgumentException)
+	 * 15.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, le ponemos la fecha en el pasado (salta un IllegalArgumentException)
+	 * 16.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, el campo latitude se queda a nulo solo (salta un IllegalArgumentException)
+	 * 17.Intentamos modificar el rendezvous3 logeados como user3 el cual tiene ese rendezvous, el campo longitude se queda a nulo solo (salta un IllegalArgumentException)
 	 */
 	@Test()
 	public void negativeEditTest() {
 		final Object testingData[][] = {
 			{
-				"user", "user3", "rendezvous3", "", "", null, "", false, false, 12.0, 298.7, null, false, null, null, IllegalArgumentException.class
-			}, {
 				"user", "user3", "rendezvous3", "", "", "11/09/2018 15:30", "", false, false, 12.0, 298.7, null, false, null, null, ConstraintViolationException.class
 			}, {
 				"user", "user3", "rendezvous3", "Rendezvous nuevo", "", "11/09/2018 15:30", "", false, false, 12.0, 298.7, null, false, null, null, ConstraintViolationException.class
@@ -141,10 +136,6 @@ public class EditRendezvousTest extends AbstractTest {
 			}, {
 				"user", "user3", "rendezvous3", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "efu0jew9u", false, false, 12.0, 298.7, null, false, null, null, ConstraintViolationException.class
 			}, {
-				"user", "user3", "rendezvous3", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", false, false, 12.0, 298.7, false, false, "user2", null, IllegalArgumentException.class
-			}, {
-				"user", "user3", "rendezvous3", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", false, false, 12.0, 298.7, false, false, null, "rendezvous1", IllegalArgumentException.class
-			}, {
 				"user", "user1", "rendezvous1", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", true, true, 12.0, 298.7, null, false, null, null, IllegalArgumentException.class
 			}, {
 				"user", "user3", "rendezvous4", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", true, true, 12.0, 298.7, null, false, null, null, IllegalArgumentException.class
@@ -158,8 +149,6 @@ public class EditRendezvousTest extends AbstractTest {
 				null, null, "rendezvous3", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", false, false, 12.0, 298.7, null, true, null, null, IllegalArgumentException.class
 			}, {
 				"user", "user4", "rendezvous10", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", false, true, 12.0, 298.7, null, false, null, null, IllegalArgumentException.class
-			}, {
-				"user", "user4", "rendezvous10", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", false, false, 12.0, 298.7, null, false, "user2", null, IllegalArgumentException.class
 			}, {
 				"user", "user3", "rendezvous3", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2016 15:30", "http://www.imagenes.com/imagen1", false, false, 12.0, 298.7, null, false, null, null, IllegalArgumentException.class
 			}, {
@@ -385,6 +374,8 @@ public class EditRendezvousTest extends AbstractTest {
 		Rendezvous saved;
 		User creatorAux;
 		Rendezvous rendezvousLinker;
+		DataBinder binder;
+		Rendezvous rendezvousReconstruct;
 
 		date = null;
 		caught = null;
@@ -419,6 +410,7 @@ public class EditRendezvousTest extends AbstractTest {
 			rendezvous = this.copyRendezvous(rendezvousAux); //Se hace una copia para evitar que Spring lo persista directamente al hacer el set
 			rendezvous.setName(name);
 			rendezvous.setDescription(description);
+			date = null;
 			if (moment != null) {
 				format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 				date = format.parse(moment);
@@ -445,7 +437,9 @@ public class EditRendezvousTest extends AbstractTest {
 				rendezvous.getLinkerRendezvouses().add(rendezvousLinker);//Se pone paa hacer hackeos
 			}
 
-			saved = this.rendezvousService.save(rendezvous); //Se guarda el rendezvous
+			binder = new DataBinder(rendezvous);
+			rendezvousReconstruct = this.rendezvousService.reconstruct(rendezvous, binder.getBindingResult());
+			saved = this.rendezvousService.save(rendezvousReconstruct); //Se guarda el rendezvous
 			super.flushTransaction();
 
 			Assert.isTrue(this.rendezvousService.findAll().contains(saved)); //Se comprueba que el rendezvous guardado esté entre todos los de la bd

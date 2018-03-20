@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import services.RendezvousService;
 import services.UserService;
@@ -183,6 +184,8 @@ public class SaveRendezvousTest extends AbstractTest {
 		Rendezvous saved;
 		SimpleDateFormat format;
 		Date date;
+		DataBinder binder;
+		Rendezvous rendezvousReconstruct;
 
 		date = null;
 		rendezvousesBeforeSavedByCreator = 0;
@@ -225,7 +228,9 @@ public class SaveRendezvousTest extends AbstractTest {
 				loggedUserId = super.getEntityId(username);
 				rendezvousesBeforeSavedByCreator = this.rendezvousService.countByCreatorId(loggedUserId); //Miramos los rendezvouses que tenía el usuario antes de persistir el rendezvous
 			}
-			saved = this.rendezvousService.save(rendezvous); //Guardamos el rendezvous
+			binder = new DataBinder(rendezvous);
+			rendezvousReconstruct = this.rendezvousService.reconstruct(rendezvous, binder.getBindingResult());
+			saved = this.rendezvousService.save(rendezvousReconstruct); //Guardamos el rendezvous
 
 			rendezvousesAfterSavedByCreator = this.rendezvousService.countByCreatorId(loggedUserId); //Miramos los rendezvouses que tenía el usuario después de persistir el rendezvous
 

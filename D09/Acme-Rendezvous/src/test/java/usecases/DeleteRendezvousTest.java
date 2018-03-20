@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import services.RendezvousService;
 import utilities.AbstractTest;
@@ -33,10 +34,11 @@ public class DeleteRendezvousTest extends AbstractTest {
 	 * 4. Borramos el rendezvous10 logeados como admin (no salta excepción)
 	 * 5. Intentamos borrar el rendezvous10 con un usuario que no es el suyo (salta un IllegalArgumentException)
 	 * 6. Intentamos borrar el rendezvous10 logeados como manager (salta un IllegalArgumentException)
-	 * 7. Intentamos borrar el rendezvous10 con el user4 poniéndolo previamente en final mode (salta un IllegalArgumentException)
-	 * 8. Intentamos borrar el rendezvous10 sin estar logeado (salta un IllegalArgumentException)
-	 * 9. Intentamos borrar el rendezvous4 que ya está borrado logeados como admin (salta un IllegalArgumentException)
-	 * 10.Intentamos borrar el rendezvous1 que está en final mode con el user1 (salta un IllegalArgumentException)
+	 * 7. Intentamos borrar el rendezvous4 logeados como user3 (salta un IllegalArgumentException)
+	 * 8. Intentamos borrar el rendezvous10 con el user4 poniéndolo previamente en final mode (salta un IllegalArgumentException)
+	 * 9. Intentamos borrar el rendezvous10 sin estar logeado (salta un IllegalArgumentException)
+	 * 10. Intentamos borrar el rendezvous4 que ya está borrado logeados como admin (salta un IllegalArgumentException)
+	 * 11.Intentamos borrar el rendezvous1 que está en final mode con el user1 (salta un IllegalArgumentException)
 	 * 
 	 * Requisitos:
 	 * C.5.3:An actor who is authenticated as a user must be able to delete the rendezvouses that he or she is created. Deletion is virtual, that
@@ -89,6 +91,8 @@ public class DeleteRendezvousTest extends AbstractTest {
 		Rendezvous rendezvous;
 		Rendezvous rendezvousToDelete;
 		int pagesNumber;
+		DataBinder binder;
+		Rendezvous rendezvousReconstruct;
 
 		caught = null;
 		rendezvous = null;
@@ -139,7 +143,10 @@ public class DeleteRendezvousTest extends AbstractTest {
 			if (user != null && user.equals("user"))	//Si estamos como usuario sobreescribimos el draft para comprobar que este no se puede poner a final
 				rendezvousToDelete.setDraft(draft);
 
-			this.rendezvousService.virtualDelete(rendezvousToDelete); //Borramos el rendezvous
+			binder = new DataBinder(rendezvousToDelete);
+			rendezvousReconstruct = this.rendezvousService.reconstruct(rendezvousToDelete, binder.getBindingResult());
+
+			this.rendezvousService.virtualDelete(rendezvousReconstruct); //Borramos el rendezvous
 
 			super.flushTransaction();
 
