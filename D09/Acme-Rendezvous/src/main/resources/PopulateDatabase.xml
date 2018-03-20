@@ -691,7 +691,6 @@
 		<property name="moment" value="02/16/2018 12:43" />
 		<property name="text" value="¿Cuál es la dirección del pollo loco?" />
 		<property name="user" ref="user3" />
-		<property name="repliedComment" ref="comment3" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
@@ -700,6 +699,7 @@
 		<property name="text" value="La dirección es Calle 742 Evergreen Terrace" />
 		<property name="picture" value="https://vignette.wikia.nocookie.net/simpsons/images/c/ca/742_Evergreen_Terrace.png/revision/latest/scale-to-width-down/640?cb=20130421182211" />
 		<property name="user" ref="user1" />
+		<property name="repliedComment" ref="comment3" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
