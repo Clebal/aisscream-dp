@@ -119,6 +119,18 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccountManager3" class="security.UserAccount">
+		<property name="username" value="manager3" />
+		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- /D09 -->
 	
 	<!-- User -->
@@ -1021,6 +1033,17 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="birthdate" value="24/06/1979" />
 		<property name="userAccount" ref="userAccountManager2" />
 		<property name="vat" value="00234559-M" />
+	</bean>
+	
+	<bean id="manager3" class="domain.Manager">
+		<property name="name" value="Manuel" />
+		<property name="surname" value="Jiménez Martín" />
+		<property name="email" value="manager2@acme.com" />
+		<property name="phone" value="+34752309214" />
+		<property name="address" value="Calle García de la Jara, 36" />
+		<property name="birthdate" value="24/06/2002" />
+		<property name="userAccount" ref="userAccountManager3" />
+		<property name="vat" value="00234779-M" />
 	</bean>
 	
 	<!-- Service -->
