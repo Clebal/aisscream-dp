@@ -49,6 +49,8 @@ public class ManagerService {
 		userAccount.addAuthority(authority);
 
 		result.setUserAccount(userAccount);
+		
+		result.setVat("XXX");
 
 		return result;
 	}
@@ -83,7 +85,7 @@ public class ManagerService {
 			// Para crear un manager debes estar sin autenticar
 			Assert.isTrue(!LoginService.isAuthenticated());
 
-			manager.getUserAccount().setPassword(encoder.encodePassword(manager.getUserAccount().getPassword(), null));
+			manager.getUserAccount().setPassword(encoder.encodePassword(manager.getUserAccount().getPassword(), null));			
 		}else{
 			// Solo puede ser editado por él mismo
 			Assert.isTrue(manager.getUserAccount().equals(LoginService.getPrincipal()));

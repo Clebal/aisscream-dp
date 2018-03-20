@@ -4,6 +4,7 @@ package controllers.user;
 import java.util.Collection;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -11,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import security.LoginService;
 import services.CreditCardService;
@@ -128,11 +129,12 @@ public class RequestUserController extends AbstractController {
 	// Request -------------------------------------------------------------------------------------------
 
 		@RequestMapping(value = "/request", method = RequestMethod.GET)
-		public ModelAndView request(@RequestParam final int rendezvousId, @RequestParam final int serviceId, @CookieValue(value="lastCreditCard", defaultValue="") String lastCreditCardCookie) {
+		public ModelAndView request(@RequestParam final int rendezvousId, @RequestParam final int serviceId, HttpServletRequest request) {
 			ModelAndView result;
 			Rendezvous rendezvous;
 			Service service;
-			Request request;
+			Request requestObj;
+			Cookie cookie;
 
 			rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 			Assert.notNull(rendezvous);
@@ -140,12 +142,12 @@ public class RequestUserController extends AbstractController {
 			service = this.serviceService.findOne(serviceId);
 			Assert.notNull(service);
 
-			request = this.requestService.create(rendezvous, service);
+			requestObj = this.requestService.create(rendezvous, service);
 
-			result = this.createEditModelAndView(request);
+			result = this.createEditModelAndView(requestObj);
 			
-			result.addObject("lastCreditCard", lastCreditCardCookie);
-
+			cookie = WebUtils.getCookie(request, "lastCreditCard_"+rendezvous.getCreator().getId());
+			if(cookie != null) result.addObject("lastCreditCard", cookie.getValue());
 
 			return result;
 
@@ -158,9 +160,10 @@ public class RequestUserController extends AbstractController {
 //		request = this.requestService.reconstruct(request, binding);
 		
 		// --- COOKIE --- //
-		Cookie lastCreditCard = new Cookie("lastCreditCard", this.creditCardToStringConverter.convert(request.getCreditCard()));
+		Cookie lastCreditCard = new Cookie("lastCreditCard_"+request.getRendezvous().getCreator().getId(), this.creditCardToStringConverter.convert(request.getCreditCard()));
 		lastCreditCard.setHttpOnly(true);
 //		lastCreditCard.setSecure(true);
+		lastCreditCard.setMaxAge(3600000);
 		response.addCookie(lastCreditCard);
 		// --- COOKIE --- //
 
