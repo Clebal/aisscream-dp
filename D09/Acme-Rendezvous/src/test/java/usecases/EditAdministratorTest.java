@@ -58,11 +58,11 @@ public class EditAdministratorTest extends AbstractTest {
 			}, {
 				"admin", "administrator", "admin", "admin", "Manuel", "Kudera", "987532146", null, date, "administrator@hotmail.com", null
 			}, {
-				"admin", "administrator", "admin", "admin", "Carlos", "SÃ¡nchez", "", null, date, "carlosadministrator@mail.com", null
+				"admin", "administrator", "admin", "admin", "Carlos", "Sánchez", "", null, date, "carlosadministrator@mail.com", null
 			}, {
 				"admin", "administrator", "admin", "admin", "Paco", "Jespersen", null, "Calle No tan Real", date, "paquito@mail.com", null
 			}, {
-				"admin", "administrator", "admin", "admin", "JosÃ©", "Rumer", null, "", date, "joselito@mail.com", null
+				"admin", "administrator", "admin", "admin", "José", "Rumer", null, "", date, "joselito@mail.com", null
 			}, {
 				"admin", "administrator", "admin", "admin", "Pepe", "Escolar", "258753159", "Dirección Correcta", date, "pepe@mail.com", null
 			}, {
@@ -113,7 +113,7 @@ public class EditAdministratorTest extends AbstractTest {
 			{
 				"user1", "administrator", "admin", "admin", "Antonio", "Azaña", null, null, dateGood, "ant@mail.com", IllegalArgumentException.class 
 			}, {
-				"manager2", "administrator", "admin", "admin", "JesÃºs", "Harvey", "652147893", null, dateGood, "harvey@mail.com", IllegalArgumentException.class 
+				"manager2", "administrator", "admin", "admin", "Jesús", "Harvey", "652147893", null, dateGood, "harvey@mail.com", IllegalArgumentException.class 
 			}, {
 				"user1", "administrator", "admin", "admin", "Gostin", "Perez", "", "Calle User NÂº41", dateGood, "gostin@mail.com", IllegalArgumentException.class 
 			}, {

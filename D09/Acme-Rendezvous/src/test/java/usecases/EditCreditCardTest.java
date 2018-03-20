@@ -37,6 +37,9 @@ public class EditCreditCardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * 	Primero se realizarán las pruebas desde un listado y luego
+	 * como si accedemos a la entidad desde getEntityId:
+	 * 
 	 * Probando la edicion de varias creditCards por parte de diferentes usuarios
 	 */
 	@Test
@@ -64,9 +67,22 @@ public class EditCreditCardTest extends AbstractTest {
 			} finally {
 				super.rollbackTransaction();
 			}
+	
+	for (int i = 0; i < testingData.length; i++)
+		try {
+			super.startTransaction();
+			this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
+		} catch (final Throwable oops) {
+			throw new RuntimeException(oops);
+		} finally {
+			super.rollbackTransaction();
+		}
 	}
 	
 	/*
+	 * 	Primero se realizarán las pruebas desde un listado y luego
+	 * como si accedemos a la entidad desde getEntityId:
+	 * 
 	 * 1. Solo puede editarlo un user
 	 * 2. Solo puede editarlo un user
 	 * 3. Solo puede editarlo su user
@@ -117,6 +133,16 @@ public class EditCreditCardTest extends AbstractTest {
 			try {
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+		
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -174,6 +200,46 @@ public class EditCreditCardTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 	}
 
+	/*
+	 * An actor who is authenticated as a user must be able to request a service for 
+	 * one of the rendezvouses that he or shes created. He or she must specify a 
+	 * valid credit card in every request for a service. Optionally, he or she can 
+	 * provide some comments in the request. 
+	 */
+	protected void templateNoList(final String user, final String creditCardEdit, final String holderName, final String brandName, final String number, final int expirationMonth, final int expirationYear, final int cvvcode, final Class<?> expected) {
+		Class<?> caught;
+		Integer userId, creditCardId;
+		User userEntity;
+		CreditCard creditCard, creditCardEntity;
+
+		creditCard = null;
+		caught = null;
+		try {
+			super.authenticate(user);
+			Assert.notNull(user);
+			userId = super.getEntityId(user);
+			userEntity = this.userService.findOne(userId);
+			Assert.notNull(userEntity);
+			creditCardId = super.getEntityId(creditCardEdit);
+			Assert.notNull(creditCardId);
+			creditCard = this.creditCardService.findOneToEdit(creditCardId);
+			Assert.notNull(creditCard);
+			creditCardEntity = this.copyCreditCard(creditCard);
+			creditCardEntity.setHolderName(holderName);
+			creditCardEntity.setBrandName(brandName);
+			creditCardEntity.setNumber(number);
+			creditCardEntity.setExpirationMonth(expirationMonth);
+			creditCardEntity.setExpirationYear(expirationYear);
+			creditCardEntity.setCvvcode(cvvcode);
+			creditCardEntity.setUser(userEntity);
+			this.creditCardService.save(creditCardEntity);
+			super.unauthenticate();
+			super.flushTransaction();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
 
 	private CreditCard copyCreditCard(final CreditCard creditCard) {
 		CreditCard result;

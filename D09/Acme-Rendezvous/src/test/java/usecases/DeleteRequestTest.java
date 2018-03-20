@@ -30,6 +30,9 @@ public class DeleteRequestTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * 	Primero se realizarán las pruebas desde un listado y luego
+	 * como si accedemos a la entidad desde getEntityId:
+	 * 
 	 * 1. Probando que el user1 borra el request1
 	 * 2. Probando que el user3 borra el request4
 	 * 3. Probando que el user1 borra el request7
@@ -58,9 +61,22 @@ public class DeleteRequestTest extends AbstractTest {
 			} finally {
 				super.rollbackTransaction();
 			}
+	
+	for (int i = 0; i < testingData.length; i++)
+		try {
+			super.startTransaction();
+			this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+		} catch (final Throwable oops) {
+			throw new RuntimeException(oops);
+		} finally {
+			super.rollbackTransaction();
+		}
 	}
 	
 	/*
+	 * 	Primero se realizarán las pruebas desde un listado y luego
+	 * como si accedemos a la entidad desde getEntityId:
+	 * 
 	 * 1. Solo puede borrarlo un user
 	 * 2. Solo puede borrarlo un user
 	 * 3. Solo puede borrarlo un user
@@ -87,6 +103,16 @@ public class DeleteRequestTest extends AbstractTest {
 			try {
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+		
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -123,6 +149,34 @@ public class DeleteRequestTest extends AbstractTest {
 				}
 			}
 			Assert.notNull(requestEntity);
+			this.requestService.delete(requestEntity);
+			super.unauthenticate();
+			super.flushTransaction();
+			
+			Assert.isTrue(!this.requestService.findAll().contains(requestEntity));
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * An actor who is authenticated as a user must be able to request 
+	 * a service for one of the rendezvouses that he or she’s created. He 
+	 * or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
+	*/
+	protected void templateNoList(final String user, final String request, final Class<?> expected) {
+		Class<?> caught;
+		int requestId;
+		Request requestEntity;
+
+		requestEntity = null;
+		caught = null;
+		try {
+			super.authenticate(user);
+			requestId = super.getEntityId(request);
 			requestEntity = this.requestService.findOne(requestId);
 			this.requestService.delete(requestEntity);
 			super.unauthenticate();

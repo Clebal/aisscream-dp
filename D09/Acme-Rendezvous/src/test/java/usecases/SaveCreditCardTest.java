@@ -35,7 +35,7 @@ public class SaveCreditCardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * Probando la creaci贸n de varias creditCards por parte de diferentes usuarios
+	 * Probando la creaci髇 de varias creditCards por parte de diferentes usuarios
 	 */
 	@Test
 	public void positiveSaveCreditCardTest() {
@@ -68,17 +68,17 @@ public class SaveCreditCardTest extends AbstractTest {
 	 * 1. Solo puede crearlo un user
 	 * 2. Solo puede crearlo un user
 	 * 3. Solo puede crearlo su user
-	 * 4. HolderName no puede estar vac铆o
+	 * 4. HolderName no puede estar vac韔
 	 * 5. HolderName no puede ser null
-	 * 6. BrandName no puede estar vac铆o
+	 * 6. BrandName no puede estar vac韔
 	 * 7. BrandName no peude ser null
-	 * 8. Number debe ser un n煤mero de tarjeta de cr茅dito v谩lido
-	 * 9. El mes de expiraci贸n debe estar comprendido entre 1 y 12
-	 * 10. El mes de expiraci贸n debe estar comprendido entre 1 y 12
-	 * 11. El a帽o de expiraci贸n debe ser mayor que 0 
-	 * 12. El c贸digo CVV debe estar comprendido entre 100 y 999
-	 * 13. El c贸digo CVV debe estar comprendido entre 100 y 999
-	 * 14. El user debe ser v谩lido 
+	 * 8. Number debe ser un n鷐ero de tarjeta de cr閐ito v醠ido
+	 * 9. El mes de expiraci髇 debe estar comprendido entre 1 y 12
+	 * 10. El mes de expiraci髇 debe estar comprendido entre 1 y 12
+	 * 11. El a駉 de expiraci髇 debe ser mayor que 0 
+	 * 12. El c骴igo CVV debe estar comprendido entre 100 y 999
+	 * 13. El c骴igo CVV debe estar comprendido entre 100 y 999
+	 * 14. El user debe ser v醠ido 
 	 * 15. El user no puede ser nulo
 	 */
 	@Test()

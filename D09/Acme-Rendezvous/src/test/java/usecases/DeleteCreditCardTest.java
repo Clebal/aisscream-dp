@@ -35,6 +35,9 @@ public class DeleteCreditCardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * 	Primero se realizarán las pruebas desde un listado y luego
+	 * como si accedemos a la entidad desde getEntityId:
+	 * 
 	 * 1. Probando que el user2 borra la creditCard2
 	 * 	2. Probando que el user4 borra la creditCard6
 	 */
@@ -57,9 +60,22 @@ public class DeleteCreditCardTest extends AbstractTest {
 			} finally {
 				super.rollbackTransaction();
 			}
+	
+	for (int i = 0; i < testingData.length; i++)
+		try {
+			super.startTransaction();
+			this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+		} catch (final Throwable oops) {
+			throw new RuntimeException(oops);
+		} finally {
+			super.rollbackTransaction();
+		}
 	}
 	
 	/*
+	 * Primero se realizarán las pruebas desde un listado y luego
+	 * como si accedemos a la entidad desde getEntityId:
+	 * 
 	 * 1. Solo puede borrarlo un user
 	 * 2. Solo puede borrarlo un user
 	 * 3. Solo puede borrarlo un user
@@ -94,6 +110,16 @@ public class DeleteCreditCardTest extends AbstractTest {
 			} finally {
 				super.rollbackTransaction();
 			}
+		
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
 	}
 
 	// Ancillary methods ------------------------------------------------------
@@ -111,6 +137,7 @@ public class DeleteCreditCardTest extends AbstractTest {
 		CreditCard creditCardEntity;
 		Collection<CreditCard> creditCards;
 
+		creditCardEntity = null;
 		caught = null;
 		try {
 			super.authenticate(user);
@@ -127,6 +154,35 @@ public class DeleteCreditCardTest extends AbstractTest {
 					break;
 				}
 			}
+			this.creditCardService.delete(creditCardEntity);
+			super.unauthenticate();
+			
+			Assert.isTrue(!this.creditCardService.findAll().contains(creditCardEntity));
+
+			super.flushTransaction();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+	
+	/*
+	 * An actor who is authenticated as a user must be able to request a service for 
+	 * one of the rendezvouses that he or she’s created. He or she must specify a 
+	 * valid credit card in every request for a service. Optionally, he or she can 
+	 * provide some comments in the request. 
+	 */
+	protected void templateNoList(final String user, final String creditCard, final Class<?> expected) {
+		Class<?> caught;
+		int creditCardId;
+		CreditCard creditCardEntity = null;
+
+		caught = null;
+		try {
+			super.authenticate(user);
+			creditCardId = super.getEntityId(creditCard);
+			Assert.notNull(creditCardId);
+
 			creditCardEntity = this.creditCardService.findOneToEdit(creditCardId);
 			this.creditCardService.delete(creditCardEntity);
 			super.unauthenticate();

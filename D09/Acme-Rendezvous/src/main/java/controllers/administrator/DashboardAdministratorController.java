@@ -31,31 +31,36 @@ public class DashboardAdministratorController extends AbstractController {
 
 	//Services
 	@Autowired
-	UserService			userService;
+	private UserService			userService;
 
 	@Autowired
-	AnnouncementService	announcementService;
+	private AnnouncementService	announcementService;
 
 	@Autowired
-	RendezvousService	rendezvousService;
+	private RendezvousService	rendezvousService;
 
 	@Autowired
-	QuestionService		questionService;
+	private QuestionService		questionService;
 
 	@Autowired
-	CommentService		commentService;
+	private CommentService		commentService;
 
 	@Autowired
-	AnswerService		answerService;
+	private AnswerService		answerService;
 	
 	@Autowired
-	ServiceService serviceService;
+	private ServiceService serviceService;
 	
 	@Autowired
-	ManagerService managerService;
+	private ManagerService managerService;
 
 	@Autowired
-	CategoryService categoryService;
+	private CategoryService categoryService;
+	
+	// Constructor
+	public DashboardAdministratorController() {
+		super();
+	}
 	
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)

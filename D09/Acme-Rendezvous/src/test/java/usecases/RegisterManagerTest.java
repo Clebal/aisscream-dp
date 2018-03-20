@@ -57,9 +57,9 @@ public class RegisterManagerTest extends AbstractTest {
 				}, {
 					null, "alexito", "alexito", "Alejandro", "Perez", "987532146", null, date, "a@hotmail.com", "20063918-Y", null 
 				}, {
-					null, "carlos", "carlos", "Carlos", "S√°nchez", "", null, date, "carlosuser@mail.com", "20483918-Y", null 
+					null, "carlos", "carlos", "Carlos", "S·nchez", "", null, date, "carlosuser@mail.com", "20483918-Y", null 
 				}, {
-					null, "paquito", "paquito", "Paco", "Mill√°n", null, "Calle Real N∫6", date, "paquito@mail.com", "20063918-Y", null 
+					null, "paquito", "paquito", "Paco", "Mill·n", null, "Calle Real N∫6", date, "paquito@mail.com", "20063918-Y", null 
 				}, {
 					null, "manolo", "manolo", "Manolo", "Guillen", null, "", date, "manolete@mail.com", "20893918-Y", null 
 				}, {
