@@ -129,9 +129,6 @@ public class SaveServiceTest extends AbstractTest {
 			}
 	}
 
-	//Con el test nos logeamos si lo indicamos, creamos un nuevo servicio y le vamos haciendo el set de los diferentes parámetros. El name, description y el picture es siempre al igual
-	//que pasa en la aplicación y los otros parámetros realmente no deberías poder modificarlo en el form pero se ponen para realizar las pruebas de los casos negativos. Una vez modificados todos los
-	// parámetros hacemos el save y comprobamos después si el servicio creado se encuentra entre todos los servicios
 	protected void template(final String user, final String username, final String name, final String description, final String picture, final String categoryBean, final String status, final String manager, final String category, final Class<?> expected) {
 		Class<?> caught;
 		Service service;
@@ -145,35 +142,37 @@ public class SaveServiceTest extends AbstractTest {
 		caught = null;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username); //Nos logeamos si es necesario
 
 			categoryAddedId = super.getEntityId(categoryBean);
 			for (int i = 1; i <= this.categoryService.findAllPaginated(1, 5).getTotalPages(); i++)
+				//Cogemos entre las categorias existente la que le vamos a añadir al servicio
 				for (final Category c : this.categoryService.findAllPaginated(i, 5))
 					if (c.getId() == categoryAddedId)
 						categoryAddedId = c.getId();
 
-			service = this.servicioService.create(categoryAddedId);
+			service = this.servicioService.create(categoryAddedId); //Creamos el servicio
 			service.setName(name);
 			service.setDescription(description);
 			service.setPicture(picture);
+			//Modificamos sus parámetros
 			if (status != null)
-				service.setStatus(status);
+				service.setStatus(status);//Le modificamos el status si lo indica para probar hackeos
 			if (manager != null) {
 				managerId = super.getEntityId(manager);
 				managerEntity = this.managerService.findOne(managerId);
-				service.setManager(managerEntity);
+				service.setManager(managerEntity); //Le modificamos manualmente el manager para probar hackeos
 
 			}
 			if (category != null) {
 				categoryId = super.getEntityId(category);
 				categoryEntity = this.categoryService.findOne(categoryId);
-				service.getCategories().add(categoryEntity);
+				service.getCategories().add(categoryEntity); //Le añadimos una categoria de más para probar hackeos
 			}
-			saved = this.servicioService.save(service);
+			saved = this.servicioService.save(service); //Guardamos el servicio
 			super.flushTransaction();
 
-			Assert.isTrue(this.servicioService.findAll().contains(saved));
+			Assert.isTrue(this.servicioService.findAll().contains(saved)); //Miramos si están entre todos los servicos de la BD
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {

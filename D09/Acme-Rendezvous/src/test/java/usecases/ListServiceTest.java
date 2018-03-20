@@ -426,40 +426,53 @@ public class ListServiceTest extends AbstractTest {
 		rendezvousId = 0;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username); //Nos logeamos si es necesario
 
 			if (method.equals("findAll"))
-				services = this.serviceService.findAll();
+				services = this.serviceService.findAll(); //Cogemos todos los servicios usando el findAll
 			else if (method.equals("findByCategoryId")) {
 				if (falseId == false)
-					categoryId = super.getEntityId("category1");
+					categoryId = super.getEntityId("category1"); //Miramos la categoria correspondiente, se supone que simula haberla buscado en la navegación de categorias
 				else
 					categoryId = 0;
-				services = this.serviceService.findByCategoryId(categoryId);
+				services = this.serviceService.findByCategoryId(categoryId); //Se cogen los servicios que son de esa category
 			} else if (method.equals("topBestSellingService"))
-				services = this.serviceService.topBestSellingServices(tam);
+				services = this.serviceService.topBestSellingServices(tam); //Se prueba el topBestSellingService
 			else if (method.equals("findServicesForRequetsByRendezvousId")) {
 				if (falseId == false) {
 					rendezvousId = super.getEntityId(bean);
-					if (expected == null) {
+					if (expected == null) { //Si no va a salar excepción
 						creator = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-						pagesNumber = this.rendezvousService.countByCreatorId(creator.getId());
-						pagesNumber = (int) Math.floor(((pagesNumber / (5 + 0.0)) - 0.1) + 1);
-						for (int i = 1; i <= pagesNumber; i++)
-							for (final Rendezvous r : this.rendezvousService.findByCreatorId(creator.getId(), i, 5))
-								if (rendezvousId == r.getId()) {
-									rendezvousId = r.getId();
-									break;
-								}
+						if (!user.equals("user4")) {
+							pagesNumber = this.rendezvousService.countByCreatorId(creator.getId());
+							pagesNumber = (int) Math.floor(((pagesNumber / (5 + 0.0)) - 0.1) + 1);
+							for (int i = 1; i <= pagesNumber; i++)
+								for (final Rendezvous r : this.rendezvousService.findByCreatorId(creator.getId(), i, 5))
+									//Se coge el rendezvous al que le haremos el request mirando los rendezvouses del creador
+									if (rendezvousId == r.getId()) {
+										rendezvousId = r.getId();
+										break;
+									}
+						} else {
+							pagesNumber = this.rendezvousService.countByCreatorIdAllPublics(creator.getId());
+							pagesNumber = (int) Math.floor(((pagesNumber / (5 + 0.0)) - 0.1) + 1);
+							for (int i = 1; i <= pagesNumber; i++)
+								for (final Rendezvous r : this.rendezvousService.findByCreatorIdAllPublics(creator.getId(), i, 5))
+									//Se coge el rendezvous al que le haremos el request mirando los rendezvouses publicos del creador si es el user4
+									if (rendezvousId == r.getId()) {
+										rendezvousId = r.getId();
+										break;
+									}
+						}
 					}
 				} else
 					rendezvousId = 0;
-				services = this.serviceService.findServicesForRequetsByRendezvousId(rendezvousId, page);
+				services = this.serviceService.findServicesForRequetsByRendezvousId(rendezvousId, page); //Se cogen los servicios para hacer request
 				totalPages = this.serviceService.countFindServicesForRequetsByRendezvousId(rendezvousId);
 				totalPages = (int) Math.floor(((totalPages / (5 + 0.0)) - 0.1) + 1);
 				Assert.isTrue(totalPages == tam);
 			}
-			Assert.isTrue(services.size() == size);
+			Assert.isTrue(services.size() == size); //Se compara el tamaño con el esperado
 			super.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -482,43 +495,55 @@ public class ListServiceTest extends AbstractTest {
 		services = null;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username); //Nos logeamos si es necesario
 
 			if (method.equals("findAllPaginated"))
-				services = this.serviceService.findAllPaginated(page, tam);
+				services = this.serviceService.findAllPaginated(page, tam); //Cogemos todos los servicios paginados
 			else if (method.equals("findByManagerUserAccountId")) {
 				managerId = super.getEntityId(bean);
 				manager = this.managerService.findOne(managerId);
 				if (falseId == false)
-					services = this.serviceService.findByManagerUserAccountId(manager.getUserAccount().getId(), page, tam);
+					services = this.serviceService.findByManagerUserAccountId(manager.getUserAccount().getId(), page, tam); //Si estamos como un manager cogemos todos sus sevicios
 				else
 					services = this.serviceService.findByManagerUserAccountId(0, page, tam);
 			} else if (method.equals("findByCategoryId")) {
 				categoryId = super.getEntityId(bean);
 				if (falseId == false)
-					services = this.serviceService.findByCategoryId(categoryId, page, tam);
+					services = this.serviceService.findByCategoryId(categoryId, page, tam); //Cogemos todos los servicios de una categoria
 				else
 					services = this.serviceService.findByCategoryId(0, page, tam);
 			} else if (method.equals("findByRendezvousId")) {
 				rendezvousId = super.getEntityId(bean);
 				if (falseId == false) {
-					if (expected == null) {
-						pagesNumber = this.rendezvousService.countAllPaginated();
-						pagesNumber = (int) Math.floor(((pagesNumber / (5 + 0.0)) - 0.1) + 1);
-						for (int i = 1; i <= pagesNumber; i++)
-							for (final Rendezvous r : this.rendezvousService.findAllPaginated(i, 5))
-								if (rendezvousId == r.getId()) {
-									rendezvousId = r.getId();
-									break;
-								}
-					}
-					services = this.serviceService.findByRendezvousId(rendezvousId, page, tam);
+					if (expected == null)
+						if (user == null || user.equals("user4")) {
+							pagesNumber = this.rendezvousService.countAllPublics();
+							pagesNumber = (int) Math.floor(((pagesNumber / (5 + 0.0)) - 0.1) + 1);
+							for (int i = 1; i <= pagesNumber; i++)
+								for (final Rendezvous r : this.rendezvousService.findAllPublics(i, 5))
+									//Cogemos el rendezvous entre todos los públicos si no está logeado o es menor de edad
+									if (rendezvousId == r.getId()) {
+										rendezvousId = r.getId();
+										break;
+									}
+						} else {
+							pagesNumber = this.rendezvousService.countAllPaginated();
+							pagesNumber = (int) Math.floor(((pagesNumber / (5 + 0.0)) - 0.1) + 1);
+							for (int i = 1; i <= pagesNumber; i++)
+								for (final Rendezvous r : this.rendezvousService.findAllPaginated(i, 5))
+									//Si no se coge entre todos
+									if (rendezvousId == r.getId()) {
+										rendezvousId = r.getId();
+										break;
+									}
+						}
+					services = this.serviceService.findByRendezvousId(rendezvousId, page, tam); //Se cogen los servicios
 				} else
 					services = this.serviceService.findByRendezvousId(0, page, tam);
 			}
 
-			Assert.isTrue(services.getContent().size() == size);
-			Assert.isTrue(services.getTotalPages() == totalPage);
+			Assert.isTrue(services.getContent().size() == size); //Se compara el tamaño con el esperado
+			Assert.isTrue(services.getTotalPages() == totalPage);//Se compara el total de páginas con las esperadas
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {

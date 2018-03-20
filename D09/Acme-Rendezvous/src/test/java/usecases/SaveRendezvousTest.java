@@ -36,6 +36,24 @@ public class SaveRendezvousTest extends AbstractTest {
 	private UserService			userService;
 
 
+	/*
+	 * Pruebas
+	 * 1.Creamos un nuevo rendezvous como el user1 inicializando todos los parámetros (no salta excepción)
+	 * 2.Creamos un nuevo rendezvous como el user1 inicializando todos los parámetros menos el picture que está a nulo (no salta excepción)
+	 * 3.Creamos un nuevo rendezvous como el user1 inicializando todos los parámetros menos el picture y las coordenadas que están a nulo (no salta excepción)
+	 * 4.Creamos un nuevo rendezvous como el user1 iniicializando todos los parámetros y poniéndolo en draft mode (no salta excepción)
+	 * 5.Creamos un nuevo rendezvous como el user1 inicializando todos los parámetros y poniendolo solo para adultos (no salta excepción)
+	 * 6.Creamos un nuevo rendezvous como el user1 inicializando todos los parámetros y poniéndolo en draft mode y solo para adultos (no salta excepción)
+	 * 7.Creamos un nuevo rendezvous como el user4 que es menor de edad inicializando todos los parámetros poniendo el picture a nulo (no salta excepción)
+	 * 8.Creamos un nuevo rendezvous como el user4 que es menor de edad inicializando todos los parámetros menos las coordenadas que están a nulo (no salta excepción)
+	 * 9.Creamos un nuevo rendezvous como el user4 que es menor de edad inicializando todos los parámetros poniendolo en draft mode (no salta excepción)
+	 * 10.Creamos un nuevo rendezvous como el user4 que es menor de edad inicializando todos los parámetros (no salta excepción)
+	 * 
+	 * Requisitos:
+	 * C.2:Users can create rendezvouses. For each rendezvous, the system must store its name, its description, the moment when it is going to be organised, an optional picture, optional GPS
+	 * co-ordinates, and the creator and the list of attendants.
+	 * C.5.2: An actor who is authenticated as a user must be able to create a rendezvous, which he is implicitly assumed to attend.
+	 */
 	@Test()
 	public void testCreatePositive() {
 		final Object testingData[][] = {
@@ -74,6 +92,28 @@ public class SaveRendezvousTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Pruebas
+	 * 1.Intentamos crear un rendezvous logeados como user1 poniendo en vacío el nombre, la descripción y el picture y a nulo el momento (salta un IllegalArgumentException)
+	 * 2.Intentamos crear un rendezvous logeados como user1 poneindo en vacío el nombre, la descripción y el picture (salta un ConstraintViolationException)
+	 * 3.Intentamos crear un rendezvous logeados como user1 poniendo en vacío la descripción y el picture (salta un ConstraintViolationException)
+	 * 4.Intentamos crear un rendezvous logeados como user1 poniendo en vacío el nombre y el picture (salta un ConstraintViolationException)
+	 * 5.Intentamos crear un rendezvous logeados como user1 poniendo en vacío el nombre y la descripción (salta un ConstraintViolationException)
+	 * 6.Intentamos crear un rendezvous logeados como user1 poniendo en vacío la descripción (salta un ConstraintViolationException)
+	 * 7.Intentamos crear un rendezvous logeados como user1 poniendo en vacío el nombre (salta un ConstraintViolationException)
+	 * 8.Intentamos crear un rendezvous logeados como user1 inicializando todos los parámetros y poniendo el picture con un formato incorrecto (salta un ConstraintViolationException)
+	 * 9.Intentamos crear un rendezvous logeados como user1 inicializando todos los parámetros y poniendo el campo de borrado a true (salta un IllegalArgumentException)
+	 * 10.Intentamos crear un rendezvous logeados como user1 inicializando todos los parámetros y poniendo manualmente a otro usuario en el campo creator (salta un IllegalArgumentException)
+	 * 11.Intentamos crear un rendezvous logeados como user1 inicializando todos los parámetros y metiéndole inicialmente un rendezvous en su lista de linkerRendezvouses (salta un IllegalArgumentException)
+	 * 12.Intentamos crear un rendezvous logeados como manager1 (salta un IllegalArgumentException)
+	 * 13.Intentamos crear un rendezvous logeados como admin (salta un IllegalArgumentException)
+	 * 14.Intentamos crear un rendezvous sin estar logeados (salta un IllegalArgumentException)
+	 * 15.Intentamos crear un rendezvous logeados como user4 que es menor de edad inicializando todos los parámetros y poniéndolo solo para adultos (salta un IllegalArgumentException)
+	 * 16.Intentamos crear un rendezvous logeados como user4 que es menor de edad inicializando todos los parámetros y sobreescribiendo el campo de creator por otro usuario (salta un IllegalArgumentException)
+	 * 17.Intentamos crear un rendezvous logeados como user1 inicializando todos los parámetros y poniendo el momento en el pasado (salta un IllegalArgumentException)
+	 * 18.Intentamos crear un rendezvous logeados como user1 inicializando todos los parámetros y poniendo a nulo solo el campo longitude (salta un IllegalArgumentException)
+	 * 19.Intentamos crear un rendezvous logeados como user1 inicializando todos los parámetros y poniendo a nulo solo el campo latitude (salta un IllegalArgumentException)
+	 */
 	@Test()
 	public void testCreateNegative() {
 		final Object testingData[][] = {
@@ -108,7 +148,7 @@ public class SaveRendezvousTest extends AbstractTest {
 			}, {
 				"user", "user4", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", false, true, 12.0, 298.7, null, null, null, IllegalArgumentException.class
 			}, {
-				"user", "user1", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", false, false, 12.0, 298.7, null, "user2", null, IllegalArgumentException.class
+				"user", "user4", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2018 15:30", "http://www.imagenes.com/imagen1", false, false, 12.0, 298.7, null, "user2", null, IllegalArgumentException.class
 			}, {
 				"user", "user1", "Rendezvous nuevo", "Descripción del rendezvous", "11/09/2016 15:30", "http://www.imagenes.com/imagen1", false, false, 12.0, 298.7, null, null, null, IllegalArgumentException.class
 			}, {
@@ -150,49 +190,49 @@ public class SaveRendezvousTest extends AbstractTest {
 		caught = null;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username); //Nos logeamos como un tipo de usuario si es necesario
 
-			rendezvous = this.rendezvousService.create();
-			rendezvous.setName(name);
-			rendezvous.setDescription(description);
+			rendezvous = this.rendezvousService.create(); //Creamos el rendezvous
+			rendezvous.setName(name); //Le modificamos el name
+			rendezvous.setDescription(description);//Le modificamos la descripción
 			if (moment != null) {
 				format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-				date = format.parse(moment);
+				date = format.parse(moment); //Si el momento no es nulo creamos el momento
 			}
-			rendezvous.setMoment(date);
-			rendezvous.setPicture(picture);
+			rendezvous.setMoment(date); //Le modificamos el momento
+			rendezvous.setPicture(picture);//Le modificamos el picture
 
-			rendezvous.setDraft(draft);
+			rendezvous.setDraft(draft); //Le modificamos el draft
 			if (adultOnly != null)
-				rendezvous.setAdultOnly(adultOnly);
-			rendezvous.setLatitude(latitude);
-			rendezvous.setLongitude(longitude);
+				rendezvous.setAdultOnly(adultOnly); //Le modificamos el adultOnly
+			rendezvous.setLatitude(latitude); //Le modificamos la latitud
+			rendezvous.setLongitude(longitude); //Le modificamos la longitud
 
 			if (isDeleted != null)
-				rendezvous.setIsDeleted(isDeleted);
+				rendezvous.setIsDeleted(isDeleted); //Para probar hackeos dejamos modificar el campo isDeleted
 			if (creator != null) {
 				creatorId = super.getEntityId(creator);
 				creatorAux = this.userService.findOne(creatorId);
-				rendezvous.setCreator(creatorAux);
+				rendezvous.setCreator(creatorAux); //Para comprobar hackeos dejamos modificar el campo creator
 			}
 			if (linkerRendezvous != null) {
 				rendezvousId = super.getEntityId(linkerRendezvous);
 				rendezvousLinker = this.rendezvousService.findOne(rendezvousId);
-				rendezvous.getLinkerRendezvouses().add(rendezvousLinker);
+				rendezvous.getLinkerRendezvouses().add(rendezvousLinker); //Para comprobar hackeos dejamos añadir un rendezvous a la lista de linkerRendezvouses
 			}
 
 			if (user != null) {
 				loggedUserId = super.getEntityId(username);
-				rendezvousesBeforeSavedByCreator = this.rendezvousService.countByCreatorId(loggedUserId);
+				rendezvousesBeforeSavedByCreator = this.rendezvousService.countByCreatorId(loggedUserId); //Miramos los rendezvouses que tenía el usuario antes de persistir el rendezvous
 			}
-			saved = this.rendezvousService.save(rendezvous);
+			saved = this.rendezvousService.save(rendezvous); //Guardamos el rendezvous
 
-			rendezvousesAfterSavedByCreator = this.rendezvousService.countByCreatorId(loggedUserId);
+			rendezvousesAfterSavedByCreator = this.rendezvousService.countByCreatorId(loggedUserId); //Miramos los rendezvouses que tenía el usuario después de persistir el rendezvous
 
 			super.flushTransaction();
 
-			Assert.isTrue(rendezvousesAfterSavedByCreator == rendezvousesBeforeSavedByCreator + 1);
-			Assert.isTrue(this.rendezvousService.findAll().contains(saved));
+			Assert.isTrue(rendezvousesAfterSavedByCreator == rendezvousesBeforeSavedByCreator + 1); //Comprobamos que el usuario tiene un rendezvous más que antes
+			Assert.isTrue(this.rendezvousService.findAll().contains(saved)); //Vemos que el nuevo rendezvous está entre la lista de rendezvouses de la BD
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {

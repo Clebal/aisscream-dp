@@ -300,10 +300,7 @@ public class EditServiceTest extends AbstractTest {
 				super.rollbackTransaction();
 			}
 	}
-	//En este test cogemos el servicio indicado, nos logeamos si es necesario y actualizamos los valores del rendezvous previamente habiendo hecho una copia para evitar
-	//que persista antes de guardar. El name, el description y el picture se actualizan siempre y los otros realmente en el formulario de editar no aparecen pero aquí los usamos para
-	//editar parámetros que no podrías e intentar probar los casos negativos. Una vez actualizado todo lo correspondiente se manda al save y se comprueba que entre todos los servicios
-	// de la base de datos se encuentra el actualmente guardado
+
 	protected void templateEdit(final String user, final String username, final String serviceBean, final String name, final String description, final String picture, final String status, final String manager, final String category,
 		final boolean isNotMyService, final Class<?> expected) {
 		Class<?> caught;
@@ -320,7 +317,7 @@ public class EditServiceTest extends AbstractTest {
 		caught = null;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username); //Nos logeamos si es necesario
 
 			serviceId = 0;
 			serviceIdAux = super.getEntityId(serviceBean);
@@ -328,6 +325,7 @@ public class EditServiceTest extends AbstractTest {
 			if (user == "manager") {
 				if (isNotMyService == false) {
 					for (int i = 1; i <= this.serviceService.findByManagerUserAccountId(LoginService.getPrincipal().getId(), 1, 5).getTotalPages(); i++)
+						//Si estamos como manager y es mi servicio buscamos el servicio entre todos los del manager
 						for (final Service s : this.serviceService.findByManagerUserAccountId(LoginService.getPrincipal().getId(), i, 5).getContent())
 							if (serviceIdAux == s.getId())
 								serviceId = s.getId();
@@ -335,29 +333,30 @@ public class EditServiceTest extends AbstractTest {
 					serviceId = super.getEntityId(serviceBean);
 			} else
 				serviceId = super.getEntityId(serviceBean);
-
+			//Si no es mi servicio o no estás logeado como manager se coge directamente para probar hackeos
 			serviceAux = this.serviceService.findOneToEdit(serviceId);
-			service = this.copyService(serviceAux);
+			service = this.copyService(serviceAux); //Se hace una copia para evitar que Spring persista el servicio al hacerle los set
 			service.setName(name);
 			service.setDescription(description);
 			service.setPicture(picture);
+			//Se modifican los parámetros correspondientes
 			if (status != null)
-				service.setStatus(status);
+				service.setStatus(status); //Probamos a cambiar el status para probar hackeos
 			if (manager != null) {
 				managerId = super.getEntityId(manager);
 				managerEntity = this.managerService.findOne(managerId);
-				service.setManager(managerEntity);
+				service.setManager(managerEntity); //Probamos a modificar el manager para probar hackeos
 
 			}
 			if (category != null) {
 				categoryId = super.getEntityId(category);
 				categoryEntity = this.categoryService.findOne(categoryId);
-				service.getCategories().add(categoryEntity);
+				service.getCategories().add(categoryEntity); //Probamos a añadir una nueva categoria para probar hackeos
 			}
-			saved = this.serviceService.save(service);
+			saved = this.serviceService.save(service); //Guardamos el servicio
 			super.flushTransaction();
 
-			Assert.isTrue(this.serviceService.findAll().contains(saved));
+			Assert.isTrue(this.serviceService.findAll().contains(saved)); //Miramos que el servicio guardado esté entre la lista de servicios
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {
@@ -378,29 +377,30 @@ public class EditServiceTest extends AbstractTest {
 		caught = null;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username); //Nos logeamos si es necesario
 
 			serviceId = 0;
 			serviceIdAux = super.getEntityId(serviceBean);
 			if (user != null) {
 				for (int i = 1; i <= this.serviceService.findAllPaginated(1, 5).getTotalPages(); i++)
+					//Buscamos el servicio entre todos los servicios existentes
 					for (final Service s : this.serviceService.findAllPaginated(i, 5).getContent())
 						if (serviceIdAux == s.getId())
 							serviceId = s.getId();
 			} else
-				serviceId = super.getEntityId(serviceBean);
+				serviceId = super.getEntityId(serviceBean); //Si no estás logeado se pilla directamente para probar hackeos
 			service = this.serviceService.findOne(serviceId);
 			if (accept == true)
-				this.serviceService.acceptService(service);
+				this.serviceService.acceptService(service); //Se accepta el servicio
 			else
-				this.serviceService.cancelService(service);
+				this.serviceService.cancelService(service); //Se cancela el servicio
 
 			super.flushTransaction();
 
 			if (accept == true)
-				Assert.isTrue(this.serviceService.findOne(service.getId()).getStatus().equals("ACCEPTED"));
+				Assert.isTrue(this.serviceService.findOne(service.getId()).getStatus().equals("ACCEPTED")); //Si se ha aceptado se mira que el status sea ACCEPTED
 			else
-				Assert.isTrue(this.serviceService.findOne(service.getId()).getStatus().equals("CANCELLED"));
+				Assert.isTrue(this.serviceService.findOne(service.getId()).getStatus().equals("CANCELLED"));//Si se ha cancelado el servicio se mira que el status sea CANCELLED
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {
@@ -424,16 +424,17 @@ public class EditServiceTest extends AbstractTest {
 		caught = null;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username); //Nos logeamos si es necesario
 			serviceId = 0;
 			categoryId = 0;
 			if (user == "manager") {
-				if (correctBeans == false) {
+				if (correctBeans == false) {//Si los beans están puestos mal a posta para probar hackeos se cogen directamente
 					serviceId = super.getEntityId(serviceBean);
 					categoryId = super.getEntityId(categoryBean);
 				} else {
 					serviceIdAux = super.getEntityId(serviceBean);
 					for (int i = 1; i <= this.serviceService.findByManagerUserAccountId(LoginService.getPrincipal().getId(), 1, 5).getTotalPages(); i++)
+						//Se coge el servicio entre los servicios del manager logeado
 						for (final Service s : this.serviceService.findByManagerUserAccountId(LoginService.getPrincipal().getId(), i, 5))
 							if (serviceIdAux == s.getId()) {
 								serviceId = s.getId();
@@ -442,6 +443,7 @@ public class EditServiceTest extends AbstractTest {
 					if (add == true) {
 						categoryIdAux = super.getEntityId(categoryBean);
 						for (int i = 1; i <= this.categoryService.findByServiceId(serviceId, 1, 5).getTotalPages(); i++)
+							//Si se añade se busca la categoria entre las que no tiene el servicio
 							for (final Category c : this.categoryService.findByServiceId(serviceId, i, 5))
 								if (categoryIdAux == c.getId()) {
 									categoryId = c.getId();
@@ -450,6 +452,7 @@ public class EditServiceTest extends AbstractTest {
 					} else {
 						categoryIdAux = super.getEntityId(categoryBean);
 						for (final Category c : this.serviceService.findOne(serviceId).getCategories())
+							//Si se va a borrar se busca entre las categorias del servicio
 							if (categoryIdAux == c.getId()) {
 								categoryId = c.getId();
 								break;
@@ -457,7 +460,7 @@ public class EditServiceTest extends AbstractTest {
 					}
 				}
 
-			} else {
+			} else { //Si no estás como manager se intenta hackear y se coge directamente
 				serviceId = super.getEntityId(serviceBean);
 				categoryId = super.getEntityId(categoryBean);
 			}
@@ -465,18 +468,18 @@ public class EditServiceTest extends AbstractTest {
 			service = this.serviceService.findOne(serviceId);
 			category = this.categoryService.findOne(categoryId);
 			if (add == true)
-				this.serviceService.addCategory(service, category);
+				this.serviceService.addCategory(service, category); //Se añade la categoria 
 			else
-				this.serviceService.removeCategory(service, category);
+				this.serviceService.removeCategory(service, category);//Se borra la categoria
 
 			super.flushTransaction();
 
 			if (add == true)
-				Assert.isTrue(this.serviceService.findOne(service.getId()).getCategories().contains(category));
+				Assert.isTrue(this.serviceService.findOne(service.getId()).getCategories().contains(category)); //Si se ha añadido se mira que esté en su lista de categorias
 			else {
-				Assert.isTrue(!this.serviceService.findOne(service.getId()).getCategories().contains(category));
+				Assert.isTrue(!this.serviceService.findOne(service.getId()).getCategories().contains(category));//Si se ha borrado se mira que no esté en su lista de categorias
 				if (keepingDefaultCategory == true)
-					Assert.isTrue(this.serviceService.findOne(service.getId()).getCategories().contains(this.categoryService.findByDefaultCategory()) && this.serviceService.findOne(serviceId).getCategories().size() == 1);
+					Assert.isTrue(this.serviceService.findOne(service.getId()).getCategories().contains(this.categoryService.findByDefaultCategory()) && this.serviceService.findOne(serviceId).getCategories().size() == 1); //Si se ha borrado la última se mira que se mantiene la categoria por defecto
 			}
 
 			super.unauthenticate();
@@ -498,19 +501,19 @@ public class EditServiceTest extends AbstractTest {
 		caught = null;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username);//Nos logeamos si es necesario
 			serviceId = 0;
 
 			if (user == null)
-				serviceId = super.getEntityId(serviceBean);
+				serviceId = super.getEntityId(serviceBean); //Si no estamos logeado lo cogemos directamente para probar hackeos
 			else if (user.equals("manager")) {
-				if (findOneToEdit == true && isMyService == true) {
+				if (findOneToEdit == true && isMyService == true) { //Si se prueba el findOneToEdit para un servicio del manager logeado se busca el servicio entre sus serviciso
 					serviceIdAux = super.getEntityId(serviceBean);
 					for (int i = 1; i <= this.serviceService.findByManagerUserAccountId(LoginService.getPrincipal().getId(), 1, 5).getTotalPages(); i++)
 						for (final Service s : this.serviceService.findByManagerUserAccountId(LoginService.getPrincipal().getId(), i, 5).getContent())
 							if (serviceIdAux == s.getId())
 								serviceId = s.getId();
-				} else {
+				} else { //Si no se busca el servicio entre todos los servicios
 					serviceIdAux = super.getEntityId(serviceBean);
 					for (int i = 1; i <= this.serviceService.findAllPaginated(1, 5).getTotalPages(); i++)
 						for (final Service s : this.serviceService.findAllPaginated(i, 5).getContent())
@@ -518,7 +521,7 @@ public class EditServiceTest extends AbstractTest {
 								serviceId = s.getId();
 				}
 
-			} else {
+			} else { //Si no estás como manager se busca entre todos los servicios existente
 				serviceIdAux = super.getEntityId(serviceBean);
 				for (int i = 1; i <= this.serviceService.findAllPaginated(1, 5).getTotalPages(); i++)
 					for (final Service s : this.serviceService.findAllPaginated(i, 5).getContent())
@@ -527,11 +530,11 @@ public class EditServiceTest extends AbstractTest {
 			}
 			if (findOneToEdit == true)
 				if (falseId == false)
-					service = this.serviceService.findOneToEdit(serviceId);
+					service = this.serviceService.findOneToEdit(serviceId); //Se prueba el findOneToEdit
 				else
 					service = this.serviceService.findOneToEdit(0);
 			else if (falseId == false)
-				service = this.serviceService.findOne(serviceId);
+				service = this.serviceService.findOne(serviceId); //Se prueba el findOne
 			else
 				service = this.serviceService.findOne(0);
 
@@ -547,6 +550,7 @@ public class EditServiceTest extends AbstractTest {
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}
+
 	private Service copyService(final Service servicio) {
 		Service result;
 		Collection<Category> categories;

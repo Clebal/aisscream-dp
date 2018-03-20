@@ -61,7 +61,6 @@ public class DeleteServiceTest extends AbstractTest {
 			}
 	}
 
-	//El test simplemente te logea si lo indicas y borra el servicio seleccionado comprobando posteriormente que este no se encuentre entre todos los servicios
 	protected void templateDelete(final String user, final String username, final String servicioBean, final Class<?> expected) {
 		Class<?> caught;
 		int serviceId;
@@ -71,24 +70,25 @@ public class DeleteServiceTest extends AbstractTest {
 		service = null;
 		try {
 			if (user != null)
-				super.authenticate(username);
+				super.authenticate(username); //Nos logeamos si es necesario
 			serviceId = super.getEntityId(servicioBean);
 
-			if (expected == null) {
+			if (expected == null) { //Si no va a saltar excepción
 				for (int i = 1; i <= this.serviceService.findByManagerUserAccountId(LoginService.getPrincipal().getId(), 1, 5).getTotalPages(); i++)
+					//Cogemos el servicio entre todos los del manager logeado
 					for (final Service s : this.serviceService.findByManagerUserAccountId(LoginService.getPrincipal().getId(), i, 5).getContent())
 						if (serviceId == s.getId()) {
 							service = s;
 							break;
 						}
 			} else
-				service = this.serviceService.findOne(serviceId);
+				service = this.serviceService.findOne(serviceId); //Si va a saltar una excepción lo cogemos directamente para probar hackeos
 
-			this.serviceService.delete(service);
+			this.serviceService.delete(service); //Borramos el servicio
 
 			super.flushTransaction();
 
-			Assert.isTrue(!this.serviceService.findAll().contains(service));
+			Assert.isTrue(!this.serviceService.findAll().contains(service)); //Miramos que ya no esté entre los servicios del sistema
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {
