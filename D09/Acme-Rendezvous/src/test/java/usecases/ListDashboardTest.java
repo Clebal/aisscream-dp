@@ -158,38 +158,38 @@ public class ListDashboardTest extends AbstractTest {
 			
 			// 2. Obtener todos los datos
 			rendezvousesPerUser = this.rendezvousService.avgStandardDRsvpdCreatedPerUser();
-			Assert.isTrue(rendezvousesPerUser[0] == 1.50); // The average of rendezvouses created per user
-			Assert.isTrue(rendezvousesPerUser[1] == 2.565800719658485); // The standard deviation of rendezvouses created per user 
+			Assert.isTrue(rendezvousesPerUser[0] == 1.6667); // The average of rendezvouses created per user
+			Assert.isTrue(rendezvousesPerUser[1] == 2.4944382582947298); // The standard deviation of rendezvouses created per user 
 			
 			ratioUserRendezvousVsNo = this.rendezvousService.ratioCreatorsVsTotal();
-			Assert.isTrue(ratioUserRendezvousVsNo == 0.5); // The ratio of users who have ever created a rendezvous versus the users who have never created any rendezvouses
+			Assert.isTrue(ratioUserRendezvousVsNo == 1.0); // The ratio of users who have ever created a rendezvous versus the users who have never created any rendezvouses
 			
 			usersPerRendezvous = this.userService.avgStandardDUsersPerRendezvous();
-			Assert.isTrue(usersPerRendezvous[0] == 1.50); // The average of users per rendezvous 
-			Assert.isTrue(usersPerRendezvous[1] == 0.9574271074081828); // The standard deviation of users per rendezvous
+			Assert.isTrue(usersPerRendezvous[0] == 1.6667); // The average of users per rendezvous 
+			Assert.isTrue(usersPerRendezvous[1] == 0.7453559937670351); // The standard deviation of users per rendezvous
 			
 			rendezvousesRsvpdPerUser = this.rendezvousService.avgStandardDRendezvousesRsvpdPerUser();
-			Assert.isTrue(rendezvousesRsvpdPerUser[0] == 1.50); // The average of rendezvouses that are RSVPd per user
-			Assert.isTrue(rendezvousesRsvpdPerUser[1] == 0.9574271074081828); // The standard deviation of rendezvouses that are RSVPd per user
+			Assert.isTrue(rendezvousesRsvpdPerUser[0] == 1.6667); // The average of rendezvouses that are RSVPd per user
+			Assert.isTrue(rendezvousesRsvpdPerUser[1] == 0.7453559937670351); // The standard deviation of rendezvouses that are RSVPd per user
 			
 			rendezvousesTop = this.rendezvousService.top10Rendezvouses();
-			Assert.isTrue(rendezvousesTop.size() == 9); // The top-10 rendezvouses in terms of users who have RSVPd them
+			Assert.isTrue(rendezvousesTop.size() == 10); // The top-10 rendezvouses in terms of users who have RSVPd them
 			
 			announcementsPerRendezvous = this.announcementService.avgStandartDerivationAnnouncementPerRendezvous();
-			Assert.isTrue(announcementsPerRendezvous[0] == 1.2222); // The average of announcements per rendezvous
-			Assert.isTrue(announcementsPerRendezvous[1] == 1.8121673810797343); // The standard deviation of announcements per rendezvous
+			Assert.isTrue(announcementsPerRendezvous[0] == 1.1); // The average of announcements per rendezvous
+			Assert.isTrue(announcementsPerRendezvous[1] == 1.7578395831246945); // The standard deviation of announcements per rendezvous
 			
 			questionsPerRendezvous = this.questionService.avgStandartDerivationQuestionsPerRendezvous();
-			Assert.isTrue(questionsPerRendezvous[0] == 1.3333); // The average of the number of questions per rendezvous
-			Assert.isTrue(questionsPerRendezvous[1] == 1.825741858563557); // The standard deviation of the number of questions per rendezvous
+			Assert.isTrue(questionsPerRendezvous[0] == 1.2); // The average of the number of questions per rendezvous
+			Assert.isTrue(questionsPerRendezvous[1] == 1.7776388834631178); // The standard deviation of the number of questions per rendezvous
 			
 			answersPerRendezvous = this.answerService.avgStandardAnswerPerRendezvous();
-			Assert.isTrue(answersPerRendezvous[0] == 2.00); // The average of the number of answers to the questions per rendezvous
-			Assert.isTrue(answersPerRendezvous[1] == 2.3570226038373074); // The standard deviation of the number of answers to the questions per rendezvous
+			Assert.isTrue(answersPerRendezvous[0] == 1.7); // The average of the number of answers to the questions per rendezvous
+			Assert.isTrue(answersPerRendezvous[1] == 2.2825424421026654); // The standard deviation of the number of answers to the questions per rendezvous
 			
 			repliesPerComment = this.commentService.avgStandardRepliesPerComment();
-			Assert.isTrue(repliesPerComment[0] == 0.1818); // The average of replies per comment
-			Assert.isTrue(repliesPerComment[1] == 0.38569460724496946); // The standard deviation of replies per comment
+			Assert.isTrue(repliesPerComment[0] == 0.1111); // The average of replies per comment
+			Assert.isTrue(repliesPerComment[1] == 0.31426968038986147); // The standard deviation of replies per comment
 			
 			bestSellingServices = this.serviceService.bestSellingServices(page, size);
 			if(page == 1) Assert.isTrue(bestSellingServices.getContent().size() == 2);
@@ -208,16 +208,16 @@ public class ListDashboardTest extends AbstractTest {
 			}
 			
 			avgNumberCategoriesPerRendezvous = this.categoryService.avgNumberCategoriesPerRendezvous();
-			Assert.isTrue(avgNumberCategoriesPerRendezvous == 0.8889);
+			Assert.isTrue(avgNumberCategoriesPerRendezvous == 0.8);
 			
 			avgRatioServicesCategory = this.serviceService.ratioServicesEachCategory();
 			Assert.isTrue(avgRatioServicesCategory == 0.0952381);
 			
 			avgMinMaxStandardDesviationServicesPerRendezvous = this.serviceService.avgMinMaxStandartDerivationServicesPerRendezvous();		
-			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[0] == 0.8889);
+			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[0] == 0.8);
 			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[1] == 0.00);
 			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[2] == 3.00);
-			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[3] == 0.8748897643647018);
+			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[3] == 0.8717797887081347);
 			
 			topSellingServices = this.serviceService.topBestSellingServices(sizeTopSellingServices);
 			Assert.isTrue(topSellingServices.size() == 5 || topSellingServices.size() == 7);

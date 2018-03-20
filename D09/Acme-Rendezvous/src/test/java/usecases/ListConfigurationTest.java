@@ -63,18 +63,12 @@ public class ListConfigurationTest extends AbstractTest {
 	}
 
 	/*
-	 * 1. Un manager no puede llamar a los métodos de configuration
-	 * 2. Un user no puede llamar a los métodos de configuration
-	 * 3. findWelcomeMessage debe tener como countryCode uno de los idiomas disponibles
+	 * 1. findWelcomeMessage debe tener como countryCode uno de los idiomas disponibles
 	 */
 	@Test()
 	public void driveNegativeTest() {
 		final Object testingData[][] = {
 			{
-				"manager1", "findName", null, IllegalArgumentException.class
-			}, {
-				"user1", "findName", null, IllegalArgumentException.class
-			}, {
 				"admin", "findWelcomeMessage", "crac", IllegalArgumentException.class
 			}
 		};

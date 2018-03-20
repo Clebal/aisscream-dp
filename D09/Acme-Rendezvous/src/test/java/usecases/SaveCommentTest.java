@@ -16,9 +16,11 @@ import org.springframework.util.Assert;
 
 import domain.Comment;
 import domain.Rendezvous;
+import domain.User;
 
 import services.CommentService;
 import services.RendezvousService;
+import services.UserService;
 import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
@@ -35,6 +37,9 @@ public class SaveCommentTest extends AbstractTest {
 	
 	@Autowired
 	private RendezvousService		rendezvousService;
+	
+	@Autowired
+	private UserService		userService;
 	
 	// Tests ------------------------------------------------------------------
 
@@ -90,19 +95,50 @@ public class SaveCommentTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Un usuario trata de crea un comentario introduciendo en el campo picture un valor que no corresponde con el pattern URL
-	 * 2. Un usuario trata de crea un comentario en un rendezvous para el cual no tiene rsvp.
-	 * 3. Un usuario trata de crear un comentario para un rendezvous sin introducir nada en el campo text.
-	 * 4. Un manager trata de crear un comentario pero no lo tienen permitido.
-	 * 5. Un administrador trata de crear un comentario pero no lo tiene permitido.
+	 * 1. Tratamos de crear un comentario pero le ponemos de usuario uno distinto al que está autenticado
+	 */
+	@Test
+	public void driverUrlNegativeTest() {
+		final Object testingData[][] = {
+			{
+				"user1", "rendezvous1", "user3", "01/02/2018 12:30", "Test", "http://example.com/image.jpg", IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				System.out.println(i);
+				super.startTransaction();
+				this.templateUrl((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Class<?>) testingData[i][6]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+	
+	/*
+	 * 1. Un usuario trata de crear un comentario dejando el campo moment vacío
+	 * 2. Un usuario trata de crear un comentario eliminando el campo moment
+	 * 3. Un usuario trata de crear un comentario introduciendo en el campo picture un valor que no corresponde con el pattern URL
+	 * 4. Un usuario trata de crear un comentario en un rendezvous para el cual no tiene rsvp.
+	 * 5. Un usuario trata de crear un comentario eliminando el campo text.
+	 * 6. Un usuario trata de crear un comentario para un rendezvous sin introducir nada en el campo text.
+	 * 7. Un manager trata de crear un comentario pero no lo tienen permitido.
+	 * 8. Un administrador trata de crear un comentario pero no lo tiene permitido.
 	 */
 	@Test
 	public void driverNegativeTest() {
 		final Object testingData[][] = {
 			{
+				"user1", "rendezvous1", "", "Test", "", IllegalArgumentException.class
+			}, 	{
+				"user1", "rendezvous1", null, "Test", "", IllegalArgumentException.class
+			}, {
 				"user1", "rendezvous1", "01/01/2018 00:00", "Test", "asdf", ConstraintViolationException.class
 			}, 	{
 				"user6", "rendezvous2", "01/01/2018 00:00", "Test", "", IllegalArgumentException.class
+			}, 	{
+				"user1", "rendezvous1", "01/01/2018 00:00", null, "", ConstraintViolationException.class
 			}, {
 				"user1", "rendezvous1", "01/01/2018 00:00", "", "http://example.com/image.jpg", ConstraintViolationException.class
 			}, {
@@ -125,19 +161,28 @@ public class SaveCommentTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Un usuario trata de crea una respuesta introduciendo en el campo picture un valor que no corresponde con el pattern URL.
-	 * 2. Un usuario trata de crea una respuesta en un rendezvous para el cual no tiene rsvp ni es el creator.
-	 * 3. Un usuario trata de crear una respuesta para un rendezvous sin introducir nada en el campo text.
-	 * 4. Un manager trata de crear una respuesta pero no lo tienen permitido.
-	 * 5. Un administrador trata de crear una respuesta pero no lo tiene permitido.
+	 * 1.
+	 * 2.
+	 * 3. Un usuario trata de crea una respuesta introduciendo en el campo picture un valor que no corresponde con el pattern URL.
+	 * 4. Un usuario trata de crea una respuesta en un rendezvous para el cual no tiene rsvp ni es el creator.
+	 * 5. 
+	 * 6. Un usuario trata de crear una respuesta para un rendezvous sin introducir nada en el campo text.
+	 * 7. Un manager trata de crear una respuesta pero no lo tienen permitido.
+	 * 8. Un administrador trata de crear una respuesta pero no lo tiene permitido.
 	 */
 	@Test
 	public void driverReplyCommentNegativeTest() {
 		final Object testingData[][] = {
 			{
+				"user1", "rendezvous1", "", "Test", "", "comment1", IllegalArgumentException.class
+			}, {
+				"user1", "rendezvous1", null, "Test", "", "comment1", IllegalArgumentException.class
+			}, {
 				"user1", "rendezvous1", "01/01/2018 00:00", "Test", "asdf", "comment1", ConstraintViolationException.class
-			}, 	{
-				"user6", "rendezvous2", "01/01/2018 00:00", "Test", "", "comment3", IllegalArgumentException.class
+			}, {
+				"user6", "rendezvous2", "01/01/2018 00:00", "Test", "", "comment2", IllegalArgumentException.class
+			}, {
+				"user1", "rendezvous1", "01/01/2018 00:00", null, "", "comment1", ConstraintViolationException.class
 			}, {
 				"user1", "rendezvous1", "01/01/2018 00:00", "", "http://example.com/image.jpg", "comment1", ConstraintViolationException.class
 			}, {
@@ -159,6 +204,29 @@ public class SaveCommentTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * 1. Tratamos de crear una respuesta a un comentario pero le ponemos de usuario uno distinto al que está autenticado
+	 */
+	public void driverUrlReplyCommentNegativeTest() {
+		final Object testingData[][] = {
+			{
+				"user1", "rendezvous1", "user3", "01/02/2018 12:30", "Test", "http://example.com/image.jpg", IllegalArgumentException.class
+			}
+		};
+		
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				System.out.println(i);
+				super.startTransaction();
+				this.templateUrlReplyComment((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (Class<?>) testingData[i][7]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+
+	
 	// Ancillary methods ------------------------------------------------------
 
 	/*
@@ -198,7 +266,10 @@ public class SaveCommentTest extends AbstractTest {
 			
 			// 4. Crear un comment asociado a un rendezvous
 			newComment = this.commentService.create(rendezvous, null);
-			newComment.setMoment(formatter.parse(moment));
+			if(moment == null || moment.equals("")){ 
+				Assert.notNull(moment);
+				Assert.isTrue(!moment.equals("")); 
+			} else newComment.setMoment(formatter.parse(moment));
 			newComment.setText(text);
 			if(picture != null) newComment.setPicture(picture);
 			
@@ -218,6 +289,59 @@ public class SaveCommentTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 	}
 	
+	/*
+	 * Crear un comment a través de URL con Postman. Pasos:
+	 * 1. Autenticar usuario
+	 * 2. Enviar datos de comment por URL
+	 */
+	protected void templateUrl(final String user, final String rendezvousBean, final String userBean, final String moment, final String text, final String picture, final Class<?> expected) {
+		Class<?> caught;
+		Comment savedComment, newComment;
+		Rendezvous rendezvous;
+		int rendezvousId, userId;
+		DateFormat formatter;
+		User userComment;
+		
+		formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
+
+		caught = null;
+		try {
+			
+			rendezvousId = super.getEntityId(rendezvousBean);
+			rendezvous = this.rendezvousService.findOne(rendezvousId);
+			
+			// 1. Autenticar usuario
+			super.authenticate(user);
+			
+			// 2. Enviar datos de comment por URL
+			newComment = this.commentService.create(rendezvous, null);
+			if(moment == null || moment.equals("")){ 
+				Assert.notNull(moment);
+				Assert.isTrue(!moment.equals("")); 
+			} else newComment.setMoment(formatter.parse(moment));
+			newComment.setText(text);
+			if(picture != null) newComment.setPicture(picture);
+			if(userBean != null) {
+				userId = super.getEntityId(userBean);
+				userComment = this.userService.findOne(userId);
+				newComment.setUser(userComment);
+			}
+			
+			savedComment = this.commentService.save(newComment);
+
+			// Comprobación
+			Assert.isTrue(this.commentService.findByRendezvousIdAndNoRepliedComment(rendezvous.getId(), this.getPageRepliedComment(rendezvous, savedComment), 5).contains(savedComment));
+			
+			super.unauthenticate();
+			super.flushTransaction();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		System.out.println("Expected " + expected);
+		System.out.println("Caught " + caught);
+		super.checkExceptions(expected, caught);
+	}
+
 	/*
 	 * Crear una respuesta a un comment. Pasos:
 	 * 1. Autenticar como usuario.
@@ -265,7 +389,10 @@ public class SaveCommentTest extends AbstractTest {
 			
 			// 5. Crear un respuesta a un comment
 			newComment = this.commentService.create(rendezvous, repliedComment);
-			newComment.setMoment(formatter.parse(moment));
+			if(moment == null || moment.equals("")){ 
+				Assert.notNull(moment);
+				Assert.isTrue(!moment.equals("")); 
+			} else newComment.setMoment(formatter.parse(moment));
 			newComment.setText(text);
 			if(picture != null) newComment.setPicture(picture);
 			
@@ -274,6 +401,63 @@ public class SaveCommentTest extends AbstractTest {
 			
 			// 7. Dirigir al display del comentario padre
 			Assert.notNull(this.commentService.findOneToDisplay(savedComment.getRepliedComment().getId()));
+			
+			super.unauthenticate();
+			super.flushTransaction();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		System.out.println("Expected " + expected);
+		System.out.println("Caught " + caught);
+		super.checkExceptions(expected, caught);
+	}
+	
+	/*
+	 * Crear una respuesta a un comment a través de la URL con Postman. Pasos:
+	 * 1. Autenticar como usuario.
+	 * 2. Enviar datos de comment por URL
+	 */
+	protected void templateUrlReplyComment(final String user, final String rendezvousBean, final String userBean, final String moment, final String text, final String picture, final String repliedCommentBean, final Class<?> expected) {
+		Class<?> caught;
+		Comment savedComment, newComment, repliedComment;
+		Rendezvous rendezvous;
+		int rendezvousId, repliedCommentId, userId;
+		DateFormat formatter;
+		User userComment;
+		
+		formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
+
+		caught = null;
+		try {
+			
+			rendezvousId = super.getEntityId(rendezvousBean);
+			rendezvous = this.rendezvousService.findOne(rendezvousId);
+			
+			repliedCommentId = super.getEntityId(repliedCommentBean);
+			repliedComment = this.commentService.findOne(repliedCommentId);
+			
+			// 1. Autenticar usuario
+			super.authenticate(user);
+			
+			// 2. Enviar datos de comment por URL
+			newComment = this.commentService.create(rendezvous, repliedComment);
+			if(moment == null || moment.equals("")){ 
+				Assert.notNull(moment);
+				Assert.isTrue(!moment.equals("")); 
+			} else newComment.setMoment(formatter.parse(moment));
+			newComment.setText(text);
+			if(picture != null) newComment.setPicture(picture);
+			if(userBean != null) {
+				userId = super.getEntityId(userBean);
+				userComment = this.userService.findOne(userId);
+				newComment.setUser(userComment);
+			}
+			
+			savedComment = this.commentService.save(newComment);
+			
+			// Comprobación
+			Assert.notNull(this.commentService.findOneToDisplay(savedComment.getRepliedComment().getId()));
+
 			
 			super.unauthenticate();
 			super.flushTransaction();
