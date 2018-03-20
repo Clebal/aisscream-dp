@@ -146,7 +146,7 @@ public class RequestUserController extends AbstractController {
 
 			result = this.createEditModelAndView(requestObj);
 			
-			cookie = WebUtils.getCookie(request, "lastCreditCard_"+rendezvous.getCreator().getId());
+			cookie = WebUtils.getCookie(request, "cookiemonster_"+rendezvous.getCreator().getId());
 			if(cookie != null) result.addObject("lastCreditCard", cookie.getValue());
 
 			return result;
@@ -160,7 +160,7 @@ public class RequestUserController extends AbstractController {
 //		request = this.requestService.reconstruct(request, binding);
 		
 		// --- COOKIE --- //
-		Cookie lastCreditCard = new Cookie("lastCreditCard_"+request.getRendezvous().getCreator().getId(), this.creditCardToStringConverter.convert(request.getCreditCard()));
+		Cookie lastCreditCard = new Cookie("cookiemonster_"+request.getRendezvous().getCreator().getId(), this.creditCardToStringConverter.convert(request.getCreditCard()));
 		lastCreditCard.setHttpOnly(true);
 //		lastCreditCard.setSecure(true);
 		lastCreditCard.setMaxAge(3600000);
