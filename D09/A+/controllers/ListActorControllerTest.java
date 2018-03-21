@@ -43,7 +43,7 @@ public class ListActorControllerTest extends AbstractTest {
 	}
 
 	@Test
-	public void findAll_ShouldAddUserEntriesToModelAndRenderActorListView() throws Exception {
+	public void listActorControllerTest() throws Exception {
 		Integer tamUsers;
 
 		super.authenticate(null);

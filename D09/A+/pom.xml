@@ -290,9 +290,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
-			
-			<!-- A+ D09 -->
-			<!--  -->
 		</dependency>
 		
 		<!-- A+ D09 -->
@@ -324,7 +321,6 @@
    	 		<version>2.2.1</version>
    	 		<scope>test</scope>
 		</dependency>
-		<!--  -->
 		
 		<!-- Dependency patches -->
 
