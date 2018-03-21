@@ -46,7 +46,7 @@ public class DeleteQuestionTest extends AbstractTest {
 
 	//Pruebas: Con pregunta que tiene un número mayor a 1.
 	/*
-	 * 1. Borrar question con usuario del rendezvous(y texto incorrecto). Excepción no esperada.
+	 * 1. Borrar question con usuario del rendezvous. Excepción no esperada.
 	 * 2. Borrar question con usuario del rendezvous. Excepción no esperada.
 	 */
 
@@ -61,7 +61,7 @@ public class DeleteQuestionTest extends AbstractTest {
 			{
 				"user1", "question10", null
 			}, {
-				"user1", "question10", null
+				"user1", "question2", null
 			},
 		};
 
@@ -73,7 +73,7 @@ public class DeleteQuestionTest extends AbstractTest {
 
 	//Pruebas: Con pregunta cuyo número es 1.
 	/*
-	 * 1. Borrar question con usuario del rendezvous(y texto incorrecto). Excepción no esperada.
+	 * 1. Borrar question con usuario del rendezvous. Excepción no esperada.
 	 * 2. Borrar question con usuario del rendezvous. Excepción no esperada.
 	 */
 
@@ -88,7 +88,7 @@ public class DeleteQuestionTest extends AbstractTest {
 			{
 				"user3", "question6", null
 			}, {
-				"user3", "question6", null
+				"user1", "question3", null
 			},
 		};
 
