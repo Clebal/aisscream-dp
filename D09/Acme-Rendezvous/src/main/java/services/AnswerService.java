@@ -66,13 +66,14 @@ public class AnswerService {
 		return result;
 	}
 
-	//	public Collection<Comment> findAll() {
-	//		Collection<Comment> result;
-	//
-	//		result = this.commentRepository.findAll();
-	//
-	//		return result;
-	//	}
+	//Usado solamente en test, por ser un método ineficiente, sabiendo que hay 17 respuestas.
+	public Collection<Answer> findAll() {
+		Collection<Answer> result;
+
+		result = this.answerRepository.findAll();
+
+		return result;
+	}
 
 	public Answer findOne(final int answerId) {
 		Answer result;
@@ -125,6 +126,10 @@ public class AnswerService {
 
 	}
 
+	public void flush() {
+		this.answerRepository.flush();
+	}
+
 	public Answer findByRSVPIdAndQuestionId(final int RSVPId, final int questionId) {
 		Answer result;
 
@@ -158,6 +163,7 @@ public class AnswerService {
 		Question auxQuestion;
 		Rsvp rsvp;
 		Rendezvous rendezvous;
+		Collection<Question> questions;
 
 		rendezvous = this.rendezvousService.findOne(rsvpForm.getRendezvousId());
 		Assert.notNull(rendezvous);
@@ -167,6 +173,10 @@ public class AnswerService {
 		//Comprobamos que vienen todas las preguntas
 		Assert.isTrue(this.questionService.countByRendezvousId(rendezvous.getId()).equals(rsvpForm.getQuestions().keySet().size()) && this.questionService.countByRendezvousId(rendezvous.getId()).equals(rsvpForm.getAnswers().keySet().size()));
 
+		//Comprobamos que todas son sus preguntas
+		questions = this.questionService.findByRendezvousId(rendezvous.getId());
+		Assert.notNull(questions);
+
 		//Creamos y guardamos el rsvp para poder añadirlo a cada respuesta
 		rsvp = this.rsvpService.create(rendezvous);
 
@@ -175,6 +185,9 @@ public class AnswerService {
 		for (final Integer questionId : rsvpForm.getQuestions().keySet()) {
 			auxQuestion = this.questionService.findOne(questionId);
 			Assert.notNull(auxQuestion);
+
+			//Comprobamos que este contenida en las preguntas del rendezvous
+			Assert.isTrue(questions.contains(auxQuestion));
 
 			auxAnswer = this.create(auxQuestion, rsvp);
 			auxAnswer.setText(rsvpForm.getAnswers().get(questionId));

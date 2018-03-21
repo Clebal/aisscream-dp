@@ -51,7 +51,7 @@ public class CategoryService {
 		if (category != null)
 			result.setFatherCategory(category);
 
-		category.setDefaultCategory(false);
+		result.setDefaultCategory(false);
 
 		return result;
 	}
