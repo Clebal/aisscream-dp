@@ -45,28 +45,24 @@ public class InternationalizationService {
 	public Internationalization save(final Internationalization internationalization) {
 		Internationalization result, saved;
 		Authority authority;
-
+		
 		Assert.notNull(internationalization);
-
+		
 		// No puede cambiar ni el countryCode ni el messageCode
-		if (internationalization.getId() != 0) {
+		if(internationalization.getId() != 0){
 			saved = this.internationalizationRepository.findOne(internationalization.getId());
 			Assert.isTrue(internationalization.getMessageCode().equals(saved.getMessageCode()));
 			Assert.isTrue(internationalization.getCountryCode().equals(saved.getCountryCode()));
 		}
-
+		
 		// Debe ser un admin
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-
+	
 		result = this.internationalizationRepository.save(internationalization);
 
 		return result;
-	}
-
-	public void flush() {
-		this.internationalizationRepository.flush();
 	}
 
 	// Other methods
@@ -80,16 +76,21 @@ public class InternationalizationService {
 
 		return result;
 	}
-
+	
 	public Collection<String> findAvailableLanguagesByMessageCode(final String messageCode) {
 		Collection<String> result;
-
+		
 		Assert.notNull(messageCode);
-
+		
 		result = this.internationalizationRepository.findAvailableLanguagesByMessageCode(messageCode);
-
+		
 		return result;
 	}
+	
+	public void flush(){
+		this.internationalizationRepository.flush();
+	}
+	
 
 	public Internationalization reconstruct(final Internationalization internationalization, final BindingResult binding) {
 		Internationalization result;

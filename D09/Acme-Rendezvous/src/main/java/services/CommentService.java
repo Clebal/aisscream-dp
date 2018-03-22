@@ -146,7 +146,7 @@ public class CommentService {
 		this.commentRepository.delete(commentForDelete);
 
 	}
-
+	
 	public void flush() {
 		this.commentRepository.flush();
 	}
