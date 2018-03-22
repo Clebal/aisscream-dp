@@ -146,7 +146,7 @@ public class CommentService {
 		this.commentRepository.delete(commentForDelete);
 
 	}
-	
+
 	public void flush() {
 		this.commentRepository.flush();
 	}
@@ -157,6 +157,10 @@ public class CommentService {
 		Actor actor;
 		Calendar birthDatePlus18Years;
 		Boolean canPermit;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
 
 		Assert.isTrue(commentId != 0);
 
@@ -164,14 +168,20 @@ public class CommentService {
 		Assert.notNull(result);
 
 		if (LoginService.isAuthenticated()) {
-			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-			birthDatePlus18Years = Calendar.getInstance();
-			birthDatePlus18Years.setTime(actor.getBirthdate());
-			birthDatePlus18Years.add(Calendar.YEAR, 18);
-			if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0 || actor.getId() == result.getRendezvous().getCreator().getId())
+
+			if (LoginService.getPrincipal().getAuthorities().contains(authority))
 				canPermit = true;
-			else
-				canPermit = false;
+			else {
+				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+				birthDatePlus18Years = Calendar.getInstance();
+				birthDatePlus18Years.setTime(actor.getBirthdate());
+				birthDatePlus18Years.add(Calendar.YEAR, 18);
+				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0 || actor.getId() == result.getRendezvous().getCreator().getId())
+					canPermit = true;
+				else
+					canPermit = false;
+			}
+
 		} else
 			canPermit = false;
 
