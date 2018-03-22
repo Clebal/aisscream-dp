@@ -36,14 +36,14 @@
 	<!-- Address -->
 	<acme:textbox code="actor.address" path="address"/>
 
-	<!-- Birthdate -->	
-	<acme:textbox code="actor.birthdate" path="birthdate" placeholder="dd/MM/yyyy"/>
-
 	<!-- Email -->
 	<acme:textbox code="actor.email" path="email"/>
 
 	<!-- Phone -->
 	<acme:textbox code="actor.phone" path="phone"/>
+	
+	<!-- Birthdate -->	
+	<acme:textbox code="actor.birthdate" path="birthdate" readonly="readonly" />
 		
 	<jstl:if test="${canEdit==true }">	
 		<acme:submit name="save" code="actor.save"/>
