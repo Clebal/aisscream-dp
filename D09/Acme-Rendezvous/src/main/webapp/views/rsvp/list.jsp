@@ -16,11 +16,11 @@
 	
 	<jstl:if test="${!requestURI.equals('rsvp/list.do')}">
 		<jstl:if test="${row.getRendezvous().getMoment()>=(today)  || !row.getRendezvous().getIsDeleted()}">
-			<jstl:if test="${row.getStatus().equals('ACCEPTED')}">
+			<jstl:if test="${row.getStatus().equals('ACCEPTED') && !row.getRendezvous().getIsDeleted()}">
 				<acme:columnLink action="cancel" domain="rsvp" id="${row.getId()}" />
 			</jstl:if>
 			
-			<jstl:if test="${row.getStatus().equals('CANCELLED')}">
+			<jstl:if test="${row.getStatus().equals('CANCELLED') && !row.getRendezvous().getIsDeleted()}">
 				<acme:columnLink action="accept" domain="rsvp" id="${row.getId()}" />
 			</jstl:if>
 		</jstl:if>

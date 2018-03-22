@@ -38,9 +38,11 @@
 	<!-- Address -->
 	<acme:textbox code="actor.address" path="address"/>
 	
-	<!-- Birthdate -->	
+	<!-- Birthdate -->
+	<jstl:if test="${userForm.getId()==0 }">
 	<acme:textbox code="actor.birthdate" path="birthdate" placeholder="dd/MM/yyyy"/>
-
+	</jstl:if>
+	
 	<!-- Email -->
 	<acme:textbox code="actor.email" path="email"/>
 

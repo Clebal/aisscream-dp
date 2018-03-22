@@ -14,9 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import security.Authority;
 import security.LoginService;
 import services.ActorService;
+import services.ManagerService;
 import services.UserService;
 import domain.Actor;
+import domain.Manager;
 import domain.User;
+import forms.ManagerForm;
 import forms.UserForm;
 
 @Controller
@@ -30,7 +33,9 @@ public class ActorController extends AbstractController {
 	@Autowired
 	private UserService		userService;
 
-
+	@Autowired
+	private ManagerService	managerService;
+	
 	// Constructors
 	public ActorController() {
 		super();
@@ -147,11 +152,15 @@ public class ActorController extends AbstractController {
 		String requestURI;
 		String tipoActor;
 		UserForm userForm;
-		Authority authority;
+		ManagerForm managerForm;
+		Manager manager;
+		Authority authorityUser, authorityManager;
 
 		//Solo puede acceder admin
-		authority = new Authority();
-		authority.setAuthority("USER");
+		authorityUser = new Authority();
+		authorityUser.setAuthority("USER");
+		authorityManager = new Authority();
+		authorityManager.setAuthority("MANAGER");
 
 		//Creamos la URI
 		tipoActor = actor.getClass().getSimpleName().toLowerCase();
@@ -164,7 +173,7 @@ public class ActorController extends AbstractController {
 			canEdit = true;
 
 		//Añadimos los parámetros
-		if (actor.getUserAccount().getAuthorities().contains(authority)) {
+		if (actor.getUserAccount().getAuthorities().contains(authorityUser)) {
 
 			userForm = new UserForm();
 
@@ -178,6 +187,27 @@ public class ActorController extends AbstractController {
 			userForm.setUsername(actor.getUserAccount().getUsername());
 
 			result.addObject("userForm", userForm);
+
+		} else if (actor.getUserAccount().getAuthorities().contains(authorityManager)) {
+
+			managerForm = new ManagerForm();
+
+			managerForm.setAddress(actor.getAddress());
+			managerForm.setBirthdate(actor.getBirthdate());
+			managerForm.setEmail(actor.getEmail());
+			managerForm.setId(actor.getId());
+			managerForm.setName(actor.getName());
+			managerForm.setPhone(actor.getPhone());
+			managerForm.setSurname(actor.getSurname());
+			managerForm.setUsername(actor.getUserAccount().getUsername());
+			
+			if(LoginService.isAuthenticated()){
+				manager =  this.managerService.findByUserAccountId(LoginService.getPrincipal().getId());
+				Assert.notNull(manager);
+				managerForm.setVat(manager.getVat());
+			}
+
+			result.addObject("managerForm", managerForm);
 
 		} else
 			result.addObject("administrator", actor);

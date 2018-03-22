@@ -188,8 +188,6 @@ public class UserService {
 	public User reconstruct(final UserForm userForm, final BindingResult binding) {
 		User result;
 
-		this.validator.validate(userForm, binding);
-
 		if (userForm.getId() == 0) {
 			result = this.create();
 
@@ -199,19 +197,22 @@ public class UserService {
 
 			result.getUserAccount().setUsername(userForm.getUsername());
 			result.getUserAccount().setPassword(userForm.getPassword());
+			result.setBirthdate(userForm.getBirthdate());
 
 		} else {
 			result = this.findOne(userForm.getId());
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
+			userForm.setBirthdate(result.getBirthdate());
 		}
 
 		result.setName(userForm.getName());
 		result.setSurname(userForm.getSurname());
 		result.setAddress(userForm.getAddress());
-		result.setBirthdate(userForm.getBirthdate());
 		result.setEmail(userForm.getEmail());
 		result.setPhone(userForm.getPhone());
+
+		this.validator.validate(userForm, binding);
 
 		return result;
 	}

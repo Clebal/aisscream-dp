@@ -115,6 +115,7 @@ public class AdministratorService {
 
 		result.setUserAccount(aux.getUserAccount());
 		result.setVersion(aux.getVersion());
+		result.setBirthdate(aux.getBirthdate());
 
 		this.validator.validate(result, binding);
 

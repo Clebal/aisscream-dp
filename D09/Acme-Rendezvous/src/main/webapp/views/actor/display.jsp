@@ -23,7 +23,7 @@
 	
 	<acme:display code="actor.address" value="${actor.getAddress()}"/>
 	
-	<acme:display code="actor.birthdate" value="${actor.getBirthdate()}"/>
+	<acme:display code="actor.birthdate" value="${actor.getBirthdate()}" codeMoment="actor.format.moment"/>
 	
 	<spring:url var="urlRendezvousCreated" value="rendezvous/listByUser.do">
 	<spring:param name="userId" value="${actor.getId()}" />

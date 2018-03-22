@@ -53,7 +53,7 @@
 		
 		<!-- Villarín -->
 		<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" /> 
-		<security:intercept-url pattern="/actor/user/create.do" access="hasRole('USER') or isAnonymous()" />
+		<security:intercept-url pattern="/actor/user/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()"  />
 		<security:intercept-url pattern="/actor/display.do" access="permitAll"  />
 		<security:intercept-url pattern="/actor/list.do" access="hasRole('USER') or isAnonymous()"  />	
@@ -98,7 +98,7 @@
 		<security:intercept-url pattern="/creditcard/user/display.do" access="hasRole('USER')" />
 		 	
  		<security:intercept-url pattern="/actor/manager/create.do" access="isAnonymous()" />
-		<security:intercept-url pattern="/actor/manager/edit.do" access="hasRole('USER') or isAnonymous()"  />
+		<security:intercept-url pattern="/actor/manager/edit.do" access="hasRole('MANAGER') or isAnonymous()"  />
  		<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />		
 		 
 		<!-- Santos -->

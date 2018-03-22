@@ -132,8 +132,6 @@ public class ManagerService {
 	public Manager reconstruct(final ManagerForm managerForm, final BindingResult binding) {
 		Manager result;
 
-		this.validator.validate(managerForm, binding);
-
 		if (managerForm.getId() == 0) {
 			result = this.create();
 
@@ -143,20 +141,24 @@ public class ManagerService {
 
 			result.getUserAccount().setUsername(managerForm.getUsername());
 			result.getUserAccount().setPassword(managerForm.getPassword());
+			result.setBirthdate(managerForm.getBirthdate());
+
 
 		} else {
 			result = this.findOne(managerForm.getId());
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(managerForm.getUsername()));
+			managerForm.setBirthdate(result.getBirthdate());
 		}
 
 		result.setName(managerForm.getName());
 		result.setSurname(managerForm.getSurname());
 		result.setAddress(managerForm.getAddress());
-		result.setBirthdate(managerForm.getBirthdate());
 		result.setEmail(managerForm.getEmail());
 		result.setPhone(managerForm.getPhone());
 		result.setVat(managerForm.getVat());
+
+		this.validator.validate(managerForm, binding);
 
 		return result;
 	}
