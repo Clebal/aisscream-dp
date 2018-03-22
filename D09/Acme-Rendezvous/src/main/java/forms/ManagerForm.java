@@ -31,6 +31,7 @@ public class ManagerForm {
 	private String	address;
 	private String	vat;
 
+
 	public ManagerForm() {
 		super();
 	}
@@ -133,14 +134,14 @@ public class ManagerForm {
 		this.birthdate = birthdate;
 	}
 
-	@Pattern(regexp = "^(?![\\W_]+$)(?=.{2,12}$)[-_. 0-9]*(?:[a-zA-Z][-_ 0-9]*){0,3}$")
-	@Column(unique=true)
+	@Pattern(regexp = "^(?![\\W]+$)(?=.{2,12}$)[-. 0-9]*(?:[a-zA-Z][- 0-9]*){0,3}$")
+	@Column(unique = true)
 	@NotBlank
 	public String getVat() {
-		return vat;
+		return this.vat;
 	}
 
-	public void setVat(String vat) {
+	public void setVat(final String vat) {
 		this.vat = vat;
 	}
 }
