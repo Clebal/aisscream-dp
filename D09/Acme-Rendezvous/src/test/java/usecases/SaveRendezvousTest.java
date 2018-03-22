@@ -82,7 +82,6 @@ public class SaveRendezvousTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Boolean) testingData[i][6], (Boolean) testingData[i][7],
 					(Double) testingData[i][8], (Double) testingData[i][9], (Boolean) testingData[i][10], (String) testingData[i][11], (String) testingData[i][12], (Class<?>) testingData[i][13]);
@@ -160,7 +159,6 @@ public class SaveRendezvousTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Boolean) testingData[i][6], (Boolean) testingData[i][7],
 					(Double) testingData[i][8], (Double) testingData[i][9], (Boolean) testingData[i][10], (String) testingData[i][11], (String) testingData[i][12], (Class<?>) testingData[i][13]);
@@ -243,8 +241,7 @@ public class SaveRendezvousTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}

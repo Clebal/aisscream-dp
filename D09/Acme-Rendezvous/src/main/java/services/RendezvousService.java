@@ -223,8 +223,10 @@ public class RendezvousService {
 			Assert.isTrue(this.findOne(rendezvous.getId()).getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId());
 			Assert.isTrue(rendezvous.getDraft() == true);
 		}
-		Assert.isTrue(this.rendezvousRepository.findOne(rendezvous.getId()).getIsDeleted() == false && this.rendezvousRepository.findOne(rendezvous.getId()).getDraft() == true);
-
+		if (LoginService.getPrincipal().getAuthorities().contains(authority))
+			Assert.isTrue(this.rendezvousRepository.findOne(rendezvous.getId()).getIsDeleted() == false && this.rendezvousRepository.findOne(rendezvous.getId()).getDraft() == true);
+		else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+			Assert.isTrue(this.rendezvousRepository.findOne(rendezvous.getId()).getIsDeleted() == false);
 		rendezvous.setIsDeleted(true);
 
 		this.rendezvousRepository.save(rendezvous);

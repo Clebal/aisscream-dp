@@ -86,7 +86,6 @@ public class EditRendezvousTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateEdit((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
 					(Boolean) testingData[i][7], (Boolean) testingData[i][8], (Double) testingData[i][9], (Double) testingData[i][10], (Boolean) testingData[i][11], (Boolean) testingData[i][12], (String) testingData[i][13], (String) testingData[i][14],
@@ -159,7 +158,6 @@ public class EditRendezvousTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateEdit((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
 					(Boolean) testingData[i][7], (Boolean) testingData[i][8], (Double) testingData[i][9], (Double) testingData[i][10], (Boolean) testingData[i][11], (Boolean) testingData[i][12], (String) testingData[i][13], (String) testingData[i][14],
@@ -248,7 +246,6 @@ public class EditRendezvousTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateAddDeleteLink((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Boolean) testingData[i][4], (Boolean) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -307,7 +304,6 @@ public class EditRendezvousTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateFindOneFindOneToEdit((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Boolean) testingData[i][4], (Boolean) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -351,7 +347,6 @@ public class EditRendezvousTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateFindOneToDisplay((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Boolean) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
@@ -448,8 +443,6 @@ public class EditRendezvousTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}
@@ -569,8 +562,6 @@ public class EditRendezvousTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}
@@ -666,8 +657,6 @@ public class EditRendezvousTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}
@@ -718,8 +707,6 @@ public class EditRendezvousTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}
