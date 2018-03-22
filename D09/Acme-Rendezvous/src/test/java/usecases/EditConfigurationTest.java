@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
-
 import domain.Configuration;
 
 import services.ConfigurationService;
@@ -30,11 +29,12 @@ public class EditConfigurationTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. El admin guarda la configuración tal y como está
-	 * 2. El admin guarda la configuración cambiando la propiedad name
-	 * 3. El admin guarda la configuración cambiando la propiedad banner
-	 * 4. El admin guarda la configuración cambiando la propiedad welcomeMessage
-	 * 5. El admin guarda la configuración cambiando todas las propiedades
+	 * Pruebas:
+	 * 		1. El admin guarda la configuración tal y como está
+	 * 		2. El admin guarda la configuración cambiando la propiedad name
+	 * 		3. El admin guarda la configuración cambiando la propiedad banner
+	 * 		4. El admin guarda la configuración cambiando la propiedad welcomeMessage
+	 * 		5. El admin guarda la configuración cambiando todas las propiedades
 	 */
 	@Test
 	public void driverConfigurationPositiveTest() {
@@ -54,7 +54,7 @@ public class EditConfigurationTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 		try {
-			System.out.println(i);
+//			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 		} catch (final Throwable oops) {
@@ -83,7 +83,7 @@ public class EditConfigurationTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
+//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 			} catch (final Throwable oops) {
@@ -97,7 +97,7 @@ public class EditConfigurationTest extends AbstractTest {
 
 	/*
 	 * Editar configuration. Pasos:
-	 * 1. Autenticarnos como administrador.
+	 * 1. Autenticar administrador.
 	 * 2. Obtener el único configuration que existe
 	 * 3. Editamos el configuration
 	 * 4. Guardamos el configuration
@@ -106,11 +106,12 @@ public class EditConfigurationTest extends AbstractTest {
 	protected void template(final String user, final String name, final String banner, final String welcomeMessage, final Class<?> expected) {
 		Class<?> caught;
 		Configuration oldConfiguration, newConfiguration, savedConfiguration;
+//		DataBinder binder;
 
 		caught = null;
 		try {
 			
-			// 1. Autenticarnos como administrador.
+			// 1. Autenticar administrador.
 			super.authenticate(user);
 			
 			// 2. Obtener el único configuration que existe
@@ -123,7 +124,10 @@ public class EditConfigurationTest extends AbstractTest {
 			if(welcomeMessage != null) newConfiguration.setWelcomeMessage(welcomeMessage);
 				
 			// 4. Guardamos el configuration
+//			binder = new DataBinder(newConfiguration);
+//			newConfiguration = this.configurationService.reconstruct(newConfiguration, binder.getBindingResult());
 			this.configurationService.save(newConfiguration);
+			this.configurationService.flush();
 			
 			// 5. Volvemos a la vista de configuration
 			savedConfiguration = this.configurationService.findUnique();
@@ -137,8 +141,8 @@ public class EditConfigurationTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+//		System.out.println("Expected " + expected);
+//		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 	

@@ -3,7 +3,6 @@ package usecases;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import domain.Announcement;
 import security.LoginService;
@@ -35,8 +35,9 @@ public class EditAnnouncementTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. Editamos el campo title del announcement1
-	 * 2. Editamos el campo description del announcement1
+	 * Pruebas:
+	 * 		1. Un usuario trata de editar el campo title de un announcement
+	 * 		2. Un usuario trata de editar el campo description de un announcement
 	 */
 	@Test
 	public void driverPositiveTest() {
@@ -50,7 +51,7 @@ public class EditAnnouncementTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 		try {
-			System.out.println(i);
+//			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 		} catch (final Throwable oops) {
@@ -61,13 +62,14 @@ public class EditAnnouncementTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Un usuario trata de editar un announcement no creado por él
-	 * 2. Un manager trata de editar un announcement cuando no lo tiene permitido
-	 * 3. Un administrator trata de editar un announcement cuando no lo tiene permitido
-	 * 4. Un usuario trata de editar el campo moment
-	 * ---5. Un usuario trata de quitar el valor del campo moment---
-	 * 6. Un usuario trata de editar un announcement dejando el campo title vacío
-	 * 7. Un usuario trata de editar un announcement dejando el campo descripticon vacío
+	 * Pruebas:
+	 * 		1. Un usuario trata de editar un announcement no creado por él
+	 * 		2. Un manager trata de editar un announcement cuando no lo tiene permitido
+	 * 		3. Un administrator trata de editar un announcement cuando no lo tiene permitido
+	 * 		4. Un usuario trata de editar el campo moment
+	 * 		----5. Un usuario trata de quitar el valor del campo moment----
+	 * 		6. Un usuario trata de editar un announcement dejando el campo title vacío
+	 * 		7. Un usuario trata de editar un announcement dejando el campo descripticon vacío
 	 */
 	@Test
 	public void driverNegativeTest() {
@@ -79,7 +81,7 @@ public class EditAnnouncementTest extends AbstractTest {
 			}, {
 				"administrator1", "announcement1", null, null, null, IllegalArgumentException.class
 			}, {
-				"user1", "announcement1", "01/02/2018 03:12", null, null, IllegalArgumentException.class
+				"user1", "announcement1", "01/02/2018 15:12", null, null, IllegalArgumentException.class
 			}/*, {
 				"user1", "announcement1", "", null, null, IllegalArgumentException.class
 			}*/, {
@@ -91,7 +93,7 @@ public class EditAnnouncementTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
+//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
@@ -105,7 +107,7 @@ public class EditAnnouncementTest extends AbstractTest {
 
 	/*
 	 * Editar un announcement. Pasos:
-	 * 1. Autenticarnos como usuario.
+	 * 1. Autenticar usuario.
 	 * 2. Listar los announcements
 	 * 3. Escoger un announcement
 	 * 4. Editar el announcement
@@ -118,8 +120,9 @@ public class EditAnnouncementTest extends AbstractTest {
 		Collection<Announcement> announcements;
 		int announcementId;
 		DateFormat formatter; 
+		DataBinder binder;
 		
-		formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
+		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 		caught = null;
 		try {
@@ -127,9 +130,8 @@ public class EditAnnouncementTest extends AbstractTest {
 			announcementId = super.getEntityId(announcementName);
 			oldAnnouncement = this.announcementService.findOne(announcementId);
 			
-			// 1. Autenticarnos como usuario
+			// 1. Autenticar usuario
 			super.authenticate(user);
-			Assert.isTrue(LoginService.getPrincipal().getUsername().equals(user));
 			
 			// 2. Listar los announcements
 			announcements = this.announcementService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), this.getPage(oldAnnouncement), 5);
@@ -145,7 +147,10 @@ public class EditAnnouncementTest extends AbstractTest {
 			if(description != null) newAnnouncement.setDescription(description);
 			
 			// 5. Salvar el nuevo announcement
+			binder = new DataBinder(newAnnouncement);
+			newAnnouncement = this.announcementService.reconstruct(newAnnouncement, binder.getBindingResult());
 			savedAnnouncement = this.announcementService.save(newAnnouncement);
+			this.announcementService.flush();
 			
 			// 6. Dirigir al listado de los announcements
 			for(Announcement a: this.announcementService.findAll())
@@ -159,8 +164,8 @@ public class EditAnnouncementTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+//		System.out.println("Expected " + expected);
+//		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 	
@@ -171,7 +176,7 @@ public class EditAnnouncementTest extends AbstractTest {
 		
 		result = new Announcement();
 		result.setId(announcement.getId());
-		result.setVersion(announcement.getVersion());
+//		result.setVersion(announcement.getVersion());
 		result.setMoment(announcement.getMoment());
 		result.setTitle(announcement.getTitle());
 		result.setDescription(announcement.getDescription());
@@ -185,7 +190,7 @@ public class EditAnnouncementTest extends AbstractTest {
 		Collection<Announcement> announcements;
 
 		collectionSize = this.announcementService.countByCreatorUserAccountId(LoginService.getPrincipal().getId());
-        pageNumber = (int) Math.floor(((collectionSize / (5 + 0.0)) - 0.1) + 1);
+        pageNumber = (int) Math.floor(((collectionSize / (5.0)) - 0.1) + 1);
 
 		result = null;
 

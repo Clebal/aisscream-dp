@@ -14,8 +14,10 @@ import org.springframework.util.Assert;
 
 import security.LoginService;
 import services.AnnouncementService;
+import services.RendezvousService;
 import utilities.AbstractTest;
 import domain.Announcement;
+import domain.Rendezvous;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -26,10 +28,14 @@ public class DeleteAnnouncementTest extends AbstractTest {
 
 	@Autowired
 	private AnnouncementService	announcementService;
+	
+	@Autowired
+	private RendezvousService rendezvousService;
 
 	/*
-	 * 1. El administrador trata de eliminar un announcement
-	 * 2. Un usuario autenticado como usuario trata de eliminar un announcement
+	 * Pruebas:
+	 * 		1. El administrador trata de eliminar un announcement
+	 * 		2. Un usuario autenticado como usuario trata de eliminar un announcement
 	 */
 	@Test
 	public void driverPostiveTest() {
@@ -42,7 +48,6 @@ public class DeleteAnnouncementTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
@@ -53,21 +58,20 @@ public class DeleteAnnouncementTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Un usuario autenticado como manager trata de eliminar un announcement
-	 * 2. Un usuario autenticado como usuario trata de eliminar un announcement que no es suyo
+	 * Pruebas:
+	 * 		1. Un usuario autenticado como manager trata de eliminar un announcement
+	 * 
+	 * 
 	 */
 	@Test
 	public void driverNegativeTest() {
 		final Object testingData[][] = {
 			{
 				"manager1", "announcement6", IllegalArgumentException.class
-			}, {
-				"user1", "announcement5", IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
@@ -77,11 +81,36 @@ public class DeleteAnnouncementTest extends AbstractTest {
 			}
 	}
 	
+	/*
+	 * Pruebas:
+	 * 		1. Un usuario autenticado como usuario trata de eliminar un announcement que no es suyo
+	 * 
+	 * 
+	 */
+	@Test
+	public void driverUrlNegativeTest() {
+		final Object testingData[][] = {
+			{
+				"user1", "announcement5", null, IllegalArgumentException.class
+			}, {
+				"user1", "announcement5", "rendezvous1", IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				this.templateUrl((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
 	// Ancillary methods ------------------------------------------------------
 
 	/*
 	 * Eliminar un announcement. Pasos:
-	 * 1. Autenticarme como usuario
+	 * 1. Autenticar usuario
 	 * 1. Listar los announcements
 	 * 2. Escoger un announcement (entrando en la vista de Editar)
 	 * 3. Eliminar el announcement
@@ -100,7 +129,7 @@ public class DeleteAnnouncementTest extends AbstractTest {
 			announcementId = super.getEntityId(announcementBean);
 			oldAnnouncement = this.announcementService.findOne(announcementId);
 			
-			// 1. Autenticarnos como usuario
+			// 1. Autenticar usuario
 			super.authenticate(user); 
 			Assert.isTrue(LoginService.getPrincipal().getUsername().equals(user));
 			
@@ -127,10 +156,72 @@ public class DeleteAnnouncementTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+		
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
+	}
+	
+	/*
+	 * Eliminar template a través de URL. Pasos:
+	 * 1. Autenticar usuario
+	 * 2. Eliminar el announcement
+	 */
+	protected void templateUrl(final String user, final String announcementBean, final String rendezvousBean, final Class<?> expected) {
+		Class<?> caught;
+		int announcementId, rendezvousId;
+		Announcement announcement;
+		Rendezvous rendezvous;
+ 
+		caught = null;
+		announcement = null;
+		try {
+			
+			/***********/
+			announcementId = super.getEntityId(announcementBean);
+			announcement = this.copyAnnouncement(this.announcementService.findOne(announcementId));
+			
+			// Simulamos que el usuario trata de cambiar las propiedades del announcement al enviarlo por URL
+			if(rendezvousBean != null) {
+				rendezvousId = super.getEntityId(rendezvousBean);
+				rendezvous = this.rendezvousService.findOne(rendezvousId);
+				announcement.setRendezvous(rendezvous);
+			}
+
+			/***********/
+			
+			// 1. Autenticarnos como usuario
+			super.authenticate(user); 
+			Assert.isTrue(LoginService.getPrincipal().getUsername().equals(user));
+			
+			// 2. Eliminar el announcement
+			this.announcementService.delete(announcement);
+			this.announcementService.flush();
+			
+			// Comprobar
+			Assert.isTrue(!this.announcementService.findAll().contains(announcement));
+
+			super.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+	}
+	
+	private Announcement copyAnnouncement(final Announcement announcement) {
+		Announcement result;
+		
+		Assert.notNull(announcement);
+		
+		result = new Announcement();
+		result.setId(announcement.getId());
+		result.setVersion(announcement.getVersion());
+		result.setMoment(announcement.getMoment());
+		result.setTitle(announcement.getTitle());
+		result.setDescription(announcement.getDescription());
+		result.setRendezvous(announcement.getRendezvous());
+	
+		return result;
 	}
 	
 	private Integer getPage(final Announcement announcement, final String user) {
