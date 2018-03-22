@@ -53,6 +53,7 @@
 			<security:authorize access="hasRole('USER')">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
+					<li><a href="actor/list.do"><spring:message code="master.page.list.user" /></a></li>
 					<li><a href="rendezvous/user/list.do"><spring:message code="master.page.user.rendezvouses" /></a></li>
 					<li><a href="rsvp/user/list.do"><spring:message code="master.page.user.rsvps" /></a></li>						
 					<li><a href="rendezvous/user/listByAttendant.do"><spring:message code="master.page.user.rsvp.rendezvouses" /></a></li>
@@ -78,7 +79,6 @@
 	        <security:authorize access="isAuthenticated()">		
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="actor/list.do"><spring:message code="master.page.list.user" /></a></li>
 					<li><a href="actor/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
 					<li><a href="rendezvous/list.do"><spring:message code="master.page.all.rendezvous" /></a></li>
 					<li><a href="service/list.do"><spring:message code="master.page.all.service" /></a></li>
