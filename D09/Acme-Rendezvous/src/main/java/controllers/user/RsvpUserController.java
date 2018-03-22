@@ -3,8 +3,7 @@ package controllers.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 import javax.validation.Valid;
 
@@ -83,9 +82,9 @@ public class RsvpUserController extends AbstractController {
 	public ModelAndView display(@RequestParam(required = false) final int rsvpId) {
 		ModelAndView result;
 		Rsvp rsvp;
-		Map<Question, Answer> questionAnswer;
+		LinkedHashMap<Question, Answer> questionAnswer;
 
-		questionAnswer = new HashMap<Question, Answer>();
+		questionAnswer = new LinkedHashMap<Question, Answer>();
 
 		rsvp = this.rsvpService.findOneToDisplay(rsvpId);
 		Assert.notNull(rsvp);
@@ -137,8 +136,8 @@ public class RsvpUserController extends AbstractController {
 		ModelAndView result;
 		Rendezvous rendezvous;
 		Collection<Question> questions;
-		Map<Integer, String> questionsMap;
-		Map<Integer, String> answersMap;
+		LinkedHashMap<Integer, String> questionsMap;
+		LinkedHashMap<Integer, String> answersMap;
 		RsvpForm rsvpForm;
 		Rsvp rsvp;
 
@@ -146,8 +145,7 @@ public class RsvpUserController extends AbstractController {
 		Assert.notNull(rendezvous);
 
 		questions = this.questionService.findByRendezvousId(rendezvousId);
-		
-		
+
 		Assert.isTrue(!rendezvous.getIsDeleted());
 		Assert.isTrue(!this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator()));
 
@@ -163,8 +161,8 @@ public class RsvpUserController extends AbstractController {
 				result = new ModelAndView("redirect:list.do");
 			}
 		else {
-			questionsMap = new HashMap<Integer, String>();
-			answersMap = new HashMap<Integer, String>();
+			questionsMap = new LinkedHashMap<Integer, String>();
+			answersMap = new LinkedHashMap<Integer, String>();
 
 			rsvpForm = new RsvpForm();
 
@@ -200,10 +198,10 @@ public class RsvpUserController extends AbstractController {
 		result = null;
 
 		if (rsvpForm.getQuestions() == null)
-			rsvpForm.setQuestions(new HashMap<Integer, String>());
+			rsvpForm.setQuestions(new LinkedHashMap<Integer, String>());
 
 		if (rsvpForm.getAnswers() == null)
-			rsvpForm.setAnswers(new HashMap<Integer, String>());
+			rsvpForm.setAnswers(new LinkedHashMap<Integer, String>());
 
 		//Reconstruimos las respuestas y creamos el rsvp
 		try {
