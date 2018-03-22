@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -10,18 +11,19 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Manager extends Actor{
+public class Manager extends Actor {
 
-	private String vat;
+	private String	vat;
 
-	@Pattern(regexp = "^(?![\\W_]+$)(?=.{2,12}$)[-_. 0-9]*(?:[a-zA-Z][-_ 0-9]*){0,3}$")
-	@Column(unique=true)
+
+	@Pattern(regexp = "^(?![\\W]+$)(?=.{2,12}$)[-. 0-9]*(?:[a-zA-Z][- 0-9]*){0,3}$")
+	@Column(unique = true)
 	@NotBlank
 	public String getVat() {
-		return vat;
+		return this.vat;
 	}
 
-	public void setVat(String vat) {
+	public void setVat(final String vat) {
 		this.vat = vat;
 	}
 
