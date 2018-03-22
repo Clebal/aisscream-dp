@@ -363,10 +363,10 @@ public class ListServiceTest extends AbstractTest {
 	 * 1. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la primera página con tamaño 5
 	 * 2. Probamos el findByRendezvousId con el rendezvous3 logeados como user la primera página con tamaño 5
 	 * 3. Probamos el findByRendezvousId con el rendezvous3 logeados como admin la primera página con tamaño 5
-	 * 4. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la primera página con tamaño 3
-	 * 5. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la primera página con tamaño 3
-	 * 6. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la segunda página con tamaño 3
-	 * 7. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la tercera página con tamaño 3
+	 * 4. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la primera página con tamaño 2
+	 * 5. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la primera página con tamaño 1
+	 * 6. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la segunda página con tamaño 1
+	 * 7. Probamos el findByRendezvousId con el rendezvous3 logeados como manager la tercera página con tamaño 1
 	 * 8. Probamos el findByRendezvousId con el rendezvous1 logeados como manager la primera página con tamaño 5
 	 * 9. Probamos el findByRendezvousId con el rendezvous3 sin estar logeado (salta una excepción)
 	 * 10. Probamos el findByRendezvousId con el rendezvousId a 0 (salta una excepción)
@@ -375,25 +375,25 @@ public class ListServiceTest extends AbstractTest {
 	public void testFindByRendezvousId() {
 		final Object testingData[][] = {
 			{
-				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 1, 3, 1, 5, null
+				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 1, 2, 1, 5, null
 			}, {
-				"user", "user1", "findByRendezvousId", false, "rendezvous3", 1, 3, 1, 5, null
+				"user", "user1", "findByRendezvousId", false, "rendezvous3", 1, 2, 1, 5, null
 			}, {
-				"admin", "admin", "findByRendezvousId", false, "rendezvous3", 1, 3, 1, 5, null
+				"admin", "admin", "findByRendezvousId", false, "rendezvous3", 1, 2, 1, 5, null
 			}, {
-				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 1, 3, 1, 3, null
+				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 1, 2, 1, 2, null
 			}, {
-				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 1, 2, 2, 2, null
+				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 1, 1, 2, 1, null
 			}, {
-				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 2, 1, 2, 2, null
+				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 2, 1, 2, 1, null
 			}, {
-				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 3, 0, 2, 2, null
+				"manager", "manager1", "findByRendezvousId", false, "rendezvous3", 3, 0, 2, 1, null
 			}, {
 				"manager", "manager1", "findByRendezvousId", false, "rendezvous1", 1, 0, 0, 5, null
 			}, {
-				null, "manager1", "findByRendezvousId", false, "rendezvous3", 1, 3, 1, 5, IllegalArgumentException.class
+				null, "manager1", "findByRendezvousId", false, "rendezvous3", 1, 2, 1, 5, IllegalArgumentException.class
 			}, {
-				"manager1", "manager1", "findByRendezvousId", true, "rendezvous3", 1, 3, 1, 5, IllegalArgumentException.class
+				"manager1", "manager1", "findByRendezvousId", true, "rendezvous3", 1, 2, 1, 5, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
