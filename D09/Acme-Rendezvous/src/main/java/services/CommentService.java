@@ -147,6 +147,10 @@ public class CommentService {
 
 	}
 
+	public void flush() {
+		this.commentRepository.flush();
+	}
+
 	//Evitamos que se puedan ver los comentarios de un rendezvous que no se puede ver
 	public Comment findOneToDisplay(final int commentId) {
 		Comment result;
