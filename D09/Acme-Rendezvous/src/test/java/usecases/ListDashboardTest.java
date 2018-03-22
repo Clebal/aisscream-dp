@@ -216,8 +216,8 @@ public class ListDashboardTest extends AbstractTest {
 			avgMinMaxStandardDesviationServicesPerRendezvous = this.serviceService.avgMinMaxStandartDerivationServicesPerRendezvous();		
 			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[0] == 0.8);
 			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[1] == 0.00);
-			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[2] == 3.00);
-			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[3] == 0.8717797887081347);
+			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[2] == 2.00);
+			Assert.isTrue(avgMinMaxStandardDesviationServicesPerRendezvous[3] == 0.7483314773547883);
 			
 			topSellingServices = this.serviceService.topBestSellingServices(sizeTopSellingServices);
 			Assert.isTrue(topSellingServices.size() == 5 || topSellingServices.size() == 7);
