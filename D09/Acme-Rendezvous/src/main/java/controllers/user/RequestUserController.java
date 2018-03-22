@@ -157,7 +157,7 @@ public class RequestUserController extends AbstractController {
 	public ModelAndView save(@Valid Request request, final BindingResult binding, HttpServletResponse response) {
 		ModelAndView result = null;
 
-//		request = this.requestService.reconstruct(request, binding);
+		request = this.requestService.reconstruct(request, binding);
 		
 		// --- COOKIE --- //
 		Cookie lastCreditCard = new Cookie("cookiemonster_"+request.getRendezvous().getCreator().getId(), this.creditCardToStringConverter.convert(request.getCreditCard()));

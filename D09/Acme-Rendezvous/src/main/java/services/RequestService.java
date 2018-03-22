@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RequestRepository;
 import security.Authority;
@@ -37,6 +39,9 @@ public class RequestService {
 	// Supporting
 	// services-----------------------------------------------------------
 
+	@Autowired
+	private Validator			validator;
+	
 	// Constructors -----------------------------------------------------------
 	public RequestService() {
 		super();
@@ -188,37 +193,21 @@ public class RequestService {
 		return result;
 	}
 
-	/*
-	 * public User reconstruct(final UserForm userForm, final BindingResult binding) {
-	 * User result;
-	 * 
-	 * this.validator.validate(userForm, binding);
-	 * 
-	 * if (userForm.getId() == 0) {
-	 * result = this.create();
-	 * 
-	 * Assert.notNull(result);
-	 * Assert.isTrue(userForm.getCheckPassword().equals(userForm.getPassword()));
-	 * Assert.isTrue(userForm.isCheck());
-	 * 
-	 * result.getUserAccount().setUsername(userForm.getUsername());
-	 * result.getUserAccount().setPassword(userForm.getPassword());
-	 * 
-	 * } else {
-	 * result = this.findOne(userForm.getId());
-	 * Assert.notNull(result);
-	 * Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
-	 * }
-	 * 
-	 * result.setName(userForm.getName());
-	 * result.setSurname(userForm.getSurname());
-	 * result.setAddress(userForm.getAddress());
-	 * result.setBirthdate(userForm.getBirthdate());
-	 * result.setEmail(userForm.getEmail());
-	 * result.setPhone(userForm.getPhone());
-	 * 
-	 * return result;
-	 * }
-	 */
+	// Pruned object domain
+	public Request reconstruct(final Request request, final BindingResult binding) {
+			Request result;
+
+			result = request;
+
+			result.setVersion(request.getVersion());
+			result.setRendezvous(request.getRendezvous());
+			result.setService(request.getService());
+			result.setCreditCard(request.getCreditCard());
+			result.setComments(request.getComments());
+
+			this.validator.validate(result, binding);
+
+			return result;
+		}
 
 }
