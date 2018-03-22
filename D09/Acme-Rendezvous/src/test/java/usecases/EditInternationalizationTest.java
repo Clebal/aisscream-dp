@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import domain.Internationalization;
 
@@ -19,7 +20,7 @@ import utilities.AbstractTest;
 	})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class SaveEditInternationalizationTest extends AbstractTest {
+public class EditInternationalizationTest extends AbstractTest {
 
 	// System under test ------------------------------------------------------
 
@@ -29,45 +30,14 @@ public class SaveEditInternationalizationTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * findByCountryCodeAndMessageCode con valores que están en la base de datos
+	 * Pruebas:
+	 * 		1. Un administrador puede editar un internationalization
 	 */
 	@Test
-	public void testFindByCountryCodeAndMessageCode1() {
-		String countryCode, messageCode, value;
-		Internationalization internationalization;
-		
-		countryCode = "es";
-		messageCode = "welcomeMessage";
-		value		= "Tu sitio para organizar quedadas de aventura";
-		
-		internationalization = this.internationalizationService.findByCountryCodeAndMessageCode(countryCode, messageCode);
-		
-		Assert.isTrue(internationalization.getValue().equals(value));
-	}
-	
-	/*
-	 * findByCountryCodeAndMessageCode con valores inventados
-	 */
-	@Test
-	public void testFindByCountryCodeAndMessageCode2() {
-		String countryCode, messageCode;
-		Internationalization internationalization;
-		
-		countryCode = "test";
-		messageCode = "test";
-		
-		internationalization = this.internationalizationService.findByCountryCodeAndMessageCode(countryCode, messageCode);
-		
-		Assert.isNull(internationalization);
-	}
-	
-	@Test
-	public void positiveTest() {
+	public void driverPositiveTest() {
 		final Object testingData[][] = {
 			{
-				"admin", null, "es", null, "testMessageCode", "testValue", null // Un administrador puede crear un internationalization
-			},{
-				"admin", "es", "es", "welcomeMessage", "welcomeMessage", "asdf", null // Un administrador puede editar un internationalization
+				"admin", "es", null, "welcomeMessage", null, "asdf", null
 			}
 		};
 			
@@ -83,18 +53,21 @@ public class SaveEditInternationalizationTest extends AbstractTest {
 		}
 	}
 	
-	
-	@Test()
-	public void negativeTest() {
+	/*
+	 * Pruebas:
+	 *		1. No se puede modificar el countryCode
+	 *		2. No puede ser modificado por un manager
+	 *		3. No puede ser modificado por un user
+	 */
+	@Test
+	public void driverNegativeTest() {
 		final Object testingData[][] = {
 			{
-				"admin", "es", null, "welcomeMessage", "welcome", "Tu sitio para organizar quedadas de aventura", IllegalArgumentException.class // No se puede modificar el messageCode
-			}, 	{
-				"admin", "es", "en", "welcomeMessage", null, "Tu sitio para organizar quedadas de aventura", IllegalArgumentException.class // No se puede modificar el countryCode
+				"admin", "es", "en", "welcomeMessage", null, "Tu sitio para organizar quedadas de aventura", IllegalArgumentException.class
 			}, {
-				"manager1", "es", null, "welcomeMessage", null, "asdf", IllegalArgumentException.class // No puede ser modificado por un manager
+				"manager1", "es", null, "welcomeMessage", null, "asdf", IllegalArgumentException.class
 			}, {
-				"user1", "es", null, "welcomeMessage", null, "asdf", IllegalArgumentException.class // No puede ser modificado por un user
+				"user1", "es", null, "welcomeMessage", null, "asdf", IllegalArgumentException.class
 			}
 		};
 		
@@ -112,28 +85,31 @@ public class SaveEditInternationalizationTest extends AbstractTest {
 
 	// Ancillary methods ------------------------------------------------------
 
+	/*
+	 * Editar un internationalization. Pasos:
+	 * 1. Autenticar usuario
+	 * 2. Editar valores
+	 */
 	protected void template(final String user, final String oldCountryCode, final String countryCode, final String oldMessageCode, final String messageCode, final String value, final Class<?> expected) {
 		Class<?> caught;
 		Internationalization oldInternationalization, newInternationalization;
+		DataBinder binder;
 
 		caught = null;
 		try {
 			
+			// 1. Autenticar usuario
 			super.authenticate(user);
 			
-			if(oldCountryCode == null || oldMessageCode == null) {
-				newInternationalization = this.internationalizationService.create();
-				
-				newInternationalization.setCountryCode(countryCode);
-				newInternationalization.setMessageCode(messageCode);
-			}else{
-				oldInternationalization = this.internationalizationService.findByCountryCodeAndMessageCode(oldCountryCode, oldMessageCode);
-				newInternationalization = this.copyInternationalization(oldInternationalization);
-				
-				if(countryCode != null) newInternationalization.setCountryCode(countryCode);
-				if(messageCode != null) newInternationalization.setMessageCode(messageCode);
-			}
-		
+			oldInternationalization = this.internationalizationService.findByCountryCodeAndMessageCode(oldCountryCode, oldMessageCode);
+			newInternationalization = this.copyInternationalization(oldInternationalization);
+			
+			binder = new DataBinder(newInternationalization);
+			newInternationalization = this.internationalizationService.reconstruct(newInternationalization, binder.getBindingResult());
+			
+			// 2. Editar valores
+			if(countryCode != null) newInternationalization.setCountryCode(countryCode);
+			if(messageCode != null) newInternationalization.setMessageCode(messageCode);
 			if(value != null) newInternationalization.setValue(value);
 			
 			this.internationalizationService.save(newInternationalization);
@@ -151,16 +127,14 @@ public class SaveEditInternationalizationTest extends AbstractTest {
 	
 	private Internationalization copyInternationalization(final Internationalization internationalization) {
 		Internationalization result;
-//		BindingResult binding = null;
 		
 		Assert.notNull(internationalization);
 		
-//		result = this.internationalizationService.reconstruct(internationalization, binding);
 		result = new Internationalization();
 		result.setId(internationalization.getId());
-		result.setVersion(internationalization.getVersion());
-		result.setCountryCode(internationalization.getCountryCode());
-		result.setMessageCode(internationalization.getMessageCode());
+//		result.setVersion(internationalization.getVersion());
+//		result.setCountryCode(internationalization.getCountryCode());
+//		result.setMessageCode(internationalization.getMessageCode());
 		result.setValue(internationalization.getValue());
 
 		return result;

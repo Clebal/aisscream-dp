@@ -1,8 +1,6 @@
 
 package controllers.administrator;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -102,8 +100,11 @@ public class ConfigurationAdministratorController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/editWelcomeMessage", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Internationalization internationalization, final BindingResult binding) {
+	public ModelAndView save(Internationalization internationalization, final BindingResult binding) {
 		ModelAndView result;
+		
+		internationalization = this.internationalizationService.reconstruct(internationalization, binding);
+		
 		if (binding.hasErrors())
 			result = this.createEditInternationalizationModelAndView(internationalization);
 		else

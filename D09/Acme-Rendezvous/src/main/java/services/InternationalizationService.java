@@ -68,9 +68,14 @@ public class InternationalizationService {
 	// Other methods
 	public Internationalization findByCountryCodeAndMessageCode(final String countryCode, final String messageCode) {
 		Internationalization result;
-
+		Collection<String> availableLanguages;
+		
 		Assert.notNull(countryCode);
 		Assert.notNull(messageCode);
+		
+		availableLanguages = this.findAvailableLanguagesByMessageCode(messageCode);
+		Assert.notNull(availableLanguages);
+		Assert.isTrue(availableLanguages.contains(countryCode));
 
 		result = this.internationalizationRepository.findByCountryCodeMessageCode(countryCode, messageCode);
 
@@ -98,10 +103,12 @@ public class InternationalizationService {
 		result = this.internationalizationRepository.findOne(internationalization.getId());
 		Assert.notNull(result);
 
-		result.setValue(internationalization.getValue());
+		internationalization.setVersion(result.getVersion());
+		internationalization.setCountryCode(result.getCountryCode());
+		internationalization.setMessageCode(result.getMessageCode());
 
-		this.validator.validate(result, binding);
+		this.validator.validate(internationalization, binding);
 
-		return result;
+		return internationalization;
 	}
 }

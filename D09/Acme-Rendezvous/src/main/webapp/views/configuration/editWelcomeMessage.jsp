@@ -11,10 +11,7 @@
 <form:form action="configuration/administrator/editWelcomeMessage.do" modelAttribute="internationalization">
 
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="countryCode" />
-	<form:hidden path="messageCode"/>
-	
+
 	<div class="form-group"> 
 		<form:label path="value">
 			<spring:message code="internationalization.value" />
