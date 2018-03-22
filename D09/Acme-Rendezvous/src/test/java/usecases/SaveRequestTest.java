@@ -44,11 +44,20 @@ public class SaveRequestTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------	
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probando crear request con comentario
 	 * 2. Probando crear request con comentario vacio
 	 * 3. Probando crear request con comentario
 	 * 4. Probando crear request con comentario a null
 	 * 5. Probando crear request con comentario
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request 
+	 * a service for one of the rendezvouses that he or sheâ€™s created. He 
+	 * or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
 	 */
 	@Test
 	public void positiveSaveRequestTest() {
@@ -78,6 +87,8 @@ public class SaveRequestTest extends AbstractTest {
 	}
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Solo puede crearlo un user
 	 * 2. Solo puede crearlo un user
 	 * 3. Solo puede crearlo un user
@@ -86,6 +97,13 @@ public class SaveRequestTest extends AbstractTest {
 	 * 6. No puede existir un request con mismo rendezvous y service
 	 * 7. No puede existir un request con mismo rendezvous y service
 	 * 8. El user logueado debe ser el creador del rendezvous
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request 
+	 * a service for one of the rendezvouses that he or sheâ€™s created. He 
+	 * or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
 	 */
 	@Test()
 	public void negativeSaveRequestTest() {
@@ -123,10 +141,16 @@ public class SaveRequestTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is authenticated as a user must be able to request 
-	 * a service for one of the rendezvouses that he or sheâ€™s created. He 
-	 * or she must specify a valid credit card in every request for a service. 
-	 * Optionally, he or she can provide some comments in the request. 
+	 * Pasos:
+	 * 
+	 * 1. Nos autentificamos como el usuario user
+	 * 2. Tomamos los ids de rendezvous, servicio y creditCard dados como parámetros
+	 * 3. Tomamos las entidades correspondientes a los ids de rendezvous, servicio y creditCard.
+	 * 4. Creamos una nueva request pasando el rendezvous y el servicio como parámetros
+	 * 5. Le asignamos la creditCard y los comentarios correspondientes
+	 * 6. Guardamos el nuevo manager
+	 * 7. Nos desautentificamos
+	 * 8. Comprobamos se ha creado y existe
 	*/
 	protected void template(final String user, final String rendezvous, final String servicio, final String creditCard, final String comments, final Class<?> expected) {
 		Class<?> caught;

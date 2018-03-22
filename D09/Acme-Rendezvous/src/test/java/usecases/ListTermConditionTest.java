@@ -36,8 +36,14 @@ public class ListTermConditionTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probamos listar los términos y condiciones en español
 	 * 2. Probamos listar los términos y condiciones en inglés
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se desea probar el listado correcto de los términos y condiciones.
 	 */
 	@Test
 	public void positiveFindByCountryCodeAndMessageCodeTest() {
@@ -62,9 +68,15 @@ public class ListTermConditionTest extends AbstractTest {
 	}
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Sólo un administrador puede listar los términos y condiciones
 	 * 2. Sólo un administrador puede listar los términos y condiciones
 	 * 3. Debe estar logueado como un administrador
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se desea probar el listado correcto de los términos y condiciones.
 	 */
 	@Test
 	public void negativeFindByCountryCodeAndMessageCodeTest() {
@@ -94,7 +106,13 @@ public class ListTermConditionTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se desea probar el listado correcto de los términos y condiciones.
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como admin
+	 * 2. Tomamos el id y la entidad de admin
+	 * 3. Obtenemos el termCondition correspondiente al countryCode y messageCode dado
+	 * 4. Comprobamos que su value tiene el valor esperado
+	 * 5. Nos desautentificamos
 	 */
 	protected void template(final String user, final String username, final String countryCode, final String messageCode, final Class<?> expected) {
 		Class<?> caught;

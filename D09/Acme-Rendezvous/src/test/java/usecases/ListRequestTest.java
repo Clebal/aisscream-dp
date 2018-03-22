@@ -31,9 +31,18 @@ public class ListRequestTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probamos obtener el resultado previsto para el metodo findAll logueados como user1
 	 * 	2. Probamos obtener el resultado previsto para el metodo findAll sin loguear
 	 * 3. Probamos obtener el resultado previsto para el metodo findAll logueados como manager2
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request 
+	 * a service for one of the rendezvouses that he or she‚Äôs created. He 
+	 * or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
 	 */
 	@Test()
 	public void testFindAll() {
@@ -59,11 +68,20 @@ public class ListRequestTest extends AbstractTest {
 	}
 
 	/*
-	 * 1. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user1, para la p√°gina 1 y el tama√±o 5
-	 * 	2. Probamos obtener el resultado previsto para el metodo findAllPaginated sin loguear, para la p√°gina 2 y el tama√±o 4
-	 * 3. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user2, para la p√°gina 2 y el tama√±o 3
+	 * Pruebas:
+	 * 
+	 * 1. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user1, para la p·gina 1 y el tama√±o 5
+	 * 	2. Probamos obtener el resultado previsto para el metodo findAllPaginated sin loguear, para la p·gina 2 y el tama√±o 4
+	 * 3. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user2, para la p·gina 2 y el tama√±o 3
 	 * 4. Probamos no poder obtener el resultado previsto para el metodo findAllPaginated logueados como un manager
 	 * 5. Probamos no poder obtener el resultado previsto para el metodo findAllPaginated logueados como un admin
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request 
+	 * a service for one of the rendezvouses that he or she‚Äôs created. He 
+	 * or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
 	 */
 	@Test()
 	public void testFindByUserAccountId() {
@@ -96,11 +114,14 @@ public class ListRequestTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is authenticated as a user must be able to request 
-	 * a service for one of the rendezvouses that he or she‚Äôs created. He 
-	 * or she must specify a valid credit card in every request for a service. 
-	 * Optionally, he or she can provide some comments in the request. 
-	*/
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como user
+	 * 2. Comprobamos si el mÈtodo es findAll Û findByUserAccountId
+	 * 3. Seg˙n el mÈtodo que sea, se llama a su mÈtodo y se guarda en la variable requests el resultado
+	 * 4. Comprobamos que devuelve el valor esperado
+	 * 5. Nos desautentificamos
+	 */
 	protected void template(final String user, final String method, final Integer tamano, final int page, final int size, final Class<?> expected) {
 		Class<?> caught;
 		Collection<Request> requests;

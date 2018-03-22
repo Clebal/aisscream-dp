@@ -35,6 +35,8 @@ public class EditManagerTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probando editar manager con telefono y dirección a null
 	 * 2. Probando editar manager con telefono pero con dirección a null
 	 * 3. Probando editar manager con telefono a vacío y dirección a null
@@ -42,6 +44,10 @@ public class EditManagerTest extends AbstractTest {
 	 * 5. Probando editar manager con telefono a null y dirección a vacío
 	 * 6. Probando editar manager con telefono y dirección
 	 * 7. Probando editar manager con telefono y dirección a vacío
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se desea probar la correcta edición de un manager.
 	 */
 	@Test
 	public void positiveEditManagerTest() {
@@ -82,6 +88,8 @@ public class EditManagerTest extends AbstractTest {
 	}
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Solo un manager registrado puede registrarse a si mismo
 	 * 2. Solo un manager registrado puede registrarse a si mismo
 	 * 3. Solo un manager registrado puede registrarse a si mismo
@@ -98,6 +106,10 @@ public class EditManagerTest extends AbstractTest {
 	 * 14. La password no puede cambiar
 	 * 15. El vat no puede ser vacío
 	 * 16. El vat no puede ser nulo
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se desea probar la correcta edición de un manager.
 	 */
 	@Test()
 	public void negativeEditManagerTest() {
@@ -161,7 +173,14 @@ public class EditManagerTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se desea probar la correcta edición de un manager.
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como manager
+	 * 2. Tomamos el id y la entidad de manager
+	 * 3. Creamos una copia del manager y de userAccount para que no se guarde solo con un set
+	 * 4. Le asignamos el username, el password, el name, el surname, el phone, la address, el birthdate, el email y el vat correspondientes
+	 * 5. Guardamos el manager copiado con los parámetros
+	 * 6. Nos desautentificamos
 	 */
 	protected void template(final String managerAuthenticate, final String managerEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final String vat, final Class<?> expected) {
 		Class<?> caught;

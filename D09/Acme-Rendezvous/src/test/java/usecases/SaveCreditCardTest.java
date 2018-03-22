@@ -35,7 +35,16 @@ public class SaveCreditCardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * Probando la creación de varias creditCards por parte de diferentes usuarios
+	 * Pruebas:
+	 * 
+	 * Probamos la creación de varias creditCards por parte de diferentes usuarios.
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request a service for 
+	 * one of the rendezvouses that he or sheâ€™s created. He or she must specify a 
+	 * valid credit card in every request for a service. Optionally, he or she can 
+	 * provide some comments in the request. 
 	 */
 	@Test
 	public void positiveSaveCreditCardTest() {
@@ -65,6 +74,8 @@ public class SaveCreditCardTest extends AbstractTest {
 	}
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Solo puede crearlo un user
 	 * 2. Solo puede crearlo un user
 	 * 3. Solo puede crearlo su user
@@ -80,6 +91,13 @@ public class SaveCreditCardTest extends AbstractTest {
 	 * 13. El código CVV debe estar comprendido entre 100 y 999
 	 * 14. El user debe ser válido 
 	 * 15. El user no puede ser nulo
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request a service for 
+	 * one of the rendezvouses that he or sheâ€™s created. He or she must specify a 
+	 * valid credit card in every request for a service. Optionally, he or she can 
+	 * provide some comments in the request. 
 	 */
 	@Test()
 	public void negativeSaveCreditCardTest() {
@@ -131,10 +149,16 @@ public class SaveCreditCardTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is authenticated as a user must be able to request a service for 
-	 * one of the rendezvouses that he or sheâ€™s created. He or she must specify a 
-	 * valid credit card in every request for a service. Optionally, he or she can 
-	 * provide some comments in the request. 
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como el usuario user
+	 * 2. Tomamos el id de userCredit
+	 * 3. Tomamos la entidad correspondiente a al id de userCredit
+	 * 4. Creamos una nueva creditCard pasando el user como parámetros
+	 * 5. Le asignamos el holderName, el brandName, el number, la expirationMonth y el cvvCode correspondientes
+	 * 6. Guardamos la nueva creditCard
+	 * 7. Nos desautentificamos
+	 * 8. Comprobamos se ha creado y existe
 	 */
 	protected void template(final String user, final String holderName, final String brandName, final String number, final int expirationMonth, final int expirationYear, final int cvvcode, final String userCredit, final Class<?> expected) {
 		Class<?> caught;

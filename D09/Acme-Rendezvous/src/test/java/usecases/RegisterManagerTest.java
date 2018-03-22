@@ -34,6 +34,8 @@ public class RegisterManagerTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probando registrar manager con telefono y direccion a null
 	 * 2. Probando registrar manager con telefono pero con direccion a null
 	 * 3. Probando registrar manager con telefono a vacio y direccion a null
@@ -41,6 +43,10 @@ public class RegisterManagerTest extends AbstractTest {
 	 * 5. Probando registrar manager con telefono a null y direccion a vacio
 	 * 6. Probando registrar manager con telefono y direccion
 	 * 7. Probando registrar manager con telefono y direccion a vacio
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is not authenticated must be able to register to the system as a manager.
 	 */
 	@Test
 	public void positiveRegisterManagerTest() {
@@ -81,6 +87,8 @@ public class RegisterManagerTest extends AbstractTest {
 	}
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Un manager logueado no puede registrar a otro
 	 * 2. Un manager logueado no puede registrar a otro
 	 * 3. Un manager logueado no puede registrar a otro
@@ -98,6 +106,10 @@ public class RegisterManagerTest extends AbstractTest {
 	 * 	15. El vat no puede ser vacio
 	 * 16. El vat no puede ser nulo
 	 * 17. El vat tiene que ser único
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is not authenticated must be able to register to the system as a manager.
 	 */
 	@Test()
 	public void negativeRegisterManagerTest() {
@@ -164,7 +176,14 @@ public class RegisterManagerTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is not authenticated must be able to register to the system as a manager.
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como manager
+	 * 4. Creamos un nuevo user
+	 * 3. Le asignamos el username, el password, el name, el surname, el phone, la address, el birthdate, el email y el vat correspondientes
+	 * 4. Guardamos el nuevo manager
+	 * 5. Nos desautentificamos
+	 * 6. Comprobamos se ha creado y existe
 	 */
 	protected void template(final String manager, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final String vat, final Class<?> expected) {
 		Class<?> caught;

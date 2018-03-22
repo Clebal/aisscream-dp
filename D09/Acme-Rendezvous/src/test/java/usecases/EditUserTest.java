@@ -35,6 +35,8 @@ public class EditUserTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probando editar usuario con telefono y direccion a null
 	 * 2. Probando editar usuario con telefono pero con direccion a null
 	 * 3. Probando editar usuario con telefono a vacio y direccion a null
@@ -42,6 +44,10 @@ public class EditUserTest extends AbstractTest {
 	 * 5. Probando editar usuario con telefono a null y direccion a vacio
 	 * 6. Probando editar usuario con telefono y direccion
 	 * 7. Probando editar usuario con telefono y direccion a vacio
+	 * 
+	 * Requsitos:
+	 * 
+	 * 	Se desea probar la correcta edicion de un usuario.
 	 */
 	@Test
 	public void positiveEditUserTest() {
@@ -82,6 +88,8 @@ public class EditUserTest extends AbstractTest {
 	}
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Solo un usuario registrado puede registrarse a si mismo
 	 * 2. Solo un usuario registrado puede registrarse a si mismo
 	 * 3. Solo un usuario registrado puede registrarse a si mismo
@@ -96,6 +104,10 @@ public class EditUserTest extends AbstractTest {
 	 * 12. El email no puede ser vacio
 	 * 13. El username no puede cambiar
 	 * 14. La password no puede cambiar
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se desea probar la correcta edicion de un usuario.
 	 */
 	@Test()
 	public void negativeEditUserTest() {
@@ -155,7 +167,14 @@ public class EditUserTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se desea probar la correcta edicion de un usuario.
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como user
+	 * 2. Tomamos el id y la entidad de user
+	 * 3. Creamos una copia del user y de userAccount para que no se guarde solo con un set
+	 * 4. Le asignamos el username, el password, el name, el surname, el phone, la address, el birthdate y el email correspondientes
+	 * 5. Guardamos el user copiado con los parámetros
+	 * 6. Nos desautentificamos
 	 */
 	protected void template(final String userAuthenticate, final String userEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final Class<?> expected) {
 		Class<?> caught;

@@ -35,6 +35,8 @@ public class EditAdministratorTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probando editar administrador con telefono y dirección a null
 	 * 2. Probando editar administrador con telefono pero con dirección a null
 	 * 3. Probando editar administrador con telefono a vacío y dirección a null
@@ -42,6 +44,10 @@ public class EditAdministratorTest extends AbstractTest {
 	 * 5. Probando editar administrador con telefono a null y dirección a vacío
 	 * 6. Probando editar administrador con telefono y dirección
 	 * 7. Probando editar administrador con telefono y dirección a vacío
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se desea probar la correcta edición de un administrador.
 	 */
 	@Test
 	public void positiveEditAdministratorTest() {
@@ -82,6 +88,8 @@ public class EditAdministratorTest extends AbstractTest {
 	}
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Solo el administratoristrador puede editarse a si mismo
 	 * 2. Solo el administratoristrador puede editarse a si mismo
 	 * 3. Solo el administratoristrador puede editarse a si mismo
@@ -96,6 +104,10 @@ public class EditAdministratorTest extends AbstractTest {
 	 * 12. El email no puede ser vacío
 	 * 13. El username no puede cambiar
 	 * 14. La password no puede cambiar
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se desea probar la correcta edición de un administrador.
 	 */
 	@Test()
 	public void negativeEditAdministratorTest() {
@@ -155,7 +167,14 @@ public class EditAdministratorTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se desea probar la correcta edición de un administrador.
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como admin
+	 * 2. Tomamos el id y la entidad de admin
+	 * 3. Creamos una copia del admin y de userAccount para que no se guarde solo con un set
+	 * 4. Le asignamos el username, el password, el name, el surname, el phone, la address, el birthdate y el email correspondientes
+	 * 5. Guardamos el admin copiado con los parámetros
+	 * 6. Nos desautentificamos
 	 */
 	protected void template(final String administratorAuthenticate, final String administratorEdit, final String username, final String password, final String name, final String surname, final String phone, final String address, final Date birthdate, final String email, final Class<?> expected) {
 		Class<?> caught;

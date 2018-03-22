@@ -37,9 +37,15 @@ public class ListCreditCardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probamos obtener el resultado previsto para el metodo findAll logueados como user1
 	 * 	2. Probamos obtener el resultado previsto para el metodo findAll sin loguear
 	 * 3. Probamos obtener el resultado previsto para el metodo findAll logueados como manager2
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	He or she must specify a valid credit card in every request for a service.
 	 */
 	@Test()
 	public void testFindAll() {
@@ -65,6 +71,8 @@ public class ListCreditCardTest extends AbstractTest {
 	}
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probamos obtener el resultado previsto para el metodo findByUserAccountId logueados como user1, para la pagina 1 y el tamano 5
 	 * 	2. Probamos obtener el resultado previsto para el metodo findByUserAccountId sin loguear, para la pagina 2 y el tamano 4
 	 * 3. Probamos obtener el resultado previsto para el metodo findByUserAccountId logueados como user2, para la pagina 2 y el tamano 3
@@ -72,6 +80,10 @@ public class ListCreditCardTest extends AbstractTest {
 	 * 5. Probamos no poder obtener el resultado previsto para el metodo findByUserAccountId logueados como un admin
 	 * 6. Probamos no poder obtener el resultado previsto para el metodo findByUserAccountId logueados como user4 y la pagina a null
 	 * 7. Probamos no poder obtener el resultado previsto para el metodo findByUserAccountId logueados como user3 y el tamano a null
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	He or she must specify a valid credit card in every request for a service.
 	 */
 	@Test()
 	public void testFindByUserAccountId() {
@@ -104,7 +116,14 @@ public class ListCreditCardTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * He or she must specify a valid credit card in every request for a service.
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como user
+	 * 2. Comprobamos si el método es findAll ó findByUserAccountId
+	 * 3. En el caso de que sea findByUserAccountId, obtenemos las entidades correspondientes al user para usar el método
+	 * 3. Según el método que sea, se llama a su método y se guarda en la variable sizeCreditCard el tamaño de los resultados de cada método
+	 * 4. Comprobamos que devuelve el valor esperado
+	 * 5. Nos desautentificamos
 	 */
 	protected void template(final String user, final String method, final Integer tamano, final int page, final int size, final Class<?> expected) {
 		Class<?> caught;

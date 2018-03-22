@@ -32,9 +32,16 @@ public class ListUserTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. Probamos obtener el resultado previsto para el mÃ©todo findAll logueados como user1
-	 * 	2. Probamos obtener el resultado previsto para el mÃ©todo findAll sin loguear
-	 * 3. Probamos obtener el resultado previsto para el mÃ©todo findAll logueados como manager2
+	 * Pruebas:
+	 * 
+	 * 1. Probamos obtener el resultado previsto para el método findAll logueados como user1
+	 * 	2. Probamos obtener el resultado previsto para el método findAll sin loguear
+	 * 3. Probamos obtener el resultado previsto para el método findAll logueados como manager2
+	 * 
+	 * Requisitos:
+	 * 	An actor who is not authenticated must be able to list the users 
+	 * of the system and navigate to their profiles, which include personal data
+	 * and the list of rendezvouses that theyâ€™ve attended or are going to attend.
 	 */
 	@Test()
 	public void testFindAll() {
@@ -60,11 +67,19 @@ public class ListUserTest extends AbstractTest {
 	}
 
 	/*
-	 * 1. Probamos obtener el resultado previsto para el mÃ©todo findAllPaginated logueados como user1, para la pÃ¡gina 1 y el tamaÃ±o 5
-	 * 	2. Probamos obtener el resultado previsto para el mÃ©todo findAllPaginated sin loguear, para la pÃ¡gina 2 y el tamaÃ±o 4
-	 * 3. Probamos obtener el resultado previsto para el mÃ©todo findAllPaginated logueados como user2, para la pÃ¡gina 2 y el tamaÃ±o 3
-	 * 4. Probamos no poder obtener el resultado previsto para el mÃ©todo findAllPaginated logueados como un manager
-	 * 5. Probamos no poder obtener el resultado previsto para el mÃ©todo findAllPaginated logueados como un admin
+	 * Pruebas:
+	 * 
+	 * 1. Probamos obtener el resultado previsto para el método findAllPaginated logueados como user1, para la página 1 y el tamaño 5
+	 * 	2. Probamos obtener el resultado previsto para el método findAllPaginated sin loguear, para la página 2 y el tamaño 4
+	 * 3. Probamos obtener el resultado previsto para el método findAllPaginated logueados como user2, para la página 2 y el tamaño 3
+	 * 4. Probamos no poder obtener el resultado previsto para el método findAllPaginated logueados como un manager
+	 * 5. Probamos no poder obtener el resultado previsto para el método findAllPaginated logueados como un admin
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is not authenticated must be able to list the users 
+	 * of the system and navigate to their profiles, which include personal data
+	 * and the list of rendezvouses that theyâ€™ve attended or are going to attend.
 	 */
 	@Test()
 	public void testFindAllPaginated() {
@@ -95,12 +110,12 @@ public class ListUserTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Probamos obtener el resultado previsto para el mÃ©todo findAttendantsPaginated logueados como user1, para el rendezvous1 y con la pÃ¡gina 1 y el tamaÃ±o 10
-	 * 2. Probamos obtener el resultado previsto para el mÃ©todo findAttendantsPaginated sin loguear, para el rendezvous2 y con la pÃ¡gina 2 y el tamaÃ±o 4
-	 * 3. Probamos obtener el resultado previsto para el mÃ©todo findAttendantsPaginated logueados como user2, para el rendezvous4 y con la pÃ¡gina 1 y el tamaÃ±o 2
-	 * 4. Probamos no poder obtener el resultado previsto para el mÃ©todo findAttendantsPaginated logueados como manager
-	 * 5. Probamos no poder obtener el resultado previsto para el mÃ©todo findAttendantsPaginated logueados como admin
-	 * 	6. Probamos no poder obtener el resultado previsto para el mÃ©todo findAttendantsPaginated logueados como user2 y el rendezvous a null
+	 * 1. Probamos obtener el resultado previsto para el método findAttendantsPaginated logueados como user1, para el rendezvous1 y con la página 1 y el tamaño 10
+	 * 2. Probamos obtener el resultado previsto para el método findAttendantsPaginated sin loguear, para el rendezvous2 y con la página 2 y el tamaño 4
+	 * 3. Probamos obtener el resultado previsto para el método findAttendantsPaginated logueados como user2, para el rendezvous4 y con la página 1 y el tamaño 2
+	 * 4. Probamos no poder obtener el resultado previsto para el método findAttendantsPaginated logueados como manager
+	 * 5. Probamos no poder obtener el resultado previsto para el método findAttendantsPaginated logueados como admin
+	 * 	6. Probamos no poder obtener el resultado previsto para el método findAttendantsPaginated logueados como user2 y el rendezvous a null
 	 */
 	@Test()
 	public void testFindAttendantsPaginated() {
@@ -135,9 +150,13 @@ public class ListUserTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is not authenticated must be able to list the users 
-	 * of the system and navigate to their profiles, which include personal data
-	 * and the list of rendezvouses that theyâ€™ve attended or are going to attend.
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como user
+	 * 2. Comprobamos si el método es findAll, findAllPaginated ó findAttendansPaginated
+	 * 3. Según el método que sea, se llama a su método y se guarda en la variable users el resultado
+	 * 4. Comprobamos que devuelve el valor esperado
+	 * 5. Nos desautentificamos
 	 */
 	protected void template(final String user, final String method, final String rendezvous, final Integer tamano, final int page, final int size, final Class<?> expected) {
 		Class<?> caught;

@@ -30,14 +30,22 @@ public class DeleteRequestTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 	Primero se realizarán las pruebas desde un listado y luego
-	 * como si accedemos a la entidad desde getEntityId:
+	 * Pruebas:
 	 * 
+	 * 	Primero se realizar�n las pruebas desde un listado y luego
+	 * como si accedemos a la entidad desde getEntityId:
 	 * 1. Probando que el user1 borra el request1
 	 * 2. Probando que el user3 borra el request4
 	 * 3. Probando que el user1 borra el request7
 	 * 4. Probando que el user3 borra el request2
-	 */
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request 
+	 * a service for one of the rendezvouses that he or she’s created. He 
+	 * or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
+	*/
 	@Test
 	public void positiveDeleteRequestTest() {
 		final Object testingData[][] = {
@@ -74,15 +82,23 @@ public class DeleteRequestTest extends AbstractTest {
 	}
 	
 	/*
-	 * 	Primero se realizarán las pruebas desde un listado y luego
-	 * como si accedemos a la entidad desde getEntityId:
+	 * Pruebas:
 	 * 
+	 * 	Primero se realizar�n las pruebas desde un listado y luego
+	 * como si accedemos a la entidad desde getEntityId:
 	 * 1. Solo puede borrarlo un user
 	 * 2. Solo puede borrarlo un user
 	 * 3. Solo puede borrarlo un user
 	 * 4. El user logueado debe ser el creador del rendezvous del request
 	 * 5. El rendezvous no puede estar borrado
-	 */
+	 * 
+	 * Requisitos:
+	 * 
+	 * An actor who is authenticated as a user must be able to request 
+	 * a service for one of the rendezvouses that he or she’s created. He 
+	 * or she must specify a valid credit card in every request for a service. 
+	 * Optionally, he or she can provide some comments in the request. 
+	*/
 	@Test()
 	public void negativeDeleteRequestTest() {
 		final Object testingData[][] = {
@@ -123,11 +139,15 @@ public class DeleteRequestTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is authenticated as a user must be able to request 
-	 * a service for one of the rendezvouses that he or she’s created. He 
-	 * or she must specify a valid credit card in every request for a service. 
-	 * Optionally, he or she can provide some comments in the request. 
-	*/
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como user
+	 * 2. Tomamos el id y la entidad de user
+	 * 3. Accedemos a la lista de requests y tomamos la que nos interesa
+	 * 4. Borramos la request
+	 * 5. Nos desautentificamos
+	 * 6. Comprobamos que no existe la request borrada
+	 */
 	protected void template(final String user, final String request, final Class<?> expected) {
 		Class<?> caught;
 		int requestId, userId;
@@ -162,11 +182,14 @@ public class DeleteRequestTest extends AbstractTest {
 	}
 
 	/*
-	 * An actor who is authenticated as a user must be able to request 
-	 * a service for one of the rendezvouses that he or she’s created. He 
-	 * or she must specify a valid credit card in every request for a service. 
-	 * Optionally, he or she can provide some comments in the request. 
-	*/
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como user
+	 * 2. Tomamos el id y la entidad de user y de request
+	 * 3. Borramos la request
+	 * 4. Nos desautentificamos
+	 * 5. Comprobamos que no existe la request borrada
+	 */
 	protected void templateNoList(final String user, final String request, final Class<?> expected) {
 		Class<?> caught;
 		int requestId;

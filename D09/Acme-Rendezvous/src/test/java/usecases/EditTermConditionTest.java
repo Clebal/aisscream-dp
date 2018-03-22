@@ -36,8 +36,14 @@ public class EditTermConditionTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 1. Probamos listar los términos y condiciones en español
 	 * 2. Probamos listar los términos y condiciones en inglés
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se prueba la edición de términos y condiciones.
 	 */
 	@Test
 	public void positiveFindByCountryCodeAndMessageCodeTest() {
@@ -59,10 +65,16 @@ public class EditTermConditionTest extends AbstractTest {
 			}
 	}
 
-	/*
+	/* 
+	 * Pruebas:
+	 * 
 	 * 1. Sólo un administrador puede listar los términos y condiciones
 	 * 2. Sólo un administrador puede listar los términos y condiciones
 	 * 3. Debe estar logueado como un administrador
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	Se prueba la edición de términos y condiciones.
 	 */
 	@Test
 	public void negativeFindByCountryCodeAndMessageCodeTest() {
@@ -89,7 +101,16 @@ public class EditTermConditionTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Se prueba la edición de términos y condiciones.
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como admin
+	 * 2. Tomamos el id y la entidad de admin
+	 * 3. Creamos una copia del termCondition para que no se guarde solo con un set
+	 * 4. Obtenemos el termCondition correspondiente al countryCode y messageCode dado
+	 * 5. Cambiamos su value
+	 * 6. Guardamos el termCondition copiado con el nuevo value
+	 * 7. Comprobamos que se ha cambiado
+	 * 8. Nos desautentificamos
 	 */
 	protected void template(final String user, final String username, final String countryCode, final String messageCode, final String value, final Class<?> expected) {
 		Class<?> caught;

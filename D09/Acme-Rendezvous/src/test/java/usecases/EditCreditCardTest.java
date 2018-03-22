@@ -37,10 +37,18 @@ public class EditCreditCardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * Pruebas:
+	 * 
 	 * 	Primero se realizarán las pruebas desde un listado y luego
 	 * como si accedemos a la entidad desde getEntityId:
+	 * Probamos la edicion de varias creditCards por parte de diferentes usuarios
 	 * 
-	 * Probando la edicion de varias creditCards por parte de diferentes usuarios
+	 * Requsitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request a service for 
+	 * one of the rendezvouses that he or shes created. He or she must specify a 
+	 * valid credit card in every request for a service. Optionally, he or she can 
+	 * provide some comments in the request. 
 	 */
 	@Test
 	public void positiveEditCreditCardTest() {
@@ -80,9 +88,10 @@ public class EditCreditCardTest extends AbstractTest {
 	}
 	
 	/*
+	 * Pruebas:
+	 * 
 	 * 	Primero se realizarán las pruebas desde un listado y luego
 	 * como si accedemos a la entidad desde getEntityId:
-	 * 
 	 * 1. Solo puede editarlo un user
 	 * 2. Solo puede editarlo un user
 	 * 3. Solo puede editarlo su user
@@ -96,6 +105,13 @@ public class EditCreditCardTest extends AbstractTest {
 	 * 11. El ano de expiracion debe ser mayor que 0 
 	 * 12. El codigo CVV debe estar comprendido entre 100 y 999
 	 * 13. El codigo CVV debe estar comprendido entre 100 y 999
+	 * 
+	 * Requisitos:
+	 * 
+	 * 	An actor who is authenticated as a user must be able to request a service for 
+	 * one of the rendezvouses that he or shes created. He or she must specify a 
+	 * valid credit card in every request for a service. Optionally, he or she can 
+	 * provide some comments in the request. 
 	 */
 	@Test()
 	public void negativeEditCreditCardTest() {
@@ -153,10 +169,15 @@ public class EditCreditCardTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * An actor who is authenticated as a user must be able to request a service for 
-	 * one of the rendezvouses that he or shes created. He or she must specify a 
-	 * valid credit card in every request for a service. Optionally, he or she can 
-	 * provide some comments in the request. 
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como user
+	 * 2. Tomamos el id y la entidad de user
+	 * 3. Accedemos a la lista de creditCards y tomamos la que nos interesa
+	 * 4. Le creamos una copia para que no se guarde solo con un set
+	 * 5. Le asignamos el holderName, el brandName, el number, la expirationMonth y el cvvCode correspondientes
+	 * 6. Guardamos la creditCard copiada con los parámetros
+	 * 7. Nos desautentificamos
 	 */
 	protected void template(final String user, final String creditCardEdit, final String holderName, final String brandName, final String number, final int expirationMonth, final int expirationYear, final int cvvcode, final Class<?> expected) {
 		Class<?> caught;
@@ -201,10 +222,14 @@ public class EditCreditCardTest extends AbstractTest {
 	}
 
 	/*
-	 * An actor who is authenticated as a user must be able to request a service for 
-	 * one of the rendezvouses that he or shes created. He or she must specify a 
-	 * valid credit card in every request for a service. Optionally, he or she can 
-	 * provide some comments in the request. 
+	 * 	Pasos:
+	 * 
+	 * 1. Nos autentificamos como user
+	 * 2. Tomamos el id y la entidad de user y creditCard
+	 * 3. Le creamos una copia para que no se guarde solo con un set
+	 * 4. Le asignamos el holderName, el brandName, el number, la expirationMonth y el cvvCode correspondientes
+	 * 5. Guardamos la creditCard copiada con los parámetros
+	 * 6. Nos desautentificamos
 	 */
 	protected void templateNoList(final String user, final String creditCardEdit, final String holderName, final String brandName, final String number, final int expirationMonth, final int expirationYear, final int cvvcode, final Class<?> expected) {
 		Class<?> caught;
