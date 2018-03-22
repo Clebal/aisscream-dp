@@ -249,8 +249,8 @@ public class CategoryService {
 		return result;
 	}
 
-	public double avgNumberCategoriesPerRendezvous() {
-		double result;
+	public Double avgNumberCategoriesPerRendezvous() {
+		Double result;
 
 		result = this.categoryRepository.avgNumberCategoriesPerRendezvous();
 
