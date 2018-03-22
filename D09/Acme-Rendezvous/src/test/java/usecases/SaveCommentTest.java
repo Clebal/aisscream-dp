@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import domain.Comment;
 import domain.Rendezvous;
@@ -44,8 +45,9 @@ public class SaveCommentTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. Creamos un comment con todos los parámetros correctos
-	 * 2. Creamos un comment sin introducir el campo picture
+	 * Pruebas:
+	 * 		1. Creamos un comment con todos los parámetros correctos
+	 * 		2. Creamos un comment sin introducir el campo picture
 	 */
 	@Test
 	public void driverPositiveTest() {
@@ -59,7 +61,6 @@ public class SaveCommentTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 		try {
-			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 		} catch (final Throwable oops) {
@@ -70,8 +71,9 @@ public class SaveCommentTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Creamos una respuesta con todos los parámetros correctos
-	 * 2. Creamos una respuesta sin introducir el campo picture
+	 * Pruebas:
+	 * 		1. Creamos una respuesta con todos los parámetros correctos
+	 * 		2. Creamos una respuesta sin introducir el campo picture
 	 */
 	@Test
 	public void driverReplyCommentPositiveTest() {
@@ -84,7 +86,6 @@ public class SaveCommentTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateReplyComment((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -95,7 +96,8 @@ public class SaveCommentTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Tratamos de crear un comentario pero le ponemos de usuario uno distinto al que está autenticado
+	 * Pruebas:
+	 * 		1. Tratamos de crear un comentario pero le ponemos de usuario uno distinto al que está autenticado
 	 */
 	@Test
 	public void driverUrlNegativeTest() {
@@ -106,7 +108,6 @@ public class SaveCommentTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateUrl((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -117,14 +118,15 @@ public class SaveCommentTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Un usuario trata de crear un comentario dejando el campo moment vacío
-	 * 2. Un usuario trata de crear un comentario eliminando el campo moment
-	 * 3. Un usuario trata de crear un comentario introduciendo en el campo picture un valor que no corresponde con el pattern URL
-	 * 4. Un usuario trata de crear un comentario en un rendezvous para el cual no tiene rsvp.
-	 * 5. Un usuario trata de crear un comentario eliminando el campo text.
-	 * 6. Un usuario trata de crear un comentario para un rendezvous sin introducir nada en el campo text.
-	 * 7. Un manager trata de crear un comentario pero no lo tienen permitido.
-	 * 8. Un administrador trata de crear un comentario pero no lo tiene permitido.
+	 * Pruebas:
+	 * 		1. Un usuario trata de crear un comentario dejando el campo moment vacío
+	 * 		2. Un usuario trata de crear un comentario eliminando el campo moment
+	 * 		3. Un usuario trata de crear un comentario introduciendo en el campo picture un valor que no corresponde con el pattern URL
+	 * 		4. Un usuario trata de crear un comentario en un rendezvous para el cual no tiene rsvp.
+	 * 		5. Un usuario trata de crear un comentario eliminando el campo text.
+	 * 		6. Un usuario trata de crear un comentario para un rendezvous sin introducir nada en el campo text.
+	 * 		7. Un manager trata de crear un comentario pero no lo tienen permitido.
+	 * 		8. Un administrador trata de crear un comentario pero no lo tiene permitido.
 	 */
 	@Test
 	public void driverNegativeTest() {
@@ -150,7 +152,6 @@ public class SaveCommentTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
@@ -161,14 +162,15 @@ public class SaveCommentTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1.
-	 * 2.
-	 * 3. Un usuario trata de crea una respuesta introduciendo en el campo picture un valor que no corresponde con el pattern URL.
-	 * 4. Un usuario trata de crea una respuesta en un rendezvous para el cual no tiene rsvp ni es el creator.
-	 * 5. 
-	 * 6. Un usuario trata de crear una respuesta para un rendezvous sin introducir nada en el campo text.
-	 * 7. Un manager trata de crear una respuesta pero no lo tienen permitido.
-	 * 8. Un administrador trata de crear una respuesta pero no lo tiene permitido.
+	 * Pruebas:
+	 * 		1. Un usuario trata de crear una respuesta con el campo moment vacío.
+	 * 		2. Un usuario trata de crear una respuesta eliminando el campo moment.
+	 * 		3. Un usuario trata de crea una respuesta introduciendo en el campo picture un valor que no corresponde con el pattern URL.
+	 * 		4. Un usuario trata de crea una respuesta en un rendezvous para el cual no tiene rsvp ni es el creator.
+	 * 		5. Un usuario trata de crear una respuesta eliminando el campo title.
+	 * 		6. Un usuario trata de crear una respuesta para un rendezvous sin introducir nada en el campo text.
+	 * 		7. Un manager trata de crear una respuesta pero no lo tienen permitido.
+	 * 		8. Un administrador trata de crear una respuesta pero no lo tiene permitido.
 	 */
 	@Test
 	public void driverReplyCommentNegativeTest() {
@@ -194,7 +196,6 @@ public class SaveCommentTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateReplyComment((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -205,7 +206,8 @@ public class SaveCommentTest extends AbstractTest {
 	}
 
 	/*
-	 * 1. Tratamos de crear una respuesta a un comentario pero le ponemos de usuario uno distinto al que está autenticado
+	 * Pruebas:
+	 * 		1. Tratamos de crear una respuesta a un comentario pero le ponemos de usuario uno distinto al que está autenticado
 	 */
 	public void driverUrlReplyCommentNegativeTest() {
 		final Object testingData[][] = {
@@ -216,7 +218,6 @@ public class SaveCommentTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.templateUrlReplyComment((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (Class<?>) testingData[i][7]);
 			} catch (final Throwable oops) {
@@ -245,7 +246,8 @@ public class SaveCommentTest extends AbstractTest {
 		Collection<Rendezvous> rendezvouses;
 		int rendezvousId;
 		DateFormat formatter;
-		
+		DataBinder binder;
+
 		formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
 
 		caught = null;
@@ -274,7 +276,10 @@ public class SaveCommentTest extends AbstractTest {
 			if(picture != null) newComment.setPicture(picture);
 			
 			// 5. Guardar el nuevo comment
+			binder = new DataBinder(newComment);
+			newComment = this.commentService.reconstruct(newComment, binder.getBindingResult());
 			savedComment = this.commentService.save(newComment);
+			this.commentService.flush();
 			
 			// 6. Dirigir al display de rendezvous
 			Assert.isTrue(this.commentService.findByRendezvousIdAndNoRepliedComment(rendezvous.getId(), this.getPageRepliedComment(rendezvous, savedComment), 5).contains(savedComment));
@@ -284,8 +289,7 @@ public class SaveCommentTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
 	
@@ -301,7 +305,7 @@ public class SaveCommentTest extends AbstractTest {
 		int rendezvousId, userId;
 		DateFormat formatter;
 		User userComment;
-		
+
 		formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
 
 		caught = null;
@@ -328,6 +332,7 @@ public class SaveCommentTest extends AbstractTest {
 			}
 			
 			savedComment = this.commentService.save(newComment);
+			this.commentService.flush();
 
 			// Comprobación
 			Assert.isTrue(this.commentService.findByRendezvousIdAndNoRepliedComment(rendezvous.getId(), this.getPageRepliedComment(rendezvous, savedComment), 5).contains(savedComment));
@@ -337,8 +342,7 @@ public class SaveCommentTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
 
@@ -360,7 +364,8 @@ public class SaveCommentTest extends AbstractTest {
 		Collection<Comment> comments;
 		int rendezvousId, repliedCommentId;
 		DateFormat formatter;
-		
+		DataBinder binder;
+
 		formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
 
 		caught = null;
@@ -397,7 +402,10 @@ public class SaveCommentTest extends AbstractTest {
 			if(picture != null) newComment.setPicture(picture);
 			
 			// 6. Salvar el nuevo comment
+			binder = new DataBinder(newComment);
+			newComment = this.commentService.reconstruct(newComment, binder.getBindingResult());
 			savedComment = this.commentService.save(newComment);
+			this.commentService.flush();
 			
 			// 7. Dirigir al display del comentario padre
 			Assert.notNull(this.commentService.findOneToDisplay(savedComment.getRepliedComment().getId()));
@@ -407,8 +415,7 @@ public class SaveCommentTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
 	
@@ -424,7 +431,8 @@ public class SaveCommentTest extends AbstractTest {
 		int rendezvousId, repliedCommentId, userId;
 		DateFormat formatter;
 		User userComment;
-		
+		DataBinder binder;
+
 		formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
 
 		caught = null;
@@ -453,39 +461,22 @@ public class SaveCommentTest extends AbstractTest {
 				newComment.setUser(userComment);
 			}
 			
+			binder = new DataBinder(newComment);
+			newComment = this.commentService.reconstruct(newComment, binder.getBindingResult());
 			savedComment = this.commentService.save(newComment);
+			this.commentService.flush();
 			
 			// Comprobación
 			Assert.notNull(this.commentService.findOneToDisplay(savedComment.getRepliedComment().getId()));
-
 			
 			super.unauthenticate();
 			super.flushTransaction();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
-	
-//	private Comment copyComment(final Comment comment) {
-//		Comment result;
-//		
-//		Assert.notNull(comment);
-//		
-//		result = new Comment();
-//		result.setId(comment.getId());
-//		result.setVersion(comment.getVersion());
-//		result.setMoment(comment.getMoment());
-//		result.setTitle(comment.getText());
-//		result.setDescription(comment.getPicture());
-//		result.setUser(comment.getUser());
-//		result.setRepliedComment(comment.getRepliedComment());
-//		result.setRendezvous(comment.getRendezvous());
-//
-//		return result;
-//	}
 	
 	private Integer getPage(final Rendezvous rendezvous) {
 		Integer result, collectionSize, pageNumber;
@@ -495,8 +486,7 @@ public class SaveCommentTest extends AbstractTest {
 		pageNumber = (int) Math.floor(((collectionSize / (5.0)) - 0.1) + 1);
 
 		result = null;
-
-		for (int i = 0; i <= pageNumber; i++) {
+		for (int i = 1; i <= pageNumber; i++) {
 			rendezvouses = this.rendezvousService.findAllPaginated(i, 5);
 			if (rendezvouses.contains(rendezvous)){
 				result = i;
@@ -515,8 +505,7 @@ public class SaveCommentTest extends AbstractTest {
 		pageNumber = (int) Math.floor(((collectionSize / (5.0)) - 0.1) + 1);
 				
 		result = null;
-
-		for (int i = 0; i <= pageNumber; i++) {
+		for (int i = 1; i <= pageNumber; i++) {
 			comments = this.commentService.findByRendezvousIdAndNoRepliedComment(rendezvous.getId(), i, 5);
 			if (comments.contains(comment)){
 				result = i;

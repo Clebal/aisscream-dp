@@ -79,6 +79,7 @@ public class RsvpService {
 		Assert.isTrue(rsvpId != 0);
 		
 		result = this.rsvpRepository.findOne(rsvpId);
+		Assert.notNull(result);
 		
 		isOlderThan18Rsvp(result);
 		
@@ -220,25 +221,27 @@ public class RsvpService {
 		Boolean canPermit;
 		Calendar birthDatePlus18Years;
 		Actor actor;
-		Authority authority;
-		Authority authority2;
+		Authority authorityUser, authorityAdmin, authorityManager;
 
-		authority = new Authority();
-		authority.setAuthority("USER");
+		authorityUser = new Authority();
+		authorityUser.setAuthority("USER");
 
-		authority2 = new Authority();
-		authority2.setAuthority("ADMIN");
+		authorityAdmin = new Authority();
+		authorityAdmin.setAuthority("ADMIN");
+		
+		authorityManager = new Authority();
+		authorityManager.setAuthority("MANAGER");
 		
 		canPermit = false;
 		if (LoginService.isAuthenticated())
-			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+			if (LoginService.getPrincipal().getAuthorities().contains(authorityUser) || LoginService.getPrincipal().getAuthorities().contains(authorityManager)) {
 				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 				birthDatePlus18Years = Calendar.getInstance();
 				birthDatePlus18Years.setTime(actor.getBirthdate());
 				birthDatePlus18Years.add(Calendar.YEAR, 18);
 				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
 					canPermit = true;
-			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authorityAdmin))
 				canPermit = true;
 
 		Assert.isTrue(rsvp.getRendezvous().getAdultOnly() == false || rsvp.getRendezvous().getAdultOnly() == true && canPermit);
@@ -248,25 +251,27 @@ public class RsvpService {
 		Boolean canPermit;
 		Calendar birthDatePlus18Years;
 		Actor actor;
-		Authority authority;
-		Authority authority2;
+		Authority authorityUser, authorityAdmin, authorityManager;
 
-		authority = new Authority();
-		authority.setAuthority("USER");
+		authorityUser = new Authority();
+		authorityUser.setAuthority("USER");
 
-		authority2 = new Authority();
-		authority2.setAuthority("ADMIN");
+		authorityAdmin = new Authority();
+		authorityAdmin.setAuthority("ADMIN");
+		
+		authorityManager = new Authority();
+		authorityManager.setAuthority("MANAGER");
 		
 		canPermit = false;
 		if (LoginService.isAuthenticated())
-			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+			if (LoginService.getPrincipal().getAuthorities().contains(authorityUser) || LoginService.getPrincipal().getAuthorities().contains(authorityManager)) {
 				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 				birthDatePlus18Years = Calendar.getInstance();
 				birthDatePlus18Years.setTime(actor.getBirthdate());
 				birthDatePlus18Years.add(Calendar.YEAR, 18);
 				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
 					canPermit = true;
-			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authorityAdmin))
 				canPermit = true;
 
 		Assert.isTrue(rendezvous.getAdultOnly() == false || rendezvous.getAdultOnly() == true && canPermit);

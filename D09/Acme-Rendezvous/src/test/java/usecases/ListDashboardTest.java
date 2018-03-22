@@ -86,7 +86,7 @@ public class ListDashboardTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
+//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (Integer) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
 			} catch (final Throwable oops) {
@@ -115,7 +115,7 @@ public class ListDashboardTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
+//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (Integer) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
 			} catch (final Throwable oops) {
@@ -188,8 +188,8 @@ public class ListDashboardTest extends AbstractTest {
 			Assert.isTrue(answersPerRendezvous[1] == 2.2825424421026654); // The standard deviation of the number of answers to the questions per rendezvous
 			
 			repliesPerComment = this.commentService.avgStandardRepliesPerComment();
-			Assert.isTrue(repliesPerComment[0] == 0.1111); // The average of replies per comment
-			Assert.isTrue(repliesPerComment[1] == 0.31426968038986147); // The standard deviation of replies per comment
+			Assert.isTrue(repliesPerComment[0] == 0.2); // The average of replies per comment
+			Assert.isTrue(repliesPerComment[1] == 0.4); // The standard deviation of replies per comment
 			
 			bestSellingServices = this.serviceService.bestSellingServices(page, size);
 			if(page == 1) Assert.isTrue(bestSellingServices.getContent().size() == 2);
@@ -226,8 +226,8 @@ public class ListDashboardTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println("Expected " + expected);
-		System.out.println("Caught " + caught);
+//		System.out.println("Expected " + expected);
+//		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 }

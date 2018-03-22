@@ -13,12 +13,11 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Announcement;
-import domain.Rendezvous;
-
 import repositories.AnnouncementRepository;
 import security.Authority;
 import security.LoginService;
+import domain.Announcement;
+import domain.Rendezvous;
 
 @Service
 @Transactional

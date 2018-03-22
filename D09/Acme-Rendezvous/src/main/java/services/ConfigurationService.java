@@ -102,6 +102,10 @@ public class ConfigurationService {
 
 		return result;
 	}
+	
+	public void flush(){
+		this.configurationRepository.flush();
+	}
 
 	// Reconstruct pruned object
 	public Configuration reconstruct(final Configuration configuration, final BindingResult binding) {

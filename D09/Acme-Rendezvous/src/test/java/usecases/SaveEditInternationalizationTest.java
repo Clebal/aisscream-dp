@@ -137,6 +137,7 @@ public class SaveEditInternationalizationTest extends AbstractTest {
 			if(value != null) newInternationalization.setValue(value);
 			
 			this.internationalizationService.save(newInternationalization);
+			this.internationalizationService.flush();
 			
 			super.unauthenticate();
 			super.flushTransaction();

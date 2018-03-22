@@ -116,7 +116,7 @@ public class QuestionService {
 		savedQuestion = this.questionRepository.findOne(question.getId());
 		
 		// La question solo puede ser borrada por el creado del rendezvous.
-		Assert.isTrue(savedQuestion.getRendezvous().getCreator().equals(LoginService.getPrincipal()));
+		Assert.isTrue(savedQuestion.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		for(final Answer a: this.answerService.findByQuestionId(question.getId())){
 			this.answerService.delete(a);

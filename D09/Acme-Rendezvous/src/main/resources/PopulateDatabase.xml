@@ -757,6 +757,14 @@
 		<property name="user" ref="user1" />
 		<property name="rendezvous" ref="rendezvous5" />
 	</bean>
+	
+	<bean id="comment10" class="domain.Comment">
+		<property name="moment" value="02/16/2018 15:21" />
+		<property name="text" value="Muchas gracias nano!" />
+		<property name="user" ref="user3" />
+		<property name="repliedComment" ref="comment3" />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
 	<!--  -->
 	
 	<bean id="internationalization1" class="domain.Internationalization">
