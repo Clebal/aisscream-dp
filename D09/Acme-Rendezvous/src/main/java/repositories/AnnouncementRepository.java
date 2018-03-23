@@ -12,7 +12,7 @@ import domain.Announcement;
 @Repository
 public interface AnnouncementRepository extends JpaRepository<Announcement, Integer> {
 
-	@Query("select a from Announcement a where a.rendezvous.id = ?1 order by a.rendezvous.moment DESC")
+	@Query("select a from Announcement a where a.rendezvous.id = ?1 order by a.moment DESC")
 	Page<Announcement> findByRendezvousId(final int rendezvousId, final Pageable pageable);
 
 	@Query("select count(a) from Announcement a where a.rendezvous.id = ?1")
@@ -21,12 +21,13 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
 	@Query("select a from Announcement a where a.rendezvous.creator.userAccount.id = ?1")
 	Page<Announcement> findByCreatorUserAccountId(final int userAccountId, final Pageable pageable);
 
-    @Query("select count(a) from Announcement a")
-    Integer countAll();
-    
-    @Query("select a from Announcement a")
-    Page<Announcement> findAll(final Pageable pageable);
-	
+	@Query("select count(a) from Announcement a")
+	Integer countAll();
+
+	@Override
+	@Query("select a from Announcement a")
+	Page<Announcement> findAll(final Pageable pageable);
+
 	@Query("select count(a) from Announcement a where a.rendezvous.creator.userAccount.id = ?1")
 	Integer countByCreatorUserAccountId(final int rendezvousId);
 
