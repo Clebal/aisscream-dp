@@ -31,7 +31,7 @@
 	
 	<acme:submit name="save" code="creditcard.save"/>
 
-	<jstl:if test="${creditCard.getId() != 0 && !isAdded}">
+	<jstl:if test="${creditCard.getId() != 0 && isAdded}">
 		<acme:submit name="delete" code="creditcard.delete"/>
  	</jstl:if>
 	

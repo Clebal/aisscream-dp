@@ -71,6 +71,7 @@ public class CreditCardService {
 		Assert.isTrue(creditCardId != 0);
 		
 		result = this.creditCardRepository.findOne(creditCardId);
+		Assert.notNull(result);
 		
 		// Solo puede ser editado por el usuario adjunto
 		Assert.isTrue(result.getUser().getUserAccount().equals(LoginService.getPrincipal()));
