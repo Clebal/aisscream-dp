@@ -47,21 +47,21 @@ public class ActorController extends AbstractController {
 	public ModelAndView display(@RequestParam final int actorId) {
 		ModelAndView result;
 		Actor actor;
-		Boolean isManager;
+		Boolean isUser;
 		Authority authority;
 
 		authority = new Authority();
-		authority.setAuthority("MANAGER");
+		authority.setAuthority("USER");
 
-		isManager = false;
+		isUser = false;
 		actor = this.actorService.findOne(actorId);
 		Assert.notNull(actor);
 		if (actor.getUserAccount().getAuthorities().contains(authority))
-			isManager = true;
+			isUser = true;
 
 		result = new ModelAndView("actor/display");
 		result.addObject("actor", actor);
-		result.addObject("isManager", isManager);
+		result.addObject("isUser", isUser);
 
 		return result;
 	}

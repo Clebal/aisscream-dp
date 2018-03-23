@@ -25,7 +25,7 @@
 	
 	<acme:display code="actor.birthdate" value="${actor.getBirthdate()}" codeMoment="actor.format.moment"/>
 	
-	<jstl:if test="${isManager==false }">
+	<jstl:if test="${isUser==true }">
 		
 		<spring:url var="urlRendezvousCreated" value="rendezvous/listByUser.do">
 		<spring:param name="userId" value="${actor.getId()}" />
