@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.util.Collection;
@@ -15,7 +16,6 @@ import security.LoginService;
 import services.AnnouncementService;
 import services.RendezvousService;
 import services.UserService;
-import controllers.AbstractController;
 import domain.Announcement;
 import domain.Rendezvous;
 
@@ -25,21 +25,22 @@ public class AnnouncementController extends AbstractController {
 
 	// Services
 	@Autowired
-	private AnnouncementService announcementService;
-	
+	private AnnouncementService	announcementService;
+
 	@Autowired
-	private RendezvousService rendezvousService;
-	
+	private RendezvousService	rendezvousService;
+
 	@Autowired
-	private UserService userService;
-	
+	private UserService			userService;
+
+
 	// Constructor
 	public AnnouncementController() {
 		super();
 	}
-	
+
 	// List
-	@RequestMapping(value="/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam final int rendezvousId, @RequestParam(required = false) Integer page) {
 		ModelAndView result;
 		Collection<Announcement> announcements;
@@ -47,30 +48,31 @@ public class AnnouncementController extends AbstractController {
 		boolean isCreator;
 		Rendezvous rendezvous;
 		Authority authority;
-		
+
 		authority = new Authority();
-		authority.setAuthority("ADMIN");
-		
+		authority.setAuthority("USER");
+
 		size = 5;
-		if (page == null) page = 1;
-		
+		if (page == null)
+			page = 1;
+
 		rendezvous = this.rendezvousService.findOneToDisplay(rendezvousId);
 		Assert.notNull(rendezvous);
-		
+
 		isCreator = false;
-		if(LoginService.isAuthenticated() && !LoginService.getPrincipal().getAuthorities().contains(authority)){
-			if(userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator())) isCreator = true;
-		}
+		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority))
+			if (this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).equals(rendezvous.getCreator()))
+				isCreator = true;
 		announcements = this.announcementService.findByRendezvousId(rendezvousId, page, size);
 		Assert.notNull(announcements);
-				
+
 		result = super.paginateModelAndView("announcement/list", this.announcementService.countByRendezvousId(rendezvousId), page, size);
 		result.addObject("requestURI", "announcement/list.do");
 		result.addObject("announcements", announcements);
 		result.addObject("rendezvousId", rendezvousId);
 		result.addObject("isCreator", isCreator);
-		
+
 		return result;
 	}
-	
+
 }
