@@ -56,7 +56,6 @@ public class ListInternationalizationTest extends AbstractTest {
 			 
 	for (int i = 0; i < testingData.length; i++)
 		try {
-//			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 		} catch (final Throwable oops) {
@@ -86,7 +85,6 @@ public class ListInternationalizationTest extends AbstractTest {
 			 
 	for (int i = 0; i < testingData.length; i++)
 		try {
-//			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 		} catch (final Throwable oops) {
@@ -116,13 +114,13 @@ public class ListInternationalizationTest extends AbstractTest {
 				availableLanguage = this.internationalizationService.findAvailableLanguagesByMessageCode(messageCode);
 				Assert.isTrue(availableLanguage.size() == 2);
 			}
+			
 			super.unauthenticate();
 			super.flushTransaction();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-//		System.out.println("Expected " + expected);
-//		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
 	

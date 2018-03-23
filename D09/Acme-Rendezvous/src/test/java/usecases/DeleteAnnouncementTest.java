@@ -1,4 +1,3 @@
-
 package usecases;
 
 import java.util.Collection;
@@ -36,6 +35,11 @@ public class DeleteAnnouncementTest extends AbstractTest {
 	 * Pruebas:
 	 * 		1. El administrador trata de eliminar un announcement
 	 * 		2. Un usuario autenticado como usuario trata de eliminar un announcement
+	 * 
+	 * Requisitos:
+	 * 		17.1 - An actor who is authenticated as an administrator must be able to 
+	 * 			   remove an announcement that he or she thinks is inappropriate.
+	 * 		Un usuario también puede borrar los announcement de sus rendezvouses.
 	 */
 	@Test
 	public void driverPostiveTest() {
@@ -60,37 +64,20 @@ public class DeleteAnnouncementTest extends AbstractTest {
 	/*
 	 * Pruebas:
 	 * 		1. Un usuario autenticado como manager trata de eliminar un announcement
+	 * 		2. Un usuario autenticado como usuario trata de eliminar un announcement que no es suyo
+	 * 		3. Un usuario trata de hackear el sistema eliminando un announcement que no le pertenece pero le cambia la propiedad rendezvous a otro que sí es suyo
 	 * 
-	 * 
-	 */
-	@Test
-	public void driverNegativeTest() {
-		final Object testingData[][] = {
-			{
-				"manager1", "announcement6", IllegalArgumentException.class
-			}
-		};
-		for (int i = 0; i < testingData.length; i++)
-			try {
-				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
-			} catch (final Throwable oops) {
-				throw new RuntimeException(oops);
-			} finally {
-				super.rollbackTransaction();
-			}
-	}
-	
-	/*
-	 * Pruebas:
-	 * 		1. Un usuario autenticado como usuario trata de eliminar un announcement que no es suyo
-	 * 
-	 * 
+	 * Requisitos:
+	 * 		17.1 - An actor who is authenticated as an administrator must be able to 
+	 * 			   remove an announcement that he or she thinks is inappropriate.
+	 * 		Un usuario también puede borrar los announcement de sus rendezvouses.
 	 */
 	@Test
 	public void driverUrlNegativeTest() {
 		final Object testingData[][] = {
 			{
+				"manager1", "announcement6", null, IllegalArgumentException.class
+			}, {
 				"user1", "announcement5", null, IllegalArgumentException.class
 			}, {
 				"user1", "announcement5", "rendezvous1", IllegalArgumentException.class
@@ -106,13 +93,14 @@ public class DeleteAnnouncementTest extends AbstractTest {
 				super.rollbackTransaction();
 			}
 	}
+	
 	// Ancillary methods ------------------------------------------------------
 
 	/*
 	 * Eliminar un announcement. Pasos:
 	 * 1. Autenticar usuario
 	 * 1. Listar los announcements
-	 * 2. Escoger un announcement (entrando en la vista de Editar)
+	 * 2. Escoger un announcement (entrar en la vista de Editar)
 	 * 3. Eliminar el announcement
 	 * 4. Dirigir a la vista de announcemt
 	 */
@@ -186,7 +174,6 @@ public class DeleteAnnouncementTest extends AbstractTest {
 				rendezvous = this.rendezvousService.findOne(rendezvousId);
 				announcement.setRendezvous(rendezvous);
 			}
-
 			/***********/
 			
 			// 1. Autenticarnos como usuario
@@ -233,12 +220,11 @@ public class DeleteAnnouncementTest extends AbstractTest {
 		else
 			collectionSize = this.announcementService.countByCreatorUserAccountId(LoginService.getPrincipal().getId());
 
-		
 		pageNumber = (int) Math.floor(((collectionSize / (5 + 0.0)) - 0.1) + 1);
 
 		result = null;
 
-		for (int i = 0; i <= pageNumber; i++) {
+		for (int i = 1; i <= pageNumber; i++) {
 			if(user.equals("admin"))
 				announcements = this.announcementService.findAll(i, 5);
 			else

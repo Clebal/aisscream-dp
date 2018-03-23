@@ -247,7 +247,6 @@ public class ListCommentTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 	}
 
-	
 	private Integer getPageFindAllPaginated(final Rendezvous rendezvous) {
 		Integer result, collectionSize, pageNumber;
 		Collection<Rendezvous> rendezvouses;
@@ -257,7 +256,7 @@ public class ListCommentTest extends AbstractTest {
 
 		result = null;
 
-		for (int i = 0; i <= pageNumber; i++) {
+		for (int i = 1; i <= pageNumber; i++) {
 			rendezvouses = this.rendezvousService.findAllPaginated(i, 5);
 			if (rendezvouses.contains(rendezvous)){
 				result = i;
@@ -277,7 +276,7 @@ public class ListCommentTest extends AbstractTest {
 
 		result = null;
 
-		for (int i = 0; i <= pageNumber; i++) {
+		for (int i = 1; i <= pageNumber; i++) {
 			rendezvouses = this.rendezvousService.findAllPublics(i, 5);
 			if (rendezvouses.contains(rendezvous)){
 				result = i;
@@ -297,7 +296,7 @@ public class ListCommentTest extends AbstractTest {
 				
 		result = null;
 
-		for (int i = 0; i <= pageNumber; i++) {
+		for (int i = 1; i <= pageNumber; i++) {
 			comments = this.commentService.findByRendezvousIdAndNoRepliedComment(rendezvous.getId(), i, 5);
 			if (comments.contains(comment)){
 				result = i;
@@ -317,7 +316,7 @@ public class ListCommentTest extends AbstractTest {
 				
 		result = null;
 
-		for (int i = 0; i <= pageNumber; i++) {
+		for (int i = 1; i <= pageNumber; i++) {
 			comments = this.commentService.findByRepliedCommentId(comment.getId(), i, 5);
 			if (comments.contains(commentReply)){
 				result = i;

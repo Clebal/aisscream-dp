@@ -38,6 +38,8 @@ public class EditAnnouncementTest extends AbstractTest {
 	 * Pruebas:
 	 * 		1. Un usuario trata de editar el campo title de un announcement
 	 * 		2. Un usuario trata de editar el campo description de un announcement
+	 * 
+	 * Realizamos las pruebas sobre la posibilidad del usuario de editar los announcements que ha creado.
 	 */
 	@Test
 	public void driverPositiveTest() {
@@ -51,7 +53,6 @@ public class EditAnnouncementTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 		try {
-//			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 		} catch (final Throwable oops) {
@@ -67,9 +68,8 @@ public class EditAnnouncementTest extends AbstractTest {
 	 * 		2. Un manager trata de editar un announcement cuando no lo tiene permitido
 	 * 		3. Un administrator trata de editar un announcement cuando no lo tiene permitido
 	 * 		4. Un usuario trata de editar el campo moment
-	 * 		----5. Un usuario trata de quitar el valor del campo moment----
-	 * 		6. Un usuario trata de editar un announcement dejando el campo title vacío
-	 * 		7. Un usuario trata de editar un announcement dejando el campo descripticon vacío
+	 * 		5. Un usuario trata de editar un announcement dejando el campo title vacío
+	 * 		6. Un usuario trata de editar un announcement dejando el campo descripticon vacío
 	 */
 	@Test
 	public void driverNegativeTest() {
@@ -82,9 +82,7 @@ public class EditAnnouncementTest extends AbstractTest {
 				"administrator1", "announcement1", null, null, null, IllegalArgumentException.class
 			}, {
 				"user1", "announcement1", "01/02/2018 15:12", null, null, IllegalArgumentException.class
-			}/*, {
-				"user1", "announcement1", "", null, null, IllegalArgumentException.class
-			}*/, {
+			}, {
 				"user1", "announcement1", null, "", null, ConstraintViolationException.class
 			}, {
 				"user1", "announcement1", null, null, "", ConstraintViolationException.class
@@ -93,7 +91,6 @@ public class EditAnnouncementTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
@@ -107,9 +104,9 @@ public class EditAnnouncementTest extends AbstractTest {
 
 	/*
 	 * Editar un announcement. Pasos:
-	 * 1. Autenticar usuario.
+	 * 1. Autenticar usuario
 	 * 2. Listar los announcements
-	 * 3. Escoger un announcement
+	 * 3. Escoger announcement
 	 * 4. Editar el announcement
 	 * 5. Salvar el announcement
 	 * 6. Dirigir al listado de los announcements
@@ -136,17 +133,17 @@ public class EditAnnouncementTest extends AbstractTest {
 			// 2. Listar los announcements
 			announcements = this.announcementService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), this.getPage(oldAnnouncement), 5);
 			
-			// 3. Escoger un rendezvous
+			// 3. Escoger announcement
 			for(Announcement a: announcements)
 				if(a.getId() == announcementId) oldAnnouncement = a;
 			
-			// 4. Crear un announcement asociado a un rendezvous
+			// 4. Editar el announcement
 			newAnnouncement = this.copyAnnouncement(oldAnnouncement);
 			if(moment != null) newAnnouncement.setMoment(formatter.parse(moment));
 			if(title != null) newAnnouncement.setTitle(title);
 			if(description != null) newAnnouncement.setDescription(description);
 			
-			// 5. Salvar el nuevo announcement
+			// 5. Salvar el announcement
 			binder = new DataBinder(newAnnouncement);
 			newAnnouncement = this.announcementService.reconstruct(newAnnouncement, binder.getBindingResult());
 			savedAnnouncement = this.announcementService.save(newAnnouncement);
@@ -164,8 +161,7 @@ public class EditAnnouncementTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-//		System.out.println("Expected " + expected);
-//		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
 	
@@ -176,7 +172,6 @@ public class EditAnnouncementTest extends AbstractTest {
 		
 		result = new Announcement();
 		result.setId(announcement.getId());
-//		result.setVersion(announcement.getVersion());
 		result.setMoment(announcement.getMoment());
 		result.setTitle(announcement.getTitle());
 		result.setDescription(announcement.getDescription());
@@ -193,7 +188,6 @@ public class EditAnnouncementTest extends AbstractTest {
         pageNumber = (int) Math.floor(((collectionSize / (5.0)) - 0.1) + 1);
 
 		result = null;
-
 		for (int i = 0; i <= pageNumber; i++) {
 			announcements = this.announcementService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), i + 1, 5);
 			if (!announcements.contains(announcement))

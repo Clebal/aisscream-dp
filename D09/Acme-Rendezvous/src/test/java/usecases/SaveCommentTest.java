@@ -421,7 +421,7 @@ public class SaveCommentTest extends AbstractTest {
 	
 	/*
 	 * Crear una respuesta a un comment a través de la URL con Postman. Pasos:
-	 * 1. Autenticar como usuario.
+	 * 1. Autenticar usuario
 	 * 2. Enviar datos de comment por URL
 	 */
 	protected void templateUrlReplyComment(final String user, final String rendezvousBean, final String userBean, final String moment, final String text, final String picture, final String repliedCommentBean, final Class<?> expected) {

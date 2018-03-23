@@ -37,7 +37,8 @@ public class DeleteCommentTest extends AbstractTest {
 	 * 		2. Un administrador trata de eliminar un comentario que tiene respuestas
 	 * 		3. Un administrador trata de eliminar la respuesta de un comentario
 	 * 
-	 * 
+	 * Requisitos:
+	 * 		5.6 - An actor who is authenticated as an administrator must be able to remove a comment that he or she thinks is inappropriate.
 	 */
 	@Test
 	public void driverPostiveTest() {
@@ -52,7 +53,6 @@ public class DeleteCommentTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 			} catch (final Throwable oops) {
@@ -67,7 +67,8 @@ public class DeleteCommentTest extends AbstractTest {
 	 * 		1. Un usuario trata de eliminar un comentario cuando no lo tiene permitido.
 	 * 		2. Un manager trata de eliminar un comentario cuando no lo tiene permitido.
 	 * 
-	 * 
+	 * Requisitos:
+	 * 		5.6 - An actor who is authenticated as an administrator must be able to remove a comment that he or she thinks is inappropriate.
 	 */
 	@Test
 	public void driverNegativeTest() {
@@ -80,7 +81,6 @@ public class DeleteCommentTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 			} catch (final Throwable oops) {
@@ -95,7 +95,7 @@ public class DeleteCommentTest extends AbstractTest {
 	/*
 	 * Eliminar un comment. Pasos:
 	 * 1. Autenticar usuario
-	 * 1. Listar rendezvous
+	 * 1. Listar rendezvouses
 	 * 2. Escoger un rendezvous 
 	 * 3. Listar comentarios
 	 * 4. Escoger comentario
@@ -113,7 +113,6 @@ public class DeleteCommentTest extends AbstractTest {
 		Collection<Rendezvous> rendezvouses;
 		Rendezvous rendezvous;
 		
- 
 		caught = null;
 		try {
 			
@@ -128,7 +127,7 @@ public class DeleteCommentTest extends AbstractTest {
 			comment = this.commentService.findOneToDisplay(commentId);
 			/*******/
 
-			// 2. Listar rendezvous
+			// 2. Listar rendezvouses
 			if(user != null) rendezvouses = this.rendezvousService.findAllPaginated(this.getPageFindAllPaginated(rendezvous), 5); 
 			else rendezvouses = this.rendezvousService.findAllPublics(this.getPageFindAllPublics(rendezvous), 5);
 			Assert.notNull(rendezvouses);
@@ -181,8 +180,7 @@ public class DeleteCommentTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-//		System.out.println("Expected " + expected);
-//		System.out.println("Caught " + caught);
+		
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}

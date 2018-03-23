@@ -35,6 +35,9 @@ public class EditConfigurationTest extends AbstractTest {
 	 * 		3. El admin guarda la configuración cambiando la propiedad banner
 	 * 		4. El admin guarda la configuración cambiando la propiedad welcomeMessage
 	 * 		5. El admin guarda la configuración cambiando todas las propiedades
+	 * 
+	 * Las pruebas comprenden los requisitos relacionados con la configuración del sistema
+	 * para ser utilizado por distintas franquicias.
 	 */
 	@Test
 	public void driverConfigurationPositiveTest() {
@@ -54,7 +57,6 @@ public class EditConfigurationTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 		try {
-//			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 		} catch (final Throwable oops) {
@@ -65,9 +67,13 @@ public class EditConfigurationTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1. Un actor de tipo usuario no puede modificar configuration
-	 * 2. Un actor de tipo manager no puede modificar configuration
-	 * 3. La propiedad banner debe cumplir el pattern URL
+	 * Pruebas:
+	 * 		1. Un actor de tipo usuario no puede modificar configuration
+	 *		2. Un actor de tipo manager no puede modificar configuration
+	 * 		3. La propiedad banner debe cumplir el pattern URL
+	 * 
+	 * Las pruebas comprenden los requisitos relacionados con la configuración del sistema
+	 * para ser utilizado por distintas franquicias.
 	 */
 	@Test
 	public void driverConfigurationNegativeTest() {
@@ -83,7 +89,6 @@ public class EditConfigurationTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 			} catch (final Throwable oops) {
@@ -106,7 +111,6 @@ public class EditConfigurationTest extends AbstractTest {
 	protected void template(final String user, final String name, final String banner, final String welcomeMessage, final Class<?> expected) {
 		Class<?> caught;
 		Configuration oldConfiguration, newConfiguration, savedConfiguration;
-//		DataBinder binder;
 
 		caught = null;
 		try {
@@ -124,8 +128,6 @@ public class EditConfigurationTest extends AbstractTest {
 			if(welcomeMessage != null) newConfiguration.setWelcomeMessage(welcomeMessage);
 				
 			// 4. Guardamos el configuration
-//			binder = new DataBinder(newConfiguration);
-//			newConfiguration = this.configurationService.reconstruct(newConfiguration, binder.getBindingResult());
 			this.configurationService.save(newConfiguration);
 			this.configurationService.flush();
 			
@@ -141,8 +143,7 @@ public class EditConfigurationTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-//		System.out.println("Expected " + expected);
-//		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
 	

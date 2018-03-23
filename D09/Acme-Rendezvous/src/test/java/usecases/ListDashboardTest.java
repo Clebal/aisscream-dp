@@ -66,11 +66,13 @@ public class ListDashboardTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1.
-	 * 2.
-	 * 3.
+	 * Pruebas:
+	 * 		1. Un usuario autenticado como ADMIN entra en el dashboard en la primera página
+	 * 		2. Un usuario autenticado como ADMIN entra en el dashboard en la segunda página
+	 * 		3. Un usuario autenticado como ADMIN entra en el dashboard con tamaño diez
+	 * 		4. Un usuario autenticado como ADMIN entra en el dashboard con tamaño veinte
 	 */
-	@Test()
+	@Test
 	public void testPositiveTest() {
 		final Object testingData[][] = {
 			{
@@ -86,7 +88,6 @@ public class ListDashboardTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (Integer) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
 			} catch (final Throwable oops) {
@@ -97,11 +98,12 @@ public class ListDashboardTest extends AbstractTest {
 	}
 	
 	/*
-	 * 1.
-	 * 2.
-	 * 3.
+	 * Pruebas:
+	 * 		1. Un usuario autenticado como MANAGER trata de entrar en la vista de dashboard
+	 * 		2. Un usuario autenticado como USER trata de entrar en la vista de dashboard
+	 * 		3. Un usuario autenticado como ADMIN entra en el dashboard con tamaño treinta, cosa que no está disponible
 	 */
-	@Test()
+	@Test
 	public void testNegativeTest() {
 		final Object testingData[][] = {
 			{
@@ -115,7 +117,6 @@ public class ListDashboardTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (Integer) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
 			} catch (final Throwable oops) {
@@ -226,8 +227,7 @@ public class ListDashboardTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-//		System.out.println("Expected " + expected);
-//		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
 }

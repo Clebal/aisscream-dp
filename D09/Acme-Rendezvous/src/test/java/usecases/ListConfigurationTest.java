@@ -28,13 +28,14 @@ public class ListConfigurationTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. findUnique debe devolver solo un configuration
-	 * 2. findName debe devolver el nombre por defecto
-	 * 3. findBanner debe devolver la URL por defecto
-	 * 4. findWelcomeMessage no debe dar nulo si el countryCode existe
-	 * 5. findWelcomeMessage no debe dar nulo si el countryCode existe
+	 * Pruebas:
+	 * 		1. findUnique debe devolver solo un configuration
+	 * 		2. findName debe devolver el nombre por defecto
+	 * 		3. findBanner debe devolver la URL por defecto
+	 * 		4. findWelcomeMessage no debe dar nulo si el countryCode existe
+	 * 		5. findWelcomeMessage no debe dar nulo si el countryCode existe
 	 */
-	@Test()
+	@Test
 	public void driverPositiveTest() {
 		final Object testingData[][] = {
 			{
@@ -52,7 +53,6 @@ public class ListConfigurationTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 			} catch (final Throwable oops) {
@@ -63,9 +63,10 @@ public class ListConfigurationTest extends AbstractTest {
 	}
 
 	/*
-	 * 1. findWelcomeMessage debe tener como countryCode uno de los idiomas disponibles
+	 * Pruebas:
+	 * 		1. findWelcomeMessage debe tener como countryCode uno de los idiomas disponibles
 	 */
-	@Test()
+	@Test
 	public void driveNegativeTest() {
 		final Object testingData[][] = {
 			{
@@ -74,7 +75,6 @@ public class ListConfigurationTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 			} catch (final Throwable oops) {
@@ -109,8 +109,6 @@ public class ListConfigurationTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-//		System.out.println("Expected " + expected);
-//		System.out.println("Caught " + caught);
 		super.checkExceptions(expected, caught);
 	}
 	

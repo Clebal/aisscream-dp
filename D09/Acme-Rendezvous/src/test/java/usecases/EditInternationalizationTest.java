@@ -43,7 +43,6 @@ public class EditInternationalizationTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 		try {
-//			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Class<?>) testingData[i][6]);
 		} catch (final Throwable oops) {
@@ -73,7 +72,6 @@ public class EditInternationalizationTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-//				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
@@ -120,8 +118,7 @@ public class EditInternationalizationTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-//		System.out.println("Expected " + expected);
-//		System.out.println("Caught " + caught);
+		
 		super.checkExceptions(expected, caught);
 	}
 	
@@ -132,9 +129,6 @@ public class EditInternationalizationTest extends AbstractTest {
 		
 		result = new Internationalization();
 		result.setId(internationalization.getId());
-//		result.setVersion(internationalization.getVersion());
-//		result.setCountryCode(internationalization.getCountryCode());
-//		result.setMessageCode(internationalization.getMessageCode());
 		result.setValue(internationalization.getValue());
 
 		return result;

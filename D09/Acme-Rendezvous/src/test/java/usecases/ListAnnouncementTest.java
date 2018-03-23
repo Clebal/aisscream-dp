@@ -39,6 +39,9 @@ public class ListAnnouncementTest extends AbstractTest {
 	 * 		3. Un usuario autenticado como ADMIN entra en una vista que llama al método findByRendezvousId 
 	 * 		4. Un usuario no logeado entra en una vista que llama al método findByRendezvousId
 	 * 		5. Un usuario autenticado entra en una vista que llama al método findByRendezvousId con el id igual a cero
+	 * 
+	 * Requisitos:
+	 * 		15.1 - An actor who is not authenticated must be able to list the announcements that are associated with each rendezvous.
 	 */
 	@Test()
 	public void testFindByRendezvousId() {
@@ -71,6 +74,9 @@ public class ListAnnouncementTest extends AbstractTest {
 	 * Pruebas:
 	 * 		1. Un usuario autenticado como USER entra en una vista que llama al método findByCreatorUserAccountId
 	 * 		2. Un usuario no autenticado entra en una vista que llama al método findByCreatorUserAccountId
+	 * 
+	 * Requisitos:
+	 * 		15.1 - An actor who is not authenticated must be able to list the announcements that are associated with each rendezvous.
 	 */
 	@Test
 	public void testFindByCreatorUserAccountId() {
@@ -100,6 +106,9 @@ public class ListAnnouncementTest extends AbstractTest {
 	 * 		3. Un usuario autenticado como ADMIN entra en la página 3 de una vista que llama al método findAllPaginated
 	 * 		4. Un usuario autenticado como USER trata de entrar en una vista que llama al método findAllPaginated
 	 * 		5. Un usuario autenticado como MANAGER trata de entrar en una vista que llama al método findAllPaginated
+	 * 
+	 * Requisitos:
+	 * 		15.1 - An actor who is not authenticated must be able to list the announcements that are associated with each rendezvous.
 	 */
 	@Test
 	public void testFindAll() {
@@ -160,7 +169,7 @@ public class ListAnnouncementTest extends AbstractTest {
 				sizeAnnouncement = this.announcementService.findAll(page, size).size();
 			}
 			
-			Assert.isTrue(sizeAnnouncement == tamano); 
+			Assert.isTrue(sizeAnnouncement == tamano);
 			super.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
