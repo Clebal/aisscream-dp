@@ -118,17 +118,8 @@ public class RendezvousService {
 
 	public Rendezvous findOneToDisplay(final int rendezvousId) {
 		Rendezvous result;
-		//		Actor actor;
-		//		Calendar birthDatePlus18Years;
-		Boolean canPermit;
-		//		Authority authority;
-		//		Authority authority2;
 
-		//		authority = new Authority();
-		//		authority.setAuthority("USER");
-		//
-		//		authority2 = new Authority();
-		//		authority2.setAuthority("ADMIN");
+		Boolean canPermit;
 
 		Assert.isTrue(rendezvousId != 0);
 
@@ -137,16 +128,6 @@ public class RendezvousService {
 		Assert.notNull(result);
 
 		canPermit = this.canPermit();
-		//		if (LoginService.isAuthenticated())
-		//			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
-		//				actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-		//				birthDatePlus18Years = Calendar.getInstance();
-		//				birthDatePlus18Years.setTime(actor.getBirthdate());
-		//				birthDatePlus18Years.add(Calendar.YEAR, 18);
-		//				if (birthDatePlus18Years.getTime().compareTo(new Date()) <= 0)
-		//					canPermit = true;
-		//			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
-		//				canPermit = true;
 
 		Assert.isTrue(result.getAdultOnly() == false || result.getAdultOnly() == true && canPermit);
 
@@ -626,20 +607,6 @@ public class RendezvousService {
 
 		for (final Object[] o : listId) {
 			r = this.findOne((int) o[0]);
-			//			creator = this.userService.findOne((int) o[o.length - 1]);
-			//			r = this.create(creator);
-			//			r.setId((int) o[0]);
-			//			r.setVersion((int) o[1]);
-			//			r.setAdultOnly((boolean) o[2]);
-			//			r.setDescription((String) o[3]);
-			//			r.setDraft((boolean) o[4]);
-			//			r.setIsDeleted((boolean) o[5]);
-			//			r.setLatitude((Double) o[6]);
-			//			r.setLongitude((Double) o[7]);
-			//			r.setMoment((Date) o[8]);
-			//			r.setName((String) o[9]);
-			//			r.setPicture((String) o[10]);
-			//			r.setCreator(creator);
 
 			result.add(r);
 		}
@@ -821,16 +788,6 @@ public class RendezvousService {
 	}
 
 	//Auxilary methods
-	//	private Pageable getPageable(final int page, final int size) {
-	//		Pageable result;
-	//
-	//		if (page == 0 || size <= 0)
-	//			result = new PageRequest(0, 5);
-	//		else
-	//			result = new PageRequest(page - 1, size);
-	//
-	//		return result;
-	//	}
 
 	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
 		Rendezvous result;

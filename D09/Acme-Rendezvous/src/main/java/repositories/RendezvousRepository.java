@@ -110,12 +110,6 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select count(r) from Rendezvous r where cast((select count(r2) from Rendezvous r2 join r2.linkerRendezvouses l where l.id=r.id)as float)>(select avg(cast((select count(r2) from Rendezvous r2 join r2.linkerRendezvouses l where l.id=r3.id)as float))*1.1 from Rendezvous r3)")
 	Integer countRendezvousesLinkedMoreAvgPlus10Percentage();
 
-	//	@Query("select r.rendezvous from Request r join r.service.categories c where c.id=?1")
-	//	Page<Rendezvous> findByCategoryId(int categoryId, Pageable pageable);
-	//
-	//	@Query("select r.rendezvous from Request r join r.service.categories c where c.id=?1 and r.rendezvous.adultOnly=false")
-	//	Page<Rendezvous> findByCategoryIdAllPublics(int categoryId, Pageable pageable);
-
 	@Query("select distinct(r.rendezvous) from Request r join r.service.categories c where c.id=?1")
 	Collection<Rendezvous> findByCategoryId(int categoryId);
 
