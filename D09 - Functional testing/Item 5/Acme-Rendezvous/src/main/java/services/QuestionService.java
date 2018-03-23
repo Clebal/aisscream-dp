@@ -80,6 +80,7 @@ public class QuestionService {
 		Assert.isTrue(questionId != 0);
 		
 		result = this.questionRepository.findOne(questionId);
+		Assert.notNull(result);
 		
 		// Solo puede editarlo el creator
 		Assert.isTrue(result.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));

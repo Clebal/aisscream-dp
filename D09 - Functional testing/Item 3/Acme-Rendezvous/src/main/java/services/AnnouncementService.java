@@ -77,6 +77,7 @@ public class AnnouncementService {
 		Assert.isTrue(announcementId != 0);
 				
 		result = this.announcementRepository.findOne(announcementId);
+		Assert.notNull(result);
 		
 		// Solo puede editarlo el creator
         Assert.isTrue(result.getRendezvous().getCreator().getUserAccount().equals(LoginService.getPrincipal()));
