@@ -25,14 +25,18 @@
 	
 	<acme:display code="actor.birthdate" value="${actor.getBirthdate()}" codeMoment="actor.format.moment"/>
 	
-	<spring:url var="urlRendezvousCreated" value="rendezvous/listByUser.do">
-	<spring:param name="userId" value="${actor.getId()}" />
-	</spring:url>
-	<p><a href="${urlRendezvousCreated }"> <spring:message code="actor.rendezvous.created" /></a></p>
+	<jstl:if test="${isManager==false }">
+		
+		<spring:url var="urlRendezvousCreated" value="rendezvous/listByUser.do">
+		<spring:param name="userId" value="${actor.getId()}" />
+		</spring:url>
+		<p><a href="${urlRendezvousCreated }"> <spring:message code="actor.rendezvous.created" /></a></p>
+		
+		<spring:url var="urlRendezvousAttendent" value="rendezvous/listByAttendant.do">
+		<spring:param name="attendantId" value="${actor.getId()}" />
+		</spring:url>
+		<p><a href="${urlRendezvousAttendent }"> <spring:message code="actor.rendezvous.attendant" /></a></p>
 	
-	<spring:url var="urlRendezvousAttendent" value="rendezvous/listByAttendant.do">
-	<spring:param name="attendantId" value="${actor.getId()}" />
-	</spring:url>
-	<p><a href="${urlRendezvousAttendent }"> <spring:message code="actor.rendezvous.attendant" /></a></p>
+	</jstl:if>
 		
 </div>

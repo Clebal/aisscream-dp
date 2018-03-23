@@ -118,8 +118,8 @@
 		<div class="container">
 			<p class="display"><spring:message code="dashboard.managerMoreServicesAverage"/></p>
 			<jstl:forEach items="${managerMoreServicesAverage}" var="row">
-				<spring:url var="urlManagerMoreServicesAverage" value="manager/display.do">
-					<spring:param name="managerId" value="${row.getId()}"></spring:param>
+				<spring:url var="urlManagerMoreServicesAverage" value="actor/display.do">
+					<spring:param name="actorId" value="${row.getId()}"></spring:param>
 				</spring:url>
 				<p style="margin-left: 15px;"><a href="${urlManagerMoreServicesAverage}" ><jstl:out value="${row.name}"></jstl:out></a></p>
 			</jstl:forEach>
@@ -130,8 +130,8 @@
 		<div class="container">
 			<p class="display"><spring:message code="dashboard.managerMoreServicesCancelled"/></p>
 			<jstl:forEach items="${managerMoreServicesCancelled}" var="row">
-				<spring:url var="urlManagerMoreServicesCancelled" value="manager/display.do">
-					<spring:param name="managerId" value="${row.getId()}"></spring:param>
+				<spring:url var="urlManagerMoreServicesCancelled" value="actor/display.do">
+					<spring:param name="actorId" value="${row.getId()}"></spring:param>
 				</spring:url>
 				<p style="margin-left: 15px;"><a href="${urlManagerMoreServicesCancelled}" ><jstl:out value="${row.name}"></jstl:out></a></p>
 			</jstl:forEach>

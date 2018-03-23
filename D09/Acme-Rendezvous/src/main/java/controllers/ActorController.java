@@ -35,7 +35,8 @@ public class ActorController extends AbstractController {
 
 	@Autowired
 	private ManagerService	managerService;
-	
+
+
 	// Constructors
 	public ActorController() {
 		super();
@@ -46,12 +47,21 @@ public class ActorController extends AbstractController {
 	public ModelAndView display(@RequestParam final int actorId) {
 		ModelAndView result;
 		Actor actor;
+		Boolean isManager;
+		Authority authority;
 
+		authority = new Authority();
+		authority.setAuthority("MANAGER");
+
+		isManager = false;
 		actor = this.actorService.findOne(actorId);
 		Assert.notNull(actor);
+		if (actor.getUserAccount().getAuthorities().contains(authority))
+			isManager = true;
 
 		result = new ModelAndView("actor/display");
 		result.addObject("actor", actor);
+		result.addObject("isManager", isManager);
 
 		return result;
 	}
@@ -65,12 +75,12 @@ public class ActorController extends AbstractController {
 
 		size = 5;
 		pageNumber = 0;
-		
+
 		if (page == null)
 			pageAux = 1;
 		else
 			pageAux = page;
-		
+
 		users = this.userService.findAllPaginated(pageAux, size);
 
 		if (users.size() != 0)
@@ -97,13 +107,12 @@ public class ActorController extends AbstractController {
 
 		size = 5;
 		pageNumber = 0;
-		
+
 		if (page == null)
 			pageAux = 1;
 		else
 			pageAux = page;
-		
-		
+
 		users = this.userService.findAttendantsPaginated(pageAux, size, rendezvousId);
 
 		if (users.size() != 0)
@@ -200,9 +209,9 @@ public class ActorController extends AbstractController {
 			managerForm.setPhone(actor.getPhone());
 			managerForm.setSurname(actor.getSurname());
 			managerForm.setUsername(actor.getUserAccount().getUsername());
-			
-			if(LoginService.isAuthenticated()){
-				manager =  this.managerService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+			if (LoginService.isAuthenticated()) {
+				manager = this.managerService.findByUserAccountId(LoginService.getPrincipal().getId());
 				Assert.notNull(manager);
 				managerForm.setVat(manager.getVat());
 			}
