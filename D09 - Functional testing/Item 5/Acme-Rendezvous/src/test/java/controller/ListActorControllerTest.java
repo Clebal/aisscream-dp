@@ -1,5 +1,5 @@
 
-package controllers;
+package controller;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import services.UserService;
 import utilities.AbstractTest;
+import controllers.ActorController;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
