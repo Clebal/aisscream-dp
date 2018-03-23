@@ -134,7 +134,7 @@ public class ManagerForm {
 		this.birthdate = birthdate;
 	}
 
-	@Pattern(regexp = "^(?![\\W]+$)(?=.{2,12}$)[-. 0-9]*(?:[a-zA-Z][- 0-9]*){0,3}$")
+	@Pattern(regexp = "^(?![\\W]+$)(?=.{2,12}$)[-0-9]*(?:[a-zA-Z-0-9]*){0,3}$")
 	@Column(unique = true)
 	@NotBlank
 	public String getVat() {
