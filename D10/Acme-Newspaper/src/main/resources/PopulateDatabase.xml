@@ -378,22 +378,48 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user4" />
 	</bean>
 	
+	<bean id="chirp5" class="domain.Chirp">
+    <property name="moment" value="2017/12/22 09:30" />
+    <property name="title" value="Sexo Sexo" />
+    <property name="description" value="Yesss ;)" />
+    <property name="hasTaboo" value="true" />
+    <property name="user" ref="user4" />
+  </bean>
+  
+  <bean id="chirp6" class="domain.Chirp">
+    <property name="moment" value="2017/12/22 09:30" />
+    <property name="title" value="Sex, you know what I mean" />
+    <property name="description" value="You wanna? Call me +108-123-21" />
+    <property name="hasTaboo" value="true" />
+    <property name="user" ref="user3" />
+  </bean>
+  
+  <bean id="chirp7" class="domain.Chirp">
+    <property name="moment" value="2017/12/22 09:30" />
+    <property name="title" value="Viagra, 9 cents" />
+    <property name="description" value="It's cheap bro" />
+    <property name="hasTaboo" value="true" />
+    <property name="user" ref="user2" />
+  </bean>
+	
 	<!-- Newspaper -->
 	<bean id="newspaper1" class="domain.Newspaper">
-		<property name="title" value="Reunión de amigos" />
+		<property name="title" value="Reunión de amigos. Viagra free." />
 		<property name="publicationDate" value="03/19/2019 23:44" />
 		<property name="description" value="El próximo día nos reuniremos para hablar de cosas importantes." />
 		<property name="picture" value="http://www.quieninvento.net/wp-content/uploads/2017/07/portada-qui%C3%A9n-invent%C3%B3-el-peri%C3%B3dico-a%C3%B1o-6-1024x536.jpg" />
 		<property name="isPrivate" value="false" />
 		<property name="publisher" ref="user1" />
+ 		<property name="hasTaboo" value="true" />
 	</bean>
 
 	<bean id="newspaper2" class="domain.Newspaper">
 		<property name="title" value="Nuevo presupuesto" />
 		<property name="publicationDate" value="05/25/2018 12:00" />
-		<property name="description" value="Tenemos nuevos presupuestos del Estado." />
+		<property name="description" value="Tenemos nuevos presupuestos del Estado. Sex on fire." />
 		<property name="isPrivate" value="true" />
 		<property name="publisher" ref="user2" />
+ 		<property name="hasTaboo" value="true" />
 	</bean>
 		
 	<bean id="newspaper3" class="domain.Newspaper">
@@ -403,6 +429,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="picture" value="http://www.abc.es/Media/201312/03/portadas-periodicos--644x362.jpg" />
 		<property name="isPrivate" value="false" />
 		<property name="publisher" ref="user3" />
+ 		<property name="hasTaboo" value="false" />
 	</bean>
 	
 	<bean id="newspaper4" class="domain.Newspaper">
@@ -412,6 +439,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="picture" value="https://ep01.epimg.net/politica/imagenes/2016/04/30/analitica/1462012657_146201_1462012657_000_sumario_normal.jpg" />
 		<property name="isPrivate" value="false" />
 		<property name="publisher" ref="user4" />
+ 		<property name="hasTaboo" value="false" />
 	</bean>
 	
 	<bean id="newspaper5" class="domain.Newspaper">
@@ -420,6 +448,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="description" value="Necesario encuentro entre lideres mundiales." />
 		<property name="isPrivate" value="true" />
 		<property name="publisher" ref="user5" />
+ 		<property name="hasTaboo" value="false" />
 	</bean>
 	
 	<!-- Subscription -->
@@ -566,7 +595,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<bean id="article1" class="domain.Article">
 		<property name="title" value="Gran catastrofe en julio de 2017" />
 		<property name="summary" value="Inmensa tormenta." />
-		<property name="body" value="Tres desaparecidos." />
+		<property name="body" value="Tres desaparecidos. [sex]" />
 		<property name="moment" value="03/17/2018 09:13" />
 		<property name="pictures">
 			<list>
@@ -576,12 +605,13 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isFinalMode" value="true" />
 		<property name="writer" ref="user1" />
 		<property name="newspaper" ref="newspaper1" />
+		<property name="hasTaboo" value="true" />
 	</bean>
 	
 	<bean id="article2" class="domain.Article">
 		<property name="title" value="La historia de Twitter" />
 		<property name="summary" value="Exclusiva sobre el pajarito azul." />
-		<property name="body" value="Hay muchos bots." />
+		<property name="body" value="Hay muchos bots. [viagra free]" />
 		<property name="moment" value="03/17/2016 09:13" />
 		<property name="isFinalMode" value="true" />
 		<property name="writer" ref="user2" />
@@ -590,6 +620,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 			<list>
 			</list>
 		</property>
+		<property name="hasTaboo" value="true" />
 	</bean>
 	
 	<bean id="article3" class="domain.Article">
@@ -606,6 +637,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isFinalMode" value="true" />
 		<property name="writer" ref="user3" />
 		<property name="newspaper" ref="newspaper3" />
+ 		<property name="hasTaboo" value="false" />
 	</bean>
 	
 		<bean id="article4" class="domain.Article">
@@ -620,6 +652,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 			<list>
 			</list>
 		</property>
+		<property name="hasTaboo" value="false" />
 	</bean>
 	
 </beans>
