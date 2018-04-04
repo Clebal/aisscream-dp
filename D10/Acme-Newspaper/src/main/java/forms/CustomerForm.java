@@ -1,18 +1,13 @@
 
 package forms;
 
-import java.util.Collection;
-
-import javax.persistence.ManyToMany;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import domain.User;
 
-public class UserForm {
+public class CustomerForm {
 
 	private String	username;
 	private String	password;
@@ -26,9 +21,7 @@ public class UserForm {
 	private String	emailAddress;
 	private String	postalAddress;
 	
-	private Collection<User> followers;
-
-	public UserForm() {
+	public CustomerForm() {
 		super();
 	}
 
@@ -102,6 +95,7 @@ public class UserForm {
 		this.emailAddress = emailAddress;
 	}
 
+	@Pattern(regexp = "^[+]{0,1}[\\d]+$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -117,16 +111,5 @@ public class UserForm {
 	public void setPostalAddress(final String postalAddress) {
 		this.postalAddress = postalAddress;
 	}
-
-	@NotNull
-	@Valid
-	@ManyToMany
-	public Collection<User> getFollowers() {
-		return followers;
-	}
-
-	public void setFollowers(Collection<User> followers) {
-		this.followers = followers;
-	}
-
+	
 }

@@ -1,11 +1,11 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,15 +46,18 @@ public class UserService {
 		User result;
 		UserAccount userAccount;
 		Authority authority;
-
+		List<User> followers;
+		
 		result = new User();
 		userAccount = new UserAccount();
 		authority = new Authority();
+		followers = new ArrayList<User>();
 
 		authority.setAuthority("USER");
 		userAccount.addAuthority(authority);
 
 		result.setUserAccount(userAccount);
+		result.setFollowers(followers);
 
 		return result;
 	}
@@ -111,76 +114,12 @@ public class UserService {
 	}
 
 	// Other business methods
-
 	public User findByUserAccountId(final int id) {
 		User result;
 
 		Assert.isTrue(id != 0);
 
 		result = this.userRepository.findByUserAccountId(id);
-
-		return result;
-	}
-
-	public Collection<User> findAllPaginated(final int page, final int size) {
-		Collection<User> result;
-		Pageable pageable;
-		Authority authority;
-		UserAccount userAccount;
-
-		authority = new Authority();
-		authority.setAuthority("USER");
-
-		if(LoginService.isAuthenticated()) {
-			userAccount = LoginService.getPrincipal();
-			Assert.notNull(userAccount);
-			Assert.isTrue(userAccount.getAuthorities().contains(authority));
-		}
-		
-		if (page == 0 || size <= 0)
-			pageable = new PageRequest(0, 5);
-		else
-			pageable = new PageRequest(page - 1, size);
-
-		result = this.userRepository.findAllPageable(pageable).getContent();
-
-		return result;
-	}
-
-	public Integer countAllPaginated() {
-		Integer result;
-
-		result = this.userRepository.findAllCount();
-
-		return result;
-	}
-
-	public Collection<User> findAttendantsPaginated(final int page, final int size, final int rendezvousId) {
-		Collection<User> result;
-		Pageable pageable;
-
-		if (page == 0 || size <= 0)
-			pageable = new PageRequest(0, 5);
-		else
-			pageable = new PageRequest(page - 1, size);
-
-		result = this.userRepository.findAttendantsPageable(rendezvousId, pageable).getContent();
-
-		return result;
-	}
-
-	public Integer countAttendatsPaginated(final int rendezvousId) {
-		Integer result;
-
-		result = this.userRepository.findAttendantsCount(rendezvousId);
-
-		return result;
-	}
-
-	public Double[] avgStandardDUsersPerRendezvous() {
-		Double[] result;
-
-		result = this.userRepository.avgStandardDUsersPerRendezvous();
 
 		return result;
 	}
@@ -197,10 +136,14 @@ public class UserService {
 
 			result.getUserAccount().setUsername(userForm.getUsername());
 			result.getUserAccount().setPassword(userForm.getPassword());
+			
+			userForm.setFollowers(result.getFollowers());
 		} else {
 			result = this.findOne(userForm.getId());
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
+			
+			result.setFollowers(userForm.getFollowers());
 		}
 
 		result.setName(userForm.getName());

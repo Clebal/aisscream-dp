@@ -24,9 +24,11 @@
 		<value>/views/welcome/messages</value>
 		
 		<value>/views/termCondition/messages</value>
-		
 		<value>/views/aboutUs/messages</value>
 
+		<value>/views/actor/messages</value>
+		<value>/views/user/messages</value>
+		<value>/views/customer/messages</value>
 		
 	</util:list>
 

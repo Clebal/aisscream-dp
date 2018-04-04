@@ -1,0 +1,146 @@
+
+package controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import security.Authority;
+import security.LoginService;
+import services.ActorService;
+import domain.Actor;
+import forms.CustomerForm;
+import forms.UserForm;
+
+@Controller
+@RequestMapping("/actor")
+public class ActorController extends AbstractController {
+
+	// Services
+	@Autowired
+	private ActorService	actorService;
+
+
+	// Constructors
+	public ActorController() {
+		super();
+	}
+
+	// Display
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int actorId) {
+		ModelAndView result;
+		Actor actor;
+		Boolean isUser;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		isUser = false;
+		actor = this.actorService.findOne(actorId);
+		Assert.notNull(actor);
+		if (actor.getUserAccount().getAuthorities().contains(authority))
+			isUser = true;
+
+		result = new ModelAndView("actor/display");
+		result.addObject("actor", actor);
+		result.addObject("isUser", isUser);
+
+		return result;
+	}
+
+	// Profile
+
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	public ModelAndView edit() {
+		ModelAndView result;
+		Actor actor;
+
+		actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(actor);
+
+		result = this.createEditModelAndView(actor);
+
+		return result;
+	}
+
+	// Ancillary methods
+	protected ModelAndView createEditModelAndView(final Actor actor) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(actor, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final Actor actor, final String messageCode) {
+		ModelAndView result;
+		boolean canEdit;
+		String requestURI;
+		String tipoActor;
+		UserForm userForm;
+		CustomerForm customerForm;
+		Authority authorityUser, authorityManager;
+
+		//Solo puede acceder admin
+		authorityUser = new Authority();
+		authorityUser.setAuthority("USER");
+		
+		authorityManager = new Authority();
+		authorityManager.setAuthority("CUSTOMER");
+
+		//Creamos la URI
+		tipoActor = actor.getClass().getSimpleName().toLowerCase();
+		requestURI = "actor/" + tipoActor + "/edit.do";
+
+		canEdit = false;
+		result = new ModelAndView(tipoActor + "/edit");
+
+		if (actor.getUserAccount().getId() == LoginService.getPrincipal().getId())
+			canEdit = true;
+
+		//Añadimos los parámetros
+		if (actor.getUserAccount().getAuthorities().contains(authorityUser)) {
+
+			userForm = new UserForm();
+
+			userForm.setPostalAddress(actor.getPostalAddress());
+			userForm.setEmailAddress(actor.getEmailAddress());
+			userForm.setId(actor.getId());
+			userForm.setName(actor.getName());
+			userForm.setPhoneNumber(actor.getPhoneNumber());
+			userForm.setSurname(actor.getSurname());
+			userForm.setUsername(actor.getUserAccount().getUsername());
+
+			result.addObject("userForm", userForm);
+
+		} else if (actor.getUserAccount().getAuthorities().contains(authorityManager)) {
+
+			customerForm = new CustomerForm();
+			customerForm.setPostalAddress(actor.getPostalAddress());
+			customerForm.setEmailAddress(actor.getEmailAddress());
+			customerForm.setId(actor.getId());
+			customerForm.setName(actor.getName());
+			customerForm.setPhoneNumber(actor.getPhoneNumber());
+			customerForm.setSurname(actor.getSurname());
+			customerForm.setUsername(actor.getUserAccount().getUsername());
+
+			result.addObject("customerForm", customerForm);
+
+		} else
+			result.addObject("administrator", actor);
+
+		//Añadimos objetos comunes
+		result.addObject("message", messageCode);
+		result.addObject("canEdit", canEdit);
+		result.addObject("requestURI", requestURI);
+
+		return result;
+	}
+
+}

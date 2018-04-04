@@ -41,15 +41,9 @@
         	<security:authorize access="hasRole('ADMIN')">
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.administrator" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
-					
 					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>		
-					
 				</ul>
 			</security:authorize>
-	
-			
-			
-			
         </li>
         
         <li class="dropdown">
@@ -60,7 +54,7 @@
 				</ul>
 			</security:authorize>
         </li>
-        
+       
       </ul>
       
       
@@ -72,7 +66,8 @@
 	      
 	      <security:authorize access="isAnonymous()">
 	      	<a href="security/login.do" class="btn btn-primary"><spring:message code="master.page.login"/></a>
-		   		
+	      	<a href="actor/user/create.do" class="btn btn-primary"><spring:message code="master.page.user.create"/></a>
+	      	<a href="actor/customer/create.do" class="btn btn-primary"><spring:message code="master.page.customer.create"/></a>
 	      </security:authorize>
       
 		  	<div class="btn-group">
