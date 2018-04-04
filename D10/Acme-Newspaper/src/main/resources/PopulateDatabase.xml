@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-
 <!-- * PopulateDatabase.xml * * Copyright (C) 2017 Universidad de Sevilla 
 
 	* * The use of this project is hereby constrained to the conditions of the 
 
 	* TDG Licence, a copy of which you may download from * http://www.tdg-seville.info/License.html -->
 
-
-
-<beans xmlns="http://www.springframework.org/schema/beans"
-
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
-	xsi:schemaLocation="
-
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
- 
-	">
-
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- User accounts -->
 	<bean id="userAccountAdministrator" class="security.UserAccount">
@@ -35,18 +21,230 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccountUser1" class="security.UserAccount">
+		<property name="username" value="user1" />
+		<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 	
+	<bean id="userAccountUser2" class="security.UserAccount">
+		<property name="username" value="user2" />
+		<property name="password" value="7e58d63b60197ceb55a1c487989a3720" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser3" class="security.UserAccount">
+		<property name="username" value="user3" />
+		<property name="password" value="92877af70a45fd6a2ed7fe81e1236b78" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountUser4" class="security.UserAccount">
+		<property name="username" value="user4" />
+		<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser5" class="security.UserAccount">
+		<property name="username" value="user5" />
+		<property name="password" value="0a791842f52a0acfbb3a783378c066b8" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser6" class="security.UserAccount">
+		<property name="username" value="user6" />
+		<property name="password" value="affec3b64cf90492377a8114c86fc093" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="userAccountCustomer1" class="security.UserAccount">
+		<property name="username" value="customer1" />
+		<property name="password" value="ffbc4675f864e0e9aab8bdf7a0437010" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountCustomer2" class="security.UserAccount">
+		<property name="username" value="customer2" />
+		<property name="password" value="5ce4d191fd14ac85a1469fb8c29b7a7b" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountCustomer3" class="security.UserAccount">
+		<property name="username" value="customer3" />
+		<property name="password" value="033f7f6121501ae98285ad77f216d5e7" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+		
+	<!-- User -->
+	<bean id="user1" class="domain.User">
+		<property name="name" value="Alejandro" />
+		<property name="surname" value="Martínez ruiz" />
+		<property name="emailAddress" value="user1@acme.com" />
+		<property name="phoneNumber" value="+34618396001" />
+		<property name="postalAddress" value="Calle Sin Número, 123" />
+		<property name="userAccount" ref="userAccountUser1" />
+		<property name="followers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="user2" class="domain.User">
+		<property name="name" value="Luis" />
+		<property name="surname" value="López González" />
+		<property name="emailAddress" value="user2@acme.com" />
+		<property name="postalAddress" value="Calle Falsa, 123" />
+		<property name="userAccount" ref="userAccountUser2" />
+		<property name="followers">
+			<list>
+				<ref bean="user1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="user3" class="domain.User">
+		<property name="name" value="María" />
+		<property name="surname" value="García Trinidad" />
+		<property name="emailAddress" value="user3@acme.com" />
+		<property name="phoneNumber" value="+3461738000" />
+		<property name="userAccount" ref="userAccountUser3" />
+		<property name="followers">
+			<list>
+				<ref bean="user1" />
+				<ref bean="user2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="user4" class="domain.User">
+		<property name="name" value="Sergio" />
+		<property name="surname" value="Sánchez Ortiz" />
+		<property name="emailAddress" value="user4@acme.com" />
+		<property name="userAccount" ref="userAccountUser4" />
+		<property name="followers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="user5" class="domain.User">
+		<property name="name" value="Pepe" />
+		<property name="surname" value="Casillas Martín" />
+		<property name="emailAddress" value="user5@acme.com" />
+		<property name="phoneNumber" value="+3461738010" />
+		<property name="userAccount" ref="userAccountUser5" />
+		<property name="followers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="user6" class="domain.User">
+		<property name="name" value="Rocío" />
+		<property name="surname" value="Crespo Sánchez" />
+		<property name="emailAddress" value="user6@acme.com" />
+		<property name="phoneNumber" value="+3461738011" />
+		<property name="userAccount" ref="userAccountUser6" />
+		<property name="followers">
+			<list>
+				<ref bean="user3" />
+				<ref bean="user4" />
+				<ref bean="user5" />
+			</list>
+		</property>
+	</bean>
 	
 	<!-- Administrator -->
 	<bean id="administrator" class="domain.Administrator">
 		<property name="name" value="Administrator" />
 		<property name="surname" value="1" />
-		<property name="email" value="administrator@acme.com" />
-		<property name="birthdate" value="25/08/1995" />
+		<property name="emailAddress" value="administrator@acme.com" />
 		<property name="userAccount" ref="userAccountAdministrator" />
 	</bean>
 	
+		<!-- Customer -->
+	<bean id="customer1" class="domain.Customer">
+		<property name="name" value="Mario" />
+		<property name="surname" value="Macías Reyes" />
+		<property name="emailAddress" value="manager1@acme.com" />
+		<property name="phoneNumber" value="+34602245841" />
+		<property name="postalAddress" value="Calle El Río, 2" />
+		<property name="userAccount" ref="userAccountCustomer1" />
+	</bean>
 	
+	<bean id="customer2" class="domain.Customer">
+		<property name="name" value="José María" />
+		<property name="surname" value="López Menacho" />
+		<property name="emailAddress" value="manager2@acme.com" />
+		<property name="phoneNumber" value="+34752354214" />
+		<property name="postalAddress" value="Calle García de la Jara, 35" />
+		<property name="userAccount" ref="userAccountCustomer2" />
+	</bean>
+	
+	<bean id="customer3" class="domain.Customer">
+		<property name="name" value="Manuel" />
+		<property name="surname" value="Jiménez Martín" />
+		<property name="emailAddress" value="manager2@acme.com" />
+		<property name="phoneNumber" value="+34752309214" />
+		<property name="postalAddress" value="Calle García de la Jara, 36" />
+		<property name="userAccount" ref="userAccountCustomer3" />
+	</bean>
+	
+	<!-- Internationalization -->
 	
 	<bean id="internationalization1" class="domain.Internationalization">
 
@@ -56,111 +254,38 @@
 
 		<property name="value" value="INFORMACIÓN RELEVANTE
 
-Es requisito necesario para la adquisición de los productos que
-	se ofrecen en este sitio, que lea y acepte los siguientes Términos y
+Es requisito necesario para el uso de la web que lea y acepte los siguientes Términos y
 	Condiciones que a continuación se redactan. El uso de nuestros
-	servicios así como la compra de nuestros productos implicará que usted
+	servicios implicará que usted
 	ha leído y aceptado los Términos y Condiciones de Uso en el presente
-	documento. Todas los productos que son ofrecidos por nuestro
-	sitio web pudieran ser creadas, cobradas, enviadas o presentadas por
-	una página web tercera y en tal caso estarían sujetas a sus propios
-	Términos y Condiciones. En algunos casos, para adquirir un producto,
-	será necesario el registro por parte del usuario, con ingreso de datos
-	personales fidedignos y definicián de una contraseña.
-El usuario puede elegir y cambiar la clave para su acceso de
-	administracián de la cuenta en cualquier momento, en caso de que se
-	haya registrado y que sea necesario para la compra de alguno de
-	nuestros productos. www.acme.com no asume la responsabilidad en caso de
-	que entregue dicha clave a terceros.
-Todas las compras y transacciones que se lleven a cabo por medio
-	de este sitio web, están sujetas a un proceso de confirmacián y
-	verificacián, el cual podría incluir la verificacián del stock y
-	disponibilidad de producto, validacián de la forma de pago, validacián
-	de la factura (en caso de existir) y el cumplimiento de las condiciones
-	requeridas por el medio de pago seleccionado. En algunos casos puede
-	que se requiera una verificacián por medio de correo electránico.
-Los precios de los productos ofrecidos en esta Tienda Online es
-	válido solamente en las compras realizadas en este sitio web.
+	documento. 
 	
-
 	INFORMACIÓN PERSONAL
 	
-	Un administrador puede marcar como eliminado una cita si considera que tiene contenido inadecuado. Además, puede borrar un comentario o anuncio si considera que afecta moralmente a otros usuarios.
+	Un administrador puede marcar como eliminado una cita o cancelar un servicio si considera que tiene contenido inadecuado. Además, puede borrar un comentario o anuncio si considera que afecta moralmente a otros usuarios.
 	Si cualquier usuario quiere borrar algún dato personal y la aplicación no le ofrece la posibilidad de hacerlo, debe ponerse en contacto con aisscreamacas@gmail.com
-
-	LICENCIA
-
-Acme-Rendezvous a través de su sitio web concede una
-	licencia para que los usuarios utilicen los productos que son
-	vendidos en este sitio web de acuerdo a los Términos y Condiciones que
-	se describen en este documento.
-
-	USO NO AUTORIZADO
-
-En caso de que aplique (para venta de software, templetes, u otro
-	producto de diseño y programacián) usted no puede colocar uno de
-	nuestros productos, modificado o sin modificar, en un CD, sitio web o
-	ningún otro medio y ofrecerlos para la redistribucián o la reventa de
-	ningún tipo.
-
-	PROPIEDAD
-
-Usted no puede declarar propiedad intelectual o exclusiva a
-	ninguno de nuestros productos, modificado o sin modificar. Todos los
-	productos son propiedad de los proveedores del contenido. En caso
-	de que no se especifique lo contrario, nuestros productos se
-	proporcionan sin ningún tipo de garantía, expresa o implícita. En
-	ningún esta compañía será responsables de ningún daño incluyendo,
-	pero no limitado a, daños directos, indirectos, especiales, fortuitos o
-	consecuentes u otras pérdidas resultantes del uso o de la imposibilidad
-	de utilizar nuestros productos.
-
-	POLíTICA DE REEMBOLSO Y GARANTíA
-
-En el caso de productos que sean mercancías irrevocables
-	no-tangibles, no realizamos reembolsos después de que se envíe el
-	producto, usted tiene la responsabilidad de entender antes de
-	comprarlo. Le pedimos que lea cuidadosamente antes de comprarlo.
-	Hacemos solamente excepciones con esta regla cuando la descripcián no
-	se ajusta al producto. Hay algunos productos que pudieran tener
-	garantía y posibilidad de reembolso pero este será especificado al
-	comprar el producto. En tales casos la garantía solo cubrirá fallas de
-	fábrica y sólo se hará efectiva cuando el producto se haya usado
-	correctamente. La garantía no cubre averías o daños ocasionados por uso
-	indebido. Los términos de la garantía están asociados a fallas de
-	fabricación y funcionamiento en condiciones normales de los productos y
-	sólo se harán efectivos estos términos si el equipo ha sido usado
-	correctamente. Esto incluye:
-
-	- De acuerdo a las especificaciones técnicas indicadas para cada producto.
-	- En condiciones ambientales acorde con las especificaciones indicadas por el fabricante.
-	- En uso específico para la función con que fue diseñado de fábrica.
-	- En condiciones de operación eléctricas acorde con las especificaciones y tolerancias indicadas.
 
 
 	COMPROBACIÓN ANTIFRAUDE
 
-La compra del cliente puede ser aplazada para la comprobación
+La compra del usuario puede ser aplazada para la comprobación
 	antifraude. También puede ser suspendida por más tiempo para una
 	investigación más rigurosa, para evitar transacciones fraudulentas.
 
 	PRIVACIDAD
 
 Este sitio web www.acme.com garantiza que la información personal que usted envía
-	cuenta con la seguridad necesaria. Los datos ingresados por usuario o
-	en el caso de requerir una validación de los pedidos no serán
+	cuenta con la seguridad necesaria. Los datos ingresados por usuario  no serán
 	entregados a terceros, salvo que deba ser revelada en cumplimiento a
 	una orden judicial o requerimientos legales.
 
-La suscripción a boletines de correos electrónicos publicitarios
-	es voluntaria y podría ser seleccionada al momento de crear su cuenta.
-Acme-Rendezvous reserva los derechos de cambiar o de modificar
+Acme-Newspaper reserva los derechos de cambiar o de modificar
 	estos términos sin previo aviso.
 	
 	LEGISLACIÓN APLICABLE
 El Aviso Legal y las Condiciones Generales de Uso se rigen por las siguientes normas:
 
-La Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE) (particularmente, su artículo 10).
+La Ley 34/2002, de 11 de julio, de Services de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE) (particularmente, su artículo 10).
 La Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal (LOPD).
 El Real Decreto 1720/2007, de 21 de diciembre, por el que se aprueba el Reglamento de desarrollo de la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal." />
 
@@ -174,102 +299,33 @@ El Real Decreto 1720/2007, de 21 de diciembre, por el que se aprueba el Reglamen
 
 		<property name="value" value="RELEVANT INFORMATION 
 
- It is a necessary requirement for the acquisition of products that
-are offered on this site, that you read and accept the following Terms and
+ It is a necessary requirement for the use of this web, that you read and accept the following Terms and
 Conditions that are written below. The use of our
-services as well as the purchase of our products will mean that you
-You have read and accepted the Terms and Conditions of Use in this
-document. All products that are offered by our
-website could be created, collected, sent or presented by
-a third web page and in that case they would be subject to their own
-Terms and Conditions. In some cases, to acquire a product,
-registration by the user will be necessary, with data entry
-reliable personal and definition of a password. 
- The user can choose and change the password for their access
-administration of the account at any time, should it be
-have registered and that is necessary for the purchase of any of
-our products. www.acme.com does not assume responsibility in case of
-that deliver this key to third parties. 
- All purchases and transactions carried out by means of
-of this website, are subject to a confirmation process and
-verification, which could include verification of the stock and
-Product availability, validation of the payment method, validation
-of the invoice (if any) and compliance with the conditions
-required by the selected means of payment. In some cases you can
-that verification by email is required. 
- The prices of the products offered in this Online Store is
-valid only in purchases made on this website. 
+services will mean that you have read and accepted the Terms and Conditions of Use in this
+document. 
 
  PERSONAL INFORMATION
  
  
-An administrator can mark an appointment as deleted if he/she considers it has inappropriate content. In addition, he/she can delete a comment or announcement if think that it affects other users morally.
+An administrator can mark an rendezvous or service as deleted if he/she considers it has inappropriate content. In addition, he/she can delete a comment or announcement if think that it affects other users morally.
 If any user wants to delete some personal data and the application does not have the possibility to do that, you should contact with aisscreamacas@gmail.com
-
- LICENSE 
-
- Acme-Rendezvous  through its website grants a
-license for users to use  the products that are
-sold on this website according to the Terms and Conditions that
-are described in this document. 
-
- UNAUTHORIZED USE 
-
- If applicable (for sale of software, templates, or other
-product design and programming) you can not place one of
-our products, modified or unmodified, on a CD, website or
-no other means and offer them for the redistribution or resale of
-no type. 
-
- PROPERTY 
-
- You can not declare intellectual or exclusive property to
-none of our products, modified or unmodified. All the
-Products are property  of the content providers. In case
-unless otherwise specified, our products are
-provide  without any warranty, express or implied. In
-No this company will be responsible for any damages including,
-but not limited to, direct, indirect, special, incidental or
-Consequences or other losses resulting from the use or impossibility
-to use our products. 
-
- REIMBURSEMENT AND GUARANTEE POLICY 
-
- In the case of products that are  irrevocable merchandise
-non-tangible, we do not make refunds after the
-product, you have the responsibility to understand before
-buy.  We ask you to read carefully before buying it.
-We only make exceptions with this rule when the description does not
-It fits the product. There are some products that could have
-guarantee and possibility of reimbursement but this will be specified at
-buy the product In such cases the guarantee will only cover failures of
-factory and will only be effective when the product has been used
-correctly. The guarantee does not cover faults or damages caused by use
-improper. The terms of the guarantee are associated with failures of
-manufacture and operation under normal conditions of the products and
-These terms will only be effective if the equipment has been used
-correctly. This includes: 
-
-- According to the technical specifications indicated for each product.  
-- In environmental conditions in accordance with the specifications indicated by the manufacturer.  
-- In use specific to the function with which it was designed from the factory.  -
-In electrical operating conditions in accordance with the specifications
-and tolerances indicated.
 
 
  ANTI-FRAUD VERIFICATION 
 
- The customer's purchase can be postponed for checking
+ The user's purchase can be postponed for checking
 anti fraud. It can also be suspended for a longer time for a
 more rigorous investigation, to avoid fraudulent transactions. 
 
  PRIVACY 
 
 This site web www.acme.com guarantees that the personal information you send
-has the necessary security. The data entered by user or
-In the case of requiring a validation of the orders, they will not be
+has the necessary security. The data entered by user will not be
 delivered to third parties, unless it must be disclosed in compliance with
 an order
+
+Acme-Newspaper reserves the rights to change or modify
+these terms without prior notice.
 
    APPLICABLE LEGISLATION 
     
@@ -279,6 +335,291 @@ The Law 34/2002, of 11 July, on Services of the Society of Information and Elect
 The Organic Law 15/1999, of December 13, Protection of Personal Data (LOPD).
 The Royal Decree 1720/2007, of December 21, which approves the Regulation of development of the Organic Law 15/1999, of December 13, Protection of Personal Data." />
 
+	</bean>
+	
+	<!-- Configuration -->
+	<bean id="configuration1" class="domain.Configuration">
+		<property name="tabooWords">
+			<list>
+				<value>viagra</value>
+				<value>cialis</value>
+				<value>sex</value>
+				<value>sexo</value>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- Chirps -->
+	<bean id="chirp1" class="domain.Chirp">
+		<property name="moment" value="2017/12/23 10:00" />
+		<property name="title" value="Saludo cordial" />	
+		<property name="description" value="Hola, espero que estes bien. Saludos." />
+		<property name="user" ref="user1" />
+	</bean>
+	
+	<bean id="chirp2" class="domain.Chirp">
+		<property name="moment" value="2017/01/01 13:00" />
+		<property name="title" value="Feliz cumpleaños" />
+		<property name="description" value="Espero que cumplas muchos más." />		
+		<property name="user" ref="user2" />
+	</bean>
+	
+	<bean id="chirp3" class="domain.Chirp">
+		<property name="moment" value="2017/12/21 08:30" />
+		<property name="title" value="Tengo nuevo trabajo" />
+		<property name="description" value="Al fin me contrataron en Apple." />
+		<property name="user" ref="user3" />		
+	</bean>
+	
+	<bean id="chirp4" class="domain.Chirp">
+		<property name="moment" value="2017/12/22 09:30" />
+		<property name="title" value="Una buena decisión" />
+		<property name="description" value="Cambiar de casa siempre fue a mejor." />
+		<property name="user" ref="user4" />
+	</bean>
+	
+	<!-- Newspaper -->
+	<bean id="newspaper1" class="domain.Newspaper">
+		<property name="title" value="Reunión de amigos" />
+		<property name="publicationDate" value="03/19/2019 23:44" />
+		<property name="description" value="El próximo día nos reuniremos para hablar de cosas importantes." />
+		<property name="picture" value="http://www.quieninvento.net/wp-content/uploads/2017/07/portada-qui%C3%A9n-invent%C3%B3-el-peri%C3%B3dico-a%C3%B1o-6-1024x536.jpg" />
+		<property name="isPrivate" value="false" />
+		<property name="publisher" ref="user1" />
+	</bean>
+
+	<bean id="newspaper2" class="domain.Newspaper">
+		<property name="title" value="Nuevo presupuesto" />
+		<property name="publicationDate" value="05/25/2018 12:00" />
+		<property name="description" value="Tenemos nuevos presupuestos del Estado." />
+		<property name="isPrivate" value="true" />
+		<property name="publisher" ref="user2" />
+	</bean>
+		
+	<bean id="newspaper3" class="domain.Newspaper">
+		<property name="title" value="Ventas de periódicos por las nubes" />
+		<property name="publicationDate" value="05/15/2015 20:05" />
+		<property name="description" value="Suben las ventas de los grandes medios." />
+		<property name="picture" value="http://www.abc.es/Media/201312/03/portadas-periodicos--644x362.jpg" />
+		<property name="isPrivate" value="false" />
+		<property name="publisher" ref="user3" />
+	</bean>
+	
+	<bean id="newspaper4" class="domain.Newspaper">
+		<property name="title" value="El lider del partido más corrupto de Europa es encarcelado" />
+		<property name="publicationDate" value="06/02/2016 09:13" />
+		<property name="description" value="Tras las manifestaciones se produjo su encarcelación." />
+		<property name="picture" value="https://ep01.epimg.net/politica/imagenes/2016/04/30/analitica/1462012657_146201_1462012657_000_sumario_normal.jpg" />
+		<property name="isPrivate" value="false" />
+		<property name="publisher" ref="user4" />
+	</bean>
+	
+	<bean id="newspaper5" class="domain.Newspaper">
+		<property name="title" value="Cita mundial por el medio ambiente" />
+		<property name="publicationDate" value="06/17/2018 09:13" />
+		<property name="description" value="Necesario encuentro entre lideres mundiales." />
+		<property name="isPrivate" value="true" />
+		<property name="publisher" ref="user5" />
+	</bean>
+	
+	<!-- Subscription -->
+	<bean id="subscription1" class="domain.Subscription">
+		<property name="holderName" value="Antonio" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="5471664286416252" />
+		<property name="expirationMonth" value="9" />
+		<property name="expirationYear" value="2017" />
+		<property name="cvvcode" value="998" />
+		<property name="customer" ref="customer1" />
+		<property name="newspaper" ref="newspaper1" />
+	</bean>
+
+	<bean id="subscription2" class="domain.Subscription">
+		<property name="holderName" value="Paco" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="5229783098148518" />
+		<property name="expirationMonth" value="10" />
+		<property name="expirationYear" value="2018" />
+		<property name="cvvcode" value="258" />
+		<property name="customer" ref="customer2" />
+		<property name="newspaper" ref="newspaper1" />
+	</bean>
+	
+	<bean id="subscription3" class="domain.Subscription">
+		<property name="holderName" value="Antonio" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="5306320664868959" />
+		<property name="expirationMonth" value="10" />
+		<property name="expirationYear" value="2018" />
+		<property name="cvvcode" value="618" />
+		<property name="customer" ref="customer1" />
+		<property name="newspaper" ref="newspaper2" />
+	</bean>
+	
+	<bean id="subscription4" class="domain.Subscription">
+		<property name="holderName" value="David" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="4350515568299247" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvvcode" value="608" />
+		<property name="customer" ref="customer3" />
+		<property name="newspaper" ref="newspaper2" />
+	</bean>
+	
+	<bean id="subscription5" class="domain.Subscription">
+		<property name="holderName" value="Paco" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="4367834676464317" />
+		<property name="expirationMonth" value="10" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvvcode" value="618" />
+		<property name="customer" ref="customer2" />
+		<property name="newspaper" ref="newspaper3" />
+	</bean>
+	
+	<bean id="subscription6" class="domain.Subscription">
+		<property name="holderName" value="Alejandro" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="345035739479236" />
+		<property name="expirationMonth" value="2" />
+		<property name="expirationYear" value="2020" />
+		<property name="cvvcode" value="147" />
+		<property name="customer" ref="customer3" />
+		<property name="newspaper" ref="newspaper4" />
+	</bean>	
+	
+	<!-- FollowUp -->
+	
+	<bean id="followUp1" class="domain.FollowUp">
+		<property name="title" value="Comentario de la fecha" />
+		<property name="summary" value="La fecha del artículo está mal." />
+		<property name="text" value="Es nuestro deber corregirlo." />
+		<property name="publicationMoment" value="01/17/2018 09:13" />
+		<property name="pictures">
+			<list>
+				<value>http://www.cheatsheet.com/wp-content/uploads/2015/11/Men-Clothing-in-Fashion-Store.jpg</value>
+			</list>
+		</property>
+		<property name="user" ref="user1" />
+		<property name="article" ref="article1" />
+	</bean>
+	
+	<bean id="followUp2" class="domain.FollowUp">
+		<property name="title" value="Como funcionan en realidad los follow" />
+		<property name="summary" value="Hoy resolvemos el funcionamiento de los follow." />
+		<property name="text" value="La realidad que hay detrás de los follow." />
+		<property name="publicationMoment" value="02/17/2017 09:13" />
+		<property name="user" ref="user2" />
+		<property name="article" ref="article2" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="followUp3" class="domain.FollowUp">
+		<property name="title" value="El secreto de la felicidad" />
+		<property name="summary" value="Resolvemos el misterio de la felicidad." />
+		<property name="text" value="El secreto es huir de las ingenierías y las pizzas." />
+		<property name="publicationMoment" value="03/04/2018 10:13" />
+		<property name="pictures">
+			<list>
+				<value>http://www.cheatsheet.com/wp-content/uploads/2015/11/Men-Clothing-in-Fashion-Store.jpg</value>
+				<value>https://lh3.googleusercontent.com/p/AF1QipNhthr2MNv4L_ckPDh_oieqC3rEOCY99cLX1TiV=w600-k</value>
+			</list>
+		</property>
+		<property name="user" ref="user3" />
+		<property name="article" ref="article3" />
+	</bean>
+	
+	<bean id="followUp4" class="domain.FollowUp">
+		<property name="title" value="Me equivoqué en mi artículo" />
+		<property name="summary" value="Terrible error." />
+		<property name="text" value="Me llevaba un menos." />
+		<property name="publicationMoment" value="06/04/2016 11:13" />
+		<property name="pictures">
+			<list>
+				<value>https://buhomag-cms.imgix.net/2015/11/11162815/br.jpg?auto=compress,format</value>
+				<value>https://articles-images.sftcdn.net/wp-content/uploads/sites/2/2014/10/Android-Lollipop-568x319.jpg</value>
+			</list>
+		</property>
+		<property name="user" ref="user1" />
+		<property name="article" ref="article1" />
+	</bean>
+	
+	<bean id="followUp5" class="domain.FollowUp">
+		<property name="title" value="Se demuestra mi artículo" />
+		<property name="summary" value="Final esperado." />
+		<property name="text" value="MR era en realidad el señor esperado." />
+		<property name="publicationMoment" value="03/04/2018 12:55" />
+		<property name="user" ref="user2" />
+		<property name="article" ref="article2" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Article -->
+	
+	<bean id="article1" class="domain.Article">
+		<property name="title" value="Gran catastrofe en julio de 2017" />
+		<property name="summary" value="Inmensa tormenta." />
+		<property name="body" value="Tres desaparecidos." />
+		<property name="moment" value="03/17/2018 09:13" />
+		<property name="pictures">
+			<list>
+				<value>https://i.ytimg.com/vi/d8WNiRKMlpc/maxresdefault.jpg</value>
+			</list>
+		</property>
+		<property name="isFinalMode" value="true" />
+		<property name="writer" ref="user1" />
+		<property name="newspaper" ref="newspaper1" />
+	</bean>
+	
+	<bean id="article2" class="domain.Article">
+		<property name="title" value="La historia de Twitter" />
+		<property name="summary" value="Exclusiva sobre el pajarito azul." />
+		<property name="body" value="Hay muchos bots." />
+		<property name="moment" value="03/17/2016 09:13" />
+		<property name="isFinalMode" value="true" />
+		<property name="writer" ref="user2" />
+		<property name="newspaper" ref="newspaper2" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="article3" class="domain.Article">
+		<property name="title" value="Investigamos la felicidad" />
+		<property name="summary" value="¿Que nos hace felices?" />
+		<property name="body" value="Os contaremos los resultados." />
+		<property name="moment" value="01/17/2018 09:13" />
+		<property name="pictures">
+			<list>
+				<value>https://blogs.iadb.org/wp-content/blogs.dir/74/files/2017/04/happiness.png</value>
+				<value>https://lamenteesmaravillosa.com/wp-content/uploads/2015/04/Por-qu%C3%A9-la-felicidad-no-es-tan-buena-como-parece.jpg</value>
+			</list>
+		</property>
+		<property name="isFinalMode" value="true" />
+		<property name="writer" ref="user3" />
+		<property name="newspaper" ref="newspaper3" />
+	</bean>
+	
+		<bean id="article4" class="domain.Article">
+		<property name="title" value="Articulo sin acabar" />
+		<property name="summary" value="Borrador con ideas importantes." />
+		<property name="body" value="No olvidar completar." />
+		<property name="moment" value="12/17/2017 09:13" />
+		<property name="isFinalMode" value="false" />
+		<property name="writer" ref="user4" />
+		<property name="newspaper" ref="newspaper4" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 </beans>
