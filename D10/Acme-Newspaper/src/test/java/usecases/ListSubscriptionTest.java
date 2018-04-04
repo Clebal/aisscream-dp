@@ -44,7 +44,8 @@ public class ListSubscriptionTest extends AbstractTest {
 	 * 3. Probamos obtener el resultado previsto para el metodo findAll logueados como manager2
 	 * 
 	 * Requisitos:
-	 * 
+	 * 	22. An actor who is authenticated as a customer can:
+		1. Subscribe to a private newspaper by providing a valid credit card.
 	 */
 	@Test()
 	public void testFindAll() {
@@ -81,6 +82,8 @@ public class ListSubscriptionTest extends AbstractTest {
 	 * 7. Probamos no poder obtener el resultado previsto para el metodo findByCustomerAccountId logueados como customer3 y el tamano a null
 	 * 
 	 * Requisitos:
+	 * 	22. An actor who is authenticated as a customer can:
+		1. Subscribe to a private newspaper by providing a valid credit card.
 	 * 
 	 */
 	@Test()

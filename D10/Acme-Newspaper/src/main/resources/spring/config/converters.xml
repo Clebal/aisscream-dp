@@ -42,6 +42,12 @@
 		
 		<bean class="converters.UserToStringConverter" />
 		<bean class="converters.StringToUserConverter" />
+		
+		<bean class="converters.ArticleToStringConverter" />
+		<bean class="converters.StringToArticleConverter" />
+		
+		<bean class="converters.SubscriptionToStringConverter" />
+		<bean class="converters.StringToSubscriptionConverter" />
 	</util:list>
 	
 </beans>

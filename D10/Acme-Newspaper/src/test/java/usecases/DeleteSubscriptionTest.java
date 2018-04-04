@@ -44,7 +44,8 @@ public class DeleteSubscriptionTest extends AbstractTest {
 	 * 	3. Probando que el customer1 borra la subscription3
 	 * 
 	 * Requisitos:
-	 * 
+	 * 	22. An actor who is authenticated as a customer can:
+		1. Subscribe to a private newspaper by providing a valid credit card.
 	 *
 	 */
 	@Test
@@ -91,7 +92,9 @@ public class DeleteSubscriptionTest extends AbstractTest {
 	 * 3. Solo puede borrarlo un customer
 	 * 
 	 * Requisitos:
-	 * 
+	 * 	22. An actor who is authenticated as a customer can:
+		1. Subscribe to a private newspaper by providing a valid credit card.
+	 *
 	 */
 	 @Test()
 	public void negativeDeleteSubscriptionTest() {

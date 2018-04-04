@@ -45,6 +45,8 @@ public class EditSubscriptionTest extends AbstractTest {
 	 * Probamos la edicion de varias subscriptions por parte de diferentes customers
 	 * 
 	 * Requsitos:
+	 * 	22. An actor who is authenticated as a customer can:
+		1. Subscribe to a private newspaper by providing a valid credit card.
 	 * 
 	 */
 	@Test
@@ -104,7 +106,9 @@ public class EditSubscriptionTest extends AbstractTest {
 	 * 13. El codigo CVV debe estar comprendido entre 100 y 999
 	 * 
 	 * Requisitos:
-	 * 
+	 * 	22. An actor who is authenticated as a customer can:
+		1. Subscribe to a private newspaper by providing a valid credit card.
+	 *
 	 */
 	@Test()
 	public void negativeEditSubscriptionTest() {

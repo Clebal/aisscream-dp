@@ -45,28 +45,29 @@ public class SaveSubscriptionTest extends AbstractTest {
 	 * Probamos la creación de varias subscriptions por parte de diferentes usuarios.
 	 * 
 	 * Requisitos:
-	 * 
+	 * 22. An actor who is authenticated as a customer can:
+		1. Subscribe to a private newspaper by providing a valid credit card.
 	 */
 	@Test
 	public void positiveSaveSubscriptionTest() {
 		final Object testingData[][] = {
 			{
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", null
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper3", null
 			}, {
-				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 317, "customer2", null
+				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 317, "customer2", "newspaper3",  null
 			}, {
-				"customer3", "Paco", "American Express", "345035739479236", 4, 2018, 147, "customer3", null
+				"customer3", "Paco", "American Express", "345035739479236", 4, 2018, 147, "customer3", "newspaper3", null
 			}, {
-				"customer2", "Manuel", "Credit Links", "6011516686715805", 5, 2017, 365, "customer4", null
+				"customer2", "Manuel", "Credit Links", "6011516686715805", 5, 2017, 365, "customer2", "newspaper2", null
 			}, {
-				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, "manager5", null
+				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, "customer1", "newspaper4", null
 			}
 		};
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7],(Class<?>) testingData[i][8]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7], (String) testingData[i][8], (Class<?>) testingData[i][9]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -92,50 +93,54 @@ public class SaveSubscriptionTest extends AbstractTest {
 	 * 13. El código CVV debe estar comprendido entre 100 y 999
 	 * 14. El customer debe ser válido 
 	 * 15. El customer no puede ser nulo
+	 * 16. Un customer solo puede tener un subscription por cada newspaper
 	 * 
 	 * Requisitos:
-	 * 
+	 * 	22. An actor who is authenticated as a customer can:
+		1. Subscribe to a private newspaper by providing a valid credit card.
 	 */
 	@Test()
 	public void negativeSaveCustomersSubscriptionTest() {
 		final Object testingData[][] = {
 			{
-				null, "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class 
+				null, "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper3", IllegalArgumentException.class 
 			}, 	{
-				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class 
+				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper3", IllegalArgumentException.class 
 			}, {
-				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", IllegalArgumentException.class
+				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper3",  IllegalArgumentException.class
 			}, {
-				"customer1", "", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", ConstraintViolationException.class 
+				"customer1", "", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper3", ConstraintViolationException.class 
 			}, {
-				"customer1", null, "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", ConstraintViolationException.class 
+				"customer1", null, "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper3", ConstraintViolationException.class 
 			}, {
-				"customer3", "Estefania", "", "5429007233826913", 2, 2021, 258, "customer5", ConstraintViolationException.class
+				"customer3", "Estefania", "", "5429007233826913", 2, 2021, 258, "customer5", "newspaper1", ConstraintViolationException.class
 			}, {
-				"customer2", "Estefania", null, "5429007233826913", 2, 2021, 258, "customer5", ConstraintViolationException.class 
+				"customer2", "Estefania", null, "5429007233826913", 2, 2021, 258, "customer5", "newspaper2", ConstraintViolationException.class 
 			}, {
-				"customer1", "Manuel", "Credit Links", "1005", 5, 2017, 365, "customer4", ConstraintViolationException.class 
+				"customer1", "Manuel", "Credit Links", "1005", 5, 2017, 365, "customer4", "newspaper3", ConstraintViolationException.class 
 			}, {
-				"customer2", "Manuel", "Credit Links", "5429007233826913", 0, 2017, 365, "customer4", ConstraintViolationException.class
+				"customer2", "Manuel", "Credit Links", "5429007233826913", 0, 2017, 365, "customer4", "newspaper2", ConstraintViolationException.class
 			}, {
-				"customer3", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, "customer4", ConstraintViolationException.class 
+				"customer3", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, "customer4", "newspaper1", ConstraintViolationException.class 
 			}, {
-				"customer3", "Paco", "American Express", "345035739479236", 4, -52, 147, "customer3", ConstraintViolationException.class 
+				"customer3", "Paco", "American Express", "345035739479236", 4, -52, 147, "customer3", "newspaper1", ConstraintViolationException.class 
 			}, {
-				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 50, "customer2", ConstraintViolationException.class 
+				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 50, "customer2", "newspaper2",  ConstraintViolationException.class 
 			}, {
-				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, "customer2", ConstraintViolationException.class 
+				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, "customer2", "newspaper2", ConstraintViolationException.class 
 			}, {
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "manager1", IllegalArgumentException.class 
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "manager1", "newspaper3", IllegalArgumentException.class 
 			}, {
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null, IllegalArgumentException.class 
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null, "newspaper3", IllegalArgumentException.class 
+			}, {
+				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, "customer1", "newspaper1", null
 			}
 		};
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7],(Class<?>) testingData[i][8]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7],  (String) testingData[i][8], (Class<?>) testingData[i][9]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
