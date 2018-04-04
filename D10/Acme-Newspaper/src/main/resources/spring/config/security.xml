@@ -45,13 +45,27 @@
 		<security:intercept-url pattern="/termCondition/display.do" access="permitAll" />
 		<security:intercept-url pattern="/aboutUs/display.do" access="permitAll" />  
 		 
-		<!-- Sergio -->	
-		<security:intercept-url pattern="/actor/user/create.do" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()" />
-		 
-		<security:intercept-url pattern="/actor/customer/create.do" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/actor/customer/edit.do" access="hasRole('CUSTOMER') or isAnonymous()" />
+		<!-- Sergio -->
+        <security:intercept-url pattern="/actor/profile.do" access="hasRole('USER') or hasRole('CUSTOMER') or hasRole('ADMIN')" />
+        
+        <security:intercept-url pattern="/actor/user/create.do" access="isAnonymous()" />
+        <security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()" />
+        
+        <security:intercept-url pattern="/actor/customer/create.do" access="isAnonymous()" />
+        <security:intercept-url pattern="/actor/customer/edit.do" access="hasRole('CUSTOMER') or isAnonymous()" />
+        
+        <security:intercept-url pattern="/actor/user/list.do" access="permitAll" />
+        <security:intercept-url pattern="/actor/user/display.do" access="permitAll" />
+        <security:intercept-url pattern="/actor/user/followers.do" access="permitAll" />
+        <security:intercept-url pattern="/actor/user/followeds.do" access="permitAll" />
+        
+        <security:intercept-url pattern="/chirp/user/list.do" access="hasRole('USER')" />
+        <security:intercept-url pattern="/chirp/user/create.do" access="hasRole('USER')" />
+        
+        <security:intercept-url pattern="/chirp/admin/list.do" access="hasRole('ADMIN')" />
+        <security:intercept-url pattern="/chirp/admin/delete.do" access="hasRole('ADMIN')" />
 		
+        <!-- Villarín -->
         <security:intercept-url pattern="/article/user/**" access="hasRole('USER')"/>
         <security:intercept-url pattern="/article/administrator/**" access="hasRole('ADMIN')"/>
         <security:intercept-url pattern="/subscription/customer/**" access="hasRole('CUSTOMER')"/>

@@ -26,6 +26,8 @@ public class Newspaper extends DomainEntity {
 	private String picture;
 
 	private boolean isPrivate;
+	
+	private boolean hasTaboo;
 
 	private User publisher;
 	
@@ -72,6 +74,14 @@ public class Newspaper extends DomainEntity {
 
 	public void setIsPrivate(boolean isPrivate) {
 		this.isPrivate = isPrivate;
+	}
+	
+	public boolean getHasTaboo() {
+		return hasTaboo;
+	}
+	
+	public void setHasTaboo(boolean hasTaboo) {
+		this.hasTaboo = hasTaboo;
 	}
 
 	@NotNull

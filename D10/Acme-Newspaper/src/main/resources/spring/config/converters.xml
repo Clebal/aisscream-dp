@@ -48,6 +48,9 @@
 		
 		<bean class="converters.SubscriptionToStringConverter" />
 		<bean class="converters.StringToSubscriptionConverter" />
+        
+        <bean class="converters.ChirpToStringConverter" />
+        <bean class="converters.StringToChirpConverter" />
 	</util:list>
 	
 </beans>

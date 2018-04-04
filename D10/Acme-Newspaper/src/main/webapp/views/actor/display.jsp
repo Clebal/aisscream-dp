@@ -19,5 +19,18 @@
 	<acme:display code="actor.phone" value="${actor.getPhoneNumber()}"/>
 	
 	<acme:display code="actor.address" value="${actor.getPostalAddress()}"/>
+	
+	<jstl:if test="${role.equals('USER')}">
+		<a href="actor/user/followers.do?userId=${actor.getId()}"><spring:message code="actor.followers" /></a>
+		<a href="actor/user/followeds.do?userId=${actor.getId()}"><spring:message code="actor.followeds" /></a>
+		
+		<jstl:if test="${articles != null}">
+			<h2><spring:message code="actor.articles" /></h2>
+			<jstl:forEach var="a" items="${articles}">
+				<a href="article/display.do?articleId=${a.getId()}"><jstl:out value="${a.getTitle()}" /></a>
+			</jstl:forEach>
+			<a class="btn btn-primary" href="article/list.do?userId=${actor.getId()}"><spring:message code="actor.user.readMoreArticles" /></a>
+		</jstl:if>
+	</jstl:if>
 		
 </div>

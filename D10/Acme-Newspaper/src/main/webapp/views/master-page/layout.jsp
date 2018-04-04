@@ -36,6 +36,9 @@
 		    <script src="scripts/html5shiv.min.js"></script>
 		<![endif]-->
 		
+		<!-- jQuery 1.12.4 -->
+		<script src="scripts/jquery.min.js"></script>
+		
 		<!-- Bootstrap 3.3.7 -->
 		<link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">	
 		
@@ -67,9 +70,7 @@
 		</section>
 	
 		<tiles:insertAttribute name="footer" />
-		
-		<!-- jQuery 1.12.4 -->
-		<script src="scripts/jquery.min.js"></script>
+	
 		
 		<!-- Boostrap 3.3.7 -->
 		<script src="scripts/bootstrap.min.js"></script>

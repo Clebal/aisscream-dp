@@ -23,6 +23,6 @@
 	
 	<acme:column property="postalAddress" domain="actor"/>
 		
-	<acme:columnLink domain="actor" action="display" id="${row.getId()}"/>
+	<acme:columnLink domain="actor" action="display" id="${row.getId()}" url="actor/user/display.do?userId=${row.getId()}"/>
 	
 </display:table>

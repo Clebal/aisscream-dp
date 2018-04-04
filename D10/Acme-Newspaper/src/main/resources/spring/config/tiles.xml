@@ -33,7 +33,8 @@
 		<value>/views/article/tiles.xml</value>
 		<value>/views/subscription/tiles.xml</value>
 
-		
+        <value>/views/chirp/tiles.xml</value>
+
 	</util:list>
 
 </beans>

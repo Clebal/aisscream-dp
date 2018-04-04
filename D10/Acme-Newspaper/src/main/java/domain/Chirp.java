@@ -22,6 +22,8 @@ public class Chirp extends DomainEntity {
 	private String title;
 
 	private String description;
+	
+	private boolean hasTaboo;
 
 	private User user;
 
@@ -52,6 +54,14 @@ public class Chirp extends DomainEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public boolean getHasTaboo() {
+		return hasTaboo;
+	}
+	
+	public void setHasTaboo(boolean hasTaboo) {
+		this.hasTaboo = hasTaboo;
 	}
 
 	@NotNull

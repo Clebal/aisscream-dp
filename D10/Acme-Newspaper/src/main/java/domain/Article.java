@@ -33,6 +33,8 @@ public class Article extends DomainEntity {
 	private Collection<String> pictures;
 
 	private boolean isFinalMode;
+	
+	private boolean hasTaboo;
 
 	private Newspaper newspaper;
 
@@ -93,6 +95,14 @@ public class Article extends DomainEntity {
 
 	public void setIsFinalMode(boolean isFinalMode) {
 		this.isFinalMode = isFinalMode;
+	}
+	
+	public boolean getHasTaboo() {
+		return hasTaboo;
+	}
+	
+	public void setHasTaboo(boolean hasTaboo) {
+		this.hasTaboo = hasTaboo;
 	}
 
 	@NotNull

@@ -27,24 +27,23 @@
 <%@ attribute name="domain" required="true" %>
 <%@ attribute name="formatDate" required="false" %>
 <%@ attribute name="row" required="false" type="java.lang.Object" %>
+<%@ attribute name="style" required="false" %>
 
 <jstl:if test="${formatDate == null}">
 	<jstl:set var="formatDate" value="false" />
 </jstl:if>
 
+<jstl:if test="${style == null}">
+	<jstl:set var="style" value="background: inherit;" />
+</jstl:if>
+
 <%-- Definition --%>
 <spring:message code="${domain}.${property}" var="headerTitle" />
 
-<jstl:if test="${property.equals('rendezvous')}">
-	<display:column title="${headerTitle}">
-		<a href="rendezvous/display.do?rendezvousId=${row.getRendezvous().getId()}"><jstl:out value="${row.getRendezvous().getName()}" /></a>
-	</display:column>
-</jstl:if>
-
 <jstl:if test="${property.equals('user')}">
-	<jstl:if test="${domain.equals('rsvp')}">
-		<display:column title="${headerTitle}">
-			<a href="actor/display.do?userId=${row.getAttendant().getId()}"><jstl:out value="${row.getAttendant().getName()}" /></a>
+	<jstl:if test="${domain.equals('chirp')}">
+		<display:column style="${style}" title="${headerTitle}">
+			<a href="actor/user/display.do?userId=${row.getUser().getId()}"><jstl:out value="${row.getUser().getName()} ${row.getUser().getSurname()}" /></a>
 		</display:column>
 	</jstl:if>
 </jstl:if>
@@ -52,10 +51,10 @@
 <jstl:if test="${!property.equals('rendezvous') && !property.equals('user')}">
 	<jstl:if test="${formatDate == true}">
 		<spring:message code="${domain}.format.moment" var="format"/>
-		<display:column property="${property}" title="${headerTitle}" format="{0,date,${format}}" />
+		<display:column style="${style}" property="${property}" title="${headerTitle}" format="{0,date,${format}}" />
 	</jstl:if>
 	
 	<jstl:if test="${formatDate == false}">
-		<display:column property="${property}" title="${headerTitle}" />
+		<display:column style="${style}" property="${property}" title="${headerTitle}" />
 	</jstl:if>
 </jstl:if>

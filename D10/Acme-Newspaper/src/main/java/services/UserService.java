@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,6 +117,25 @@ public class UserService {
 	}
 
 	// Other business methods
+	public Page<User> findAllPaginated(final int page, final int size) {
+		Page<User> result;
+				
+		result = this.userRepository.findAllPaginated(this.getPageable(page, size));
+		
+		return result;
+	}
+	
+	public User findOneToDisplay(final int userId) {
+		User result;
+
+		Assert.isTrue(userId != 0);
+
+		result = this.userRepository.findOne(userId);
+		Assert.notNull(userId);
+
+		return result;
+	}
+	
 	public User findByUserAccountId(final int id) {
 		User result;
 
@@ -121,6 +143,58 @@ public class UserService {
 
 		result = this.userRepository.findByUserAccountId(id);
 
+		return result;
+	}
+	
+	public Page<User> findFollowersByUserId(final int userId, final int page, final int size) {		
+		Page<User> result;
+		
+		Assert.isTrue(userId != 0);
+		
+		result = this.userRepository.findFollowersByUserId(userId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
+	public Page<User> findFollowedsByUserId(final int userId, final int page, final int size) {		
+		Page<User> result;
+		
+		Assert.isTrue(userId != 0);
+		
+		result = this.userRepository.findFollowedsByUserId(userId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
+	public Integer countFollowersByUserId(final int userId) {
+		Integer result;
+		
+		Assert.isTrue(userId != 0);
+		
+		result = this.userRepository.countFollowersByUserId(userId);
+		
+		return result;
+	}
+	
+	public Integer countFollowedsByUserId(final int userId) {
+		Integer result;
+		
+		Assert.isTrue(userId != 0);
+		
+		result = this.userRepository.countFollowedsByUserId(userId);
+		
+		return result;
+	}
+	
+	// Auxiliary methods
+	private Pageable getPageable(final int page, final int size) {
+		Pageable result;
+		
+		if (page == 0 || size <= 0)
+			result = new PageRequest(0, 5);
+		else
+			result = new PageRequest(page - 1, size);
+		
 		return result;
 	}
 
@@ -143,7 +217,7 @@ public class UserService {
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
 			
-			result.setFollowers(userForm.getFollowers());
+			userForm.setFollowers(result.getFollowers());
 		}
 
 		result.setName(userForm.getName());
