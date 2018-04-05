@@ -10,7 +10,7 @@
 
 <div class="container">
 
-	<acme:display code="article.moment" value="${article.getMoment()}"/>
+	<acme:display code="article.moment" value="${article.getMoment()}" codeMoment="article.format.moment"/>
 
 	<acme:display code="article.title" value="${article.getTitle()}"/>
 	
@@ -18,15 +18,12 @@
 
 	<acme:display code="article.body" value="${article.getBody()}"/>
 	
-	<spring:message code="article.isTaboo" var="isTaboo"/>
-		<jstl:if test="${row.getIsTaboo()}">
-		 	<jstl:out value="X"/>
+		<jstl:if test="${article.getHasTaboo()}">
+			<acme:display code="article.hasTaboo" value="X"/>
 		</jstl:if>
 		
-	<acme:column property="isFinalMode" domain="article"/>
-	<spring:message code="article.isFinalMode" var="isFinalMode"/>
-		<jstl:if test="${row.getIsFinalMode()}">
-		 	<jstl:out value="X"/>
+		<jstl:if test="${article.getIsFinalMode()}">
+			<acme:display code="article.isFinalMode" value="X"/>
 		</jstl:if>
 	
 	<spring:url var="urlNewspaper" value="newspaper/display.do">
@@ -39,9 +36,9 @@
 	</spring:url>
 	<p><a href="${urlUser}"> <spring:message code="article.writer" /></a></p>
 	
-	<spring:message code="article.pictures" />
-	<jstl:forEach items="${pictures}" var="picture">
-    	<img src="${picture}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
+	<acme:display code="article.pictures" value=""/>
+	<jstl:forEach items="${article.getPictures()}" var="picture">
+    	<img src="${picture}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" /><br /><br />
 	</jstl:forEach>
 
 </div>

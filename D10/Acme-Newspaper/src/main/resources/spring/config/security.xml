@@ -68,6 +68,7 @@
         <!-- Villarín -->
         <security:intercept-url pattern="/article/user/**" access="hasRole('USER')"/>
         <security:intercept-url pattern="/article/administrator/**" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="/article/display.do**" access="permitAll"/>
         <security:intercept-url pattern="/subscription/customer/**" access="hasRole('CUSTOMER')"/>
 
 		 

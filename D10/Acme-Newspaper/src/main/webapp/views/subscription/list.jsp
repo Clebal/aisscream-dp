@@ -25,11 +25,9 @@
 	<acme:column domain="subscription" property="expirationYear"/>
 
 	<acme:column domain="subscription" property="cvvcode"/>
-	
-	<acme:column domain="subscription" property="newspaper"/>
+
+	<acme:column domain="subscription" property="newspaper.title"/>
 
 </display:table> 
 	
-<p><a href="subscription/user/create.do"><spring:message code="subscription.create" /></a></p>
-
-<acme:paginate pageNumber="${pageNumber}" url="subscription/user/list.do" objects="${subscriptions}" page="${page}"/>
+<acme:paginate pageNumber="${pageNumber}" url="subscription/customer/list.do" objects="${subscriptions}" page="${page}"/>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,7 @@ import domain.Article;
 import domain.Newspaper;
 import domain.User;
 
-@org.springframework.stereotype.Service
+@Service
 @Transactional
 public class ArticleService {
 
@@ -94,20 +95,47 @@ public class ArticleService {
 		Article result;
 		Article saved;
 		boolean isTaboo;
+		Collection<Article> articles;
+		boolean isFinal;
 		
 		Assert.notNull(article);
 
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(article.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
-		if (article.getId() != 0) {
+		if (article.getId() == 0) {
+			if (!article.getIsFinalMode()) {
+				article.getNewspaper().setIsPublished(false);
+			}
+		} else {
 			saved = this.findOne(article.getId());
+			Assert.isTrue(!saved.getIsFinalMode());
 			Assert.isTrue(article.getWriter().getId() == saved.getWriter().getId()); //No puede cambiar de user
 			Assert.isTrue(article.getNewspaper().equals(saved.getNewspaper())); //No puede cambiar el newspaper
+			
+			isFinal = true;
+			
+			if (article.getIsFinalMode()) {
+				articles = this.findByNewspaperId(article.getNewspaper().getId());
+				for (Article a : articles) {
+					isFinal = true;
+					if (!a.getIsFinalMode()) {
+						isFinal = false;
+						break;
+					}
+				}
+				if (!isFinal) {
+					article.getNewspaper().setIsPublished(true);
+				}	
+			}
 		}
 
 		isTaboo = this.checkTabooWords(article);
 		
 		article.setHasTaboo(isTaboo);
+		
+		if (article.getNewspaper().getIsPublished()) {
+			
+		}
 		
 		result = this.articleRepository.save(article);
 
@@ -127,6 +155,19 @@ public class ArticleService {
 		Assert.isTrue(articleToDelete.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
 		this.articleRepository.delete(articleToDelete);
+
+	}
+	
+	public void deleteFromNewspaper(final Article article) {
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		
+		Assert.notNull(article);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		this.articleRepository.delete(article);
 
 	}
 	
@@ -158,10 +199,46 @@ public class ArticleService {
 		Assert.isTrue(userId != 0);
 		Assert.isTrue(LoginService.isAuthenticated());
 
-		result = this.articleRepository.findByWritterId (userId, this.getPageable(page, size));
+		result = this.articleRepository.findByWritterId(userId, this.getPageable(page, size));
 
 		return result;
 
+	}
+	
+	public Page<Article> findAllTabooPaginated (final int page, final int size) {
+		Page<Article> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		result = this.articleRepository.findAllTabooPaginated(this.getPageable(page, size));
+
+		return result;
+
+	}
+	
+	public Collection<Article> findByUserIdAndNewspaperId(final int userId, final int newspaperId) {
+		Collection<Article> result;
+		
+		Assert.isTrue(userId != 0);
+		Assert.isTrue(newspaperId != 0);
+		
+		result = this.articleRepository.findByUserIdAndNewspaperId(userId, newspaperId);
+		
+		return result;
+	}
+	
+	public Collection<Article> findByNewspaperId(final int newspaperId) {
+		Collection<Article> result;
+		
+		Assert.isTrue(newspaperId != 0);
+		
+		result = this.articleRepository.findByNewspaperId(newspaperId);
+		
+		return result;
 	}
 
 	public Article reconstruct(final Article article, final BindingResult binding) {
@@ -206,7 +283,7 @@ public class ArticleService {
 		boolean result;
 
 		result = false;
-		tabooWords = this.configurationService.findSpamWords();
+		tabooWords = this.configurationService.findTabooWords();
 
 		for (final String tabooWord : tabooWords) {
 			result = article.getTitle() != null && article.getTitle().toLowerCase().contains(tabooWord) || 

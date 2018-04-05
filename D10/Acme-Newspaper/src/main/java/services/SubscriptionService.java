@@ -149,6 +149,27 @@ public class SubscriptionService {
 		return result;
 	}
 	
+	public Collection<Subscription> findByCustomerAndNewspaperId(final int customerId, final int newspaperId) {
+		Collection<Subscription> result;
+		
+		Assert.isTrue(customerId != 0);
+		Assert.isTrue(newspaperId != 0);
+		
+		result = this.subscriptionRepository.findByCustomerAndNewspaperId(customerId, newspaperId);
+		
+		return result;
+	}
+	
+	public Collection<Subscription> findByNewspaperId(final int newspaperId) {
+		Collection<Subscription> result;
+		
+		Assert.isTrue(newspaperId != 0);
+		
+		result = this.subscriptionRepository.findByNewspaperId(newspaperId);
+		
+		return result;
+	}
+	
 	public Integer findByUserAccountIdNewspaper(final int userAccountId, final int newspaperId) {
 		Integer result;
 		

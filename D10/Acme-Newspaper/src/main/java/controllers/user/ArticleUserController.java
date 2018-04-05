@@ -1,11 +1,6 @@
 
 package controllers.user;
 
-import java.util.Collection;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
 import security.LoginService;
 import services.ArticleService;
@@ -48,7 +42,7 @@ public class ArticleUserController extends AbstractController {
 	}
 
 	// List
-		@RequestMapping(value="/listUser", method = RequestMethod.GET)
+		@RequestMapping(value="/list", method = RequestMethod.GET)
 		public ModelAndView list(@RequestParam(required=false) Integer userId, @RequestParam(required=false) Integer page) {
 			ModelAndView result;
 			Page<Article> articles;
@@ -67,12 +61,12 @@ public class ArticleUserController extends AbstractController {
 			articles = this.articleService.findAllUserPaginated(userAux, pageAux, 5);
 			Assert.notNull(articles);
 			
-			result = new ModelAndView("request/list");
+			result = new ModelAndView("article/list");
 
-			result.addObject("articles", articles);
+			result.addObject("articles", articles.getContent());
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", pageAux);
-			result.addObject("requestURI", "request/user/list.do");
+			result.addObject("requestURI", "article/user/list.do");
 			
 			return result;
 		}
@@ -94,13 +88,13 @@ public class ArticleUserController extends AbstractController {
 			articles = this.articleService.findAllNewspaperPaginated(user.getId(), newspaperId, pageAux, 5);
 			Assert.notNull(articles);
 			
-			result = new ModelAndView("request/list");
+			result = new ModelAndView("article/list");
 
-			result.addObject("articles", articles);
+			result.addObject("articles", articles.getContent());
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", pageAux);
 			result.addObject("userId", user.getId());
-			result.addObject("requestURI", "request/user/list.do");
+			result.addObject("requestURI", "article/user/listNewspaper.do");
 			
 			return result;
 		}
@@ -135,7 +129,7 @@ public class ArticleUserController extends AbstractController {
 		
 		// Create
 		@RequestMapping(value = "/create", method = RequestMethod.GET)
-		public ModelAndView create(@RequestParam final int writerId, @RequestParam final int newspaperId) {
+		public ModelAndView create(@RequestParam final int newspaperId) {
 			ModelAndView result;
 			Article article;
 			User writer;
@@ -182,6 +176,7 @@ public class ArticleUserController extends AbstractController {
 					this.articleService.save(article);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable oops) {
+					System.out.println("ERROR: " + oops.getMessage());
 					result = this.createEditModelAndView(article, "article.commit.error");
 				}
 

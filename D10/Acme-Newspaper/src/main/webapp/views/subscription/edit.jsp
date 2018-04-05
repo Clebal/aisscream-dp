@@ -12,6 +12,7 @@
 <form:form action="subscription/customer/edit.do" modelAttribute="subscription">
 
 	<form:hidden path="id" />
+	<form:hidden path="newspaper"/>
 	
 	<jstl:if test="${subscription.getId() == 0}">
 		<form:hidden path="user" />
@@ -27,7 +28,7 @@
 	 
 	<acme:textbox code="subscription.expirationYear" path="expirationYear"/>
 	 
-	<acme:textbox code="subscription.cvvcode" path="cvvcode"/>
+	<acme:textbox code="subscription.cvvcode" path="cvvcode"/>	
 	
 	<acme:submit name="save" code="subscription.save"/>
 
@@ -35,6 +36,6 @@
 		<acme:submit name="delete" code="subscription.delete"/>
  	</jstl:if>
 	
-	<acme:cancel url="subscription/user/list.do" code="subscription.cancel"/>
+	<acme:cancel url="subscription/customer/list.do" code="subscription.cancel"/>
 			
 </form:form>

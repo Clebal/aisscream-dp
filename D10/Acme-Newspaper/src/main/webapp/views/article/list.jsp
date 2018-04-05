@@ -13,9 +13,11 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="articles" id="row" requestURI="${requestURI}">
 	
+	<jstl:if test="${!row.getIsFinalMode()}">
 	<acme:columnLink action="edit" domain="article" id="${row.getId()}" />
+	</jstl:if>
 	
-	<acme:column property="moment" domain="article"/>
+	<acme:column property="moment" domain="article"  formatDate="true"/>
 	
 	<acme:column property="title" domain="article"/>
 	
@@ -23,7 +25,6 @@
 		
 	<acme:column property="body" domain="article"/>
 	
-	<acme:column property="isFinalMode" domain="article"/>
 	<spring:message code="article.isFinalMode" var="isFinalMode"/>
 	<display:column title="${isFinalMode}">
 		<jstl:if test="${row.getIsFinalMode()}">
@@ -31,10 +32,9 @@
 		</jstl:if>
 	</display:column>
 		
-	<acme:column property="isTaboo" domain="article"/>
-	<spring:message code="article.isTaboo" var="isTaboo"/>
-	<display:column title="${isTaboo}">
-		<jstl:if test="${row.getIsTaboo()}">
+	<spring:message code="article.hasTaboo" var="hasTaboo"/>
+	<display:column title="${hasTaboo}">
+		<jstl:if test="${row.getHasTaboo()}">
 		 	<jstl:out value="X"/>
 		</jstl:if>
 	</display:column>

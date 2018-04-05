@@ -14,7 +14,7 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="newspaper" />
-	<form:hidden path="writter" />
+	<form:hidden path="writer" />
 
 	<acme:textbox code="article.moment" path="moment"/>
 
@@ -26,13 +26,15 @@
 	
 	<acme:textbox code="article.pictures" path="pictures"/>
 	
-	<form:checkbox class="form-check-input" path="check" checked=''/>
-			<form:label path="check"><spring:message code="article.isFinalMode" /></form:label>
-			<form:errors class="text-danger" path="check"/>	
-	<acme:submit name="save" code="request.save" />
+	<form:checkbox class="form-check-input" path="isFinalMode" value="" checked=''/>
+	<form:label path="isFinalMode"><spring:message code="article.isFinalMode" /></form:label>
+	<form:errors class="text-danger" path="isFinalMode"/>
+	<br />
+	
+	<acme:submit name="save" code="article.save" />
 	
 	<acme:submit name="delete" code="article.delete" codeDelete="article.confirm.delete"/>
 	
-	<acme:cancel url="rendezvous/list.do" code="request.cancel"/>
+	<acme:cancel url="article/user/list.do" code="article.cancel"/>
 
 </form:form>

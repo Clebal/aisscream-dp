@@ -44,13 +44,6 @@ public class NewspaperService {
 	@Autowired
 	private CustomerService			customerService;
 
-	@Autowired
-	private ConfigurationService	configurationService;
-
-	@Autowired
-	private Validator				validator;
-
-
 	// Constructor
 	public NewspaperService() {
 		super();
@@ -134,16 +127,12 @@ public class NewspaperService {
 				else if (result.getIsPrivate() == true)
 					if (!this.articleService.findByUserIdAndNewspaperId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), result.getId()).isEmpty())
 						canPermit = true;
-			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
-				if (result.getIsPrivate() == false)
-					canPermit = true;
-				else if (this.subscriptionService.findByCustomerIdAndNewspapaerId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), result.getId()) != null)
-					canPermit = true;
-
+			} 
 		} else if (result.getIsPrivate() == false && result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true)
 			canPermit = true;
 
 		Assert.isTrue(canPermit == true);
+		return result;
 
 	}
 
@@ -159,8 +148,6 @@ public class NewspaperService {
 		if (newspaper.getId() == 0) {
 			Assert.isTrue(newspaper.getPublicationDate().compareTo(currentMoment) >= 0);
 			Assert.isTrue(newspaper.getIsPublished() == true);
-			if (this.checkTabooWords(newspaper) == true)
-				newspaper.setHasTaboo(true);
 		}
 		result = this.newspaperRepository.save(newspaper);
 
@@ -321,19 +308,4 @@ public class NewspaperService {
 
 	}
 
-	public boolean checkTabooWords(final Newspaper newspaper) {
-		final Collection<String> tabooWords;
-		boolean result;
-
-		result = false;
-		tabooWords = this.configurationService.findSpamWords();
-
-		for (final String tabooWord : tabooWords) {
-			result = newspaper.getTitle() != null && newspaper.getTitle().toLowerCase().contains(tabooWord) || newspaper.getDescription() != null && newspaper.getDescription().toLowerCase().contains(tabooWord);
-			if (result == true)
-				break;
-		}
-
-		return result;
-	}
 }

@@ -27,21 +27,36 @@
 <%@ attribute name="domain" required="true" %>
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="url" required="false" %>
+<%@ attribute name="style" required="false" %>
+
+<jstl:if test="${style == null}">
+	<jstl:set var="style" value="background: inherit;" />
+</jstl:if>
+
+<jstl:if test="${domain.equals('subscription')}">
+	<jstl:set var="customer" value="true" />
+</jstl:if>
 
 <%-- Definition --%>
 
-<jstl:if test="${domain.equals('actor') && url == null}">
+<jstl:if test="${domain.equals('actor') && url == null && !customer}">
 	<spring:url value="${domain}/${action}.do" var="url">
 		<spring:param name="${domain}Id" value="${id}" />
 	</spring:url>
 </jstl:if>
 
-<jstl:if test="${!domain.equals('actor') && url == null}">
+<jstl:if test="${!domain.equals('actor') && url == null && !customer}">
 	<spring:url value="${domain}/user/${action}.do" var="url">
 		<spring:param name="${domain}Id" value="${id}" />
 	</spring:url>
 </jstl:if>
 
-<display:column>
+<jstl:if test="${!domain.equals('customer') && url == null && customer}">
+	<spring:url value="${domain}/customer/${action}.do" var="url">
+		<spring:param name="${domain}Id" value="${id}" />
+	</spring:url>
+</jstl:if>
+
+<display:column style="${style}">
 	<a href="${url}"><spring:message code="${domain}.${action}" /></a>
 </display:column>

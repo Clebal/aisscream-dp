@@ -30,7 +30,7 @@ public class SubscriptionCustomerController extends AbstractController {
 	private CustomerService customerService;
 	
 	@Autowired
-	private NewspaperService newspaperrService;
+	private NewspaperService newspaperService;
 	
 	// Constructor
 	public SubscriptionCustomerController() {
