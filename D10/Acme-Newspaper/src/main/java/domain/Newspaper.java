@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Date;
@@ -17,84 +18,93 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Newspaper extends DomainEntity {
 
-	private Date publicationDate;
+	private Date	publicationDate;
 
-	private String title;
+	private String	title;
 
-	private String description;
+	private String	description;
 
-	private String picture;
+	private String	picture;
 
-	private boolean isPrivate;
-	
-	private boolean hasTaboo;
+	private boolean	isPrivate;
 
-	private User publisher;
-	
+	private boolean	hasTaboo;
+
+	private boolean	isPublished;
+
+	private User	publisher;
+
+
 	@NotNull
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getPublicationDate() {
-		return publicationDate;
+		return this.publicationDate;
 	}
 
-	public void setPublicationDate(Date publicationDate) {
+	public void setPublicationDate(final Date publicationDate) {
 		this.publicationDate = publicationDate;
 	}
-	
+
 	@NotBlank
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
 	@NotBlank
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
 	@URL
 	public String getPicture() {
-		return picture;
+		return this.picture;
 	}
 
-	public void setPicture(String picture) {
+	public void setPicture(final String picture) {
 		this.picture = picture;
 	}
 
 	public boolean getIsPrivate() {
-		return isPrivate;
+		return this.isPrivate;
 	}
 
-	public void setIsPrivate(boolean isPrivate) {
+	public void setIsPrivate(final boolean isPrivate) {
 		this.isPrivate = isPrivate;
 	}
-	
+
 	public boolean getHasTaboo() {
-		return hasTaboo;
+		return this.hasTaboo;
 	}
-	
-	public void setHasTaboo(boolean hasTaboo) {
+
+	public void setHasTaboo(final boolean hasTaboo) {
 		this.hasTaboo = hasTaboo;
+	}
+
+	public boolean getIsPublished() {
+		return this.isPublished;
+	}
+
+	public void setIsPublished(final boolean isPublished) {
+		this.isPublished = isPublished;
 	}
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public User getPublisher() {
-		return publisher;
+		return this.publisher;
 	}
 
-	public void setPublisher(User publisher) {
+	public void setPublisher(final User publisher) {
 		this.publisher = publisher;
 	}
-	
-	
 
 }
