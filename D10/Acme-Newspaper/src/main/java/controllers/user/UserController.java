@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ArticleService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.Article;
 import domain.User;
 import forms.UserForm;
 
@@ -24,8 +26,8 @@ public class UserController extends AbstractController {
 	@Autowired
 	private UserService	userService;
 
-	//@Autowired
-	//private ArticleService articleService;
+	@Autowired
+	private ArticleService articleService;
 	
 	// Constructor
 	public UserController() {
@@ -102,16 +104,17 @@ public class UserController extends AbstractController {
 	public ModelAndView display(@RequestParam final int userId) {
 		ModelAndView result;
 		User user;
-		// Collection<Article> articles;
+		Page<Article> articles;
 		
 		user = this.userService.findOneToDisplay(userId);
 		Assert.notNull(user);
 		
-		// articles = this.articleService.findByWritterId(userId);
+		articles = this.articleService.findByWritterId(userId, 0, 5);
+		Assert.notNull(articles);
 		
 		result = new ModelAndView("user/display");
 		result.addObject("user", user);
-		//result.addObject("articles", articles);
+		result.addObject("articles", articles.getContent());
 		
 		return result;
 	}

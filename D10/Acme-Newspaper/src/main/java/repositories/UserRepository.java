@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u where u.userAccount.id = ?1")
 	User findByUserAccountId(int id);
 	
-	@Query("select u.followers from User u where u.id = ?1")
+	@Query("select f from User u join u.followers f where u.id = ?1")
 	Page<User> findFollowersByUserId(int userId, Pageable page);
 	
 	@Query("select u from User u where (select u2 from User u2 where u2.id = ?1) member of u.followers")

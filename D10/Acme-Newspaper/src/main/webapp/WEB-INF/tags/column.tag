@@ -58,3 +58,4 @@
 		<display:column style="${style}" property="${property}" title="${headerTitle}" />
 	</jstl:if>
 </jstl:if>
+

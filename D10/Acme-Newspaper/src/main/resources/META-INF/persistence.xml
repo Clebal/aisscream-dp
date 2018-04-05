@@ -23,7 +23,11 @@
 			<property name="javax.persistence.jdbc.password" value="ACME-M@n@ger-6874" />
 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
-			<!-- <property name="hibernate.hbm2ddl.auto" value="none" /> -->			
+			<!-- <property name="hibernate.hbm2ddl.auto" value="none" /> -->	
+			
+			<!-- Hibernate Search -->
+			<property name="hibernate.search.lucene_version" value="LUCENE_CURRENT" />
+			<property name="hibernate.search.default.indexBase" value="src/main/resources/lucene"/>		
 		</properties>
 
 	</persistence-unit>

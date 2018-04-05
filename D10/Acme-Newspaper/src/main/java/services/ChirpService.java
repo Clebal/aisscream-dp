@@ -2,7 +2,14 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
+import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +26,7 @@ import domain.User;
 import repositories.ChirpRepository;
 import security.Authority;
 import security.LoginService;
+import utilities.DatabaseConfig;
 
 @Service
 @Transactional
@@ -31,6 +39,9 @@ public class ChirpService {
 	// Supporting services
 	@Autowired
 	private Validator			validator;
+	
+	@Autowired
+	private ConfigurationService configurationService;
 	
 	// Constructor
 	public ChirpService() {
@@ -166,5 +177,68 @@ public class ChirpService {
 
 		return chirp;
 	}
+	
+	// Hibernate Search
+	@SuppressWarnings("unchecked")
+	public Collection<Chirp> findTaboos() {
+        Collection<Chirp> result;
+        Collection<String> tabooWords;
+        String input;
+        int index;
+        
+        result = null;
+
+        try {
+
+            tabooWords = this.configurationService.findTabooWords();
+            index = 0;
+            input = "";
+            for(String s: tabooWords) {
+                if(index == 0) {
+                    input = s;
+                    index++;
+                } else
+                    input += ", " + s;
+            }
+            
+            HibernatePersistenceProvider persistenceProvider = new HibernatePersistenceProvider();
+            EntityManagerFactory entityManagerFactory = persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit, null);
+ 
+            EntityManager em = entityManagerFactory.createEntityManager();
+
+            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
+
+            fullTextEntityManager.createIndexer().startAndWait();
+
+            em.getTransaction().begin();
+
+            QueryBuilder qb = fullTextEntityManager.getSearchFactory()
+                                                    .buildQueryBuilder()
+                                                    .forEntity(Chirp.class)
+                                                    .get();
+
+            org.apache.lucene.search.Query luceneQuery = qb.keyword()
+                                                            .onFields("title","description")
+                                                            .matching(input)
+                                                            .createQuery();
+
+            Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Chirp.class);
+
+            result = jpaQuery.getResultList();
+
+            em.getTransaction().commit();
+
+            em.close();
+
+        }catch (IllegalArgumentException e) {
+        	e.printStackTrace();
+        } catch (Throwable a) {
+        	a.printStackTrace();
+        }
+        
+        return result;
+
+    }
+
 	
 }
