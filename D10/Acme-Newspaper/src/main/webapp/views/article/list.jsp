@@ -13,9 +13,7 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="articles" id="row" requestURI="${requestURI}">
 	
-	<jstl:if test="${!row.getIsFinalMode()}">
 	<acme:columnLink action="edit" domain="article" id="${row.getId()}" />
-	</jstl:if>
 	
 	<acme:column property="moment" domain="article"  formatDate="true"/>
 	

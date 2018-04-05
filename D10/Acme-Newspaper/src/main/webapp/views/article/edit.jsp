@@ -31,7 +31,9 @@
 	<form:errors class="text-danger" path="isFinalMode"/>
 	<br />
 	
+	<jstl:if test="${!article.getIsFinalMode()}">
 	<acme:submit name="save" code="article.save" />
+	</jstl:if>
 	
 	<acme:submit name="delete" code="article.delete" codeDelete="article.confirm.delete"/>
 	

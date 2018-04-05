@@ -166,9 +166,11 @@ public class ArticleUserController extends AbstractController {
 		
 		// Save
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(@Valid final Article article, final BindingResult binding) {
+		public ModelAndView save(Article article, final BindingResult binding) {
 			ModelAndView result;
 
+			article = this.articleService.reconstruct(article, binding);
+			
 			if (binding.hasErrors())
 				result = this.createEditModelAndView(article);
 			else
