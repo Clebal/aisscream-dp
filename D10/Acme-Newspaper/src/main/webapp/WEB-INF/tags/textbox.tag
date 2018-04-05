@@ -34,19 +34,17 @@
 
 <%-- Definition --%>
 
-<jstl:if test="${readonly == null && id == null}">
+<jstl:if test="${readonly == null}">
 
-	<div class="form-group">
-		<form:label path="${path}" placeholder="${placeholder}">
-			<spring:message code="${code}" />
-		</form:label>	
-		<form:input class="form-control" path="${path}" placeholder="${placeholder}" />	
-		<form:errors class="text-danger" path="${path}" />
-	</div>	
+<div class="form-group">
+	<form:label path="${path}" placeholder="${placeholder}">
+		<spring:message code="${code}" />
+	</form:label>	
+	<form:input class="form-control" path="${path}" placeholder="${placeholder}" />	
+	<form:errors class="text-danger" path="${path}" />
+</div>	
 
 </jstl:if>
-
-
 <jstl:if test="${readonly != null}">
 <div class="form-group">
 	<form:label path="${path}" placeholder="${placeholder}">

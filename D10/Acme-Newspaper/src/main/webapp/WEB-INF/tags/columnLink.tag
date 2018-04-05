@@ -27,11 +27,6 @@
 <%@ attribute name="domain" required="true" %>
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="url" required="false" %>
-<%@ attribute name="style" required="false" %>
-
-<jstl:if test="${style == null}">
-	<jstl:set var="style" value="background: inherit;" />
-</jstl:if>
 
 <%-- Definition --%>
 
@@ -47,6 +42,6 @@
 	</spring:url>
 </jstl:if>
 
-<display:column style="${style}">
+<display:column>
 	<a href="${url}"><spring:message code="${domain}.${action}" /></a>
 </display:column>

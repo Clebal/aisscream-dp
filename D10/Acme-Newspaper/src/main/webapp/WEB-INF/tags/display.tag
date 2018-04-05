@@ -29,7 +29,6 @@
 <%@ attribute name="formatNumber" required="false" type="java.lang.Boolean" %>  
 
 
-
 <%-- Definition --%>
 <jstl:if test="${codeMoment == null && (formatNumber==null || formatNumber==false)}">
 <p>
