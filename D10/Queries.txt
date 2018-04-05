@@ -1,0 +1,30 @@
+
+SERGIO - The average and the standard deviation of newspapers created per user.
+CARLOS - The average and the standard deviation of articles written by writer.
+VILLARIN - The average and the standard deviation of articles per newspaper.
+
+select  avg(cast((select count(a) from Article a where a.newspaper.id=n.id) as float )), sqrt(sum((select count(a) from Article a where a.newspaper.id=n.id)*(select count(a) from Article a where a.newspaper.id=n.id))/(select count(n2) from Newspaper n2)-avg(cast((select count(a) from Article a where a.newspaper.id=n.id) as float ))*avg(cast((select count(a) from Article a where a.newspaper.id=n.id) as float ))) from Newspaper n
+
+SANTOS - The newspapers that have at least 10% more articles than the average.
+SERGIO - The newspapers that have at least 10% fewer articles than the average.
+CARLOS - The ratio of users who have ever created a newspaper.
+VILLARIN - The ratio of users who have ever written an article.
+
+select avg(cast((select count(a) from Article a where a.writer.id=u.id) as float) / cast((select count(u2) from User u2) as float )) from User u)
+    
+SANTOS - The average number of follow-ups per article.
+SERGIO - The average number of follow-ups per article up to one week after the corresponding newspaper’s been published.
+CARLOS - The average number of follow-ups per article up to two weeks after the corresponding newspaper’s been published.
+VILLARIN - The average and the standard deviation of the number of chirps per user.
+
+select  avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float )), sqrt(sum((select count(c) from Chirp c where c.user.id=u.id)*(select count(c) from Chirp c where c.user.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float ))*avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float ))) from User u
+
+SANTOS - The ratio of users who have posted above 75% the average number of chirps per user.
+SERGIO - The ratio of public versus private newspapers.
+CARLOS - The average number of articles per private newspapers.
+VILLARIN - The average number of articles per public newspapers.
+
+select  avg(cast((select count(a) from Article a where a.newspaper.id=n.id) as float )) from Newspaper n where n.isPrivate=false
+
+SANTOS - The ratio of subscribers per private newspaper versus the total number of customers.
+SERGIO - The average ratio of private versus public newspapers per publisher.
