@@ -42,6 +42,9 @@ public class FollowUpController extends AbstractController {
 		article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
 
+		//Vemos que el artículo se pueda ver
+		Assert.isTrue(this.articleService.checkVisible(article));
+
 		followUps = this.followUpService.findByArticleIdPaginated(article.getId(), page, 5);
 		Assert.notNull(followUps);
 
@@ -60,7 +63,7 @@ public class FollowUpController extends AbstractController {
 		ModelAndView result;
 		FollowUp followUp;
 
-		followUp = this.followUpService.findOne(followUpId);
+		followUp = this.followUpService.findOneToDisplay(followUpId);
 		Assert.notNull(followUp);
 
 		result = new ModelAndView("followUp/display");

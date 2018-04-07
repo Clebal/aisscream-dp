@@ -138,6 +138,19 @@ public class FollowUpService {
 	}
 
 	//Ancillary methods
+	public FollowUp findOneToDisplay(final int followUpId) {
+		FollowUp result;
+
+		Assert.isTrue(followUpId != 0);
+
+		result = this.followUpRepository.findOne(followUpId);
+
+		//Vemos que el artículo se pueda ver
+		Assert.isTrue(this.articleService.checkVisible(result.getArticle()));
+
+		return result;
+	}
+
 	public Page<FollowUp> findByUserIdPaginated(final int userId, final int page, final int size) {
 		Page<FollowUp> result;
 
