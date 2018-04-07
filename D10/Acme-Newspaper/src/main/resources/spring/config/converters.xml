@@ -51,6 +51,9 @@
         
         <bean class="converters.ChirpToStringConverter" />
         <bean class="converters.StringToChirpConverter" />
+        
+        <bean class="converters.NewspaperToStringConverter" />
+        <bean class="converters.StringToNewspaperConverter" />
 	</util:list>
 	
 </beans>

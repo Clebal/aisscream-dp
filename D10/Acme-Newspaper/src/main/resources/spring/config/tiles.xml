@@ -34,6 +34,9 @@
 		<value>/views/subscription/tiles.xml</value>
 
         <value>/views/chirp/tiles.xml</value>
+        
+        <value>/views/newspaper/tiles.xml</value>
+        
 
 	</util:list>
 

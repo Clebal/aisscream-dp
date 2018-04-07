@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.NewspaperRepository;
@@ -43,6 +44,13 @@ public class NewspaperService {
 
 	@Autowired
 	private CustomerService			customerService;
+
+	@Autowired
+	private ConfigurationService	configurationService;
+
+	@Autowired
+	private Validator				validator;
+
 
 	// Constructor
 	public NewspaperService() {
@@ -106,7 +114,8 @@ public class NewspaperService {
 	public Newspaper findOneToDisplay(final int newspaperId) {
 		Newspaper result;
 		Authority authority;
-		final Authority authority2;
+		Authority authority2;
+		Authority authority3;
 		Boolean canPermit;
 		Date currentMoment;
 
@@ -114,28 +123,35 @@ public class NewspaperService {
 		Assert.notNull(result);
 		authority = new Authority();
 		authority.setAuthority("USER");
-		authority = new Authority();
-		authority.setAuthority("CUSTOMER");
+		authority2 = new Authority();
+		authority2.setAuthority("CUSTOMER");
+		authority3 = new Authority();
+		authority3.setAuthority("ADMIN");
 		currentMoment = new Date();
 		canPermit = false;
 		if (LoginService.isAuthenticated()) {
 			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
 				if (result.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId())
 					canPermit = true;
-				else if (result.getIsPrivate() == false)
+				else if (result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true)
 					canPermit = true;
-				else if (result.getIsPrivate() == true)
-					if (!this.articleService.findByUserIdAndNewspaperId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), result.getId()).isEmpty())
-						canPermit = true;
-			} 
-		} else if (result.getIsPrivate() == false && result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true)
+
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2)) {
+				if (result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true)
+					canPermit = true;
+				else if (this.subscriptionService.findByCustomerIdAndNewspapaerId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), result.getId()) != null)
+					canPermit = true;
+
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3))
+				canPermit = true;
+		} else if (result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true && result.getIsPrivate() == false)
 			canPermit = true;
 
 		Assert.isTrue(canPermit == true);
+
 		return result;
 
 	}
-
 	public Newspaper save(final Newspaper newspaper) {
 		Newspaper result;
 		Date currentMoment;
@@ -148,6 +164,8 @@ public class NewspaperService {
 		if (newspaper.getId() == 0) {
 			Assert.isTrue(newspaper.getPublicationDate().compareTo(currentMoment) >= 0);
 			Assert.isTrue(newspaper.getIsPublished() == true);
+			if (this.checkTabooWords(newspaper) == true)
+				newspaper.setHasTaboo(true);
 		}
 		result = this.newspaperRepository.save(newspaper);
 
@@ -168,10 +186,10 @@ public class NewspaperService {
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
 		for (final Article a : this.articleService.findByNewspaperId(newspaperToDelete.getId()))
-			this.articleService.delete(a);
+			this.articleService.deleteForNewspaper(a);
 
 		for (final Subscription s : this.subscriptionService.findByNewspaperId(newspaperToDelete.getId()))
-			this.subscriptionService.delete(s);
+			this.subscriptionService.deleteForNewspaper(s);
 
 		this.newspaperRepository.delete(newspaperToDelete);
 
@@ -259,6 +277,34 @@ public class NewspaperService {
 
 	}
 
+	public Page<Newspaper> findTaboos(final int page, final int size) {
+		Page<Newspaper> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.newspaperRepository.findTaboos(this.getPageable(page, size));
+
+		return result;
+
+	}
+	
+	public Page<Newspaper> find10PercentageMoreAvg(final int page, final int size) {
+		Page<Newspaper> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.newspaperRepository.find10PercentageMoreAvg(this.getPageable(page, size));
+
+		return result;
+
+	}
+
 	public Collection<Newspaper> findForSubscribe(final int customerId, final int page, final int size) {
 		List<Integer> listId;
 		List<Newspaper> result;
@@ -267,6 +313,7 @@ public class NewspaperService {
 
 		Assert.isTrue(customerId != 0);
 		result = new ArrayList<Newspaper>();
+		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == customerId);
 		listId = new ArrayList<Integer>(this.newspaperRepository.findForSubscribe(customerId));
 		tamaño = listId.size();
@@ -296,6 +343,16 @@ public class NewspaperService {
 		return result;
 	}
 
+	public Integer countFindForSubscribe(final int customerId) {
+		Integer result;
+
+		Assert.isTrue(customerId != 0);
+
+		result = this.newspaperRepository.countFindForSubscribe(customerId);
+
+		return result;
+	}
+
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
 
@@ -308,4 +365,71 @@ public class NewspaperService {
 
 	}
 
+	public Newspaper reconstruct(final Newspaper newspaper, final BindingResult binding) {
+		Newspaper result;
+
+		result = newspaper;
+
+		this.validator.validate(result, binding);
+
+		return result;
+	}
+
+	public boolean checkTabooWords(final Newspaper newspaper) {
+		final Collection<String> tabooWords;
+		boolean result;
+
+		result = false;
+		tabooWords = this.configurationService.findSpamWords();
+
+		for (final String tabooWord : tabooWords) {
+			result = newspaper.getTitle() != null && newspaper.getTitle().toLowerCase().contains(tabooWord) || newspaper.getDescription() != null && newspaper.getDescription().toLowerCase().contains(tabooWord);
+			if (result == true)
+				break;
+		}
+
+		return result;
+	}
+	
+	public boolean canPermit(final int newspaperId){
+		Newspaper newspaper;
+		Authority authority;
+		Authority authority2;
+		Authority authority3;
+		Boolean result;
+		Date currentMoment;
+
+		newspaper = this.findOne(newspaperId);
+		Assert.notNull(newspaper);
+		authority = new Authority();
+		authority.setAuthority("USER");
+		authority2 = new Authority();
+		authority2.setAuthority("CUSTOMER");
+		authority3 = new Authority();
+		authority3.setAuthority("ADMIN");
+		currentMoment = new Date();
+		result = false;
+		if (LoginService.isAuthenticated()) {
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+				if (newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId())
+					result = true;
+				else if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true)
+					result = true;
+
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2)) {
+				if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true)
+					result = true;
+				else if (this.subscriptionService.findByCustomerIdAndNewspapaerId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
+					result = true;
+
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3))
+				result = true;
+		} else if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true && newspaper.getIsPrivate() == false)
+			result = true;
+
+
+		return result;
+
+	}
+	}
 }

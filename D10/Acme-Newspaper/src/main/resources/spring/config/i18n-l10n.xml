@@ -35,6 +35,9 @@
 		
         <value>/views/chirp/messages</value>
         
+        <value>/views/newspaper/messages</value>
+        
+        
 	</util:list>
 
 </beans>
