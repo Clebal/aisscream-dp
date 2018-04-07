@@ -27,7 +27,7 @@
 	
 		<br/>
 	
-	<small>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Sample Project, Inc.</small>
+	<small>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme, Inc.</small>
 	
 
 	

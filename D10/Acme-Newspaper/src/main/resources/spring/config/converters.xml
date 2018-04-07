@@ -54,6 +54,9 @@
         
         <bean class="converters.NewspaperToStringConverter" />
         <bean class="converters.StringToNewspaperConverter" />
+		
+		<bean class="converters.FollowUpToStringConverter" />
+		<bean class="converters.StringToFollowUpConverter" />
 	</util:list>
 	
 </beans>

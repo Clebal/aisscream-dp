@@ -23,7 +23,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a style="background-image: url(http://www.uwyo.edu/reslife-dining/_files/re-design-images/dining-logos/rendezvouslogo_2016.png); -ms-behavior: url(styles/backgroundsize.min.htc);" class="navbar-brand" href="#"><span>Sample Project</span></a>
+	  <a style="background-image: url(http://europeanscoutfoundation.com/wp-content/uploads/2018/02/newspaper-1.jpg); -ms-behavior: url(styles/backgroundsize.min.htc);" class="navbar-brand" href="#"><span>Acme Newspaper</span></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -42,14 +42,16 @@
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.administrator" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
 					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>
-					<li><a href="newspaper/administrator/findTaboos.do"><spring:message code="master.page.all.newspapers.taboos" /></a></li>		
+					<li><a href="newspaper/administrator/findTaboos.do"><spring:message code="master.page.all.newspapers.taboos" /></a></li>
+					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.administrator.configuration" /></a></li>
 				</ul>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('USER')">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="newspaper/user/list.do"><spring:message code="master.page.user.newspapers" /></a></li>							
+					<li><a href="newspaper/user/list.do"><spring:message code="master.page.user.newspapers" /></a></li>	
+					<li><a href="followUp/user/list.do"><spring:message code="master.page.user.followUp" /></a></li>
 				</ul>
 			</security:authorize>
 			

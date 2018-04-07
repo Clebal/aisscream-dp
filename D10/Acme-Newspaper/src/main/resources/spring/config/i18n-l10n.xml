@@ -36,6 +36,9 @@
         <value>/views/chirp/messages</value>
         
         <value>/views/newspaper/messages</value>
+		
+		<value>/views/configuration/messages</value>
+		<value>/views/followUp/messages</value>
         
         
 	</util:list>
