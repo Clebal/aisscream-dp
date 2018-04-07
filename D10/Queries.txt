@@ -6,6 +6,8 @@ VILLARIN - The average and the standard deviation of articles per newspaper.
 select  avg(cast((select count(a) from Article a where a.newspaper.id=n.id) as float )), sqrt(sum((select count(a) from Article a where a.newspaper.id=n.id)*(select count(a) from Article a where a.newspaper.id=n.id))/(select count(n2) from Newspaper n2)-avg(cast((select count(a) from Article a where a.newspaper.id=n.id) as float ))*avg(cast((select count(a) from Article a where a.newspaper.id=n.id) as float ))) from Newspaper n
 
 SANTOS - The newspapers that have at least 10% more articles than the average.
+select n from Newspaper n where cast((select count(a) from Article a where a.newspaper.id=n.id)as float)>(select avg(cast((select count(a2) from Article a2 where a2.newspaper.id=n2.id)as float))*1.1 from Newspaper n2)
+
 SERGIO - The newspapers that have at least 10% fewer articles than the average.
 CARLOS - The ratio of users who have ever created a newspaper.
 VILLARIN - The ratio of users who have ever written an article.
@@ -13,6 +15,8 @@ VILLARIN - The ratio of users who have ever written an article.
 select avg(cast((select count(a) from Article a where a.writer.id=u.id) as float) / cast((select count(u2) from User u2) as float )) from User u)
     
 SANTOS - The average number of follow-ups per article.
+select avg(cast((select count(f) from FollowUp f where f.article.id=a.id)as float)) from Article a
+
 SERGIO - The average number of follow-ups per article up to one week after the corresponding newspaper’s been published.
 CARLOS - The average number of follow-ups per article up to two weeks after the corresponding newspaper’s been published.
 VILLARIN - The average and the standard deviation of the number of chirps per user.
@@ -20,6 +24,8 @@ VILLARIN - The average and the standard deviation of the number of chirps per us
 select  avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float )), sqrt(sum((select count(c) from Chirp c where c.user.id=u.id)*(select count(c) from Chirp c where c.user.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float ))*avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float ))) from User u
 
 SANTOS - The ratio of users who have posted above 75% the average number of chirps per user.
+select cast(count(u) as float)/(select count(u3) from User u3) from User u where cast((select count(c) from Chirp c where c.user.id=u.id)as float)>(select avg(cast((select count(c2) from Chirp c2 where c2.user.id=u2.id)as float))*1.75 from User u2)
+
 SERGIO - The ratio of public versus private newspapers.
 CARLOS - The average number of articles per private newspapers.
 VILLARIN - The average number of articles per public newspapers.
@@ -27,4 +33,6 @@ VILLARIN - The average number of articles per public newspapers.
 select  avg(cast((select count(a) from Article a where a.newspaper.id=n.id) as float )) from Newspaper n where n.isPrivate=false
 
 SANTOS - The ratio of subscribers per private newspaper versus the total number of customers.
+select n, (select (count(s)+0.0)/(select count(c3) from Customer c3) from Subscription s where s.newspaper.id=n.id) from Newspaper n;
+
 SERGIO - The average ratio of private versus public newspapers per publisher.
