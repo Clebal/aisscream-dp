@@ -35,7 +35,9 @@
 	<acme:submit name="save" code="article.save" />
 	</jstl:if>
 	
+	<jstl:if test="${article.getId() != 0}">
 	<acme:submit name="delete" code="article.delete" codeDelete="article.confirm.delete"/>
+	</jstl:if>
 	
 	<acme:cancel url="article/user/list.do" code="article.cancel"/>
 

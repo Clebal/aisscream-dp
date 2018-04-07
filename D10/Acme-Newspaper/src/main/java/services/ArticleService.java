@@ -15,7 +15,7 @@ import org.springframework.validation.Validator;
 
 import repositories.ArticleRepository;
 import services.ConfigurationService;
-import services.FollowUpService;
+//import services.FollowUpService;
 import security.Authority;
 import security.LoginService;
 import domain.Article;
@@ -38,8 +38,8 @@ public class ArticleService {
 	@Autowired
 	private ConfigurationService configurationService;
 	
-	@Autowired
-	private FollowUpService followUpService;
+//	@Autowired
+//	private FollowUpService followUpService;
 
 	// Constructors -----------------------------------------------------------
 	public ArticleService() {
@@ -160,13 +160,13 @@ public class ArticleService {
 
 		Assert.isTrue(articleToDelete.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		
-		followUps = this.followUpService.findByArticleId(article.getId());
+		//followUps = this.followUpService.findByArticleId(article.getId());
 
 		this.articleRepository.delete(articleToDelete);
 		
-		for (FollowUp f : followUps) {
-			this.followUpService.delete(f);
-		}
+//		for (FollowUp f : followUps) {
+//			this.followUpService.delete(f);
+//		}
 
 	}
 	
@@ -180,13 +180,13 @@ public class ArticleService {
 		Assert.notNull(article);
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
-		followUps = this.followUpService.findByArticleId(article.getId());
+//		followUps = this.followUpService.findByArticleId(article.getId());
 
 		this.articleRepository.delete(article);
 		
-		for (FollowUp f : followUps) {
-			this.followUpService.delete(f);
-		}
+//		for (FollowUp f : followUps) {
+//			this.followUpService.delete(f);
+//		}
 
 	}
 	
