@@ -28,31 +28,22 @@
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="url" required="false" %>
 <%@ attribute name="style" required="false" %>
+<%@ attribute name="actor" required="false" %>
 
 <jstl:if test="${style == null}">
 	<jstl:set var="style" value="background: inherit;" />
 </jstl:if>
 
-<jstl:if test="${domain.equals('subscription')}">
-	<jstl:set var="customer" value="true" />
-</jstl:if>
-
 <%-- Definition --%>
 
-<jstl:if test="${domain.equals('actor') && url == null && !customer}">
+<jstl:if test="${actor == null && url == null}">
 	<spring:url value="${domain}/${action}.do" var="url">
 		<spring:param name="${domain}Id" value="${id}" />
 	</spring:url>
 </jstl:if>
 
-<jstl:if test="${!domain.equals('actor') && url == null && !customer}">
-	<spring:url value="${domain}/user/${action}.do" var="url">
-		<spring:param name="${domain}Id" value="${id}" />
-	</spring:url>
-</jstl:if>
-
-<jstl:if test="${!domain.equals('customer') && url == null && customer}">
-	<spring:url value="${domain}/customer/${action}.do" var="url">
+<jstl:if test="${actor != null && url == null}">
+	<spring:url value="${domain}/${actor}/${action}.do" var="url">
 		<spring:param name="${domain}Id" value="${id}" />
 	</spring:url>
 </jstl:if>

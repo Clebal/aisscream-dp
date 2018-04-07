@@ -76,10 +76,8 @@ public class ListSubscriptionTest extends AbstractTest {
 	 * 1. Probamos obtener el resultado previsto para el metodo findByCustomerAccountId logueados como customer1, para la pagina 1 y el tamano 5
 	 * 	2. Probamos obtener el resultado previsto para el metodo findByCustomerAccountId sin loguear, para la pagina 2 y el tamano 4
 	 * 3. Probamos obtener el resultado previsto para el metodo findByCustomerAccountId logueados como customer2, para la pagina 2 y el tamano 3
-	 * 4. Probamos no poder obtener el resultado previsto para el metodo findByCustomerAccountId logueados como un manager
+	 * 4. Probamos no poder obtener el resultado previsto para el metodo findByCustomerAccountId logueados como un user
 	 * 5. Probamos no poder obtener el resultado previsto para el metodo findByCustomerAccountId logueados como un admin
-	 * 6. Probamos no poder obtener el resultado previsto para el metodo findByCustomerAccountId logueados como customer4 y la pagina a null
-	 * 7. Probamos no poder obtener el resultado previsto para el metodo findByCustomerAccountId logueados como customer3 y el tamano a null
 	 * 
 	 * Requisitos:
 	 * 	22. An actor who is authenticated as a customer can:
@@ -96,7 +94,7 @@ public class ListSubscriptionTest extends AbstractTest {
 				}, {
 					"customer2", "findByCustomerAccountId", 1, 1, 1, null
 				}, {
-					"manager2", "findByCustomerAccountId", 1, 2, 1, IllegalArgumentException.class
+					"user2", "findByCustomerAccountId", 1, 2, 1, IllegalArgumentException.class
 				}, {
 					"administrator", "findByCustomerAccountId", 1, 1, 5, IllegalArgumentException.class
 				}
