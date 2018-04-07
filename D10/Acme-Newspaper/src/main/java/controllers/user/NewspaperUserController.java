@@ -72,12 +72,11 @@ public class NewspaperUserController extends AbstractController {
 
 		this.newspaperService.publish(newspaperId);
 
-		result = new ModelAndView("redirect:/newspaper/display.do?newspaperId=" + newspaperId);
+		result = new ModelAndView("redirect:list.do");
 
 		return result;
 
 	}
-
 	@RequestMapping(value = "/putPublic", method = RequestMethod.GET)
 	public ModelAndView putPublic(@RequestParam final int newspaperId) {
 		ModelAndView result;
@@ -86,7 +85,7 @@ public class NewspaperUserController extends AbstractController {
 
 		this.newspaperService.putPublic(newspaperId);
 
-		result = new ModelAndView("redirect:/newspaper/display.do?newspaperId=" + newspaperId);
+		result = new ModelAndView("redirect:list.do");
 
 		return result;
 
@@ -100,12 +99,11 @@ public class NewspaperUserController extends AbstractController {
 
 		this.newspaperService.putPrivate(newspaperId);
 
-		result = new ModelAndView("redirect:/newspaper/display.do?newspaperId=" + newspaperId);
+		result = new ModelAndView("redirect:list.do");
 
 		return result;
 
 	}
-
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(Newspaper newspaper, final BindingResult binding) {
 		ModelAndView result;

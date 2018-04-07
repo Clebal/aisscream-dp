@@ -33,7 +33,7 @@
       	<li><a href="welcome/index.do"><spring:message code="master.page.home" /></a></li>
       	
       	<security:authorize access="isAnonymous()">
-			
+			<li><a href="newspaper/list.do"><spring:message code="master.page.all.newspapers.isAnonymous" /></a></li>
       	</security:authorize>
                
         <li class="dropdown">
@@ -41,16 +41,33 @@
         	<security:authorize access="hasRole('ADMIN')">
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.administrator" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
-					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>		
+					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>
+					<li><a href="newspaper/administrator/findTaboos.do"><spring:message code="master.page.all.newspapers.taboos" /></a></li>		
+				</ul>
+			</security:authorize>
+			
+			<security:authorize access="hasRole('USER')">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="newspaper/user/list.do"><spring:message code="master.page.user.newspapers" /></a></li>							
+				</ul>
+			</security:authorize>
+			
+			<security:authorize access="hasRole('CUSTOMER')">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.customer" /> <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="newspaper/customer/list.do"><spring:message code="master.page.customer.newspapers" /></a></li>
+					<li><a href="newspaper/customer/listForSubscribe.do"><spring:message code="master.page.customer.newspapersForSubscribe" /></a></li>															
 				</ul>
 			</security:authorize>
         </li>
+        
         
         <li class="dropdown">
 	        <security:authorize access="isAuthenticated()">		
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					
+					<li><a href="newspaper/list.do"><spring:message code="master.page.all.newspapers" /></a></li>	
 				</ul>
 			</security:authorize>
         </li>

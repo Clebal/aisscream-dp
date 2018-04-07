@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.engine.config.spi.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -86,30 +85,12 @@ public class NewspaperService {
 	public Newspaper findOne(final int newspaperId) {
 		Newspaper result;
 
-		Assert.notNull(newspaperId != 0);
+		Assert.isTrue(newspaperId != 0);
 
 		result = this.newspaperRepository.findOne(newspaperId);
 
-		Assert.isTrue(LoginService.isAuthenticated());
-
 		return result;
 	}
-
-	//	public Newspaper findOneToEdit(final int newspaperId) {
-	//		Newspaper result;
-	//		Authority authority;
-	//
-	//		result = this.findOne(newspaperId);
-	//		Assert.notNull(result);
-	//		authority = new Authority();
-	//		authority.setAuthority("USER");
-	//		Assert.isTrue(LoginService.isAuthenticated());
-	//
-	//		Assert.isTrue(result.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
-	//
-	//		return result;
-	//
-	//	}
 
 	public Newspaper findOneToDisplay(final int newspaperId) {
 		Newspaper result;
@@ -139,7 +120,7 @@ public class NewspaperService {
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2)) {
 				if (result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true)
 					canPermit = true;
-				else if (this.subscriptionService.findByCustomerIdAndNewspapaerId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), result.getId()) != null)
+				else if (this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), result.getId()) != null)
 					canPermit = true;
 
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3))
@@ -186,10 +167,10 @@ public class NewspaperService {
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
 		for (final Article a : this.articleService.findByNewspaperId(newspaperToDelete.getId()))
-			this.articleService.deleteForNewspaper(a);
+			this.articleService.deleteFromNewspaper(a);
 
 		for (final Subscription s : this.subscriptionService.findByNewspaperId(newspaperToDelete.getId()))
-			this.subscriptionService.deleteForNewspaper(s);
+			this.subscriptionService.deleteFromNewspaper(s);
 
 		this.newspaperRepository.delete(newspaperToDelete);
 
@@ -204,7 +185,7 @@ public class NewspaperService {
 		Assert.notNull(newspaperToPublish);
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(newspaperToPublish.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
-		Assert.isTrue(newspaperToPublish.getIsPublished() == true && newspaperToPublish.getPublicationDate().compareTo(currentMoment) < 0);
+		Assert.isTrue(newspaperToPublish.getIsPublished() == true && newspaperToPublish.getPublicationDate().compareTo(currentMoment) > 0);
 		newspaperToPublish.setPublicationDate(currentMoment);
 		this.newspaperRepository.save(newspaperToPublish);
 
@@ -290,7 +271,7 @@ public class NewspaperService {
 		return result;
 
 	}
-	
+
 	public Page<Newspaper> find10PercentageMoreAvg(final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
@@ -376,11 +357,11 @@ public class NewspaperService {
 	}
 
 	public boolean checkTabooWords(final Newspaper newspaper) {
-		final Collection<String> tabooWords;
+		Collection<String> tabooWords;
 		boolean result;
 
 		result = false;
-		tabooWords = this.configurationService.findSpamWords();
+		tabooWords = this.configurationService.findTabooWords();
 
 		for (final String tabooWord : tabooWords) {
 			result = newspaper.getTitle() != null && newspaper.getTitle().toLowerCase().contains(tabooWord) || newspaper.getDescription() != null && newspaper.getDescription().toLowerCase().contains(tabooWord);
@@ -390,8 +371,8 @@ public class NewspaperService {
 
 		return result;
 	}
-	
-	public boolean canPermit(final int newspaperId){
+
+	public boolean canPermit(final int newspaperId) {
 		Newspaper newspaper;
 		Authority authority;
 		Authority authority2;
@@ -419,7 +400,7 @@ public class NewspaperService {
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2)) {
 				if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true)
 					result = true;
-				else if (this.subscriptionService.findByCustomerIdAndNewspapaerId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
+				else if (this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
 					result = true;
 
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3))
@@ -427,9 +408,7 @@ public class NewspaperService {
 		} else if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true && newspaper.getIsPrivate() == false)
 			result = true;
 
-
 		return result;
 
-	}
 	}
 }

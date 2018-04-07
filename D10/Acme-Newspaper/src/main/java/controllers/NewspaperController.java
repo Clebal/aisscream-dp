@@ -77,12 +77,12 @@ public class NewspaperController extends AbstractController {
 
 	//Ancillary methods -----------------------
 	protected ModelAndView createDisplayModelAndView(final Newspaper newspaper, final int page) {
-		final ModelAndView result;
+		ModelAndView result;
 		Page<Article> articles;
 		Boolean canSeeArticles;
 		Authority authority;
 
-		articles = this.articleService.findByNewspaperId(newspaper.getId());
+		articles = this.articleService.findByNewspaperIdPaginated(newspaper.getId(), page, 5);
 
 		canSeeArticles = false;
 		authority = new Authority();
@@ -90,10 +90,10 @@ public class NewspaperController extends AbstractController {
 		if (newspaper.getIsPrivate() == false)
 			canSeeArticles = true;
 		else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)
-			&& this.subscriptionService.findByCustomerIdAndNewspapaerId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
+			&& this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
 			canSeeArticles = true;
 
-		result = new ModelAndView("service/display");
+		result = new ModelAndView("newspaper/display");
 
 		result.addObject("pageNumber", articles.getTotalPages());
 		result.addObject("page", page);

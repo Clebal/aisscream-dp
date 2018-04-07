@@ -411,6 +411,8 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isPrivate" value="false" />
 		<property name="publisher" ref="user1" />
  		<property name="hasTaboo" value="true" />
+ 		<property name="isPublished" value="true" />
+ 		
 	</bean>
 
 	<bean id="newspaper2" class="domain.Newspaper">
@@ -420,6 +422,8 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isPrivate" value="true" />
 		<property name="publisher" ref="user2" />
  		<property name="hasTaboo" value="true" />
+ 		<property name="isPublished" value="true" />
+ 		
 	</bean>
 		
 	<bean id="newspaper3" class="domain.Newspaper">
@@ -430,6 +434,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isPrivate" value="false" />
 		<property name="publisher" ref="user3" />
  		<property name="hasTaboo" value="false" />
+ 		 <property name="isPublished" value="true" />	
 	</bean>
 	
 	<bean id="newspaper4" class="domain.Newspaper">
@@ -440,6 +445,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isPrivate" value="false" />
 		<property name="publisher" ref="user4" />
  		<property name="hasTaboo" value="false" />
+ 		<property name="isPublished" value="false" />
 	</bean>
 	
 	<bean id="newspaper5" class="domain.Newspaper">
@@ -449,6 +455,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isPrivate" value="true" />
 		<property name="publisher" ref="user5" />
  		<property name="hasTaboo" value="false" />
+ 		<property name="isPublished" value="true" />
 	</bean>
 	
 	<!-- Subscription -->

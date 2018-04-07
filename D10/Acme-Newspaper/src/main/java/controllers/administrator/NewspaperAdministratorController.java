@@ -15,7 +15,7 @@ import controllers.AbstractController;
 import domain.Newspaper;
 
 @Controller
-@RequestMapping("/newspaper/customer")
+@RequestMapping("/newspaper/administrator")
 public class NewspaperAdministratorController extends AbstractController {
 
 	// Services

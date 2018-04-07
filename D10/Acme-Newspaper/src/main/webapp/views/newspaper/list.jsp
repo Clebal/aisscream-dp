@@ -29,13 +29,13 @@
 		</display:column>
 		
 		<display:column>
-		<jstl:if test="${row.getIsPrivate==true}">
+		<jstl:if test="${row.getIsPrivate()==true}">
 			<a href="newspaper/user/putPublic.do?newspaperId=${row.getId()}"> <spring:message
 					code="newspaper.public" />
 			</a>
 		</jstl:if>
 		
-		<jstl:if test="${row.getIsPrivate==false}">
+		<jstl:if test="${row.getIsPrivate()==false}">
 			<a href="newspaper/user/putPrivate.do?newspaperId=${row.getId()}"> <spring:message
 					code="newspaper.private" />
 			</a>
@@ -56,7 +56,27 @@
 				</jstl:if>	
 		
 		</display:column>
-
+		
+	</security:authorize>
+	
+	<security:authorize access="hasRole('CUSTOMER')">
+		<display:column>
+			<jstl:if test="${requestURI.equals('newspaper/customer/listForSubscribe.do')}">
+			<a href="subscription/customer/create.do?newspaperId=${row.getId()}"> <spring:message
+					code="newspaper.create.subscription" />
+			</a>
+			</jstl:if>
+		</display:column>	
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ADMIN')">
+		<display:column>
+			<jstl:if test="${requestURI.equals('newspaper/administrator/findTaboos.do')}">
+			<a href="newspaper/administrator/delete.do?newspaperId=${row.getId()}"> <spring:message
+					code="newspaper.delete" />
+			</a>
+			</jstl:if>
+		</display:column>
 	</security:authorize>	
 			
 	<acme:column property="title" domain="newspaper" />
@@ -68,6 +88,13 @@
 	<spring:message code="newspaper.isPublished" var="newspaperIsPublished"/>
 	<display:column title="${newspaperIsPublished}">
 		<jstl:if test="${ row.getIsPublished()==true && row.getPublicationDate()<=currentMomentVar}">
+			<jstl:out value="X"/>
+		</jstl:if>	
+	</display:column>
+	
+	<spring:message code="newspaper.isPrivateTheNewspaper" var="newspaperIsPrivate"/>
+	<display:column title="${newspaperIsPrivate}">
+		<jstl:if test="${ row.getIsPrivate()==true}">
 			<jstl:out value="X"/>
 		</jstl:if>	
 	</display:column>
@@ -98,7 +125,7 @@
 	</security:authorize>
 	
 	<security:authorize access="isAnonymous()">
-		<jstl:if test="${row.getPublicationDate()<=currentMoment && row.getIsPublished() == true && row.getIsPrivate() == false}">
+		<jstl:if test="${row.getPublicationDate()<=currentMomentVar && row.getIsPublished() == true && row.getIsPrivate() == false}">
 			<jstl:set var="canPermit" value="true"/>
 		</jstl:if>
 	</security:authorize>

@@ -26,7 +26,6 @@
 			<acme:display code="newspaper.publicationDate" value="${newspaper.getPublicationDate()}" codeMoment="newspaper.format.moment"/>
 						
 		</div>
-			
 																
 			<jstl:if test="${!articles.isEmpty()}">
 		
@@ -38,18 +37,23 @@
 				
 					<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
 					<jstl:if test="${canSeeArticles==true }">
-						<span class="display"><spring:message code="newspaper.article.title"/></span><a href="article/display.do?articleId=${row.getId() "><jstl:out value="${row.getName()}" /></a>
+						<span class="display"><spring:message code="newspaper.article.title"/></span><a href="article/display.do?articleId=${row.getId()}"> <jstl:out value="${row.getTitle()}"/> </a>
 						<br>
-						<span class="display"><spring:message code="newspaper.article.writer"/></span><a href="user/display.do?userId=${row.getWriter().getId()"><jstl:out value="${row.getWriter().getUsername()}"/></a>
+						<span class="display"><spring:message code="newspaper.article.writer"/></span><a href="user/display.do?userId=${row.getWriter().getId()}"><jstl:out value="${row.getWriter().getUserAccount().getUsername()}"/></a>
 						<br>
-						<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary())}"/>
+						<jstl:if test="${row.getSummary().length()<100 }">
+						<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary()}"/>
+						</jstl:if>
+						<jstl:if test="${row.getSummary().length()>=100 }">
+						<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary().substring(0, 99)}"/>
+						</jstl:if>
 					</jstl:if>
 					<jstl:if test="${canSeeArticles==false }">
-					<span class="display"><spring:message code="newspaper.article.title"/></span><jstl:out value="${row.getName()}" />
+					<span class="display"><spring:message code="newspaper.article.title"/></span><jstl:out value="${row.getTitle()}" />
 						<br>
-					<span class="display"><spring:message code="newspaper.article.writer"/></span><jstl:out value="${row.getWriter().getUsername()}"/>
+					<span class="display"><spring:message code="newspaper.article.writer"/></span><jstl:out value="${row.getWriter().getUserAccount().getUsername()}"/>
 						<br>
-					<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary())}"/>
+					<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary().substring(0, 99)}"/>
 					</jstl:if>
 					</div>
 					<br>
