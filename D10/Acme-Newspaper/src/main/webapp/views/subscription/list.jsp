@@ -12,7 +12,7 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="subscriptions" id="row" requestURI="subscription/customer/list.do">
 	
-	<acme:columnLink action="edit" domain="subscription" id="${row.getId()}" />
+	<acme:columnLink action="edit" domain="subscription" id="${row.getId()}" actor="customer" />
 
 	<acme:column domain="subscription" property="holderName"/>
 	

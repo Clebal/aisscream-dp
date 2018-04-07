@@ -36,6 +36,15 @@
 	</spring:url>
 	<p><a href="${urlUser}"> <spring:message code="article.writer" /></a></p>
 	
+	<security:authorize access="hasRole('USER')">
+	<jstl:if test="${article.getIsFinalMode() && article.getNewspaper().getIsPublished()}">
+	<spring:url var="urlFollow" value="followUp/user/create.do">
+	<spring:param name="articleId" value="${article.getId()}" />
+	</spring:url>
+	<p><a href="${urlFollow}"> <spring:message code="article.follow" /></a></p>
+	</jstl:if>
+	</security:authorize>
+	
 	<acme:display code="article.pictures" value=""/>
 	<jstl:forEach items="${article.getPictures()}" var="picture">
     	<img src="${picture}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" /><br /><br />

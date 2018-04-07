@@ -32,7 +32,7 @@ public class ArticleController extends AbstractController {
 			ModelAndView result;
 			Article article;
 
-			article = this.articleService.findOne(articleId);
+			article = this.articleService.findOneToDisplay(articleId);
 			Assert.notNull(article);
 
 			result = new ModelAndView("article/display");

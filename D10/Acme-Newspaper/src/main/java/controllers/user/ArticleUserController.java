@@ -45,18 +45,25 @@ public class ArticleUserController extends AbstractController {
 			ModelAndView result;
 			Page<Article> articles;
 			Integer pageAux, userAux;
+			boolean editar, borrar;
+			
+			editar = false;
+			borrar = false;
 			
 			if (page == null)
 				pageAux = 1;
 			else
 				pageAux = page;
 			
-			if (userId == null)
+			if (userId == null) {
 				userAux = this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId();
-			else
+				articles = this.articleService.findByWritterId(userAux, pageAux, 5);
+				editar = true;
+			} else {
 				userAux = userId;
+				articles = this.articleService.findAllUserPaginated(userId, pageAux, 5);
+			}
 			
-			articles = this.articleService.findAllUserPaginated(userAux, pageAux, 5);
 			Assert.notNull(articles);
 			
 			result = new ModelAndView("article/list");
@@ -64,54 +71,16 @@ public class ArticleUserController extends AbstractController {
 			result.addObject("articles", articles.getContent());
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", pageAux);
-			result.addObject("requestURI", "article/user/list.do");
-			
-			return result;
-		}
-		
-		@RequestMapping(value="/listNewspaper", method = RequestMethod.GET)
-		public ModelAndView listNewspaper(@RequestParam final int newspaperId, @RequestParam(required=false) Integer page) {
-			ModelAndView result;
-			Page<Article> articles;
-			Integer pageAux;
-			User user;
-			
 			if (page == null)
-				pageAux = 1;
+				result.addObject("requestURI", "article/user/list.do");
 			else
-				pageAux = page;
-			
-			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			
-			articles = this.articleService.findAllNewspaperPaginated(user.getId(), newspaperId, pageAux, 5);
-			Assert.notNull(articles);
-			
-			result = new ModelAndView("article/list");
-
-			result.addObject("articles", articles.getContent());
-			result.addObject("pageNumber", articles.getTotalPages());
-			result.addObject("page", pageAux);
-			result.addObject("userId", user.getId());
-			result.addObject("requestURI", "article/user/listNewspaper.do");
+				result.addObject("requestURI", "article/user/list.do?userId"+userId);
+			result.addObject("editar", editar);
+			result.addObject("borrar", borrar);
 			
 			return result;
 		}
-		
-		// Display
-		@RequestMapping(value = "/display", method = RequestMethod.GET)
-		public ModelAndView display(@RequestParam final int articleId) {
-			ModelAndView result;
-			Article article;
-
-			article = this.articleService.findOne(articleId);
-			Assert.notNull(article);
-
-			result = new ModelAndView("article/display");
-			result.addObject("article", article);
-
-			return result;
-		}
-		
+				
 		// Delete
 		@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
 		public ModelAndView delete(@RequestParam final int articleId) {

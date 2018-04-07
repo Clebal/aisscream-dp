@@ -29,10 +29,14 @@ public class ArticleAdministratorController extends AbstractController {
 
 	// List taboo
 		@RequestMapping(value="/listTaboo", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam(required=false) Integer page) {
+		public ModelAndView listTaboo(@RequestParam(required=false) Integer page) {
 			ModelAndView result;
 			Page<Article> articles;
 			Integer pageAux;
+			boolean editar, borrar;
+			
+			editar = false;
+			borrar = true;
 			
 			if (page == null)
 				pageAux = 1;
@@ -44,10 +48,60 @@ public class ArticleAdministratorController extends AbstractController {
 			
 			result = new ModelAndView("article/list");
 
-			result.addObject("articles", articles);
+			result.addObject("articles", articles.getContent());
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", pageAux);
 			result.addObject("requestURI", "article/user/list.do");
+			result.addObject("editar", editar);
+			result.addObject("borrar", borrar);
+			
+			return result;
+		}
+		
+		// List
+		@RequestMapping(value="/list", method = RequestMethod.GET)
+		public ModelAndView list(@RequestParam(required=false) Integer page) {
+			ModelAndView result;
+			Page<Article> articles;
+			Integer pageAux;
+			boolean editar, borrar;
+			
+			editar = false;
+			borrar = true;
+			
+			if (page == null)
+				pageAux = 1;
+			else
+				pageAux = page;
+			
+			articles = this.articleService.findAllPaginated(pageAux, 5);
+			
+			Assert.notNull(articles);
+			
+			result = new ModelAndView("article/list");
+
+			result.addObject("articles", articles.getContent());
+			result.addObject("pageNumber", articles.getTotalPages());
+			result.addObject("page", pageAux);
+			result.addObject("requestURI", "article/administrador/list.do");
+			result.addObject("editar", editar);
+			result.addObject("borrar", borrar);
+			
+			return result;
+		}
+		
+		// Delete
+		@RequestMapping(value="/delete", method=RequestMethod.GET)
+		public ModelAndView create(@RequestParam final int articleId) {
+			ModelAndView result;
+			Article article;
+			
+			article = this.articleService.findOne(articleId);
+			Assert.notNull(article);
+			
+			this.articleService.deleteFromNewspaper(article);
+			
+			result = new ModelAndView("redirect:list.do");
 			
 			return result;
 		}

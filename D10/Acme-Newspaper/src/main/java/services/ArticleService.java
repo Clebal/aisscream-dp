@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,12 @@ public class ArticleService {
 	
 	@Autowired
 	private FollowUpService followUpService;
+	
+	@Autowired
+	private SubscriptionService subscriptionService;
+	
+	@Autowired
+	private CustomerService	customerService;
 
 	// Constructors -----------------------------------------------------------
 	public ArticleService() {
@@ -92,6 +99,20 @@ public class ArticleService {
 		Assert.isTrue(LoginService.isAuthenticated());
 
 		Assert.isTrue(result.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
+
+		return result;
+	}
+	
+	public Article findOneToDisplay(final int articleId) {
+		Article result;
+
+		Assert.isTrue(articleId != 0);
+
+		result = this.articleRepository.findOne(articleId);
+
+		Assert.notNull(result);
+
+		Assert.isTrue(this.checkVisibleArticle(result));
 
 		return result;
 	}
@@ -151,6 +172,8 @@ public class ArticleService {
 	public void delete(final Article article) {
 		Article articleToDelete;
 		Collection<FollowUp> followUps;
+		Collection<Article> articles;
+		boolean isFinal;
 
 		articleToDelete = this.findOne(article.getId());
 
@@ -162,17 +185,35 @@ public class ArticleService {
 		
 		followUps = this.followUpService.findByArticleId(article.getId());
 
-		this.articleRepository.delete(articleToDelete);
-		
 		for (FollowUp f : followUps) {
-			this.followUpService.delete(f);
+			this.followUpService.deleteFromArticle(f);
 		}
+		
+		isFinal = true;
+		
+		if (article.getIsFinalMode()) {
+			articles = this.findByNewspaperId(article.getNewspaper().getId());
+			for (Article a : articles) {
+				isFinal = true;
+				if (!a.getIsFinalMode()) {
+					isFinal = false;
+					break;
+				}
+			}
+			if (!isFinal) {
+				article.getNewspaper().setIsPublished(true);
+			}	
+		}
+		
+		this.articleRepository.delete(articleToDelete);
 
 	}
 	
 	public void deleteFromNewspaper(final Article article) {
 		Authority authority;
 		Collection<FollowUp> followUps;
+		Collection<Article> articles;
+		boolean isFinal;
 		
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
@@ -182,11 +223,27 @@ public class ArticleService {
 		
 		followUps = this.followUpService.findByArticleId(article.getId());
 
-		this.articleRepository.delete(article);
-		
 		for (FollowUp f : followUps) {
-			this.followUpService.delete(f);
+			this.followUpService.deleteFromArticle(f);
 		}
+		
+		isFinal = true;
+
+		if (article.getIsFinalMode()) {
+			articles = this.findByNewspaperId(article.getNewspaper().getId());
+			for (Article a : articles) {
+				isFinal = true;
+				if (!a.getIsFinalMode()) {
+					isFinal = false;
+					break;
+				}
+			}
+			if (!isFinal) {
+				article.getNewspaper().setIsPublished(true);
+			}	
+		}
+		
+		this.articleRepository.delete(article);
 
 	}
 	
@@ -219,6 +276,21 @@ public class ArticleService {
 		Assert.isTrue(LoginService.isAuthenticated());
 
 		result = this.articleRepository.findByWritterId(userId, this.getPageable(page, size));
+
+		return result;
+
+	}
+	
+	public Page<Article> findAllPaginated (final int page, final int size) {
+		Page<Article> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.articleRepository.findAllPaginated(this.getPageable(page, size));
 
 		return result;
 
@@ -320,6 +392,63 @@ public class ArticleService {
 			if (result == true)
 				break;
 		}
+
+		return result;
+	}
+	
+	public Boolean checkVisibleArticle(final Article article) {
+		Boolean result;
+		Authority authority;
+		Authority authority2;
+		Authority authority3;
+		Date currentMoment;
+
+		result = false;
+
+		Assert.notNull(article);
+
+		Assert.notNull(article.getNewspaper());
+		authority = new Authority();
+		authority.setAuthority("USER");
+		authority2 = new Authority();
+		authority2.setAuthority("CUSTOMER");
+		authority3 = new Authority();
+		authority3.setAuthority("ADMIN");
+		currentMoment = new Date();
+		result = false;
+
+		//Si el usuario esta autenticado
+		if (LoginService.isAuthenticated()) {
+
+			//Si es un USER
+			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
+
+				//Si es el creador del artículo
+				if (article.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId())
+					result = true;
+				//Si el newspaper no es privado y está publicado. El articulo es finalMode
+				else if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true && !article.getNewspaper().getIsPrivate() && article.getIsFinalMode())
+					result = true;
+
+				//Si es un CUSTOMER y el articulo es final mode
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2) && article.getIsFinalMode()) {
+				//Si está publicado y no es privado
+				if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true && !article.getNewspaper().getIsPrivate())
+					result = true;
+
+				//Si esta publicado y tiene una suscripción
+				else if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true
+					&& this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()) != null)
+					result = true;
+
+				//Si es un ADMIN
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3) && article.getIsFinalMode())
+				result = true;
+
+			//Si no está autenticado
+			//Si esta públicado y no es privado
+		} else if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true && article.getNewspaper().getIsPrivate() == false && article.getIsFinalMode())
+			result = true;
 
 		return result;
 	}

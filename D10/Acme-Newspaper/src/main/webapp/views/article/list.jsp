@@ -12,8 +12,14 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <display:table class="table table-striped table-bordered table-hover" name="articles" id="row" requestURI="${requestURI}">
-	
+
+	<jstl:if test="${editar}">
 	<acme:columnLink action="edit" domain="article" id="${row.getId()}" />
+	</jstl:if>
+	
+	<jstl:if test="${borrar}">
+	<acme:columnLink action="delete" domain="article" id="${row.getId()}" actor="administrator"/>
+	</jstl:if>
 	
 	<acme:column property="moment" domain="article"  formatDate="true"/>
 	
