@@ -51,7 +51,7 @@ public class SaveSubscriptionTest extends AbstractTest {
 	@Test
 	public void positiveSaveSubscriptionTest() {
 		final Object testingData[][] = {
-			{
+		{
 				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper3", null
 			}, {
 				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 317, "customer2", "newspaper3",  null
@@ -66,6 +66,7 @@ public class SaveSubscriptionTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
+				System.out.println("Iteración nº: " + i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7], (String) testingData[i][8], (Class<?>) testingData[i][9]);
 			} catch (final Throwable oops) {
@@ -99,7 +100,7 @@ public class SaveSubscriptionTest extends AbstractTest {
 	 * 	22. An actor who is authenticated as a customer can:
 		1. Subscribe to a private newspaper by providing a valid credit card.
 	 */
-	@Test()
+	//@Test()
 	public void negativeSaveCustomersSubscriptionTest() {
 		final Object testingData[][] = {
 			{
@@ -139,6 +140,7 @@ public class SaveSubscriptionTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
+				System.out.println("Iteración nº: " + i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7],  (String) testingData[i][8], (Class<?>) testingData[i][9]);
 			} catch (final Throwable oops) {
@@ -177,6 +179,7 @@ public class SaveSubscriptionTest extends AbstractTest {
 			Assert.notNull(customerId);
 			customerEntity = this.customerService.findOne(customerId);
 			Assert.notNull(customerEntity);
+			Assert.notNull(newspaper);
 			newspaperId = super.getEntityId(newspaper);
 			Assert.notNull(newspaperId);
 			newspaperEntity = this.newspaperService.findOne(newspaperId);
@@ -197,6 +200,9 @@ public class SaveSubscriptionTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
+
+		System.out.println("Expected: " + expected);
+		System.out.println("Caught: " + caught);
 		super.checkExceptions(expected, caught);
 	}
 

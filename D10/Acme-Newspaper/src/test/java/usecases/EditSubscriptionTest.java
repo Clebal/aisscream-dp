@@ -116,7 +116,7 @@ public class EditSubscriptionTest extends AbstractTest {
 			{
 				null, "subscription1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, IllegalArgumentException.class 
 			}, 	{
-				"manager1", "subscription1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, IllegalArgumentException.class 
+				"user1", "subscription1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, IllegalArgumentException.class 
 			}, {
 				"customer2", "subscription1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, IllegalArgumentException.class
 			}, {
@@ -128,9 +128,9 @@ public class EditSubscriptionTest extends AbstractTest {
 			}, {
 				"customer2", "subscription2", "Estefania", null, "5429007233826913", 2, 2021, 258, ConstraintViolationException.class 
 			}, {
-				"customer4", "subscription5", "Manuel", "Credit Links", "1005", 5, 2017, 365, ConstraintViolationException.class 
+				"customer3", "subscription6", "Manuel", "Credit Links", "1005", 5, 2017, 365, ConstraintViolationException.class 
 			}, {
-				"customer4", "subscription5", "Manuel", "Credit Links", "5429007233826913", 0, 2017, 365, ConstraintViolationException.class
+				"customer3", "subscription4", "Manuel", "Credit Links", "5429007233826913", 0, 2017, 365, ConstraintViolationException.class
 			}, {
 				"customer2", "subscription2", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, ConstraintViolationException.class 
 			}, {

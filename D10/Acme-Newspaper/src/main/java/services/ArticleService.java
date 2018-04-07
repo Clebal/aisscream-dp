@@ -15,9 +15,11 @@ import org.springframework.validation.Validator;
 
 import repositories.ArticleRepository;
 import services.ConfigurationService;
+import services.FollowUpService;
 import security.Authority;
 import security.LoginService;
 import domain.Article;
+import domain.FollowUp;
 import domain.Newspaper;
 import domain.User;
 
@@ -35,6 +37,9 @@ public class ArticleService {
 	// Supporting Service
 	@Autowired
 	private ConfigurationService configurationService;
+	
+	@Autowired
+	private FollowUpService followUpService;
 
 	// Constructors -----------------------------------------------------------
 	public ArticleService() {
@@ -145,6 +150,7 @@ public class ArticleService {
 
 	public void delete(final Article article) {
 		Article articleToDelete;
+		Collection<FollowUp> followUps;
 
 		articleToDelete = this.findOne(article.getId());
 
@@ -153,13 +159,20 @@ public class ArticleService {
 		Assert.isTrue(LoginService.isAuthenticated());
 
 		Assert.isTrue(articleToDelete.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
+		
+		followUps = this.followUpService.findByArticleId(article.getId());
 
 		this.articleRepository.delete(articleToDelete);
+		
+		for (FollowUp f : followUps) {
+			this.followUpService.delete(f);
+		}
 
 	}
 	
 	public void deleteFromNewspaper(final Article article) {
 		Authority authority;
+		Collection<FollowUp> followUps;
 		
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
@@ -167,7 +180,13 @@ public class ArticleService {
 		Assert.notNull(article);
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
+		followUps = this.followUpService.findByArticleId(article.getId());
+
 		this.articleRepository.delete(article);
+		
+		for (FollowUp f : followUps) {
+			this.followUpService.delete(f);
+		}
 
 	}
 	
@@ -241,6 +260,16 @@ public class ArticleService {
 		return result;
 	}
 
+	public Page<Article> findByNewspaperIdPaginated(final int newspaperId, final int page, final int size) {
+		Page<Article> result;
+		
+		Assert.isTrue(newspaperId != 0);
+		
+		result = this.articleRepository.findByNewspaperIdPaginated(newspaperId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
 	public Article reconstruct(final Article article, final BindingResult binding) {
 		Article result, aux;
 

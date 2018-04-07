@@ -117,6 +117,20 @@ public class SubscriptionService {
 		
 	}
 	
+	public void deleteFromNewspaper(final Subscription subscription) {
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		
+		Assert.notNull(subscription);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		this.subscriptionRepository.delete(subscription);
+		
+		}
+
+	
 	// Other business methods
 	public Page<Subscription> findByUserAccountId(final int userAccountId, final int page, final int size) {
 		Page<Subscription> result;

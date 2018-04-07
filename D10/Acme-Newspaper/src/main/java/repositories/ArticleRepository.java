@@ -23,7 +23,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.hasTaboo = true")
 	Page<Article> findAllTabooPaginated(final Pageable pageable);
 
-	@Query("select a from Article a where a.id = ?1")
+	@Query("select a from Article a where a.writer.id = ?1")
 	Page<Article> findByWritterId(final int userId, final Pageable pageable);
 
 	@Query("select a from Article a where a.writer.id=?1 and a.newspaper.id=?2")
@@ -31,5 +31,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	
 	@Query("select a from Article a where a.newspaper.id=?1")
 	Collection<Article> findByNewspaperId(final int newspaperId);
+	
+	@Query("select a from Article a where a.newspaper.id=?1")
+	Page<Article> findByNewspaperIdPaginated(final int newspaperId, final Pageable pageable);
 	
 }
