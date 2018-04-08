@@ -405,7 +405,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<!-- Newspaper -->
 	<bean id="newspaper1" class="domain.Newspaper">
 		<property name="title" value="Reunión de amigos. Viagra free." />
-		<property name="publicationDate" value="03/19/2019 23:44" />
+		<property name="publicationDate" value="03/17/2017 10:44" />
 		<property name="description" value="El próximo día nos reuniremos para hablar de cosas importantes." />
 		<property name="picture" value="http://www.quieninvento.net/wp-content/uploads/2017/07/portada-qui%C3%A9n-invent%C3%B3-el-peri%C3%B3dico-a%C3%B1o-6-1024x536.jpg" />
 		<property name="isPrivate" value="false" />
@@ -417,7 +417,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 
 	<bean id="newspaper2" class="domain.Newspaper">
 		<property name="title" value="Nuevo presupuesto" />
-		<property name="publicationDate" value="05/25/2017 12:00" />
+		<property name="publicationDate" value="01/25/2017 12:00" />
 		<property name="description" value="Tenemos nuevos presupuestos del Estado. Sex on fire." />
 		<property name="isPrivate" value="true" />
 		<property name="publisher" ref="user2" />
@@ -428,7 +428,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		
 	<bean id="newspaper3" class="domain.Newspaper">
 		<property name="title" value="Ventas de periódicos por las nubes" />
-		<property name="publicationDate" value="05/15/2015 20:05" />
+		<property name="publicationDate" value="02/15/2017 20:05" />
 		<property name="description" value="Suben las ventas de los grandes medios." />
 		<property name="picture" value="http://www.abc.es/Media/201312/03/portadas-periodicos--644x362.jpg" />
 		<property name="isPrivate" value="false" />
@@ -439,7 +439,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	
 	<bean id="newspaper4" class="domain.Newspaper">
 		<property name="title" value="El lider del partido más corrupto de Europa es encarcelado" />
-		<property name="publicationDate" value="06/02/2016 09:13" />
+		<property name="publicationDate" value="12/30/2017 09:13" />
 		<property name="description" value="Tras las manifestaciones se produjo su encarcelación." />
 		<property name="picture" value="https://ep01.epimg.net/politica/imagenes/2016/04/30/analitica/1462012657_146201_1462012657_000_sumario_normal.jpg" />
 		<property name="isPrivate" value="false" />
@@ -450,7 +450,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	
 	<bean id="newspaper5" class="domain.Newspaper">
 		<property name="title" value="Cita mundial por el medio ambiente" />
-		<property name="publicationDate" value="06/17/2017 09:13" />
+		<property name="publicationDate" value="06/17/2019 09:13" />
 		<property name="description" value="Necesario encuentro entre lideres mundiales." />
 		<property name="isPrivate" value="true" />
 		<property name="publisher" ref="user5" />
@@ -531,7 +531,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Comentario de la fecha" />
 		<property name="summary" value="La fecha del artículo está mal." />
 		<property name="text" value="Es nuestro deber corregirlo." />
-		<property name="publicationMoment" value="01/17/2017 09:13" />
+		<property name="publicationMoment" value="04/17/2017 09:13" />
 		<property name="pictures">
 			<list>
 				<value>http://www.cheatsheet.com/wp-content/uploads/2015/11/Men-Clothing-in-Fashion-Store.jpg</value>
@@ -573,7 +573,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Me equivoqué en mi artículo" />
 		<property name="summary" value="Terrible error." />
 		<property name="text" value="Me llevaba un menos." />
-		<property name="publicationMoment" value="06/04/2016 11:13" />
+		<property name="publicationMoment" value="06/04/2017 11:13" />
 		<property name="pictures">
 			<list>
 				<value>https://buhomag-cms.imgix.net/2015/11/11162815/br.jpg?auto=compress,format</value>
