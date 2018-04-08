@@ -92,6 +92,8 @@ public class NewspaperController extends AbstractController {
 		else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)
 			&& this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
 			canSeeArticles = true;
+		else if (LoginService.isAuthenticated() && newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId())
+			canSeeArticles = true;
 
 		result = new ModelAndView("newspaper/display");
 

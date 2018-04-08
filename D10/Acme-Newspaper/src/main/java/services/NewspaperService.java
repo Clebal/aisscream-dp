@@ -120,8 +120,6 @@ public class NewspaperService {
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2)) {
 				if (result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true)
 					canPermit = true;
-				else if (this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), result.getId()) != null)
-					canPermit = true;
 
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3))
 				canPermit = true;
@@ -392,20 +390,18 @@ public class NewspaperService {
 		result = false;
 		if (LoginService.isAuthenticated()) {
 			if (LoginService.getPrincipal().getAuthorities().contains(authority)) {
-				if (newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId())
+				if (newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId()) //Lo ves si eres el publisher del periódico
 					result = true;
-				else if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true)
+				else if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true) //O si está publicado
 					result = true;
 
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2)) {
-				if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true)
-					result = true;
-				else if (this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
+				if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true) //SI está publicado
 					result = true;
 
-			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3))
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3)) //El admin lo ve siempre
 				result = true;
-		} else if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true && newspaper.getIsPrivate() == false)
+		} else if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true && newspaper.getIsPrivate() == false) //Solo ven los publicados y públicos
 			result = true;
 
 		return result;

@@ -11,12 +11,15 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 
-
-<jstl:if test="${newspaper.getPicture()!=null && newspaper.getPicture()!='' }">
-	<img src="${newspaper.getPicture()}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
-</jstl:if>
-<br>
+<jstl:if test="${canSeeArticles==true }">
+	<jstl:if test="${newspaper.getPicture()!=null && newspaper.getPicture()!='' }">
+		<img src="${newspaper.getPicture()}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
+	</jstl:if>
+</jstl:if>	
+	<br>
 	<div>
+	<jstl:if test="${canSeeArticles==true }">
+	
 		<div class="container">
 			
 			<acme:display code="newspaper.title" value="${newspaper.getTitle()}"/>
@@ -26,6 +29,16 @@
 			<acme:display code="newspaper.publicationDate" value="${newspaper.getPublicationDate()}" codeMoment="newspaper.format.moment"/>
 						
 		</div>
+	</jstl:if>
+	
+	<security:authorize access="hasRole('ADMIN')">
+		<div class="container">	
+		<span style="font-size:20px"><spring:message code="newspaper.admin.actions"/></span>	
+		<acme:displayLink parametre="newspaperId" code="newspaper.delete" action="newspaper/administrator/delete.do" parametreValue="${newspaper.getId()}"/>
+		</div>
+	</security:authorize>
+		
+	
 																
 			<jstl:if test="${!articles.isEmpty()}">
 		

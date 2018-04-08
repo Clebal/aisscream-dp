@@ -69,15 +69,6 @@
 		</display:column>	
 	</security:authorize>
 	
-	<security:authorize access="hasRole('ADMIN')">
-		<display:column>
-			<jstl:if test="${requestURI.equals('newspaper/administrator/findTaboos.do')}">
-			<a href="newspaper/administrator/delete.do?newspaperId=${row.getId()}"> <spring:message
-					code="newspaper.delete" />
-			</a>
-			</jstl:if>
-		</display:column>
-	</security:authorize>	
 			
 	<acme:column property="title" domain="newspaper" />
 	
@@ -115,9 +106,7 @@
 	<jstl:if test="${row.getPublicationDate()<= currentMomentVar && row.getIsPublished()==true}">
 		<jstl:set var="canPermit" value="true"/>
 	</jstl:if>
-	<jstl:if test="${requestURI.equals('newspaper/customer/list.do')}">
-		<jstl:set var="canPermit" value="true"/>
-	</jstl:if>
+	
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">
