@@ -95,8 +95,6 @@ public class SubscriptionService {
 		Assert.isTrue(subscription.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		// Un customer solo puede tener una subscription para cada newspaper
-		if (subscription.getId() == 0)
-			Assert.isTrue(this.findByUserAccountIdNewspaper(LoginService.getPrincipal().getId(), subscription.getNewspaper().getId()) == 0);
 		
 		result = this.subscriptionRepository.save(subscription);
 		
@@ -184,12 +182,9 @@ public class SubscriptionService {
 		return result;
 	}
 	
-	public Integer findByUserAccountIdNewspaper(final int userAccountId, final int newspaperId) {
-		Integer result;
 		
 		Assert.isTrue(userAccountId != 0);
 		
-		result = this.subscriptionRepository.findByUserAccountIdNewspaper(userAccountId, newspaperId);
 		
 		return result;
 	}

@@ -50,18 +50,18 @@ public class ListArticleTest extends AbstractTest {
 	public void findAllTest() {
 		final Object testingData[][] = {
 			{
-				"customer1", "findAll", null, 4, 0, 0, null
+				"customer1", "findAll", 4, 0, 0, null
 			}, {
-				null, "findAll", null, 4, 0, 0, null
+				null, "findAll", 4, 0, 0, null
 			}, {
-				"user2", "findAll", null, 4, 0, 0, null
+				"user2", "findAll", 4, 0, 0, null
 			}
 		};
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Class<?>) testingData[i][6]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -83,23 +83,25 @@ public class ListArticleTest extends AbstractTest {
 		3. For each article, the system must store a title, the moment when it is published, a summary,
 		a piece of text (the body), and some optional pictures. An article is published when the corresponding
 		newspaper is published.
+		17. An actor who is authenticated as an administrator must be able to:
+		2. List the articles that contain taboo words.
 	 */
 	@Test()
 	public void findTabooTest() {
 		final Object testingData[][] = {
 			{
-				"admin", "findAllTabooPaginated", null, 2, 1, 2, null
+				"admin", "findAllTabooPaginated", 2, 1, 2, null
 			}, {
-				null, "findAllTabooPaginated", null, 3, 1, 1, IllegalArgumentException.class
+				null, "findAllTabooPaginated", 3, 1, 1, IllegalArgumentException.class
 			}, {
-				"admin", "findAllTabooPaginated", null, 1, 1, 1, null
+				"admin", "findAllTabooPaginated", 1, 1, 1, null
 			}
 		};
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Class<?>) testingData[i][6]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -128,20 +130,62 @@ public class ListArticleTest extends AbstractTest {
 	public void findAllUserPaginatedTest() {
 		final Object testingData[][] = {
 				{
-					"user1", "findAllUserPaginated", null, 1, 1, 5, null
+					"user1", "findAllUserPaginated", 0, 1, 5, null
 				}, {
-					null, "findAllUserPaginated", null, null, 2, 4, IllegalArgumentException.class
+					null, "findAllUserPaginated", null, 2, 4, IllegalArgumentException.class
 				}, {
-					"user2", "findAllUserPaginated", null, 1, 1, 1, null
+					"user2", "findAllUserPaginated", 0, 1, 1, null
 				}, {
-					"user3", "findAllUserPaginated", null, 0, 3, 1, null
+					"user3", "findAllUserPaginated", 1, 1, 1, null
 				}
 
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Class<?>) testingData[i][6]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Class<?>) testingData[i][5]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+		
+	/*
+	 * Pruebas:
+	 * 
+	 * 1. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user1, para la pagina 1 y el tamano 5
+	 * 	2. Probamos  no obtener el resultado previsto para el metodo findAllPaginated sin loguear, para la pagina 2 y el tamano 4
+	 * 3. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user2, para la pagina 1 y el tamano 1
+	 * 4. Probamos obtener el resultado previsto para el metodo findAllPaginated logueados como user2, para la pagina 3 y el tamano 1
+	 * 
+	 * Requisitos:
+	 * 2. A user may create a newspaper, for which the system must store a title, a publication date
+		(year, month, and day), a description, an optional picture, and the list of articles of which it is
+		composed.
+		3. For each article, the system must store a title, the moment when it is published, a summary,
+		a piece of text (the body), and some optional pictures. An article is published when the corresponding
+		newspaper is published.
+		7. An actor who is authenticated as an administrator must be able to:
+		1. Remove an article that he or she thinks is inappropriate.
+	 * 
+	 */
+	@Test()
+	public void findAllPaginated() {
+		final Object testingData[][] = {
+				{
+					"admin", "findAllPaginated", 2, 1, 2, null
+				}, {
+					"user2", "findAllPaginated", 0, 1, 5, IllegalArgumentException.class
+				}, {
+					"admin", "findAllPaginated", 3, 1, 3, null
+				}
+
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				this.template((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Integer) testingData[i][3], (Integer) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -161,7 +205,7 @@ public class ListArticleTest extends AbstractTest {
 	 * 4. Comprobamos que devuelve el valor esperado
 	 * 5. Nos desautentificamos
 	 */
-	protected void template(final String user, final String method, final String newspaper, final Integer tamano, final int page, final int size, final Class<?> expected) {
+	protected void template(final String user, final String method, final Integer tamano, final int page, final int size, final Class<?> expected) {
 		Class<?> caught;
 		Collection<Article> articlesCollection;
 		List<Article> articlesList;
@@ -176,14 +220,17 @@ public class ListArticleTest extends AbstractTest {
 			if (method.equals("findAll")) {
 				articlesCollection = this.articleService.findAll();
 				sizeArticle = articlesCollection.size();
-			} if (method.equals("findAllUserPaginated")) {
+			} else if (method.equals("findAllUserPaginated")) {
 				Assert.notNull(user);
 				userId = super.getEntityId(user);
 				Assert.notNull(userId);
 				articlesList = this.articleService.findAllUserPaginated(userId, page, size).getContent();
 				sizeArticle = articlesList.size();
-			} 	if (method.equals("findAllTabooPaginated")) {
+			} 	else if (method.equals("findAllTabooPaginated")) {
 				articlesCollection = this.articleService.findAllTabooPaginated(page, size).getContent();
+				sizeArticle = articlesCollection.size();
+			} else {
+				articlesCollection = this.articleService.findAllPaginated(page, size).getContent();
 				sizeArticle = articlesCollection.size();
 			}
 			Assert.isTrue(sizeArticle == tamano); 

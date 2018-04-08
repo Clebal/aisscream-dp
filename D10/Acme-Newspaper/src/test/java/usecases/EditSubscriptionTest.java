@@ -53,23 +53,25 @@ public class EditSubscriptionTest extends AbstractTest {
 	public void positiveEditSubscriptionTest() {
 		final Object testingData[][] = {
 			{	
-				"customer1", "subscription1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null
+				"customer1", "subscription1", "Antonio", "MasterCard", "5212472747907073", 9, 2019, 258, null
 			}, {
-				"customer2", "subscription2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 317, null
+				"customer2", "subscription2", "Alejandro", "Visa", "377564788646263", 8, 2020, 317, null
 			}, {
-				"customer3", "subscription4", "Paco", "American Express", "345035739479236", 4, 2018, 147, null
+				"customer3", "subscription4", "Paco", "American Express", "4929254799279560", 4, 2018, 147, null
 			}, {
-				"customer1", "subscription3", "Manuel", "Credit Links", "6011516686715805", 5, 2017, 365, null
+				"customer1", "subscription3", "Manuel", "Credit Links", "5212472747907073", 5, 2017, 365, null
 			}, {
-				"customer2", "subscription5", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, null
+				"customer2", "subscription5", "Estefania", "MasterCard", "377564788646263", 2, 2021, 258, null
 			}
 		};
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
+				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
 			} catch (final Throwable oops) {
+				System.out.println(oops.getMessage());
 				throw new RuntimeException(oops);
 			} finally {
 				super.rollbackTransaction();
@@ -246,6 +248,7 @@ public class EditSubscriptionTest extends AbstractTest {
 			Assert.notNull(subscriptionId);
 			subscription = this.subscriptionService.findOneToEdit(subscriptionId);
 			Assert.notNull(subscription);
+			System.out.println(subscription);
 			subscriptionEntity = this.copySubscription(subscription);
 			subscriptionEntity.setHolderName(holderName);
 			subscriptionEntity.setBrandName(brandName);
@@ -254,6 +257,7 @@ public class EditSubscriptionTest extends AbstractTest {
 			subscriptionEntity.setExpirationYear(expirationYear);
 			subscriptionEntity.setCvvcode(cvvcode);
 			subscriptionEntity.setCustomer(customerEntity);
+			System.out.println(subscriptionEntity);
 			this.subscriptionService.save(subscriptionEntity);
 			super.unauthenticate();
 			super.flushTransaction();
@@ -278,7 +282,6 @@ public class EditSubscriptionTest extends AbstractTest {
 		result.setNewspaper(subscription.getNewspaper());
 		result.setHolderName(subscription.getHolderName());
 		result.setCustomer(subscription.getCustomer());
-		result.setNewspaper(subscription.getNewspaper());
 		
 		return result;
 	}

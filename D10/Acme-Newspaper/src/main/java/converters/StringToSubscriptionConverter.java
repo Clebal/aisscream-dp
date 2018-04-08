@@ -16,7 +16,7 @@ import domain.Subscription;
 public class StringToSubscriptionConverter implements Converter<String, Subscription> {
 
 	@Autowired
-	private SubscriptionRepository creditCardRepository;
+	private SubscriptionRepository subscriptionRepository;
 	
 	@Override
 	public Subscription convert(String text) {
@@ -28,7 +28,7 @@ public class StringToSubscriptionConverter implements Converter<String, Subscrip
 				result = null;
 			}else{
 				id = Integer.valueOf(text);
-				result = this.creditCardRepository.findOne(id);
+				result = this.subscriptionRepository.findOne(id);
 			}
 		} catch(Throwable oops) {
 			throw new IllegalArgumentException(oops);

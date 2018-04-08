@@ -82,7 +82,7 @@ public abstract class AbstractTest {
 		SecurityContext context;
 
 		if (username == null)
-			authenticationToken = null;
+			authenticationToken = new TestingAuthenticationToken(null, null);
 		else {
 			userDetails = this.loginService.loadUserByUsername(username);
 			authenticationToken = new TestingAuthenticationToken(userDetails, null);

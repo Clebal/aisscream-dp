@@ -76,7 +76,7 @@ public class DeleteArticleTest extends AbstractTest {
 				super.rollbackTransaction();
 			}
 	
-	/*for (int i = 0; i < testingData.length; i++)
+	for (int i = 0; i < testingData.length; i++)
 		try {
 			super.startTransaction();
 			this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
@@ -84,7 +84,7 @@ public class DeleteArticleTest extends AbstractTest {
 			throw new RuntimeException(oops);
 		} finally {
 			super.rollbackTransaction();
-		}*/
+		}
 	}
 	
 	/*
@@ -106,7 +106,7 @@ public class DeleteArticleTest extends AbstractTest {
 		newspaper is published.
 	 *
 	 */
-	 //@Test()
+	 @Test()
 	public void negativeDeleteArticleTest() {
 		final Object testingData[][] = {
 			{
