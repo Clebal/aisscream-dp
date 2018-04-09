@@ -136,7 +136,7 @@ public class NewspaperService {
 		Date currentMoment;
 
 		Assert.notNull(newspaper);
-
+		Assert.notNull(newspaper.getPublicationDate());
 		currentMoment = new Date();
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
@@ -217,8 +217,15 @@ public class NewspaperService {
 
 	public Page<Newspaper> findByUserId(final int userId, final int page, final int size) {
 		Page<Newspaper> result;
+		Authority authority;
 
 		Assert.isTrue(userId != 0);
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == userId);
 
 		result = this.newspaperRepository.findByUserId(userId, this.getPageable(page, size));
 
@@ -228,8 +235,15 @@ public class NewspaperService {
 
 	public Page<Newspaper> findByCustomerId(final int customerId, final int page, final int size) {
 		Page<Newspaper> result;
+		Authority authority;
 
 		Assert.isTrue(customerId != 0);
+		authority = new Authority();
+		authority.setAuthority("CUSTOMER");
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == customerId);
 
 		result = this.newspaperRepository.findByCustomerId(customerId, this.getPageable(page, size));
 
@@ -256,7 +270,7 @@ public class NewspaperService {
 
 	}
 
-	public Page<Newspaper> findTaboos(final int page, final int size) {
+	public Page<Newspaper> findTaboos(final int page, final int size) { //Cambiar y hacer su test
 		Page<Newspaper> result;
 		Authority authority;
 
@@ -289,10 +303,15 @@ public class NewspaperService {
 		List<Newspaper> result;
 		Newspaper newspaper;
 		Integer tamaño, pageAux, fromId, toId;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("CUSTOMER");
 
 		Assert.isTrue(customerId != 0);
 		result = new ArrayList<Newspaper>();
 		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		Assert.isTrue(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == customerId);
 		listId = new ArrayList<Integer>(this.newspaperRepository.findForSubscribe(customerId));
 		tamaño = listId.size();
