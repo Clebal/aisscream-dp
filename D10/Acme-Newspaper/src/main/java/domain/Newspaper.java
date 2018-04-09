@@ -1,38 +1,46 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Indexed
 @Entity
 @Access(AccessType.PROPERTY)
 public class Newspaper extends DomainEntity {
 
-	private Date	publicationDate;
+	private Date				publicationDate;
 
-	private String	title;
+	private String				title;
 
-	private String	description;
+	private String				description;
 
-	private String	picture;
+	private String				picture;
 
-	private boolean	isPrivate;
+	private boolean				isPrivate;
 
-	private boolean	hasTaboo;
+	private boolean				hasTaboo;
 
-	private boolean	isPublished;
+	private boolean				isPublished;
 
-	private User	publisher;
+	private User				publisher;
+
+	private Collection<Article>	articles;
 
 
 	@NotNull
@@ -46,6 +54,7 @@ public class Newspaper extends DomainEntity {
 	}
 
 	@NotBlank
+	@Field
 	public String getTitle() {
 		return this.title;
 	}
@@ -55,6 +64,7 @@ public class Newspaper extends DomainEntity {
 	}
 
 	@NotBlank
+	@Field
 	public String getDescription() {
 		return this.description;
 	}
@@ -105,6 +115,17 @@ public class Newspaper extends DomainEntity {
 
 	public void setPublisher(final User publisher) {
 		this.publisher = publisher;
+	}
+
+	@NotNull
+	@Valid
+	@OneToMany(mappedBy = "newspaper", cascade = CascadeType.ALL)
+	public Collection<Article> getArticles() {
+		return this.articles;
+	}
+
+	public void setArticles(final Collection<Article> articles) {
+		this.articles = articles;
 	}
 
 }

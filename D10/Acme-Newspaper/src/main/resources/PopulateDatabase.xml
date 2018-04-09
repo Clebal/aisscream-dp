@@ -412,6 +412,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="publisher" ref="user1" />
  		<property name="hasTaboo" value="true" />
  		<property name="isPublished" value="true" />
+ 		<property name="articles">
+			<list>
+				<ref bean="article1" />
+			</list>
+		</property>
  		
 	</bean>
 
@@ -423,6 +428,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="publisher" ref="user2" />
  		<property name="hasTaboo" value="true" />
  		<property name="isPublished" value="true" />
+ 		<property name="articles">
+			<list>
+				<ref bean="article2" />
+			</list>
+		</property>
  		
 	</bean>
 		
@@ -434,7 +444,12 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isPrivate" value="false" />
 		<property name="publisher" ref="user3" />
  		<property name="hasTaboo" value="false" />
- 		 <property name="isPublished" value="true" />	
+ 		 <property name="isPublished" value="true" />
+ 		 <property name="articles">
+			<list>
+				<ref bean="article3" />
+			</list>
+		</property>	
 	</bean>
 	
 	<bean id="newspaper4" class="domain.Newspaper">
@@ -446,6 +461,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="publisher" ref="user4" />
  		<property name="hasTaboo" value="false" />
  		<property name="isPublished" value="false" />
+ 		<property name="articles">
+			<list>
+				<ref bean="article4" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="newspaper5" class="domain.Newspaper">
@@ -456,6 +476,24 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="publisher" ref="user5" />
  		<property name="hasTaboo" value="false" />
  		<property name="isPublished" value="true" />
+ 		<property name="articles">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="newspaper6" class="domain.Newspaper">
+		<property name="title" value="Cita mundial por el medio ambiente segunda parte" />
+		<property name="publicationDate" value="06/18/2019 09:13" />
+		<property name="description" value="Reunión medioambiental." />
+		<property name="isPrivate" value="false" />
+		<property name="publisher" ref="user1" />
+ 		<property name="hasTaboo" value="false" />
+ 		<property name="isPublished" value="true" />
+ 		<property name="articles">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<!-- Subscription -->
