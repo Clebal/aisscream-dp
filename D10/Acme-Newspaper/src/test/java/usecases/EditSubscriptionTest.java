@@ -67,11 +67,9 @@ public class EditSubscriptionTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6], (Integer) testingData[i][7], (Class<?>) testingData[i][8]);
 			} catch (final Throwable oops) {
-				System.out.println(oops.getMessage());
 				throw new RuntimeException(oops);
 			} finally {
 				super.rollbackTransaction();
@@ -190,6 +188,7 @@ public class EditSubscriptionTest extends AbstractTest {
 		try {
 			super.authenticate(customer);
 			Assert.notNull(customer);
+
 			customerId = super.getEntityId(customer);
 			customerEntity = this.customerService.findOne(customerId);
 			Assert.notNull(customerEntity);
@@ -211,7 +210,9 @@ public class EditSubscriptionTest extends AbstractTest {
 			subscriptionEntity.setExpirationYear(expirationYear);
 			subscriptionEntity.setCvvcode(cvvcode);
 			subscriptionEntity.setCustomer(customerEntity);
+
 			this.subscriptionService.save(subscriptionEntity);
+
 			super.unauthenticate();
 			super.flushTransaction();
 		} catch (final Throwable oops) {
@@ -248,7 +249,6 @@ public class EditSubscriptionTest extends AbstractTest {
 			Assert.notNull(subscriptionId);
 			subscription = this.subscriptionService.findOneToEdit(subscriptionId);
 			Assert.notNull(subscription);
-			System.out.println(subscription);
 			subscriptionEntity = this.copySubscription(subscription);
 			subscriptionEntity.setHolderName(holderName);
 			subscriptionEntity.setBrandName(brandName);
@@ -257,7 +257,6 @@ public class EditSubscriptionTest extends AbstractTest {
 			subscriptionEntity.setExpirationYear(expirationYear);
 			subscriptionEntity.setCvvcode(cvvcode);
 			subscriptionEntity.setCustomer(customerEntity);
-			System.out.println(subscriptionEntity);
 			this.subscriptionService.save(subscriptionEntity);
 			super.unauthenticate();
 			super.flushTransaction();

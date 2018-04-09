@@ -69,7 +69,6 @@ public class SaveSubscriptionTest extends AbstractTest {
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7], (String) testingData[i][8], (Class<?>) testingData[i][9]);
 			} catch (final Throwable oops) {
-				System.out.println(oops.getMessage());
 				throw new RuntimeException(oops);
 			} finally {
 				super.rollbackTransaction();
@@ -140,7 +139,6 @@ public class SaveSubscriptionTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println("Iteración nº: " + i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7],  (String) testingData[i][8], (Class<?>) testingData[i][9]);
 			} catch (final Throwable oops) {
@@ -185,8 +183,6 @@ public class SaveSubscriptionTest extends AbstractTest {
 			newspaperEntity = this.newspaperService.findOne(newspaperId);
 			Assert.notNull(newspaperEntity);
 			subscription = this.subscriptionService.create(customerEntity, newspaperEntity);
-			System.out.println(subscription.getCustomer());
-			System.out.println(subscription.getNewspaper());
 
 			subscription.setHolderName(holderName);
 			subscription.setBrandName(brandName);
@@ -204,8 +200,6 @@ public class SaveSubscriptionTest extends AbstractTest {
 			caught = oops.getClass();
 		}
 
-		System.out.println("Expected: " + expected);
-		System.out.println("Caught: " + caught);
 		super.checkExceptions(expected, caught);
 	}
 

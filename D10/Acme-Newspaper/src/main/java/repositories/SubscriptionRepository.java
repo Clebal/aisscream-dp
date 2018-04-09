@@ -19,7 +19,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
 	@Query("select s from Subscription s where s.customer.userAccount.id = ?1")
 	Collection<Subscription> findByUserAccountId(int userAccountId);
 	
-	@Query("select s from Subscription s where s.customer.userAccount.id = ?1 and s.newspaper.id = ?2")
+	@Query("select count(s) from Subscription s where s.customer.userAccount.id = ?1 and s.newspaper.id = ?2")
 	Integer findByUserAccountIdNewspaper(int userAccountId, int newspaperId);
 	
 	@Query("select s from Subscription s where s.customer.id=?1 and s.newspaper.id=?2")

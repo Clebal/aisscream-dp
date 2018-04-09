@@ -145,7 +145,6 @@ public class ArticleUserController extends AbstractController {
 					this.articleService.save(article);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable oops) {
-					System.out.println("ERROR: " + oops.getMessage());
 					result = this.createEditModelAndView(article, "article.commit.error");
 				}
 

@@ -132,7 +132,7 @@ public class ListArticleTest extends AbstractTest {
 				{
 					"user1", "findAllUserPaginated", 0, 1, 5, null
 				}, {
-					null, "findAllUserPaginated", null, 2, 4, IllegalArgumentException.class
+					null, "findAllUserPaginated", 0, 2, 4, IllegalArgumentException.class
 				}, {
 					"user2", "findAllUserPaginated", 0, 1, 1, null
 				}, {

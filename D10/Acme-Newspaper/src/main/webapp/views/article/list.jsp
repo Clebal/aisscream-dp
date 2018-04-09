@@ -14,7 +14,7 @@
 <display:table class="table table-striped table-bordered table-hover" name="articles" id="row" requestURI="${requestURI}">
 
 	<jstl:if test="${editar}">
-	<acme:columnLink action="edit" domain="article" id="${row.getId()}" />
+	<acme:columnLink action="edit" domain="article" actor="user" id="${row.getId()}" />
 	</jstl:if>
 	
 	<jstl:if test="${borrar}">

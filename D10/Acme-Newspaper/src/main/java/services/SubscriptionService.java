@@ -83,8 +83,10 @@ public class SubscriptionService {
 	public Subscription save(final Subscription subscription) {
 		Subscription result;
 		Authority authority;
+		Boolean subscriptionNoExists;
 		
 		Assert.notNull(subscription);
+		result = null;
 		
 		// Solo puede ser añadido por un usuario
 		authority = new Authority();
@@ -95,6 +97,12 @@ public class SubscriptionService {
 		Assert.isTrue(subscription.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		// Un customer solo puede tener una subscription para cada newspaper
+		subscriptionNoExists = this.findByUserAccountIdNewspaper(LoginService.getPrincipal().getId(), subscription.getNewspaper().getId());
+
+		if (subscription.getId() == 0) {
+			Assert.isTrue(subscriptionNoExists);
+			Assert.isTrue(subscription.getNewspaper().getIsPrivate());
+		}
 		
 		result = this.subscriptionRepository.save(subscription);
 		
@@ -127,7 +135,6 @@ public class SubscriptionService {
 		this.subscriptionRepository.delete(subscription);
 		
 		}
-
 	
 	// Other business methods
 	public Page<Subscription> findByUserAccountId(final int userAccountId, final int page, final int size) {
@@ -182,9 +189,19 @@ public class SubscriptionService {
 		return result;
 	}
 	
+	public Boolean findByUserAccountIdNewspaper(final int userAccountId, final int newspaperId) {
+		Boolean result;
+		Integer repo;
 		
 		Assert.isTrue(userAccountId != 0);
+		Assert.isTrue(newspaperId != 0);
 		
+		repo = this.subscriptionRepository.findByUserAccountIdNewspaper(userAccountId, newspaperId);
+		
+		if (repo == null || repo == 0)
+			result = true;
+		else
+			result = false;
 		
 		return result;
 	}
@@ -210,6 +227,8 @@ public class SubscriptionService {
 			
 			subscription.setVersion(aux.getVersion());
 			subscription.setCustomer(aux.getCustomer());
+			subscription.setNewspaper(aux.getNewspaper());
+			
 		}
 		
 		this.validator.validate(subscription, binding);
