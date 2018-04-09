@@ -33,7 +33,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.writer.id=?1 and a.newspaper.id=?2 and a.newspaper.isPublished=true and a.isFinalMode=true")
 	Collection<Article> findByUserIdAndNewspaperId(final int userId, final int newspaperId);
 	
-	@Query("select a from Article a where a.newspaper.id=?1 and a.newspaper.isPublished=true and a.isFinalMode=true")
+	@Query("select a from Article a where a.newspaper.id=?1")
 	Collection<Article> findByNewspaperId(final int newspaperId);
 	
 	@Query("select a from Article a where a.newspaper.id=?1 and a.newspaper.isPublished=true and a.isFinalMode=true")

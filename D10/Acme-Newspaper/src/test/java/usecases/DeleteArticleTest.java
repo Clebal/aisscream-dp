@@ -66,17 +66,15 @@ public class DeleteArticleTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
-				System.out.println(oops.getMessage());
 				throw new RuntimeException(oops);
 			} finally {
 				super.rollbackTransaction();
 			}
 	
-	for (int i = 0; i < testingData.length; i++)
+	/*for (int i = 0; i < testingData.length; i++)
 		try {
 			super.startTransaction();
 			this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
@@ -84,7 +82,7 @@ public class DeleteArticleTest extends AbstractTest {
 			throw new RuntimeException(oops);
 		} finally {
 			super.rollbackTransaction();
-		}
+		}*/
 	}
 	
 	/*
@@ -149,7 +147,6 @@ public class DeleteArticleTest extends AbstractTest {
 		 * 3. Accedemos a la lista de articles y tomamos la que nos interesa
 		 * 4. Borramos el article
 		 * 5. Nos desautentificamos
-		 * 6. Comprobamos que no existe el articulo borrado
 		 */
 	protected void template(final String user, final String article, final Class<?> expected) {
 		Class<?> caught;
@@ -180,13 +177,13 @@ public class DeleteArticleTest extends AbstractTest {
 			
 			Assert.isTrue(!this.articleService.findAll().contains(articleEntity));
 
-			super.flushTransaction();
+			this.articleService.flush();
+			
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		super.checkExceptions(expected, caught);
 	}
-	
 	/*
 	 * 	Pasos:
 	 * 
@@ -198,16 +195,14 @@ public class DeleteArticleTest extends AbstractTest {
 	 */
 	protected void templateNoList(final String user, final String article, final Class<?> expected) {
 		Class<?> caught;
-		int userId;
+		int articleId;
 		Article articleEntity = null;
 
 		caught = null;
 		try {
 			super.authenticate(user);
-			userId = super.getEntityId(article);
-			Assert.notNull(userId);
-
-			articleEntity = this.articleService.findOneToEdit(userId);
+			articleId = super.getEntityId(article);
+			articleEntity = this.articleService.findOneToEdit(articleId);
 			this.articleService.delete(articleEntity);
 			super.unauthenticate();
 			

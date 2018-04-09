@@ -183,16 +183,16 @@ public class ArticleService {
 
 		Assert.isTrue(articleToDelete.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		
-		followUps = this.followUpService.findByArticleId(article.getId());
-
+		followUps = this.followUpService.findByArticleId(articleToDelete.getId());
+				
 		for (FollowUp f : followUps) {
-			this.followUpService.deleteFromArticle(f);
+			this.followUpService.deleteFromArticle(f.getId());
 		}
 		
 		isFinal = true;
 		
-		if (article.getIsFinalMode()) {
-			articles = this.findByNewspaperId(article.getNewspaper().getId());
+		if (!article.getIsFinalMode()) {
+			articles = this.findByNewspaperId(articleToDelete.getNewspaper().getId());
 			for (Article a : articles) {
 				isFinal = true;
 				if (!a.getIsFinalMode()) {
@@ -201,10 +201,10 @@ public class ArticleService {
 				}
 			}
 			if (!isFinal) {
-				article.getNewspaper().setIsPublished(true);
+				articleToDelete.getNewspaper().setIsPublished(true);
 			}	
 		}
-		
+
 		this.articleRepository.delete(articleToDelete);
 
 	}
@@ -224,12 +224,12 @@ public class ArticleService {
 		followUps = this.followUpService.findByArticleId(article.getId());
 
 		for (FollowUp f : followUps) {
-			this.followUpService.deleteFromArticle(f);
+			this.followUpService.deleteFromArticle(f.getId());
 		}
 		
 		isFinal = true;
 
-		if (article.getIsFinalMode()) {
+		if (!article.getIsFinalMode()) {
 			articles = this.findByNewspaperId(article.getNewspaper().getId());
 			for (Article a : articles) {
 				isFinal = true;
@@ -242,16 +242,21 @@ public class ArticleService {
 				article.getNewspaper().setIsPublished(true);
 			}	
 		}
-		
+
 		this.articleRepository.delete(article);
 
+	}
+	
+	public void flush() {
+		
+		this.articleRepository.flush();
+		
 	}
 	
 	//Auxiliare methods
 
 	public Page<Article> findAllUserPaginated(final int userId, final int page, final int size) {
 		Page<Article> result;
-		Assert.isTrue(LoginService.isAuthenticated());
 
 		result = this.articleRepository.findAllUserPaginated(userId, this.getPageable(page, size));
 

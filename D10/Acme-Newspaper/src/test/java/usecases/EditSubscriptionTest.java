@@ -69,7 +69,7 @@ public class EditSubscriptionTest extends AbstractTest {
 			try {
 				System.out.println(i);
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6], (Integer) testingData[i][7], (Class<?>) testingData[i][8]);
 			} catch (final Throwable oops) {
 				System.out.println(oops.getMessage());
 				throw new RuntimeException(oops);
@@ -80,7 +80,7 @@ public class EditSubscriptionTest extends AbstractTest {
 	for (int i = 0; i < testingData.length; i++)
 		try {
 			super.startTransaction();
-			this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
+			this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6], (Integer) testingData[i][7], (Class<?>) testingData[i][8]);
 		} catch (final Throwable oops) {
 			throw new RuntimeException(oops);
 		} finally {
@@ -147,7 +147,7 @@ public class EditSubscriptionTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6], (Integer) testingData[i][7], (Class<?>) testingData[i][8]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -157,7 +157,7 @@ public class EditSubscriptionTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (int) testingData[i][7], (Class<?>) testingData[i][8]);
+				this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6], (Integer) testingData[i][7], (Class<?>) testingData[i][8]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -178,7 +178,7 @@ public class EditSubscriptionTest extends AbstractTest {
 	 * 6. Guardamos la subscription copiada con los parámetros
 	 * 7. Nos desautentificamos
 	 */
-	protected void template(final String customer, final String subscriptionEdit, final String holderName, final String brandName, final String number, final int expirationMonth, final int expirationYear, final int cvvcode, final Class<?> expected) {
+	protected void template(final String customer, final String subscriptionEdit, final String holderName, final String brandName, final String number, final Integer expirationMonth, final Integer expirationYear, final Integer cvvcode, final Class<?> expected) {
 		Class<?> caught;
 		Integer customerId, subscriptionId;
 		Customer customerEntity;

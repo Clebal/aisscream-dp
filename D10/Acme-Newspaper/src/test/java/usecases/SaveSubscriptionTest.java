@@ -52,15 +52,15 @@ public class SaveSubscriptionTest extends AbstractTest {
 	public void positiveSaveSubscriptionTest() {
 		final Object testingData[][] = {
 		{
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper3", null
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper5", null
 			},/* {
 				"customer2", "Alejandro", "Visa", "377564788646263", 8, 2020, 317, "customer2", "newspaper3",  null //TODO: CONVERTER NOT FOUND
 			}, */{
-				"customer3", "Paco", "American Express", "345035739479236", 4, 2018, 147, "customer3", "newspaper3", null
+				"customer3", "Paco", "American Express", "345035739479236", 4, 2018, 147, "customer3", "newspaper5", null
 			}, {
 				"customer2", "Manuel", "Credit Links", "6011516686715805", 5, 2017, 365, "customer2", "newspaper2", null
 			}, {
-				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, "customer1", "newspaper4", null
+				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, "customer1", "newspaper5", null
 			}
 		};
 			
@@ -110,11 +110,11 @@ public class SaveSubscriptionTest extends AbstractTest {
 			}, {
 				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper3",  IllegalArgumentException.class
 			}, {
-				"customer1", "", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper3", ConstraintViolationException.class 
+				"customer1", "", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer1", null, "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper3", ConstraintViolationException.class 
+				"customer1", null, "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer3", "Estefania", "", "4929254799279560", 2, 2021, 258, "customer3", "newspaper1", ConstraintViolationException.class 
+				"customer3", "Estefania", "", "4929254799279560", 2, 2021, 258, "customer3", "newspaper5", ConstraintViolationException.class 
 			}, {
 				"customer2", "Estefania", null, "5429007233826913", 2, 2021, 258, "customer2", "newspaper2", ConstraintViolationException.class 
 			},/* {
@@ -122,15 +122,15 @@ public class SaveSubscriptionTest extends AbstractTest {
 			}, */{
 				"customer2", "Manuel", "Credit Links", "5450634754850139", 0, 2017, 365, "customer2", "newspaper2", ConstraintViolationException.class
 			}, {
-				"customer3", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, "customer3", "newspaper1", ConstraintViolationException.class 
+				"customer3", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, "customer3", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer3", "Paco", "American Express", "345035739479236", 4, -52, 147, "customer3", "newspaper1", ConstraintViolationException.class 
+				"customer3", "Paco", "American Express", "345035739479236", 4, -52, 147, "customer3", "newspaper5", ConstraintViolationException.class 
 			}, {
 				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 50, "customer2", "newspaper2",  ConstraintViolationException.class 
 			}, {
 				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, "customer2", "newspaper2", ConstraintViolationException.class 
 			}, {
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper3", IllegalArgumentException.class 
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper5", IllegalArgumentException.class 
 			}, {
 				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null, "newspaper3", IllegalArgumentException.class 
 			}, /*{

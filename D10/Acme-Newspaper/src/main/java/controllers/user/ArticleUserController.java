@@ -83,12 +83,12 @@ public class ArticleUserController extends AbstractController {
 				
 		// Delete
 		@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
-		public ModelAndView delete(@RequestParam final int articleId) {
+		public ModelAndView delete(Article article, BindingResult binding) {
 			ModelAndView result;
-			Article article;
+			Article articleFind;
 
-			article = this.articleService.findOne(articleId);
-			this.articleService.delete(article);			
+			articleFind = this.articleService.findOne(article.getId());
+			this.articleService.delete(articleFind);			
 			result = new ModelAndView("redirect:list.do");
 			
 			return result;

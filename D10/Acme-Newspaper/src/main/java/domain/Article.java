@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -107,7 +106,7 @@ public class Article extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false)
 	public Newspaper getNewspaper() {
 		return newspaper;
 	}
