@@ -91,9 +91,9 @@
 		
 		<security:intercept-url pattern="/newspaper/display.do" access="permitAll" />
 		<security:intercept-url pattern="/newspaper/list.do" access="permitAll" />
+		<security:intercept-url pattern="/newspaper/listSearch.do" access="permitAll" />
 		
-		
-		
+			
 		<!-- Carlos -->
  		<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />
  		<security:intercept-url pattern="/followUp/user/create.do" access="hasRole('USER')" />

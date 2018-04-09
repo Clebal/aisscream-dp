@@ -11,8 +11,15 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<jstl:if test="${requestURI.equals('newspaper/list.do') || requestURI.equals('newspaper/listSearch.do')}">
 
-
+	<form class="navbar-form navbar-right" action="newspaper/listSearch.do" method="GET">
+        <div class="form-group">
+          	<input type="text" name="keyword" class="form-control" placeholder="<spring:message code="newspaper.search" />">
+        </div>
+        <button type="submit" class="btn btn-default"><spring:message code="master.page.submit"/></button>
+     </form>
+</jstl:if>
 <display:table class="table table-striped table-bordered table-hover" name="newspapers" id="row">
 	<jsp:useBean id="currentMomentVar" class="java.util.Date"/>
 	
@@ -136,6 +143,10 @@
 
 <jstl:if test="${requestURI.equals('newspaper/user/list.do') || requestURI.equals('newspaper/customer/list.do') || requestURI.equals('newspaper/list.do') || requestURI.equals('newspaper/customer/listForSubscribe.do') || requestURI.equals('newspaper/administrator/findTaboos.do') || requestURI.equals('newspaper/administrator/find10PercentageMoreAvg.do') }">
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}"/>
+</jstl:if>
+
+<jstl:if test="${requestURI.equals('newspaper/listSearch.do')}">
+		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}" parameter="keyword" parameterValue="${keyword}"/>
 </jstl:if>
 
 

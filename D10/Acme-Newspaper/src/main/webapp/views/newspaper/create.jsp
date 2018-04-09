@@ -14,6 +14,8 @@
 	<form:hidden path="id" />
 	<form:hidden path="publisher" />
 	<form:hidden path="isPublished" />
+	<form:hidden path="articles" />
+	
 	
 		
 	<acme:textbox code="newspaper.title" path="title"/>

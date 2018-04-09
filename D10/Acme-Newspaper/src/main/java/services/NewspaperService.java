@@ -6,6 +6,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+
+import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +27,7 @@ import org.springframework.validation.Validator;
 import repositories.NewspaperRepository;
 import security.Authority;
 import security.LoginService;
+import utilities.DatabaseConfig;
 import domain.Article;
 import domain.Newspaper;
 import domain.Subscription;
@@ -59,17 +68,20 @@ public class NewspaperService {
 	public Newspaper create() {
 		Newspaper result;
 		Authority authority;
+		Collection<Article> articles;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
+		articles = new ArrayList<Article>();
 		result = new Newspaper();
 		result.setPublisher(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		result.setIsPrivate(false);
 		result.setHasTaboo(false);
 		result.setIsPublished(true);
+		result.setArticles(articles);
 
 		return result;
 	}
@@ -143,6 +155,7 @@ public class NewspaperService {
 		if (newspaper.getId() == 0) {
 			Assert.isTrue(newspaper.getPublicationDate().compareTo(currentMoment) >= 0);
 			Assert.isTrue(newspaper.getIsPublished() == true);
+			Assert.isTrue(newspaper.getArticles().isEmpty());
 			if (this.checkTabooWords(newspaper) == true)
 				newspaper.setHasTaboo(true);
 		}
@@ -170,7 +183,7 @@ public class NewspaperService {
 		for (final Subscription s : this.subscriptionService.findByNewspaperId(newspaperToDelete.getId()))
 			this.subscriptionService.deleteFromNewspaper(s);
 
-		this.newspaperRepository.delete(newspaperToDelete);
+		this.newspaperRepository.delete(this.findOne(newspaperToDelete.getId()));
 
 	}
 
@@ -284,6 +297,25 @@ public class NewspaperService {
 
 	}
 
+	public Page<Newspaper> findPublicsPublishedSearch(final String keyword, final int page, final int size) {
+		Page<Newspaper> result;
+
+		result = this.newspaperRepository.findPublicsPublishedSearch(keyword, this.getPageable(page, size));
+
+		return result;
+
+	}
+
+	public Page<Newspaper> findPublishedSearch(final String keyword, final int page, final int size) {
+		Page<Newspaper> result;
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		result = this.newspaperRepository.findPublishedSearch(keyword, this.getPageable(page, size));
+
+		return result;
+
+	}
+
 	public Page<Newspaper> find10PercentageMoreAvg(final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
@@ -349,6 +381,67 @@ public class NewspaperService {
 		result = this.newspaperRepository.countFindForSubscribe(customerId);
 
 		return result;
+	}
+
+	// Hibernate Search
+	@SuppressWarnings("unchecked")
+	public Collection<Newspaper> findTaboos() {
+		Collection<Newspaper> result;
+		Collection<String> tabooWords;
+		String input;
+		int index;
+		HibernatePersistenceProvider persistenceProvider;
+		EntityManagerFactory entityManagerFactory;
+		EntityManager em;
+		FullTextEntityManager fullTextEntityManager;
+		QueryBuilder qb;
+		org.apache.lucene.search.Query luceneQuery;
+		Query jpaQuery;
+		result = null;
+
+		try {
+
+			tabooWords = this.configurationService.findTabooWords();
+			index = 0;
+			input = "";
+			for (final String s : tabooWords)
+				if (index == 0) {
+					input = s;
+					index++;
+				} else
+					input += ", " + s;
+
+			persistenceProvider = new HibernatePersistenceProvider();
+			entityManagerFactory = persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit, null);
+
+			em = entityManagerFactory.createEntityManager();
+
+			fullTextEntityManager = Search.getFullTextEntityManager(em);
+
+			fullTextEntityManager.createIndexer().startAndWait();
+
+			em.getTransaction().begin();
+
+			qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Newspaper.class).get();
+
+			luceneQuery = qb.keyword().onFields("title", "description").matching(input).createQuery();
+
+			jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Newspaper.class);
+
+			result = jpaQuery.getResultList();
+
+			em.getTransaction().commit();
+
+			em.close();
+
+		} catch (final IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (final Throwable a) {
+			a.printStackTrace();
+		}
+
+		return result;
+
 	}
 
 	private Pageable getPageable(final int page, final int size) {

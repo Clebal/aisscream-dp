@@ -75,6 +75,27 @@ public class NewspaperController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/listSearch", method = RequestMethod.GET)
+	public ModelAndView listSearch(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam(required = false, defaultValue = "") final String keyword) {
+		ModelAndView result;
+		Page<Newspaper> newspapers;
+
+		if (LoginService.isAuthenticated())
+			newspapers = this.newspaperService.findPublishedSearch(keyword, page, 5);
+		else
+			newspapers = this.newspaperService.findPublicsPublishedSearch(keyword, page, 5);
+		Assert.notNull(newspapers);
+
+		result = new ModelAndView("newspaper/list");
+		result.addObject("pageNumber", newspapers.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("newspapers", newspapers.getContent());
+		result.addObject("requestURI", "newspaper/listSearch.do");
+		result.addObject("keyword", keyword);
+
+		return result;
+	}
+
 	//Ancillary methods -----------------------
 	protected ModelAndView createDisplayModelAndView(final Newspaper newspaper, final int page) {
 		ModelAndView result;

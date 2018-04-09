@@ -42,4 +42,10 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n where cast((select count(a) from Article a where a.newspaper.id=n.id)as float)>(select avg(cast((select count(a2) from Article a2 where a2.newspaper.id=n2.id)as float))*1.1 from Newspaper n2)")
 	Page<Newspaper> find10PercentageMoreAvg(Pageable pageable);
 
+	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_DATE and n.isPublished=true and n.isPrivate=false and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
+	Page<Newspaper> findPublicsPublishedSearch(String keyWord, Pageable pageable);
+
+	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_DATE and n.isPublished=true and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
+	Page<Newspaper> findPublishedSearch(String keyWord, Pageable pageable);
+
 }
