@@ -14,9 +14,13 @@ import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 
 import utilities.URLCollection;
 
+@Indexed
 @Entity
 @Access(AccessType.PROPERTY)
 public class Article extends DomainEntity {
@@ -40,6 +44,7 @@ public class Article extends DomainEntity {
 	private User writer;
 
 	@NotBlank
+	@Field
 	public String getTitle() {
 		return title;
 	}
@@ -60,6 +65,7 @@ public class Article extends DomainEntity {
 	}
 
 	@NotBlank
+	@Field
 	public String getSummary() {
 		return summary;
 	}
@@ -69,6 +75,7 @@ public class Article extends DomainEntity {
 	}
 
 	@NotBlank
+	@Field
 	public String getBody() {
 		return body;
 	}
