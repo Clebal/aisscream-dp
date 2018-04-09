@@ -10,6 +10,11 @@
 
 <div class="container">
 
+	<jstl:if test="${!isFollowing}">
+		<a class="btn btn-primary" href="actor/user/follow.do?userId=${user.getId()}"><spring:message code="user.follow" /></a>
+		<br><br>
+	</jstl:if>
+
 	<acme:display code="actor.name" value="${user.getName()}"/>
 	
 	<acme:display code="actor.surname" value="${user.getSurname()}"/>
@@ -20,14 +25,15 @@
 	
 	<acme:display code="actor.postalAddress" value="${user.getPostalAddress()}"/>
 	
-	<a href="actor/user/followers.do?userId=${user.getId()}"><spring:message code="user.followers" /></a>
-	<a href="actor/user/followeds.do?userId=${user.getId()}"><spring:message code="user.followeds" /></a>
+	<a class="btn btn-primary" href="actor/user/followers.do?userId=${user.getId()}"><spring:message code="user.followers" /></a>
+	<a class="btn btn-primary" href="actor/user/followeds.do?userId=${user.getId()}"><spring:message code="user.followeds" /></a>
 	
 	<h2><spring:message code="user.articles" /></h2>
 	<jstl:if test="${articles != null && articles.size() != 0}">
 		<jstl:forEach var="a" items="${articles}">
 			<a href="article/display.do?articleId=${a.getId()}"><jstl:out value="${a.getTitle()}" /></a>
 		</jstl:forEach>
+		<br><br>
 		<a class="btn btn-primary" href="article/list.do?userId=${actor.getId()}&page=2"><spring:message code="user.readMoreArticles" /></a>
 	</jstl:if>
 	<jstl:if test="${articles == null || articles.size() == 0}">

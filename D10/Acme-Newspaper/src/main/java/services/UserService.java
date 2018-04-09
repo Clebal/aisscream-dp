@@ -117,6 +117,21 @@ public class UserService {
 	}
 
 	// Other business methods
+	public User addFollower(final int userToFollowId) {
+		User user, userToFollow, result;
+		
+		user = this.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		userToFollow = this.findOneToDisplay(userToFollowId);
+		Assert.notNull(userToFollow);
+		
+		userToFollow.getFollowers().add(user);
+		result = this.save(user);
+		
+		return result;
+	}
+	
 	public Page<User> findAllPaginated(final int page, final int size) {
 		Page<User> result;
 				

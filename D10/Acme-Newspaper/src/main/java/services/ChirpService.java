@@ -185,7 +185,13 @@ public class ChirpService {
         Collection<String> tabooWords;
         String input;
         int index;
-        
+        HibernatePersistenceProvider persistenceProvider;
+        EntityManagerFactory entityManagerFactory;
+        EntityManager em;
+        FullTextEntityManager fullTextEntityManager;
+        QueryBuilder qb;
+        org.apache.lucene.search.Query luceneQuery;
+        Query jpaQuery;
         result = null;
 
         try {
@@ -201,28 +207,28 @@ public class ChirpService {
                     input += ", " + s;
             }
             
-            HibernatePersistenceProvider persistenceProvider = new HibernatePersistenceProvider();
-            EntityManagerFactory entityManagerFactory = persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit, null);
+            persistenceProvider = new HibernatePersistenceProvider();
+            entityManagerFactory = persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit, null);
  
-            EntityManager em = entityManagerFactory.createEntityManager();
+            em = entityManagerFactory.createEntityManager();
 
-            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
+            fullTextEntityManager = Search.getFullTextEntityManager(em);
 
             fullTextEntityManager.createIndexer().startAndWait();
 
             em.getTransaction().begin();
 
-            QueryBuilder qb = fullTextEntityManager.getSearchFactory()
-                                                    .buildQueryBuilder()
-                                                    .forEntity(Chirp.class)
-                                                    .get();
+            qb = fullTextEntityManager.getSearchFactory()
+                                      .buildQueryBuilder()
+                                      .forEntity(Chirp.class)
+                                      .get();
 
-            org.apache.lucene.search.Query luceneQuery = qb.keyword()
-                                                            .onFields("title","description")
-                                                            .matching(input)
-                                                            .createQuery();
+            luceneQuery = qb.keyword()
+                            .onFields("title","description")
+                            .matching(input)
+                            .createQuery();
 
-            Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Chirp.class);
+            jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Chirp.class);
 
             result = jpaQuery.getResultList();
 

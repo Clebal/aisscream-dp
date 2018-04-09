@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.ArticleService;
 import services.UserService;
 import controllers.AbstractController;
@@ -34,6 +35,18 @@ public class UserController extends AbstractController {
 		super();
 	}
 
+	// Follow
+	@RequestMapping(value="/follow", method = RequestMethod.GET) 
+	public ModelAndView follow(@RequestParam int userId) {
+		ModelAndView result;		
+		
+		this.userService.addFollower(userId);
+		
+		result = new ModelAndView("redirect:display.do?userId="+userId);
+		
+		return result;
+	}
+	
 	// Creation
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -103,8 +116,9 @@ public class UserController extends AbstractController {
 	@RequestMapping(value="/display", method=RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int userId) {
 		ModelAndView result;
-		User user;
+		User user, userAuthenticated;
 		Page<Article> articles;
+		boolean isFollowing;
 		
 		user = this.userService.findOneToDisplay(userId);
 		Assert.notNull(user);
@@ -115,6 +129,17 @@ public class UserController extends AbstractController {
 		result = new ModelAndView("user/display");
 		result.addObject("user", user);
 		result.addObject("articles", articles.getContent());
+		
+		isFollowing = true;
+		if(LoginService.isAuthenticated()) {
+			userAuthenticated = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+			Assert.notNull(userAuthenticated);
+			
+			if(!user.equals(userAuthenticated))
+				isFollowing = user.getFollowers().contains(userAuthenticated);
+		}
+		
+		result.addObject("isFollowing", isFollowing);
 		
 		return result;
 	}
