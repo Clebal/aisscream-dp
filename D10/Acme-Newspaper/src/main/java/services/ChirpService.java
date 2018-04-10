@@ -88,7 +88,7 @@ public class ChirpService {
 		chirp.setMoment(new Date(System.currentTimeMillis() - 1));
 		
 		// Comprobar si tiene taboo
-		/*for(String t: this.configurationService.findTabooWords) {
+		for(String t: this.configurationService.findTabooWords()) {
 			if(chirp.getTitle().toLowerCase().contains(t)) {
 				chirp.setHasTaboo(true);
 				break;
@@ -97,7 +97,7 @@ public class ChirpService {
 				chirp.setHasTaboo(true);
 				break;
 			}
-		}*/
+		}
 		
 		result = this.chirpRepository.save(chirp);
 		
@@ -120,6 +120,16 @@ public class ChirpService {
 	}
 	
 	// Other business methods
+	public Page<Chirp> findByUserId(final int userId, final int page, final int size) {
+		Page<Chirp> result;
+		
+		Assert.isTrue(userId != 0);
+		
+		result = this.chirpRepository.findByUserId(userId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
 	public Page<Chirp> findAllPaginated(final int page, final int size) {
 		Page<Chirp> result;
 				
@@ -172,7 +182,8 @@ public class ChirpService {
 	public Chirp reconstruct(final Chirp chirp, final BindingResult binding) {
 		chirp.setVersion(0);
 		chirp.setHasTaboo(false);
-		
+		chirp.setMoment(new Date(System.currentTimeMillis() - 1));
+
 		this.validator.validate(chirp, binding);
 
 		return chirp;
@@ -227,9 +238,10 @@ public class ChirpService {
                             .onFields("title","description")
                             .matching(input)
                             .createQuery();
+            
 
             jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Chirp.class);
-
+                        
             result = jpaQuery.getResultList();
 
             em.getTransaction().commit();

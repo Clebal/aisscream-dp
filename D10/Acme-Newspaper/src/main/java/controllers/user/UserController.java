@@ -13,9 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.ArticleService;
+import services.ChirpService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Article;
+import domain.Chirp;
 import domain.User;
 import forms.UserForm;
 
@@ -30,6 +32,9 @@ public class UserController extends AbstractController {
 	@Autowired
 	private ArticleService articleService;
 	
+	@Autowired
+	private ChirpService chirpService;
+	
 	// Constructor
 	public UserController() {
 		super();
@@ -41,6 +46,18 @@ public class UserController extends AbstractController {
 		ModelAndView result;		
 		
 		this.userService.addFollower(userId);
+		
+		result = new ModelAndView("redirect:display.do?userId="+userId);
+		
+		return result;
+	}
+	
+	// Unfollow
+	@RequestMapping(value="/unfollow", method = RequestMethod.GET) 
+	public ModelAndView unfollow(@RequestParam int userId) {
+		ModelAndView result;		
+		
+		this.userService.removeFollower(userId);
 		
 		result = new ModelAndView("redirect:display.do?userId="+userId);
 		
@@ -114,33 +131,47 @@ public class UserController extends AbstractController {
 	
 	// Display
 	@RequestMapping(value="/display", method=RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int userId) {
+	public ModelAndView display(@RequestParam final int userId, @RequestParam(defaultValue="0", required=false) final int page) {
 		ModelAndView result;
 		User user, userAuthenticated;
 		Page<Article> articles;
+		Page<Chirp> chirpsPage;
 		boolean isFollowing;
+		boolean isSamePerson;
 		
 		user = this.userService.findOneToDisplay(userId);
 		Assert.notNull(user);
 		
-		articles = this.articleService.findByWritterId(userId, 0, 5);
+		articles = this.articleService.findAllUserPaginated(userId, 0, 5);
 		Assert.notNull(articles);
+		
+		chirpsPage = this.chirpService.findByUserId(userId, page, 5);
+		Assert.notNull(chirpsPage);
 		
 		result = new ModelAndView("user/display");
 		result.addObject("user", user);
 		result.addObject("articles", articles.getContent());
+		result.addObject("chirps", chirpsPage.getContent());
+		result.addObject("pageNumber", chirpsPage.getTotalPages());
+		result.addObject("page", page);
 		
-		isFollowing = true;
 		if(LoginService.isAuthenticated()) {
+			isFollowing = true;
+			isSamePerson = false;
+			
 			userAuthenticated = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 			Assert.notNull(userAuthenticated);
 			
 			if(!user.equals(userAuthenticated))
 				isFollowing = user.getFollowers().contains(userAuthenticated);
+			else 
+				isSamePerson = true;
+			
+			result.addObject("isFollowing", isFollowing);	
+			result.addObject("isSamePerson", isSamePerson);
+
 		}
-		
-		result.addObject("isFollowing", isFollowing);
-		
+				
 		return result;
 	}
 	

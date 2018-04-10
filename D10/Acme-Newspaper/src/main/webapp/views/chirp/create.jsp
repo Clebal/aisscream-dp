@@ -14,9 +14,9 @@
 	<form:hidden path="id" />
 	<form:hidden path="user" />
 		
-	<acme:textbox code="chirp.title" path="brandName"/>
+	<acme:textbox code="chirp.title" path="title"/>
 
-	<acme:textbox code="chirp.description" path="number"/>
+	<acme:textbox code="chirp.description" path="description"/>
 	 
 	<acme:submit name="save" code="chirp.save"/>
 	
