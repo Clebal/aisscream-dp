@@ -39,6 +39,7 @@
 		
 		<value>/views/configuration/messages</value>
 		<value>/views/followUp/messages</value>
+		<value>/views/dashboard/messages</value>
         
         
 	</util:list>

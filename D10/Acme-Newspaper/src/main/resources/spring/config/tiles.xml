@@ -39,6 +39,7 @@
 		
 		<value>/views/configuration/tiles.xml</value>
 		<value>/views/followUp/tiles.xml</value>
+		<value>/views/dashboard/tiles.xml</value>
         
 
 	</util:list>

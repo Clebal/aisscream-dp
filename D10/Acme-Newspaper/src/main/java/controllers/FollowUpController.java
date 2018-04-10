@@ -43,7 +43,7 @@ public class FollowUpController extends AbstractController {
 		Assert.notNull(article);
 
 		//Vemos que el artículo se pueda ver
-		Assert.isTrue(this.articleService.checkVisible(article));
+		Assert.isTrue(this.articleService.checkVisibleArticle(article));
 
 		followUps = this.followUpService.findByArticleIdPaginated(article.getId(), page, 5);
 		Assert.notNull(followUps);

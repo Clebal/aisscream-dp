@@ -20,7 +20,7 @@
 	<security:authorize access="hasRole('USER')">
 	
 		<security:authentication var="principal" property="principal.username"/>
-		<jstl:if test="${row.getUser().getUserAccount().getUsername().equals(principal)}">
+		<jstl:if test="${row.getUser().getUserAccount().getUsername().equals(principal) && canDelete!=null}">
 			<acme:columnLink id="${row.getId()}" domain="followUp" actor="user" action="delete"/>
 		</jstl:if>	
 		

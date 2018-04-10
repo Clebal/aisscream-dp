@@ -70,13 +70,14 @@ public class FollowUpService {
 		return result;
 	}
 
-	//	public Collection<FollowUp> findAll() {
-	//		Collection<FollowUp> result;
-	//
-	//		result = this.followUpRepository.findAll();
-	//
-	//		return result;
-	//	}
+	//Para los test
+	public Collection<FollowUp> findAll() {
+		Collection<FollowUp> result;
+
+		result = this.followUpRepository.findAll();
+
+		return result;
+	}
 
 	public FollowUp findOne(final int followUpId) {
 		FollowUp result;
@@ -109,7 +110,7 @@ public class FollowUpService {
 		Assert.notNull(followUp.getArticle());
 		Assert.isTrue(followUp.getArticle().getIsFinalMode() && followUp.getArticle().getNewspaper().getIsPublished() && followUp.getArticle().getNewspaper().getPublicationDate().compareTo(new Date()) < 0);
 
-		//Metemos el momentos
+		//Metemos el momento
 		followUp.setPublicationMoment(new Date(System.currentTimeMillis() - 1));
 
 		result = this.followUpRepository.save(followUp);
@@ -127,10 +128,20 @@ public class FollowUpService {
 		saved = this.findOne(followUp.getId());
 
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
 		Assert.isTrue(user.equals(saved.getUser()));
 
 		this.followUpRepository.delete(followUp);
 
+	}
+
+	public void deleteFromArticle(final int followUpId) {
+		FollowUp followUp;
+
+		followUp = this.findOne(followUpId);
+		Assert.notNull(followUp);
+
+		this.followUpRepository.delete(followUp);
 	}
 
 	public void flush() {
@@ -146,7 +157,7 @@ public class FollowUpService {
 		result = this.followUpRepository.findOne(followUpId);
 
 		//Vemos que el artículo se pueda ver
-		Assert.isTrue(this.articleService.checkVisible(result.getArticle()));
+		Assert.isTrue(this.articleService.checkVisibleArticle(result.getArticle()));
 
 		return result;
 	}

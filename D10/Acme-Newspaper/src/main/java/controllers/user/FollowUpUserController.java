@@ -56,6 +56,7 @@ public class FollowUpUserController extends AbstractController {
 		result = new ModelAndView("followUp/list");
 		result.addObject("pageNumber", followUps.getTotalPages());
 		result.addObject("page", page);
+		result.addObject("canDelete", true);
 		result.addObject("followUps", followUps.getContent());
 		result.addObject("requestURI", "followUp/user/list.do");
 

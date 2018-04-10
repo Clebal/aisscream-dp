@@ -97,6 +97,7 @@
 			
 		<!-- Carlos -->
  		<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/dashboard/administrator/display.do" access="hasRole('ADMIN')" />
  		<security:intercept-url pattern="/followUp/user/create.do" access="hasRole('USER')" />
  		<security:intercept-url pattern="/followUp/user/edit.do" access="hasRole('USER')" />
  		<security:intercept-url pattern="/followUp/user/list.do" access="hasRole('USER')" />
