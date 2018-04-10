@@ -27,6 +27,7 @@
 	
 </div>
 
+
 <jstl:if test="${pictures.size()>0}">
 	
 	<jstl:forEach var="row" items="${pictures}">
