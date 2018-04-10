@@ -138,6 +138,7 @@ public class ArticleService {
 		if (article.getId() == 0) {
 			if (!article.getIsFinalMode()) {
 				article.getNewspaper().setIsPublished(false);
+				article.getNewspaper().getArticles().add(article);
 			}
 		} else {
 			saved = this.findOne(article.getId());
@@ -211,6 +212,8 @@ public class ArticleService {
 				articleToDelete.getNewspaper().setIsPublished(true);
 			}	
 		}
+		
+		article.getNewspaper().getArticles().remove(article);
 
 		this.articleRepository.delete(articleToDelete);
 
@@ -249,6 +252,8 @@ public class ArticleService {
 				article.getNewspaper().setIsPublished(true);
 			}	
 		}
+		
+		article.getNewspaper().getArticles().remove(article);
 
 		this.articleRepository.delete(article);
 
