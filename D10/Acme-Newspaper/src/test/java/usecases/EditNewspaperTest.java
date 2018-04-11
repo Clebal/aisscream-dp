@@ -108,6 +108,51 @@ public class EditNewspaperTest extends AbstractTest {
 			}
 	}
 
+	@Test
+	public void findOneFindOneToDisplayTest() {
+		final Object testingData[][] = {
+			{
+				"user", "user1", "newspaper1", true, false, true, null
+			}, {
+				"user", "user1", "newspaper2", true, false, true, null
+			}, {
+				"user", "user1", "newspaper3", true, false, true, null
+			}, {
+				"user", "user4", "newspaper4", true, false, true, null
+			}, {
+				"customer", "customer1", "newspaper1", true, false, true, null
+			}, {
+				"admin", "admin", "newspaper4", true, false, true, null
+			}, {
+				null, null, "newspaper1", true, false, true, null
+			}, {
+				"user", "user1", "newspaper2", false, false, true, null
+			}, {
+				"user", "user1", "newspaper2", false, true, true, IllegalArgumentException.class
+			}, {
+				"user", "user1", "newspaper4", true, false, true, IllegalArgumentException.class
+			}, {
+				"customer", "customer1", "newspaper4", true, false, true, IllegalArgumentException.class
+			}, {
+				null, null, "newspaper4", true, false, false, IllegalArgumentException.class
+			}, {
+				null, null, "newspaper2", true, false, false, IllegalArgumentException.class
+			}, {
+				"user", "user1", "newspaper1", true, true, true, IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				System.out.println(i);
+				this.templateFindOneFindOneToDisplay((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Boolean) testingData[i][4], (Boolean) testingData[i][5], (Class<?>) testingData[i][6]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+
 	protected void templatePublish(final String user, final String username, final String newspaperBean, final boolean correctBeans, final Class<?> expected) {
 		Class<?> caught;
 		int newspaperId;
@@ -198,7 +243,7 @@ public class EditNewspaperTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 	}
 
-	protected void templateFindOneFindOneToDisplay(final String user, final String username, final String newspaperBean, final boolean findOneToDisplay, final boolean falseId, final boolean isMyNewspaper, final Class<?> expected) {
+	protected void templateFindOneFindOneToDisplay(final String user, final String username, final String newspaperBean, final boolean findOneToDisplay, final boolean falseId, final boolean correctNewspaper, final Class<?> expected) {
 		Class<?> caught;
 		int newspaperId;
 		final Newspaper newspaper;
@@ -210,32 +255,32 @@ public class EditNewspaperTest extends AbstractTest {
 				super.authenticate(username);//Nos logeamos si es necesario
 
 			newspaperId = 0;
-			if (user == null)
-				newspaperId = super.getEntityId(newspaperBean); //Si no estamos logeado lo cogemos directamente para probar hackeos
-			else if (user != null) {
+			if (user != null) {
 				newspaperIdAux = super.getEntityId(newspaperBean);
 				for (int i = 1; i <= this.newspaperService.findAllPaginated(1, 5).getTotalPages(); i++)
 					for (final Newspaper n : this.newspaperService.findAllPaginated(i, 5).getContent())
 						if (newspaperIdAux == n.getId())
 							newspaperId = n.getId();
-			} else { //Si no estás como manager se busca entre todos los servicios existente
+			} else if (correctNewspaper == true) {
 				newspaperIdAux = super.getEntityId(newspaperBean);
 				for (int i = 1; i <= this.newspaperService.findPublicsAndPublicated(1, 5).getTotalPages(); i++)
 					for (final Newspaper n : this.newspaperService.findPublicsAndPublicated(i, 5).getContent())
 						if (newspaperIdAux == n.getId())
 							newspaperId = n.getId();
-			}
-			if (findOneToEdit == true)
-				if (falseId == false)
-					service = this.serviceService.findOneToEdit(serviceId); //Se prueba el findOneToEdit
-				else
-					service = this.serviceService.findOneToEdit(0);
-			else if (falseId == false)
-				service = this.serviceService.findOne(serviceId); //Se prueba el findOne
-			else
-				service = this.serviceService.findOne(0);
+			} else
+				newspaperId = super.getEntityId(newspaperBean);
 
-			Assert.notNull(service);
+			if (findOneToDisplay == true)
+				if (falseId == false)
+					newspaper = this.newspaperService.findOneToDisplay(newspaperId); //Se prueba el findOneToEdit
+				else
+					newspaper = this.newspaperService.findOneToDisplay(0);
+			else if (falseId == false)
+				newspaper = this.newspaperService.findOne(newspaperId); //Se prueba el findOne
+			else
+				newspaper = this.newspaperService.findOne(0);
+
+			Assert.notNull(newspaper);
 			super.flushTransaction();
 
 			super.unauthenticate();

@@ -60,7 +60,7 @@ public class NewspaperAdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/find10PercentageMoreAvg", method = RequestMethod.GET)
+	@RequestMapping(value = "/listMoreAverage", method = RequestMethod.GET)
 	public ModelAndView listTenPercentageMoreAvg(@RequestParam(required = false, defaultValue = "1") final Integer page) {
 		ModelAndView result;
 		Page<Newspaper> newspapers;
@@ -72,7 +72,24 @@ public class NewspaperAdministratorController extends AbstractController {
 		result.addObject("pageNumber", newspapers.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("newspapers", newspapers.getContent());
-		result.addObject("requestURI", "newspaper/administrator/find10PercentageMoreAvg.do");
+		result.addObject("requestURI", "newspaper/administrator/listMoreAverage.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/listFewerAverage", method = RequestMethod.GET)
+	public ModelAndView listTenPercentageLessAvg(@RequestParam(required = false, defaultValue = "1") final Integer page) {
+		ModelAndView result;
+		Page<Newspaper> newspapers;
+
+		newspapers = this.newspaperService.find10PercentageLessAvg(page, 5);
+		Assert.notNull(newspapers);
+
+		result = new ModelAndView("newspaper/list");
+		result.addObject("pageNumber", newspapers.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("newspapers", newspapers.getContent());
+		result.addObject("requestURI", "newspaper/administrator/listFewerAverage.do");
 
 		return result;
 	}

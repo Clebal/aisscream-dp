@@ -237,6 +237,104 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	@Test()
+	public void testFindTaboos() {
+		final Object testingData[][] = {
+			{
+				"admin", "admin", "findTaboos", false, null, 1, 2, 1, 2, null
+			}, {
+				"admin", "admin", "findTaboos", false, null, 1, 1, 2, 1, null
+			}, {
+				"admin", "admin", "findTaboos", false, null, 2, 1, 2, 1, null
+			}, {
+				"admin", "admin", "findTaboos", false, null, 3, 0, 2, 1, null
+			}, {
+				"admin", "admin", "findTaboos", false, null, 1, 2, 1, 3, null
+			}, {
+				"user", "user1", "findTaboos", false, null, 1, 2, 1, 2, IllegalArgumentException.class
+			}, {
+				"customer", "customer1", "findTaboos", false, null, 1, 2, 1, 2, IllegalArgumentException.class
+			}, {
+				null, null, "findTaboos", false, null, 1, 2, 1, 2, IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				System.out.println(i);
+				this.template2((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6],
+					(Integer) testingData[i][7], (Integer) testingData[i][8], (Class<?>) testingData[i][9]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+
+	@Test()
+	public void testFindPublicsPublishedSearch() {
+		final Object testingData[][] = {
+			{
+				null, null, "findPublicsPublishedSearch", false, "a", 1, 2, 1, 2, null
+			}, {
+				null, null, "findPublicsPublishedSearch", false, "a", 1, 1, 2, 1, null
+			}, {
+				null, null, "findPublicsPublishedSearch", false, "a", 2, 1, 2, 1, null
+			}, {
+				null, null, "findPublicsPublishedSearch", false, "a", 3, 0, 2, 1, null
+			}, {
+				null, null, "findPublicsPublishedSearch", false, "a", 1, 2, 1, 3, null
+			}, {
+				null, null, "findPublicsPublishedSearch", false, "proximo", 1, 1, 1, 1, null
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				System.out.println(i);
+				this.template2((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6],
+					(Integer) testingData[i][7], (Integer) testingData[i][8], (Class<?>) testingData[i][9]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+
+	@Test()
+	public void testFindPublishedSearch() {
+		final Object testingData[][] = {
+			{
+				"user", "user1", "findPublishedSearch", false, "a", 1, 3, 1, 3, null
+			}, {
+				"user", "user1", "findPublishedSearch", false, "a", 1, 2, 2, 2, null
+			}, {
+				"user", "user1", "findPublishedSearch", false, "a", 2, 1, 2, 2, null
+			}, {
+				"user", "user1", "findPublishedSearch", false, "a", 3, 0, 2, 2, null
+			}, {
+				"user", "user1", "findPublishedSearch", false, "a", 1, 3, 1, 4, null
+			}, {
+				"customer", "customer1", "findPublishedSearch", false, "a", 1, 3, 1, 3, null
+			}, {
+				"admin", "admin", "findPublishedSearch", false, "a", 1, 3, 1, 3, null
+			}, {
+				null, null, "findPublishedSearch", false, "a", 1, 3, 1, 3, IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				System.out.println(i);
+				this.template2((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6],
+					(Integer) testingData[i][7], (Integer) testingData[i][8], (Class<?>) testingData[i][9]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+
 	// Ancillary methods ------------------------------------------------------
 
 	protected void template(final String user, final String username, final String method, final boolean falseId, final String bean, final Integer page, final Integer size, final Integer tam, final Integer numPages, final Class<?> expected) {
@@ -318,6 +416,12 @@ public class ListNewspaperTest extends AbstractTest {
 				newspapers = this.newspaperService.findPublicsAndPublicated(page, tam);
 			else if (method.equals("findAllPaginated"))
 				newspapers = this.newspaperService.findAllPaginated(page, tam);
+			else if (method.equals("findTaboos"))
+				newspapers = this.newspaperService.findTaboos(page, tam);
+			else if (method.equals("findPublicsPublishedSearch"))
+				newspapers = this.newspaperService.findPublicsPublishedSearch(bean, page, tam);
+			else if (method.equals("findPublishedSearch"))
+				newspapers = this.newspaperService.findPublishedSearch(bean, page, tam);
 
 			Assert.isTrue(newspapers.getContent().size() == size); //Se compara el tamaño con el esperado
 			Assert.isTrue(newspapers.getTotalPages() == totalPage);//Se compara el total de páginas con las esperadas

@@ -13,13 +13,11 @@ import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Indexed
+// @Indexed
 @Entity
 @Access(AccessType.PROPERTY)
 public class Newspaper extends DomainEntity {
@@ -52,9 +50,9 @@ public class Newspaper extends DomainEntity {
 	public void setPublicationDate(final Date publicationDate) {
 		this.publicationDate = publicationDate;
 	}
+	//@Field
 
 	@NotBlank
-	@Field
 	public String getTitle() {
 		return this.title;
 	}
@@ -62,9 +60,9 @@ public class Newspaper extends DomainEntity {
 	public void setTitle(final String title) {
 		this.title = title;
 	}
+	//	@Field
 
 	@NotBlank
-	@Field
 	public String getDescription() {
 		return this.description;
 	}

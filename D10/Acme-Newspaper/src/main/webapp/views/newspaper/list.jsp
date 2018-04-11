@@ -141,7 +141,7 @@
 		
 </display:table>
 
-<jstl:if test="${requestURI.equals('newspaper/user/list.do') || requestURI.equals('newspaper/customer/list.do') || requestURI.equals('newspaper/list.do') || requestURI.equals('newspaper/customer/listForSubscribe.do') || requestURI.equals('newspaper/administrator/findTaboos.do') || requestURI.equals('newspaper/administrator/find10PercentageMoreAvg.do') }">
+<jstl:if test="${requestURI.equals('newspaper/user/list.do') || requestURI.equals('newspaper/customer/list.do') || requestURI.equals('newspaper/list.do') || requestURI.equals('newspaper/customer/listForSubscribe.do') || requestURI.equals('newspaper/administrator/findTaboos.do') || requestURI.equals('newspaper/administrator/listMoreAverage.do') || requestURI.equals('newspaper/administrator/listFewerAverage.do')  }">
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}"/>
 </jstl:if>
 

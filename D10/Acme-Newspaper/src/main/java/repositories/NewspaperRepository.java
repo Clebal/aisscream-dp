@@ -48,4 +48,19 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_DATE and n.isPublished=true and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
 	Page<Newspaper> findPublishedSearch(String keyWord, Pageable pageable);
 
+	@Query("select  avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float )), sqrt(sum((select count(n) from Newspaper n where n.publisher.id=u.id)*(select count(n) from Newspaper n where n.publisher.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float ))*avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float ))) from User u")
+	Double[] avgStandarDevNewspapersCreatedPerUser();
+
+	@Query("select n from Newspaper n where cast((select count(a) from Article a where a.newspaper.id=n.id)as float)>(select avg(cast((select count(a2) from Article a2 where a2.newspaper.id=n2.id)as float))*0.9 from Newspaper n2)")
+	Page<Newspaper> find10PercentageLessAvg(Pageable pageable);
+
+	@Query("select (cast((select count(n) from Newspaper n where n.isPrivate = false) as float)) / count(n2) from Newspaper n2")
+	Double ratioPublicVsPrivateNewspaper();
+
+	@Query("select avg(cast((select count(n) from Newspaper n where n.publisher.id = u.id and n.isPrivate = true) as float) / cast((select count(n2) from Newspaper n2 where n2.publisher.id = u.id) as float )) from User u")
+	Double ratioPrivateVersusPublicNewspaperPerPublisher();
+
+	@Query("select n from Newspaper n where (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
+	Collection<Newspaper> findByTabooWord(String s);
+
 }
