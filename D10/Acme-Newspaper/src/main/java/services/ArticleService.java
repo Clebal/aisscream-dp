@@ -3,14 +3,9 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +24,6 @@ import domain.User;
 import repositories.ArticleRepository;
 import security.Authority;
 import security.LoginService;
-import utilities.DatabaseConfig;
 
 @Service
 @Transactional
@@ -470,71 +464,18 @@ public class ArticleService {
 		return result;
 	}
 	
-	// Hibernate Search
-	@SuppressWarnings("unchecked")
-	public Collection<Article> findTaboos() {
-        Collection<Article> result;
-        Collection<String> tabooWords;
-        String input;
-        int index;
-        HibernatePersistenceProvider persistenceProvider;
-        EntityManagerFactory entityManagerFactory;
-        EntityManager em;
-        FullTextEntityManager fullTextEntityManager;
-        QueryBuilder qb;
-        org.apache.lucene.search.Query luceneQuery;
-        Query jpaQuery;
-        result = null;
+	public Collection<Article> findByTabooWords() {
+		Collection<Article> resultAux;
+		Set<Article> result;
 
-        try {
+		result = new HashSet<Article>();
 
-            tabooWords = this.configurationService.findTabooWords();
-            index = 0;
-            input = "";
-            for(String s: tabooWords) {
-                if(index == 0) {
-                    input = s;
-                    index++;
-                } else
-                    input += ", " + s;
-            }
-            
-            persistenceProvider = new HibernatePersistenceProvider();
-            entityManagerFactory = persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit, null);
- 
-            em = entityManagerFactory.createEntityManager();
+		for (final String s : this.configurationService.findTabooWords()) {
+			resultAux = this.articleRepository.findByTabooWord(s);
+			result.addAll(resultAux);
+		}
 
-            fullTextEntityManager = Search.getFullTextEntityManager(em);
-
-            fullTextEntityManager.createIndexer().startAndWait();
-
-            em.getTransaction().begin();
-
-            qb = fullTextEntityManager.getSearchFactory()
-                                      .buildQueryBuilder()
-                                      .forEntity(Article.class)
-                                      .get();
-
-            luceneQuery = qb.keyword()
-                            .onFields("title","summary","body")
-                            .matching(input)
-                            .createQuery();
-
-            jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Article.class);
-
-            result = jpaQuery.getResultList();
-
-            em.getTransaction().commit();
-
-            em.close();
-
-        }catch (IllegalArgumentException e) {
-        	e.printStackTrace();
-        } catch (Throwable a) {
-        	a.printStackTrace();
-        }
-        
-        return result;
-
-    }
+		return result;
+	}
+	
 }

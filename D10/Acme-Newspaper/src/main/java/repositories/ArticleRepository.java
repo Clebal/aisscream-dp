@@ -39,4 +39,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.newspaper.id=?1 and a.newspaper.isPublished=true and a.isFinalMode=true")
 	Page<Article> findByNewspaperIdPaginated(final int newspaperId, final Pageable pageable);
 	
+	@Query("select a from Article a where (a.title like CONCAT('%',?1,'%') or a.summary like CONCAT('%',?1,'%') or a.body like CONCAT('%',?1,'%'))")
+	Collection<Article> findByTabooWord(String s);
+	
 }
