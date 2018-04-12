@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -7,7 +8,9 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -15,37 +18,40 @@ import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 import utilities.URLCollection;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "isFinalMode, hasTaboo, title, summary, body")
+})
 public class Article extends DomainEntity {
 
-	private String title;
+	private String				title;
 
-	private Date moment;
+	private Date				moment;
 
-	private String summary;
+	private String				summary;
 
-	private String body;
+	private String				body;
 
-	private Collection<String> pictures;
+	private Collection<String>	pictures;
 
-	private boolean isFinalMode;
-	
-	private boolean hasTaboo;
+	private boolean				isFinalMode;
 
-	private Newspaper newspaper;
+	private boolean				hasTaboo;
 
-	private User writer;
+	private Newspaper			newspaper;
+
+	private User				writer;
+
 
 	@NotBlank
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
@@ -53,55 +59,55 @@ public class Article extends DomainEntity {
 	@Past
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
-		return moment;
+		return this.moment;
 	}
 
-	public void setMoment(Date moment) {
+	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
 
 	@NotBlank
 	public String getSummary() {
-		return summary;
+		return this.summary;
 	}
 
-	public void setSummary(String summary) {
+	public void setSummary(final String summary) {
 		this.summary = summary;
 	}
 
 	@NotBlank
 	public String getBody() {
-		return body;
+		return this.body;
 	}
 
-	public void setBody(String body) {
+	public void setBody(final String body) {
 		this.body = body;
 	}
 
 	@NotNull
 	@URLCollection
-	@ElementCollection 
+	@ElementCollection
 	public Collection<String> getPictures() {
-		return pictures;
+		return this.pictures;
 	}
 
-	public void setPictures(Collection<String> pictures) {
+	public void setPictures(final Collection<String> pictures) {
 		this.pictures = pictures;
 	}
 
 	public boolean getIsFinalMode() {
-		return isFinalMode;
+		return this.isFinalMode;
 	}
 
-	public void setIsFinalMode(boolean isFinalMode) {
+	public void setIsFinalMode(final boolean isFinalMode) {
 		this.isFinalMode = isFinalMode;
 	}
-	
+
 	public boolean getHasTaboo() {
-		return hasTaboo;
+		return this.hasTaboo;
 	}
-	
-	public void setHasTaboo(boolean hasTaboo) {
+
+	public void setHasTaboo(final boolean hasTaboo) {
 		this.hasTaboo = hasTaboo;
 	}
 
@@ -109,10 +115,10 @@ public class Article extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Newspaper getNewspaper() {
-		return newspaper;
+		return this.newspaper;
 	}
 
-	public void setNewspaper(Newspaper newspaper) {
+	public void setNewspaper(final Newspaper newspaper) {
 		this.newspaper = newspaper;
 	}
 
@@ -120,10 +126,10 @@ public class Article extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public User getWriter() {
-		return writer;
+		return this.writer;
 	}
 
-	public void setWriter(User writer) {
+	public void setWriter(final User writer) {
 		this.writer = writer;
 	}
 
