@@ -216,6 +216,31 @@ public class UserService {
 		return result;
 	}
 	
+	
+	public Double ratioUserWhoHaveWrittenArticle() {
+		Double result;
+		
+		result = this.userRepository.ratioUserWhoHaveWrittenArticle();
+		
+		return result;
+	}
+	
+	public Double ratioUserWhoHavePostedAbove75Chirps() {
+		Double result;
+		
+		result = this.userRepository.ratioUserWhoHavePostedAbove75Chirps();
+		
+		return result;
+	}
+	
+	public Double ratioUsersWhoHaveCreatedNewspaper() {
+		Double result;
+		
+		result = this.userRepository.ratioUsersWhoHaveCreatedNewspaper();
+		
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;

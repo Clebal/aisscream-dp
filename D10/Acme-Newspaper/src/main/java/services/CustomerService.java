@@ -2,6 +2,8 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -16,6 +18,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Customer;
+import domain.Newspaper;
 import forms.CustomerForm;
 
 @Service
@@ -106,6 +109,20 @@ public class CustomerService {
 		return result;
 	}
 
+	public Map<Newspaper, Double> ratioSuscribersPerPrivateNewspaperVersusNumberCustomers() {
+		Map<Newspaper, Double> result;
+		Object[] res;
+		
+		result = new HashMap<Newspaper, Double>();
+		
+		res = this.customerRepository.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers();
+		
+		result.put((Newspaper) res[0], (Double) res[1]);
+		
+		return result;
+	}
+	
+	
 	// Other business methods
 	public Customer findByUserAccountId(final int id) {
 		Customer result;

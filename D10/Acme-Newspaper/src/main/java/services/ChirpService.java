@@ -2,14 +2,7 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 
-import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +19,6 @@ import domain.User;
 import repositories.ChirpRepository;
 import security.Authority;
 import security.LoginService;
-import utilities.DatabaseConfig;
 
 @Service
 @Transactional
@@ -167,6 +159,14 @@ public class ChirpService {
 		return result;
 	}
 	
+	public Double[] avgStandartDeviationNumberChirpsPerUser() {
+		Double[] result;
+		
+		result = this.chirpRepository.avgStandartDeviationNumberChirpsPerUser();
+		
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
@@ -189,74 +189,26 @@ public class ChirpService {
 		return chirp;
 	}
 	
-	// Hibernate Search
-	@SuppressWarnings("unchecked")
-	public Collection<Chirp> findTaboos() {
-        Collection<Chirp> result;
+	public void findTaboos() {
+        boolean result;
         Collection<String> tabooWords;
-        String input;
-        int index;
-        HibernatePersistenceProvider persistenceProvider;
-        EntityManagerFactory entityManagerFactory;
-        EntityManager em;
-        FullTextEntityManager fullTextEntityManager;
-        QueryBuilder qb;
-        org.apache.lucene.search.Query luceneQuery;
-        Query jpaQuery;
-        result = null;
-
-        try {
-
-            tabooWords = this.configurationService.findTabooWords();
-            index = 0;
-            input = "";
-            for(String s: tabooWords) {
-                if(index == 0) {
-                    input = s;
-                    index++;
-                } else
-                    input += ", " + s;
-            }
-            
-            persistenceProvider = new HibernatePersistenceProvider();
-            entityManagerFactory = persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit, null);
- 
-            em = entityManagerFactory.createEntityManager();
-
-            fullTextEntityManager = Search.getFullTextEntityManager(em);
-
-            fullTextEntityManager.createIndexer().startAndWait();
-
-            em.getTransaction().begin();
-
-            qb = fullTextEntityManager.getSearchFactory()
-                                      .buildQueryBuilder()
-                                      .forEntity(Chirp.class)
-                                      .get();
-
-            luceneQuery = qb.keyword()
-                            .onFields("title","description")
-                            .matching(input)
-                            .createQuery();
-            
-
-            jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Chirp.class);
-                        
-            result = jpaQuery.getResultList();
-
-            em.getTransaction().commit();
-
-            em.close();
-
-        }catch (IllegalArgumentException e) {
-        	e.printStackTrace();
-        } catch (Throwable a) {
-        	a.printStackTrace();
-        }
         
-        return result;
-
-    }
-
+        tabooWords = this.configurationService.findTabooWords();
+        
+        for(Chirp c: this.findAll())
+            for(String taboo: tabooWords) {
+	        	result = c.getTitle().toLowerCase().contains(taboo);
+	        	if(result == true) {
+	        		this.delete(c);
+	        		continue;
+	        	}
+	        	result = c.getDescription().toLowerCase().contains(taboo);
+	        	if(result == true) {
+	        		this.delete(c);
+	        		continue;
+	        	}
+	        }
+            
+	}
 	
 }

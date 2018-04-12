@@ -30,4 +30,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u")
 	Page<User> findAllPaginated(Pageable page);
 	
+	@Query("select avg(cast((select count(a) from Article a where a.writer.id=u.id) as float) / cast((select count(u2) from User u2) as float )) from User u)")
+	Double ratioUserWhoHaveWrittenArticle();
+	
+	@Query("select cast(count(u) as float)/(select count(u3) from User u3) from User u where cast((select count(c) from Chirp c where c.user.id=u.id)as float)>(select avg(cast((select count(c2) from Chirp c2 where c2.user.id=u2.id)as float))*1.75 from User u2)")
+	Double ratioUserWhoHavePostedAbove75Chirps();
+	
+	@Query("select cast((count(distinct n.publisher)) as float)/(select count(u) from User u) from Newspaper n")
+	Double ratioUsersWhoHaveCreatedNewspaper();
+	
 }

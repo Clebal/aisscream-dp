@@ -23,4 +23,7 @@ public interface ChirpRepository extends JpaRepository<Chirp, Integer> {
 	@Query("select c from Chirp c where c.user.id = ?1")
 	Page<Chirp> findByUserId(int userId, Pageable page);
 	
+	@Query("select avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float )), sqrt(sum((select count(c) from Chirp c where c.user.id=u.id)*(select count(c) from Chirp c where c.user.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float ))*avg(cast((select count(c) from Chirp c where c.user.id=u.id) as float ))) from User u")
+	Double[] avgStandartDeviationNumberChirpsPerUser();
+	
 }
