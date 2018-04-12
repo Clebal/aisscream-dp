@@ -130,13 +130,13 @@ public class ListArticleTest extends AbstractTest {
 	public void findAllUserPaginatedTest() {
 		final Object testingData[][] = {
 				{
-					"user1", "findAllUserPaginated", 0, 1, 5, null
+					"user1", "findAllUserPaginated", 1, 1, 5, null
 				}, {
 					null, "findAllUserPaginated", 0, 2, 4, IllegalArgumentException.class
 				}, {
-					"user2", "findAllUserPaginated", 0, 1, 1, null
+					"user2", "findAllUserPaginated", 1, 1, 1, null
 				}, {
-					"user3", "findAllUserPaginated", 1, 1, 1, IllegalArgumentException.class
+					"user3", "findAllUserPaginated", 0, 1, 1, IllegalArgumentException.class
 				}
 
 		};

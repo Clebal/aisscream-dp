@@ -3,8 +3,6 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -464,18 +462,82 @@ public class ArticleService {
 		return result;
 	}
 	
-	public Collection<Article> findByTabooWords() {
-		Collection<Article> resultAux;
-		Set<Article> result;
 
-		result = new HashSet<Article>();
+	public Double[] avgStandartDerivationArticlesPerWriter() {
+		Double[] result;
+		
+		result = this.articleRepository.avgStandartDerivationArticlesPerWriter();
+		
+		return result;
+	}
+	
+	public Double[] avgStandartDerivationArticlesPerNewspaper() {
+		Double[] result;
+		
+		result = this.articleRepository.avgStandartDerivationArticlesPerNewspaper();
+		
+		return result;
+	}
+	
+	public Double avgArticlesPerPrivateNewpaper() {
+		Double result;
+		
+		result = this.articleRepository.avgArticlesPerPrivateNewpaper();
+		
+		return result;
+	}
+	
+	public Double avgArticlesPerPublicNewpaper() {
+		Double result;
+		
+		result = this.articleRepository.avgArticlesPerPublicNewpaper();
+		
+		return result;
+	}
+	
+	public Page<Article> findPublicsPublishedSearch(final int userId, final String keyword, final int page, final int size) {
+		Page<Article> result;
 
-		for (final String s : this.configurationService.findTabooWords()) {
-			resultAux = this.articleRepository.findByTabooWord(s);
-			result.addAll(resultAux);
-		}
+		Assert.isTrue(userId != 0);
+
+		result = this.articleRepository.findPublicsPublishedSearch(userId, keyword, this.getPageable(page, size));
 
 		return result;
+
+	}
+
+	public Page<Article> findPublishedSearch(final int userId, final String keyword, final int page, final int size) {
+		Page<Article> result;
+
+		Assert.isTrue(userId != 0);
+		Assert.isTrue(LoginService.isAuthenticated());
+		
+		result = this.articleRepository.findPublishedSearch(userId, keyword, this.getPageable(page, size));
+
+		return result;
+
+	}
+	
+	public void findTaboos() {
+		Collection<Article> articles;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		articles = this.findAll();
+
+		for (final Article article : articles)
+			if (article.getHasTaboo() == false && this.checkTabooWords(article) == true) {
+				article.setHasTaboo(true);
+				this.articleRepository.save(article);
+			} else if (article.getHasTaboo() == true && this.checkTabooWords(article) == false) {
+				article.setHasTaboo(false);
+				this.articleRepository.save(article);
+			}
+
 	}
 	
 }

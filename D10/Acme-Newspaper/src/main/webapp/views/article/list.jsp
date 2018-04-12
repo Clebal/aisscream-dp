@@ -11,6 +11,24 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<jstl:if test="${userId != null}">
+	<form class="navbar-form navbar-right" action="article/listSearch.do" method="GET">
+        <div class="form-group">
+          	<input name="userId" value="${userId}" hidden="true"/>
+          	<input type="text" name="keyword" class="form-control" placeholder="<spring:message code="article.search" />">
+        </div>
+        <button type="submit" class="btn btn-default"><spring:message code="master.page.submit"/></button>
+     </form>
+</jstl:if>
+<jstl:if test="${userId == null}">
+	<form class="navbar-form navbar-right" action="article/listSearch.do" method="GET">
+        <div class="form-group">
+          	<input type="text" name="keyword" class="form-control" placeholder="<spring:message code="article.search" />">
+        </div>
+        <button type="submit" class="btn btn-default"><spring:message code="master.page.submit"/></button>
+     </form>
+</jstl:if>
+
 <display:table class="table table-striped table-bordered table-hover" name="articles" id="row" requestURI="${requestURI}">
 
 	<jstl:if test="${editar}">

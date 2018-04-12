@@ -51,7 +51,6 @@ public class ArticleController extends AbstractController {
 				editar = true;
 				userAux = this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId();
 				articles = this.articleService.findByWritterId(userAux, pageAux, 5);
-				editar = true;
 			} else {
 				editar = false;
 				userAux = userId;
@@ -65,13 +64,51 @@ public class ArticleController extends AbstractController {
 			result.addObject("articles", articles.getContent());
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", pageAux);
-			if (page == null)
+			if (userId == null)
 				result.addObject("requestURI", "article/list.do");
 			else
-				result.addObject("requestURI", "article/list.do?userId"+userId);
+				result.addObject("requestURI", "article/list.do?userId="+userId);
 			result.addObject("editar", editar);
 			result.addObject("borrar", borrar);
+			result.addObject("userId", userId);
 			
+			return result;
+		}
+		
+		@RequestMapping(value = "/listSearch", method = RequestMethod.GET)
+		public ModelAndView listSearch(@RequestParam(required=false) Integer userId, @RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam(required = false, defaultValue = "") final String keyword) {
+			ModelAndView result;
+			Page<Article> articles;
+			Integer userAux;
+			boolean editar, borrar;
+			
+			borrar = false;
+
+			if (userId == null) {
+				editar = true;
+				userAux = this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId();
+				articles = this.articleService.findPublishedSearch(userAux, keyword, page, 5);
+			} else {
+				editar = false;
+				userAux = userId;
+				articles = this.articleService.findPublicsPublishedSearch(userAux, keyword, page, 5);
+			}
+			Assert.notNull(articles);
+
+			result = new ModelAndView("article/list");
+			result.addObject("pageNumber", articles.getTotalPages());
+			result.addObject("page", page);
+			result.addObject("articles", articles.getContent());
+			if (userId == null)
+				result.addObject("requestURI", "article/listSearch.do");
+			else
+				result.addObject("requestURI", "article/listSearch.do?userId="+userId);
+			result.addObject("keyword", keyword);
+			result.addObject("editar", editar);
+			result.addObject("borrar", borrar);
+			result.addObject("userId", userId);
+			System.out.println("USUARIO: " + userId);
+
 			return result;
 		}
 	
