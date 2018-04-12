@@ -127,15 +127,10 @@
 		<br/>
 		
 		<div class="container">
-			<acme:display code="dashboard.suscribers.newspaper" value="${ratioSuscribersPrivateVsTotalCustomer}" formatNumber="true"/>
 			
 			
 		</div>
 		<br/>
-		<c:forEach items="${ratioSuscribersPrivateVsTotalCustomer}" var="entry">
-  		<p style="font-size: 17.5px;"><span class="display"><spring:message code="dashboard.suscribers.newspaper" /> No <jstl:out value="${entry.key.getTitle()}" /></span></p>
-  		<p>: <jstl:out value="${entry.value}" /></p>
-	</c:forEach>
 		
 		
 		
@@ -146,7 +141,11 @@
 		</div>
 		<br/>
 		
-		
+		<h4><spring:message code="dashboard.suscribers.newspaper" /></h4>
+		<c:forEach items="${ratioSuscribersPrivateVsTotalCustomer}" var="entry">
+  			<p><span class="display"><jstl:out value="${entry.key.title}" /></span>: <jstl:out value="${entry.value}" /></p>
+		</c:forEach>
+		<br>
 		
 	</div>
 	
