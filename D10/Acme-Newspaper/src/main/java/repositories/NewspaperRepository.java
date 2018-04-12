@@ -60,7 +60,4 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select avg(cast((select count(n) from Newspaper n where n.publisher.id = u.id and n.isPrivate = true) as float) / cast((select count(n2) from Newspaper n2 where n2.publisher.id = u.id) as float )) from User u")
 	Double ratioPrivateVersusPublicNewspaperPerPublisher();
 
-	@Query("select n from Newspaper n where (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
-	Collection<Newspaper> findByTabooWord(String s);
-
 }

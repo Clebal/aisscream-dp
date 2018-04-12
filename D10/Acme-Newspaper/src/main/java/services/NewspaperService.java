@@ -4,9 +4,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -433,66 +431,6 @@ public class NewspaperService {
 		return result;
 
 	}
-	//	// Hibernate Search
-	//	@SuppressWarnings("unchecked")
-	//	public Collection<Newspaper> findTaboos() {
-	//		Collection<Newspaper> result;
-	//		Collection<String> tabooWords;
-	//		String input;
-	//		int index;
-	//		HibernatePersistenceProvider persistenceProvider;
-	//		EntityManagerFactory entityManagerFactory;
-	//		EntityManager em;
-	//		FullTextEntityManager fullTextEntityManager;
-	//		QueryBuilder qb;
-	//		org.apache.lucene.search.Query luceneQuery;
-	//		Query jpaQuery;
-	//		result = null;
-	//
-	//		try {
-	//
-	//			tabooWords = this.configurationService.findTabooWords();
-	//			index = 0;
-	//			input = "";
-	//			for (final String s : tabooWords)
-	//				if (index == 0) {
-	//					input = s;
-	//					index++;
-	//				} else
-	//					input += ", " + s;
-	//
-	//			persistenceProvider = new HibernatePersistenceProvider();
-	//			entityManagerFactory = persistenceProvider.createEntityManagerFactory(DatabaseConfig.PersistenceUnit, null);
-	//
-	//			em = entityManagerFactory.createEntityManager();
-	//
-	//			fullTextEntityManager = Search.getFullTextEntityManager(em);
-	//
-	//			fullTextEntityManager.createIndexer().startAndWait();
-	//
-	//			em.getTransaction().begin();
-	//
-	//			qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Newspaper.class).get();
-	//
-	//			luceneQuery = qb.keyword().onFields("title", "description").matching(input).createQuery();
-	//
-	//			jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Newspaper.class);
-	//
-	//			result = jpaQuery.getResultList();
-	//
-	//			em.getTransaction().commit();
-	//
-	//			em.close();
-	//
-	//		} catch (final IllegalArgumentException e) {
-	//			e.printStackTrace();
-	//		} catch (final Throwable a) {
-	//			a.printStackTrace();
-	//		}
-	//
-	//		return result;
-	//
-	//	}
 
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
@@ -570,17 +508,26 @@ public class NewspaperService {
 
 	}
 
-	public Collection<Newspaper> findByTabooWords() {
-		Collection<Newspaper> resultAux;
-		Set<Newspaper> result;
+	public void findTaboos() {
+		Collection<Newspaper> newspapers;
+		Authority authority;
 
-		result = new HashSet<Newspaper>();
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
 
-		for (final String s : this.configurationService.findTabooWords()) {
-			resultAux = this.newspaperRepository.findByTabooWord(s);
-			result.addAll(resultAux);
-		}
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
-		return result;
+		newspapers = this.findAll();
+
+		for (final Newspaper newspaper : newspapers)
+			if (newspaper.getHasTaboo() == false && this.checkTabooWords(newspaper) == true) {
+				newspaper.setHasTaboo(true);
+				this.newspaperRepository.save(newspaper);
+			} else if (newspaper.getHasTaboo() == true && this.checkTabooWords(newspaper) == false) {
+				newspaper.setHasTaboo(false);
+				this.newspaperRepository.save(newspaper);
+			}
+
 	}
+
 }
