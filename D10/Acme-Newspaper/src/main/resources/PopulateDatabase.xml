@@ -262,7 +262,7 @@ Es requisito necesario para el uso de la web que lea y acepte los siguientes Té
 	
 	INFORMACIÓN PERSONAL
 	
-	Un administrador puede marcar como eliminado una cita o cancelar un servicio si considera que tiene contenido inadecuado. Además, puede borrar un comentario o anuncio si considera que afecta moralmente a otros usuarios.
+	Un administrador puede puede borrar un periódico, artículo, o chirp si considera que afecta moralmente a otros usuarios.
 	Si cualquier usuario quiere borrar algún dato personal y la aplicación no le ofrece la posibilidad de hacerlo, debe ponerse en contacto con aisscreamacas@gmail.com
 
 
@@ -307,7 +307,7 @@ document.
  PERSONAL INFORMATION
  
  
-An administrator can mark an rendezvous or service as deleted if he/she considers it has inappropriate content. In addition, he/she can delete a comment or announcement if think that it affects other users morally.
+An administrator can delete a newspaper, article, chirp if think that it affects other users morally.
 If any user wants to delete some personal data and the application does not have the possibility to do that, you should contact with aisscreamacas@gmail.com
 
 
@@ -569,7 +569,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Comentario de la fecha" />
 		<property name="summary" value="La fecha del artículo está mal." />
 		<property name="text" value="Es nuestro deber corregirlo." />
-		<property name="publicationMoment" value="04/17/2017 09:13" />
+		<property name="publicationMoment" value="03/24/2017 07:13" />
 		<property name="pictures">
 			<list>
 				<value>http://www.cheatsheet.com/wp-content/uploads/2015/11/Men-Clothing-in-Fashion-Store.jpg</value>
@@ -611,7 +611,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Me equivoqué en mi artículo" />
 		<property name="summary" value="Terrible error." />
 		<property name="text" value="Me llevaba un menos." />
-		<property name="publicationMoment" value="06/04/2017 11:13" />
+		<property name="publicationMoment" value="03/29/2017 11:13" />
 		<property name="pictures">
 			<list>
 				<value>https://buhomag-cms.imgix.net/2015/11/11162815/br.jpg?auto=compress,format</value>

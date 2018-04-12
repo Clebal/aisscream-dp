@@ -64,9 +64,12 @@ public class DashboardAdministratorController extends AbstractController {
 		numberArticlesPerPublicNewspaper = null;
 		ratioSuscribersPrivateVsTotalCustomer = null;
 		averageRatioPrivateVsPublicNewspaperPerPublisher = null;
-
+		//select avg(cast((select count(n) from Newspaper n where n.publisher.id = u.id and n.isPrivate = true) as float) / cast((select count(n2) from Newspaper n2 where n2.publisher.id = u.id and n2.isPrivate=false) as float )) from User u;
+		//	select (cast((select count(n) from Newspaper n where n.isPrivate=true) as float))/count(n2) from Newspaper n2 where n2.isPrivate=false;
 		result = new ModelAndView("dashboard/display");
-		//select avg(cast((select count(a) from Article a where a.writer.id=u.id) as float)) from User u;
+		//NO select avg(cast((select count(a) from Article a where a.writer.id=u.id) as float)) from User u;
+
+		//select  avg(cast((select count(a) from Article a where a.writer.id=u.id) as float)), sqrt(sum((select count(a) from Article a where a.writer.id=u.id)*(select count(a) from Article a where a.writer.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(a) from Article a where a.writer.id=u.id) as float ))*avg(cast((select count(a) from Article a where a.writer.id=u.id) as float ))) from User u
 		//select cast((count(distinct n.publisher)) as float)/(select count(u) from User u) from Newspaper n;
 
 		//select avg(cast((select count(f) from FollowUp f where f.article=a and (DATEDIFF(f.publicationMoment , a.newspaper.publicationDate)<7 or (DATEDIFF(f.publicationMoment , a.newspaper.publicationDate)=7 AND (hour(f.publicationMoment)*60*60+minute(f.publicationMoment )*60+second(f.publicationMoment )<=hour(a.newspaper.publicationDate)*60*60+minute(a.newspaper.publicationDate)*60+second( a.newspaper.publicationDate)) )))as float)) from Article a where a.newspaper.isPublished=true and a.newspaper.publicationDate<CURRENT_DATE
