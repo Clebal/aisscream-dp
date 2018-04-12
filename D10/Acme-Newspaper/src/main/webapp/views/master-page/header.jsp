@@ -34,6 +34,7 @@
       	
       	<security:authorize access="isAnonymous()">
 			<li><a href="newspaper/list.do"><spring:message code="master.page.all.newspapers.isAnonymous" /></a></li>
+			<li><a href="actor/user/list.do"><spring:message code="master.page.all.user" /></a></li>
       	</security:authorize>
                
         <li class="dropdown">
@@ -44,6 +45,7 @@
 					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>
 					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 					<li><a href="newspaper/administrator/findTaboos.do"><spring:message code="master.page.all.newspapers.taboos" /></a></li>
+					<li><a href="chirp/administrator/list.do"><spring:message code="master.page.all.chirps" /></a></li>
 					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.administrator.configuration" /></a></li>
 				</ul>
 			</security:authorize>
@@ -52,6 +54,8 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="newspaper/user/list.do"><spring:message code="master.page.user.newspapers" /></a></li>	
+					<li><a href="chirp/user/list.do"><spring:message code="master.page.all.chirps" /></a></li>	
+					<li><a href="chirp/user/create.do"><spring:message code="master.page.create.chirps" /></a></li>	
 					<li><a href="followUp/user/list.do"><spring:message code="master.page.user.followUp" /></a></li>
 				</ul>
 			</security:authorize>
@@ -71,6 +75,9 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="newspaper/list.do"><spring:message code="master.page.all.newspapers" /></a></li>	
+					<li><a href="actor/user/list.do"><spring:message code="master.page.all.user" /></a></li>
+					<li><a href="actor/user/display.do"><spring:message code="master.page.profile" /></a></li>
+					<li><a href="actor/profile.do"><spring:message code="master.page.edit.profile" /></a></li>
 				</ul>
 			</security:authorize>
         </li>

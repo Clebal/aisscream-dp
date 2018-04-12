@@ -131,7 +131,7 @@ public class UserController extends AbstractController {
 	
 	// Display
 	@RequestMapping(value="/display", method=RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int userId, @RequestParam(defaultValue="0", required=false) final int page) {
+	public ModelAndView display(@RequestParam(required=false) Integer userId, @RequestParam(defaultValue="1", required=false) final int page) {
 		ModelAndView result;
 		User user, userAuthenticated;
 		Page<Article> articles;
@@ -139,8 +139,19 @@ public class UserController extends AbstractController {
 		boolean isFollowing;
 		boolean isSamePerson;
 		
-		user = this.userService.findOneToDisplay(userId);
-		Assert.notNull(user);
+		if(userId == null) {
+			if(LoginService.isAuthenticated()) {
+				user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+				Assert.notNull(user);
+				userId = user.getId();
+			} else {
+				user = null;
+				Assert.notNull(userId);
+			}
+		} else {
+			user = this.userService.findOneToDisplay(userId);
+			Assert.notNull(user);
+		}
 		
 		articles = this.articleService.findAllUserPaginated(userId, 0, 5);
 		Assert.notNull(articles);
