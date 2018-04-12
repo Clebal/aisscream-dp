@@ -13,7 +13,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
-import org.hibernate.search.annotations.Field;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -47,7 +46,6 @@ public class Chirp extends DomainEntity {
 	}
 
 	@NotBlank
-	@Field
 	public String getTitle() {
 		return this.title;
 	}
@@ -57,7 +55,6 @@ public class Chirp extends DomainEntity {
 	}
 
 	@NotBlank
-	@Field
 	public String getDescription() {
 		return this.description;
 	}

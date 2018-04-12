@@ -111,13 +111,14 @@ public class CustomerService {
 
 	public Map<Newspaper, Double> ratioSuscribersPerPrivateNewspaperVersusNumberCustomers() {
 		Map<Newspaper, Double> result;
-		Object[] res;
+		Collection<Object[]> res;
 		
 		result = new HashMap<Newspaper, Double>();
 		
 		res = this.customerRepository.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers();
 		
-		result.put((Newspaper) res[0], (Double) res[1]);
+		for(Object[] o: res) 
+			result.put((Newspaper) o[0], (Double) o[1]);
 		
 		return result;
 	}

@@ -199,13 +199,18 @@ public class ChirpService {
             for(String taboo: tabooWords) {
 	        	result = c.getTitle().toLowerCase().contains(taboo);
 	        	if(result == true) {
-	        		this.delete(c);
+	        		c.setHasTaboo(true);
+	        		this.save(c);
 	        		continue;
 	        	}
 	        	result = c.getDescription().toLowerCase().contains(taboo);
 	        	if(result == true) {
-	        		this.delete(c);
+	        		c.setHasTaboo(true);
+	        		this.save(c);
 	        		continue;
+	        	}
+	        	if(result == false && c.getHasTaboo() != false) {
+	        		c.setHasTaboo(false);
 	        	}
 	        }
             
