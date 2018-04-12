@@ -57,6 +57,7 @@
 					<li><a href="chirp/user/list.do"><spring:message code="master.page.all.chirps" /></a></li>	
 					<li><a href="chirp/user/create.do"><spring:message code="master.page.create.chirps" /></a></li>	
 					<li><a href="followUp/user/list.do"><spring:message code="master.page.user.followUp" /></a></li>
+				    <li><a href="article/list.do"><spring:message code="master.page.article.list" /></a></li>
 				</ul>
 			</security:authorize>
 			
@@ -64,7 +65,8 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.customer" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="newspaper/customer/list.do"><spring:message code="master.page.customer.newspapers" /></a></li>
-					<li><a href="newspaper/customer/listForSubscribe.do"><spring:message code="master.page.customer.newspapersForSubscribe" /></a></li>															
+					<li><a href="newspaper/customer/listForSubscribe.do"><spring:message code="master.page.customer.newspapersForSubscribe" /></a></li>
+                    <li><a href="subscription/customer/list.do"><spring:message code="master.page.subscription.list" /></a></li>															
 				</ul>
 			</security:authorize>
         </li>
