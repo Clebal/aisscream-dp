@@ -48,6 +48,8 @@
 					<li><a href="newspaper/administrator/findTaboos.do"><spring:message code="master.page.all.newspapers.taboos" /></a></li>
 					<li><a href="chirp/administrator/list.do"><spring:message code="master.page.all.chirps" /></a></li>
 					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.administrator.configuration" /></a></li>
+					<li><a href="article/administrator/list.do"><spring:message code="master.page.administrator.articles" /></a></li>
+					<li><a href="article/administrator/listTaboo.do"><spring:message code="master.page.administrator.articles.taboo" /></a></li>
 				</ul>
 			</security:authorize>
 			
