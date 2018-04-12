@@ -69,6 +69,17 @@ public class ConfigurationAdministratorController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/searchTabooWord", method = RequestMethod.GET)
+	public ModelAndView findSuspicious() {
+		ModelAndView result;
+
+		this.configurationService.updateTabooWords();
+
+		result = new ModelAndView("redirect:/");
+
+		return result;
+	}
+
 	// Ancillary methods
 	protected ModelAndView createEditModelAndView(final Configuration configuration) {
 		ModelAndView result;

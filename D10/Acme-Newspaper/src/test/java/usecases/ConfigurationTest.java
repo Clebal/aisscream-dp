@@ -48,22 +48,46 @@ public class ConfigurationTest extends AbstractTest {
 
 	//Pruebas
 	/*
-	 * 1. Crear Follow-up con datos correctos y dos imágenes.
-	 * 2. Crear Follow-up con text null. ConstraintViolationException
-	 * 3. Crear Follow-up con title null. ConstraintViolationException
-	 * 4. Crear Follow-up sin imagenes.
+	 * 1. Borramos una taboo word, el chirp se debe no marcar como taboo.
+	 * 2. Borramos una taboo word, el newspaper se debe no marcar como taboo.
+	 * 3. Guardamos una taboo word, el article se debe no marcar como taboo.
+	 * 4. Dejar mismas tabooWords, ver que no cambia el valor en un newspaper;
 	 */
 
 	@Test
-	public void driverDataConstraint() {
+	public void driverPositive() {
 
 		//rol, entityName, lastEntityName, tabooToDelete, tabooToAdd, entityTest, expected) {
 		final Object testingData[][] = {
-			//			{
-			//				"admin", "chirp5", "delete", "sexo", "", "chirp", null
-			//			},
 			{
+				"admin", "chirp5", "delete", "sexo", "", "chirp", null
+			}, {
 				"admin", "newspaper2", "delete", "sex", "", "newspaper", null
+			}, {
+				"admin", "article3", "add", "", "felicidad", "article", null
+			}, {
+				"admin", "newspaper4", "equal", "", "", "newspaper", null
+			},
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+
+			this.templateEditConfiguration((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Class<?>) testingData[i][6]);
+
+	}
+
+	//Pruebas
+	/*
+	 * 1. Edita otro actor
+	 */
+
+	@Test
+	public void driverNegative() {
+
+		//rol, entityName, lastEntityName, tabooToDelete, tabooToAdd, entityTest, expected) {
+		final Object testingData[][] = {
+			{
+				"customer1", "newspaper2", "delete", "sex", "", "newspaper", IllegalArgumentException.class
 			},
 		};
 
@@ -74,9 +98,38 @@ public class ConfigurationTest extends AbstractTest {
 	}
 
 	/*
+	 * 1. Autenticarnos como admin.
+	 * 2. Acceder a la configuración.
+	 */
+	@Test
+	public void listTabooWord() {
+		Configuration configuration;
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.startTransaction();
+			this.authenticate("admin");
+
+			//Sacamos la configuration
+			configuration = this.configurationService.findUnique();
+			Assert.isTrue(configuration.getTabooWords().size() == 4);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		} finally {
+			super.rollbackTransaction();
+		}
+
+		this.checkExceptions(null, caught);
+
+	}
+
+	/*
 	 * 1. Autenticarnos.
-	 * 3. Acceder a la configuración.
-	 * 2. Editar configuración
+	 * 2. Acceder a la configuración.
+	 * 3. Editar configuración
 	 */
 	protected void templateEditConfiguration(final String username, final String entityName, final String actionName, final String tabooToDelete, final String tabooToAdd, final String entityTest, final Class<?> expected) {
 		Class<?> caught;
@@ -128,8 +181,6 @@ public class ConfigurationTest extends AbstractTest {
 			}
 
 			this.configurationService.save(configuration);
-			this.configurationService.flush();
-			this.configurationService.updateTabooWordsBefore();
 			this.configurationService.flush();
 			this.configurationService.updateTabooWords();
 			this.configurationService.flush();
