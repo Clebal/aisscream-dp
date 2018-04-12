@@ -187,6 +187,30 @@ public class FollowUpService {
 		return result;
 	}
 
+	public Double numberFollowUpPerArticle() {
+		Double result;
+
+		result = this.followUpRepository.numberFollowUpPerArticle();
+
+		return result;
+	}
+
+	public Double averageFollowUpPerArticleOneWeek() {
+		Double result;
+
+		result = this.followUpRepository.averageFollowUpPerArticleOneWeek();
+
+		return result;
+	}
+
+	public Double averageFollowUpPerArticleTwoWeek() {
+		Double result;
+
+		result = this.followUpRepository.averageFollowUpPerArticleTwoWeek();
+
+		return result;
+	}
+
 	//Auxilary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;

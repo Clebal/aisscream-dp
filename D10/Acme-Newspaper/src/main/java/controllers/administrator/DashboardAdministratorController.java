@@ -1,6 +1,8 @@
 
 package controllers.administrator;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,8 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ArticleService;
+import services.ChirpService;
+import services.CustomerService;
+import services.FollowUpService;
+import services.NewspaperService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.Newspaper;
 
 @Controller
 @RequestMapping("/dashboard/administrator")
@@ -17,7 +25,22 @@ public class DashboardAdministratorController extends AbstractController {
 
 	//Services
 	@Autowired
-	private UserService	userService;
+	private UserService			userService;
+
+	@Autowired
+	private NewspaperService	newspaperService;
+
+	@Autowired
+	private FollowUpService		followUpService;
+
+	@Autowired
+	private ArticleService		articleService;
+
+	@Autowired
+	private ChirpService		chirpService;
+
+	@Autowired
+	private CustomerService		customerService;
 
 
 	// Constructor
@@ -44,37 +67,29 @@ public class DashboardAdministratorController extends AbstractController {
 		final Double ratioPublicVsPrivateNewspaper;
 		final Double numberArticlesPerPrivateNewspaper;
 		final Double numberArticlesPerPublicNewspaper;
-		final Double ratioSuscribersPrivateVsTotalCustomer;
+		final Map<Newspaper, Double> ratioSuscribersPrivateVsTotalCustomer;
 		final Double averageRatioPrivateVsPublicNewspaperPerPublisher;
 
-		newspaperPerUser = null;
-		articlesPerWriter = null;
-		articlesPerNewspaper = null;
-		ratioUserCreateNewspaper = null;
-		ratioUserWrittenArticle = null;
+		newspaperPerUser = this.newspaperService.avgStandarDevNewspapersCreatedPerUser();
+		articlesPerWriter = this.articleService.avgStandartDerivationArticlesPerWriter();
+		articlesPerNewspaper = this.articleService.avgStandartDerivationArticlesPerWriter();
+		ratioUserCreateNewspaper = this.userService.ratioUsersWhoHaveCreatedNewspaper();
+		ratioUserWrittenArticle = this.userService.ratioUserWhoHaveWrittenArticle();
 
-		followUpPerArticle = null;
-		followUpPerArticleOneWeek = null;
-		followUpPerArticleTwoWeek = null;
-		chirpPerUser = null;
-		ratioUserPostNumberChirps = null;
+		followUpPerArticle = this.followUpService.numberFollowUpPerArticle();
+		followUpPerArticleOneWeek = this.followUpService.averageFollowUpPerArticleOneWeek();
+		followUpPerArticleTwoWeek = this.followUpService.averageFollowUpPerArticleTwoWeek();
+		chirpPerUser = this.chirpService.avgStandartDeviationNumberChirpsPerUser();
+		ratioUserPostNumberChirps = this.userService.ratioUserWhoHavePostedAbove75Chirps();
 
-		ratioPublicVsPrivateNewspaper = null;
-		numberArticlesPerPrivateNewspaper = null;
-		numberArticlesPerPublicNewspaper = null;
-		ratioSuscribersPrivateVsTotalCustomer = null;
-		averageRatioPrivateVsPublicNewspaperPerPublisher = null;
-		//select avg(cast((select count(n) from Newspaper n where n.publisher.id = u.id and n.isPrivate = true) as float) / cast((select count(n2) from Newspaper n2 where n2.publisher.id = u.id and n2.isPrivate=false) as float )) from User u;
-		//	select (cast((select count(n) from Newspaper n where n.isPrivate=true) as float))/count(n2) from Newspaper n2 where n2.isPrivate=false;
+		ratioPublicVsPrivateNewspaper = this.newspaperService.ratioPublicVsPrivateNewspaper();
+		numberArticlesPerPrivateNewspaper = this.articleService.avgArticlesPerPrivateNewpaper();
+		numberArticlesPerPublicNewspaper = this.articleService.avgArticlesPerPublicNewpaper();
+		ratioSuscribersPrivateVsTotalCustomer = this.customerService.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers();
+		averageRatioPrivateVsPublicNewspaperPerPublisher = this.newspaperService.ratioPrivateVersusPublicNewspaperPerPublisher();
+
 		result = new ModelAndView("dashboard/display");
-		//NO select avg(cast((select count(a) from Article a where a.writer.id=u.id) as float)) from User u;
 
-		//select  avg(cast((select count(a) from Article a where a.writer.id=u.id) as float)), sqrt(sum((select count(a) from Article a where a.writer.id=u.id)*(select count(a) from Article a where a.writer.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(a) from Article a where a.writer.id=u.id) as float ))*avg(cast((select count(a) from Article a where a.writer.id=u.id) as float ))) from User u
-		//select cast((count(distinct n.publisher)) as float)/(select count(u) from User u) from Newspaper n;
-
-		//select avg(cast((select count(f) from FollowUp f where f.article=a and (DATEDIFF(f.publicationMoment , a.newspaper.publicationDate)<7 or (DATEDIFF(f.publicationMoment , a.newspaper.publicationDate)=7 AND (hour(f.publicationMoment)*60*60+minute(f.publicationMoment )*60+second(f.publicationMoment )<=hour(a.newspaper.publicationDate)*60*60+minute(a.newspaper.publicationDate)*60+second( a.newspaper.publicationDate)) )))as float)) from Article a where a.newspaper.isPublished=true and a.newspaper.publicationDate<CURRENT_DATE
-		//select avg(cast((select count(f) from FollowUp f where f.article=a and (DATEDIFF(f.publicationMoment , a.newspaper.publicationDate)<14 or (DATEDIFF(f.publicationMoment , a.newspaper.publicationDate)=14 AND (hour(f.publicationMoment)*60*60+minute(f.publicationMoment )*60+second(f.publicationMoment )<=hour(a.newspaper.publicationDate)*60*60+minute(a.newspaper.publicationDate)*60+second( a.newspaper.publicationDate)) )))as float)) from Article a where a.newspaper.isPublished=true and a.newspaper.publicationDate<CURRENT_DATE
-		//select avg(cast((n.articles.size) as float)) from Newspaper n where n.isPrivate;
 		result.addObject("newspaperPerUser", newspaperPerUser);
 		result.addObject("articlesPerWriter", articlesPerWriter);
 		result.addObject("articlesPerNewspaper", articlesPerNewspaper);

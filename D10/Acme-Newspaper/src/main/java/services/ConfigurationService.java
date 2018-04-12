@@ -13,10 +13,7 @@ import org.springframework.validation.Validator;
 import repositories.ConfigurationRepository;
 import security.Authority;
 import security.LoginService;
-import domain.Article;
-import domain.Chirp;
 import domain.Configuration;
-import domain.Newspaper;
 
 @Service
 @Transactional
@@ -79,60 +76,12 @@ public class ConfigurationService {
 		this.configurationRepository.flush();
 	}
 
-	//Coger los marcados como taboo, comprobar si ya no lo son y actualizarlo
-	public void updateTabooWordsBefore() {
-		Collection<Chirp> chirpsTrueBefore;
-		Collection<Article> articlesTrueBefore;
-		Collection<Newspaper> newspapersTrueBefore;
-
-		chirpsTrueBefore = this.chirpService.findByHasTabooTrue();
-		articlesTrueBefore = this.articleService.findByHasTabooTrue();
-		newspapersTrueBefore = this.newspaperService.findByHasTabooTrue();
-
-		for (final Article article : articlesTrueBefore)
-			if (!this.articleService.checkTabooWords(article)) {
-				article.setHasTaboo(false);
-				this.articleService.saveFromConfiguration(article);
-			}
-
-		for (final Newspaper newspaper : newspapersTrueBefore)
-			if (!this.newspaperService.checkTabooWords(newspaper)) {
-				newspaper.setHasTaboo(false);
-				this.newspaperService.saveFromConfiguration(newspaper);
-			}
-
-		//		for (final Chirp chirp : chirpsTrueBefore)
-		//			if (!this.chirpService.checkTabooWords(chirp)) {
-		//				chirp.setHasTaboo(false);
-		//				this.chirpService.saveFromConfiguration(chirp);
-		//			}
-	}
-
 	//Coger todo aquello que tenga taboo words
 	public void updateTabooWords() {
-		final Collection<Chirp> chirps;
-		final Collection<Newspaper> newspapers;
-		final Collection<Article> articles;
 
-		chirps = this.chirpService.findTaboos();
-		articles = this.articleService.findTaboos();
-		newspapers = this.newspaperService.findTaboos();
-
-		//Actualizamos los encontrados como taboo
-		for (final Chirp chirp : chirps) {
-			chirp.setHasTaboo(true);
-			this.chirpService.saveFromConfiguration(chirp);
-		}
-
-		for (final Newspaper newspaper : newspapers) {
-			newspaper.setHasTaboo(true);
-			this.newspaperService.saveFromConfiguration(newspaper);
-		}
-
-		for (final Article article : articles) {
-			article.setHasTaboo(true);
-			this.articleService.saveFromConfiguration(article);
-		}
+		this.chirpService.findTaboos();
+		this.articleService.findTaboos();
+		this.newspaperService.findTaboos();
 
 	}
 
