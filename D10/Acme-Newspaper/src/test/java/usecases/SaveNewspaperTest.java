@@ -37,15 +37,18 @@ public class SaveNewspaperTest extends AbstractTest {
 
 
 	/*
-	 * Pruebas
-	 * 1. Probamos a crear un servicio de forma normal, dándole valores a todos los parámetros
-	 * 2. Probamos a crear un servicio dándole valores a todo menos a picture que es nulo
-	 * 3. Probamos a crear un servicio sobreescribiendo el status a Accepted
-	 * 4. Probamos a crear un servicio sobreescribiendo el manager del servicio por el que está logeado y el status a Accepted
-	 * 5. Probamos a crear un servicio sobreescribiendo el manager del servicio por el que está logeado
+	 * Test
+	 * 1. Creamos un newspaper inicializando todos sus parámetros (no salta excepción)
+	 * 2. Creamos un newspaper inicializando todos sus parámetros menos la imagen que es nulo (no salta excepción)
+	 * 3. Creamos un newspaper inicializando todos sus parámetros poniéndolo a público (no salta excepción)
+	 * 4. Creamos un newspaper inicializando todos sus parámetros poniéndolo a público y con la imagen a nulo (no salta excepción)
+	 * 5. Creamos un newspaper inicializando todos sus parámetros sobreescribiendo el creador por el propio logeado (no salta excepción)
+	 * 6. Creamos un newspaper usando palabras taboo en el título (no salta excepción)
+	 * 7. Creamos un newspaper usando palabras taboo en la descripción (no salta excepción)
 	 * 
 	 * Requisitos
-	 * C.5.2: An actor who is registered as a manager must be able to Manage his or her services, which includes creating them
+	 * C.6.1: An actor who is authenticated as a user must be able to create a newspaper. A user who has created a newspaper is commonly referred to
+	 * as a publisher
 	 */
 	@Test()
 	public void testCreatePositive() {
@@ -79,6 +82,20 @@ public class SaveNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Intentamos crear un newspaper poniendo la fecha a nulo (salta un IllegalArgumentException)
+	 * 2. Intentamos crear un newspaper poniendo el título a vacío (salta un ConstraintViolationException)
+	 * 3. Intentamos crear un newspaper poniendo la descripción a vacío (salta un ConstraintViolationException)
+	 * 4. Intentamos crear un newspaper poniendo un email con formato erroneo (salta un ConstraintViolationException)
+	 * 5. Intentamos crear un newspaper poniendo la descripción y el título a vacío (salta un ConstraintViolationException)
+	 * 6. Intentamos crear un newspaper poniendo el isPublished a false (salta un IllegalArgumentException)
+	 * 7. Intentamos crear un newspaper logeados como customer (salta un IllegalArgumentException)
+	 * 8. Intentamos crear un newspaper logeados como admin (salta un IllegalArgumentException)
+	 * 9. Intentamos crear un newspaper sin estar logeado (salta un IllegalArgumentException)
+	 * 10. Intentamos crear un newspaper con el user1 y asignárselo al user2 (salta un IllegalArgumentException)
+	 * 11. Intentamos crear un newspaper poniendo una fecha en el pasado (salta un IllegalArgumentException)
+	 */
 	@Test()
 	public void testCreateNegative() {
 		final Object testingData[][] = {
@@ -137,35 +154,34 @@ public class SaveNewspaperTest extends AbstractTest {
 			if (user != null)
 				super.authenticate(username); //Nos logeamos si es necesario
 
-			newspaper = this.newspaperService.create(); //Creamos el servicio
-			newspaper.setTitle(title);
+			newspaper = this.newspaperService.create(); //Creamos el newspaper
+			newspaper.setTitle(title); //Editamos el título
 			if (publicationDate != null) {
 				format = new SimpleDateFormat("dd/MM/yyyy");
 				date = format.parse(publicationDate); //Si el momento no es nulo creamos el momento
 			}
 			newspaper.setPublicationDate(date); //Le modificamos el momento
-			newspaper.setDescription(description);
-			newspaper.setPicture(picture);
-			newspaper.setIsPrivate(isPrivate);
-			newspaper.setIsPublished(isPublished);
-			//Modificamos sus parámetros
+			newspaper.setDescription(description);//Modificamos la descripción
+			newspaper.setPicture(picture); //Modificamos el dibujo
+			newspaper.setIsPrivate(isPrivate); //Modificamos si es privado
+			newspaper.setIsPublished(isPublished); //Le modificamos el isPublished para probar hackeos
 
 			if (userBean != null) {
 				userId = super.getEntityId(userBean);
 				userEntity = this.userService.findOne(userId);
-				newspaper.setPublisher(userEntity); //Le modificamos manualmente el manager para probar hackeos
+				newspaper.setPublisher(userEntity); //Le modificamos manualmente el user para probar hackeos
 
 			}
 
 			binder = new DataBinder(newspaper);
 			newspaperReconstruct = this.newspaperService.reconstruct(newspaper, binder.getBindingResult());
-			saved = this.newspaperService.save(newspaperReconstruct); //Guardamos el servicio
+			saved = this.newspaperService.save(newspaperReconstruct); //Guardamos el newspaper
 			super.flushTransaction();
 
-			Assert.isTrue(this.newspaperService.findAll().contains(saved)); //Miramos si están entre todos los servicos de la BD
+			Assert.isTrue(this.newspaperService.findAll().contains(saved)); //Miramos si están entre todos los newspaper de la BD
 
 			if (hasTabooWords == true)
-				Assert.isTrue(saved.getHasTaboo() == true);
+				Assert.isTrue(saved.getHasTaboo() == true); //Si hemos añadido palabras taboo vemos que este atributo esté a true
 			super.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

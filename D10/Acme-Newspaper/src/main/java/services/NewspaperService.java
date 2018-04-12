@@ -189,6 +189,10 @@ public class NewspaperService {
 		Assert.isTrue(newspaperToPublish.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		Assert.isTrue(newspaperToPublish.getIsPublished() == true && newspaperToPublish.getPublicationDate().compareTo(currentMoment) > 0);
 		newspaperToPublish.setPublicationDate(currentMoment);
+		for (final Article a : newspaperToPublish.getArticles()) {
+			a.setMoment(currentMoment);
+			this.articleService.saveFromNewspaper(a);
+		}
 		this.newspaperRepository.save(newspaperToPublish);
 
 	}

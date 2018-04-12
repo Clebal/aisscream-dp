@@ -34,6 +34,22 @@ public class EditNewspaperTest extends AbstractTest {
 	private UserService			userService;
 
 
+	/*
+	 * Test
+	 * 1. Publicamos el newspaper6 que no está publicado y puede publicarse (no salta excepción)
+	 * 2. Publicamos el newspaper5 que no está publicado y puede publicarse (no salta excepción)
+	 * 3. Intentamos publicar el newspaper1 que ya está publicado logeados como user1 (salta un IllegalArgumentException)
+	 * 4. Intentamos publicar el newspaper4 que no puede ser publicado logeados como user4 (salta un IllegalArgumentException)
+	 * 5. Intentamos publicar el newspaper6 como el user2 que no es su creador (salta un IllegalArgumentException)
+	 * 6. Intentamos publicar el newspaper6 logeados como customer (salta un IllegalArgumentException)
+	 * 7. Intentamos publicar el newspaper6 logeados como admin (salta un IllegalArgumentException)
+	 * 8. Intentamos publicar el newspaper6 sin estar logeado (salta un IllegalArgumentException)
+	 * 
+	 * Requisitos:
+	 * C.6.2: An actor who is authenticated as a user must be able to publish a newspaper that he or she is created. Note that no newspaper can be published
+	 * until each of the articles of which it is composed is saved in final mode
+	 */
+
 	@Test
 	public void publishTest() {
 		final Object testingData[][] = {
@@ -67,6 +83,24 @@ public class EditNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1.Logeados como user1 ponemos como privado el newspaper1 (no salta excepción)
+	 * 2.Logeados como user2 ponemos como público el newspaper2 (no salta excepción)
+	 * 3.Logeados como user2 ponemos como privado el newspaper1 (salta IllegalArgumentException)
+	 * 4.Logeados como customer1 ponemos como privado el newspaper1 (salta un IllegalArgumentException)
+	 * 5.Logeados como admin ponemos como privado el newspaper1 (salta un IllegalArgumentException)
+	 * 6.Sin estar logeado intentamos poner como privado el newspaper1 (salta un IllegalArgumentException)
+	 * 7.Logeados como user1 ponemos en público el newspaper1 (salta un IllegalArgumentException)
+	 * 8.Logeados como user1 ponemos como público el newspaper2 (salta un IllegalArgumentException)
+	 * 9.Logeados como customer1 ponemos como público el newspaper2 (salta un IllegalArgumentException)
+	 * 10.Logeados como admin ponemos como público el newspaper2 (salta un IllegalArgumentException)
+	 * 11.Sin estar logeado intentamos poner como público el newspaper2 (salta un IllegalArgumentException)
+	 * 12.Logeados como user2 intentamos poner como privado el newspaper2 (salta un IllegalArgumenteException)
+	 * 
+	 * Requisitos:
+	 * A.23.1: An actor who is authenticated as a user must be able to decide on whether a newspaper that he or she is created is public or private.
+	 */
 	@Test
 	public void putPublicPrivateTest() {
 		final Object testingData[][] = {
@@ -108,6 +142,23 @@ public class EditNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Logeados como user1 hacemos el findOneToDisplay con el newspaper1 (no salta excepción)
+	 * 2. Logeados como user1 hacemos el findOneToDisplay con el newspaper2 (no salta excepción)
+	 * 3. Logeados como user1 hacemos el findOneToDisplay con el newspaper3 (no salta excepción)
+	 * 4. Logeados como user4 hacemos el findOneToDisplay con el newspaper4 (no salta excepción)
+	 * 5. Logeados como customer1 hacemos el findOneToDisplay con el newspaper1 (no salta excepción)
+	 * 6. Logeados como admin hacemos el findOneToDisplay con el newspaper4 (no salta excepción)
+	 * 7. Sin estar logeados hacemos el findOneToDisplay con el newspaper1 (no salta excepción)
+	 * 8. Logeados como user1 hacemos el findOne con el newspaper2 (no salta excepción)
+	 * 9. Logeados como user1 hacemos el findOne de un newspaper con id cero (salta un IllegalArgumentException)
+	 * 10.Logeados como user1 hacemos el findOneToDisplay con el newspaper4 (salta un IllegalArgumentException)
+	 * 11.Logeados como customer1 hacemos el findOneToDisplay con el newspaper4 (salta un IllegalArgumentException)
+	 * 12. Sin estar logeado hacemos el findOneToDisplay con el newspaper4 (salta un IllegalArgumentException)
+	 * 13. Sin estar logeado hacemos el findOneToDisplay con el newspaper2 (salta un IllegalArgumentException)
+	 * 14. Logeados como user1 hacemos el findOneToDisplay de un newspaper con id cero (salta un IllegalArgumentException)
+	 */
 	@Test
 	public void findOneFindOneToDisplayTest() {
 		final Object testingData[][] = {
@@ -165,12 +216,12 @@ public class EditNewspaperTest extends AbstractTest {
 			newspaperId = 0;
 			if (user != null && user.equals("user")) {
 				if (correctBeans == false)
-					newspaperId = super.getEntityId(newspaperBean);
+					newspaperId = super.getEntityId(newspaperBean); //Si no podrías coger el newspaper se pilla directamente para simular hackeos
 				else {
 					newspaperIdAux = super.getEntityId(newspaperBean);
 					for (int i = 1; i <= this.newspaperService.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), 1, 5).getTotalPages(); i++)
-						//Se coge el servicio entre los servicios del manager logeado
 						for (final Newspaper n : this.newspaperService.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), i, 5))
+							//Lo cogemos entre nuestros newspapers si eres el creador
 							if (newspaperIdAux == n.getId()) {
 								newspaperId = n.getId();
 								break;
@@ -178,11 +229,11 @@ public class EditNewspaperTest extends AbstractTest {
 				}
 
 			} else
-				newspaperId = super.getEntityId(newspaperBean);
+				newspaperId = super.getEntityId(newspaperBean); //Si no estás logeados o no eres un user entonces pilla la id directamente para simular hackeos.
 
-			this.newspaperService.publish(newspaperId);
+			this.newspaperService.publish(newspaperId); //Publicamos el newspaper
 
-			Assert.isTrue(this.newspaperService.findOne(newspaperId).getIsPublished() == true && this.newspaperService.findOne(newspaperId).getPublicationDate().compareTo(new Date()) <= 0);
+			Assert.isTrue(this.newspaperService.findOne(newspaperId).getIsPublished() == true && this.newspaperService.findOne(newspaperId).getPublicationDate().compareTo(new Date()) <= 0); //Vemos que esté publicado
 			super.flushTransaction();
 
 			super.unauthenticate();
@@ -207,12 +258,12 @@ public class EditNewspaperTest extends AbstractTest {
 			newspaperId = 0;
 			if (user != null && user.equals("user")) {
 				if (correctBeans == false)
-					newspaperId = super.getEntityId(newspaperBean);
+					newspaperId = super.getEntityId(newspaperBean); // Si los newspapers no son tuyos pillas la id directamente
 				else {
 					newspaperIdAux = super.getEntityId(newspaperBean);
 					for (int i = 1; i <= this.newspaperService.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), 1, 5).getTotalPages(); i++)
-						//Se coge el servicio entre los servicios del manager logeado
 						for (final Newspaper n : this.newspaperService.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), i, 5))
+							//Cogemos el newspaper entre los nuestros
 							if (newspaperIdAux == n.getId()) {
 								newspaperId = n.getId();
 								break;
@@ -220,17 +271,17 @@ public class EditNewspaperTest extends AbstractTest {
 				}
 
 			} else
-				newspaperId = super.getEntityId(newspaperBean);
+				newspaperId = super.getEntityId(newspaperBean); //Si no estás logeado o no eres user coges la id directamente
 
 			if (isPrivate == true)
-				this.newspaperService.putPublic(newspaperId);
+				this.newspaperService.putPublic(newspaperId); //Lo ponemos público
 			else
-				this.newspaperService.putPrivate(newspaperId);
+				this.newspaperService.putPrivate(newspaperId); // Lo ponemos privado
 
 			if (isPrivate == true)
-				Assert.isTrue(this.newspaperService.findOne(newspaperId).getIsPrivate() == false);
+				Assert.isTrue(this.newspaperService.findOne(newspaperId).getIsPrivate() == false); //Si lo ponemos público vemos que este sea público después
 			else
-				Assert.isTrue(this.newspaperService.findOne(newspaperId).getIsPrivate() == true);
+				Assert.isTrue(this.newspaperService.findOne(newspaperId).getIsPrivate() == true);  //Si lo ponemos privado vemos que este sea privado después
 			super.flushTransaction();
 
 			super.unauthenticate();
@@ -259,20 +310,22 @@ public class EditNewspaperTest extends AbstractTest {
 				newspaperIdAux = super.getEntityId(newspaperBean);
 				for (int i = 1; i <= this.newspaperService.findAllPaginated(1, 5).getTotalPages(); i++)
 					for (final Newspaper n : this.newspaperService.findAllPaginated(i, 5).getContent())
+						//Si estás logeados coges la id desde el findAll
 						if (newspaperIdAux == n.getId())
 							newspaperId = n.getId();
 			} else if (correctNewspaper == true) {
 				newspaperIdAux = super.getEntityId(newspaperBean);
 				for (int i = 1; i <= this.newspaperService.findPublicsAndPublicated(1, 5).getTotalPages(); i++)
+					//Si no pero es visible lo pillas desde el findAll para los no logeados
 					for (final Newspaper n : this.newspaperService.findPublicsAndPublicated(i, 5).getContent())
 						if (newspaperIdAux == n.getId())
 							newspaperId = n.getId();
 			} else
-				newspaperId = super.getEntityId(newspaperBean);
+				newspaperId = super.getEntityId(newspaperBean); // Si no cogemos la id directamente para simular hackeos
 
 			if (findOneToDisplay == true)
 				if (falseId == false)
-					newspaper = this.newspaperService.findOneToDisplay(newspaperId); //Se prueba el findOneToEdit
+					newspaper = this.newspaperService.findOneToDisplay(newspaperId); //Se prueba el findOneToDisplay
 				else
 					newspaper = this.newspaperService.findOneToDisplay(0);
 			else if (falseId == false)

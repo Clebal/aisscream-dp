@@ -61,6 +61,18 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Listamos los newspapers donde el suscrito el customer2 viendo la primera página con un tamaño de 2
+	 * 2. Listamos los newspapers donde el suscrito el customer2 viendo la segunda página con un tamaño de 1
+	 * 3. Listamos los newspapers donde el suscrito el customer2 viendo la segunda página con un tamaño de 1
+	 * 4. Listamos los newspapers donde el suscrito el customer2 viendo la tercera página con un tamaño de 1
+	 * 5. Listamos los newspapers donde el suscrito el customer2 viendo la primera página con un tamaño de 5
+	 * 6. Intentamos listar los newspapers a los que está suscrito el customer2 logeados como user1 (salta un IllegalArgumentException)
+	 * 7. Intentamos listar los newspapers a los que está suscrito el customer2 logeados como admin (salta un IllegalArgumentException)
+	 * 8. Intentamos listar los newspapers a los que está suscrito el customer2 sin estar logeado (salta un IllegalArgumentException)
+	 * 9. Intentamos listar los newspapers a los que está suscrito el customer2 usando la id cero (salta un IllegalArgumentException)
+	 */
 	@Test()
 	public void testFindForSubscribe() {
 		final Object testingData[][] = {
@@ -97,6 +109,18 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Listamos los newspapers del user1 con tamaño 2 y la página 1 (no salta excepción)
+	 * 2. Listamos los newspapers del user1 con tamaño 1 y la página 1 (no salta excepción)
+	 * 3. Listamos los newspapers del user1 con tamaño 1 y la página 2 (no salta excepción)
+	 * 4. Listamos los newspapers del user1 con tamaño 1 y la página 3 (no salta excepción)
+	 * 5. Listamos los newspapers del user1 con tamaño 5 y la página 1 (no salta excepción)
+	 * 6. Listamos los newspapers del user1 logeados como customer (salta un IllegalArgumentException)
+	 * 7. Listamos los newspapers del user1 logeados como admin (salta un IllegalArgumentException)
+	 * 8. Listamos los newspapers del user1 sin estar logeado (salta un IllegalArgumentException)
+	 * 9. Listamos los newspapers del user1 con id cero (salta un IllegalArgumentException)
+	 */
 	@Test()
 	public void testFindByUserId() {
 		final Object testingData[][] = {
@@ -133,6 +157,18 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Listamos los newspapers del customer1 con tamaño 2 y la página 1 (no salta excepción)
+	 * 2. Listamos los newspapers del customer1 con tamaño 1 y la página 1 (no salta excepción)
+	 * 3. Listamos los newspapers del customer1 con tamaño 1 y la página 2 (no salta excepción)
+	 * 4. Listamos los newspapers del customer1 con tamaño 1 y la página 3 (no salta excepción)
+	 * 5. Listamos los newspapers del customer1 con tamaño 5 y la página 1 (no salta excepción)
+	 * 6. Listamos los newspapers del customer1 logeados como user1 (salta un IllegalArgumentException)
+	 * 7. Listamos los newspapers del customer1 logeados como admin (salta un IllegalArgumentException)
+	 * 8. Listamos los newspapers del customer1 logeados como sin estar logeado (salta un IllegalArgumentException)
+	 * 9. Listamos los newspapers de un customer con id cero logeados como user1 (salta un IllegalArgumentException)
+	 */
 	@Test()
 	public void testFindByCustomerId() {
 		final Object testingData[][] = {
@@ -169,6 +205,17 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Hacemos el findPublicsAndPublicated logeados como customer1 viendo la primera página con tamaño 2 (no salta excepción)
+	 * 2. Hacemos el findPublicsAndPublicated logeados como customer1 viendo la primera página con tamaño 1 (no salta excepción)
+	 * 3. Hacemos el findPublicsAndPublicated logeados como customer1 viendo la segunda página con tamaño 1 (no salta excepción)
+	 * 4. Hacemos el findPublicsAndPublicated logeados como customer1 viendo la tercera página con tamaño 1 (no salta excepción)
+	 * 5. Hacemos el findPublicsAndPublicated logeados como customer1 viendo la primera página con tamaño 5 (no salta excepción)
+	 * 6. Hacemos el findPublicsAndPublicated logeados como user1 viendo la primera página con tamaño 2 (no salta excepción)
+	 * 7. Hacemos el findPublicsAndPublicated logeados como admin viendo la primera página con tamaño 2 (no salta excepción)
+	 * 8. Hacemos el findPublicsAndPublicated sin estar logeado viendo la primera página con tamaño 2 (no salta excepción)
+	 */
 	@Test()
 	public void testFindPublicsAndPublicated() {
 		final Object testingData[][] = {
@@ -203,6 +250,17 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Hacemos el findAllPaginated logeados como customer1 viendo la primera página con tamaño 6 (no salta excepción)
+	 * 2. Hacemos el findAllPaginated logeados como customer1 viendo la primera página con tamaño 3 (no salta excepción)
+	 * 3. Hacemos el findAllPaginated logeados como customer1 viendo la segunda página con tamaño 3 (no salta excepción)
+	 * 4. Hacemos el findAllPaginated logeados como customer1 viendo la tercera página con tamaño 3 (no salta excepción)
+	 * 5. Hacemos el findAllPaginated logeados como customer1 viendo la primera página con tamaño 7 (no salta excepción)
+	 * 6. Hacemos el findAllPaginated logeados como user1 viendo la primera página con tamaño 6 (no salta excepción)
+	 * 7. Hacemos el findAllPaginated logeados como admin viendo la primera página con tamaño 6 (no salta excepción)
+	 * 8. Hacemos el findAllPaginated sin estar logeadps (salta un IllegalArgumentException)
+	 */
 	@Test()
 	public void testFindAllPaginated() {
 		final Object testingData[][] = {
@@ -237,6 +295,17 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Hacemos el findTaboos logeados como admin viendo la primera página con tamaño 2 (no salta excepción)
+	 * 2. Hacemos el findTaboos logeados como admin viendo la primera página con tamaño 1 (no salta excepción)
+	 * 3. Hacemos el findTaboos logeados como admin viendo la segunda página con tamaño 1 (no salta excepción)
+	 * 4. Hacemos el findTaboos logeados como admin viendo la tercera página con tamaño 1 (no salta excepción)
+	 * 5. Hacemos el findTaboos logeados como admin viendo la primera página con tamaño 3 (no salta excepción)
+	 * 6. Hacemos el findTaboos logeados como user1 (salta un IllegalArgumentException)
+	 * 7. Hacemos el findTaboos logeados como customer1 (salta un IllegalArgumentException)
+	 * 8. Hacemos el findTaboos sin estar logeado (salta un IllegalArgumentException)
+	 */
 	@Test()
 	public void testFindTaboos() {
 		final Object testingData[][] = {
@@ -271,6 +340,15 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "a" con tamaño 2 la página 1 (no salta excepción)
+	 * 2. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "a" con tamaño 1 la página 1 (no salta excepción)
+	 * 3. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "a" con tamaño 1 la página 2 (no salta excepción)
+	 * 4. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "a" con tamaño 1 la página 3 (no salta excepción)
+	 * 5. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "a" con tamaño 3 la página 1 (no salta excepción)
+	 * 6. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "proximo" con tamaño 1 la página 1 (no salta excepción)
+	 */
 	@Test()
 	public void testFindPublicsPublishedSearch() {
 		final Object testingData[][] = {
@@ -301,6 +379,17 @@ public class ListNewspaperTest extends AbstractTest {
 			}
 	}
 
+	/*
+	 * Test
+	 * 1. Hacemos el findPublishedSearch logeados como user1 buscando la keyword "a" con tamaño 3 la página 1 (no salta excepción)
+	 * 2. Hacemos el findPublishedSearch logeados como user1 buscando la keyword "a" con tamaño 2 la página 1 (no salta excepción)
+	 * 3. Hacemos el findPublishedSearch logeados como user1 buscando la keyword "a" con tamaño 2 la página 2 (no salta excepción)
+	 * 4. Hacemos el findPublishedSearch logeados como user1 buscando la keyword "a" con tamaño 2 la página 3 (no salta excepción)
+	 * 5. Hacemos el findPublishedSearch logeados como user1 buscando la keyword "a" con tamaño 4 la página 1 (no salta excepción)
+	 * 6. Hacemos el findPublishedSearch logeados como customer1 buscando la keyword "a" con tamaño 3 la página 1 (no salta excepción)
+	 * 7. Hacemos el findPublishedSearch logeados como admin buscando la keyword "a" con tamaño 3 la página 1 (no salta excepción)
+	 * 8. Hacemos el findPublishedSearch sin estar logeado buscando la keyword "a" con tamaño 3 la página 1 (salta un IllegalArgumentException)
+	 */
 	@Test()
 	public void testFindPublishedSearch() {
 		final Object testingData[][] = {
@@ -351,15 +440,15 @@ public class ListNewspaperTest extends AbstractTest {
 				super.authenticate(username); //Nos logeamos si es necesario
 
 			if (method.equals("findAll"))
-				newspapers = this.newspaperService.findAll(); //Cogemos todos los servicios usando el findAll
+				newspapers = this.newspaperService.findAll(); //Cogemos todos los newspapers usando el findAll
 			else if (method.equals("findForSubscribe")) {
 				if (user != null && user.equals("customer"))
 					customerId = super.getEntityId(username);
 				if (falseId == false) {
 					if (user != null && user.equals("customer"))
-						newspapers = this.newspaperService.findForSubscribe(customerId, page, tam); //Si estamos como un manager cogemos todos sus sevicios
+						newspapers = this.newspaperService.findForSubscribe(customerId, page, tam); //Si estamos como customer pillar los del logeado
 					else
-						newspapers = this.newspaperService.findForSubscribe(super.getEntityId(bean), page, tam); //Si estamos como un manager cogemos todos sus sevicios
+						newspapers = this.newspaperService.findForSubscribe(super.getEntityId(bean), page, tam); //Si no pillar la del customer que le pasas
 				} else
 					newspapers = this.newspaperService.findForSubscribe(0, page, tam);
 
@@ -398,30 +487,30 @@ public class ListNewspaperTest extends AbstractTest {
 					userId = super.getEntityId(username);
 				if (falseId == false) {
 					if (user != null && user.equals("user"))
-						newspapers = this.newspaperService.findByUserId(userId, page, tam);
+						newspapers = this.newspaperService.findByUserId(userId, page, tam); //Todos los newspapers del user logeado
 					else
-						newspapers = this.newspaperService.findByUserId(super.getEntityId(bean), page, tam);
+						newspapers = this.newspaperService.findByUserId(super.getEntityId(bean), page, tam); //Los newspapers de user que paas
 				} else
-					newspapers = this.newspaperService.findByUserId(0, page, tam);
+					newspapers = this.newspaperService.findByUserId(0, page, tam); //Los newspapers con id cero
 			} else if (method.equals("findByCustomerId")) {
 				if (falseId == false) {
 					if (user != null && user.equals("customer")) {
 						customerId = super.getEntityId(username);
-						newspapers = this.newspaperService.findByCustomerId(customerId, page, tam);
+						newspapers = this.newspaperService.findByCustomerId(customerId, page, tam); //Los newspapers del customer logeado
 					} else
-						newspapers = this.newspaperService.findByUserId(super.getEntityId(bean), page, tam);
+						newspapers = this.newspaperService.findByUserId(super.getEntityId(bean), page, tam); //LOs newspapers del customer dado
 				} else
 					newspapers = this.newspaperService.findByUserId(0, page, tam);
 			} else if (method.equals("findPublicsAndPublicated"))
-				newspapers = this.newspaperService.findPublicsAndPublicated(page, tam);
+				newspapers = this.newspaperService.findPublicsAndPublicated(page, tam); //FindAllPublicated
 			else if (method.equals("findAllPaginated"))
-				newspapers = this.newspaperService.findAllPaginated(page, tam);
+				newspapers = this.newspaperService.findAllPaginated(page, tam); //FindAllPaginated
 			else if (method.equals("findTaboos"))
-				newspapers = this.newspaperService.findTaboos(page, tam);
+				newspapers = this.newspaperService.findTaboos(page, tam); //FindTaboos
 			else if (method.equals("findPublicsPublishedSearch"))
-				newspapers = this.newspaperService.findPublicsPublishedSearch(bean, page, tam);
+				newspapers = this.newspaperService.findPublicsPublishedSearch(bean, page, tam); //FindPublicsPublishedSearch
 			else if (method.equals("findPublishedSearch"))
-				newspapers = this.newspaperService.findPublishedSearch(bean, page, tam);
+				newspapers = this.newspaperService.findPublishedSearch(bean, page, tam); //FindPublishedSearch
 
 			Assert.isTrue(newspapers.getContent().size() == size); //Se compara el tamaño con el esperado
 			Assert.isTrue(newspapers.getTotalPages() == totalPage);//Se compara el total de páginas con las esperadas
