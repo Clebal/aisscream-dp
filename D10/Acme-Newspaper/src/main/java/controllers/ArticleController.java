@@ -108,7 +108,6 @@ public class ArticleController extends AbstractController {
 			result.addObject("editar", editar);
 			result.addObject("borrar", borrar);
 			result.addObject("userId", userId);
-			System.out.println("USUARIO: " + userId);
 
 			return result;
 		}

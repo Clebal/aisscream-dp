@@ -16,7 +16,7 @@
 	<form:hidden path="newspaper" />
 	<form:hidden path="writer" />
 
-	<acme:textbox code="article.moment" path="moment"/>
+	<acme:textbox code="article.moment" path="moment" readonly="readonly"/>
 
 	<acme:textbox code="article.title" path="title"/>
 
@@ -39,6 +39,6 @@
 	<acme:submit name="delete" code="article.delete" codeDelete="article.confirm.delete"/>
 	</jstl:if>
 	
-	<acme:cancel url="article/user/list.do" code="article.cancel"/>
+	<acme:cancel url="article/list.do" code="article.cancel"/>
 
 </form:form>

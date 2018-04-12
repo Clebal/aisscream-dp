@@ -64,6 +64,7 @@ public class ArticleService {
 		result = new Article();
 		result.setWriter(writer);
 		result.setNewspaper(newspaper);
+		result.setMoment(newspaper.getPublicationDate());
 
 		return result;
 	}
@@ -159,9 +160,46 @@ public class ArticleService {
 		
 		article.setHasTaboo(isTaboo);
 		
-		if (article.getNewspaper().getIsPublished()) {
+		result = this.articleRepository.save(article);
+
+		return result;
+
+	}
+	
+	public Article saveFromNewspaper(final Article article) {
+		Article result;
+		Article saved;
+		boolean isTaboo;
+		Collection<Article> articles;
+		boolean isFinal;
+		
+		Assert.notNull(article);
+
+		Assert.isTrue(LoginService.isAuthenticated());
+
+			saved = this.findOne(article.getId());
+			Assert.isTrue(article.getWriter().getId() == saved.getWriter().getId()); //No puede cambiar de user
+			Assert.isTrue(article.getNewspaper().equals(saved.getNewspaper())); //No puede cambiar el newspaper
 			
-		}
+			isFinal = true;
+			
+			if (article.getIsFinalMode()) {
+				articles = this.findByNewspaperId(article.getNewspaper().getId());
+				for (Article a : articles) {
+					isFinal = true;
+					if (!a.getIsFinalMode()) {
+						isFinal = false;
+						break;
+					}
+				}
+				if (!isFinal) {
+					article.getNewspaper().setIsPublished(true);
+				}	
+			}
+
+		isTaboo = this.checkTabooWords(article);
+		
+		article.setHasTaboo(isTaboo);
 		
 		result = this.articleRepository.save(article);
 
