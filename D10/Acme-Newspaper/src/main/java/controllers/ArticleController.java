@@ -71,6 +71,7 @@ public class ArticleController extends AbstractController {
 			result.addObject("editar", editar);
 			result.addObject("borrar", borrar);
 			result.addObject("userId", userId);
+			result.addObject("taboo", null);
 			
 			return result;
 		}

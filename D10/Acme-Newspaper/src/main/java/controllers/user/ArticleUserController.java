@@ -2,7 +2,6 @@
 package controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -35,51 +34,10 @@ public class ArticleUserController extends AbstractController {
 	private UserService					userService;
 	
 	// Constructor
+	
 	public ArticleUserController() {
 		super();
 	}
-
-	// List
-		@RequestMapping(value="/list", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam(required=false) Integer userId, @RequestParam(required=false) Integer page) {
-			ModelAndView result;
-			Page<Article> articles;
-			Integer pageAux, userAux;
-			boolean editar, borrar;
-			
-			editar = false;
-			borrar = false;
-			
-			if (page == null)
-				pageAux = 1;
-			else
-				pageAux = page;
-			
-			if (userId == null) {
-				userAux = this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId();
-				articles = this.articleService.findByWritterId(userAux, pageAux, 5);
-				editar = true;
-			} else {
-				userAux = userId;
-				articles = this.articleService.findAllUserPaginated(userId, pageAux, 5);
-			}
-			
-			Assert.notNull(articles);
-			
-			result = new ModelAndView("article/list");
-
-			result.addObject("articles", articles.getContent());
-			result.addObject("pageNumber", articles.getTotalPages());
-			result.addObject("page", pageAux);
-			if (page == null)
-				result.addObject("requestURI", "article/user/list.do");
-			else
-				result.addObject("requestURI", "article/user/list.do?userId"+userId);
-			result.addObject("editar", editar);
-			result.addObject("borrar", borrar);
-			
-			return result;
-		}
 				
 		// Delete
 		@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")

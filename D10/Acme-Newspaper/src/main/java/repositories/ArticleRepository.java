@@ -45,6 +45,12 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.writer.id=?1 and (a.title like CONCAT('%',?2,'%') or a.summary like CONCAT('%',?2,'%') or a.body like CONCAT('%',?2,'%'))")
 	Page<Article> findPublishedSearch(final int userId, String keyWord, Pageable pageable);
 	
+	@Query("select a from Article a where a.isFinalMode=true and (a.title like CONCAT('%',?1,'%') or a.summary like CONCAT('%',?1,'%') or a.body like CONCAT('%',?1,'%'))")
+	Page<Article> findPublishedSearchNoAuth(String keyWord, Pageable pageable);
+	
+	@Query("select a from Article a where a.hasTaboo = true and (a.title like CONCAT('%',?1,'%') or a.summary like CONCAT('%',?1,'%') or a.body like CONCAT('%',?1,'%'))")
+	Page<Article> findPublishedSearchTaboo(String keyWord, Pageable pageable);
+	
 	// Queries Dashboard
 	
 	@Query("select  avg(cast((select count(a) from Article a where a.writer.id=u.id) as float)), sqrt(sum((select count(a) from Article a where a.writer.id=u.id)*(select count(a) from Article a where a.writer.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(a) from Article a where a.writer.id=u.id) as float ))*avg(cast((select count(a) from Article a where a.writer.id=u.id) as float ))) from User u")

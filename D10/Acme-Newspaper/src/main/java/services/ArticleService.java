@@ -397,7 +397,8 @@ public class ArticleService {
 
 		for (final String tabooWord : tabooWords) {
 			result = article.getTitle() != null && article.getTitle().toLowerCase().contains(tabooWord) || 
-					article.getBody() != null && article.getBody().toLowerCase().contains(tabooWord);
+					article.getBody() != null && article.getBody().toLowerCase().contains(tabooWord) || 
+					article.getSummary() != null && article.getSummary().toLowerCase().contains(tabooWord);;
 			if (result == true)
 				break;
 		}
@@ -513,6 +514,28 @@ public class ArticleService {
 		Assert.isTrue(LoginService.isAuthenticated());
 		
 		result = this.articleRepository.findPublishedSearch(userId, keyword, this.getPageable(page, size));
+
+		return result;
+
+	}
+	
+	public Page<Article> findPublishedSearchNoAuth(final String keyword, final int page, final int size) {
+		Page<Article> result;
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		
+		result = this.articleRepository.findPublishedSearchNoAuth(keyword, this.getPageable(page, size));
+
+		return result;
+
+	}
+	
+	public Page<Article> findPublishedSearchTaboo(final String keyword, final int page, final int size) {
+		Page<Article> result;
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		
+		result = this.articleRepository.findPublishedSearchTaboo(keyword, this.getPageable(page, size));
 
 		return result;
 

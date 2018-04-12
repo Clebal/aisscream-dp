@@ -20,8 +20,24 @@
         <button type="submit" class="btn btn-default"><spring:message code="master.page.submit"/></button>
      </form>
 </jstl:if>
-<jstl:if test="${userId == null}">
+<jstl:if test="${userId == null && taboo == null}">
 	<form class="navbar-form navbar-right" action="article/listSearch.do" method="GET">
+        <div class="form-group">
+          	<input type="text" name="keyword" class="form-control" placeholder="<spring:message code="article.search" />">
+        </div>
+        <button type="submit" class="btn btn-default"><spring:message code="master.page.submit"/></button>
+     </form>
+</jstl:if>
+<jstl:if test="${userId == null && taboo == false}">
+	<form class="navbar-form navbar-right" action="article/administrator/listSearch.do" method="GET">
+        <div class="form-group">
+          	<input type="text" name="keyword" class="form-control" placeholder="<spring:message code="article.search" />">
+        </div>
+        <button type="submit" class="btn btn-default"><spring:message code="master.page.submit"/></button>
+     </form>
+</jstl:if>
+<jstl:if test="${userId == null && taboo == true}">
+	<form class="navbar-form navbar-right" action="article/administrator/listSearchTaboo.do" method="GET">
         <div class="form-group">
           	<input type="text" name="keyword" class="form-control" placeholder="<spring:message code="article.search" />">
         </div>
