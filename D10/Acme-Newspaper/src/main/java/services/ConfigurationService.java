@@ -47,7 +47,7 @@ public class ConfigurationService {
 		Configuration result;
 		Authority authority;
 
-		//Si no está vacío no te deja persistir otra, por lo que comprueba que la que pasas es la que está persistida y no es otra
+		//Si no está vacío no te deja persistir otra, por lo que comprueba que la que pasas es la que está persistida y no es otra.
 		Assert.notNull(configuration, "configuration.not.null");
 
 		if (!this.configurationRepository.findAll().isEmpty())
