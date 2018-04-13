@@ -66,7 +66,7 @@ public class ListUserTest extends AbstractTest {
 			}, {
 				"user1", "findFollowersByUserId", 0, 0, 5, null
 			}, {
-				"user1", "findFollowedsByUserId", 3, 1, 5, null
+				"user1", "findFollowedsByUserId", 2, 1, 5, null
 			}
 		};
 		

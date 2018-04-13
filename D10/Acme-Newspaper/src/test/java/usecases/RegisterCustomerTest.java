@@ -76,9 +76,9 @@ public class RegisterCustomerTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. Un usuario logueado no puede registrar a otro
-	 * 		2. Un usuario logueado no puede registrar a otro
-	 * 		3. Un usuario logueado no puede registrar a otro
+	 * 		1. Un customer logueado no puede registrar a otro
+	 * 		2. Un customer logueado no puede registrar a otro
+	 * 		3. Un customer logueado no puede registrar a otro
 	 * 		4. El email tiene que tener el formato de un email
 	 * 		5. El nombre no puede ser nulo
 	 * 		6. El apellido no puede ser nulo
