@@ -41,6 +41,7 @@
 		<value>/views/followUp/tiles.xml</value>
 		<value>/views/dashboard/tiles.xml</value>
         
+		<value>/views/administrator/tiles.xml</value>
 
 	</util:list>
 

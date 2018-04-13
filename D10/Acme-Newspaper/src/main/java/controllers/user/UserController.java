@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
 import security.LoginService;
 import services.ArticleService;
 import services.ChirpService;
@@ -138,6 +139,10 @@ public class UserController extends AbstractController {
 		Page<Chirp> chirpsPage;
 		boolean isFollowing;
 		boolean isSamePerson;
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("USER");
 		
 		if(userId == null) {
 			if(LoginService.isAuthenticated()) {
@@ -166,7 +171,7 @@ public class UserController extends AbstractController {
 		result.addObject("pageNumber", chirpsPage.getTotalPages());
 		result.addObject("page", page);
 		
-		if(LoginService.isAuthenticated()) {
+		if(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			isFollowing = true;
 			isSamePerson = false;
 			

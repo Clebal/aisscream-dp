@@ -27,7 +27,7 @@
 
 </jstl:if>
 
-<jstl:if test="${role.equals('admin')}">
+<jstl:if test="${role.equals('administrator')}">
 
 	<display:table class="table table-striped table-bordered table-hover" defaultorder="descending" defaultsort="5" name="chirps" id="row" requestURI="creditcard/admin/list.do">
 	
@@ -35,7 +35,7 @@
 			
 			<acme:columnLink style="background:red; color:white" action="delete" domain="chirp" id="${row.getId()}" url="chirp/admin/delete.do?chirpId=${row.getId()}"/>
 	
-			<acme:column style="background:red; color:white" domain="chirp" property="moment"/>
+			<acme:column style="background:red; color:white" domain="chirp" property="moment" formatDate="true" />
 			
 			<acme:column style="background:red; color:white" domain="chirp" property="title"/>
 			
@@ -49,9 +49,9 @@
 		
 		<jstl:if test="${row.getHasTaboo() == false}">
 			
-			<acme:columnLink action="delete" domain="chirp" id="${row.getId()}" url="chirp/admin/delete.do?chirpId=${row.getId()}"/>
+			<acme:columnLink action="delete" domain="chirp" id="${row.getId()}" url="chirp/administrator/delete.do?chirpId=${row.getId()}"/>
 	
-			<acme:column domain="chirp" property="moment"/>
+			<acme:column domain="chirp" property="moment" formatDate="true" />
 			
 			<acme:column domain="chirp" property="title"/>
 			

@@ -81,7 +81,9 @@
 				<ul class="dropdown-menu">
 					<li><a href="newspaper/list.do"><spring:message code="master.page.all.newspapers" /></a></li>	
 					<li><a href="actor/user/list.do"><spring:message code="master.page.all.user" /></a></li>
+			        <security:authorize access="hasRole('USER')">		
 					<li><a href="actor/user/display.do"><spring:message code="master.page.profile" /></a></li>
+					</security:authorize>
 					<li><a href="actor/profile.do"><spring:message code="master.page.edit.profile" /></a></li>
 				</ul>
 			</security:authorize>
