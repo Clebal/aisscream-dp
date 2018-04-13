@@ -31,7 +31,7 @@
 	</spring:url>
 	<p><a href="${urlNewspaper}"> <spring:message code="article.newspaper" /></a></p>
 	
-	<spring:url var="urlUser" value="user/profile.do">
+	<spring:url var="urlUser" value="actor/user/display.do">
 	<spring:param name="userId" value="${article.getWriter().getId()}" />
 	</spring:url>
 	<p><a href="${urlUser}"> <spring:message code="article.writer" /></a></p>

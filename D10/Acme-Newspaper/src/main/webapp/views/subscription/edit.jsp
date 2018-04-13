@@ -15,7 +15,7 @@
 	<form:hidden path="newspaper"/>
 	
 	<jstl:if test="${subscription.getId() == 0}">
-		<form:hidden path="user" />
+		<form:hidden path="customer" />
 	</jstl:if>
 	
 	<acme:textbox code="subscription.holderName" path="holderName"/>
