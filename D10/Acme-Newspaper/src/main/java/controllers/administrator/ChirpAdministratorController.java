@@ -38,7 +38,7 @@ public class ChirpAdministratorController extends AbstractController {
 		result.addObject("chirps", pageChirps.getContent());
 		result.addObject("pageNumber", pageChirps.getTotalPages());
 		result.addObject("page", page);
-		result.addObject("role", "admin");
+		result.addObject("role", "administrator");
 		
 		return result;
 	}

@@ -29,7 +29,7 @@
 
 <jstl:if test="${role.equals('administrator')}">
 
-	<display:table class="table table-striped table-bordered table-hover" defaultorder="descending" defaultsort="5" name="chirps" id="row" requestURI="creditcard/admin/list.do">
+	<display:table class="table table-striped table-bordered table-hover" defaultorder="descending" defaultsort="5" name="chirps" id="row" requestURI="chirp/administrator/list.do">
 	
 		<jstl:if test="${row.getHasTaboo() == true}">
 			
