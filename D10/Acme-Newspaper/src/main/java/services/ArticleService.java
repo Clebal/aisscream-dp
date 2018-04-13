@@ -14,14 +14,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.ArticleRepository;
+import security.Authority;
+import security.LoginService;
 import domain.Article;
 import domain.FollowUp;
 import domain.Newspaper;
 import domain.User;
-
-import repositories.ArticleRepository;
-import security.Authority;
-import security.LoginService;
 
 @Service
 @Transactional
@@ -29,23 +28,24 @@ public class ArticleService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ArticleRepository	articleRepository;
+	private ArticleRepository		articleRepository;
 
 	@Autowired
-	private Validator			validator;
-	
+	private Validator				validator;
+
 	// Supporting Service
 	@Autowired
-	private ConfigurationService configurationService;
-	
+	private ConfigurationService	configurationService;
+
 	@Autowired
-	private FollowUpService followUpService;
-	
+	private FollowUpService			followUpService;
+
 	@Autowired
-	private SubscriptionService subscriptionService;
-	
+	private SubscriptionService		subscriptionService;
+
 	@Autowired
-	private CustomerService	customerService;
+	private CustomerService			customerService;
+
 
 	// Constructors -----------------------------------------------------------
 	public ArticleService() {
@@ -68,7 +68,7 @@ public class ArticleService {
 
 		return result;
 	}
-	
+
 	public Collection<Article> findAll() {
 		Collection<Article> result;
 
@@ -102,7 +102,7 @@ public class ArticleService {
 
 		return result;
 	}
-	
+
 	public Article findOneToDisplay(final int articleId) {
 		Article result;
 
@@ -123,13 +123,13 @@ public class ArticleService {
 		boolean isTaboo;
 		Collection<Article> articles;
 		boolean isFinal;
-		
+
 		Assert.notNull(article);
 
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(article.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		if (article.getId() == 0) {
-			Assert.isTrue(!article.getNewspaper().getIsPublished());
+			Assert.isTrue(!(article.getNewspaper().getIsPublished() && article.getNewspaper().getPublicationDate().compareTo(new Date()) <= 0));
 			if (!article.getIsFinalMode()) {
 				article.getNewspaper().setIsPublished(false);
 				article.getNewspaper().getArticles().add(article);
@@ -139,69 +139,67 @@ public class ArticleService {
 			Assert.isTrue(!saved.getIsFinalMode());
 			Assert.isTrue(article.getWriter().getId() == saved.getWriter().getId()); //No puede cambiar de user
 			Assert.isTrue(article.getNewspaper().equals(saved.getNewspaper())); //No puede cambiar el newspaper
-			
+
 			isFinal = true;
-			
+
 			if (article.getIsFinalMode()) {
 				articles = this.findByNewspaperId(article.getNewspaper().getId());
-				for (Article a : articles) {
+				for (final Article a : articles) {
 					isFinal = true;
 					if (!a.getIsFinalMode()) {
 						isFinal = false;
 						break;
 					}
 				}
-				if (!isFinal) {
+				if (!isFinal)
 					article.getNewspaper().setIsPublished(true);
-				}	
 			}
 		}
-		
+
 		isTaboo = this.checkTabooWords(article);
-		
+
 		article.setHasTaboo(isTaboo);
-		
+
 		result = this.articleRepository.save(article);
 
 		return result;
 
 	}
-	
+
 	public Article saveFromNewspaper(final Article article) {
 		Article result;
 		Article saved;
 		boolean isTaboo;
 		Collection<Article> articles;
 		boolean isFinal;
-		
+
 		Assert.notNull(article);
 
 		Assert.isTrue(LoginService.isAuthenticated());
 
-			saved = this.findOne(article.getId());
-			Assert.isTrue(article.getWriter().getId() == saved.getWriter().getId()); //No puede cambiar de user
-			Assert.isTrue(article.getNewspaper().equals(saved.getNewspaper())); //No puede cambiar el newspaper
-			
-			isFinal = true;
-			
-			if (article.getIsFinalMode()) {
-				articles = this.findByNewspaperId(article.getNewspaper().getId());
-				for (Article a : articles) {
-					isFinal = true;
-					if (!a.getIsFinalMode()) {
-						isFinal = false;
-						break;
-					}
+		saved = this.findOne(article.getId());
+		Assert.isTrue(article.getWriter().getId() == saved.getWriter().getId()); //No puede cambiar de user
+		Assert.isTrue(article.getNewspaper().equals(saved.getNewspaper())); //No puede cambiar el newspaper
+
+		isFinal = true;
+
+		if (article.getIsFinalMode()) {
+			articles = this.findByNewspaperId(article.getNewspaper().getId());
+			for (final Article a : articles) {
+				isFinal = true;
+				if (!a.getIsFinalMode()) {
+					isFinal = false;
+					break;
 				}
-				if (!isFinal) {
-					article.getNewspaper().setIsPublished(true);
-				}	
 			}
+			if (!isFinal)
+				article.getNewspaper().setIsPublished(true);
+		}
 
 		isTaboo = this.checkTabooWords(article);
-		
+
 		article.setHasTaboo(isTaboo);
-		
+
 		result = this.articleRepository.save(article);
 
 		return result;
@@ -221,81 +219,77 @@ public class ArticleService {
 		Assert.isTrue(LoginService.isAuthenticated());
 
 		Assert.isTrue(articleToDelete.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
-		
+
 		followUps = this.followUpService.findByArticleId(articleToDelete.getId());
-				
-		for (FollowUp f : followUps) {
+
+		for (final FollowUp f : followUps)
 			this.followUpService.deleteFromArticle(f.getId());
-		}
-		
+
 		isFinal = true;
-		
+
 		if (!article.getIsFinalMode()) {
 			articles = this.findByNewspaperId(articleToDelete.getNewspaper().getId());
-			for (Article a : articles) {
+			for (final Article a : articles) {
 				isFinal = true;
 				if (!a.getIsFinalMode()) {
 					isFinal = false;
 					break;
 				}
 			}
-			if (!isFinal) {
+			if (!isFinal)
 				articleToDelete.getNewspaper().setIsPublished(true);
-			}	
 		}
-		
+
 		article.getNewspaper().getArticles().remove(article);
 
 		this.articleRepository.delete(articleToDelete);
 
 	}
-	
+
 	public void deleteFromNewspaper(final Article article) {
 		Authority authority;
 		Collection<FollowUp> followUps;
 		Collection<Article> articles;
 		boolean isFinal;
-		
+
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
-		
+
 		Assert.notNull(article);
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		
+
 		followUps = this.followUpService.findByArticleId(article.getId());
 
-		for (FollowUp f : followUps) {
+		for (final FollowUp f : followUps)
 			this.followUpService.deleteFromArticle(f.getId());
-		}
-		
+
 		isFinal = true;
 
 		if (!article.getIsFinalMode()) {
 			articles = this.findByNewspaperId(article.getNewspaper().getId());
-			for (Article a : articles) {
+			for (final Article a : articles) {
 				isFinal = true;
 				if (!a.getIsFinalMode()) {
 					isFinal = false;
 					break;
 				}
 			}
-			if (!isFinal) {
+			if (!isFinal)
 				article.getNewspaper().setIsPublished(true);
-			}	
 		}
-		
+
 		article.getNewspaper().getArticles().remove(article);
 
 		this.articleRepository.delete(article);
 
 	}
-	
+
 	public void flush() {
-		
+
 		this.articleRepository.flush();
-		
+
 	}
-	
+
 	//Auxiliare methods
 
 	public Page<Article> findAllUserPaginated(final int userId, final int page, final int size) {
@@ -306,7 +300,7 @@ public class ArticleService {
 		return result;
 
 	}
-	
+
 	public Page<Article> findAllNewspaperPaginated(final int userId, final int newspaperId, final int page, final int size) {
 		Page<Article> result;
 		Assert.isTrue(LoginService.isAuthenticated());
@@ -317,7 +311,7 @@ public class ArticleService {
 
 	}
 
-	public Page<Article> findByWritterId (final int userId, final int page, final int size) {
+	public Page<Article> findByWritterId(final int userId, final int page, final int size) {
 		Page<Article> result;
 
 		Assert.isTrue(userId != 0);
@@ -328,8 +322,8 @@ public class ArticleService {
 		return result;
 
 	}
-	
-	public Page<Article> findAllPaginated (final int page, final int size) {
+
+	public Page<Article> findAllPaginated(final int page, final int size) {
 		Page<Article> result;
 		Authority authority;
 
@@ -343,53 +337,53 @@ public class ArticleService {
 		return result;
 
 	}
-	
-	public Page<Article> findAllTabooPaginated (final int page, final int size) {
+
+	public Page<Article> findAllTabooPaginated(final int page, final int size) {
 		Page<Article> result;
 		Authority authority;
 
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
-		
+
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		
+
 		result = this.articleRepository.findAllTabooPaginated(this.getPageable(page, size));
 
 		return result;
 
 	}
-	
+
 	public Collection<Article> findByUserIdAndNewspaperId(final int userId, final int newspaperId) {
 		Collection<Article> result;
-		
+
 		Assert.isTrue(userId != 0);
 		Assert.isTrue(newspaperId != 0);
-		
+
 		result = this.articleRepository.findByUserIdAndNewspaperId(userId, newspaperId);
-		
+
 		return result;
 	}
-	
+
 	public Collection<Article> findByNewspaperId(final int newspaperId) {
 		Collection<Article> result;
-		
+
 		Assert.isTrue(newspaperId != 0);
-		
+
 		result = this.articleRepository.findByNewspaperId(newspaperId);
-		
+
 		return result;
 	}
 
 	public Page<Article> findByNewspaperIdPaginated(final int newspaperId, final int page, final int size) {
 		Page<Article> result;
-		
+
 		Assert.isTrue(newspaperId != 0);
-		
+
 		result = this.articleRepository.findByNewspaperIdPaginated(newspaperId, this.getPageable(page, size));
-		
+
 		return result;
 	}
-	
+
 	public Article reconstruct(final Article article, final BindingResult binding) {
 		Article result, aux;
 
@@ -426,7 +420,7 @@ public class ArticleService {
 		return result;
 
 	}
-	
+
 	public boolean checkTabooWords(final Article article) {
 		Collection<String> tabooWords;
 		boolean result;
@@ -435,16 +429,16 @@ public class ArticleService {
 		tabooWords = this.configurationService.findTabooWords();
 
 		for (final String tabooWord : tabooWords) {
-			result = article.getTitle() != null && article.getTitle().toLowerCase().contains(tabooWord) || 
-					article.getBody() != null && article.getBody().toLowerCase().contains(tabooWord) || 
-					article.getSummary() != null && article.getSummary().toLowerCase().contains(tabooWord);;
+			result = article.getTitle() != null && article.getTitle().toLowerCase().contains(tabooWord) || article.getBody() != null && article.getBody().toLowerCase().contains(tabooWord) || article.getSummary() != null
+				&& article.getSummary().toLowerCase().contains(tabooWord);
+			;
 			if (result == true)
 				break;
 		}
 
 		return result;
 	}
-	
+
 	public Boolean checkVisibleArticle(final Article article) {
 		Boolean result;
 		Authority authority;
@@ -501,40 +495,39 @@ public class ArticleService {
 
 		return result;
 	}
-	
 
 	public Double[] avgStandartDerivationArticlesPerWriter() {
 		Double[] result;
-		
+
 		result = this.articleRepository.avgStandartDerivationArticlesPerWriter();
-		
+
 		return result;
 	}
-	
+
 	public Double[] avgStandartDerivationArticlesPerNewspaper() {
 		Double[] result;
-		
+
 		result = this.articleRepository.avgStandartDerivationArticlesPerNewspaper();
-		
+
 		return result;
 	}
-	
+
 	public Double avgArticlesPerPrivateNewpaper() {
 		Double result;
-		
+
 		result = this.articleRepository.avgArticlesPerPrivateNewpaper();
-		
+
 		return result;
 	}
-	
+
 	public Double avgArticlesPerPublicNewpaper() {
 		Double result;
-		
+
 		result = this.articleRepository.avgArticlesPerPublicNewpaper();
-		
+
 		return result;
 	}
-	
+
 	public Page<Article> findPublicsPublishedSearch(final int userId, final String keyword, final int page, final int size) {
 		Page<Article> result;
 
@@ -551,35 +544,35 @@ public class ArticleService {
 
 		Assert.isTrue(userId != 0);
 		Assert.isTrue(LoginService.isAuthenticated());
-		
+
 		result = this.articleRepository.findPublishedSearch(userId, keyword, this.getPageable(page, size));
 
 		return result;
 
 	}
-	
+
 	public Page<Article> findPublishedSearchNoAuth(final String keyword, final int page, final int size) {
 		Page<Article> result;
 
 		Assert.isTrue(LoginService.isAuthenticated());
-		
+
 		result = this.articleRepository.findPublishedSearchNoAuth(keyword, this.getPageable(page, size));
 
 		return result;
 
 	}
-	
+
 	public Page<Article> findPublishedSearchTaboo(final String keyword, final int page, final int size) {
 		Page<Article> result;
 
 		Assert.isTrue(LoginService.isAuthenticated());
-		
+
 		result = this.articleRepository.findPublishedSearchTaboo(keyword, this.getPageable(page, size));
 
 		return result;
 
 	}
-	
+
 	public void findTaboos() {
 		Collection<Article> articles;
 		Authority authority;
@@ -601,5 +594,5 @@ public class ArticleService {
 			}
 
 	}
-	
+
 }
