@@ -51,8 +51,11 @@
 	<acme:columnLink action="edit" domain="article" actor="user" id="${row.getId()}" />
 	</jstl:if>
 	
-	<jstl:if test="${borrar}">
-	<acme:columnLink action="delete" domain="article" id="${row.getId()}" actor="administrator"/>
+	<jstl:if test="${borrar && requestURI == 'article/administrador/list.do'}">
+	<acme:columnLink action="deleteLis" domain="article" id="${row.getId()}" actor="administrator"/>
+	</jstl:if>
+	<jstl:if test="${borrar && requestURI == 'article/administrator/listTaboo.do'}">
+	<acme:columnLink action="deleteTab" domain="article" id="${row.getId()}" actor="administrator"/>
 	</jstl:if>
 	
 	<acme:column property="moment" domain="article"  formatDate="true"/>

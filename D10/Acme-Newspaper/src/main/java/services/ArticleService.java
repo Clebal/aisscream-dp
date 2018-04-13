@@ -155,6 +155,8 @@ public class ArticleService {
 				}	
 			}
 		}
+		
+		//Assert.isTrue(article.getIsFinalMode() && article.getNewspaper().getIsPublished() && article.getNewspaper().getPublicationDate().compareTo(new Date()) < 0);
 
 		isTaboo = this.checkTabooWords(article);
 		
