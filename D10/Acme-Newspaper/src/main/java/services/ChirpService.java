@@ -200,17 +200,18 @@ public class ChirpService {
 	        	result = c.getTitle().toLowerCase().contains(taboo);
 	        	if(result == true) {
 	        		c.setHasTaboo(true);
-	        		this.save(c);
+	        		this.chirpRepository.save(c);
 	        		continue;
 	        	}
 	        	result = c.getDescription().toLowerCase().contains(taboo);
 	        	if(result == true) {
 	        		c.setHasTaboo(true);
-	        		this.save(c);
+	        		this.chirpRepository.save(c);
 	        		continue;
 	        	}
 	        	if(result == false && c.getHasTaboo() != false) {
 	        		c.setHasTaboo(false);
+	        		this.chirpRepository.save(c);
 	        	}
 	        }
             
