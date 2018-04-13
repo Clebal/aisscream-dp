@@ -208,9 +208,9 @@ public class ListDashboardTest extends AbstractTest {
 			Assert.isTrue(averageArticlesPublicNewspaper == 0.75);
 
 			//The ratio of subscribers per private newspaper versus the total number of customers.
-			ratioSuscribers = this.customerService.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers();
+			ratioSuscribers = this.customerService.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers(1);
 
-			Assert.isTrue(ratioSuscribers.size() == 6);
+			Assert.isTrue(ratioSuscribers.size() == 5);
 
 			//The average ratio of private versus public newspapers per publisher.
 			privateVsPublicNewspaperPerPublisher = this.newspaperService.ratioPrivateVersusPublicNewspaperPerPublisher();

@@ -14,7 +14,7 @@
 
 	<p><a class="btn btn-primary" href="chirp/user/create.do"><spring:message code="chirp.create" /></a></p>
 	
-	<p><a href="actor/user/followers.do?userId=${userId}"><spring:message code="chirp.numberFollowers" />: ${countFollowers}</a> | <a href="actor/user/followeds.do?userId=${userId}"><spring:message code="chirp.numberFolloweds" />: ${countFolloweds}</a></p>
+	<p><a href="actor/user/followers.do"><spring:message code="chirp.numberFollowers" />: ${countFollowers}</a> | <a href="actor/user/followeds.do"><spring:message code="chirp.numberFolloweds" />: ${countFolloweds}</a></p>
 	
 	<jstl:forEach var="row" items="${chirps}">
 		<div class="bg-primary" style="padding:15px;">
@@ -33,7 +33,7 @@
 	
 		<jstl:if test="${row.getHasTaboo() == true}">
 			
-			<acme:columnLink style="background:red; color:white" action="delete" domain="chirp" id="${row.getId()}" url="chirp/admin/delete.do?chirpId=${row.getId()}"/>
+			<acme:columnLink style="background:red; color:white" action="delete" domain="chirp" id="${row.getId()}" url="chirp/administrator/delete.do?chirpId=${row.getId()}"/>
 	
 			<acme:column style="background:red; color:white" domain="chirp" property="moment" formatDate="true" />
 			

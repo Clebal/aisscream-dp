@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -181,9 +182,11 @@ public class NewspaperService {
 	public void publish(final int newspaperId) {
 		Newspaper newspaperToPublish;
 		Date currentMoment;
+		final Calendar calendar = Calendar.getInstance(); //obtiene la fecha de hoy 
+		calendar.add(Calendar.DATE, -1);
+		currentMoment = calendar.getTime();
 
 		newspaperToPublish = this.findOne(newspaperId);
-		currentMoment = new Date();
 		Assert.notNull(newspaperToPublish);
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(newspaperToPublish.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());

@@ -44,12 +44,8 @@
 		value="${user.getPostalAddress()}" />
 
 	<jstl:if test="${isSamePerson}">
-		<a class="btn btn-primary"
-			href="actor/user/followers.do?userId=${user.getId()}"><spring:message
-				code="user.followers" /></a> 
-		<a class="btn btn-primary"
-			href="actor/user/followeds.do?userId=${user.getId()}"><spring:message
-				code="user.followeds" /></a>
+		<a class="btn btn-primary" href="actor/user/followers.do"><spring:message code="user.followers" /></a> 
+		<a class="btn btn-primary" href="actor/user/followeds.do"><spring:message code="user.followeds" /></a>
 	</jstl:if>
 
 	<h2>
