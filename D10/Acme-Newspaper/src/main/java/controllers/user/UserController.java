@@ -126,6 +126,7 @@ public class UserController extends AbstractController {
 		result.addObject("users", pageUser.getContent());
 		result.addObject("pageNumber", pageUser.getTotalPages());
 		result.addObject("page", page);
+		result.addObject("requestURI", "actor/user/list.do");
 		
 		return result;
 	}
@@ -193,17 +194,22 @@ public class UserController extends AbstractController {
 	
 	// Followers
 	@RequestMapping(value="/followers", method=RequestMethod.GET)
-	public ModelAndView followers(@RequestParam final int userId, @RequestParam(required=false, defaultValue="1") final int page) {
+	public ModelAndView followers(@RequestParam(required=false, defaultValue="1") final int page) {
 		ModelAndView result;
 		Page<User> pageFollowers;
+		User user;
 		
-		pageFollowers = this.userService.findFollowersByUserId(userId, page, 5);
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		pageFollowers = this.userService.findFollowersByUserId(user.getId(), page, 5);
 		Assert.notNull(pageFollowers);
 
 		result = new ModelAndView("user/list");
 		result.addObject("users", pageFollowers.getContent());
 		result.addObject("pageNumber", pageFollowers.getTotalPages());
 		result.addObject("page", page);
+		result.addObject("requestURI", "actor/user/followers.do");
 		
 		return result;
 	}
@@ -213,15 +219,20 @@ public class UserController extends AbstractController {
 	public ModelAndView followeds(@RequestParam final int userId, @RequestParam(required=false, defaultValue="1") final int page) {
 		ModelAndView result;
 		Page<User> pageFolloweds;
+		User user;
 		
-		pageFolloweds = this.userService.findFollowedsByUserId(userId, page, 5);
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		pageFolloweds = this.userService.findFollowedsByUserId(user.getId(), page, 5);
 		Assert.notNull(pageFolloweds);
 
 		result = new ModelAndView("user/list");
 		result.addObject("users", pageFolloweds.getContent());
 		result.addObject("pageNumber", pageFolloweds.getTotalPages());
 		result.addObject("page", page);
-		
+		result.addObject("requestURI", "actor/user/followeds.do");
+
 		return result;
 	}
 

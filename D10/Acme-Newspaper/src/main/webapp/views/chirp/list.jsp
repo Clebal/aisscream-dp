@@ -14,7 +14,7 @@
 
 	<p><a class="btn btn-primary" href="chirp/user/create.do"><spring:message code="chirp.create" /></a></p>
 	
-	<p><a href="actor/user/followers.do?userId=${userId}"><spring:message code="chirp.numberFollowers" />: ${countFollowers}</a> | <a href="actor/user/followeds.do?userId=${userId}"><spring:message code="chirp.numberFolloweds" />: ${countFolloweds}</a></p>
+	<p><a href="actor/user/followers.do"><spring:message code="chirp.numberFollowers" />: ${countFollowers}</a> | <a href="actor/user/followeds.do"><spring:message code="chirp.numberFolloweds" />: ${countFolloweds}</a></p>
 	
 	<jstl:forEach var="row" items="${chirps}">
 		<div class="bg-primary" style="padding:15px;">
