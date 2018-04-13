@@ -50,7 +50,7 @@ public class DashboardAdministratorController extends AbstractController {
 
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam(required = false) final Integer page, @RequestParam(required = false) final Integer size) {
+	public ModelAndView display(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam(required = false) final Integer size) {
 		final ModelAndView result;
 		final Double[] newspaperPerUser;
 		final Double[] articlesPerWriter;
@@ -70,6 +70,8 @@ public class DashboardAdministratorController extends AbstractController {
 		final Map<Newspaper, Double> ratioSuscribersPrivateVsTotalCustomer;
 		final Double averageRatioPrivateVsPublicNewspaperPerPublisher;
 
+		int pageNumber;
+
 		newspaperPerUser = this.newspaperService.avgStandarDevNewspapersCreatedPerUser();
 		articlesPerWriter = this.articleService.avgStandartDerivationArticlesPerWriter();
 		articlesPerNewspaper = this.articleService.avgStandartDerivationArticlesPerWriter();
@@ -85,7 +87,10 @@ public class DashboardAdministratorController extends AbstractController {
 		ratioPublicVsPrivateNewspaper = this.newspaperService.ratioPublicVsPrivateNewspaper();
 		numberArticlesPerPrivateNewspaper = this.articleService.avgArticlesPerPrivateNewpaper();
 		numberArticlesPerPublicNewspaper = this.articleService.avgArticlesPerPublicNewpaper();
-		ratioSuscribersPrivateVsTotalCustomer = this.customerService.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers();
+		ratioSuscribersPrivateVsTotalCustomer = this.customerService.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers(page);
+		pageNumber = this.customerService.countRatioSuscribersPerPrivateNewspaperVersusNumberCustomers();
+
+		pageNumber = (int) Math.floor(((pageNumber / (5 + 0.0)) - 0.1) + 1);
 		averageRatioPrivateVsPublicNewspaperPerPublisher = this.newspaperService.ratioPrivateVersusPublicNewspaperPerPublisher();
 
 		result = new ModelAndView("dashboard/display");
@@ -107,6 +112,8 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("numberArticlesPerPublicNewspaper", numberArticlesPerPublicNewspaper);
 		result.addObject("ratioSuscribersPrivateVsTotalCustomer", ratioSuscribersPrivateVsTotalCustomer);
 		result.addObject("averageRatioPrivateVsPublicNewspaperPerPublisher", averageRatioPrivateVsPublicNewspaperPerPublisher);
+		result.addObject("pageNumber", pageNumber / 2);
+		result.addObject("page", page);
 
 		return result;
 

@@ -1,8 +1,10 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class CustomerService {
 	private CustomerRepository	customerRepository;
 
 	@Autowired
-	private Validator		validator;
+	private Validator			validator;
 
 
 	// Supporting
@@ -109,21 +111,49 @@ public class CustomerService {
 		return result;
 	}
 
-	public Map<Newspaper, Double> ratioSuscribersPerPrivateNewspaperVersusNumberCustomers() {
+	public Map<Newspaper, Double> ratioSuscribersPerPrivateNewspaperVersusNumberCustomers(final int page) {
 		Map<Newspaper, Double> result;
-		Collection<Object[]> res;
-		
+		List<Object[]> res;
+		int pageAux, fromId, tamaño, toId;
+
 		result = new HashMap<Newspaper, Double>();
-		
-		res = this.customerRepository.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers();
-		
-		for(Object[] o: res) 
+
+		res = new ArrayList<Object[]>(this.customerRepository.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers());
+
+		tamaño = res.size();
+
+		pageAux = page;
+		if (page <= 0)
+			pageAux = 1;
+
+		fromId = (pageAux - 1) * 5;
+		if (fromId > tamaño)
+			fromId = 0;
+		toId = (pageAux * 5);
+		if (tamaño > 5) {
+			if (toId > tamaño && fromId == 0)
+				toId = 5;
+			else if (toId > tamaño && fromId != 0)
+				toId = tamaño;
+		} else
+			toId = tamaño;
+
+		for (final Object[] o : res.subList(fromId, toId))
 			result.put((Newspaper) o[0], (Double) o[1]);
-		
+
 		return result;
 	}
-	
-	
+
+	public Integer countRatioSuscribersPerPrivateNewspaperVersusNumberCustomers() {
+		Collection<Object[]> res;
+		Integer result;
+
+		res = this.customerRepository.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers();
+		result = res.size() * 2;
+
+		return result;
+
+	}
 	// Other business methods
 	public Customer findByUserAccountId(final int id) {
 		Customer result;

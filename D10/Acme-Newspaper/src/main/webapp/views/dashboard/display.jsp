@@ -147,6 +147,8 @@
 		</c:forEach>
 		<br>
 		
+	<acme:paginate pageNumber="${pageNumber }" url="dashboard/administrator/display.do" objects="${ratioSuscribersPrivateVsTotalCustomer.values()}" page="${page }"/>
+		
 	</div>
 	
 	
