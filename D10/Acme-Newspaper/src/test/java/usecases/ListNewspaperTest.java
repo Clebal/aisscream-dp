@@ -215,6 +215,9 @@ public class ListNewspaperTest extends AbstractTest {
 	 * 6. Hacemos el findPublicsAndPublicated logeados como user1 viendo la primera página con tamaño 2 (no salta excepción)
 	 * 7. Hacemos el findPublicsAndPublicated logeados como admin viendo la primera página con tamaño 2 (no salta excepción)
 	 * 8. Hacemos el findPublicsAndPublicated sin estar logeado viendo la primera página con tamaño 2 (no salta excepción)
+	 * 
+	 * Requisitos:
+	 * C.4.2: An actor who is not authenticated must be able to list the newspapers that are published and browse their articles.
 	 */
 	@Test()
 	public void testFindPublicsAndPublicated() {
@@ -260,6 +263,9 @@ public class ListNewspaperTest extends AbstractTest {
 	 * 6. Hacemos el findAllPaginated logeados como user1 viendo la primera página con tamaño 6 (no salta excepción)
 	 * 7. Hacemos el findAllPaginated logeados como admin viendo la primera página con tamaño 6 (no salta excepción)
 	 * 8. Hacemos el findAllPaginated sin estar logeadps (salta un IllegalArgumentException)
+	 * 
+	 * Requisitos
+	 * C.4.2: An actor who is not authenticated must be able to list the newspapers that are published and browse their articles.
 	 */
 	@Test()
 	public void testFindAllPaginated() {
@@ -305,6 +311,9 @@ public class ListNewspaperTest extends AbstractTest {
 	 * 6. Hacemos el findTaboos logeados como user1 (salta un IllegalArgumentException)
 	 * 7. Hacemos el findTaboos logeados como customer1 (salta un IllegalArgumentException)
 	 * 8. Hacemos el findTaboos sin estar logeado (salta un IllegalArgumentException)
+	 * 
+	 * Requisitos
+	 * 1.B.17.3: An actor who is authenticated as an administrator must be able to list the newspapers that contain taboo words.
 	 */
 	@Test()
 	public void testFindTaboos() {
@@ -348,6 +357,10 @@ public class ListNewspaperTest extends AbstractTest {
 	 * 4. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "a" con tamaño 1 la página 3 (no salta excepción)
 	 * 5. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "a" con tamaño 3 la página 1 (no salta excepción)
 	 * 6. Hacemos el findPublicsPublishedSearch sin logear buscando la keyword "proximo" con tamaño 1 la página 1 (no salta excepción)
+	 * 
+	 * Requisitos
+	 * C.4.5: An actor who is not authenticated must be able to search for a published newspaper using a single keyword that must appear somewhere
+	 * in its title or its description
 	 */
 	@Test()
 	public void testFindPublicsPublishedSearch() {
@@ -389,6 +402,10 @@ public class ListNewspaperTest extends AbstractTest {
 	 * 6. Hacemos el findPublishedSearch logeados como customer1 buscando la keyword "a" con tamaño 3 la página 1 (no salta excepción)
 	 * 7. Hacemos el findPublishedSearch logeados como admin buscando la keyword "a" con tamaño 3 la página 1 (no salta excepción)
 	 * 8. Hacemos el findPublishedSearch sin estar logeado buscando la keyword "a" con tamaño 3 la página 1 (salta un IllegalArgumentException)
+	 * 
+	 * Requisitos
+	 * C.4.5: An actor who is not authenticated must be able to search for a published newspaper using a single keyword that must appear somewhere
+	 * in its title or its description
 	 */
 	@Test()
 	public void testFindPublishedSearch() {
