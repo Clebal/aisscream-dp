@@ -66,7 +66,12 @@
 						<br>
 					<span class="display"><spring:message code="newspaper.article.writer"/></span><jstl:out value="${row.getWriter().getUserAccount().getUsername()}"/>
 						<br>
-					<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary().substring(0, 99)}"/>
+						<jstl:if test="${row.getSummary().length()<100 }">
+							<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary()}"/>
+						</jstl:if>
+						<jstl:if test="${row.getSummary().length()>=100 }">
+							<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary().substring(0, 99)}"/>
+						</jstl:if>
 					</jstl:if>
 					</div>
 					<br>
