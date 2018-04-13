@@ -43,7 +43,7 @@
 	<acme:display code="actor.postalAddress"
 		value="${user.getPostalAddress()}" />
 
-	<jstl:if test="${isFollowing}">
+	<jstl:if test="${isSamePerson}">
 		<a class="btn btn-primary"
 			href="actor/user/followers.do?userId=${user.getId()}"><spring:message
 				code="user.followers" /></a> 
