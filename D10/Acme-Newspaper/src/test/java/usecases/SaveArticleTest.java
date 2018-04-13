@@ -101,7 +101,6 @@ public class SaveArticleTest extends AbstractTest {
 	 * 5. El resumen no puede ser nulo
 	 * 6. El cuerpo no puede ser vacio
 	 * 7. El cuerpo no puede ser nulo
-	 * 8. La fecha debe ser pasada
 	 * 
 	 * Requisitos:
 	 * 2. A user may create a newspaper, for which the system must store a title, a publication date
@@ -114,14 +113,11 @@ public class SaveArticleTest extends AbstractTest {
 	@Test()
 	public void negativeSaveCustomersArticleTest() {
 		Calendar calendar;
-		Date dateGood, dateBad;
+		Date dateGood;
 	
 		calendar = Calendar.getInstance();
 		calendar.set(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		dateGood = calendar.getTime();
-		
-		calendar.set(calendar.get(Calendar.YEAR) + 22, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-		dateBad = calendar.getTime();
 		
 		final Object testingData[][] = {
 				{
@@ -138,8 +134,6 @@ public class SaveArticleTest extends AbstractTest {
 					"user4", "Soy el mejor", dateGood, "En serio lo soy", "", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", true, false, "user4", "newspaper3", ConstraintViolationException.class
 				}, {
 					"user4", "Soy el mejor", dateGood, "En serio lo soy", null, "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", true, false, "user4", "newspaper3", ConstraintViolationException.class
-				},  {
-					"user5", "Ya poco hay que contar", dateBad, "Ni voy a resumir", "Se acabó lo que se acaba", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, true, "user5", "newspaper4", ConstraintViolationException.class
 				}
 			};
 		
