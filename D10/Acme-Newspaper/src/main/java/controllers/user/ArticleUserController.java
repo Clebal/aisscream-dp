@@ -38,6 +38,8 @@ public class ArticleUserController extends AbstractController {
 	public ArticleUserController() {
 		super();
 	}
+	
+	
 				
 		// Delete
 		@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
@@ -47,7 +49,7 @@ public class ArticleUserController extends AbstractController {
 
 			articleFind = this.articleService.findOne(article.getId());
 			this.articleService.delete(articleFind);			
-			result = new ModelAndView("article/list");
+			result = new ModelAndView("redirect:/article/list.do");
 			
 			return result;
 		}
@@ -101,7 +103,7 @@ public class ArticleUserController extends AbstractController {
 			else
 				try {
 					this.articleService.save(article);
-					result = new ModelAndView("article/list");
+					result = new ModelAndView("redirect:/article/list.do");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(article, "article.commit.error");
 				}

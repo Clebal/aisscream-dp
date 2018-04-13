@@ -31,6 +31,11 @@
 	</spring:url>
 	<p><a href="${urlNewspaper}"> <spring:message code="article.newspaper" /></a></p>
 	
+	<spring:url var="urlFollowUp" value="followUp/list.do">
+	<spring:param name="articleId" value="${article.getId()}" />
+	</spring:url>
+	<p><a href="${urlFollowUp}"> <spring:message code="article.followup" /></a></p>
+	
 	<spring:url var="urlUser" value="actor/user/display.do">
 	<spring:param name="userId" value="${article.getWriter().getId()}" />
 	</spring:url>

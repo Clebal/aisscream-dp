@@ -151,8 +151,8 @@ public class ArticleAdministratorController extends AbstractController {
 	
 		
 		// Delete
-		@RequestMapping(value="/delete", method=RequestMethod.GET)
-		public ModelAndView create(@RequestParam final int articleId) {
+		@RequestMapping(value="/deleteLis", method=RequestMethod.GET)
+		public ModelAndView createA(@RequestParam final int articleId) {
 			ModelAndView result;
 			Article article;
 			
@@ -162,6 +162,21 @@ public class ArticleAdministratorController extends AbstractController {
 			this.articleService.deleteFromNewspaper(article);
 			
 			result = new ModelAndView("redirect:list.do");
+			
+			return result;
+		}
+		
+		@RequestMapping(value="/deleteTab", method=RequestMethod.GET)
+		public ModelAndView createB(@RequestParam final int articleId) {
+			ModelAndView result;
+			Article article;
+			
+			article = this.articleService.findOne(articleId);
+			Assert.notNull(article);
+			
+			this.articleService.deleteFromNewspaper(article);
+			
+			result = new ModelAndView("redirect:listTaboo.do");
 			
 			return result;
 		}
