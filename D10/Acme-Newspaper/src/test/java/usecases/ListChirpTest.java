@@ -33,8 +33,19 @@ public class ListChirpTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
+	 * 		1. Un usuario autenticado como USER entra en una página que llama al método findByUserId
+	 * 		2. Un usuario autenticado como USER entra en una página que llama al método findAllPaginated
+	 * 		3. Un usuario autenticado como USER entra en una página que llama al método findAllPaginated
 	 * 
 	 * Requisitos:
+	 * 		15. A user may post a chirp. For every chirp, the system must store the moment, a title, and a
+	 *			description. The list or chirps are considered a part of the profile of a user. 
+	 *
+	 *		16. An actor who is authenticated as a user must be able to: 
+	 *			5. Display a stream with the chirps posted by all of the users that he or she follows. 
+	 *
+	 *		17. An actor who is authenticated as an administrator must be able to:
+	 *			4. List the chirps that contain taboo words. 
 	 */
 	@Test
 	public void driverTest() {
@@ -63,9 +74,8 @@ public class ListChirpTest extends AbstractTest {
 
 	/*
 	 * 	Pasos:
-	 * 
-	 * 1. Autenticar usuario
-	 * 2. Listar
+	 * 		1. Autenticar usuario
+	 * 		2. Listar
 	 */
 	protected void template(final String userBean, final String method, final Integer tamano, final int page, final int size, final Class<?> expected) {
 		Class<?> caught;
