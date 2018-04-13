@@ -60,7 +60,7 @@ public class ConfigurationTest extends AbstractTest {
 		//rol, entityName, lastEntityName, tabooToDelete, tabooToAdd, entityTest, expected) {
 		final Object testingData[][] = {
 			{
-				"admin", "chirp5", "delete", "sexo", "", "chirp", null
+				"admin", "chirp6", "delete", "sex", "", "chirp", null
 			}, {
 				"admin", "newspaper2", "delete", "sex", "", "newspaper", null
 			}, {
