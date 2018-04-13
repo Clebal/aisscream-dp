@@ -43,11 +43,14 @@
 	<acme:display code="actor.postalAddress"
 		value="${user.getPostalAddress()}" />
 
-	<a class="btn btn-primary"
-		href="actor/user/followers.do?userId=${user.getId()}"><spring:message
-			code="user.followers" /></a> <a class="btn btn-primary"
-		href="actor/user/followeds.do?userId=${user.getId()}"><spring:message
-			code="user.followeds" /></a>
+	<jstl:if test="${isFollowing}">
+		<a class="btn btn-primary"
+			href="actor/user/followers.do?userId=${user.getId()}"><spring:message
+				code="user.followers" /></a> 
+		<a class="btn btn-primary"
+			href="actor/user/followeds.do?userId=${user.getId()}"><spring:message
+				code="user.followeds" /></a>
+	</jstl:if>
 
 	<h2>
 		<spring:message code="user.articles" />

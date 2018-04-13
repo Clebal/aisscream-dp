@@ -193,7 +193,7 @@ public class UserController extends AbstractController {
 	
 	// Followers
 	@RequestMapping(value="/followers", method=RequestMethod.GET)
-	public ModelAndView followers(@RequestParam final int userId, @RequestParam(required=false, defaultValue="0") final int page) {
+	public ModelAndView followers(@RequestParam final int userId, @RequestParam(required=false, defaultValue="1") final int page) {
 		ModelAndView result;
 		Page<User> pageFollowers;
 		
@@ -210,7 +210,7 @@ public class UserController extends AbstractController {
 	
 	// Followeds
 	@RequestMapping(value="/followeds", method=RequestMethod.GET)
-	public ModelAndView followeds(@RequestParam final int userId, @RequestParam(required=false, defaultValue="0") final int page) {
+	public ModelAndView followeds(@RequestParam final int userId, @RequestParam(required=false, defaultValue="1") final int page) {
 		ModelAndView result;
 		Page<User> pageFolloweds;
 		
