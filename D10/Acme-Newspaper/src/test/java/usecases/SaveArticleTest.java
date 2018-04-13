@@ -68,15 +68,15 @@ public class SaveArticleTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 		{
-				"user1", "Titulo para mi articulo", date, "Esto es un resumen muy bueno", "Aqui explico mi teoria de forma educada y paciente", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user1", "newspaper3", null
+				"user4", "Titulo para mi articulo", date, "Esto es un resumen muy bueno", "Aqui explico mi teoria de forma educada y paciente", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user4", "newspaper4", null
 			}, {
-				"user2", "La historia de un coche volador", date, "Esto es un resumen bastante malo", "Vuela coche por Madrid pilotado por la AN", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user2", "newspaper2", null
+				"user4", "La historia de un coche volador", date, "Esto es un resumen bastante malo", "Vuela coche por Madrid pilotado por la AN", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user4", "newspaper4", null
 			}, {
-				"user3", "Pepe el conductor", date, "Esto es un resumen bueno", "Que bien conduce Don Pepe", null, false, false, "user3", "newspaper1", null
+				"user4", "Pepe el conductor", date, "Esto es un resumen bueno", "Que bien conduce Don Pepe", null, false, false, "user4", "newspaper4", null
 			}, {
-				"user4", "Soy el mejor", date, "En serio lo soy", "No se porque no soy presi", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", true, false, "user4", "newspaper3", null
+				"user4", "Soy el mejor", date, "En serio lo soy", "No se porque no soy presi", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", true, false, "user4", "newspaper4", null
 			}, {
-				"user5", "Ya poco hay que contar", date, "Ni voy a resumir", "Se acabó lo que se acaba", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, true, "user5", "newspaper4", null
+				"user4", "Ya poco hay que contar", date, "Ni voy a resumir", "Se acabó lo que se acaba", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, true, "user4", "newspaper4", null
 			}
 		};
 			
@@ -121,19 +121,19 @@ public class SaveArticleTest extends AbstractTest {
 		
 		final Object testingData[][] = {
 				{
-					null, "Titulo para mi articulo", dateGood, "Esto es un resumen muy bueno", "Aqui explico mi teoria de forma educada y paciente", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user1", "newspaper3", IllegalArgumentException.class
+					null, "Titulo para mi articulo", dateGood, "Esto es un resumen muy bueno", "Aqui explico mi teoria de forma educada y paciente", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user4", "newspaper4", IllegalArgumentException.class
 				}, {
-					"user2", "", dateGood, "Esto es un resumen bastante malo", "Vuela coche por Madrid pilotado por la AN", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user2", "newspaper2", ConstraintViolationException.class
+					"user4", "", dateGood, "Esto es un resumen bastante malo", "Vuela coche por Madrid pilotado por la AN", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user4", "newspaper4", ConstraintViolationException.class
 				}, {
-					"user2", null, dateGood, "Esto es un resumen bastante malo", "Vuela coche por Madrid pilotado por la AN", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user2", "newspaper2", ConstraintViolationException.class
+					"user4", null, dateGood, "Esto es un resumen bastante malo", "Vuela coche por Madrid pilotado por la AN", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", false, false, "user4", "newspaper4", ConstraintViolationException.class
 				},{
-					"user3", "Pepe el conductor", dateGood, "", "Que bien conduce Don Pepe", null, false, false, "user3", "newspaper1", ConstraintViolationException.class
+					"user4", "Pepe el conductor", dateGood, "", "Que bien conduce Don Pepe", null, false, false, "user4", "newspaper4", ConstraintViolationException.class
 				}, {
-					"user3", "Pepe el conductor", dateGood, null, "Que bien conduce Don Pepe", null, false, false, "user3", "newspaper1", ConstraintViolationException.class
+					"user4", "Pepe el conductor", dateGood, null, "Que bien conduce Don Pepe", null, false, false, "user4", "newspaper4", ConstraintViolationException.class
 				}, {
-					"user4", "Soy el mejor", dateGood, "En serio lo soy", "", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", true, false, "user4", "newspaper3", ConstraintViolationException.class
+					"user4", "Soy el mejor", dateGood, "En serio lo soy", "", "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", true, false, "user4", "newspaper4", ConstraintViolationException.class
 				}, {
-					"user4", "Soy el mejor", dateGood, "En serio lo soy", null, "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", true, false, "user4", "newspaper3", ConstraintViolationException.class
+					"user4", "Soy el mejor", dateGood, "En serio lo soy", null, "http://entertainment.ie//images_content/rectangle/620x372/E-T.jpg", true, false, "user4", "newspaper4", ConstraintViolationException.class
 				}
 			};
 		
@@ -185,7 +185,6 @@ public class SaveArticleTest extends AbstractTest {
 			Assert.notNull(newspaperEntity);
 			article = this.articleService.create(userEntity, newspaperEntity);
 			article.setTitle(title);
-			article.setMoment(moment);
 			article.setSummary(summary);
 			article.setBody(body);
 			pics = new HashSet<String>();

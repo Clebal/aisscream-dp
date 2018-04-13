@@ -72,7 +72,6 @@ public class SaveNewspaperTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				System.out.println(i);
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Boolean) testingData[i][6], (Boolean) testingData[i][7],
 					(String) testingData[i][8], (Boolean) testingData[i][9], (Class<?>) testingData[i][10]);
 			} catch (final Throwable oops) {
@@ -126,7 +125,6 @@ public class SaveNewspaperTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				System.out.println(i);
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (Boolean) testingData[i][6], (Boolean) testingData[i][7],
 					(String) testingData[i][8], (Boolean) testingData[i][9], (Class<?>) testingData[i][10]);
 			} catch (final Throwable oops) {
@@ -186,8 +184,6 @@ public class SaveNewspaperTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println(caught);
-		System.out.println(expected);
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}

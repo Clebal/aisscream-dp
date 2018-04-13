@@ -74,7 +74,6 @@ public class EditNewspaperTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				System.out.println(i);
 				this.templatePublish((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Class<?>) testingData[i][4]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
@@ -133,7 +132,6 @@ public class EditNewspaperTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				System.out.println(i);
 				this.templatePutPublicPrivate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Boolean) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
@@ -195,7 +193,6 @@ public class EditNewspaperTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				System.out.println(i);
 				this.templateFindOneFindOneToDisplay((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Boolean) testingData[i][4], (Boolean) testingData[i][5], (Class<?>) testingData[i][6]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
@@ -240,8 +237,6 @@ public class EditNewspaperTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println(caught);
-		System.out.println(expected);
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}
@@ -288,8 +283,6 @@ public class EditNewspaperTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
-		System.out.println(caught);
-		System.out.println(expected);
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
 	}
