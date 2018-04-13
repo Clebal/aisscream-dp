@@ -129,6 +129,7 @@ public class ArticleService {
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(article.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		if (article.getId() == 0) {
+			Assert.isTrue(!article.getNewspaper().getIsPublished());
 			if (!article.getIsFinalMode()) {
 				article.getNewspaper().setIsPublished(false);
 				article.getNewspaper().getArticles().add(article);
@@ -155,7 +156,7 @@ public class ArticleService {
 				}	
 			}
 		}
-
+		
 		isTaboo = this.checkTabooWords(article);
 		
 		article.setHasTaboo(isTaboo);
