@@ -60,7 +60,7 @@
 		<br>
 		<br>
 		<a class="btn btn-primary"
-			href="article/list.do?userId=${user.getId()}&page=2"><spring:message
+			href="article/list.do?userId=${user.getId()}"><spring:message
 				code="user.readMoreArticles" /></a>
 	</jstl:if>
 	<jstl:if test="${articles == null || articles.size() == 0}">
