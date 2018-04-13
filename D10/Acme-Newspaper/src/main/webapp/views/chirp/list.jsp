@@ -33,7 +33,7 @@
 	
 		<jstl:if test="${row.getHasTaboo() == true}">
 			
-			<acme:columnLink style="background:red; color:white" action="delete" domain="chirp" id="${row.getId()}" url="chirp/admin/delete.do?chirpId=${row.getId()}"/>
+			<acme:columnLink style="background:red; color:white" action="delete" domain="chirp" id="${row.getId()}" url="chirp/administrator/delete.do?chirpId=${row.getId()}"/>
 	
 			<acme:column style="background:red; color:white" domain="chirp" property="moment" formatDate="true" />
 			
