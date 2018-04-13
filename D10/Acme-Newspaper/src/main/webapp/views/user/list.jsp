@@ -26,3 +26,5 @@
 	<acme:columnLink domain="actor" action="display" id="${row.getId()}" url="actor/user/display.do?userId=${row.getId()}"/>
 	
 </display:table>
+
+<acme:paginate pageNumber="${pageNumber}" url="actor/user/display.do" objects="${users}" page="${page}"/>

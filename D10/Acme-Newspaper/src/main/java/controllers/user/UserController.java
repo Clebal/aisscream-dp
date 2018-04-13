@@ -115,7 +115,7 @@ public class UserController extends AbstractController {
 	
 	// List
 	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required=false, defaultValue="0") final int page) {
+	public ModelAndView list(@RequestParam(required=false, defaultValue="1") final int page) {
 		ModelAndView result;
 		Page<User> pageUser;
 		
