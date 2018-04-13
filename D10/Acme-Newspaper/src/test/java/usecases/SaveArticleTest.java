@@ -111,7 +111,7 @@ public class SaveArticleTest extends AbstractTest {
 		newspaper is published.
 	 */
 	@Test()
-	public void negativeSaveCustomersArticleTest() {
+	public void negativeSaveArticleTest() {
 		Calendar calendar;
 		Date dateGood;
 	
