@@ -190,31 +190,41 @@ public class ChirpService {
 	}
 	
 	public void findTaboos() {
-        boolean result;
-        Collection<String> tabooWords;
-        
-        tabooWords = this.configurationService.findTabooWords();
-        
-        for(Chirp c: this.findAll())
-            for(String taboo: tabooWords) {
-	        	result = c.getTitle().toLowerCase().contains(taboo);
-	        	if(result == true) {
-	        		c.setHasTaboo(true);
-	        		this.chirpRepository.save(c);
-	        		continue;
-	        	}
-	        	result = c.getDescription().toLowerCase().contains(taboo);
-	        	if(result == true) {
-	        		c.setHasTaboo(true);
-	        		this.chirpRepository.save(c);
-	        		continue;
-	        	}
-	        	if(result == false && c.getHasTaboo() != false) {
-	        		c.setHasTaboo(false);
-	        		this.chirpRepository.save(c);
-	        	}
-	        }
-            
+		Collection<Chirp> chirps;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		chirps = this.findAll();
+
+		for (final Chirp chirp : chirps)
+			if (chirp.getHasTaboo() == false && this.checkTabooWords(chirp) == true) {
+				chirp.setHasTaboo(true);
+				this.chirpRepository.save(chirp);
+			} else if (chirp.getHasTaboo() == true && this.checkTabooWords(chirp) == false) {
+				chirp.setHasTaboo(false);
+				this.chirpRepository.save(chirp);
+			}
+
+	}
+	
+	public boolean checkTabooWords(final Chirp chirp) {
+		Collection<String> tabooWords;
+		boolean result;
+
+		result = false;
+		tabooWords = this.configurationService.findTabooWords();
+
+		for (final String tabooWord : tabooWords) {
+			result = chirp.getTitle() != null && chirp.getTitle().toLowerCase().contains(tabooWord) || chirp.getDescription() != null && chirp.getDescription().toLowerCase().contains(tabooWord);
+			if (result == true)
+				break;
+		}
+
+		return result;
 	}
 	
 }
