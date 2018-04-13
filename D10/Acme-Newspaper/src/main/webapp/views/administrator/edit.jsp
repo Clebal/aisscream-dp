@@ -10,24 +10,12 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="${requestURI}" modelAttribute="administratorForm">
+<form:form action="${requestURI}" modelAttribute="administrator">
 	
 	<form:hidden path="id" />
 
 	<!-- Username -->
-	<jstl:if test="${administratorForm.getId()!=0 }">
-	<acme:textbox code="actor.username" readonly="readonly" path="username"/>
-	</jstl:if>
-	
-	<jstl:if test="${administratorForm.getId()==0 }">
-	<acme:textbox code="actor.username" path="username"/>
-
-	<!--  Password -->
-	<acme:password code="actor.password" path="password"/>
-
-	<!-- Check password -->
-	<acme:password code="actor.checkPassword" path="checkPassword"/>
-	</jstl:if>
+	<acme:textbox code="actor.username" readonly="readonly" path="userAccount.username"/>
 	
 	<!-- Name -->
 	<acme:textbox code="actor.name" path="name"/>
@@ -46,7 +34,7 @@
 	
 	<br>
 	
-	<jstl:if test="${administratorForm.getId()!=0 }">
+	<jstl:if test="${administrator.getId()!=0 }">
 		<acme:submit name="save" code="actor.save" />
 	</jstl:if>
 	
@@ -55,7 +43,6 @@
 </form:form>
 
 <script type="text/javascript">
- <script>
 	$("form:eq(0)")
 				.submit(
 						function() {

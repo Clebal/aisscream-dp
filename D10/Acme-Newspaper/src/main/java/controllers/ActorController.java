@@ -12,7 +12,6 @@ import security.Authority;
 import security.LoginService;
 import services.ActorService;
 import domain.Actor;
-import forms.AdministratorForm;
 import forms.CustomerForm;
 import forms.UserForm;
 
@@ -60,13 +59,12 @@ public class ActorController extends AbstractController {
 		String tipoActor;
 		UserForm userForm;
 		CustomerForm customerForm;
-		AdministratorForm administratorForm;
 		Authority authorityUser, authorityManager;
 
 		//Solo puede acceder admin
 		authorityUser = new Authority();
 		authorityUser.setAuthority("USER");
-		
+
 		authorityManager = new Authority();
 		authorityManager.setAuthority("CUSTOMER");
 
@@ -108,20 +106,8 @@ public class ActorController extends AbstractController {
 
 			result.addObject("customerForm", customerForm);
 
-		} else {
-			
-			administratorForm = new AdministratorForm();
-			administratorForm.setPostalAddress(actor.getPostalAddress());
-			administratorForm.setEmailAddress(actor.getEmailAddress());
-			administratorForm.setId(actor.getId());
-			administratorForm.setName(actor.getName());
-			administratorForm.setPhoneNumber(actor.getPhoneNumber());
-			administratorForm.setSurname(actor.getSurname());
-			administratorForm.setUsername(actor.getUserAccount().getUsername());
-
-			result.addObject("administratorForm", administratorForm);		
-			
-		}
+		} else
+			result.addObject("administrator", actor);
 
 		//Añadimos objetos comunes
 		result.addObject("message", messageCode);
