@@ -35,7 +35,7 @@
 	<acme:submit name="save" code="article.save" />
 	</jstl:if>
 	
-	<jstl:if test="${article.getId() != 0}">
+	<jstl:if test="${article.getId() == 0 || !article.getIsFinalMode()}">
 	<acme:submit name="delete" code="article.delete" codeDelete="article.confirm.delete"/>
 	</jstl:if>
 	

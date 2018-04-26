@@ -700,4 +700,46 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="hasTaboo" value="false" />
 	</bean>
 	
+	<bean id="userAccountAgent1" class="security.UserAccount">
+		<property name="username" value="agent1" />
+		<property name="password" value="83a87fd756ab57199c0bb6d5e11168cb" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="AGENT" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountAgent2" class="security.UserAccount">
+		<property name="username" value="agent2" />
+		<property name="password" value="b1a4a6b01cc297d4677c4ca6656e14d7" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="AGENT" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="agent1" class="domain.Agent">
+		<property name="name" value="Luis" />
+		<property name="surname" value="Jiménez Martín" />
+		<property name="emailAddress" value="agent1@acme.com" />
+		<property name="phoneNumber" value="+34757309214" />
+		<property name="postalAddress" value="Calle García de la Macarena, 36" />
+		<property name="userAccount" ref="userAccountAgent1" />
+	</bean>
+	
+	<bean id="agent2" class="domain.Agent">
+		<property name="name" value="Alfonso" />
+		<property name="surname" value="Jiménez Martín" />
+		<property name="emailAddress" value="agent2@acme.com" />
+		<property name="phoneNumber" value="+34757309244" />
+		<property name="postalAddress" value="Calle Martinez de la Macarena, 36" />
+		<property name="userAccount" ref="userAccountAgent2" />
+	</bean>
+	
 </beans>
