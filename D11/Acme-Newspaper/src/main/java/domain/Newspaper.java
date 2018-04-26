@@ -44,7 +44,8 @@ public class Newspaper extends DomainEntity {
 	private User				publisher;
 
 	private Collection<Article>	articles;
-
+	
+	private Collection<Advertisement> advertisement;
 
 	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -129,6 +130,17 @@ public class Newspaper extends DomainEntity {
 
 	public void setArticles(final Collection<Article> articles) {
 		this.articles = articles;
+	}
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Collection<Advertisement> getAdvertisement() {
+		return this.advertisement;
+	}
+	
+	public void setAdvertisement(final Collection<Advertisement> advertisement) {
+		this.advertisement = advertisement;
 	}
 
 }
