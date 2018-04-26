@@ -5,11 +5,8 @@ import java.util.Collection;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -18,9 +15,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(indexes = {
-	@Index(columnList = "year")
-})
 public class Volume extends DomainEntity {
 
 	private String title;
@@ -30,9 +24,7 @@ public class Volume extends DomainEntity {
 	private int year;
 		
 	private User user;
-	
-	private Collection<CreditCard> subscriptions;
-	
+		
 	private Collection<Newspaper> newspapers;
 
 	@NotBlank
@@ -71,17 +63,6 @@ public class Volume extends DomainEntity {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	@NotNull
-	@Valid
-	@OneToMany
-	public Collection<CreditCard> getSubscriptions() {
-		return this.subscriptions;
-	}
-	
-	public void setSubscriptions(final Collection<CreditCard> subscriptions) {
-		this.subscriptions = subscriptions;
 	}
 	
 	@NotNull

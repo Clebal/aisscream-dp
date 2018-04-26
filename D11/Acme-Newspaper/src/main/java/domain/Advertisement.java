@@ -3,6 +3,7 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +21,8 @@ public class Advertisement extends DomainEntity {
 	private String urlTarget;
 	
 	private CreditCard creditCard;
+	
+	private Agent agent;
 		
 	@NotBlank
 	public String getTitle() {
@@ -58,6 +61,17 @@ public class Advertisement extends DomainEntity {
 
 	public void setCreditCard(CreditCard creditCard) {
 		this.creditCard = creditCard;
+	}
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Agent getAgent() {
+		return this.agent;
+	}
+	
+	public void setAgent(final Agent agent) {
+		this.agent = agent;
 	}
 	
 }
