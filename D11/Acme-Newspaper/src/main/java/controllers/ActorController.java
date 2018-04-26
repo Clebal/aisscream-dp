@@ -12,6 +12,7 @@ import security.Authority;
 import security.LoginService;
 import services.ActorService;
 import domain.Actor;
+import forms.AgentForm;
 import forms.CustomerForm;
 import forms.UserForm;
 
@@ -59,14 +60,17 @@ public class ActorController extends AbstractController {
 		String tipoActor;
 		UserForm userForm;
 		CustomerForm customerForm;
-		Authority authorityUser, authorityManager;
+		AgentForm agentForm;
+		Authority authorityUser, authorityCustomer, authorityAgent;
 
-		//Solo puede acceder admin
 		authorityUser = new Authority();
 		authorityUser.setAuthority("USER");
 
-		authorityManager = new Authority();
-		authorityManager.setAuthority("CUSTOMER");
+		authorityCustomer = new Authority();
+		authorityCustomer.setAuthority("CUSTOMER");
+		
+		authorityAgent = new Authority();
+		authorityAgent.setAuthority("AGENT");
 
 		//Creamos la URI
 		tipoActor = actor.getClass().getSimpleName().toLowerCase();
@@ -93,7 +97,7 @@ public class ActorController extends AbstractController {
 
 			result.addObject("userForm", userForm);
 
-		} else if (actor.getUserAccount().getAuthorities().contains(authorityManager)) {
+		} else if (actor.getUserAccount().getAuthorities().contains(authorityCustomer)) {
 
 			customerForm = new CustomerForm();
 			customerForm.setPostalAddress(actor.getPostalAddress());
@@ -106,7 +110,20 @@ public class ActorController extends AbstractController {
 
 			result.addObject("customerForm", customerForm);
 
-		} else
+		} else if (actor.getUserAccount().getAuthorities().contains(authorityAgent)) {
+
+			agentForm = new AgentForm();
+			agentForm.setPostalAddress(actor.getPostalAddress());
+			agentForm.setEmailAddress(actor.getEmailAddress());
+			agentForm.setId(actor.getId());
+			agentForm.setName(actor.getName());
+			agentForm.setPhoneNumber(actor.getPhoneNumber());
+			agentForm.setSurname(actor.getSurname());
+			agentForm.setUsername(actor.getUserAccount().getUsername());
+
+			result.addObject("agentForm", agentForm);
+
+		}else
 			result.addObject("administrator", actor);
 
 		//Añadimos objetos comunes
