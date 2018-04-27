@@ -128,6 +128,30 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="userAccountAgent1" class="security.UserAccount">
+		<property name="username" value="agent1" />
+		<property name="password" value="83a87fd756ab57199c0bb6d5e11168cb" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="AGENT" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountAgent2" class="security.UserAccount">
+		<property name="username" value="agent2" />
+		<property name="password" value="b1a4a6b01cc297d4677c4ca6656e14d7" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="AGENT" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 		
 	<!-- User -->
 	<bean id="user1" class="domain.User">
@@ -244,6 +268,157 @@
 		<property name="userAccount" ref="userAccountCustomer3" />
 	</bean>
 	
+	<!-- Agent -->
+	<bean id="agent1" class="domain.Agent">
+		<property name="name" value="Luis" />
+		<property name="surname" value="Jiménez Martín" />
+		<property name="emailAddress" value="agent1@acme.com" />
+		<property name="phoneNumber" value="+34757309214" />
+		<property name="postalAddress" value="Calle García de la Macarena, 36" />
+		<property name="userAccount" ref="userAccountAgent1" />
+	</bean>
+	
+	<bean id="agent2" class="domain.Agent">
+		<property name="name" value="Alfonso" />
+		<property name="surname" value="Jiménez Martín" />
+		<property name="emailAddress" value="agent2@acme.com" />
+		<property name="phoneNumber" value="+34757309244" />
+		<property name="postalAddress" value="Calle Martinez de la Macarena, 36" />
+		<property name="userAccount" ref="userAccountAgent2" />
+	</bean>
+	
+	<!-- Advertisement -->
+	<bean id="advertisement1" class="domain.Advertisement">
+		<property name="title" value="Advertisement 1" />
+		<property name="urlBanner" value="https://cdna.labioguia.com/images/articles/57a09ff387a20_crop.jpg" />
+		<property name="urlTarget" value="http://www.abc.es/" />
+		<property name="creditCard" ref="creditCard7" />
+		<property name="agent" ref="agent1" />
+	</bean>
+	
+	<bean id="advertisement2" class="domain.Advertisement">
+		<property name="title" value="Advertisement 2" />
+		<property name="urlBanner" value="https://arbolesfrutales.org/wp-content/uploads/2014/10/Limonero-todo-lo-que-debes-saber-1.jpg" />
+		<property name="urlTarget" value="https://elpais.com/" />
+		<property name="creditCard" ref="creditCard7" />
+		<property name="agent" ref="agent1" />
+	</bean>
+	
+	<!--  -->
+	
+	<!-- Message -->
+
+	<bean id="message1" class="domain.Message">
+
+		<property name="moment" value="04/12/2018 05:16:00" />
+
+		<property name="priority" value="HIGH" />
+
+		<property name="subject" value="Periodico numero 3" />
+
+		<property name="body" value="Falta documentos del transporte" />
+
+		<property name="sender" ref="customer1" />
+
+		<property name="folder" ref="folder2c1" />
+
+		<property name="recipient" ref="user2" />
+
+	</bean>
+	
+	<bean id="message3" class="domain.Message">
+
+		<property name="moment" value="04/12/2018 05:16:00" />
+
+		<property name="priority" value="HIGH" />
+
+		<property name="subject" value="Periodico numero 3" />
+
+		<property name="body" value="Falta documentos del transporte" />
+
+		<property name="sender" ref="customer1" />
+
+		<property name="folder" ref="folder1u2" />
+
+		<property name="recipient" ref="user2" />
+
+	</bean>
+	
+	<bean id="message5" class="domain.Message">
+
+		<property name="moment" value="04/13/2018 05:16:00" />
+
+		<property name="priority" value="HIGH" />
+
+		<property name="subject" value="Periodico numero 7" />
+
+		<property name="body" value="Falta documentos del transporte" />
+
+		<property name="sender" ref="customer1" />
+
+		<property name="folder" ref="folder7c1" />
+
+		<property name="recipient" ref="user2" />
+
+	</bean>
+	
+	<bean id="message6" class="domain.Message">
+
+		<property name="moment" value="04/13/2018 05:16:00" />
+
+		<property name="priority" value="HIGH" />
+
+		<property name="subject" value="Periodico numero 7" />
+
+		<property name="body" value="Falta documentos del transporte" />
+
+		<property name="sender" ref="customer1" />
+
+		<property name="folder" ref="folder1u2" />
+
+		<property name="recipient" ref="user2" />
+
+	</bean>
+
+
+
+	<bean id="message2" class="domain.Message">
+
+		<property name="moment" value="04/05/2018 02:04:14" />
+
+		<property name="priority" value="LOW" />
+
+		<property name="subject" value="Proyecto de periodico" />
+
+		<property name="body" value="Tengo una nueva propuesta acerca del proyecto" />
+
+		<property name="sender" ref="administrator" />
+
+		<property name="folder" ref="folder2ad1" />
+
+		<property name="recipient" ref="agent2" />
+
+	</bean>
+	
+	<bean id="message4" class="domain.Message">
+
+		<property name="moment" value="04/05/2018 02:04:14" />
+
+		<property name="priority" value="LOW" />
+
+		<property name="subject" value="Proyecto de periodico" />
+
+		<property name="body" value="Tengo una nueva propuesta acerca del proyecto" />
+
+		<property name="sender" ref="administrator" />
+
+		<property name="folder" ref="folder1a2" />
+
+		<property name="recipient" ref="agent2" />
+
+	</bean>
+	
+	
 	<!-- Internationalization -->
 	
 	<bean id="internationalization1" class="domain.Internationalization">
@@ -349,6 +524,44 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		</property>
 	</bean>
 	
+	<!-- Volume -->
+	<bean id="volume1" class="domain.Volume">
+		<property name="title" value="Edición de lujo del peródico" />
+		<property name="description" value="Las mejores noticias de nuestros mejores periódicos" />	
+		<property name="year" value="2017" />
+		<property name="user" ref="user1" />
+		<property name="newspapers">
+			<list>
+				<ref bean="newspaper1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="volume2" class="domain.Volume">
+		<property name="title" value="Paquete completo" />
+		<property name="description" value="Conjunto de nuestras mejores entradas" />	
+		<property name="year" value="2017" />
+		<property name="user" ref="user2" />
+		<property name="newspapers">
+			<list>
+				<ref bean="newspaper2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="volume3" class="domain.Volume">
+		<property name="title" value="Nuestros periódicos galardonados" />
+		<property name="description" value="Composición de los periódicos más destacados" />	
+		<property name="year" value="2017" />
+		<property name="user" ref="user3" />
+		<property name="newspapers">
+			<list>
+				<ref bean="newspaper3" />
+			</list>
+		</property>
+	</bean>
+	<!--  -->
+	
 		<!-- Chirps -->
 	<bean id="chirp1" class="domain.Chirp">
 		<property name="moment" value="08/12/2017 10:00" />
@@ -417,6 +630,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<ref bean="article1" />
 			</list>
 		</property>
+		<property name="advertisement">
+			<list>
+				<ref bean="advertisement1" />
+			</list>
+		</property>
  		
 	</bean>
 
@@ -431,6 +649,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
  		<property name="articles">
 			<list>
 				<ref bean="article2" />
+			</list>
+		</property>
+		<property name="advertisement">
+			<list>
+				<ref bean="advertisement2" />
 			</list>
 		</property>
  		
@@ -449,6 +672,10 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 			<list>
 				<ref bean="article3" />
 			</list>
+		</property>
+		<property name="advertisement">
+			<list>
+			</list>
 		</property>	
 	</bean>
 	
@@ -466,6 +693,10 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<ref bean="article4" />
 			</list>
 		</property>
+		<property name="advertisement">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="newspaper5" class="domain.Newspaper">
@@ -477,6 +708,10 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
  		<property name="hasTaboo" value="false" />
  		<property name="isPublished" value="true" />
  		<property name="articles">
+			<list>
+			</list>
+		</property>
+		<property name="advertisement">
 			<list>
 			</list>
 		</property>
@@ -494,74 +729,146 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 			<list>
 			</list>
 		</property>
+		<property name="advertisement">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
-	<!-- Subscription -->
-	<bean id="subscription1" class="domain.Subscription">
+	<!-- Credit card -->
+	<bean id="creditCard1" class="domain.CreditCard">
 		<property name="holderName" value="Antonio" />
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="5471664286416252" />
 		<property name="expirationMonth" value="9" />
 		<property name="expirationYear" value="2017" />
 		<property name="cvvcode" value="998" />
-		<property name="customer" ref="customer1" />
-		<property name="newspaper" ref="newspaper1" />
 	</bean>
-
-	<bean id="subscription2" class="domain.Subscription">
+	
+	<bean id="creditCard2" class="domain.CreditCard">
 		<property name="holderName" value="Paco" />
 		<property name="brandName" value="Visa" />
 		<property name="number" value="5229783098148518" />
 		<property name="expirationMonth" value="10" />
 		<property name="expirationYear" value="2017" />
 		<property name="cvvcode" value="258" />
-		<property name="customer" ref="customer2" />
-		<property name="newspaper" ref="newspaper1" />
 	</bean>
 	
-	<bean id="subscription3" class="domain.Subscription">
+	<bean id="creditCard3" class="domain.CreditCard">
 		<property name="holderName" value="Antonio" />
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="5306320664868959" />
 		<property name="expirationMonth" value="10" />
 		<property name="expirationYear" value="2017" />
 		<property name="cvvcode" value="618" />
-		<property name="customer" ref="customer1" />
-		<property name="newspaper" ref="newspaper2" />
 	</bean>
 	
-	<bean id="subscription4" class="domain.Subscription">
+	<bean id="creditCard4" class="domain.CreditCard">
 		<property name="holderName" value="David" />
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="4350515568299247" />
 		<property name="expirationMonth" value="11" />
 		<property name="expirationYear" value="2019" />
 		<property name="cvvcode" value="608" />
-		<property name="customer" ref="customer3" />
-		<property name="newspaper" ref="newspaper2" />
 	</bean>
 	
-	<bean id="subscription5" class="domain.Subscription">
+	<bean id="creditCard5" class="domain.CreditCard">
 		<property name="holderName" value="Paco" />
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="4367834676464317" />
 		<property name="expirationMonth" value="10" />
 		<property name="expirationYear" value="2019" />
 		<property name="cvvcode" value="618" />
-		<property name="customer" ref="customer2" />
-		<property name="newspaper" ref="newspaper3" />
 	</bean>
 	
-	<bean id="subscription6" class="domain.Subscription">
+	<bean id="creditCard6" class="domain.CreditCard">
 		<property name="holderName" value="Alejandro" />
 		<property name="brandName" value="Visa" />
 		<property name="number" value="345035739479236" />
 		<property name="expirationMonth" value="2" />
 		<property name="expirationYear" value="2020" />
 		<property name="cvvcode" value="147" />
+	</bean>
+	
+	<bean id="creditCard7" class="domain.CreditCard">
+		<property name="holderName" value="Carlos" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="4067108515252149" />
+		<property name="expirationMonth" value="2" />
+		<property name="expirationYear" value="2020" />
+		<property name="cvvcode" value="147" />
+	</bean>
+	
+	<!--  -->
+	
+	<!-- SubscriptionNewspaper -->
+	<bean id="subscriptionNewspaper1" class="domain.SubscriptionNewspaper">
+		<property name="creditCard" ref="creditCard1" />
+		<property name="customer" ref="customer1" />
+		<property name="newspaper" ref="newspaper1" />
+	</bean>
+
+	<bean id="subscriptionNewspaper2" class="domain.SubscriptionNewspaper">
+		<property name="creditCard" ref="creditCard2" />
+		<property name="customer" ref="customer2" />
+		<property name="newspaper" ref="newspaper1" />
+	</bean>
+	
+	<bean id="subscriptionNewspaper3" class="domain.SubscriptionNewspaper">
+		<property name="creditCard" ref="creditCard3" />
+		<property name="customer" ref="customer1" />
+		<property name="newspaper" ref="newspaper2" />
+	</bean>
+	
+	<bean id="subscriptionNewspaper4" class="domain.SubscriptionNewspaper">
+		<property name="creditCard" ref="creditCard4" />
+		<property name="customer" ref="customer3" />
+		<property name="newspaper" ref="newspaper2" />
+	</bean>
+	
+	<bean id="subscriptionNewspaper5" class="domain.SubscriptionNewspaper">
+		<property name="creditCard" ref="creditCard5" />
+		<property name="customer" ref="customer2" />
+		<property name="newspaper" ref="newspaper3" />
+	</bean>
+	
+	<bean id="subscriptionNewspaper6" class="domain.SubscriptionNewspaper">
+		<property name="creditCard" ref="creditCard6" />
 		<property name="customer" ref="customer3" />
 		<property name="newspaper" ref="newspaper4" />
 	</bean>	
+	
+	<!-- SubscriptionVolume -->
+	<bean id="subscriptionVolume1" class="domain.SubscriptionVolume">
+		<property name="creditCard" ref="creditCard1" />
+		<property name="customer" ref="customer1" />
+		<property name="volume" ref="volume1" />
+	</bean>
+	
+	<bean id="subscriptionVolume2" class="domain.SubscriptionVolume">
+		<property name="creditCard" ref="creditCard3" />
+		<property name="customer" ref="customer1" />
+		<property name="volume" ref="volume2" />
+	</bean>
+	
+	<bean id="subscriptionVolume3" class="domain.SubscriptionVolume">
+		<property name="creditCard" ref="creditCard3" />
+		<property name="customer" ref="customer1" />
+		<property name="volume" ref="volume3" />
+	</bean>
+	
+	<bean id="subscriptionVolume4" class="domain.SubscriptionVolume">
+		<property name="creditCard" ref="creditCard2" />
+		<property name="customer" ref="customer2" />
+		<property name="volume" ref="volume1" />
+	</bean>
+	
+	<bean id="subscriptionVolume5" class="domain.SubscriptionVolume">
+		<property name="creditCard" ref="creditCard5" />
+		<property name="customer" ref="customer2" />
+		<property name="volume" ref="volume2" />
+	</bean>
+	<!--  -->
 	
 	<!-- FollowUp -->
 	
@@ -700,46 +1007,1128 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="hasTaboo" value="false" />
 	</bean>
 	
-	<bean id="userAccountAgent1" class="security.UserAccount">
-		<property name="username" value="agent1" />
-		<property name="password" value="83a87fd756ab57199c0bb6d5e11168cb" />
-		<property name="authorities">
+	<!-- Folder -->
+	<bean id="folder1ad1" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
 			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="AGENT" />
-				</bean>
+
 			</list>
+
 		</property>
+
+		<property name="actor" ref="administrator" />
+
 	</bean>
-	
-	<bean id="userAccountAgent2" class="security.UserAccount">
-		<property name="username" value="agent2" />
-		<property name="password" value="b1a4a6b01cc297d4677c4ca6656e14d7" />
-		<property name="authorities">
+
+	<bean id="folder2ad1" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
 			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="AGENT" />
-				</bean>
+
 			</list>
+
 		</property>
+
+		<property name="actor" ref="administrator" />
+
+	</bean>
+
+	<bean id="folder3ad1" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="administrator" />
+
+	</bean>
+
+	<bean id="folder4ad1" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="administrator" />
+
+	</bean>
+
+	<bean id="folder5ad1" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="administrator" />
+
 	</bean>
 	
-	<bean id="agent1" class="domain.Agent">
-		<property name="name" value="Luis" />
-		<property name="surname" value="Jiménez Martín" />
-		<property name="emailAddress" value="agent1@acme.com" />
-		<property name="phoneNumber" value="+34757309214" />
-		<property name="postalAddress" value="Calle García de la Macarena, 36" />
-		<property name="userAccount" ref="userAccountAgent1" />
+	<bean id="folder1u1" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user1" />
+
+	</bean>
+
+	<bean id="folder2u1" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user1" />
+
+	</bean>
+
+	<bean id="folder3u1" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user1" />
+
+	</bean>
+
+	<bean id="folder4u1" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user1" />
+
+	</bean>
+
+	<bean id="folder5u1" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user1" />
+
 	</bean>
 	
-	<bean id="agent2" class="domain.Agent">
-		<property name="name" value="Alfonso" />
-		<property name="surname" value="Jiménez Martín" />
-		<property name="emailAddress" value="agent2@acme.com" />
-		<property name="phoneNumber" value="+34757309244" />
-		<property name="postalAddress" value="Calle Martinez de la Macarena, 36" />
-		<property name="userAccount" ref="userAccountAgent2" />
+	<bean id="folder1u2" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user2" />
+
 	</bean>
+
+	<bean id="folder2u2" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user2" />
+
+	</bean>
+
+	<bean id="folder3u2" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user2" />
+
+	</bean>
+
+	<bean id="folder4u2" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user2" />
+
+	</bean>
+
+	<bean id="folder5u2" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user2" />
+
+	</bean>
+	
+	<bean id="folder1u3" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user3" />
+
+	</bean>
+
+	<bean id="folder2u3" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user3" />
+
+	</bean>
+
+	<bean id="folder3u3" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user3" />
+
+	</bean>
+
+	<bean id="folder4u3" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user3" />
+
+	</bean>
+
+	<bean id="folder5u3" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user3" />
+
+	</bean>
+	
+	<bean id="folder1u4" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user4" />
+
+	</bean>
+
+	<bean id="folder2u4" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user4" />
+
+	</bean>
+
+	<bean id="folder3u4" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user4" />
+
+	</bean>
+
+	<bean id="folder4u4" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user4" />
+
+	</bean>
+
+	<bean id="folder5u4" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user4" />
+
+	</bean>
+	
+	<bean id="folder1u5" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user5" />
+
+	</bean>
+
+	<bean id="folder2u5" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user5" />
+
+	</bean>
+
+	<bean id="folder3u5" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user5" />
+
+	</bean>
+
+	<bean id="folder4u5" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user5" />
+
+	</bean>
+
+	<bean id="folder5u5" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user5" />
+
+	</bean>
+	
+	<bean id="folder1u6" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user6" />
+
+	</bean>
+
+	<bean id="folder2u6" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user6" />
+
+	</bean>
+
+	<bean id="folder3u6" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user6" />
+
+	</bean>
+
+	<bean id="folder4u6" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user6" />
+
+	</bean>
+
+	<bean id="folder5u6" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="user6" />
+
+	</bean>
+	
+	<bean id="folder1c1" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer1" />
+
+	</bean>
+
+	<bean id="folder2c1" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer1" />
+
+	</bean>
+
+	<bean id="folder3c1" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer1" />
+
+	</bean>
+
+	<bean id="folder4c1" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer1" />
+
+	</bean>
+
+	<bean id="folder5c1" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer1" />
+
+	</bean>
+	
+	<bean id="folder6c1" class="domain.Folder">
+
+		<property name="name" value="carpeta1" />
+
+		<property name="system" value="false" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+				<ref bean="folder7c1" />
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer1"/>
+
+	</bean>
+
+	<bean id="folder7c1" class="domain.Folder">
+
+		<property name="name" value="carpeta2" />
+
+		<property name="system" value="false" />
+
+		<property name="fatherFolder" ref="folder6c1" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer1"/>
+
+	</bean>
+	
+	<bean id="folder1c2" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer2" />
+
+	</bean>
+
+	<bean id="folder2c2" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer2" />
+
+	</bean>
+
+	<bean id="folder3c2" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer2" />
+
+	</bean>
+
+	<bean id="folder4c2" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer2" />
+
+	</bean>
+
+	<bean id="folder5c2" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer2" />
+
+	</bean>
+	
+	<bean id="folder1c3" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer3" />
+
+	</bean>
+
+	<bean id="folder2c3" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer3" />
+
+	</bean>
+
+	<bean id="folder3c3" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer3" />
+
+	</bean>
+
+	<bean id="folder4c3" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer3" />
+
+	</bean>
+
+	<bean id="folder5c3" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="customer3" />
+
+	</bean>
+	
+	<bean id="folder1a1" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent1" />
+
+	</bean>
+
+	<bean id="folder2a1" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent1" />
+
+	</bean>
+
+	<bean id="folder3a1" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent1" />
+
+	</bean>
+
+	<bean id="folder4a1" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent1" />
+
+	</bean>
+
+	<bean id="folder5a1" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent1" />
+
+	</bean>
+	
+	<bean id="folder1a2" class="domain.Folder">
+
+		<property name="name" value="in box" />
+
+		<property name="system" value="true" />
+		
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent2" />
+
+	</bean>
+
+	<bean id="folder2a2" class="domain.Folder">
+
+		<property name="name" value="out box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent2" />
+
+	</bean>
+
+	<bean id="folder3a2" class="domain.Folder">
+
+		<property name="name" value="notification box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent2" />
+
+	</bean>
+
+	<bean id="folder4a2" class="domain.Folder">
+
+		<property name="name" value="trash box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent2" />
+
+	</bean>
+
+	<bean id="folder5a2" class="domain.Folder">
+
+		<property name="name" value="spam box" />
+
+		<property name="system" value="true" />
+
+		<property name="childrenFolders">
+
+			<list>
+
+			</list>
+
+		</property>
+
+		<property name="actor" ref="agent2" />
+
+	</bean>
+	
+	<!--  -->
+	
 	
 </beans>
