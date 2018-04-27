@@ -21,7 +21,7 @@
 	
 	<acme:column domain="folder" property="name"/>
 	
-	<acme:columnBoolean domain="folder" property="system"/>
+	<acme:columnBoolean domain="folder" property="system" row="${row}"/>
 	
 	<acme:columnLink domain="folder" actor="actor" action="display" id="${row.getId()}"/>
 		

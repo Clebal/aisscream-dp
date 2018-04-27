@@ -9,14 +9,14 @@
 	
 <div class="container">
 	
-	<p><acme:display code="message.moment" value="${messageObject.getMoment()}" formatNumber="true" /></p>
-	
+	<p><acme:display code="message.moment" value="${messageObject.getMoment()}" codeMoment="message.format.moment" /></p>
+		
 	<p><acme:display code="message.priority" value="${messageObject.getPriority()}" /></p>
 	
 	<p><acme:display code="message.subject" value="${messageObject.getSubject()}" /></p>
 
 	<p><acme:display code="message.body" value="${messageObject.getBody()}" /></p>
 
-	<p><acme:displayLink code="message.folder" action="message/actor/display.do" parametre="folderId" parametreValue="${messageObject.getFolder().getId()}"></acme:displayLink></p>
+	<p><acme:displayLink css="btn btn-primary" code="message.folder" action="folder/actor/display.do" parametre="folderId" parametreValue="${messageObject.getFolder().getId()}"></acme:displayLink></p>
 
 </div>

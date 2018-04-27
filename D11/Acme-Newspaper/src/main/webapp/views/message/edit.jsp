@@ -35,11 +35,7 @@
 				
 	</jstl:if>
 	
-	<jstl:if test="${isBroadcast}">
-		
-	</jstl:if>
-	
-	<jstl:if test="${!isBroadcast}">
+	<jstl:if test="${showRecipients}">
 		<acme:select items="${actors}" itemLabel="userAccount.username" code="message.recipient.name" path="recipient"/>
 	</jstl:if>
 	

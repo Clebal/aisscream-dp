@@ -88,6 +88,7 @@ public class MessageAdministratorController extends AbstractController {
 
 		result.addObject("notification", message);
 		result.addObject("message", messageCode);
+		result.addObject("showRecipients", false);
 
 		return result;
 	}

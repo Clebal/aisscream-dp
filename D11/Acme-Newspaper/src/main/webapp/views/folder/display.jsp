@@ -11,8 +11,11 @@
 
 	<p><acme:display code="folder.name" value="${folder.getName()}"/></p>
 	
-	<p><acme:display code="folder.system" value="${folder.getSystem()}" /></p>
-	
+	<jstl:if test="${folder.getSystem() == true}">
+		<p><spring:message code="folder.isSystem" /></p>
+		
+	</jstl:if>
+		
 	<jstl:if test="${folder.getFatherFolder()!=null }">
 		<p><acme:displayLink code="folder.fatherFolder" action="folder/actor/display.do" parametre="folderId" parametreValue="${folder.getFatherFolder().getId()}" /></p>
 	</jstl:if>
@@ -30,26 +33,25 @@
 		<display:column>
 			<jstl:if test="${row.getSystem()==false }">
 				<jstl:if test="${isChildren==false }">
-					<a href="${urlEdit}"><spring:message code="folder.edit" /></a>
+					<acme:displayLink code="folder.edit" action="folder/actor/edit.do" parametre="folderId" parametreValue="${row.getId()}" />
 				</jstl:if>
 			</jstl:if>
 		</display:column>
 
 		<acme:column domain="folder" property="name"/>
 
-		<acme:columnBoolean domain="folder" property="system"/>
+		<acme:columnBoolean domain="folder" property="system" />
 
-		<acme:columnLink domain="folder" action="edit" id="${row.getId()}"/>
-
-		<acme:columnLink domain="folder" action="display" id="${row.getId()}" />
+		<acme:columnLink domain="folder" actor="actor" action="display" id="${row.getId()}" />
 
 	</display:table>
 	
 	<jstl:forEach var="i" begin="1" end="${pageNumberFolders}">
 
-		<spring:url var="urlNextPage" value="${requestURIf}">
+		<spring:url var="urlNextPage" value="folder/actor/display.do">
 			<spring:param name="folderId" value="${folder.getId()}" />
 			<spring:param name="pageFolders" value="${i}" />
+			<spring:param name="pageMessages" value="${pageMessages}" />
 		</spring:url>
 			
 		<jstl:if test="${pageFolders==i}">
@@ -61,10 +63,10 @@
 		
 	</jstl:forEach>
 
-	<br>
+	<br><br>
 	
 	<jstl:if test="${isChildren==false }">
-		<acme:displayLink code="folder.create" action="folder/actor/create.do" />
+		<acme:displayLink css="btn btn-primary" code="folder.create" action="folder/actor/create.do" />
 	</jstl:if>
 
 </jstl:if>
@@ -79,9 +81,9 @@
 
 		<jstl:if test="${isChildren==false }">
 
-			<acme:columnLink domain="message" action="edit" id="${row.getId()}"/>
+			<acme:columnLink domain="message" actor="actor" action="edit" id="${row.getId()}"/>
 
-			<acme:columnLink domain="folder" action="move" id="${row.getId()}" />
+			<acme:columnLink domain="message" actor="actor" action="move" id="${row.getId()}" />
 			
 		</jstl:if>
 
@@ -99,31 +101,26 @@
 		
 		<acme:column domain="message" property="recipient.name"/>
 		
-		<acme:columnLink domain="message" action="display" id="${row.getId()}"/>
-
-		<jstl:forEach var="i" begin="1" end="${pageNumberMessages}">
-	
-			<spring:url var="urlNextPage" value="${requestURIm}">
-				<spring:param name="folderId" value="${folder.getId()}" />
-				<spring:param name="pageMessages" value="${i}" />
-			</spring:url>
-				
-			<jstl:if test="${pageMessages==i}">
-				<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-danger'><jstl:out value="${i}"></jstl:out></a></span>
-			</jstl:if>
-			<jstl:if test="${pageMessages!=i}">
-				<span  style='margin-right:10px;'><a href="${urlNextPage}" class='btn btn-primary'><jstl:out value="${i}"></jstl:out></a></span>
-			</jstl:if>
-			
-		</jstl:forEach>
+		<acme:columnLink domain="message" actor="actor" action="display" id="${row.getId()}"/>
 
 	</display:table>
-
-	<br>
 	
-	<jstl:if test="${isChildren==false }">
-		<acme:displayLink code="folder.create" action="folder/actor/create.do" />
-	</jstl:if>
+	<jstl:forEach var="m" begin="1" end="${pageNumberMessages}">
+
+		<spring:url var="urlNextPagem" value="folder/actor/display.do">
+			<spring:param name="folderId" value="${folder.getId()}" />
+			<spring:param name="pageMessages" value="${m}" />
+			<spring:param name="pageFolders" value="${pageFolders}" />
+		</spring:url>
+			
+		<jstl:if test="${pageMessages==m}">
+			<span  style='margin-right:10px;'><a href="${urlNextPagem}" class='btn btn-danger'><jstl:out value="${m}"></jstl:out></a></span>
+		</jstl:if>
+		<jstl:if test="${pageMessages!=m}">
+			<span  style='margin-right:10px;'><a href="${urlNextPagem}" class='btn btn-primary'><jstl:out value="${m}"></jstl:out></a></span>
+		</jstl:if>
+		
+	</jstl:forEach>
 
 </jstl:if>
 

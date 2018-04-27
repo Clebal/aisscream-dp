@@ -22,7 +22,7 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
 	@Query("select m from Message m where m.folder.actor.id = ?1")
 	Collection<Message> findByActorId(int actorId);
 	
-	@Query("select m from Message m where m.folder.actor.id = ?1")
+	@Query("select m from Message m where m.folder.actor.userAccount.id = ?1")
 	Page<Message> findByActorUserAccountId(int userAccountId, Pageable pageable);
 	
 	@Query("SELECT m FROM Message m WHERE m.folder.id = ?1")

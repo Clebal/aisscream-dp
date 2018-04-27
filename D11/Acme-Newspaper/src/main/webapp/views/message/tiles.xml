@@ -17,7 +17,7 @@
 <tiles-definitions>
 
 	<definition name="message/list" extends="master.page">	
-		<put-attribute name="title" value="List of Messages" />
+		<put-attribute name="title" value="Message list" />
 		<put-attribute name="body" value="/views/message/list.jsp" />
 	</definition>
 	

@@ -102,7 +102,7 @@ public class MessageService {
 			saved = this.messageRepository.findOne(message.getId());
 			Assert.isTrue(
 				saved.getBody().equals(message.getBody()) && saved.getSubject().equals(message.getSubject()) && saved.getPriority().equals(message.getPriority()) && saved.getRecipient().equals(message.getRecipient())
-					&& saved.getSender().equals(message.getSender()), "message.notChangeToEdit");
+					&& saved.getSender().equals(message.getSender()));
 		}
 
 		// Actualizamos el momento del envio
@@ -116,17 +116,20 @@ public class MessageService {
 
 	public void delete(final Message message) {
 		Actor actor;
+		Message saved;
+		
+		Assert.notNull(message);
+		
+		saved = this.messageRepository.findOne(message.getId());
 
-		Assert.notNull(message, "message.notNull");
+		Assert.isTrue(LoginService.getPrincipal().equals(saved.getFolder().getActor().getUserAccount()));
 
-		Assert.isTrue(LoginService.getPrincipal().equals(message.getFolder().getActor().getUserAccount()), "message.equals.userAccount");
+		actor = saved.getFolder().getActor();
 
-		actor = message.getFolder().getActor();
-
-		if (!message.getFolder().getName().equals("trash box"))
-			this.moveMessage(message, message.getFolder(), this.folderService.findByActorIdAndFolderName(actor.getId(), "trash box"));
+		if (!saved.getFolder().getName().equals("trash box"))
+			this.moveMessage(saved, saved.getFolder(), this.folderService.findByActorIdAndFolderName(actor.getId(), "trash box"));
 		else
-			this.messageRepository.delete(message);
+			this.messageRepository.delete(saved);
 	}
 
 	// Other business methods
@@ -148,7 +151,7 @@ public class MessageService {
 		recipientMessage = message;
 
 		// Comprobamos que el actor logeado sea el que está enviando el mensaje
-		Assert.isTrue(LoginService.getPrincipal().equals(message.getSender().getUserAccount()), "message.equals.userAccount");
+		Assert.isTrue(LoginService.getPrincipal().equals(message.getSender().getUserAccount()));
 
 		folders = this.folderService.findByActorId(senderMessage.getSender().getId());
 
@@ -184,28 +187,28 @@ public class MessageService {
 
 		Message result;
 
-		Assert.notNull(destinationFolder, "message.folder.notNull");
-		Assert.notNull(originFolder, "message.folder.notNull");
-		Assert.notNull(message, "message.notNull");
+		Assert.notNull(destinationFolder);
+		Assert.notNull(originFolder);
+		Assert.notNull(message);
 
 		// Las carpetas deben ser del mismo actor
-		Assert.isTrue(originFolder.getActor().equals(destinationFolder.getActor()), "message.move.twoActors");
+		Assert.isTrue(originFolder.getActor().equals(destinationFolder.getActor()));
 
-		Assert.isTrue(message.getFolder().equals(originFolder), "message.notEquals.folder");
-		Assert.isTrue(!message.getFolder().equals(destinationFolder), "message.equals.folder");
+		Assert.isTrue(message.getFolder().equals(originFolder));
+		Assert.isTrue(!message.getFolder().equals(destinationFolder));
 
 		if (LoginService.getPrincipal().equals(message.getSender().getUserAccount())) {
 
-			Assert.isTrue(message.getSender().equals(originFolder.getActor()), "message.notEquals.actors");
-			Assert.isTrue(message.getSender().equals(destinationFolder.getActor()), "message.notEquals.actors");
+			Assert.isTrue(message.getSender().equals(originFolder.getActor()));
+			Assert.isTrue(message.getSender().equals(destinationFolder.getActor()));
 
 		} else if (LoginService.getPrincipal().equals(message.getRecipient().getUserAccount())) {
 
-			Assert.isTrue(message.getRecipient().equals(originFolder.getActor()), "message.notEquals.actors");
-			Assert.isTrue(message.getRecipient().equals(destinationFolder.getActor()), "message.notEquals.actors");
+			Assert.isTrue(message.getRecipient().equals(originFolder.getActor()));
+			Assert.isTrue(message.getRecipient().equals(destinationFolder.getActor()));
 
 		} else
-			Assert.isTrue(LoginService.getPrincipal().equals(message.getSender().getUserAccount()) || LoginService.getPrincipal().equals(message.getRecipient().getUserAccount()), "message.neitherSenderNeitherRecipient");
+			Assert.isTrue(LoginService.getPrincipal().equals(message.getSender().getUserAccount()) || LoginService.getPrincipal().equals(message.getRecipient().getUserAccount()));
 
 		message.setFolder(destinationFolder);
 		result = this.messageRepository.save(message);
@@ -286,7 +289,7 @@ public class MessageService {
 		userAccount = notification.getSender().getUserAccount();
 		Assert.isTrue(LoginService.getPrincipal().equals(userAccount) && LoginService.getPrincipal().getAuthorities().contains(authority));
 
-		// Inicializamos el actor
+		// Inicializamos la lista de actores
 		actors = new ArrayList<Actor>();
 
 		// Metemos todos los actores del sistema
@@ -361,6 +364,7 @@ public class MessageService {
 			message.setVersion(saved.getVersion());
 			message.setSender(saved.getSender());
 			message.setRecipient(saved.getRecipient());
+			if(saved.getFolder() != null) message.setFolder(saved.getFolder());
 		}
 
 		this.validator.validate(message, binding);

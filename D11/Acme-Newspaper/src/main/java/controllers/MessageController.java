@@ -109,7 +109,7 @@ public class MessageController extends AbstractController {
 		Assert.notNull(messagePage);
 
 		result = new ModelAndView("message/list");
-		result.addObject("message", messagePage.getContent());
+		result.addObject("messages", messagePage.getContent());
 		result.addObject("page", page);
 		result.addObject("pageNumber", messagePage.getTotalPages());
 		result.addObject("isChildren", false);
@@ -178,7 +178,7 @@ public class MessageController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final Message message, final BindingResult binding) {
+	public ModelAndView delete(@ModelAttribute(value = "myMessage") Message message, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
@@ -221,35 +221,37 @@ public class MessageController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Message message, final String messageCode) {
+	protected ModelAndView createEditModelAndView(Message message, final String messageCode) {
 		ModelAndView result;
 		Collection<Actor> actors;
 		UserAccount userAccount;
 		boolean canEdit;
-		Actor defaultActor;
 
 		canEdit = false;
 		userAccount = LoginService.getPrincipal();
 
 		result = new ModelAndView("message/edit");
+		
+		if(message.getId() != 0) 
+			message = this.messageService.findOne(message.getId());
 
 		if (message.getId() == 0) {
 			actors = this.actorService.findAll();
-			//actors.remove(message.getSender());
-			defaultActor = (Actor) actors.toArray()[0];
-//			actors.remove(defaultActor);
-
+			Assert.notNull(actors);
 			result.addObject("actors", actors);
-
 		} else if (message.getFolder().getActor().getUserAccount().getId() == userAccount.getId())
 			canEdit = true;
 
 		result.addObject("myMessage", message);
 		result.addObject("message", messageCode);
 		result.addObject("canEdit", canEdit);
+		
+		if(message.getId() != 0)
+			result.addObject("showRecipients", false);
 
 		return result;
 	}
+	
 	protected ModelAndView moveModelAndView(final Message message) {
 		ModelAndView result;
 
@@ -257,7 +259,8 @@ public class MessageController extends AbstractController {
 
 		return result;
 	}
-	protected ModelAndView moveModelAndView(final Message message, final String messageCode) {
+	
+	protected ModelAndView moveModelAndView(Message message, final String messageCode) {
 		ModelAndView result;
 		Collection<Folder> folders;
 		UserAccount userAccount;
@@ -265,6 +268,9 @@ public class MessageController extends AbstractController {
 		Folder defaultFolder;
 
 		canEdit = false;
+		
+		if(message.getId() != 0) 
+			message = this.messageService.findOne(message.getId());
 		
 		userAccount = LoginService.getPrincipal();
 		Assert.notNull(userAccount);
@@ -286,6 +292,10 @@ public class MessageController extends AbstractController {
 		result.addObject("message", messageCode);
 		result.addObject("canEdit", canEdit);
 		result.addObject("defaultFolder", defaultFolder);
+		
+		if(message.getId() != 0)
+			result.addObject("showRecipients", false);
+
 
 		return result;
 	}
