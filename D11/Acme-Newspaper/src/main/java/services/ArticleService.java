@@ -41,7 +41,7 @@ public class ArticleService {
 	private FollowUpService			followUpService;
 
 	@Autowired
-	private SubscriptionService		subscriptionService;
+	private SubscriptionNewspaperService		subscriptionNewspaperService;
 
 	@Autowired
 	private CustomerService			customerService;
@@ -219,6 +219,8 @@ public class ArticleService {
 		Assert.isTrue(LoginService.isAuthenticated());
 
 		Assert.isTrue(articleToDelete.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
+		
+		Assert.isTrue(!articleToDelete.getIsFinalMode());
 
 		followUps = this.followUpService.findByArticleId(articleToDelete.getId());
 
@@ -481,7 +483,7 @@ public class ArticleService {
 
 				//Si esta publicado y tiene una suscripción
 				else if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true
-					&& this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()) != null)
+					&& this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()) != null)
 					result = true;
 
 				//Si es un ADMIN

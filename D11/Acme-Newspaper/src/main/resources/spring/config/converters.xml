@@ -43,8 +43,8 @@
 		<bean class="converters.ArticleToStringConverter" />
 		<bean class="converters.StringToArticleConverter" />
 		
-		<bean class="converters.SubscriptionToStringConverter" />
-		<bean class="converters.StringToSubscriptionConverter" />
+		<bean class="converters.SubscriptionNewspaperToStringConverter" />
+		<bean class="converters.StringToSubscriptionNewspaperConverter" />
         
         <bean class="converters.ChirpToStringConverter" />
         <bean class="converters.StringToChirpConverter" />
