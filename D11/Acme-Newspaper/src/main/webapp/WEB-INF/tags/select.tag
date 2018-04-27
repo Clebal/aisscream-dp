@@ -45,11 +45,11 @@
 <%-- Definition --%>
 
 <jstl:if test="${option == null || option2 == null || option3 == null}">
-	<div>
+	<div class="form-group">
 		<form:label path="${path}">
 			<spring:message code="${code}" />
 		</form:label>	
-		<form:select id="${id}" path="${path}" onchange="${onchange}">
+		<form:select  class="form-control" id="${id}" path="${path}" onchange="${onchange}">
 			<form:option value="0" label="----" />		
 			<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 		</form:select>
@@ -58,11 +58,11 @@
 </jstl:if>
 
 <jstl:if test="${option != null || option2 != null || option3 != null}">
-	<div>
+	<div class="form-group">
 		<form:label path="${path}">
 			<spring:message code="${code}" />
 		</form:label>	
-		<form:select id="${id}" path="${path}" onchange="${onchange}">
+		<form:select id="${id}" path="${path}" onchange="${onchange}" class="form-control">
 			<form:option value="0" label="----" />		
 			<form:option label="${option}" value="${option}" />
 			<form:option label="${option2}" value="${option2}" />
