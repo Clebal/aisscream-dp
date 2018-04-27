@@ -31,12 +31,12 @@ public class UserService {
 	@Autowired
 	private UserRepository	userRepository;
 
+	// Supporting services-----------------------------------------------------------
 	@Autowired
 	private Validator		validator;
-
-
-	// Supporting
-	// services-----------------------------------------------------------
+	
+	@Autowired
+	private FolderService 	folderService;
 
 	// Constructors -----------------------------------------------------------
 	public UserService() {
@@ -106,12 +106,15 @@ public class UserService {
 			Assert.isTrue(user.getUserAccount().getPassword().equals(saved.getUserAccount().getPassword()));
 		} else {
 			/* Si no existe, debe tratarse de anonimo */
-
 			Assert.isTrue(!LoginService.isAuthenticated());
 			user.getUserAccount().setPassword(encoder.encodePassword(user.getUserAccount().getPassword(), null));
 		}
 
 		result = this.userRepository.save(user);
+		
+		//Guardamos los folders por defecto cuando creamos el actor
+		if (user.getId() == 0)
+			this.folderService.createDefaultFolders(result);
 
 		return result;
 	}

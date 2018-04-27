@@ -68,7 +68,22 @@
         
         <security:intercept-url pattern="/chirp/administrator/list.do" access="hasRole('ADMIN')" />
         <security:intercept-url pattern="/chirp/administrator/delete.do" access="hasRole('ADMIN')" />
-		
+        
+   		<security:intercept-url pattern="/message/actor/create.do" access="isAuthenticated()" />
+   		<security:intercept-url pattern="/message/actor/move.do" access="isAuthenticated()" />
+   		<security:intercept-url pattern="/message/actor/display.do" access="isAuthenticated()" />
+   		<security:intercept-url pattern="/message/actor/list.do" access="isAuthenticated()" />
+   		<security:intercept-url pattern="/message/actor/folder/list.do" access="isAuthenticated()" />
+   		<security:intercept-url pattern="/message/actor/edit.do" access="isAuthenticated()" />
+   		
+   		<security:intercept-url pattern="/folder/actor/create.do" access="isAuthenticated()" />
+   		<security:intercept-url pattern="/folder/actor/list.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/folder/actor/childrenFolders/list" access="isAuthenticated()" />
+		<security:intercept-url pattern="/folder/actor/display.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/folder/actor/edit.do" access="isAuthenticated()" />
+
+		<security:intercept-url pattern="/message/administrator/edit.do" access="hasRole('ADMIN')"/>
+
         <!-- Villarín -->
         <security:intercept-url pattern="/article/user/**" access="hasRole('USER')"/>
         <security:intercept-url pattern="/article/administrator/**" access="hasRole('ADMIN')"/>

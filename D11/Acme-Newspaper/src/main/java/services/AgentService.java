@@ -26,12 +26,12 @@ public class AgentService {
 	@Autowired
 	private AgentRepository	agentRepository;
 
+	// Supporting services-----------------------------------------------------------
 	@Autowired
-	private Validator			validator;
-
-
-	// Supporting
-	// services-----------------------------------------------------------
+	private Validator		validator;
+	
+	@Autowired
+	private FolderService 	folderService;
 
 	// Constructors -----------------------------------------------------------
 	public AgentService() {
@@ -102,6 +102,10 @@ public class AgentService {
 		}
 
 		result = this.agentRepository.save(agent);
+		
+		//Guardamos los folders por defecto cuando creamos el actor
+		if (agent.getId() == 0)
+			this.folderService.createDefaultFolders(result);
 
 		return result;
 	}

@@ -50,6 +50,7 @@
 					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.administrator.configuration" /></a></li>
 					<li><a href="article/administrator/list.do"><spring:message code="master.page.administrator.articles" /></a></li>
 					<li><a href="article/administrator/listTaboo.do"><spring:message code="master.page.administrator.articles.taboo" /></a></li>
+					<li><a href="message/administrator/create.do"><spring:message code="master.page.administrator.broadcast" /></a></li>
 				</ul>
 			</security:authorize>
 			
@@ -79,6 +80,8 @@
 	        <security:authorize access="isAuthenticated()">		
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
+					<li><a href="message/actor/list.do"><spring:message code="master.page.actor.messages" /></a></li>
+					<li><a href="folder/actor/list.do"><spring:message code="master.page.actor.folders" /></a></li>
 					<li><a href="newspaper/list.do"><spring:message code="master.page.all.newspapers" /></a></li>	
 					<li><a href="actor/user/list.do"><spring:message code="master.page.all.user" /></a></li>
 			        <security:authorize access="hasRole('USER')">		

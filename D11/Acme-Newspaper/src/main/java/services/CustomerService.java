@@ -31,12 +31,12 @@ public class CustomerService {
 	@Autowired
 	private CustomerRepository	customerRepository;
 
+	// Supporting services-----------------------------------------------------------
 	@Autowired
-	private Validator			validator;
-
-
-	// Supporting
-	// services-----------------------------------------------------------
+	private Validator		validator;
+	
+	@Autowired
+	private FolderService 	folderService;
 
 	// Constructors -----------------------------------------------------------
 	public CustomerService() {
@@ -108,6 +108,10 @@ public class CustomerService {
 
 		result = this.customerRepository.save(customer);
 
+		//Guardamos los folders por defecto cuando creamos el actor
+		if (customer.getId() == 0)
+			this.folderService.createDefaultFolders(result);
+		
 		return result;
 	}
 
