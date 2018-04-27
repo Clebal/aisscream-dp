@@ -15,7 +15,7 @@ import security.LoginService;
 import services.ArticleService;
 import services.CustomerService;
 import services.NewspaperService;
-import services.SubscriptionService;
+import services.SubscriptionNewspaperService;
 import domain.Article;
 import domain.Newspaper;
 
@@ -31,7 +31,7 @@ public class NewspaperController extends AbstractController {
 	private ArticleService		articleService;
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private SubscriptionNewspaperService	subscriptionService;
 
 	@Autowired
 	private CustomerService		customerService;

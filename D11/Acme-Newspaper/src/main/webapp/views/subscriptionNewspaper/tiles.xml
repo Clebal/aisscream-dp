@@ -16,14 +16,14 @@
 
 <tiles-definitions>
 
-	<definition name="subscription/list" extends="master.page">	
+	<definition name="subscriptionNewspaper/list" extends="master.page">	
 		<put-attribute name="title" value="Subscription list" />
-		<put-attribute name="body" value="/views/subscription/list.jsp" />
+		<put-attribute name="body" value="/views/subscriptionNewspaper/list.jsp" />
 	</definition>
 	
-	<definition name="subscription/edit" extends="master.page">	
+	<definition name="subscriptionNewspaper/edit" extends="master.page">	
 		<put-attribute name="title" value="Subscription" />
-		<put-attribute name="body" value="/views/subscription/edit.jsp" />
+		<put-attribute name="body" value="/views/subscriptionNewspaper/edit.jsp" />
 	</definition>
 
 </tiles-definitions>

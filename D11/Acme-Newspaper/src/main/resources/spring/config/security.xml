@@ -46,7 +46,7 @@
 		<security:intercept-url pattern="/aboutUs/display.do" access="permitAll" />  
 		 
 		<!-- Sergio -->
-        <security:intercept-url pattern="/actor/profile.do" access="hasRole('USER') or hasRole('CUSTOMER') or hasRole('ADMIN')" />
+        <security:intercept-url pattern="/actor/profile.do" access="hasRole('USER') or hasRole('CUSTOMER') or hasRole('AGENT') or hasRole('ADMIN')" />
         
         <security:intercept-url pattern="/actor/user/create.do" access="isAnonymous()" />
         <security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()" />
@@ -89,8 +89,11 @@
         <security:intercept-url pattern="/article/administrator/**" access="hasRole('ADMIN')"/>
         <security:intercept-url pattern="/article/display.do" access="permitAll"/>
         <security:intercept-url pattern="/article/list.do" access="permitAll"/>
-        <security:intercept-url pattern="/subscription/customer/**" access="hasRole('CUSTOMER')"/>
+        <security:intercept-url pattern="/subscriptionNewspaper/customer/**" access="hasRole('CUSTOMER')"/>
         <security:intercept-url pattern="/article/listSearch.do" access="permitAll"/>
+        <security:intercept-url pattern="/actor/agent/create.do" access="isAnonymous()" />
+        <security:intercept-url pattern="/actor/agent/edit.do" access="hasRole('AGENT') or isAnonymous()" />
+     
         
         <!-- Santos -->
 		<security:intercept-url pattern="/newspaper/administrator/delete.do" access="hasRole('ADMIN')" />

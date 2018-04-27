@@ -10,24 +10,24 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table class="table table-striped table-bordered table-hover" name="subscriptions" id="row" requestURI="subscription/customer/list.do">
+<display:table class="table table-striped table-bordered table-hover" name="subscriptionNewspapers" id="row" requestURI="subscriptionNewspaper/customer/list.do">
 	
-	<acme:columnLink action="edit" domain="subscription" id="${row.getId()}" actor="customer" />
+	<acme:columnLink url="subscriptionNewspaper/customer/edit.do?subscriptionNewspaperId=${row.getId()}" action="edit" domain="subscription" id="${row.getId()}" />
 
-	<acme:column domain="subscription" property="holderName"/>
+	<acme:column domain="subscription" property="creditCard.holderName"/>
 	
-	<acme:column domain="subscription" property="brandName"/>
+	<acme:column domain="subscription" property="creditCard.brandName"/>
 	
-	<acme:column domain="subscription" property="number"/>
+	<acme:column domain="subscription" property="creditCard.number"/>
 	
-	<acme:column domain="subscription" property="expirationMonth"/>
+	<acme:column domain="subscription" property="creditCard.expirationMonth"/>
 	
-	<acme:column domain="subscription" property="expirationYear"/>
+	<acme:column domain="subscription" property="creditCard.expirationYear"/>
 
-	<acme:column domain="subscription" property="cvvcode"/>
+	<acme:column domain="subscription" property="creditCard.cvvcode"/>
 
 	<acme:column domain="subscription" property="newspaper.title"/>
 
 </display:table> 
 	
-<acme:paginate pageNumber="${pageNumber}" url="subscription/customer/list.do" objects="${subscriptions}" page="${page}"/>
+<acme:paginate pageNumber="${pageNumber}" url="subscriptionNewspaper/customer/list.do" objects="${subscriptionNewspapers}" page="${page}"/>

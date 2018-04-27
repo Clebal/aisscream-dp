@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="subscription/customer/edit.do" modelAttribute="subscription">
+<form:form action="subscriptionNewspaper/customer/edit.do" modelAttribute="subscriptionNewspaper">
 
 	<form:hidden path="id" />
 	<form:hidden path="newspaper"/>
@@ -18,17 +18,17 @@
 		<form:hidden path="customer" />
 	</jstl:if>
 	
-	<acme:textbox code="subscription.holderName" path="holderName"/>
+	<acme:textbox code="subscription.creditCard.holderName" path="creditCard.holderName"/>
 	
-	<acme:textbox code="subscription.brandName" path="brandName"/>
+	<acme:textbox code="subscription.creditCard.brandName" path="creditCard.brandName"/>
 
-	<acme:textbox code="subscription.number" path="number"/>
+	<acme:textbox code="subscription.creditCard.number" path="creditCard.number"/>
 	 
-	<acme:textbox code="subscription.expirationMonth" path="expirationMonth"/>
+	<acme:textbox code="subscription.creditCard.expirationMonth" path="creditCard.expirationMonth"/>
 	 
-	<acme:textbox code="subscription.expirationYear" path="expirationYear"/>
+	<acme:textbox code="subscription.creditCard.expirationYear" path="creditCard.expirationYear"/>
 	 
-	<acme:textbox code="subscription.cvvcode" path="cvvcode"/>	
+	<acme:textbox code="subscription.creditCard.cvvcode" path="creditCard.cvvcode"/>	
 	
 	<acme:submit name="save" code="subscription.save"/>
 
@@ -36,6 +36,6 @@
 		<acme:submit name="delete" code="subscription.delete"/>
  	</jstl:if>
 	
-	<acme:cancel url="subscription/customer/list.do" code="subscription.cancel"/>
+	<acme:cancel url="subscriptionNewspaper/customer/list.do" code="subscription.cancel"/>
 			
 </form:form>

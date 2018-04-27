@@ -70,7 +70,7 @@
 				<ul class="dropdown-menu">
 					<li><a href="newspaper/customer/list.do"><spring:message code="master.page.customer.newspapers" /></a></li>
 					<li><a href="newspaper/customer/listForSubscribe.do"><spring:message code="master.page.customer.newspapersForSubscribe" /></a></li>
-                    <li><a href="subscription/customer/list.do"><spring:message code="master.page.subscription.list" /></a></li>															
+                    <li><a href="subscriptionNewspaper/customer/list.do"><spring:message code="master.page.subscription.list" /></a></li>															
 				</ul>
 			</security:authorize>
         </li>
@@ -105,6 +105,7 @@
 	      	<a href="security/login.do" class="btn btn-primary"><spring:message code="master.page.login"/></a>
 	      	<a href="actor/user/create.do" class="btn btn-primary"><spring:message code="master.page.user.create"/></a>
 	      	<a href="actor/customer/create.do" class="btn btn-primary"><spring:message code="master.page.customer.create"/></a>
+	      	<a href="actor/agent/create.do" class="btn btn-primary"><spring:message code="master.page.agent.create"/></a>
 	      </security:authorize>
       
 		  	<div class="btn-group">

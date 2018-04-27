@@ -49,7 +49,7 @@ public class AgentService {
 		userAccount = new UserAccount();
 		authority = new Authority();
 
-		authority.setAuthority("CUSTOMER");
+		authority.setAuthority("AGENT");
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
 
