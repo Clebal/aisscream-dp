@@ -93,11 +93,11 @@
 		
 		<acme:column domain="message" property="body"/>
 		
-		<acme:column domain="message.folder" property="name"/>
+		<acme:column domain="message" property="folder.name"/>
 		
-		<acme:column domain="message.sender" property="name"/>
+		<acme:column domain="message" property="sender.name"/>
 		
-		<acme:column domain="message.recipient" property="name"/>
+		<acme:column domain="message" property="recipient.name"/>
 		
 		<acme:columnLink domain="message" action="display" id="${row.getId()}"/>
 

@@ -24,8 +24,12 @@
 
 <%@ attribute name="path" required="true" %>
 <%@ attribute name="code" required="true" %>
-<%@ attribute name="items" required="true" type="java.util.Collection" %>
-<%@ attribute name="itemLabel" required="true" %>
+<%@ attribute name="items" required="false" type="java.util.Collection" %>
+<%@ attribute name="itemLabel" required="false" %>
+
+<%@ attribute name="option" required="false" %>
+<%@ attribute name="option2" required="false" %>
+<%@ attribute name="option3" required="false" %>
 
 <%@ attribute name="id" required="false" %>
 <%@ attribute name="onchange" required="false" %>
@@ -40,15 +44,31 @@
 
 <%-- Definition --%>
 
-<div>
-	<form:label path="${path}">
-		<spring:message code="${code}" />
-	</form:label>	
-	<form:select id="${id}" path="${path}" onchange="${onchange}">
-		<form:option value="0" label="----" />		
-		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
-	</form:select>
-	<form:errors path="${path}" cssClass="error" />
-</div>
+<jstl:if test="${option == null || option2 == null || option3 == null}">
+	<div>
+		<form:label path="${path}">
+			<spring:message code="${code}" />
+		</form:label>	
+		<form:select id="${id}" path="${path}" onchange="${onchange}">
+			<form:option value="0" label="----" />		
+			<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
+		</form:select>
+		<form:errors path="${path}" cssClass="error" />
+	</div>
+</jstl:if>
 
+<jstl:if test="${option != null || option2 != null || option3 != null}">
+	<div>
+		<form:label path="${path}">
+			<spring:message code="${code}" />
+		</form:label>	
+		<form:select id="${id}" path="${path}" onchange="${onchange}">
+			<form:option value="0" label="----" />		
+			<form:option label="${option}" value="${option}" />
+			<form:option label="${option2}" value="${option2}" />
+			<form:option label="${option3}" value="${option3}" />
+		</form:select>
+		<form:errors path="${path}" cssClass="error" />
+	</div>
+</jstl:if>
 

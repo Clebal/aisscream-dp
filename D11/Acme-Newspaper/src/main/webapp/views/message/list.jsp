@@ -7,7 +7,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%-- 
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
 <display:table class="table table-striped table-bordered table-hover" name="messages" id="row" requestURI="${requestURI}">
 
 	<jstl:if test="${isChildren == false}">
@@ -23,11 +24,11 @@
 	
 	<acme:column domain="message" property="body" />
 	
-	<acme:column domain="message" code="folder" property="name" />
+	<acme:column domain="message" property="folder.name" />
 	
-	<acme:column domain="message" code="sender" property="name" />
+	<acme:column domain="message" property="sender.name" />
 	
-	<acme:column domain="message" code="recipient" property="name" />
+	<acme:column domain="message" property="recipient.name" />
 	
 	<acme:columnLink domain="message" actor="actor" id="${row.getId()}" action="display" />
 		
@@ -40,5 +41,5 @@
 <br>
 
 <jstl:if test="${isChildren == false}">
-	<p><acme:displayLink code="message.create" action="message/actor/create" css="btn btn-primary" /></p>
-</jstl:if> --%>
+	<p><acme:displayLink code="message.create" action="message/actor/create.do" css="btn btn-primary" /></p>
+</jstl:if>

@@ -231,19 +231,15 @@ public class MessageController extends AbstractController {
 		canEdit = false;
 		userAccount = LoginService.getPrincipal();
 
-		if (message.getId() > 0)
-			result = new ModelAndView("message/edit");
-		else
-			result = new ModelAndView("message/create");
+		result = new ModelAndView("message/edit");
 
 		if (message.getId() == 0) {
 			actors = this.actorService.findAll();
-			actors.remove(message.getSender());
+			//actors.remove(message.getSender());
 			defaultActor = (Actor) actors.toArray()[0];
-			actors.remove(defaultActor);
+//			actors.remove(defaultActor);
 
 			result.addObject("actors", actors);
-			result.addObject("defaultActor", defaultActor);
 
 		} else if (message.getFolder().getActor().getUserAccount().getId() == userAccount.getId())
 			canEdit = true;
