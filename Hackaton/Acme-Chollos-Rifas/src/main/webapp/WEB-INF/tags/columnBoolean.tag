@@ -47,4 +47,18 @@
 		</display:column>
 	</jstl:if> 		
 	
+	<jstl:if test="${property.equals('hasTaboo') }">
+		<display:column title="${headerTitle}">
+			<jstl:if test="${row.getHasTaboo()==true}">
+				<jstl:out value="X"/>
+			</jstl:if>
+		</display:column>
+	</jstl:if> 	
 	
+	<jstl:if test="${property.equals('system') }">
+		<display:column title="${headerTitle}">
+			<jstl:if test="${row.getSystem()==true}">
+				<jstl:out value="X"/>
+			</jstl:if>
+		</display:column>
+	</jstl:if> 	

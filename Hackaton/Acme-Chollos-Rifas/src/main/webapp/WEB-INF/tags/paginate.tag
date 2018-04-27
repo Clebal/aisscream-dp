@@ -40,12 +40,12 @@
 	<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	
 		<spring:url var="urlNextPage" value="${url}">
-		<jstl:if test="${parameter!=null && parameterValue!=null}">
-			<spring:param name="${parameter}" value="${parameterValue}" />
-		</jstl:if>
-		<jstl:if test="${parameter2!=null && parameterValue2!=null}">
-			<spring:param name="${parameter2}" value="${parameterValue2}" />
-		</jstl:if>
+			<jstl:if test="${parameter!=null && parameterValue!=null}">
+				<spring:param name="${parameter}" value="${parameterValue}" />
+			</jstl:if>
+			<jstl:if test="${parameter2!=null && parameterValue2!=null}">
+				<spring:param name="${parameter2}" value="${parameterValue2}" />
+			</jstl:if>
 			<spring:param name="page" value="${i}" />
 		</spring:url>
 			

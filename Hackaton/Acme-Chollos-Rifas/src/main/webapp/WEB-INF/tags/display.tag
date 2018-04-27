@@ -33,8 +33,8 @@
 <jstl:if test="${codeMoment == null && (formatNumber==null || formatNumber==false)}">
 <p>
 	<span class="display">
-		<spring:message code="${code}" />
-	</span>: 
+		<spring:message code="${code}" />:
+	</span> 
 	<jstl:out value="${value}" />
 </p>
 </jstl:if>
