@@ -29,7 +29,7 @@ public class ListSubscriptionNewspaperTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private SubscriptionNewspaperService	subscriptionService;
+	private SubscriptionNewspaperService	subscriptionNewspaperService;
 
 	@Autowired
 	private CustomerService 		customerService;
@@ -138,7 +138,7 @@ public class ListSubscriptionNewspaperTest extends AbstractTest {
 			super.authenticate(customer);
 
 			if (method.equals("findAll")) {
-				subscriptionsCollection = this.subscriptionService.findAll();
+				subscriptionsCollection = this.subscriptionNewspaperService.findAll();
 				sizeSubscription = subscriptionsCollection.size();
 			} else {
 				Assert.notNull(customer);
@@ -147,7 +147,7 @@ public class ListSubscriptionNewspaperTest extends AbstractTest {
 				customerEntity = this.customerService.findOne(customerId);
 				Assert.notNull(customerEntity);
 				customerAccountId = customerEntity.getUserAccount().getId();
-				subscriptionsList = this.subscriptionService.findByUserAccountId(customerAccountId, page, size).getContent();
+				subscriptionsList = this.subscriptionNewspaperService.findByUserAccountId(customerAccountId, page, size).getContent();
 				sizeSubscription = subscriptionsList.size();
 			}
 			Assert.isTrue(sizeSubscription == tamano); 

@@ -27,7 +27,7 @@ public class DeleteSubscriptionNewspaperTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private SubscriptionNewspaperService		subscriptionService;
+	private SubscriptionNewspaperService		subscriptionNewspaperService;
 	
 	@Autowired
 	private CustomerService				customerService;
@@ -158,17 +158,17 @@ public class DeleteSubscriptionNewspaperTest extends AbstractTest {
 			Assert.notNull(customerEntity);
 			subscriptionId = super.getEntityId(subscription);
 			Assert.notNull(subscriptionId);
-			subscriptions = this.subscriptionService.findByUserAccountId(customerEntity.getUserAccount().getId(), 1, 5).getContent();
+			subscriptions = this.subscriptionNewspaperService.findByUserAccountId(customerEntity.getUserAccount().getId(), 1, 5).getContent();
 			for (SubscriptionNewspaper c : subscriptions) {
 				if(c.getId() == subscriptionId){
 					subscriptionEntity = c;
 					break;
 				}
 			}
-			this.subscriptionService.delete(subscriptionEntity);
+			this.subscriptionNewspaperService.delete(subscriptionEntity);
 			super.unauthenticate();
 			
-			Assert.isTrue(!this.subscriptionService.findAll().contains(subscriptionEntity));
+			Assert.isTrue(!this.subscriptionNewspaperService.findAll().contains(subscriptionEntity));
 
 			super.flushTransaction();
 		} catch (final Throwable oops) {
@@ -197,11 +197,11 @@ public class DeleteSubscriptionNewspaperTest extends AbstractTest {
 			subscriptionId = super.getEntityId(subscription);
 			Assert.notNull(subscriptionId);
 
-			subscriptionEntity = this.subscriptionService.findOneToEdit(subscriptionId);
-			this.subscriptionService.delete(subscriptionEntity);
+			subscriptionEntity = this.subscriptionNewspaperService.findOneToEdit(subscriptionId);
+			this.subscriptionNewspaperService.delete(subscriptionEntity);
 			super.unauthenticate();
 			
-			Assert.isTrue(!this.subscriptionService.findAll().contains(subscriptionEntity));
+			Assert.isTrue(!this.subscriptionNewspaperService.findAll().contains(subscriptionEntity));
 
 			super.flushTransaction();
 		} catch (final Throwable oops) {

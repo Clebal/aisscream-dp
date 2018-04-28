@@ -22,7 +22,7 @@ import security.Authority;
 import security.LoginService;
 import domain.Article;
 import domain.Newspaper;
-import domain.Subscription;
+import domain.SubscriptionNewspaper;
 
 @Service
 @Transactional
@@ -40,7 +40,7 @@ public class NewspaperService {
 	private ArticleService			articleService;
 
 	@Autowired
-	private SubscriptionService		subscriptionService;
+	private SubscriptionNewspaperService		subscriptionNewspaperService;
 
 	@Autowired
 	private CustomerService			customerService;
@@ -172,8 +172,8 @@ public class NewspaperService {
 		for (final Article a : this.articleService.findByNewspaperId(newspaperToDelete.getId()))
 			this.articleService.deleteFromNewspaper(a);
 
-		for (final Subscription s : this.subscriptionService.findByNewspaperId(newspaperToDelete.getId()))
-			this.subscriptionService.deleteFromNewspaper(s);
+		for (final SubscriptionNewspaper s : this.subscriptionNewspaperService.findByNewspaperId(newspaperToDelete.getId()))
+			this.subscriptionNewspaperService.deleteFromNewspaper(s);
 
 		this.newspaperRepository.delete(this.findOne(newspaperToDelete.getId()));
 

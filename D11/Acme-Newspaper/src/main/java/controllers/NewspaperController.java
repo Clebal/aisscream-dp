@@ -18,7 +18,7 @@ import security.LoginService;
 import services.ArticleService;
 import services.CustomerService;
 import services.NewspaperService;
-import services.SubscriptionService;
+import services.SubscriptionNewspaperService;
 import services.VolumeService;
 import domain.Article;
 import domain.Newspaper;
@@ -36,7 +36,7 @@ public class NewspaperController extends AbstractController {
 	private ArticleService		articleService;
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private SubscriptionNewspaperService	subscriptionNewspaperService;
 
 	@Autowired
 	private CustomerService		customerService;
@@ -184,7 +184,7 @@ public class NewspaperController extends AbstractController {
 		if (newspaper.getIsPrivate() == false)
 			canSeeArticles = true;
 		else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)
-			&& this.subscriptionService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
+			&& this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
 			canSeeArticles = true;
 		else if (LoginService.isAuthenticated() && newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId())
 			canSeeArticles = true;

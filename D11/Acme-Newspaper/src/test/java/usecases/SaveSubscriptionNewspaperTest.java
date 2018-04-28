@@ -29,7 +29,7 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private SubscriptionNewspaperService		subscriptionService;
+	private SubscriptionNewspaperService		subscriptionNewspaperService;
 
 	@Autowired
 	private CustomerService				customerService;
@@ -182,7 +182,7 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 			Assert.notNull(newspaperId);
 			newspaperEntity = this.newspaperService.findOne(newspaperId);
 			Assert.notNull(newspaperEntity);
-			subscription = this.subscriptionService.create(customerEntity, newspaperEntity);
+			subscription = this.subscriptionNewspaperService.create(customerEntity, newspaperEntity);
 
 			subscription.getCreditCard().setHolderName(holderName);
 			subscription.getCreditCard().setBrandName(brandName);
@@ -190,11 +190,11 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 			subscription.getCreditCard().setExpirationMonth(expirationMonth);
 			subscription.getCreditCard().setExpirationYear(expirationYear);
 			subscription.getCreditCard().setCvvcode(cvvcode);
-			subscriptionEntity = this.subscriptionService.save(subscription);
+			subscriptionEntity = this.subscriptionNewspaperService.save(subscription);
 			super.unauthenticate();
 			super.flushTransaction();
 			
-			Assert.isTrue(this.subscriptionService.findAll().contains(subscriptionEntity));
+			Assert.isTrue(this.subscriptionNewspaperService.findAll().contains(subscriptionEntity));
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

@@ -29,7 +29,7 @@ public class EditSubscriptionNewspaperTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private SubscriptionNewspaperService		subscriptionService;
+	private SubscriptionNewspaperService		subscriptionNewspaperService;
 
 	@Autowired
 	private CustomerService				customerService;
@@ -194,7 +194,7 @@ public class EditSubscriptionNewspaperTest extends AbstractTest {
 			Assert.notNull(customerEntity);
 			subscriptionId = super.getEntityId(subscriptionEdit);
 			Assert.notNull(subscriptionId);
-			subscriptions = this.subscriptionService.findByUserAccountId(customerEntity.getUserAccount().getId(), 1, 5).getContent();
+			subscriptions = this.subscriptionNewspaperService.findByUserAccountId(customerEntity.getUserAccount().getId(), 1, 5).getContent();
 			for (SubscriptionNewspaper c : subscriptions) {
 				if(c.getId() == subscriptionId){
 					subscription = c;
@@ -211,7 +211,7 @@ public class EditSubscriptionNewspaperTest extends AbstractTest {
 			subscriptionEntity.getCreditCard().setCvvcode(cvvcode);
 			subscriptionEntity.setCustomer(customerEntity);
 
-			this.subscriptionService.save(subscriptionEntity);
+			this.subscriptionNewspaperService.save(subscriptionEntity);
 
 			super.unauthenticate();
 			super.flushTransaction();
@@ -247,7 +247,7 @@ public class EditSubscriptionNewspaperTest extends AbstractTest {
 			Assert.notNull(customerEntity);
 			subscriptionId = super.getEntityId(subscriptionEdit);
 			Assert.notNull(subscriptionId);
-			subscription = this.subscriptionService.findOneToEdit(subscriptionId);
+			subscription = this.subscriptionNewspaperService.findOneToEdit(subscriptionId);
 			Assert.notNull(subscription);
 			subscriptionEntity = this.copySubscription(subscription);
 			subscriptionEntity.getCreditCard().setHolderName(holderName);
@@ -257,7 +257,7 @@ public class EditSubscriptionNewspaperTest extends AbstractTest {
 			subscriptionEntity.getCreditCard().setExpirationYear(expirationYear);
 			subscriptionEntity.getCreditCard().setCvvcode(cvvcode);
 			subscriptionEntity.setCustomer(customerEntity);
-			this.subscriptionService.save(subscriptionEntity);
+			this.subscriptionNewspaperService.save(subscriptionEntity);
 			super.unauthenticate();
 			super.flushTransaction();
 		} catch (final Throwable oops) {
