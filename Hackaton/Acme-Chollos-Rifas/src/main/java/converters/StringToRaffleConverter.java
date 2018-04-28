@@ -5,26 +5,26 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.ModeratorRepository;
+import repositories.RaffleRepository;
 
-import domain.Moderator;
+import domain.Raffle;
 
 @Component
 @Transactional
-public class StringToManagerConverter implements Converter<String, Moderator> {
+public class StringToRaffleConverter implements Converter<String, Raffle> {
 
 	@Autowired
-	ModeratorRepository	managerRepository;
+	RaffleRepository	raffleRepository;
 
 
 	@Override
-	public Moderator convert(final String text) {
-		Moderator result;
+	public Raffle convert(final String text) {
+		Raffle result;
 		int id;
 
 		try {
 			id = Integer.valueOf(text);
-			result = this.managerRepository.findOne(id);
+			result = this.raffleRepository.findOne(id);
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}

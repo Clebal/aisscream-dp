@@ -36,7 +36,8 @@
 		<value>/views/manager/messages</value>
 		<value>/views/configuration/messages</value>
 		
-		<value>/views/rifa/messages</value>
+		<value>/views/raffle/messages</value>
+		<value>/views/ticket/messages</value>
 		
 	</util:list>
 

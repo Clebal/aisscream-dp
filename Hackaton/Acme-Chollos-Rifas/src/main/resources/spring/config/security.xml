@@ -42,14 +42,22 @@
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 		
 		<!-- Actor -->
-		<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/actor/administrator/create.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/actor/administrator/edit.do" access="hasRole('ADMIN')" /> 
+		
+ 		<security:intercept-url pattern="/actor/moderator/create.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/actor/moderator/edit.do" access="hasRole('ADMIN')"  />
+		
 		<security:intercept-url pattern="/actor/user/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()"  />
-		<security:intercept-url pattern="/actor/display.do" access="permitAll"  />
-		<security:intercept-url pattern="/actor/list.do" access="hasRole('USER') or isAnonymous()"  />	
+		
+		<security:intercept-url pattern="/actor/company/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/actor/company/edit.do" access="hasRole('COMPANY') or isAnonymous()"  />
+		
+		<security:intercept-url pattern="/actor/sponsor/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/actor/sponsor/edit.do" access="hasRole('SPONSOR') or isAnonymous()"  />
+		
 		<security:intercept-url pattern="/actor/profile.do" access="isAuthenticated()"  />
- 		<security:intercept-url pattern="/actor/manager/create.do" access="isAnonymous()" />
-		<security:intercept-url pattern="/actor/manager/edit.do" access="hasRole('MANAGER') or isAnonymous()"  />
 		
 		<!-- Term Condition -->
 		<security:intercept-url pattern="/termCondition/administrator/**" access="hasRole('ADMIN')" />
@@ -70,9 +78,9 @@
 		<!-- Configuration -->
  		<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />		
 		 
-		 <!-- Rifa -->
-  		<security:intercept-url pattern="/rifa/display.do" access="permitAll" />		
-   		<security:intercept-url pattern="/rifa/buy.do" access="permitAll" />		
+		 <!-- Raffle -->
+  		<security:intercept-url pattern="/raffle/display.do" access="permitAll" />		
+   		<security:intercept-url pattern="/raffle/buy.do" access="permitAll" />		
 		 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		

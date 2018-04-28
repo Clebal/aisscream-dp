@@ -167,6 +167,7 @@ public class UserService {
 
 			result.getUserAccount().setUsername(userForm.getUsername());
 			result.getUserAccount().setPassword(userForm.getPassword());
+			
 			result.setBirthdate(userForm.getBirthdate());
 
 		} else {
@@ -181,6 +182,7 @@ public class UserService {
 		result.setAddress(userForm.getAddress());
 		result.setEmail(userForm.getEmail());
 		result.setPhone(userForm.getPhone());
+		result.setIdentifier(userForm.getIdentifier());
 
 		this.validator.validate(userForm, binding);
 

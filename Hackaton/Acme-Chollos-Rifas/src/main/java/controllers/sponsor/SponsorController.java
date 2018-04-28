@@ -1,5 +1,5 @@
 
-package controllers.user;
+package controllers.sponsor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,35 +8,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.UserService;
+import services.SponsorService;
 import controllers.AbstractController;
-import domain.User;
-import forms.UserForm;
+import domain.Sponsor;
+import forms.SponsorForm;
 
 @Controller
-@RequestMapping(value = "/actor/user")
-public class UserController extends AbstractController {
+@RequestMapping(value = "/actor/sponsor")
+public class SponsorController extends AbstractController {
 
 	// Services
 	@Autowired
-	private UserService	userService;
+	private SponsorService	sponsorService;
 
 	// Constructor
-	public UserController() {
+	public SponsorController() {
 		super();
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final UserForm actorForm, final BindingResult binding) {
+	public ModelAndView save(final SponsorForm actorForm, final BindingResult binding) {
 		ModelAndView result;
-		User user;
+		Sponsor sponsor;
 		boolean next;
 
 		next = true;
 		result = null;
-		user = null;
+		sponsor = null;
 		try {
-			user = this.userService.reconstruct(actorForm, binding);
+			sponsor = this.sponsorService.reconstruct(actorForm, binding);
 		} catch (final Throwable e) {
 
 			if (binding.hasErrors())
@@ -52,7 +52,7 @@ public class UserController extends AbstractController {
 				result = this.createEditModelAndView(actorForm);
 			else
 				try {
-					this.userService.save(user);
+					this.sponsorService.save(sponsor);
 					result = new ModelAndView("redirect:/");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(actorForm, "actor.commit.error");
@@ -62,7 +62,7 @@ public class UserController extends AbstractController {
 	}
 
 	// Ancillary methods
-	protected ModelAndView createEditModelAndView(final UserForm actorForm) {
+	protected ModelAndView createEditModelAndView(final SponsorForm actorForm) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(actorForm, null);
@@ -70,18 +70,15 @@ public class UserController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final UserForm actorForm, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final SponsorForm actorForm, final String messageCode) {
 		ModelAndView result;
-		String requestURI;
-
-		requestURI = "actor/user/edit.do";
 
 		result = new ModelAndView("actor/edit");
 
-		result.addObject("model", "user");
+		result.addObject("model", "sponsor");
 		result.addObject("actorForm", actorForm);
 		result.addObject("message", messageCode);
-		result.addObject("requestURI", requestURI);
+		result.addObject("requestURI", "actor/sponsor/edit.do");
 
 		return result;
 	}

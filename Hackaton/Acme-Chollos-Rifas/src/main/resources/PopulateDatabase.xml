@@ -93,46 +93,68 @@
 		</property>
 	</bean>
 	
-	<!-- D09 -->
-	
-	<bean id="userAccountManager1" class="security.UserAccount">
-		<property name="username" value="manager1" />
+	<!-- Moderators UserAccount -->	
+	<bean id="userAccountModerator1" class="security.UserAccount">
+		<property name="username" value="moderator1" />
 		<property name="password" value="c240642ddef994358c96da82c0361a58" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="MANAGER" />
+					<property name="authority" value="MODERATOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="userAccountManager2" class="security.UserAccount">
-		<property name="username" value="manager2" />
+	<bean id="userAccountModerator2" class="security.UserAccount">
+		<property name="username" value="moderator2" />
 		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="MANAGER" />
+					<property name="authority" value="MODERATOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="userAccountManager3" class="security.UserAccount">
-		<property name="username" value="manager3" />
-		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
+	<!-- Company UserAccount -->
+	<bean id="userAccountCompany1" class="security.UserAccount">
+		<property name="username" value="company1" />
+		<property name="password" value="df655f976f7c9d3263815bd981225cd9" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="MANAGER" />
+					<property name="authority" value="COMPANY" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 	
-	<!-- /D09 -->
+	<bean id="userAccountCompany2" class="security.UserAccount">
+		<property name="username" value="company2" />
+		<property name="password" value="d196a28097115067fefd73d25b0c0be8" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="COMPANY" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 	
+	<bean id="userAccountCompany3" class="security.UserAccount">
+		<property name="username" value="company3" />
+		<property name="password" value="e828ae3339b8d80b3902c1564578804e" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="COMPANY" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+		
 	<!-- User -->
 	<bean id="user1" class="domain.User">
 		<property name="name" value="Alejandro" />
@@ -142,6 +164,7 @@
 		<property name="address" value="Calle Sin Número, 123" />
 		<property name="birthdate" value="18/11/1997" />
 		<property name="userAccount" ref="userAccountUser1" />
+		<property name="identifier" value="20063918-Y" />
 	</bean>
 	
 	<bean id="user2" class="domain.User">
@@ -151,6 +174,7 @@
 		<property name="address" value="Calle Falsa, 123" />
 		<property name="birthdate" value="02/12/1998" />
 		<property name="userAccount" ref="userAccountUser2" />
+		<property name="identifier" value="20063918-Y" />
 	</bean>
 	
 	<bean id="user3" class="domain.User">
@@ -160,6 +184,7 @@
 		<property name="phone" value="+3461738000" />
 		<property name="birthdate" value="16/02/1996" />
 		<property name="userAccount" ref="userAccountUser3" />
+		<property name="identifier" value="20063918-Y" />
 	</bean>
 	
 	<bean id="user4" class="domain.User">
@@ -168,6 +193,7 @@
 		<property name="email" value="user4@acme.com" />
 		<property name="birthdate" value="02/11/2002" />
 		<property name="userAccount" ref="userAccountUser4" />
+		<property name="identifier" value="20063918-Y" />
 	</bean>
 	
 	<bean id="user5" class="domain.User">
@@ -177,6 +203,7 @@
 		<property name="phone" value="+3461738010" />
 		<property name="birthdate" value="16/02/1996" />
 		<property name="userAccount" ref="userAccountUser5" />
+		<property name="identifier" value="20063918-Y" />
 	</bean>
 	
 	<bean id="user6" class="domain.User">
@@ -186,6 +213,7 @@
 		<property name="phone" value="+3461738011" />
 		<property name="birthdate" value="18/02/1996" />
 		<property name="userAccount" ref="userAccountUser6" />
+		<property name="identifier" value="20063918-Y" />
 	</bean>
 	
 	<!-- Administrator -->
@@ -195,6 +223,7 @@
 		<property name="email" value="administrator@acme.com" />
 		<property name="birthdate" value="25/08/1995" />
 		<property name="userAccount" ref="userAccountAdministrator" />
+		<property name="identifier" value="20063918-Y" />
 	</bean>
 	
 	<bean id="internationalization1" class="domain.Internationalization">
@@ -287,9 +316,7 @@ The Organic Law 15/1999, of December 13, Protection of Personal Data (LOPD).
 The Royal Decree 1720/2007, of December 21, which approves the Regulation of development of the Organic Law 15/1999, of December 13, Protection of Personal Data." />
 
 	</bean>
-	
-	<!-- D09 -->
-	
+		
 	<!-- Configuration -->
 	<bean id="configuration" class="domain.Configuration">
 		<property name="name" value="Acme Chollos y Rifas" />
@@ -298,38 +325,27 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="banner" value="https://tinyurl.com/yabcto3u" />
 	</bean>
 	
-	<!-- Manager -->
-	<bean id="manager1" class="domain.Manager">
+	<!-- Moderator -->
+	<bean id="moderator1" class="domain.Moderator">
 		<property name="name" value="Mario" />
 		<property name="surname" value="Macías Reyes" />
-		<property name="email" value="manager1@acme.com" />
+		<property name="email" value="moderator1@acme.com" />
 		<property name="phone" value="+34602245841" />
 		<property name="address" value="Calle El Río, 2" />
 		<property name="birthdate" value="17/03/1985" />
-		<property name="userAccount" ref="userAccountManager1" />
-		<property name="vat" value="20063918-Y" />
+		<property name="userAccount" ref="userAccountModerator1" />
+		<property name="identifier" value="20063918-Y" />
 	</bean>
 	
-	<bean id="manager2" class="domain.Manager">
+	<bean id="moderator2" class="domain.Moderator">
 		<property name="name" value="José María" />
 		<property name="surname" value="López Menacho" />
-		<property name="email" value="manager2@acme.com" />
+		<property name="email" value="moderator2@acme.com" />
 		<property name="phone" value="+34752354214" />
 		<property name="address" value="Calle García de la Jara, 35" />
 		<property name="birthdate" value="24/06/1979" />
-		<property name="userAccount" ref="userAccountManager2" />
-		<property name="vat" value="00234559-M" />
-	</bean>
-	
-	<bean id="manager3" class="domain.Manager">
-		<property name="name" value="Manuel" />
-		<property name="surname" value="Jiménez Martín" />
-		<property name="email" value="manager2@acme.com" />
-		<property name="phone" value="+34752309214" />
-		<property name="address" value="Calle García de la Jara, 36" />
-		<property name="birthdate" value="24/06/2002" />
-		<property name="userAccount" ref="userAccountManager3" />
-		<property name="vat" value="00234779-M" />
+		<property name="userAccount" ref="userAccountModerator2" />
+		<property name="identifier" value="00234559-M" />
 	</bean>
 	
 	<!-- Credit Card -->
@@ -338,7 +354,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="5471664286416252" />
 		<property name="expirationMonth" value="9" />
-		<property name="expirationYear" value="2017" />
+		<property name="expirationYear" value="2019" />
 		<property name="cvvcode" value="998" />
 		<property name="user" ref="user1" />
 	</bean>
@@ -396,17 +412,85 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<!-- Category -->
 	
 	
-	<!-- Rifa -->
-	<bean id="rifa1" class="domain.Rifa">
-		<property name="price" value="1" />
+	<!-- Company -->
+	<bean id="company1" class="domain.Company">
+		<property name="name" value="Eduardo" />
+		<property name="surname" value="García Noriega" />
+		<property name="email" value="company1@acme.com" />
+		<property name="phone" value="+34618396001" />
+		<property name="address" value="Calle El Atributo, 123" />
+		<property name="birthdate" value="18/11/1992" />
+		<property name="identifier" value="20063918X" />
+		<property name="userAccount" ref="userAccountCompany1" />
+		<property name="companyName" value="Working4Enjoyment" />
+		<property name="type" value="SL" />
 	</bean>
 	
-	<bean id="rifa2" class="domain.Rifa">
+	<bean id="company2" class="domain.Company">
+		<property name="name" value="Javier" />
+		<property name="surname" value="Del Alba Martín" />
+		<property name="email" value="company2@acme.com" />
+		<property name="phone" value="+34618392011" />
+		<property name="address" value="Calle Hojaldre, 4606" />
+		<property name="birthdate" value="18/09/1990" />
+		<property name="identifier" value="20123918Y" />
+		<property name="userAccount" ref="userAccountCompany2" />
+		<property name="companyName" value="Sukafe" />
+		<property name="type" value="SL" />
+	</bean>
+	
+	<bean id="company3" class="domain.Company">
+		<property name="name" value="María del Carmen" />
+		<property name="surname" value="Ruiz López" />
+		<property name="email" value="company3@acme.com" />
+		<property name="phone" value="+34621338011" />
+		<property name="address" value="Calle De La Pizza, 13" />
+		<property name="birthdate" value="12/04/1990" />
+		<property name="identifier" value="20123918Y" />
+		<property name="userAccount" ref="userAccountCompany3" />
+		<property name="companyName" value="AISS Cream" />
+		<property name="type" value="COOPERATIVA" />
+	</bean>
+	
+	<!-- Raffle -->
+	<bean id="raffle1" class="domain.Raffle">
+		<property name="title" value="Rifa benéfica y llévate una PS4" />
+		<property name="description" value="En este caso traemos desde nuestras oficinas en Sevilla una rifa bien bien solidaria. Del importe total de tiques que se vendan, el 50% de los beneficios irán destindo a un colegio en Togo." />
+		<property name="productName" value="PlayStation 4" />
+		<property name="productImages">
+			<list>
+				<value>https://psmedia.playstation.com/is/image/psmedia/ps4-overview-screen-03-eu-06sep16?$MediaCarousel_LargeImage$</value>
+				<value>https://media.redadn.es/imagenes/playstation4_314481.jpg</value>
+			</list>
+		</property>
+		<property name="maxDate" value="05/10/2018" />
+		<property name="price" value="1" />
+		<property name="company" ref="company1" />
+	</bean>
+	
+<!-- 	<bean id="raffle2" class="domain.Raffle">
 		<property name="price" value="2" />
 	</bean>
 	
-	<bean id="rifa3" class="domain.Rifa">
+	<bean id="raffle3" class="domain.Raffle">
 		<property name="price" value="50" />
+	</bean> -->
+	
+	<!-- Ticket -->
+	<bean id="ticket1raffle1user1" class="domain.Ticket">
+		<property name="code" value="14180315AAAAA" />
+		<property name="user" ref="user1" />
+		<property name="raffle" ref="raffle1" />
+		<property name="creditCard" ref="creditCard1" />
+	</bean>
+	
+	<!-- Identifier -->
+	<bean id="identifier1" class="domain.Identifier">
+		<property name="firstCounter" value="1" />
+		<property name="secondCounter" value="0" />
+		<property name="thirdCounter" value="0" />
+		<property name="fourthCounter" value="0"/>
+		<property name="fivethCounter" value="0"/>
 	</bean>
 	
 </beans>

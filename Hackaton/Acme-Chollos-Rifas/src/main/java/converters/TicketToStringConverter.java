@@ -5,20 +5,20 @@ import javax.transaction.Transactional;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import domain.Moderator;
+import domain.Ticket;
 
 @Component
 @Transactional
-public class ManagerToStringConverter implements Converter<Moderator, String>{
+public class TicketToStringConverter implements Converter<Ticket, String>{
 
 	@Override
-	public String convert(Moderator manager) {
+	public String convert(Ticket ticket) {
 		String result;
 
-		if (manager == null) {
+		if (ticket == null) {
 			result = null;
 		} else {
-			result = String.valueOf(manager.getId());
+			result = String.valueOf(ticket.getId());
 		}
 
 		return result;

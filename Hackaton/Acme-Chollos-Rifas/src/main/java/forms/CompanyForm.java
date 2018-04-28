@@ -3,19 +3,17 @@ package forms;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class ManagerForm {
+public class CompanyForm {
 
 	private String	username;
 	private String	password;
@@ -29,10 +27,13 @@ public class ManagerForm {
 	private String	email;
 	private Date	birthdate;
 	private String	address;
-	private String	vat;
+	
+	private String 	identifier;
 
+	private String companyName;
+	private String type;
 
-	public ManagerForm() {
+	public CompanyForm() {
 		super();
 	}
 
@@ -134,14 +135,31 @@ public class ManagerForm {
 		this.birthdate = birthdate;
 	}
 
-	@Pattern(regexp = "^(?![\\W]+$)(?=.{2,12}$)[-0-9]*(?:[a-zA-Z-0-9]*){0,3}$")
-	@Column(unique = true)
 	@NotBlank
-	public String getVat() {
-		return this.vat;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setVat(final String vat) {
-		this.vat = vat;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
+
+	@NotBlank
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	@NotBlank
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
 }

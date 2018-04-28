@@ -35,7 +35,8 @@
 		<value>/views/creditcard/tiles.xml</value>
 		<value>/views/configuration/tiles.xml</value>
 		
-		<value>/views/rifa/tiles.xml</value>
+		<value>/views/raffle/tiles.xml</value>
+		<value>/views/ticket/tiles.xml</value>
 		
 	</util:list>
 

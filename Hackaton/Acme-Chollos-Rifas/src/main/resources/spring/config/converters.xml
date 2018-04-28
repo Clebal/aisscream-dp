@@ -43,6 +43,12 @@
 		<bean class="converters.ManagerToStringConverter" />
 		<bean class="converters.StringToManagerConverter" />
 		
+		<bean class="converters.RaffleToStringConverter" />
+		<bean class="converters.StringToRaffleConverter" />
+		
+		<bean class="converters.TicketToStringConverter" />
+		<bean class="converters.StringToTicketConverter" />
+		
 	</util:list>
 	
 </beans>

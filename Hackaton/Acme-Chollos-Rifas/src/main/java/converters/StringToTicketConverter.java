@@ -5,26 +5,26 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.ModeratorRepository;
+import repositories.TicketRepository;
 
-import domain.Moderator;
+import domain.Ticket;
 
 @Component
 @Transactional
-public class StringToManagerConverter implements Converter<String, Moderator> {
+public class StringToTicketConverter implements Converter<String, Ticket> {
 
 	@Autowired
-	ModeratorRepository	managerRepository;
+	TicketRepository	ticketRepository;
 
 
 	@Override
-	public Moderator convert(final String text) {
-		Moderator result;
+	public Ticket convert(final String text) {
+		Ticket result;
 		int id;
 
 		try {
 			id = Integer.valueOf(text);
-			result = this.managerRepository.findOne(id);
+			result = this.ticketRepository.findOne(id);
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}

@@ -35,6 +35,8 @@ public abstract class Actor extends DomainEntity {
 	private String address;
 
 	private Date birthdate;
+	
+	private String identifier;
 
 	private UserAccount userAccount;
 
@@ -82,6 +84,15 @@ public abstract class Actor extends DomainEntity {
 		this.address = address;
 	}
 
+	@NotBlank
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+	
 	@Past
 	@NotNull
 	@Temporal(TemporalType.DATE)

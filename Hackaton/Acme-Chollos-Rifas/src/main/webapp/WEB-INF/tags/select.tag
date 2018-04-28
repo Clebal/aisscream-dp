@@ -30,6 +30,7 @@
 <%@ attribute name="option" required="false" %>
 <%@ attribute name="option2" required="false" %>
 <%@ attribute name="option3" required="false" %>
+<%@ attribute name="option4" required="false" %>
 
 <%@ attribute name="id" required="false" %>
 <%@ attribute name="onchange" required="false" %>
@@ -44,7 +45,7 @@
 
 <%-- Definition --%>
 
-<jstl:if test="${option == null || option2 == null || option3 == null}">
+<jstl:if test="${option == null || option2 == null || option3 == null || option4 == null}">
 	<div class="form-group">
 		<form:label path="${path}">
 			<spring:message code="${code}" />
@@ -57,7 +58,7 @@
 	</div>
 </jstl:if>
 
-<jstl:if test="${option != null || option2 != null || option3 != null}">
+<jstl:if test="${option != null || option2 != null || option3 != null || option4 != null}">
 	<div class="form-group">
 		<form:label path="${path}">
 			<spring:message code="${code}" />
@@ -67,6 +68,7 @@
 			<form:option label="${option}" value="${option}" />
 			<form:option label="${option2}" value="${option2}" />
 			<form:option label="${option3}" value="${option3}" />
+			<form:option label="${option4}" value="${option4}" />
 		</form:select>
 		<form:errors path="${path}" cssClass="error" />
 	</div>

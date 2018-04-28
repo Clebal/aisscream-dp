@@ -5,20 +5,20 @@ import javax.transaction.Transactional;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import domain.Moderator;
+import domain.Raffle;
 
 @Component
 @Transactional
-public class ManagerToStringConverter implements Converter<Moderator, String>{
+public class RaffleToStringConverter implements Converter<Raffle, String>{
 
 	@Override
-	public String convert(Moderator manager) {
+	public String convert(Raffle raffle) {
 		String result;
 
-		if (manager == null) {
+		if (raffle == null) {
 			result = null;
 		} else {
-			result = String.valueOf(manager.getId());
+			result = String.valueOf(raffle.getId());
 		}
 
 		return result;

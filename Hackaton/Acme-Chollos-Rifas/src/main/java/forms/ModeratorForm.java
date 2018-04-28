@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class UserForm {
+public class ModeratorForm {
 
 	private String	username;
 	private String	password;
@@ -27,10 +27,12 @@ public class UserForm {
 	private String	email;
 	private Date	birthdate;
 	private String	address;
-
+	
 	private String identifier;
+//	private String	vat;
 
-	public UserForm() {
+
+	public ModeratorForm() {
 		super();
 	}
 
@@ -131,7 +133,7 @@ public class UserForm {
 	public void setBirthdate(final Date birthdate) {
 		this.birthdate = birthdate;
 	}
-
+	
 	@NotBlank
 	public String getIdentifier() {
 		return identifier;
@@ -140,5 +142,16 @@ public class UserForm {
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
+
+//	@Pattern(regexp = "^(?![\\W]+$)(?=.{2,12}$)[-0-9]*(?:[a-zA-Z-0-9]*){0,3}$")
+//	@Column(unique = true)
+//	@NotBlank
+//	public String getVat() {
+//		return this.vat;
+//	}
+//
+//	public void setVat(final String vat) {
+//		this.vat = vat;
+//	}
 	
 }

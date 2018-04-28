@@ -16,16 +16,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Rifa;
+import domain.Raffle;
 
-import services.RifaService;
+import services.RaffleService;
 
 @Controller
 @RequestMapping("/welcome")
 public class WelcomeController extends AbstractController {
 
 	@Autowired
-	private RifaService rifaService;
+	private RaffleService rifaService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -38,7 +38,7 @@ public class WelcomeController extends AbstractController {
 	@RequestMapping(value = "/index")
 	public ModelAndView index() {
 		ModelAndView result;
-		Collection<Rifa> rifas;
+		Collection<Raffle> rifas;
 		
 		rifas = this.rifaService.findAll();
 		
