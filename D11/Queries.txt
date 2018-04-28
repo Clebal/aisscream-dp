@@ -1,0 +1,7 @@
+SERGIO - The ratio of newspapers that have at least one advertisement versus the newspapers that haven’t any.
+CARLOS - The ratio of advertisements that have taboo words.
+VILLARIN - The average number of newspapers per volume.
+
+select avg(v.newspapers.size) from Volume v;
+
+SANTOS - The ratio of subscriptions to volumes versus subscriptions to newspapers.
