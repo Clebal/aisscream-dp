@@ -289,11 +289,12 @@
 	
 	<!-- Advertisement -->
 	<bean id="advertisement1" class="domain.Advertisement">
-		<property name="title" value="Advertisement 1" />
+		<property name="title" value="Advertisement 1 sex" />
 		<property name="urlBanner" value="https://cdna.labioguia.com/images/articles/57a09ff387a20_crop.jpg" />
 		<property name="urlTarget" value="http://www.abc.es/" />
 		<property name="creditCard" ref="creditCard7" />
 		<property name="agent" ref="agent1" />
+		<property name="hasTaboo" value="true" />
 	</bean>
 	
 	<bean id="advertisement2" class="domain.Advertisement">
@@ -301,6 +302,7 @@
 		<property name="urlBanner" value="https://arbolesfrutales.org/wp-content/uploads/2014/10/Limonero-todo-lo-que-debes-saber-1.jpg" />
 		<property name="urlTarget" value="https://elpais.com/" />
 		<property name="creditCard" ref="creditCard7" />
+		<property name="hasTaboo" value="false" />
 		<property name="agent" ref="agent1" />
 	</bean>
 	
