@@ -22,7 +22,7 @@ import security.Authority;
 import security.LoginService;
 import domain.Article;
 import domain.Newspaper;
-import domain.SubscriptionNewspaper;
+import domain.Subscription;
 
 @Service
 @Transactional
@@ -40,7 +40,7 @@ public class NewspaperService {
 	private ArticleService			articleService;
 
 	@Autowired
-	private SubscriptionNewspaperService		subscriptionNewspaperService;
+	private SubscriptionService		subscriptionService;
 
 	@Autowired
 	private CustomerService			customerService;
@@ -172,8 +172,8 @@ public class NewspaperService {
 		for (final Article a : this.articleService.findByNewspaperId(newspaperToDelete.getId()))
 			this.articleService.deleteFromNewspaper(a);
 
-		for (final SubscriptionNewspaper s : this.subscriptionNewspaperService.findByNewspaperId(newspaperToDelete.getId()))
-			this.subscriptionNewspaperService.deleteFromNewspaper(s);
+		for (final Subscription s : this.subscriptionService.findByNewspaperId(newspaperToDelete.getId()))
+			this.subscriptionService.deleteFromNewspaper(s);
 
 		this.newspaperRepository.delete(this.findOne(newspaperToDelete.getId()));
 
@@ -326,6 +326,30 @@ public class NewspaperService {
 
 		return result;
 
+	}
+
+	public Page<Newspaper> findAddNewspaper(final int volumeId, final int userId, final int page, final int size) {
+		Page<Newspaper> result;
+		Authority authority;
+		Assert.isTrue(volumeId != 0);
+		Assert.isTrue(userId != 0);
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.newspaperRepository.findAddNewspaper(volumeId, userId, this.getPageable(page, size));
+
+		return result;
+
+	}
+
+	public Page<Newspaper> findByVolumeAllPublics(final int volumeId, final int page, final int size) {
+		Page<Newspaper> result;
+
+		result = this.newspaperRepository.findByVolumeAllPublics(volumeId, this.getPageable(page, size));
+
+		return result;
 	}
 
 	public Collection<Newspaper> findForSubscribe(final int customerId, final int page, final int size) {

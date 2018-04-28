@@ -54,6 +54,29 @@
 </jstl:if>
 
 	<security:authorize access="hasRole('USER')">
+		<display:column>
+			<jstl:if test="${requestURI.equals('newspaper/user/addNewspaper.do')}">
+			<spring:url var="urlAddNewspaper" value="volume/user/addNewspaper.do">
+						<spring:param name="newspaperId" value="${row.getId()}" />
+						<spring:param name="volumeId" value="${volumeId}" />
+					</spring:url>
+		<a href="${urlAddNewspaper}"> <spring:message
+					code="newspaper.volume.add" />
+			</a>
+		
+			</jstl:if>
+			
+			<jstl:if test="${requestURI.equals('newspaper/user/deleteNewspaper.do')}">
+			<spring:url var="urlDeleteNewspaper" value="volume/user/deleteNewspaper.do">
+						<spring:param name="newspaperId" value="${row.getId()}" />
+						<spring:param name="volumeId" value="${volumeId}" />
+					</spring:url>
+		<a href="${urlDeleteNewspaper}"> <spring:message
+					code="newspaper.volume.delete" />
+			</a>
+		
+			</jstl:if>
+		</display:column>
 	
 	<display:column>
 		<jstl:if test="${ row.getIsPublished()==false || row.getPublicationDate()> currentMomentVar}">
@@ -146,7 +169,11 @@
 </jstl:if>
 
 <jstl:if test="${requestURI.equals('newspaper/listSearch.do')}">
-		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}" parameter="keyword" parameterValue="${keyword}"/>
+		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}" parameter="volumeId" parameterValue="${volumeId}"/>
+</jstl:if>
+
+<jstl:if test="${requestURI.equals('newspaper/user/addNewspaper.do') || requestURI.equals('newspaper/user/deleteNewspaper.do') || requestURI.equals('newspaper/listFromVolume.do') }">
+		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}" parameter="volumeId" parameterValue="${volumeId}"/>
 </jstl:if>
 
 

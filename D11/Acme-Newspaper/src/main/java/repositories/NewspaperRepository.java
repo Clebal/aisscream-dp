@@ -17,7 +17,7 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n where n.publisher.id = ?1")
 	Page<Newspaper> findByUserId(int userId, Pageable pageable); //Sirve para ver tus newspaper
 
-	@Query("select s.newspaper from SubscriptionNewspaper s where s.customer.id = ?1")
+	@Query("select s.newspaper from Subscription s where s.customer.id = ?1")
 	Page<Newspaper> findByCustomerId(int customerId, Pageable pageable); //Sirve para ver todas tus subscripciones
 
 	//Lista de que estén publicados y estén públicos
@@ -33,10 +33,10 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	Page<Newspaper> findTaboos(Pageable pageable);
 
 	//Lista de newspapers privados y publicados a los que te puedes subscribir
-	@Query(value = "select n.id from Newspaper n where n.id NOT IN (select (s.newspaper_id) from SubscriptionNewspaper s where s.customer_id=?1) and n.isPrivate=true", nativeQuery = true)
+	@Query(value = "select n.id from Newspaper n where n.id NOT IN (select (s.newspaper_id) from Subscription s where s.customer_id=?1) and n.isPrivate=true", nativeQuery = true)
 	Collection<Integer> findForSubscribe(int customerId); //Sirve para suscribirse a un newspaper
 
-	@Query(value = "select count(n.id) from Newspaper n where n.id NOT IN (select (s.newspaper_id) from SubscriptionNewspaper s where s.customer_id=?1) and n.isPrivate=true", nativeQuery = true)
+	@Query(value = "select count(n.id) from Newspaper n where n.id NOT IN (select (s.newspaper_id) from Subscription s where s.customer_id=?1) and n.isPrivate=true", nativeQuery = true)
 	Integer countFindForSubscribe(int customerId);
 
 	@Query("select n from Newspaper n where cast((select count(a) from Article a where a.newspaper.id=n.id)as float)>(select avg(cast((select count(a2) from Article a2 where a2.newspaper.id=n2.id)as float))*1.1 from Newspaper n2)")
@@ -47,6 +47,12 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 
 	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_DATE and n.isPublished=true and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
 	Page<Newspaper> findPublishedSearch(String keyWord, Pageable pageable);
+
+	@Query("select n from Newspaper n, Volume v where n.publisher.id=?2 and n.publicationDate <= CURRENT_DATE and n.isPublished=true and v.user.id=?2 and n not member of v.newspapers")
+	Page<Newspaper> findAddNewspaper(int volumeId, int userId, Pageable pageable);
+
+	@Query("select n from Volume v join v.newspapers n where n.isPrivate=false and v.id=?1")
+	Page<Newspaper> findByVolumeAllPublics(int volumeId, Pageable pageable);
 
 	@Query("select  avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float )), sqrt(sum((select count(n) from Newspaper n where n.publisher.id=u.id)*(select count(n) from Newspaper n where n.publisher.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float ))*avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float ))) from User u")
 	Double[] avgStandarDevNewspapersCreatedPerUser();

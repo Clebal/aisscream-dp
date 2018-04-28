@@ -45,6 +45,8 @@
         
        	<value>/views/folder/messages</value>
        	<value>/views/message/messages</value>
+       	
+       	<value>/views/volume/messages</value>
         
 	</util:list>
 

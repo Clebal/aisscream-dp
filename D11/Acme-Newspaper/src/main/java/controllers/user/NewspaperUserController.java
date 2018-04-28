@@ -1,6 +1,9 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,8 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.NewspaperService;
 import services.UserService;
+import services.VolumeService;
 import controllers.AbstractController;
 import domain.Newspaper;
+import domain.Volume;
 
 @Controller
 @RequestMapping("/newspaper/user")
@@ -27,6 +32,9 @@ public class NewspaperUserController extends AbstractController {
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private VolumeService		volumeService;
 
 
 	// Constructor
@@ -51,6 +59,53 @@ public class NewspaperUserController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/addNewspaper", method = RequestMethod.GET)
+	public ModelAndView listAddNewspaper(@RequestParam final int volumeId, @RequestParam(required = false, defaultValue = "1") final Integer page) {
+		ModelAndView result;
+		Page<Newspaper> newspapers;
+
+		newspapers = this.newspaperService.findAddNewspaper(volumeId, this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), page, 5);
+		Assert.notNull(newspapers);
+
+		result = new ModelAndView("newspaper/list");
+		result.addObject("pageNumber", newspapers.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("newspapers", newspapers.getContent());
+		result.addObject("requestURI", "newspaper/user/addNewspaper.do");
+		result.addObject("volumeId", volumeId);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/deleteNewspaper", method = RequestMethod.GET)
+	public ModelAndView listDeleteNewspaper(@RequestParam final int volumeId, @RequestParam(required = false, defaultValue = "1") final Integer page) {
+		ModelAndView result;
+		List<Newspaper> newspapers;
+		Volume volume;
+		Integer pageNumber, fromId, toId;
+
+		volume = this.volumeService.findOneToEdit(volumeId);
+		Assert.isTrue(volume.getNewspapers().size() > 1);
+
+		newspapers = new ArrayList<Newspaper>(volume.getNewspapers());
+		Assert.notNull(newspapers);
+
+		fromId = this.fromIdAndToId(newspapers.size(), page)[0];
+		toId = this.fromIdAndToId(newspapers.size(), page)[1];
+
+		pageNumber = newspapers.size();
+
+		result = new ModelAndView("newspaper/list");
+
+		pageNumber = (int) Math.floor(((pageNumber / (5 + 0.0)) - 0.1) + 1);
+		result.addObject("pageNumber", pageNumber);
+		result.addObject("page", page);
+		result.addObject("newspapers", newspapers.subList(fromId, toId));
+		result.addObject("requestURI", "newspaper/user/deleteNewspaper.do");
+		result.addObject("volumeId", volumeId);
+
+		return result;
+	}
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
@@ -137,6 +192,35 @@ public class NewspaperUserController extends AbstractController {
 
 		result.addObject("newspaper", newspaper);
 		result.addObject("message", messageCode);
+
+		return result;
+	}
+
+	private Integer[] fromIdAndToId(final Integer tamañoAux, final Integer page) {
+		Integer tamaño, pageAux, fromId, toId;
+		tamaño = tamañoAux;
+		Integer[] result;
+
+		result = new Integer[2];
+
+		pageAux = page;
+		if (page <= 0)
+			pageAux = 1;
+
+		fromId = (pageAux - 1) * 5;
+		if (fromId > tamaño)
+			fromId = 0;
+		toId = (pageAux * 5);
+		if (tamaño > 5) {
+			if (toId > tamaño && fromId == 0)
+				toId = 5;
+			else if (toId > tamaño && fromId != 0)
+				toId = tamaño;
+		} else
+			toId = tamaño;
+
+		result[0] = fromId;
+		result[1] = toId;
 
 		return result;
 	}

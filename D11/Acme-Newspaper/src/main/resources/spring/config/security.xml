@@ -116,6 +116,16 @@
 		<security:intercept-url pattern="/newspaper/list.do" access="permitAll" />
 		<security:intercept-url pattern="/newspaper/listSearch.do" access="permitAll" />
 		
+		<security:intercept-url pattern="/volume/display.do" access="permitAll" />
+		<security:intercept-url pattern="/volume/list.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/volume/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/user/addNewspaper.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/user/deleteNewspaper.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/user/edit.do" access="hasRole('USER')" />
+		
+		
 			
 		<!-- Carlos -->
  		<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />
