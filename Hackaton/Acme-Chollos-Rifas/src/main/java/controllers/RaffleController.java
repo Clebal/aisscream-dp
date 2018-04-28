@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -49,7 +47,7 @@ public class RaffleController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int raffleId, @RequestParam(required=false) final String paymentId, @RequestParam(required=false) final String PayerID) {
+	public ModelAndView display(@RequestParam final int raffleId) {
 		ModelAndView result;
 		Raffle raffle;
 		
@@ -58,8 +56,6 @@ public class RaffleController extends AbstractController {
 		
 		result = new ModelAndView("raffle/display");
 		result.addObject("raffle", raffle);
-		
-		if(paymentId != null) paypalClient.completePayment(paymentId, PayerID);
 		
 		return result;
 	}

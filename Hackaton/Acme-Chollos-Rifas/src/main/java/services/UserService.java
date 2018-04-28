@@ -18,7 +18,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.User;
-import forms.UserForm;
+import forms.ActorForm;
 
 @Service
 @Transactional
@@ -155,7 +155,7 @@ public class UserService {
 		return result;
 	}
 
-	public User reconstruct(final UserForm userForm, final BindingResult binding) {
+	public User reconstruct(final ActorForm userForm, final BindingResult binding) {
 		User result;
 
 		if (userForm.getId() == 0) {
@@ -167,14 +167,10 @@ public class UserService {
 
 			result.getUserAccount().setUsername(userForm.getUsername());
 			result.getUserAccount().setPassword(userForm.getPassword());
-			
-			result.setBirthdate(userForm.getBirthdate());
-
 		} else {
 			result = this.findOne(userForm.getId());
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
-			userForm.setBirthdate(result.getBirthdate());
 		}
 
 		result.setName(userForm.getName());

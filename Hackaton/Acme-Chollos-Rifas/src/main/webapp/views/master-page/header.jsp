@@ -68,7 +68,21 @@
 	        <security:authorize access="isAuthenticated()">		
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="actor/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
+					<security:authorize access="hasRole('USER')">
+						<li><a href="actor/user/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('SPONSOR')">
+						<li><a href="actor/sponsor/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('MODERATOR')">
+						<li><a href="actor/moderator/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('ADMIN')">
+						<li><a href="actor/administrator/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('COMPANY')">
+						<li><a href="actor/company/profile.do"><spring:message code="master.page.profile.edit" /></a></li>
+					</security:authorize>
 				</ul>
 			</security:authorize>
         </li>

@@ -1,7 +1,4 @@
-
 package controllers;
-
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,14 +10,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.Authority;
 import security.LoginService;
 import services.ActorService;
+import services.AdministratorService;
+import services.CompanyService;
 import services.ModeratorService;
+import services.SponsorService;
 import services.UserService;
 import domain.Actor;
+import domain.Administrator;
+import domain.Company;
 import domain.Moderator;
+import domain.Sponsor;
 import domain.User;
+import forms.ActorForm;
 import forms.CompanyForm;
 import forms.ModeratorForm;
 import forms.SponsorForm;
@@ -36,10 +39,18 @@ public class ActorController extends AbstractController {
 
 	@Autowired
 	private UserService		userService;
+	
+	@Autowired
+	private SponsorService		sponsorService;
 
 	@Autowired
 	private ModeratorService	moderatorService;
 
+	@Autowired
+	private CompanyService	companyService;
+	
+	@Autowired
+	private AdministratorService	administratorService;
 
 	// Constructors
 	public ActorController() {
@@ -47,18 +58,18 @@ public class ActorController extends AbstractController {
 	}
 
 	// Profile
-//	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-//	public ModelAndView edit() {
-//		ModelAndView result;
-//		Actor actor;
-//
-//		actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-//		Assert.notNull(actor);
-//
-//		result = this.createEditModelAndView(actor);
-//
-//		return result;
-//	}
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	public ModelAndView edit(@PathVariable(value="actor") final String model) {
+		ModelAndView result;
+		Actor actor;
+
+		actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(actor);
+
+		result = this.editModelAndView(actor, model);
+
+		return result;
+	}
 	
 	// Creation
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -97,88 +108,138 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(final ActorForm actorForm, final BindingResult binding, @RequestParam final String model) {
+		ModelAndView result;
+		Actor actor;
+		boolean next;
 
-//	// Ancillary methods
-//	protected ModelAndView createEditModelAndView(final Actor actor) {
-//		ModelAndView result;
-//
-//		result = this.createEditModelAndView(actor, null);
-//
-//		return result;
-//	}
-//
-//	protected ModelAndView createEditModelAndView(final Actor actor, final String messageCode) {
-//		ModelAndView result;
-//		boolean canEdit;
-//		String requestURI;
-//		String tipoActor;
-//		UserForm userForm;
-//		ModeratorForm moderatorForm;
-//		Moderator moderator;
-//		Authority authorityUser, authorityModerator;
-//
-//		//Solo puede acceder admin
-//		authorityUser = new Authority();
-//		authorityUser.setAuthority("USER");
-//		authorityModerator = new Authority();
-//		authorityModerator.setAuthority("MANAGER");
-//
-//		//Creamos la URI
-//		tipoActor = actor.getClass().getSimpleName().toLowerCase();
-//		requestURI = "actor/" + tipoActor + "/edit.do";
-//
-//		canEdit = false;
-//		result = new ModelAndView(tipoActor + "/edit");
-//
-//		if (actor.getUserAccount().getId() == LoginService.getPrincipal().getId())
-//			canEdit = true;
-//
-//		//Añadimos los parámetros
-//		if (actor.getUserAccount().getAuthorities().contains(authorityUser)) {
-//
-//			userForm = new UserForm();
-//
-//			userForm.setAddress(actor.getAddress());
-//			userForm.setBirthdate(actor.getBirthdate());
-//			userForm.setEmail(actor.getEmail());
-//			userForm.setId(actor.getId());
-//			userForm.setName(actor.getName());
-//			userForm.setPhone(actor.getPhone());
-//			userForm.setSurname(actor.getSurname());
-//			userForm.setUsername(actor.getUserAccount().getUsername());
-//
-//			result.addObject("userForm", userForm);
-//
-//		} else if (actor.getUserAccount().getAuthorities().contains(authorityModerator)) {
-//
-//			moderatorForm = new ModeratorForm();
-//
-//			moderatorForm.setAddress(actor.getAddress());
-//			moderatorForm.setBirthdate(actor.getBirthdate());
-//			moderatorForm.setEmail(actor.getEmail());
-//			moderatorForm.setId(actor.getId());
-//			moderatorForm.setName(actor.getName());
-//			moderatorForm.setPhone(actor.getPhone());
-//			moderatorForm.setSurname(actor.getSurname());
-//			moderatorForm.setUsername(actor.getUserAccount().getUsername());
-//
-//			if (LoginService.isAuthenticated()) {
-//				moderator = this.moderatorService.findByUserAccountId(LoginService.getPrincipal().getId());
-//				Assert.notNull(moderator);
-////				moderatorForm.setVat(moderator.getVat());
-//			}
-//
-//			result.addObject("moderatorForm", moderatorForm);
-//
-//		} else
-//			result.addObject("administrator", actor);
-//
-//		//Añadimos objetos comunes
-//		result.addObject("message", messageCode);
-//		result.addObject("canEdit", canEdit);
-//		result.addObject("requestURI", requestURI);
-//
-//		return result;
-//	}
+		next = true;
+		result = null;
+		actor = null;
+		try {
+			if(model.equals("user")) actor = this.userService.reconstruct(actorForm, binding);
+			if(model.equals("sponsor")) actor = this.sponsorService.reconstruct(actorForm, binding);
+			if(model.equals("moderator")) actor = this.moderatorService.reconstruct(actorForm, binding);
+			if(model.equals("administrator")) actor = this.administratorService.reconstruct(actorForm, binding);
+		} catch (final Throwable e) {
+
+			if (binding.hasErrors())
+				result = this.createModelAndView(actorForm, model);
+			else
+				result = this.createModelAndView(actorForm, model, "actor.commit.error");
+
+			next = false;
+		}
+
+		if (next)
+			if (binding.hasErrors()) {
+				result = this.createModelAndView(actorForm, model);
+			} else
+				try {
+					if(model.equals("user")) this.userService.save((User) actor);
+					if(model.equals("sponsor")) this.sponsorService.save((Sponsor) actor);
+					if(model.equals("moderator")) this.moderatorService.save((Moderator) actor);
+					if(model.equals("administrator")) this.administratorService.save((Administrator) actor);
+					result = new ModelAndView("redirect:/");
+				} catch (final Throwable oops) {
+					result = this.createModelAndView(actorForm, model, "actor.commit.error");
+				}
+
+		return result;
+	}
+	
+	// Ancillary methods
+	protected ModelAndView createModelAndView(final ActorForm actorForm, final String model) {
+		ModelAndView result;
+
+		result = this.createModelAndView(actorForm, model, null);
+
+		return result;
+	}
+
+	protected ModelAndView createModelAndView(final ActorForm actorForm, final String model, final String messageCode) {
+		ModelAndView result;
+		String requestURI;
+
+		requestURI = "actor/"+model+"/edit.do";
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("model", model);
+		result.addObject("actorForm", actorForm);
+		result.addObject("message", messageCode);
+		result.addObject("requestURI", requestURI);
+
+		return result;
+	}
+
+	// Ancillary methods
+	protected ModelAndView editModelAndView(final Actor actor, final String model) {
+		ModelAndView result;
+
+		result = this.editModelAndView(actor, model, null);
+
+		return result;
+	}
+
+	protected ModelAndView editModelAndView(final Actor actor, final String model, final String messageCode) {
+		ModelAndView result;
+		boolean canEdit;
+		CompanyForm companyForm;
+		Company company;
+		ActorForm actorForm;
+
+		canEdit = false;
+		
+		result = new ModelAndView("actor/edit");
+
+		if (actor.getUserAccount().getId() == LoginService.getPrincipal().getId()) canEdit = true;
+
+		if (model.equals("user") || model.equals("moderator") || model.equals("sponsor") || model.equals("administrator")) {
+
+			actorForm = new ActorForm();
+
+			actorForm.setAddress(actor.getAddress());
+			actorForm.setEmail(actor.getEmail());
+			actorForm.setId(actor.getId());
+			actorForm.setName(actor.getName());
+			actorForm.setPhone(actor.getPhone());
+			actorForm.setSurname(actor.getSurname());
+			actorForm.setUsername(actor.getUserAccount().getUsername());
+			actorForm.setIdentifier(actor.getIdentifier());
+
+			result.addObject("actorForm", actorForm);
+
+		} else if (model.equals("company")) {
+
+			companyForm = new CompanyForm();
+
+			companyForm.setAddress(actor.getAddress());
+			companyForm.setEmail(actor.getEmail());
+			companyForm.setId(actor.getId());
+			companyForm.setName(actor.getName());
+			companyForm.setPhone(actor.getPhone());
+			companyForm.setSurname(actor.getSurname());
+			companyForm.setUsername(actor.getUserAccount().getUsername());
+			companyForm.setIdentifier(actor.getIdentifier());
+			
+			company = this.companyService.findOne(actor.getId());
+			Assert.notNull(company);
+			companyForm.setCompanyName(company.getCompanyName());
+			companyForm.setType(company.getType());
+
+			result.addObject("actorForm", companyForm);
+
+		}
+
+		result.addObject("message", messageCode);
+		result.addObject("canEdit", canEdit);
+		result.addObject("requestURI", "actor/" + model + "/edit.do");
+		result.addObject("model", model);
+
+		return result;
+	}
 
 }

@@ -11,8 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import domain.Moderator;
-import forms.ModeratorForm;
-
+import forms.ActorForm;
 import repositories.ModeratorRepository;
 import security.Authority;
 import security.LoginService;
@@ -110,7 +109,7 @@ public class ModeratorService {
 	}
 	
 	// Reconstruct
-	public Moderator reconstruct(final ModeratorForm moderatorForm, final BindingResult binding) {
+	public Moderator reconstruct(final ActorForm moderatorForm, final BindingResult binding) {
 		Moderator result;
 
 		if (moderatorForm.getId() == 0) {
@@ -122,14 +121,10 @@ public class ModeratorService {
 
 			result.getUserAccount().setUsername(moderatorForm.getUsername());
 			result.getUserAccount().setPassword(moderatorForm.getPassword());
-			result.setBirthdate(moderatorForm.getBirthdate());
-
-
 		} else {
 			result = this.findOne(moderatorForm.getId());
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(moderatorForm.getUsername()));
-			moderatorForm.setBirthdate(result.getBirthdate());
 		}
 
 		result.setName(moderatorForm.getName());

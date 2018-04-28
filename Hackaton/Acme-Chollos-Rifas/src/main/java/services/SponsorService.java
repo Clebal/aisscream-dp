@@ -11,8 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import domain.Sponsor;
-import forms.SponsorForm;
-
+import forms.ActorForm;
 import repositories.SponsorRepository;
 import security.Authority;
 import security.LoginService;
@@ -110,7 +109,7 @@ public class SponsorService {
 	}
 	
 	// Reconstruct
-	public Sponsor reconstruct(final SponsorForm sponsorForm, final BindingResult binding) {
+	public Sponsor reconstruct(final ActorForm sponsorForm, final BindingResult binding) {
 		Sponsor result;
 
 		if (sponsorForm.getId() == 0) {
@@ -122,13 +121,10 @@ public class SponsorService {
 
 			result.getUserAccount().setUsername(sponsorForm.getUsername());
 			result.getUserAccount().setPassword(sponsorForm.getPassword());
-			result.setBirthdate(sponsorForm.getBirthdate());
-
 		} else {
 			result = this.findOne(sponsorForm.getId());
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(sponsorForm.getUsername()));
-			sponsorForm.setBirthdate(result.getBirthdate());
 		}
 
 		result.setName(sponsorForm.getName());

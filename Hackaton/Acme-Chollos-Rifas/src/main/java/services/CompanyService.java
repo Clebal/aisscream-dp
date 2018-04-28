@@ -110,7 +110,7 @@ public class CompanyService {
 	}
 	
 	// Reconstruct
-	public Company reconstruct(final CompanyForm companyForm, final BindingResult binding) {
+	public Company reconstruct(CompanyForm companyForm, final BindingResult binding) {
 		Company result;
 
 		if (companyForm.getId() == 0) {
@@ -122,13 +122,10 @@ public class CompanyService {
 
 			result.getUserAccount().setUsername(companyForm.getUsername());
 			result.getUserAccount().setPassword(companyForm.getPassword());
-			result.setBirthdate(companyForm.getBirthdate());
-
 		} else {
 			result = this.findOne(companyForm.getId());
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(companyForm.getUsername()));
-			companyForm.setBirthdate(result.getBirthdate());
 		}
 
 		result.setName(companyForm.getName());
@@ -136,7 +133,9 @@ public class CompanyService {
 		result.setAddress(companyForm.getAddress());
 		result.setEmail(companyForm.getEmail());
 		result.setPhone(companyForm.getPhone());
-		result.setIdentifier(companyForm.getIdentifier());
+		result.setIdentifier(companyForm.getIdentifier());		
+		result.setCompanyName(companyForm.getCompanyName());
+		result.setType(companyForm.getCompanyName());
 		
 		this.validator.validate(companyForm, binding);
 

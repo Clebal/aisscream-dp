@@ -10,7 +10,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="${requestURI}" modelAttribute="actorForm">
+<form:form action="${requestURI}?model=${model}" modelAttribute="actorForm">
 	
 	<form:hidden path="id" />
 
@@ -42,11 +42,6 @@
 	
 	<!-- Address -->
 	<acme:textbox code="actor.address" path="address"/>
-	
-	<!-- Birthdate -->
-	<jstl:if test="${actorForm.getId()==0 }">
-	<acme:textbox code="actor.birthdate" path="birthdate" placeholder="dd/MM/yyyy"/>
-	</jstl:if>
 	
 	<!-- Email -->
 	<acme:textbox code="actor.email" path="email"/>

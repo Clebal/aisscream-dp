@@ -20,7 +20,7 @@ public class PaypalClient {
 	private String clientId = "AW1jnKlMWtcJ89S06Cb_3wvUC2EezkhFwKCm0oJWov6wExVxI1q6rKr1My3Hafc6s41rJc-yx-etXV1q";
 	private String clientSecret = "EA68rBYMMp1OYW9Oc_IF4TIBC7_AND2M6j9baEb1-ijh7l_8qgXgZ1moX_rJjX2SKAa4wGsyCG3fp86_";
 	
-	public Map<String, Object> createPayment(String sum, int rifaId){
+	public Map<String, Object> createPayment(String sum, int raffleId, int amountItem){
 		
 	    Map<String, Object> response = new HashMap<String, Object>();
   
@@ -43,8 +43,8 @@ public class PaypalClient {
 	    payment.setTransactions(transactions);
 
 	    RedirectUrls redirectUrls = new RedirectUrls();
-	    redirectUrls.setCancelUrl("http://localhost:8080/Acme-Chollos-Rifas/rifa/display.do?rifaId="+rifaId);
-	    redirectUrls.setReturnUrl("http://localhost:8080/Acme-Chollos-Rifas/rifa/display.do?rifaId="+rifaId);
+	    redirectUrls.setCancelUrl("http://localhost:8080/Acme-Chollos-Rifas/raffle/display.do?raffleId="+raffleId);
+	    redirectUrls.setReturnUrl("http://localhost:8080/Acme-Chollos-Rifas/raffle/user/completepayment.do?raffleId="+raffleId+"&amount="+amountItem);
 	    payment.setRedirectUrls(redirectUrls);
 	    
 	    Payment createdPayment;

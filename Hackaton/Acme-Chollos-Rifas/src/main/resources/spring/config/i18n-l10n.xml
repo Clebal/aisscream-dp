@@ -25,7 +25,6 @@
 		
 		<value>/views/termCondition/messages</value>
 		
-		<value>/views/administrator/messages</value>
 		<value>/views/actor/messages</value>
 		<value>/views/user/messages</value>
 		
@@ -33,7 +32,6 @@
 		<value>/views/dashboard/messages</value>
 		
 		<value>/views/creditcard/messages</value>
-		<value>/views/manager/messages</value>
 		<value>/views/configuration/messages</value>
 		
 		<value>/views/raffle/messages</value>

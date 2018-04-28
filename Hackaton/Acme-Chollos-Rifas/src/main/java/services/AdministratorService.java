@@ -18,6 +18,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Administrator;
+import forms.ActorForm;
 
 @Service
 @Transactional
@@ -105,19 +106,32 @@ public class AdministratorService {
 		return result;
 	}
 
-	public Administrator reconstruct(final Administrator administrator, final BindingResult binding) {
+	public Administrator reconstruct(final ActorForm administratorForm, final BindingResult binding) {
 		Administrator result;
-		Administrator aux;
 
-		result = administrator;
-		aux = this.findOne(administrator.getId());
-		Assert.notNull(result);
+		if (administratorForm.getId() == 0) {
+			result = new Administrator();
 
-		result.setUserAccount(aux.getUserAccount());
-		result.setVersion(aux.getVersion());
-		result.setBirthdate(aux.getBirthdate());
+			Assert.notNull(result);
+			Assert.isTrue(administratorForm.getCheckPassword().equals(administratorForm.getPassword()));
+			Assert.isTrue(administratorForm.isCheck());
 
-		this.validator.validate(result, binding);
+			result.getUserAccount().setUsername(administratorForm.getUsername());
+			result.getUserAccount().setPassword(administratorForm.getPassword());
+		} else {
+			result = this.findOne(administratorForm.getId());
+			Assert.notNull(result);
+			Assert.isTrue(result.getUserAccount().getUsername().equals(administratorForm.getUsername()));
+		}
+
+		result.setName(administratorForm.getName());
+		result.setSurname(administratorForm.getSurname());
+		result.setAddress(administratorForm.getAddress());
+		result.setEmail(administratorForm.getEmail());
+		result.setPhone(administratorForm.getPhone());
+		result.setIdentifier(administratorForm.getIdentifier());
+
+		this.validator.validate(administratorForm, binding);
 
 		return result;
 	}

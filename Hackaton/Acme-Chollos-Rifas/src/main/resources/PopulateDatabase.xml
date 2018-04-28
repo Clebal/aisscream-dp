@@ -162,7 +162,6 @@
 		<property name="email" value="user1@acme.com" />
 		<property name="phone" value="+34618396001" />
 		<property name="address" value="Calle Sin Número, 123" />
-		<property name="birthdate" value="18/11/1997" />
 		<property name="userAccount" ref="userAccountUser1" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -172,7 +171,6 @@
 		<property name="surname" value="López González" />
 		<property name="email" value="user2@acme.com" />
 		<property name="address" value="Calle Falsa, 123" />
-		<property name="birthdate" value="02/12/1998" />
 		<property name="userAccount" ref="userAccountUser2" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -182,7 +180,6 @@
 		<property name="surname" value="García Trinidad" />
 		<property name="email" value="user3@acme.com" />
 		<property name="phone" value="+3461738000" />
-		<property name="birthdate" value="16/02/1996" />
 		<property name="userAccount" ref="userAccountUser3" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -191,7 +188,6 @@
 		<property name="name" value="Sergio" />
 		<property name="surname" value="Sánchez Ortiz" />
 		<property name="email" value="user4@acme.com" />
-		<property name="birthdate" value="02/11/2002" />
 		<property name="userAccount" ref="userAccountUser4" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -201,7 +197,6 @@
 		<property name="surname" value="Casillas Martín" />
 		<property name="email" value="user5@acme.com" />
 		<property name="phone" value="+3461738010" />
-		<property name="birthdate" value="16/02/1996" />
 		<property name="userAccount" ref="userAccountUser5" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -211,7 +206,6 @@
 		<property name="surname" value="Crespo Sánchez" />
 		<property name="email" value="user6@acme.com" />
 		<property name="phone" value="+3461738011" />
-		<property name="birthdate" value="18/02/1996" />
 		<property name="userAccount" ref="userAccountUser6" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -221,7 +215,6 @@
 		<property name="name" value="Administrator" />
 		<property name="surname" value="1" />
 		<property name="email" value="administrator@acme.com" />
-		<property name="birthdate" value="25/08/1995" />
 		<property name="userAccount" ref="userAccountAdministrator" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -332,7 +325,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="email" value="moderator1@acme.com" />
 		<property name="phone" value="+34602245841" />
 		<property name="address" value="Calle El Río, 2" />
-		<property name="birthdate" value="17/03/1985" />
 		<property name="userAccount" ref="userAccountModerator1" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -343,7 +335,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="email" value="moderator2@acme.com" />
 		<property name="phone" value="+34752354214" />
 		<property name="address" value="Calle García de la Jara, 35" />
-		<property name="birthdate" value="24/06/1979" />
 		<property name="userAccount" ref="userAccountModerator2" />
 		<property name="identifier" value="00234559-M" />
 	</bean>
@@ -419,7 +410,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="email" value="company1@acme.com" />
 		<property name="phone" value="+34618396001" />
 		<property name="address" value="Calle El Atributo, 123" />
-		<property name="birthdate" value="18/11/1992" />
 		<property name="identifier" value="20063918X" />
 		<property name="userAccount" ref="userAccountCompany1" />
 		<property name="companyName" value="Working4Enjoyment" />
@@ -432,7 +422,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="email" value="company2@acme.com" />
 		<property name="phone" value="+34618392011" />
 		<property name="address" value="Calle Hojaldre, 4606" />
-		<property name="birthdate" value="18/09/1990" />
 		<property name="identifier" value="20123918Y" />
 		<property name="userAccount" ref="userAccountCompany2" />
 		<property name="companyName" value="Sukafe" />
@@ -445,7 +434,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="email" value="company3@acme.com" />
 		<property name="phone" value="+34621338011" />
 		<property name="address" value="Calle De La Pizza, 13" />
-		<property name="birthdate" value="12/04/1990" />
 		<property name="identifier" value="20123918Y" />
 		<property name="userAccount" ref="userAccountCompany3" />
 		<property name="companyName" value="AISS Cream" />

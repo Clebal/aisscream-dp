@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
+import domain.CreditCard;
 import domain.Identifier;
 import domain.Raffle;
 import domain.Ticket;
@@ -26,10 +29,12 @@ public class TicketService {
 	@Autowired
 	private TicketRepository ticketRepository;
 	
+	// Supporting services
 	@Autowired
 	private IdentifierService	identifierService;
 	
-	// Supporting services
+	@Autowired
+	private Validator			validator;
 	
 	// Constructor
 	public TicketService() {
@@ -37,13 +42,14 @@ public class TicketService {
 	}
 	
 	// Simple CRUD methods
-	public Ticket create(final Raffle raffle, final User user) {
+	public Ticket create(final Raffle raffle, final User user, final CreditCard creditCard) {
 		Ticket result;
 		
 		result = new Ticket();
 		
 		result.setRaffle(raffle);
 		result.setUser(user);
+		result.setCreditCard(creditCard);
 		
 		return result;
 	}
@@ -94,7 +100,7 @@ public class TicketService {
 	}
 	
 	// Auxiliary methods
-	private Collection<Ticket> reconstruct(final TicketForm ticketForm) {
+	public Collection<Ticket> reconstruct(final TicketForm ticketForm, final BindingResult binding) {
 		Collection<Ticket> result;
 		Ticket ticket;
 		
@@ -103,8 +109,11 @@ public class TicketService {
 		result = new ArrayList<Ticket>();
 		
 		for(int i = 0; i < ticketForm.getAmount(); i++) {
-			ticket = this.create(ticketForm.getRaffle(), ticketForm.getUser());
+			ticket = this.create(ticketForm.getRaffle(), ticketForm.getUser(), ticketForm.getCreditCard());
 			ticket.setCode(this.generateUniqueCode(ticketForm.getRaffle()));
+			
+			if(binding != null) this.validator.validate(ticket, binding);
+			
 			result.add(ticket);
 		}
 		

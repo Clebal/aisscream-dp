@@ -46,6 +46,12 @@
 		<![endif]-->
 		
 		<link rel="stylesheet" type="text/css" href="styles/cookieconsent.min.css" />
+				
+		<!-- jQuery 1.12.4 -->
+		<script src="scripts/jquery.min.js"></script>
+		
+		<!-- Boostrap 3.3.7 -->
+		<script src="scripts/bootstrap.min.js"></script>
 
 	</head>
 	<body>
@@ -67,12 +73,6 @@
 		</section>
 	
 		<tiles:insertAttribute name="footer" />
-		
-		<!-- jQuery 1.12.4 -->
-		<script src="scripts/jquery.min.js"></script>
-		
-		<!-- Boostrap 3.3.7 -->
-		<script src="scripts/bootstrap.min.js"></script>
 		
 		<!-- Compatibilidad ES5 con IE8 -->
 		<script src="scripts/polyfills.js"></script>

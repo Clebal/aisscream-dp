@@ -6,11 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CompanyService;
 import controllers.AbstractController;
 import domain.Company;
+import forms.ActorForm;
 import forms.CompanyForm;
 
 @Controller
@@ -27,7 +29,7 @@ public class CompanyController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final CompanyForm actorForm, final BindingResult binding) {
+	public ModelAndView save(final CompanyForm actorForm, final BindingResult binding, @RequestParam final String model) {
 		ModelAndView result;
 		Company company;
 		boolean next;
@@ -62,7 +64,7 @@ public class CompanyController extends AbstractController {
 	}
 
 	// Ancillary methods
-	protected ModelAndView createEditModelAndView(final CompanyForm actorForm) {
+	protected ModelAndView createEditModelAndView(final ActorForm actorForm) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(actorForm, null);
@@ -70,7 +72,7 @@ public class CompanyController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final CompanyForm actorForm, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final ActorForm actorForm, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("actor/edit");
