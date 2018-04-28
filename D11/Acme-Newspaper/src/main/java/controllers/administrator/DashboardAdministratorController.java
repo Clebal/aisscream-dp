@@ -16,6 +16,9 @@ import services.CustomerService;
 import services.FollowUpService;
 import services.NewspaperService;
 import services.UserService;
+import services.AdvertisementService;
+import services.VolumeService;
+import services.SubscriptionVolumeService;
 import controllers.AbstractController;
 import domain.Newspaper;
 
@@ -41,7 +44,15 @@ public class DashboardAdministratorController extends AbstractController {
 
 	@Autowired
 	private CustomerService		customerService;
+	
+	@Autowired
+	private AdvertisementService		advertisementService;
 
+	@Autowired
+	private VolumeService		volumeService;
+	
+	@Autowired
+	private SubscriptionVolumeService		subscriptionVolumeService;
 
 	// Constructor
 	public DashboardAdministratorController() {
@@ -69,6 +80,11 @@ public class DashboardAdministratorController extends AbstractController {
 		final Double numberArticlesPerPublicNewspaper;
 		final Map<Newspaper, Double> ratioSuscribersPrivateVsTotalCustomer;
 		final Double averageRatioPrivateVsPublicNewspaperPerPublisher;
+		
+		final Double ratioNewspaperHaveAdvertisementVsHavent;
+		final Double ratioAdvertisementHaveTaboo;
+		final Double avgNewspaperPerVolume;
+		final Double ratioSubscriptionVolumeVsNewspaper;
 
 		int pageNumber;
 
@@ -92,6 +108,11 @@ public class DashboardAdministratorController extends AbstractController {
 
 		pageNumber = (int) Math.floor(((pageNumber / (5 + 0.0)) - 0.1) + 1);
 		averageRatioPrivateVsPublicNewspaperPerPublisher = this.newspaperService.ratioPrivateVersusPublicNewspaperPerPublisher();
+		
+		ratioNewspaperHaveAdvertisementVsHavent = this.advertisementService.ratioNewspaperHaveAdvertisementVsHavent();
+		ratioAdvertisementHaveTaboo = this.advertisementService.ratioAdvertisementHaveTaboo();
+		avgNewspaperPerVolume = this.volumeService.avgNewspaperPerVolume();
+		ratioSubscriptionVolumeVsNewspaper = this.subscriptionVolumeService.ratioSubscriptionVolumeVsNewspaper();
 
 		result = new ModelAndView("dashboard/display");
 
@@ -112,6 +133,10 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("numberArticlesPerPublicNewspaper", numberArticlesPerPublicNewspaper);
 		result.addObject("ratioSuscribersPrivateVsTotalCustomer", ratioSuscribersPrivateVsTotalCustomer);
 		result.addObject("averageRatioPrivateVsPublicNewspaperPerPublisher", averageRatioPrivateVsPublicNewspaperPerPublisher);
+		result.addObject("ratioNewspaperHaveAdvertisementVsHavent", ratioNewspaperHaveAdvertisementVsHavent);
+		result.addObject("ratioAdvertisementHaveTaboo", ratioAdvertisementHaveTaboo);
+		result.addObject("avgNewspaperPerVolume", avgNewspaperPerVolume);
+		result.addObject("ratioSubscriptionVolumeVsNewspaper", ratioSubscriptionVolumeVsNewspaper);
 		result.addObject("pageNumber", pageNumber / 2);
 		result.addObject("page", page);
 
