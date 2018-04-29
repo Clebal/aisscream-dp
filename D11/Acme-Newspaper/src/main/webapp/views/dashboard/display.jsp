@@ -127,6 +127,34 @@
 		<br/>
 		
 		<div class="container">
+			<acme:display code="dashboard.ratio.advertisement.newspaper" value="${ratioNewspaperHaveAdvertisementVsHavent}" formatNumber="true"/>
+			
+			
+		</div>
+		<br/>
+		
+		<div class="container">
+			<acme:display code="dashboard.ratio.advertisement" value="${ratioAdvertisementHaveTaboo}" formatNumber="true"/>
+			
+			
+		</div>
+		<br/>
+		
+		<div class="container">
+			<acme:display code="dashboard.avg.volume" value="${avgNewspaperPerVolume}" formatNumber="true"/>
+			
+			
+		</div>
+		<br/>
+		
+		<div class="container">
+			<acme:display code="dashboard.ratio.volume.newspaper" value="${ratioSubscriptionVolumeVsNewspaper}" formatNumber="true"/>
+			
+			
+		</div>
+		<br/>
+		
+		<div class="container">
 			
 			
 		</div>

@@ -17,7 +17,6 @@ import services.FollowUpService;
 import services.NewspaperService;
 import services.UserService;
 import services.AdvertisementService;
-import services.VolumeService;
 import services.SubscriptionVolumeService;
 import controllers.AbstractController;
 import domain.Newspaper;
@@ -47,9 +46,6 @@ public class DashboardAdministratorController extends AbstractController {
 	
 	@Autowired
 	private AdvertisementService		advertisementService;
-
-	@Autowired
-	private VolumeService		volumeService;
 	
 	@Autowired
 	private SubscriptionVolumeService		subscriptionVolumeService;
@@ -109,10 +105,10 @@ public class DashboardAdministratorController extends AbstractController {
 		pageNumber = (int) Math.floor(((pageNumber / (5 + 0.0)) - 0.1) + 1);
 		averageRatioPrivateVsPublicNewspaperPerPublisher = this.newspaperService.ratioPrivateVersusPublicNewspaperPerPublisher();
 		
-		ratioNewspaperHaveAdvertisementVsHavent = this.advertisementService.ratioNewspaperHaveAdvertisementVsHavent();
-		ratioAdvertisementHaveTaboo = this.advertisementService.ratioAdvertisementHaveTaboo();
-		avgNewspaperPerVolume = this.volumeService.avgNewspaperPerVolume();
-		ratioSubscriptionVolumeVsNewspaper = this.subscriptionVolumeService.ratioSubscriptionVolumeVsNewspaper();
+		ratioNewspaperHaveAdvertisementVsHavent = this.advertisementService.ratioNewspaperHaveAtLeastOneAdvertisementVSNoAdvertisement();
+		ratioAdvertisementHaveTaboo = this.advertisementService.ratioHaveTabooWords();
+		avgNewspaperPerVolume = this.newspaperService.averageNewspaperPerVolume();
+		ratioSubscriptionVolumeVsNewspaper = this.subscriptionVolumeService.ratioSubscritionVolumeVsSubscriptionNewspaper();
 
 		result = new ModelAndView("dashboard/display");
 
