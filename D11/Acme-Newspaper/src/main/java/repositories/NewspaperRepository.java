@@ -78,7 +78,7 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select avg(cast((select count(n) from Newspaper n where n.publisher.id = u.id and n.isPrivate = true) as float) / cast((select count(n2) from Newspaper n2 where n2.publisher.id = u.id and n2.isPrivate=false) as float )) from User u")
 	Double ratioPrivateVersusPublicNewspaperPerPublisher();
 
-	@Query("select (count(n)*1.0)/(select count(n1)*1.0 from Newspaper n1 where n1.advertisement.size = 0) from Newspaper n where n.advertisement.size > 0")
+	@Query("select (count(n)*1.0)/(select count(n1)*1.0 from Newspaper n1 where n1.advertisements.size = 0) from Newspaper n where n.advertisements.size > 0")
 	Double ratioNewspapersWithOneAdvertisementVsHaventAny();
 
 	@Query("select avg(v.newspapers.size) from Volume v")
