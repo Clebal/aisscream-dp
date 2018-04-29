@@ -113,16 +113,15 @@
 		<jstl:if test="${requestURI.equals('newspaper/list.do')}">
 		<display:column>
 			<a href="advertisement/agent/listLink.do?newspaperId=${row.getId()}"> <spring:message
-					code="newspaper.advertisement.link" />
+					code="newspaper.advertisement.unLink" />
 			</a>
 		</display:column>
 		
 		<display:column>
 			<a href="advertisement/agent/listUnlink.do?newspaperId=${row.getId()}"> <spring:message
-					code="newspaper.advertisement.unLink" />
+					code="newspaper.advertisement.link" />
 			</a>
 		</display:column>
-		
 		</jstl:if>	
 	</security:authorize>
 	
