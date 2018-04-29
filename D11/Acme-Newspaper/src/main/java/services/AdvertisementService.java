@@ -224,25 +224,25 @@ public class AdvertisementService {
 
 	}
 
-	public Collection<Advertisement> findByAgentIdUnlinkToNewspaper(final int newspaperId, final int page, final int size) {
-		Collection<Advertisement> result;
+	public Page<Advertisement> findByAgentIdUnlinkToNewspaper(final int newspaperId, final int page, final int size) {
+		Page<Advertisement> result;
 		Agent agent;
 
 		agent = this.agentService.findByUserAccountId(LoginService.getPrincipal().getId());
 
-		result = this.advertisementRepository.findByAgentIdUnLinkToNewspaper(agent.getId(), newspaperId);
+		result = this.advertisementRepository.findByAgentIdUnLinkToNewspaper(agent.getId(), newspaperId, this.getPageable(page, size));
 
 		return result;
 
 	}
 
-	public Collection<Advertisement> findByAgentIdLinkToNewspaper(final int newspaperId, final int page, final int size) {
-		Collection<Advertisement> result;
+	public Page<Advertisement> findByAgentIdLinkToNewspaper(final int newspaperId, final int page, final int size) {
+		Page<Advertisement> result;
 		Agent agent;
 
 		agent = this.agentService.findByUserAccountId(LoginService.getPrincipal().getId());
 
-		result = this.advertisementRepository.findByAgentIdLinkToNewspaper(agent.getId(), newspaperId);
+		result = this.advertisementRepository.findByAgentIdLinkToNewspaper(agent.getId(), newspaperId, this.getPageable(page, size));
 
 		return result;
 

@@ -1,8 +1,6 @@
 
 package repositories;
 
-import java.util.Collection;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,11 +24,11 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, In
 	@Query("select a from Advertisement a where a.agent.id=?1")
 	Page<Advertisement> findByAgentId(int agentId, Pageable pageable);
 
-	@Query(value = "select a.* from Advertisement a where a.id IN (select (s.advertisements_id) from Newspaper_advertisement s where newspaper_id=?2) and a.agent_id=?1", nativeQuery = true)
-	Collection<Advertisement> findByAgentIdUnLinkToNewspaper(int agentId, int newspaperId);
+	@Query("select adv from Advertisement adv where adv.agent.id = ?1 and adv IN (select a from Newspaper n join n.advertisements a where n.id = ?2)")
+	Page<Advertisement> findByAgentIdUnLinkToNewspaper(int agentId, int newspaperId, Pageable pageable);
 
-	@Query(value = "select a.* from Advertisement a where a.id NOT IN (select (s.advertisements_id) from Newspaper_advertisement s where newspaper_id=?2) and a.agent_id=?1", nativeQuery = true)
-	Collection<Advertisement> findByAgentIdLinkToNewspaper(int agentId, int newspaperId);
+	@Query("select adv from Advertisement adv where adv.agent.id = ?1 and adv NOT IN (select a from Newspaper n join n.advertisements a where n.id = ?2)")
+	Page<Advertisement> findByAgentIdLinkToNewspaper(int agentId, int newspaperId, Pageable pageable);
 
 	@Query("select a from Advertisement a order by a.hasTaboo DESC")
 	Page<Advertisement> findAllPaginated(Pageable page);
