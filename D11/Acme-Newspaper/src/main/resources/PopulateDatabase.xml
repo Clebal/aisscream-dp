@@ -743,7 +743,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="5471664286416252" />
 		<property name="expirationMonth" value="9" />
-		<property name="expirationYear" value="2017" />
+		<property name="expirationYear" value="17" />
 		<property name="cvvcode" value="998" />
 	</bean>
 	
@@ -752,7 +752,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="Visa" />
 		<property name="number" value="5229783098148518" />
 		<property name="expirationMonth" value="10" />
-		<property name="expirationYear" value="2017" />
+		<property name="expirationYear" value="17" />
 		<property name="cvvcode" value="258" />
 	</bean>
 	
@@ -761,7 +761,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="5306320664868959" />
 		<property name="expirationMonth" value="10" />
-		<property name="expirationYear" value="2017" />
+		<property name="expirationYear" value="17" />
 		<property name="cvvcode" value="618" />
 	</bean>
 	
@@ -770,7 +770,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="4350515568299247" />
 		<property name="expirationMonth" value="11" />
-		<property name="expirationYear" value="2019" />
+		<property name="expirationYear" value="19" />
 		<property name="cvvcode" value="608" />
 	</bean>
 	
@@ -779,7 +779,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="4367834676464317" />
 		<property name="expirationMonth" value="10" />
-		<property name="expirationYear" value="2019" />
+		<property name="expirationYear" value="19" />
 		<property name="cvvcode" value="618" />
 	</bean>
 	
@@ -788,7 +788,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="Visa" />
 		<property name="number" value="345035739479236" />
 		<property name="expirationMonth" value="2" />
-		<property name="expirationYear" value="2020" />
+		<property name="expirationYear" value="20" />
 		<property name="cvvcode" value="147" />
 	</bean>
 	
@@ -797,7 +797,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="Visa" />
 		<property name="number" value="4067108515252149" />
 		<property name="expirationMonth" value="2" />
-		<property name="expirationYear" value="2020" />
+		<property name="expirationYear" value="20" />
 		<property name="cvvcode" value="147" />
 	</bean>
 	
