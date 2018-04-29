@@ -42,24 +42,24 @@
 	
 	<security:authorize access="hasRole('AGENT')">
 		<acme:column property="title" domain="advertisement" />
-		<acme:column property="credit.card.number" domain="advertisement.credit.card" />
-		<acme:columnLink id="${row.getId()}" domain="advertisement" action="display"/>
+		<acme:column property="creditCard.number" domain="advertisement" />
+		<acme:columnLink id="${row.getId()}" domain="advertisement" actor="agentAdministrator" action="display"/>
 	</security:authorize>
 	
 	
 	<security:authorize access="hasRole('ADMIN')">
-		<jstl:if test="${row.hasTaboo()}">
+		<jstl:if test="${row.getHasTaboo()}">
 			<acme:columnLink style="background:red; color:white" id="${row.getId()}" domain="advertisement" actor="administrator" action="delete"/>
 			<acme:column style="background:red; color:white" property="title" domain="advertisement" />
-			<acme:column style="background:red; color:white" property="credit.card.number" domain="advertisement.credit.card" />
-			<acme:columnLink style="background:red; color:white" id="${row.getId()}" domain="advertisement" action="display"/>
+			<acme:column style="background:red; color:white" property="creditCard.number" domain="advertisement" />
+			<acme:columnLink style="background:red; color:white" id="${row.getId()}" domain="advertisement" actor="agentAdministrator" action="display"/>
 		</jstl:if>
 		
-		<jstl:if test="${!row.hasTaboo()}">
+		<jstl:if test="${!row.getHasTaboo()}">
 			<acme:columnLink id="${row.getId()}" domain="advertisement" actor="administrator" action="delete"/>
 			<acme:column property="title" domain="advertisement" />
-			<acme:column property="credit.card.number" domain="advertisement.credit.card" />
-			<acme:columnLink id="${row.getId()}" domain="advertisement" action="display"/>
+			<acme:column property="creditCard.number" domain="advertisement" />
+			<acme:columnLink id="${row.getId()}" domain="advertisement" actor="agentAdministrator" action="display"/>
 		</jstl:if>
 	</security:authorize>
 	
@@ -71,7 +71,7 @@
 
 
 	
-<jstl:if test="${!action.equals('agent-link') && !action.equals('agent-unlink')}">>
+<jstl:if test="${!action.equals('agent-link') && !action.equals('agent-unlink')}">
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${advertisements}" page="${page}"/>
 </jstl:if>
 	
@@ -80,4 +80,10 @@
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${advertisements}" page="${page}" parameter="newspaperId" parameterValue="${newspaperId}"/>
 </jstl:if>
 
-<acme:displayLink code="advertisement.create" action="advertisement/agent/create.do" css="btn btn-primary"></acme:displayLink>
+<security:authorize access="hasRole('AGENT')">
+	<br>
+	<br>
+	<jstl:if test="${action.equals('agent-edit')}">
+		<acme:displayLink code="advertisement.create" action="advertisement/agent/create.do" css="btn btn-primary"></acme:displayLink>
+	</jstl:if>
+</security:authorize>

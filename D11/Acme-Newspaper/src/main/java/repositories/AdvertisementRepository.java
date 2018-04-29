@@ -12,7 +12,7 @@ import domain.Advertisement;
 @Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Integer> {
 
-	@Query("select n.advertisements from Newspaper n where n.id=?1 order by rand()")
+	@Query("select a from Newspaper n join n.advertisements a where n.id=?1 order by rand()")
 	Page<Advertisement> findRandomAdvertisement(int newspaperId, Pageable pageable);
 
 	@Query("select cast((count(a)) as float)/(select count(a2) from Advertisement a2) from Advertisement a where a.hasTaboo=true")

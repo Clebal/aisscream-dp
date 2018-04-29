@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,22 @@ public class AdvertisementService {
 	public Advertisement save(final Advertisement advertisement) {
 		Agent agent;
 		Advertisement result;
+		Calendar calendar;
+
+		calendar = Calendar.getInstance();
+
+		//CreditCard no caducada
+		//Caduca este año
+		if (calendar.get(Calendar.YEAR) % 100 == advertisement.getCreditCard().getExpirationYear())
+			Assert.isTrue(((advertisement.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 2);
+
+		//Caduca año próximo
+		else if ((calendar.get(Calendar.YEAR) % 100) + 1 == advertisement.getCreditCard().getExpirationYear())
+			Assert.isTrue(advertisement.getCreditCard().getExpirationMonth() >= 2 || calendar.get(Calendar.MONTH) + 1 <= 11);
+
+		//Caduca más tarde
+		else
+			Assert.isTrue(calendar.get(Calendar.YEAR) % 100 < advertisement.getCreditCard().getExpirationYear());
 
 		//Comprobamos que el agent sea el que está autenticado
 		agent = this.agentService.findByUserAccountId(LoginService.getPrincipal().getId());
@@ -115,7 +132,7 @@ public class AdvertisementService {
 		//Actualizamos los newspaper, quitando dicho advertisement
 		this.newspaperService.saveFromAdvertisement(saved);
 
-		this.advertisementRepository.delete(advertisement);
+		this.advertisementRepository.delete(saved);
 
 	}
 
@@ -137,13 +154,13 @@ public class AdvertisementService {
 
 	}
 
-	public Advertisement findRandomAdvertisement(final int advertisementId) {
+	public Advertisement findRandomAdvertisement(final int newspaperId) {
 		Advertisement result;
 		Page<Advertisement> advertisements;
 
-		Assert.isTrue(advertisementId != 0);
+		Assert.isTrue(newspaperId != 0);
 
-		advertisements = this.advertisementRepository.findRandomAdvertisement(advertisementId, new PageRequest(0, 1));
+		advertisements = this.advertisementRepository.findRandomAdvertisement(newspaperId, new PageRequest(0, 1));
 
 		result = null;
 		if (!advertisements.getContent().isEmpty())
@@ -179,7 +196,7 @@ public class AdvertisementService {
 	public Double ratioNewspaperHaveAtLeastOneAdvertisementVSNoAdvertisement() {
 		Double result;
 
-		result = this.ratioNewspaperHaveAtLeastOneAdvertisementVSNoAdvertisement();
+		result = this.advertisementRepository.ratioNewspaperHaveAtLeastOneAdvertisementVSNoAdvertisement();
 
 		return result;
 	}

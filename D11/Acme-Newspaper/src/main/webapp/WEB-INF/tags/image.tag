@@ -40,7 +40,7 @@
 	</jstl:if>
 	
 	<jstl:if test="${url!=null}">
-		<a href="${url}"><img src="${value}" alt="${alt}" width="400px" height="200px" style="text-align: center; margin:auto;" /></a>
+		<a href="${url}" target="_blank" ><img src="${value}" alt="${alt}" width="400px" height="200px" style="text-align: center; margin:auto;" /></a>
 	</jstl:if>
 	
 </jstl:if>

@@ -18,21 +18,18 @@
 	<acme:display code="advertisement.title" value="${advertisement.getTitle()}"/>
 	
 	<security:authorize access="hasRole('AGENT')">
-		<acme:display code="advertisement.credit.card.number" value="${advertisement.getCreditCard().getNumber()}"/>
+		<acme:display code="advertisement.creditCard.number" value="${advertisement.getCreditCard().getNumber()}"/>
 	</security:authorize>
 	
-	<acme:displayLink parametre="agentId" code="advertisement.agent" action="actor/agent/display.do" parametreValue="${advertisement.getAgent().getId()}" css="btn btn-primary"></acme:displayLink>		
+	<acme:display code="advertisement.agent" value="${advertisement.getAgent().getUserAccount().getUsername()}"/>
+			
 	
 </div>
 
-	
-	
 
-<div class="container-square2">
 
-	<acme:image value="${advertisement.getUrlBanner()}" alt="${advertisementAlt}" url="${advertisement.getUrlTarget()}"/>
-	
-</div>
+<acme:image value="${advertisement.getUrlBanner()}" alt="${advertisementAlt}" url="${advertisement.getUrlTarget()}"/>
+
 		
 	
 

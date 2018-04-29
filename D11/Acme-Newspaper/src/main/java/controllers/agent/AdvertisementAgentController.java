@@ -1,6 +1,10 @@
 
 package controllers.agent;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -10,11 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
+import security.LoginService;
 import services.AdvertisementService;
+import services.AgentService;
 import services.NewspaperService;
 import controllers.AbstractController;
+import converters.CreditCardToStringConverter;
+import converters.StringToCreditCardConverter;
 import domain.Advertisement;
+import domain.Agent;
 
 @Controller
 @RequestMapping("/advertisement/agent")
@@ -22,10 +32,20 @@ public class AdvertisementAgentController extends AbstractController {
 
 	// Services
 	@Autowired
-	private AdvertisementService	advertisementService;
+	private AdvertisementService		advertisementService;
 
 	@Autowired
-	private NewspaperService		newspaperService;
+	private NewspaperService			newspaperService;
+
+	@Autowired
+	private AgentService				agentService;
+
+	// Converter
+	@Autowired
+	private CreditCardToStringConverter	creditCardToStringConverter;
+
+	@Autowired
+	private StringToCreditCardConverter	stringToCreditCardConverter;
 
 
 	// Constructor
@@ -54,13 +74,20 @@ public class AdvertisementAgentController extends AbstractController {
 
 	//Create
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(final HttpServletRequest request) {
 		ModelAndView result;
 		Advertisement advertisement;
+		Cookie cookie;
+		Agent agent;
 
 		advertisement = this.advertisementService.create();
+		agent = this.agentService.findByUserAccountId(LoginService.getPrincipal().getId());
 
 		result = this.createEditModelAndView(advertisement);
+
+		cookie = WebUtils.getCookie(request, "cookiemonster_" + agent.getId());
+		if (cookie != null)
+			result.addObject("lastCreditCard", this.stringToCreditCardConverter.convert(cookie.getValue()));
 
 		return result;
 
@@ -130,7 +157,7 @@ public class AdvertisementAgentController extends AbstractController {
 
 		this.newspaperService.addAdvertisementToNewspaper(advertisementId, newspaperId);
 
-		result = new ModelAndView("redirect:list.do");
+		result = new ModelAndView("redirect:listLink.do?newspaperId=" + newspaperId);
 
 		return result;
 	}
@@ -144,15 +171,16 @@ public class AdvertisementAgentController extends AbstractController {
 
 		this.newspaperService.deleteAdvertisementToNewspaper(advertisementId, newspaperId);
 
-		result = new ModelAndView("redirect:list.do");
+		result = new ModelAndView("redirect:listUnlink.do?newspaperId=" + newspaperId);
 
 		return result;
 	}
 
 	//Post Methods
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(Advertisement advertisement, final BindingResult binding) {
+	public ModelAndView save(Advertisement advertisement, final BindingResult binding, final HttpServletResponse response) {
 		ModelAndView result;
+		Cookie lastCreditCard;
 
 		advertisement = this.advertisementService.reconstruct(advertisement, binding);
 
@@ -161,6 +189,13 @@ public class AdvertisementAgentController extends AbstractController {
 		else
 			try {
 				this.advertisementService.save(advertisement);
+
+				// --- COOKIE --- //
+				lastCreditCard = new Cookie("cookiemonster_" + advertisement.getAgent().getId(), this.creditCardToStringConverter.convert(advertisement.getCreditCard()));
+				lastCreditCard.setHttpOnly(true);
+				lastCreditCard.setMaxAge(3600000);
+				response.addCookie(lastCreditCard);
+				// --- COOKIE --- //
 
 				result = new ModelAndView("redirect:list.do");
 

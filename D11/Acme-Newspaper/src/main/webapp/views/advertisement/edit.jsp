@@ -23,19 +23,39 @@
 	
 	
 	<!-- CreditCard -->
-	<span class="display"><spring:message code="advertisement.credit.card" /></span> 
+	<br>
+	<br>
+	<p class="display"><spring:message code="advertisement.creditCard" /></p> 
+	<br>
 	
-	<acme:textbox code="advertisement.credit.card.holder.name" path="holderName"/>
+	<jstl:if test="${lastCreditCard==null}">
+		<acme:textbox code="advertisement.creditCard.holder.name" path="creditCard.holderName"/>
 	
-	<acme:textbox code="advertisement.credit.card.brand.name" path="brandName"/>
-
-	<acme:textbox code="advertisement.credit.card.number" path="creditCard.number"/>
+		<acme:textbox code="advertisement.creditCard.brand.name" path="creditCard.brandName"/>
 	
-	<acme:textbox code="advertisement.credit.card.expiration.month" path="expirationMonth"/>
+		<acme:textbox code="advertisement.creditCard.number" path="creditCard.number"/>
+		
+		<acme:textbox code="advertisement.creditCard.expiration.month" path="creditCard.expirationMonth"/>
+		
+		<acme:textbox code="advertisement.creditCard.expiration.year" path="creditCard.expirationYear"/>
+		
+		<acme:textbox code="advertisement.creditCard.cvv.code" path="creditCard.cvvcode"/>
+	</jstl:if>
 	
-	<acme:textbox code="advertisement.credit.card.expiration.year" path="expirationYear"/>
+	<jstl:if test="${lastCreditCard!=null && advertisement.getId()==0}">
+		<acme:textbox code="advertisement.creditCard.holder.name" path="creditCard.holderName" value="${lastCreditCard.getHolderName()}"/>
 	
-	<acme:textbox code="advertisement.credit.card.cvv.code" path="cvvCode"/>
+		<acme:textbox code="advertisement.creditCard.brand.name" path="creditCard.brandName" value="${lastCreditCard.getBrandName()}"/>
+	
+		<acme:textbox code="advertisement.creditCard.number" path="creditCard.number" value="${lastCreditCard.getNumber()}"/>
+		
+		<acme:textbox code="advertisement.creditCard.expiration.month" path="creditCard.expirationMonth" value="${lastCreditCard.getExpirationMonth()}"/>
+		
+		<acme:textbox code="advertisement.creditCard.expiration.year" path="creditCard.expirationYear" value="${lastCreditCard.getExpirationYear()}"/>
+		
+		<acme:textbox code="advertisement.creditCard.cvv.code" path="creditCard.cvvcode" value="${lastCreditCard.getCvvcode()}"/>
+	</jstl:if>
+	
 	
 	
 	
