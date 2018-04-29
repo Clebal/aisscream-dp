@@ -28,25 +28,26 @@ import org.springframework.format.annotation.DateTimeFormat;
 })
 public class Newspaper extends DomainEntity {
 
-	private Date				publicationDate;
+	private Date						publicationDate;
 
-	private String				title;
+	private String						title;
 
-	private String				description;
+	private String						description;
 
-	private String				picture;
+	private String						picture;
 
-	private boolean				isPrivate;
+	private boolean						isPrivate;
 
-	private boolean				hasTaboo;
+	private boolean						hasTaboo;
 
-	private boolean				isPublished;
+	private boolean						isPublished;
 
-	private User				publisher;
+	private User						publisher;
 
-	private Collection<Article>	articles;
-	
-	private Collection<Advertisement> advertisement;
+	private Collection<Article>			articles;
+
+	private Collection<Advertisement>	advertisements;
+
 
 	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -132,16 +133,16 @@ public class Newspaper extends DomainEntity {
 	public void setArticles(final Collection<Article> articles) {
 		this.articles = articles;
 	}
-	
+
 	@NotNull
 	@Valid
 	@ManyToMany
-	public Collection<Advertisement> getAdvertisement() {
-		return this.advertisement;
+	public Collection<Advertisement> getAdvertisements() {
+		return this.advertisements;
 	}
-	
-	public void setAdvertisement(final Collection<Advertisement> advertisement) {
-		this.advertisement = advertisement;
+
+	public void setAdvertisements(final Collection<Advertisement> advertisements) {
+		this.advertisements = advertisements;
 	}
 
 }

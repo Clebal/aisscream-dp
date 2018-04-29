@@ -632,7 +632,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<ref bean="article1" />
 			</list>
 		</property>
-		<property name="advertisement">
+		<property name="advertisements">
 			<list>
 				<ref bean="advertisement1" />
 			</list>
@@ -653,7 +653,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<ref bean="article2" />
 			</list>
 		</property>
-		<property name="advertisement">
+		<property name="advertisements">
 			<list>
 				<ref bean="advertisement2" />
 			</list>
@@ -675,7 +675,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<ref bean="article3" />
 			</list>
 		</property>
-		<property name="advertisement">
+		<property name="advertisements">
 			<list>
 			</list>
 		</property>	
@@ -695,7 +695,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<ref bean="article4" />
 			</list>
 		</property>
-		<property name="advertisement">
+		<property name="advertisements">
 			<list>
 			</list>
 		</property>
@@ -713,7 +713,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 			<list>
 			</list>
 		</property>
-		<property name="advertisement">
+		<property name="advertisements">
 			<list>
 			</list>
 		</property>
@@ -731,7 +731,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 			<list>
 			</list>
 		</property>
-		<property name="advertisement">
+		<property name="advertisements">
 			<list>
 			</list>
 		</property>
