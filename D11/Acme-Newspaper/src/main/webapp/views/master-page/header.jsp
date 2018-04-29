@@ -35,6 +35,7 @@
       	<security:authorize access="isAnonymous()">
 			<li><a href="newspaper/list.do"><spring:message code="master.page.all.newspapers.isAnonymous" /></a></li>
 			<li><a href="actor/user/list.do"><spring:message code="master.page.all.user" /></a></li>
+			<li><a href="volume/list.do"><spring:message code="master.page.all.volume" /></a></li>
       	</security:authorize>
                
         <li class="dropdown">
@@ -58,6 +59,7 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="newspaper/user/list.do"><spring:message code="master.page.user.newspapers" /></a></li>	
+					<li><a href="volume/user/list.do"><spring:message code="master.page.user.volume" /></a></li>
 					<li><a href="chirp/user/list.do"><spring:message code="master.page.all.chirps" /></a></li>	
 					<li><a href="chirp/user/create.do"><spring:message code="master.page.create.chirps" /></a></li>	
 					<li><a href="followUp/user/list.do"><spring:message code="master.page.user.followUp" /></a></li>
@@ -70,7 +72,16 @@
 				<ul class="dropdown-menu">
 					<li><a href="newspaper/customer/list.do"><spring:message code="master.page.customer.newspapers" /></a></li>
 					<li><a href="newspaper/customer/listForSubscribe.do"><spring:message code="master.page.customer.newspapersForSubscribe" /></a></li>
-                    <li><a href="subscriptionNewspaper/customer/list.do"><spring:message code="master.page.subscription.list" /></a></li>															
+                    <li><a href="subscriptionNewspaper/customer/list.do"><spring:message code="master.page.subscription.list" /></a></li>	
+                    <li><a href="subscriptionVolume/customer/list.do"><spring:message code="master.page.subscriptionVolume.list" /></a></li>														
+				</ul>
+			</security:authorize>
+			
+			<security:authorize access="hasRole('AGENT')">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.agent" /> <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="newspaper/agent/listWithAdvertisements.do"><spring:message code="master.page.agent.newspapersLinked" /></a></li>
+					<li><a href="newspaper/agent/listWithNoAdvertisements.do"><spring:message code="master.page.agent.newspapersNoLinked" /></a></li>
 				</ul>
 			</security:authorize>
         </li>
@@ -83,11 +94,13 @@
 					<li><a href="message/actor/list.do"><spring:message code="master.page.actor.messages" /></a></li>
 					<li><a href="folder/actor/list.do"><spring:message code="master.page.actor.folders" /></a></li>
 					<li><a href="newspaper/list.do"><spring:message code="master.page.all.newspapers" /></a></li>	
+					<li><a href="volume/list.do"><spring:message code="master.page.all.volume" /></a></li>
 					<li><a href="actor/user/list.do"><spring:message code="master.page.all.user" /></a></li>
 			        <security:authorize access="hasRole('USER')">		
 					<li><a href="actor/user/display.do"><spring:message code="master.page.profile" /></a></li>
 					</security:authorize>
 					<li><a href="actor/profile.do"><spring:message code="master.page.edit.profile" /></a></li>
+					
 				</ul>
 			</security:authorize>
         </li>

@@ -48,7 +48,7 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
 	Page<Newspaper> findPublishedSearch(String keyWord, Pageable pageable);
 
-	@Query("select n from Newspaper n, Volume v where n.publisher.id=?2 and n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true and v.user.id=?2 and n not member of v.newspapers")
+	@Query("select n from Newspaper n, Volume v where n.publisher.id=?2 and n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true and v.id=?1 and n not member of v.newspapers")
 	Page<Newspaper> findAddNewspaper(int volumeId, int userId, Pageable pageable);
 
 	@Query("select n from Volume v join v.newspapers n where n.isPrivate=false and v.id=?1")
