@@ -98,8 +98,12 @@
 	      
 	      <security:authorize access="isAnonymous()">
 	      	<a href="security/login.do" class="btn btn-primary"><spring:message code="master.page.login"/></a>
-		   	<a href="actor/user/create.do" class="btn btn-primary"><spring:message code="master.page.create.user" /></a>
-		   	<a href="actor/manager/create.do" class="btn btn-primary"><spring:message code="master.page.create.manager" /></a>
+		   	<a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown"><spring:message	code="master.page.register" /> <span class="caret"></span></a>
+       		<ul class="dropdown-menu">
+				<li><a href="actor/user/create.do"><spring:message code="master.page.create.user" /></a></li>
+		   		<li><a href="actor/sponsor/create.do"><spring:message code="master.page.create.sponsor" /></a></li>
+		   		<li><a href="actor/company/create.do"><spring:message code="master.page.create.company" /></a></li>
+			</ul>
 		   	<a href="actor/list.do" class="btn btn-primary"><spring:message code="master.page.list.user" /></a>
 	      </security:authorize>
       
