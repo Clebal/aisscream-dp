@@ -22,9 +22,7 @@
 	<acme:textarea code="message.body" path="body" />
 
 	<acme:submit name="save" code="message.save"/>
-	
-	<input type="button" class="btn btn-danger" name="cancel" value="<spring:message code="notification.cancel" />" onclick="javascript: relativeRedir('message/list.do');" >
-		
-	<acme:cancel url="/index.do" code="message.cancel" />	
+			
+	<acme:cancel url="/" code="message.cancel" />	
 	
 </form:form>

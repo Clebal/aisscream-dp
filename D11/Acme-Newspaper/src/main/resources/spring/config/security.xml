@@ -82,6 +82,7 @@
 		<security:intercept-url pattern="/folder/actor/display.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/folder/actor/edit.do" access="isAuthenticated()" />
 
+		<security:intercept-url pattern="/message/administrator/create.do" access="hasRole('ADMIN')"/>
 		<security:intercept-url pattern="/message/administrator/edit.do" access="hasRole('ADMIN')"/>
 
         <!-- Villarín -->
