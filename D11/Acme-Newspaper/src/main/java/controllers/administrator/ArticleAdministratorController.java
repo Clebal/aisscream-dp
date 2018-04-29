@@ -113,7 +113,10 @@ public class ArticleAdministratorController extends AbstractController {
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", page);
 			result.addObject("articles", articles.getContent());
-			result.addObject("requestURI", "article/administrator/listSearch.do");
+			if (keyword == null)
+				result.addObject("requestURI", "article/administrator/listSearch.do");
+			else
+				result.addObject("requestURI", "article/administrator/listSearch.do?keyword="+keyword);
 			result.addObject("keyword", keyword);
 			result.addObject("editar", editar);
 			result.addObject("borrar", borrar);
@@ -140,7 +143,10 @@ public class ArticleAdministratorController extends AbstractController {
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", page);
 			result.addObject("articles", articles.getContent());
-			result.addObject("requestURI", "article/administrator/listSearchTaboo.do");
+			if (keyword == null)
+				result.addObject("requestURI", "article/administrator/listSearchTaboo.do");
+			else
+				result.addObject("requestURI", "article/administrator/listSearchTaboo.do?keyword="+keyword);
 			result.addObject("keyword", keyword);
 			result.addObject("editar", editar);
 			result.addObject("borrar", borrar);

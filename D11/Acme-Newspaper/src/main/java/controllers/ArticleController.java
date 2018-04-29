@@ -100,10 +100,18 @@ public class ArticleController extends AbstractController {
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", page);
 			result.addObject("articles", articles.getContent());
-			if (userId == null)
-				result.addObject("requestURI", "article/listSearch.do");
-			else
-				result.addObject("requestURI", "article/listSearch.do?userId="+userId);
+			if (userId == null) {
+				if (keyword == null)
+					result.addObject("requestURI", "article/listSearch.do");
+				else
+					result.addObject("requestURI", "article/listSearch.do?keyword="+keyword);
+
+			} else {
+				if (keyword == null)
+					result.addObject("requestURI", "article/listSearch.do?userId="+userId);
+				else
+					result.addObject("requestURI", "article/listSearch.do?userId="+userId+"&keyword="+keyword);
+			}
 			result.addObject("keyword", keyword);
 			result.addObject("editar", editar);
 			result.addObject("borrar", borrar);

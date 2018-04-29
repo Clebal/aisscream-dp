@@ -57,10 +57,10 @@
 	</jstl:if>
 	</display:column>
 	
-	<jstl:if test="${borrar && requestURI == 'article/administrator/list.do'}">
+	<jstl:if test="${borrar && taboo == false}">
 	<acme:columnLink action="deleteLis" domain="article" id="${row.getId()}" actor="administrator"/>
 	</jstl:if>
-	<jstl:if test="${borrar && requestURI == 'article/administrator/listTaboo.do'}">
+	<jstl:if test="${borrar && taboo == true}">
 	<acme:columnLink action="deleteTab" domain="article" id="${row.getId()}" actor="administrator"/>
 	</jstl:if>
 	
