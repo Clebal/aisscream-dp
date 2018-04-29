@@ -19,6 +19,7 @@ import repositories.VolumeRepository;
 import security.Authority;
 import security.LoginService;
 import domain.Newspaper;
+import domain.SubscriptionVolume;
 import domain.Volume;
 
 @Service
@@ -27,17 +28,20 @@ public class VolumeService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private VolumeRepository	volumeRepository;
+	private VolumeRepository			volumeRepository;
 
 	@Autowired
-	private Validator			validator;
+	private Validator					validator;
 
 	// Supporting
 	@Autowired
-	private NewspaperService	newspaperService;
+	private NewspaperService			newspaperService;
 
 	@Autowired
-	private UserService			userService;
+	private SubscriptionVolumeService	subscriptionVolumeService;
+
+	@Autowired
+	private UserService					userService;
 
 
 	// services-----------------------------------------------------------
@@ -161,6 +165,15 @@ public class VolumeService {
 
 	}
 
+	public void deleteFromNewspaper(final Volume volume) {
+		Volume volumeToDelete;
+
+		for (final SubscriptionVolume s : this.subscriptionVolumeService.findByVolumeId(volume.getId()))
+			this.subscriptionVolumeService.deleteFromVolume(s);
+		volumeToDelete = this.findOne(volume.getId());
+
+		this.volumeRepository.delete(volumeToDelete);
+	}
 	public Page<Volume> findByUserAccountId(final int userAccountId, final int page, final int size) {
 		Page<Volume> result;
 		Authority authority;
@@ -179,16 +192,16 @@ public class VolumeService {
 
 	}
 
-	//	public Page<Volume> findByNewspaperId(final int newspaperId, final int page, final int size) {
-	//		Page<Volume> result;
-	//
-	//		Assert.isTrue(newspaperId != 0);
-	//
-	//		result = this.volumeRepository.findByNewspaperId(newspaperId, this.getPageable(page, size));
-	//
-	//		return result;
-	//
-	//	}
+	public Collection<Volume> findByNewspaperId(final int newspaperId) {
+		Collection<Volume> result;
+
+		Assert.isTrue(newspaperId != 0);
+
+		result = this.volumeRepository.findByNewspaperId(newspaperId);
+
+		return result;
+
+	}
 
 	public Collection<Volume> findByCustomerIdAndNewspaperId(final int customerId, final int newspaperId) {
 		Collection<Volume> result;

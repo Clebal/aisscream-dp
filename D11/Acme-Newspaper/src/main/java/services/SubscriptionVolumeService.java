@@ -138,6 +138,18 @@ public class SubscriptionVolumeService {
 
 	}
 
+	public Collection<SubscriptionVolume> findByVolumeId(final int volumeId) {
+		Collection<SubscriptionVolume> result;
+
+		Assert.isTrue(volumeId != 0);
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		result = this.subscriptionVolumeRepository.findByVolumeId(volumeId);
+
+		return result;
+
+	}
+
 	public SubscriptionVolume findByCustomerIdAndVolumeId(final int customerId, final int volumeId) {
 		SubscriptionVolume result;
 
@@ -148,6 +160,16 @@ public class SubscriptionVolumeService {
 
 		return result;
 
+	}
+
+	public void deleteFromVolume(final SubscriptionVolume subscriptionVolume) {
+		SubscriptionVolume subscriptionVolumeToDelete;
+
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		subscriptionVolumeToDelete = this.findOne(subscriptionVolume.getId());
+
+		this.subscriptionVolumeRepository.delete(subscriptionVolumeToDelete);
 	}
 
 	public SubscriptionVolume reconstruct(final SubscriptionVolume subscriptionVolume, final BindingResult binding) {

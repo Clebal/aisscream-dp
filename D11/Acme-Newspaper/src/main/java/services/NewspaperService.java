@@ -24,6 +24,7 @@ import domain.Advertisement;
 import domain.Article;
 import domain.Newspaper;
 import domain.SubscriptionNewspaper;
+import domain.Volume;
 
 @Service
 @Transactional
@@ -50,6 +51,9 @@ public class NewspaperService {
 	private ConfigurationService			configurationService;
 
 	@Autowired
+	private VolumeService					volumeService;
+
+	@Autowired
 	private AdvertisementService			advertisementService;
 
 	@Autowired
@@ -65,6 +69,7 @@ public class NewspaperService {
 		Newspaper result;
 		Authority authority;
 		Collection<Article> articles;
+		Collection<Advertisement> advertisements;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
@@ -72,12 +77,14 @@ public class NewspaperService {
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
 		articles = new ArrayList<Article>();
+		advertisements = new ArrayList<Advertisement>();
 		result = new Newspaper();
 		result.setPublisher(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		result.setIsPrivate(false);
 		result.setHasTaboo(false);
 		result.setIsPublished(true);
 		result.setArticles(articles);
+		result.setAdvertisements(advertisements);
 
 		return result;
 	}
@@ -159,6 +166,7 @@ public class NewspaperService {
 			Assert.isTrue(newspaper.getPublicationDate().compareTo(currentMoment) >= 0);
 			Assert.isTrue(newspaper.getIsPublished() == true);
 			Assert.isTrue(newspaper.getArticles().isEmpty());
+			Assert.isTrue(newspaper.getAdvertisements().isEmpty());
 			if (this.checkTabooWords(newspaper) == true)
 				newspaper.setHasTaboo(true);
 		}
@@ -185,6 +193,9 @@ public class NewspaperService {
 
 		for (final SubscriptionNewspaper s : this.subscriptionNewspaperService.findByNewspaperId(newspaperToDelete.getId()))
 			this.subscriptionNewspaperService.deleteFromNewspaper(s);
+
+		for (final Volume v : this.volumeService.findByNewspaperId(newspaper.getId()))
+			this.volumeService.deleteFromNewspaper(v);
 
 		this.newspaperRepository.delete(this.findOne(newspaperToDelete.getId()));
 
