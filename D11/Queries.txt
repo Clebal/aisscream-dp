@@ -8,3 +8,5 @@ VILLARIN - The average number of newspapers per volume.
 select avg(v.newspapers.size) from Volume v;
 
 SANTOS - The ratio of subscriptions to volumes versus subscriptions to newspapers.
+
+select (cast((select count(sv) from SubscriptionVolume sv) as float))/count(sn) from SubscriptionNewspaper sn 

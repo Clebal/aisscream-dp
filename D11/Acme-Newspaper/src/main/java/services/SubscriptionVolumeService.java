@@ -172,6 +172,21 @@ public class SubscriptionVolumeService {
 		this.subscriptionVolumeRepository.delete(subscriptionVolumeToDelete);
 	}
 
+	public Double ratioSubscritionVolumeVsSubscriptionNewspaper() {
+		Double result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.subscriptionVolumeRepository.ratioSubscritionVolumeVsSubscriptionNewspaper();
+
+		return result;
+	}
+
 	public SubscriptionVolume reconstruct(final SubscriptionVolume subscriptionVolume, final BindingResult binding) {
 		SubscriptionVolume result;
 		SubscriptionVolume aux;
