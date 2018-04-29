@@ -99,6 +99,23 @@
 		</display:column>	
 	</security:authorize>
 	
+	<security:authorize access="hasRole('AGENT')">
+		<jstl:if test="${requestURI.equals('newspaper/list.do')}">
+		<display:column>
+			<a href="advertisement/agent/listLink.do?newspaperId=${row.getId()}"> <spring:message
+					code="newspaper.advertisement.link" />
+			</a>
+		</display:column>
+		
+		<display:column>
+			<a href="advertisement/agent/listUnlink.do?newspaperId=${row.getId()}"> <spring:message
+					code="newspaper.advertisement.unLink" />
+			</a>
+		</display:column>
+		
+		</jstl:if>	
+	</security:authorize>
+	
 			
 	<acme:column property="title" domain="newspaper" />
 	
@@ -139,6 +156,14 @@
 	
 	</security:authorize>
 	
+	<security:authorize access="hasRole('AGENT')">
+	<security:authentication var="principal" property="principal.username"/>
+	<jstl:if test="${row.getPublicationDate()<= currentMomentVar && row.getIsPublished()==true}">
+		<jstl:set var="canPermit" value="true"/>
+	</jstl:if>
+	
+	</security:authorize>
+	
 	<security:authorize access="hasRole('ADMIN')">
 		<jstl:set var="canPermit" value="true"/>
 	</security:authorize>
@@ -164,7 +189,7 @@
 		
 </display:table>
 
-<jstl:if test="${requestURI.equals('newspaper/user/list.do') || requestURI.equals('newspaper/customer/list.do') || requestURI.equals('newspaper/list.do') || requestURI.equals('newspaper/customer/listForSubscribe.do') || requestURI.equals('newspaper/administrator/findTaboos.do') || requestURI.equals('newspaper/administrator/listMoreAverage.do') || requestURI.equals('newspaper/administrator/listFewerAverage.do')  }">
+<jstl:if test="${requestURI.equals('newspaper/user/list.do') || requestURI.equals('newspaper/customer/list.do') || requestURI.equals('newspaper/list.do') || requestURI.equals('newspaper/customer/listForSubscribe.do') || requestURI.equals('newspaper/administrator/findTaboos.do') || requestURI.equals('newspaper/administrator/listMoreAverage.do') || requestURI.equals('newspaper/administrator/listFewerAverage.do') || requestURI.equals('newspaper/agent/listWithAdvertisements.do') || requestURI.equals('newspaper/agent/listWithNoAdvertisements.do')   }">
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}"/>
 </jstl:if>
 

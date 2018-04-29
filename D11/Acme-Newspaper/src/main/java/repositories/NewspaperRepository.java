@@ -54,6 +54,15 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Volume v join v.newspapers n where n.isPrivate=false and v.id=?1")
 	Page<Newspaper> findByVolumeAllPublics(int volumeId, Pageable pageable);
 
+	@Query("select n from Newspaper n where n.advertisements.size=0")
+	Page<Newspaper> findNewspapersWithNoAdvertisements(Pageable pageable);
+
+	@Query("select n from Newspaper n where n.advertisements.size>=1")
+	Page<Newspaper> findNewspapersWithAdvertisements(Pageable pageable);
+
+	@Query("select n from Newspaper n join n.advertisements a where a.id=?1")
+	Collection<Newspaper> findNewspapersToUpdateAdvertisements(int advertisementId);
+
 	@Query("select  avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float )), sqrt(sum((select count(n) from Newspaper n where n.publisher.id=u.id)*(select count(n) from Newspaper n where n.publisher.id=u.id))/(select count(u2) from User u2)-avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float ))*avg(cast((select count(n) from Newspaper n where n.publisher.id=u.id) as float ))) from User u")
 	Double[] avgStandarDevNewspapersCreatedPerUser();
 

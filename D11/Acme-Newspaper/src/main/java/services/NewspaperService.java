@@ -20,6 +20,7 @@ import org.springframework.validation.Validator;
 import repositories.NewspaperRepository;
 import security.Authority;
 import security.LoginService;
+import domain.Advertisement;
 import domain.Article;
 import domain.Newspaper;
 import domain.SubscriptionNewspaper;
@@ -30,26 +31,29 @@ public class NewspaperService {
 
 	// Managed repository
 	@Autowired
-	private NewspaperRepository		newspaperRepository;
+	private NewspaperRepository				newspaperRepository;
 
 	// Supporting services
 	@Autowired
-	private UserService				userService;
+	private UserService						userService;
 
 	@Autowired
-	private ArticleService			articleService;
+	private ArticleService					articleService;
 
 	@Autowired
-	private SubscriptionNewspaperService		subscriptionNewspaperService;
+	private SubscriptionNewspaperService	subscriptionNewspaperService;
 
 	@Autowired
-	private CustomerService			customerService;
+	private CustomerService					customerService;
 
 	@Autowired
-	private ConfigurationService	configurationService;
+	private ConfigurationService			configurationService;
 
 	@Autowired
-	private Validator				validator;
+	private AdvertisementService			advertisementService;
+
+	@Autowired
+	private Validator						validator;
 
 
 	// Constructor
@@ -101,6 +105,7 @@ public class NewspaperService {
 		Authority authority;
 		Authority authority2;
 		Authority authority3;
+		Authority authority4;
 		Boolean canPermit;
 		Date currentMoment;
 
@@ -112,6 +117,8 @@ public class NewspaperService {
 		authority2.setAuthority("CUSTOMER");
 		authority3 = new Authority();
 		authority3.setAuthority("ADMIN");
+		authority4 = new Authority();
+		authority4.setAuthority("AGENT");
 		currentMoment = new Date();
 		canPermit = false;
 		if (LoginService.isAuthenticated()) {
@@ -122,6 +129,10 @@ public class NewspaperService {
 					canPermit = true;
 
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2)) {
+				if (result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true)
+					canPermit = true;
+
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority4)) {
 				if (result.getPublicationDate().compareTo(currentMoment) <= 0 && result.getIsPublished() == true)
 					canPermit = true;
 
@@ -393,6 +404,76 @@ public class NewspaperService {
 		}
 
 		return result;
+	}
+
+	public Page<Newspaper> findNewspaperWithNoAdvertisements(final int page, final int size) {
+		Page<Newspaper> result;
+		Authority authority;
+		authority = new Authority();
+		authority.setAuthority("AGENT");
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.newspaperRepository.findNewspapersWithNoAdvertisements(this.getPageable(page, size));
+		return result;
+	}
+
+	public Page<Newspaper> findNewspaperWithAdvertisements(final int page, final int size) {
+		Page<Newspaper> result;
+		Authority authority;
+		authority = new Authority();
+		authority.setAuthority("AGENT");
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.newspaperRepository.findNewspapersWithAdvertisements(this.getPageable(page, size));
+		return result;
+	}
+
+	public Collection<Newspaper> findNewspapersToUpdateAdvertisements(final int advertisementId) {
+		Collection<Newspaper> result;
+		result = this.newspaperRepository.findNewspapersToUpdateAdvertisements(advertisementId);
+		return result;
+	}
+
+	public void saveFromAdvertisement(final Advertisement advertisement) {
+		Collection<Newspaper> newspapers;
+		Collection<Advertisement> advertisements;
+		newspapers = this.findNewspapersToUpdateAdvertisements(advertisement.getId());
+		for (final Newspaper newspaper : newspapers) {
+			advertisements = newspaper.getAdvertisements();
+			advertisements.remove(advertisement);
+			newspaper.setAdvertisements(advertisements);
+			this.newspaperRepository.save(newspaper);
+		}
+	}
+
+	public void addAdvertisementToNewspaper(final int advertisementId, final int newspaperId) {
+		Advertisement advertisement;
+		Newspaper newspaper;
+		Collection<Advertisement> advertisements;
+		newspaper = this.findOne(newspaperId);
+		advertisement = this.advertisementService.findOne(advertisementId);
+		//No lo puede contener
+		Assert.isTrue(!newspaper.getAdvertisements().contains(advertisement));
+		Assert.isTrue(advertisement.getAgent().getUserAccount().equals(LoginService.getPrincipal()));
+		advertisements = newspaper.getAdvertisements();
+		advertisements.add(advertisement);
+		newspaper.setAdvertisements(advertisements);
+		this.newspaperRepository.save(newspaper);
+	}
+
+	public void deleteAdvertisementToNewspaper(final int advertisementId, final int newspaperId) {
+		Advertisement advertisement;
+		Newspaper newspaper;
+		Collection<Advertisement> advertisements;
+		newspaper = this.findOne(newspaperId);
+		advertisement = this.advertisementService.findOne(advertisementId);
+		//Lo tiene que contener
+		Assert.isTrue(newspaper.getAdvertisements().contains(advertisement));
+		Assert.isTrue(advertisement.getAgent().getUserAccount().equals(LoginService.getPrincipal()));
+		advertisements = newspaper.getAdvertisements();
+		advertisements.remove(advertisement);
+		newspaper.setAdvertisements(advertisements);
+		this.newspaperRepository.save(newspaper);
 	}
 
 	public Integer countFindForSubscribe(final int customerId) {

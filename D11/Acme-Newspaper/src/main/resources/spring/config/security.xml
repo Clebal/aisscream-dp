@@ -46,7 +46,7 @@
 		<security:intercept-url pattern="/aboutUs/display.do" access="permitAll" />  
 		 
 		<!-- Sergio -->
-        <security:intercept-url pattern="/actor/profile.do" access="hasRole('USER') or hasRole('CUSTOMER') or hasRole('AGENT') or hasRole('ADMIN')" />
+         <security:intercept-url pattern="/actor/profile.do" access="hasRole('USER') or hasRole('CUSTOMER') or hasRole('AGENT') or hasRole('ADMIN')" />
         
         <security:intercept-url pattern="/actor/user/create.do" access="isAnonymous()" />
         <security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()" />
@@ -113,6 +113,9 @@
 		<security:intercept-url pattern="/newspaper/user/putPrivate.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/edit.do" access="hasRole('USER')" />
 		
+		<security:intercept-url pattern="/newspaper/agent/listWithAdvertisements.do" access="hasRole('AGENT')" />
+		<security:intercept-url pattern="/newspaper/agent/listWithNoAdvertisements.do" access="hasRole('AGENT')" />
+		
 		<security:intercept-url pattern="/newspaper/display.do" access="permitAll" />
 		<security:intercept-url pattern="/newspaper/list.do" access="permitAll" />
 		<security:intercept-url pattern="/newspaper/listSearch.do" access="permitAll" />
@@ -125,6 +128,10 @@
 		<security:intercept-url pattern="/volume/user/addNewspaper.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/volume/user/deleteNewspaper.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/volume/user/edit.do" access="hasRole('USER')" />
+		
+		<security:intercept-url pattern="/subscriptionVolume/customer/list.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/subscriptionVolume/customer/create.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/subscriptionVolume/customer/edit.do" access="hasRole('CUSTOMER')" />
 		
 		
 			

@@ -47,6 +47,7 @@
 		<value>/views/message/tiles.xml</value>
 		
 		<value>/views/volume/tiles.xml</value>
+		<value>/views/subscriptionVolume/tiles.xml</value>
 		
 		<value>/views/agent/tiles.xml</value>
 		<value>/views/advertisement/tiles.xml</value>

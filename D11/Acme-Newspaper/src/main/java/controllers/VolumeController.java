@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import security.Authority;
 import security.LoginService;
 import services.CustomerService;
-import services.NewspaperService;
+import services.SubscriptionVolumeService;
 import services.VolumeService;
 import domain.Volume;
 
@@ -22,8 +22,6 @@ import domain.Volume;
 public class VolumeController extends AbstractController {
 
 	// Services
-	@Autowired
-	private NewspaperService			newspaperService;
 
 	@Autowired
 	private VolumeService				volumeService;
@@ -81,7 +79,7 @@ public class VolumeController extends AbstractController {
 		authority.setAuthority("CUSTOMER");
 
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority))
-			if (this.subscriptionVolumeService.findByCustomerIdAndVolumeId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), volume.getId()))
+			if (this.subscriptionVolumeService.findByCustomerIdAndVolumeId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), volume.getId()) == null)
 				canCreateVolumeSubscription = true;
 
 		result = new ModelAndView("volume/display");

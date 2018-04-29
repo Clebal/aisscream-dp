@@ -67,6 +67,9 @@
 		<bean class="converters.AdvertisementToStringConverter" />
 		<bean class="converters.StringToAdvertisementConverter" />
 		
+		<bean class="converters.SubscriptionVolumeToStringConverter" />
+		<bean class="converters.StringToSubscriptionVolumeConverter" />
+		
 	</util:list>
 	
 </beans>
