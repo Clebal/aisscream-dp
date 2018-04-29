@@ -30,19 +30,19 @@ public class NewspaperController extends AbstractController {
 
 	// Services
 	@Autowired
-	private NewspaperService	newspaperService;
+	private NewspaperService				newspaperService;
 
 	@Autowired
-	private ArticleService		articleService;
+	private ArticleService					articleService;
 
 	@Autowired
 	private SubscriptionNewspaperService	subscriptionNewspaperService;
 
 	@Autowired
-	private CustomerService		customerService;
+	private CustomerService					customerService;
 
 	@Autowired
-	private VolumeService		volumeService;
+	private VolumeService					volumeService;
 
 
 	// Constructor
