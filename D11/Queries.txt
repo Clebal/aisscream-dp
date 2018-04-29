@@ -1,4 +1,7 @@
 SERGIO - The ratio of newspapers that have at least one advertisement versus the newspapers that haven’t any.
+
+select (count(n)*1.0)/(select count(n1)*1.0 from Newspaper n1 where n1.advertisement.size = 0) from Newspaper n where n.advertisement.size > 0
+
 CARLOS - The ratio of advertisements that have taboo words.
 VILLARIN - The average number of newspapers per volume.
 
