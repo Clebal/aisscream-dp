@@ -15,6 +15,8 @@
 	<form:hidden path="publisher" />
 	<form:hidden path="isPublished" />
 	<form:hidden path="articles" />
+	<form:hidden path="advertisements" />
+	
 	
 	
 		
