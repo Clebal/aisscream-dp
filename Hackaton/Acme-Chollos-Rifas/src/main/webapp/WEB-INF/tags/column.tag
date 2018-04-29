@@ -28,9 +28,14 @@
 <%@ attribute name="formatDate" required="false" %>
 <%@ attribute name="row" required="false" type="java.lang.Object" %>
 <%@ attribute name="style" required="false" %>
+<%@ attribute name="sortable" required="false" %>
 
 <jstl:if test="${formatDate == null}">
 	<jstl:set var="formatDate" value="false" />
+</jstl:if>
+
+<jstl:if test="${sortable == null}">
+	<jstl:set var="sortable" value="false" />
 </jstl:if>
 
 <jstl:if test="${style == null}">
@@ -48,10 +53,10 @@
 	</jstl:if>
 </jstl:if>
 
-<jstl:if test="${!property.equals('rendezvous') && !property.equals('user')}">
+<jstl:if test="${!property.equals('user')}">
 	<jstl:if test="${formatDate == true}">
 		<spring:message code="${domain}.format.moment" var="format"/>
-		<display:column style="${style}" property="${property}" title="${headerTitle}" format="{0,date,${format}}" />
+		<display:column style="${style}" property="${property}" title="${headerTitle}" format="{0,date,${format}}" sortable="${sortable}"/>
 	</jstl:if>
 	
 	<jstl:if test="${formatDate == false}">

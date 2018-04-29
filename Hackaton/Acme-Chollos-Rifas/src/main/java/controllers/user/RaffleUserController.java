@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,11 +17,13 @@ import controllers.AbstractController;
 
 import domain.Raffle;
 import domain.Ticket;
+import domain.User;
 import forms.TicketForm;
 
 import security.LoginService;
 import services.RaffleService;
 import services.TicketService;
+import services.UserService;
 
 import api.PaypalClient;
 
@@ -38,6 +39,9 @@ public class RaffleUserController extends AbstractController {
 	
 	@Autowired
 	private TicketService ticketService;
+	
+	@Autowired
+	private UserService	userService;
 	
     public RaffleUserController(){
         this.paypalClient = new PaypalClient();
@@ -60,7 +64,7 @@ public class RaffleUserController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/buy", method = RequestMethod.GET)
-	public ModelAndView buy(@RequestParam(defaultValue="CREDITCARD") final String method, @RequestParam final Integer amount, @RequestParam int raffleId) {
+	public ModelAndView buy(@RequestParam(defaultValue="CREDITCARD") final String method, @RequestParam(defaultValue="1", required=false) final Integer amount, @RequestParam int raffleId) {
 		ModelAndView result;
 		Raffle raffle;
 		Map<String, Object> attributes;
@@ -72,7 +76,7 @@ public class RaffleUserController extends AbstractController {
 		if(method.equals("CREDITCARD")) {
 			
 		} else if(method.equals("PAYPAL")) {
-			attributes = paypalClient.createPayment(String.valueOf(raffle.getPrice()), raffleId, amount);
+			attributes = paypalClient.createPayment(String.valueOf(raffle.getPrice()*amount), raffleId, amount);
 			
 			result = new ModelAndView("redirect:"+(String) attributes.get("redirect_url"));
 			
@@ -89,11 +93,13 @@ public class RaffleUserController extends AbstractController {
 		Collection<Ticket> tickets;
 		TicketForm ticketForm;
 		Raffle raffle;
+		User user;
 		
-		System.out.println(amount);
-
 		raffle = this.raffleService.findOne(raffleId);
 		Assert.notNull(raffle);
+		
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
 		
 		if(paymentId != null) {
 			paypalClient.completePayment(paymentId, PayerID);
@@ -102,6 +108,7 @@ public class RaffleUserController extends AbstractController {
 		ticketForm = new TicketForm();
 		ticketForm.setAmount(amount);
 		ticketForm.setRaffle(raffle);
+		ticketForm.setUser(user);
 		
 		tickets = this.ticketService.reconstruct(ticketForm, null);
 		Assert.notNull(tickets);

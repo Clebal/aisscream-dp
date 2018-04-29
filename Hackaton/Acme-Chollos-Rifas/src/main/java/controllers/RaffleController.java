@@ -15,17 +15,17 @@ import domain.Raffle;
 
 import services.RaffleService;
 
-import api.PaypalClient;
+//import api.PaypalClient;
 
 @Controller
 @RequestMapping(value="/raffle")
 public class RaffleController extends AbstractController {
 
-    private final PaypalClient paypalClient;
-    
-    public RaffleController(){
-        this.paypalClient = new PaypalClient();
-    }
+//    private final PaypalClient paypalClient;
+//    
+//    public RaffleController(){
+//        this.paypalClient = new PaypalClient();
+//    }
 	
 	@Autowired
 	private RaffleService raffleService;

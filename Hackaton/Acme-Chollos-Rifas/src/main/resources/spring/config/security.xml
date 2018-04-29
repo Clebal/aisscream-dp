@@ -81,7 +81,8 @@
 		<!-- Configuration -->
  		<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />		
 		 
-		 <!-- Raffle -->
+		<!-- Raffle -->
+		<security:intercept-url pattern="/raffle/list.do" access="permitAll" />
   		<security:intercept-url pattern="/raffle/display.do" access="permitAll" />		
    		<security:intercept-url pattern="/raffle/user/buy.do" access="hasRole('USER')" />		
 		<security:intercept-url pattern="/raffle/user/completepayment.do" access="hasRole('USER')"/>

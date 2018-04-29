@@ -15,4 +15,7 @@ public interface RaffleRepository extends JpaRepository<Raffle, Integer> {
 	@Query("select r from Raffle r where r IN (select t.raffle from Ticket t where t.user.userAccount.id = ?1)")
 	Page<Raffle> findByUserAccountId(int userAccountId, Pageable pageable);
 
+	@Query("select r from Raffle r where r.maxDate > CURRENT_DATE order by r.maxDate")
+	Page<Raffle> findOrderedByMaxDate(Pageable pageable);
+	
 }

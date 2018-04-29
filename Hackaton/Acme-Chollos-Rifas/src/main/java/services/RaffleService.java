@@ -82,6 +82,14 @@ public class RaffleService {
 		return result;
 	}
 	
+	public Page<Raffle> findOrderedByMaxDate(final int page, final int size) {
+		Page<Raffle> result;
+		
+		result = this.raffleRepository.findOrderedByMaxDate(this.getPageable(page, size));
+		
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;

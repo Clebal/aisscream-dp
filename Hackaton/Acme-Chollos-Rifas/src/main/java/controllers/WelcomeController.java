@@ -10,8 +10,8 @@
 
 package controllers;
 
-import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Raffle;
 
-import security.LoginService;
 import services.RaffleService;
 
 @Controller
@@ -40,13 +39,13 @@ public class WelcomeController extends AbstractController {
 	@RequestMapping(value = "/index")
 	public ModelAndView index() {
 		ModelAndView result;
-		Collection<Raffle> raffles;
+		Page<Raffle> raffles;
 		
-		raffles = this.raffleService.findAll();
+		raffles = this.raffleService.findOrderedByMaxDate(1, 3);
 		Assert.notNull(raffles);
 		
 		result = new ModelAndView("welcome/index");
-		result.addObject("raffles", raffles);
+		result.addObject("raffles", raffles.getContent());
 
 		return result;
 	}

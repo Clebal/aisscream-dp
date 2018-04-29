@@ -447,7 +447,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="productName" value="PlayStation 4" />
 		<property name="productImages">
 			<list>
-				<value>https://psmedia.playstation.com/is/image/psmedia/ps4-overview-screen-03-eu-06sep16?$MediaCarousel_LargeImage$</value>
+				<value>https://psmedia.playstation.com/is/image/psmedia/ps4-overview-screen-03-eu-06sep16</value>
 				<value>https://media.redadn.es/imagenes/playstation4_314481.jpg</value>
 			</list>
 		</property>
@@ -456,13 +456,85 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="company" ref="company1" />
 	</bean>
 	
-<!-- 	<bean id="raffle2" class="domain.Raffle">
+	<bean id="raffle2" class="domain.Raffle">
+		<property name="title" value="Sorteamos un lavavajillas" />
+		<property name="description" value="Sí sí sí! ya está aquí el nuevo sorteo que llevamos un tiempo preparando. En este caso se trata de un estupendo lavavajillas de última generación marca Samsung valorado en 750€." />
+		<property name="productName" value="Samsung In Wash" />
+		<property name="productUrl" value="https://www.samsung.com/us/home-appliances/washers/" />
+		<property name="productImages">
+			<list>
+				<value>http://img.global.news.samsung.com/global/wp-content/uploads/2015/09/Addwash_2.jpg</value>
+				<value>https://img.us.news.samsung.com/us/wp-content/uploads/2016/12/31205307/Image1-Flex-Wash-Flex-Dry-1.jpg</value>
+			</list>
+		</property>
+		<property name="maxDate" value="08/30/2018" />
 		<property name="price" value="2" />
+		<property name="company" ref="company1" />
 	</bean>
 	
 	<bean id="raffle3" class="domain.Raffle">
-		<property name="price" value="50" />
-	</bean> -->
+		<property name="title" value="Sorteo sorpresa" />
+		<property name="description" value="Si te gustan las emociones y las sorpresas esta es tu oportunidad... realizamos desde W4E un sorteo sorpresa. ¿Qué será? Uhhh, solo te podemos adelantar que su precio está entre los 300 y 350 euros. Anímate!" />
+		<property name="productName" value="Regalo Sorpresa" />
+		<property name="productImages">
+			<list>
+				<value>http://carolscaribbeancorner.com/wp-content/uploads/2013/03/Mysterygift11.jpg</value>
+			</list>
+		</property>
+		<property name="maxDate" value="12/15/2018" />
+		<property name="price" value="1" />
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean id="raffle4" class="domain.Raffle">
+		<property name="title" value="Tarjeta regalo de Amazon" />
+		<property name="description" value="Pequeño sorteo para el próximo mes de mayo por parte de nosotros, de Sukafe, tu empresa de confianza. En este caso vamos a sortear una tarjeta regalo de 50€ para gastar en Amazon, así de sumple. ¡Participa ya!" />
+		<property name="productName" value="Tarjeta regalo de Amazon" />
+		<property name="productUrl" value="https://www.amazon.es/Tarjeta-Regalo-Amazon-es-correo-postal/dp/B007M8RJ3E" />
+		<property name="productImages">
+			<list>
+				<value>https://www.peru-retail.com/wp-content/uploads/170915-amazon-mn-1135_c850ab65307569ac0a1ddaa9ef16187c.jpg</value>
+				<value>https://images-eu.ssl-images-amazon.com/images/G/30/gc/designs/livepreview/a_generic_10_v2016_es_noto_email_v2016_es-main._CB525592981_.png</value>
+			</list>
+		</property>
+		<property name="maxDate" value="04/05/2018" />
+		<property name="price" value="1" />
+		<property name="company" ref="company2" />
+	</bean>
+	
+	<bean id="raffle5" class="domain.Raffle">
+		<property name="title" value="Sorteo de un piso en Torrevieja, Alicante" />
+		<property name="description" value="Lo tiramos todo por la ventana, ¡¡nos hemos vuelto locos!! Para celebrar nuestros 10 años en pie, en AISS Cream hemos querido sorprenderemos con este lujoso sorteo de un apartamento en Torrevieja, Alicante." />
+		<property name="productName" value="Apartamento en Torrevieja" />
+		<property name="productImages">
+			<list>
+				<value>http://www.turisbox.com/lugares/wp-content/uploads/2016/05/El-Acequion-Torrevieja.jpg</value>
+				<value>http://www.inmorealty.es/wp-content/uploads/2017/02/piso-venta-alicante-torrevieja-inmorealty-3011-5.jpg</value>
+				<value>http://www.diarioinformacion.com/noticias-hoy/img/piso-alicante-1.jpg</value>
+				<value>http://www.inmorealty.es/wp-content/uploads/2015/11/apartamento-en-venta-vista-bella-torrevieja-alicante-inmorealty-4.jpg</value>
+				<value>http://www.inmorealty.es/wp-content/uploads/2017/02/piso-venta-alicante-torrevieja-inmorealty-3011-7.jpg</value>
+			</list>
+		</property>
+		<property name="maxDate" value="09/09/2019" />
+		<property name="price" value="20" />
+		<property name="company" ref="company3" />
+	</bean>
+	
+	<bean id="raffle6" class="domain.Raffle">
+		<property name="title" value="Jamón del bueno para tu casa: jamón ibérico" />
+		<property name="description" value="Estas navidades no dejes a tu familia sin una buena paletilla de jamón der gueno. Participa en este sorteo que seguro que no te decepcionará. Valorado en 240 euros!!" />
+		<property name="productName" value="Paletilla de jamón ibérico" />
+		<property name="productUrl" value="https://tinyurl.com/y8pl74ek" />
+		<property name="productImages">
+			<list>
+				<value>https://images-na.ssl-images-amazon.com/images/I/91cLKkOqIIL._SL1500_.jpg</value>
+				<value>https://images-na.ssl-images-amazon.com/images/I/714aLdXMoeL._SL1500_.jpg</value>
+			</list>
+		</property>
+		<property name="maxDate" value="15/12/2017" />
+		<property name="price" value="5" />
+		<property name="company" ref="company1" />
+	</bean>
 	
 	<!-- Ticket -->
 	<bean id="ticket1raffle1user1" class="domain.Ticket">

@@ -84,6 +84,9 @@ public class TicketService {
 		// El código único code no puede ser nulo
 		Assert.notNull(ticket.getCode());
 		
+		// Asignar código único
+		ticket.setCode(this.generateUniqueCode(ticket.getRaffle()));
+		
 		// Guardar
 		result = this.ticketRepository.save(ticket);
 		
@@ -110,7 +113,6 @@ public class TicketService {
 		
 		for(int i = 0; i < ticketForm.getAmount(); i++) {
 			ticket = this.create(ticketForm.getRaffle(), ticketForm.getUser(), ticketForm.getCreditCard());
-			ticket.setCode(this.generateUniqueCode(ticketForm.getRaffle()));
 			
 			if(binding != null) this.validator.validate(ticket, binding);
 			
