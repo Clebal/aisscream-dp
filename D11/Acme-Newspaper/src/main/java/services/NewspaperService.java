@@ -587,6 +587,7 @@ public class NewspaperService {
 		Authority authority;
 		Authority authority2;
 		Authority authority3;
+		Authority authority4;
 		Boolean result;
 		Date currentMoment;
 
@@ -598,6 +599,8 @@ public class NewspaperService {
 		authority2.setAuthority("CUSTOMER");
 		authority3 = new Authority();
 		authority3.setAuthority("ADMIN");
+		authority4 = new Authority();
+		authority4.setAuthority("AGENT");
 		currentMoment = new Date();
 		result = false;
 		if (LoginService.isAuthenticated()) {
@@ -609,6 +612,10 @@ public class NewspaperService {
 
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority2)) {
 				if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true) //SI está publicado
+					result = true;
+
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority4)) {
+				if (newspaper.getPublicationDate().compareTo(currentMoment) <= 0 && newspaper.getIsPublished() == true)
 					result = true;
 
 			} else if (LoginService.getPrincipal().getAuthorities().contains(authority3)) //El admin lo ve siempre
