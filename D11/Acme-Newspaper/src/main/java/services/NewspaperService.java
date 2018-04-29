@@ -2,7 +2,6 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -204,9 +203,7 @@ public class NewspaperService {
 	public void publish(final int newspaperId) {
 		Newspaper newspaperToPublish;
 		Date currentMoment;
-		final Calendar calendar = Calendar.getInstance(); //obtiene la fecha de hoy 
-		calendar.add(Calendar.DATE, -1);
-		currentMoment = calendar.getTime();
+		currentMoment = new Date();
 
 		newspaperToPublish = this.findOne(newspaperId);
 		Assert.notNull(newspaperToPublish);

@@ -21,7 +21,7 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	Page<Newspaper> findByCustomerId(int customerId, Pageable pageable); //Sirve para ver todas tus subscripciones
 
 	//Lista de que estén publicados y estén públicos
-	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_DATE and n.isPrivate=false and n.isPublished=true ")
+	@Query("select n from Newspaper n where n.publicationDate <=  CURRENT_TIMESTAMP and n.isPrivate=false and n.isPublished=true ")
 	Page<Newspaper> findPublicsAndPublicated(Pageable pageable); //Sirve para ver los públicos y publicados (para los anónimos)
 
 	//Todos los newspaper (para los logeados)
@@ -42,13 +42,13 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n where cast((select count(a) from Article a where a.newspaper.id=n.id)as float)>(select avg(cast((select count(a2) from Article a2 where a2.newspaper.id=n2.id)as float))*1.1 from Newspaper n2)")
 	Page<Newspaper> find10PercentageMoreAvg(Pageable pageable);
 
-	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_DATE and n.isPublished=true and n.isPrivate=false and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
+	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true and n.isPrivate=false and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
 	Page<Newspaper> findPublicsPublishedSearch(String keyWord, Pageable pageable);
 
-	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_DATE and n.isPublished=true and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
+	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true and (n.title like CONCAT('%',?1,'%') or n.description like CONCAT('%',?1,'%'))")
 	Page<Newspaper> findPublishedSearch(String keyWord, Pageable pageable);
 
-	@Query("select n from Newspaper n, Volume v where n.publisher.id=?2 and n.publicationDate <= CURRENT_DATE and n.isPublished=true and v.user.id=?2 and n not member of v.newspapers")
+	@Query("select n from Newspaper n, Volume v where n.publisher.id=?2 and n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true and v.user.id=?2 and n not member of v.newspapers")
 	Page<Newspaper> findAddNewspaper(int volumeId, int userId, Pageable pageable);
 
 	@Query("select n from Volume v join v.newspapers n where n.isPrivate=false and v.id=?1")
