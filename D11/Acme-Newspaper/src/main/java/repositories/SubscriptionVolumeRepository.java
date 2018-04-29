@@ -23,4 +23,7 @@ public interface SubscriptionVolumeRepository extends JpaRepository<Subscription
 	@Query("select s from SubscriptionVolume s where s.volume.id = ?1")
 	Collection<SubscriptionVolume> findByVolumeId(int id);
 
+	@Query("select (cast((select count(sv) from SubscriptionVolume sv) as float))/count(sn) from SubscriptionNewspaper sn")
+	Double ratioSubscritionVolumeVsSubscriptionNewspaper();
+
 }
