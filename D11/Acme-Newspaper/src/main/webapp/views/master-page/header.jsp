@@ -52,6 +52,7 @@
 					<li><a href="article/administrator/list.do"><spring:message code="master.page.administrator.articles" /></a></li>
 					<li><a href="article/administrator/listTaboo.do"><spring:message code="master.page.administrator.articles.taboo" /></a></li>
 					<li><a href="message/administrator/create.do"><spring:message code="master.page.administrator.broadcast" /></a></li>
+					<li><a href="advertisement/administrator/list.do"><spring:message code="master.page.administrator.advertisement" /></a></li>
 				</ul>
 			</security:authorize>
 			
@@ -82,6 +83,7 @@
 				<ul class="dropdown-menu">
 					<li><a href="newspaper/agent/listWithAdvertisements.do"><spring:message code="master.page.agent.newspapersLinked" /></a></li>
 					<li><a href="newspaper/agent/listWithNoAdvertisements.do"><spring:message code="master.page.agent.newspapersNoLinked" /></a></li>
+					<li><a href="advertisement/agent/list.do"><spring:message code="master.page.agent.advertisement" /></a></li>
 				</ul>
 			</security:authorize>
         </li>
