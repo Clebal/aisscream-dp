@@ -53,6 +53,16 @@
 	</security:authorize>	
 </jstl:if>
 
+	<jstl:if test="${requestURI.equals('newspaper/user/listPublished.do')}">
+		<display:column>
+				<a href="volume/user/create.do?newspaperId=${row.getId()}"> <spring:message
+						code="newspaper.volume.create" />
+				</a>
+		
+		</display:column>
+	</jstl:if>
+
+
 	<security:authorize access="hasRole('USER')">
 		<display:column>
 			<jstl:if test="${requestURI.equals('newspaper/user/addNewspaper.do')}">
@@ -189,7 +199,7 @@
 		
 </display:table>
 
-<jstl:if test="${requestURI.equals('newspaper/user/list.do') || requestURI.equals('newspaper/customer/list.do') || requestURI.equals('newspaper/list.do') || requestURI.equals('newspaper/customer/listForSubscribe.do') || requestURI.equals('newspaper/administrator/findTaboos.do') || requestURI.equals('newspaper/administrator/listMoreAverage.do') || requestURI.equals('newspaper/administrator/listFewerAverage.do') || requestURI.equals('newspaper/agent/listWithAdvertisements.do') || requestURI.equals('newspaper/agent/listWithNoAdvertisements.do')   }">
+<jstl:if test="${requestURI.equals('newspaper/user/list.do') || requestURI.equals('newspaper/user/listPublished.do') || requestURI.equals('newspaper/customer/list.do') || requestURI.equals('newspaper/list.do') || requestURI.equals('newspaper/customer/listForSubscribe.do') || requestURI.equals('newspaper/administrator/findTaboos.do') || requestURI.equals('newspaper/administrator/listMoreAverage.do') || requestURI.equals('newspaper/administrator/listFewerAverage.do') || requestURI.equals('newspaper/agent/listWithAdvertisements.do') || requestURI.equals('newspaper/agent/listWithNoAdvertisements.do')   }">
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}"/>
 </jstl:if>
 

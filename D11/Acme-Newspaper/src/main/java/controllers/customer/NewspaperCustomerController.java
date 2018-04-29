@@ -1,8 +1,6 @@
 
 package controllers.customer;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -55,19 +53,15 @@ public class NewspaperCustomerController extends AbstractController {
 	@RequestMapping(value = "/listForSubscribe", method = RequestMethod.GET)
 	public ModelAndView listForSubscribe(@RequestParam(required = false, defaultValue = "1") final Integer page) {
 		ModelAndView result;
-		Collection<Newspaper> newspapers;
-		Integer pageNumber;
+		Page<Newspaper> newspapers;
 
 		newspapers = this.newspaperService.findForSubscribe(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), page, 5);
 		Assert.notNull(newspapers);
-		pageNumber = this.newspaperService.countFindForSubscribe(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId());
-
-		pageNumber = (int) Math.floor(((pageNumber / (5 + 0.0)) - 0.1) + 1);
 
 		result = new ModelAndView("newspaper/list");
-		result.addObject("pageNumber", pageNumber);
+		result.addObject("pageNumber", newspapers.getTotalPages());
 		result.addObject("page", page);
-		result.addObject("newspapers", newspapers);
+		result.addObject("newspapers", newspapers.getContent());
 		result.addObject("requestURI", "newspaper/customer/listForSubscribe.do");
 
 		return result;

@@ -60,7 +60,7 @@
 <jstl:if test="${requestURI.equals('volume/user/list.do')}">
 	<div>
 	<br>
-		<a href="volume/user/create.do">
+		<a href="newspaper/user/listPublished.do">
 			<spring:message code="volume.create" />
 		</a>
 	</div>

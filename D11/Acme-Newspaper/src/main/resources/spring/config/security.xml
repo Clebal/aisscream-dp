@@ -112,6 +112,11 @@
 		<security:intercept-url pattern="/newspaper/user/putPublic.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/putPrivate.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/edit.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/newspaper/user/addNewspaper.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/newspaper/user/deleteNewspaper.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/newspaper/user/listPublished.do" access="hasRole('USER')" />
+		
+		
 		
 		<security:intercept-url pattern="/newspaper/agent/listWithAdvertisements.do" access="hasRole('AGENT')" />
 		<security:intercept-url pattern="/newspaper/agent/listWithNoAdvertisements.do" access="hasRole('AGENT')" />
@@ -119,6 +124,7 @@
 		<security:intercept-url pattern="/newspaper/display.do" access="permitAll" />
 		<security:intercept-url pattern="/newspaper/list.do" access="permitAll" />
 		<security:intercept-url pattern="/newspaper/listSearch.do" access="permitAll" />
+		<security:intercept-url pattern="/newspaper/listFromVolume.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/volume/display.do" access="permitAll" />
 		<security:intercept-url pattern="/volume/list.do" access="permitAll" />

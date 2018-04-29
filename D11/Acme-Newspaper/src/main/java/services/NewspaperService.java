@@ -4,7 +4,6 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -263,6 +262,24 @@ public class NewspaperService {
 
 	}
 
+	public Page<Newspaper> findByUserIdPublished(final int userId, final int page, final int size) {
+		Page<Newspaper> result;
+		Authority authority;
+
+		Assert.isTrue(userId != 0);
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == userId);
+
+		result = this.newspaperRepository.findByUserIdPublished(userId, this.getPageable(page, size));
+
+		return result;
+
+	}
+
 	public Page<Newspaper> findByCustomerId(final int customerId, final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
@@ -371,45 +388,19 @@ public class NewspaperService {
 		return result;
 	}
 
-	public Collection<Newspaper> findForSubscribe(final int customerId, final int page, final int size) {
-		List<Integer> listId;
-		List<Newspaper> result;
-		Newspaper newspaper;
-		Integer tamaño, pageAux, fromId, toId;
+	public Page<Newspaper> findForSubscribe(final int customerId, final int page, final int size) {
+		Page<Newspaper> result;
 		Authority authority;
 
 		authority = new Authority();
 		authority.setAuthority("CUSTOMER");
 
 		Assert.isTrue(customerId != 0);
-		result = new ArrayList<Newspaper>();
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		Assert.isTrue(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == customerId);
-		listId = new ArrayList<Integer>(this.newspaperRepository.findForSubscribe(customerId));
-		tamaño = listId.size();
 
-		pageAux = page;
-		if (page <= 0)
-			pageAux = 1;
-
-		fromId = (pageAux - 1) * size;
-		if (fromId > tamaño)
-			fromId = 0;
-		toId = (pageAux * size);
-		if (tamaño > size) {
-			if (toId > tamaño && fromId == 0)
-				toId = size;
-			else if (toId > tamaño && fromId != 0)
-				toId = tamaño;
-		} else
-			toId = tamaño;
-
-		for (final Integer newspaperId : listId.subList(fromId, toId)) {
-			newspaper = this.findOne(newspaperId);
-
-			result.add(newspaper);
-		}
+		result = this.newspaperRepository.findForSubscribe(customerId, this.getPageable(page, size));
 
 		return result;
 	}
@@ -484,15 +475,15 @@ public class NewspaperService {
 		this.newspaperRepository.save(newspaper);
 	}
 
-	public Integer countFindForSubscribe(final int customerId) {
-		Integer result;
-
-		Assert.isTrue(customerId != 0);
-
-		result = this.newspaperRepository.countFindForSubscribe(customerId);
-
-		return result;
-	}
+	//	public Integer countFindForSubscribe(final int customerId) {
+	//		Integer result;
+	//
+	//		Assert.isTrue(customerId != 0);
+	//
+	//		result = this.newspaperRepository.countFindForSubscribe(customerId);
+	//
+	//		return result;
+	//	}
 
 	public Double[] avgStandarDevNewspapersCreatedPerUser() {
 		Double[] result;

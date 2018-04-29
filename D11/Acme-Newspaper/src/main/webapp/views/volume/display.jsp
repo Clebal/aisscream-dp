@@ -21,10 +21,11 @@
 			<acme:display code="volume.description" value="${volume.getDescription()}"/>
 					
 			<acme:display code="volume.year" value="${volume.getYear()}" />
+					
+			<acme:displayLink parametre="volumeId" code="volume.newspapers" action="newspaper/listFromVolume.do" parametreValue="${volume.getId()}"/>
 						
 		</div>
 	
-	<acme:displayLink parametre="volumeId" code="volume.newspapers" action="newspaper/listFromVolume.do" parametreValue="${volume.getId()}"/>
 	
 	<security:authorize access="hasRole('USER')">
 	<security:authentication var="principal" property="principal.username"/>

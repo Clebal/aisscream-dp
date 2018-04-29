@@ -59,6 +59,23 @@ public class NewspaperUserController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/listPublished", method = RequestMethod.GET)
+	public ModelAndView listPublished(@RequestParam(required = false, defaultValue = "1") final Integer page) {
+		ModelAndView result;
+		Page<Newspaper> newspapers;
+
+		newspapers = this.newspaperService.findByUserIdPublished(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), page, 5);
+		Assert.notNull(newspapers);
+
+		result = new ModelAndView("newspaper/list");
+		result.addObject("pageNumber", newspapers.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("newspapers", newspapers.getContent());
+		result.addObject("requestURI", "newspaper/user/listPublished.do");
+
+		return result;
+	}
+
 	@RequestMapping(value = "/addNewspaper", method = RequestMethod.GET)
 	public ModelAndView listAddNewspaper(@RequestParam final int volumeId, @RequestParam(required = false, defaultValue = "1") final Integer page) {
 		ModelAndView result;

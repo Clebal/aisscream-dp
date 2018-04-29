@@ -17,7 +17,7 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n where n.publisher.id = ?1")
 	Page<Newspaper> findByUserId(int userId, Pageable pageable); //Sirve para ver tus newspaper
 
-	@Query("select s.newspaper from SubscriptionNewspaper s where s.customer.id = ?1")
+	@Query("select n from Newspaper n where n IN (select sn.newspaper from SubscriptionNewspaper sn where sn.customer.id=?1) or n IN (select n2 from SubscriptionVolume sv join sv.volume.newspapers n2 where sv.customer.id=?1)")
 	Page<Newspaper> findByCustomerId(int customerId, Pageable pageable); //Sirve para ver todas tus subscripciones
 
 	//Lista de que estén publicados y estén públicos
@@ -33,11 +33,11 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	Page<Newspaper> findTaboos(Pageable pageable);
 
 	//Lista de newspapers privados y publicados a los que te puedes subscribir
-	@Query(value = "select n.id from Newspaper n where n.id NOT IN (select (s.newspaper_id) from SubscriptionNewspaper s where s.customer_id=?1) and n.isPrivate=true", nativeQuery = true)
-	Collection<Integer> findForSubscribe(int customerId); //Sirve para suscribirse a un newspaper
+	@Query("select n from Newspaper n where n.id NOT IN (select (s.newspaper.id) from SubscriptionNewspaper s where s.customer.id=?1) and n.isPrivate=true and n.id NOT IN (select (n1) from SubscriptionVolume sv join sv.volume.newspapers n1 where sv.customer.id=?1)")
+	Page<Newspaper> findForSubscribe(int customerId, Pageable pageable); //Sirve para suscribirse a un newspaper
 
-	@Query(value = "select count(n.id) from Newspaper n where n.id NOT IN (select (s.newspaper_id) from SubscriptionNewspaper s where s.customer_id=?1) and n.isPrivate=true", nativeQuery = true)
-	Integer countFindForSubscribe(int customerId);
+	//	@Query(value = "select count(n.id) from Newspaper n where n.id NOT IN (select (s.newspaper_id) from SubscriptionNewspaper s where s.customer_id=?1) and n.isPrivate=true", nativeQuery = true)
+	//	Integer countFindForSubscribe(int customerId);
 
 	@Query("select n from Newspaper n where cast((select count(a) from Article a where a.newspaper.id=n.id)as float)>(select avg(cast((select count(a2) from Article a2 where a2.newspaper.id=n2.id)as float))*1.1 from Newspaper n2)")
 	Page<Newspaper> find10PercentageMoreAvg(Pageable pageable);
@@ -59,6 +59,9 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 
 	@Query("select n from Newspaper n where n.advertisements.size>=1")
 	Page<Newspaper> findNewspapersWithAdvertisements(Pageable pageable);
+
+	@Query("select n from Newspaper n where n.publisher.id = ?1 and n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true")
+	Page<Newspaper> findByUserIdPublished(int userId, Pageable pageable);
 
 	@Query("select n from Newspaper n join n.advertisements a where a.id=?1")
 	Collection<Newspaper> findNewspapersToUpdateAdvertisements(int advertisementId);
