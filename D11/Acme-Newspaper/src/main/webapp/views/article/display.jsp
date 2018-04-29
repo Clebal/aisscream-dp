@@ -10,6 +10,12 @@
 
 <div class="container">
 
+	<jstl:if test="${advertisement!=null}">
+		<acme:image value="${advertisement.getUrlBanner()}" alt="${advertisementAlt}" url="${advertisement.getUrlTarget()}"/>
+		<br>
+		<br>
+	</jstl:if>
+
 	<acme:display code="article.moment" value="${article.getMoment()}" codeMoment="article.format.moment"/>
 
 	<acme:display code="article.title" value="${article.getTitle()}"/>

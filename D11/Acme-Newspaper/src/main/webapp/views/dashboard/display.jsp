@@ -127,11 +127,28 @@
 		<br/>
 		
 		<div class="container">
-			<acme:display code="dashboard.ratio.advertisement.newspaper" value="${ratioNewspaperHaveAdvertisementVsHavent}" formatNumber="true"/>
+			<acme:display code="dashboard.ratio.public.newspaper" value="${averageRatioPrivateVsPublicNewspaperPerPublisher}" formatNumber="true"/>
 			
 			
 		</div>
 		<br/>
+		
+		<h4><spring:message code="dashboard.suscribers.newspaper" /></h4>
+		<c:forEach items="${ratioSuscribersPrivateVsTotalCustomer}" var="entry">
+  			<p><span class="display"><jstl:out value="${entry.key.title}" /></span>: <jstl:out value="${entry.value}" /></p>
+		</c:forEach>
+		<br>
+		
+	<acme:paginate pageNumber="${pageNumber }" url="dashboard/administrator/display.do" objects="${ratioSuscribersPrivateVsTotalCustomer.values()}" page="${page }"/>
+		
+		<br/><br/>
+				
+		<div class="container">
+			<acme:display code="dashboard.ratio.advertisement.newspaper" value="${ratioNewspaperHaveAdvertisementVsHavent}" formatNumber="true"/>
+			
+			
+		</div>
+		<br />
 		
 		<div class="container">
 			<acme:display code="dashboard.ratio.advertisement" value="${ratioAdvertisementHaveTaboo}" formatNumber="true"/>
@@ -153,30 +170,6 @@
 			
 		</div>
 		<br/>
-		
-		<div class="container">
-			
-			
-		</div>
-		<br/>
-		
-		
-		
-		<div class="container">
-			<acme:display code="dashboard.ratio.public.newspaper" value="${averageRatioPrivateVsPublicNewspaperPerPublisher}" formatNumber="true"/>
-			
-			
-		</div>
-		<br/>
-		
-		<h4><spring:message code="dashboard.suscribers.newspaper" /></h4>
-		<c:forEach items="${ratioSuscribersPrivateVsTotalCustomer}" var="entry">
-  			<p><span class="display"><jstl:out value="${entry.key.title}" /></span>: <jstl:out value="${entry.value}" /></p>
-		</c:forEach>
-		<br>
-		
-	<acme:paginate pageNumber="${pageNumber }" url="dashboard/administrator/display.do" objects="${ratioSuscribersPrivateVsTotalCustomer.values()}" page="${page }"/>
-		
 	</div>
 	
 	

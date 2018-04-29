@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.AdvertisementService;
 import services.ArticleService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.Advertisement;
 import domain.Article;
 
 @Controller
@@ -26,6 +28,9 @@ public class ArticleController extends AbstractController {
 	
 	@Autowired
 	private UserService					userService;
+	
+	@Autowired
+	private AdvertisementService 		advertisementService;
 	
 	// Constructor
 	public ArticleController() {
@@ -131,6 +136,9 @@ public class ArticleController extends AbstractController {
 
 			result = new ModelAndView("article/display");
 			result.addObject("article", article);
+			Advertisement advertisement;
+			advertisement = this.advertisementService.findRandomAdvertisement(article.getNewspaper().getId());
+			result.addObject("advertisement", advertisement);
 
 			return result;
 		}
