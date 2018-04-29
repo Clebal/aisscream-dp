@@ -25,6 +25,7 @@
 
 <%@ attribute name="alt" required="false" %> 
 <%@ attribute name="value" required="true"%>
+<%@ attribute name="url" required="false"%>
 
 <%-- Definition --%>
 
@@ -33,7 +34,15 @@
 </jstl:if>
 
 <jstl:if test="${alt!=null}">
-	<img src="${value}" alt="${alt}" width="400px" height="200px" style="text-align: center; margin:auto;" />
+
+	<jstl:if test="${url==null}">
+		<img src="${value}" alt="${alt}" width="400px" height="200px" style="text-align: center; margin:auto;" />
+	</jstl:if>
+	
+	<jstl:if test="${url!=null}">
+		<a href="${url}"><img src="${value}" alt="${alt}" width="400px" height="200px" style="text-align: center; margin:auto;" /></a>
+	</jstl:if>
+	
 </jstl:if>
 
 

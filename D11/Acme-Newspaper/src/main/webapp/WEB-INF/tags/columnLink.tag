@@ -25,7 +25,9 @@
 
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="domain" required="true" %>
+<%@ attribute name="domain2" required="false" %>
 <%@ attribute name="id" required="true" %>
+<%@ attribute name="id2" required="false" %>
 <%@ attribute name="url" required="false" %>
 <%@ attribute name="style" required="false" %>
 <%@ attribute name="actor" required="false" %>
@@ -45,6 +47,9 @@
 <jstl:if test="${actor != null && url == null}">
 	<spring:url value="${domain}/${actor}/${action}.do" var="url">
 		<spring:param name="${domain}Id" value="${id}" />
+		<jstl:if test="${domain2!=null && id2!=null}">
+			<spring:param name="${domain2}Id" value="${id2}" />
+		</jstl:if>
 	</spring:url>
 </jstl:if>
 

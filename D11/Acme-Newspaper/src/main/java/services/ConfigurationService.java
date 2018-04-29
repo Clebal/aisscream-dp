@@ -32,6 +32,9 @@ public class ConfigurationService {
 
 	@Autowired
 	private NewspaperService		newspaperService;
+	
+	@Autowired
+	private AdvertisementService	advertisementService;
 
 	@Autowired
 	private Validator				validator;
@@ -82,6 +85,7 @@ public class ConfigurationService {
 		this.chirpService.findTaboos();
 		this.articleService.findTaboos();
 		this.newspaperService.findTaboos();
+		this.advertisementService.findTaboos();
 
 	}
 
