@@ -543,6 +543,36 @@ public class NewspaperService {
 
 	}
 
+	public Double ratioNewspapersWithOneAdvertisementVsHaventAny() {
+		Double result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.newspaperRepository.ratioNewspapersWithOneAdvertisementVsHaventAny();
+
+		return result;
+
+	}
+
+	public Double averageNewspaperPerVolume() {
+		Double result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.newspaperRepository.averageNewspaperPerVolume();
+
+		return result;
+
+	}
+
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
 
