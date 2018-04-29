@@ -47,11 +47,17 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="articles" id="row" requestURI="${requestURI}">
 
-	<jstl:if test="${editar}">
-	<acme:columnLink action="edit" domain="article" actor="user" id="${row.getId()}" />
+
+	<display:column title="">
+	<jstl:if test="${editar && !row.getIsFinalMode()}">
+		<spring:url var="urlEdit" value="article/user/edit.do">
+		<spring:param name="articleId" value="${row.getId()}" />
+		</spring:url>
+		<p><a href="${urlEdit}"> <spring:message code="article.edit" /></a></p>		
 	</jstl:if>
+	</display:column>
 	
-	<jstl:if test="${borrar && requestURI == 'article/administrador/list.do'}">
+	<jstl:if test="${borrar && requestURI == 'article/administrator/list.do'}">
 	<acme:columnLink action="deleteLis" domain="article" id="${row.getId()}" actor="administrator"/>
 	</jstl:if>
 	<jstl:if test="${borrar && requestURI == 'article/administrator/listTaboo.do'}">

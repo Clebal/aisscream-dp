@@ -87,7 +87,7 @@ public class ArticleAdministratorController extends AbstractController {
 			result.addObject("articles", articles.getContent());
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", pageAux);
-			result.addObject("requestURI", "article/administrador/list.do");
+			result.addObject("requestURI", "article/administrator/list.do");
 			result.addObject("editar", editar);
 			result.addObject("borrar", borrar);
 			result.addObject("taboo", taboo);
