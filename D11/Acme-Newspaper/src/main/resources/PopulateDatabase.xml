@@ -306,6 +306,52 @@
 		<property name="agent" ref="agent1" />
 	</bean>
 	
+		<bean id="advertisement3" class="domain.Advertisement">
+		<property name="title" value="Advertisement Lanjarón" />
+		<property name="urlBanner" value="http://www.ideal.es/granada/noticias/201303/21/Media/Granada/logo-lj--647x350.jpg" />
+		<property name="urlTarget" value="http://www.ideal.es/granada/20130322/local/provincia-granada/agua-bien-preciado-lanjaron-201303220204.html" />
+		<property name="creditCard" ref="creditCard7" />
+		<property name="hasTaboo" value="false" />
+		<property name="agent" ref="agent1" />
+	</bean>
+	
+	<bean id="advertisement4" class="domain.Advertisement">
+		<property name="title" value="Advertisement Fanta" />
+		<property name="urlBanner" value="http://www.cocacolaespana.es/content/dam/journey/es/es/private/historia/love-coca-cola/2015/Para-descubrir-todos-los-hero.png" />
+		<property name="urlTarget" value="https://www.cocacolaespana.es/historias/sabores-fanta" />
+		<property name="creditCard" ref="creditCard7" />
+		<property name="hasTaboo" value="false" />
+		<property name="agent" ref="agent1" />
+	</bean>
+	
+	<bean id="advertisement5" class="domain.Advertisement">
+		<property name="title" value="Advertisement LG" />
+		<property name="urlBanner" value="https://i.ytimg.com/vi/lPenrjRWbw8/maxresdefault.jpg" />
+		<property name="urlTarget" value="https://www.youtube.com/watch?v=lPenrjRWbw8" />
+		<property name="creditCard" ref="creditCard7" />
+		<property name="hasTaboo" value="false" />
+		<property name="agent" ref="agent1" />
+	</bean>
+	
+	<bean id="advertisement6" class="domain.Advertisement">
+		<property name="title" value="Advertisement Coca Cola" />
+		<property name="urlBanner" value="http://1000logos.net/wp-content/uploads/2016/11/coca-cola-classic-logo.jpg" />
+		<property name="urlTarget" value="https://www.cocacola.es/home/" />
+		<property name="creditCard" ref="creditCard4" />
+		<property name="hasTaboo" value="false" />
+		<property name="agent" ref="agent2" />
+	</bean>
+	
+	
+	<bean id="advertisement7" class="domain.Advertisement">
+		<property name="title" value="Advertisement Bic" />
+		<property name="urlBanner" value="http://www.ofistore.com/blog/wp-content/uploads/2015/07/bic_logo1.png" />
+		<property name="urlTarget" value="http://www.ofistore.com/blog/curiosidades-boligrafo-bic-cristal/" />
+		<property name="creditCard" ref="creditCard7" />
+		<property name="hasTaboo" value="false" />
+		<property name="agent" ref="agent1" />
+	</bean>
+	
 	<!--  -->
 	
 	<!-- Message -->
