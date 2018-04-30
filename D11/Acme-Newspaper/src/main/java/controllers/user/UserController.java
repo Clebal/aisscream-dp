@@ -87,6 +87,7 @@ public class UserController extends AbstractController {
 		next = true;
 		result = null;
 		user = null;
+		if(userForm.getPhoneNumber() != null && userForm.getPhoneNumber().equals("")) userForm.setPhoneNumber(null);
 		try {
 			user = this.userService.reconstruct(userForm, binding);
 		} catch (final Throwable e) {

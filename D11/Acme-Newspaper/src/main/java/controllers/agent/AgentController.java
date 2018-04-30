@@ -49,6 +49,7 @@ public class AgentController extends AbstractController {
 		next = true;
 		result = null;
 		agent = null;
+		if(agentForm.getPhoneNumber() != null && agentForm.getPhoneNumber().equals("")) agentForm.setPhoneNumber(null);
 		try {
 			agent = this.agentService.reconstruct(agentForm, binding);
 		} catch (final Throwable e) {

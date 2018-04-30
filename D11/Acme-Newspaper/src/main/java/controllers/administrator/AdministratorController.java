@@ -41,6 +41,7 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView save(Administrator administrator, final BindingResult binding) {
 		ModelAndView result;
 
+		if(administrator.getPhoneNumber() != null && administrator.getPhoneNumber().equals("")) administrator.setPhoneNumber(null);
 		administrator = this.administratorService.reconstruct(administrator, binding);
 
 		if (binding.hasErrors())

@@ -49,6 +49,7 @@ public class CustomerController extends AbstractController {
 		next = true;
 		result = null;
 		customer = null;
+		if(customerForm.getPhoneNumber() != null && customerForm.getPhoneNumber().equals("")) customerForm.setPhoneNumber(null);
 		try {
 			customer = this.customerService.reconstruct(customerForm, binding);
 		} catch (final Throwable e) {
