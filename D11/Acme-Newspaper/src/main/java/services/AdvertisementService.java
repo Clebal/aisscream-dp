@@ -92,11 +92,11 @@ public class AdvertisementService {
 		//CreditCard no caducada
 		//Caduca este año
 		if (calendar.get(Calendar.YEAR) % 100 == advertisement.getCreditCard().getExpirationYear())
-			Assert.isTrue(((advertisement.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 2);
+			Assert.isTrue(((advertisement.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 1);
 
 		//Caduca año próximo
-		else if ((calendar.get(Calendar.YEAR) % 100) + 1 == advertisement.getCreditCard().getExpirationYear())
-			Assert.isTrue(advertisement.getCreditCard().getExpirationMonth() >= 2 || calendar.get(Calendar.MONTH) + 1 <= 11);
+		//		else if ((calendar.get(Calendar.YEAR) % 100) + 1 == advertisement.getCreditCard().getExpirationYear())
+		//			Assert.isTrue(advertisement.getCreditCard().getExpirationMonth() >= 2 || calendar.get(Calendar.MONTH) + 1 <= 11);
 
 		//Caduca más tarde
 		else

@@ -111,11 +111,11 @@ public class SubscriptionVolumeService {
 		//CreditCard no caducada
 		//Caduca este año
 		if (calendar.get(Calendar.YEAR) % 100 == subscriptionVolume.getCreditCard().getExpirationYear())
-			Assert.isTrue(((subscriptionVolume.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 2);
+			Assert.isTrue(((subscriptionVolume.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 1);
 
-		//Caduca año próximo
-		else if ((calendar.get(Calendar.YEAR) % 100) + 1 == subscriptionVolume.getCreditCard().getExpirationYear())
-			Assert.isTrue(subscriptionVolume.getCreditCard().getExpirationMonth() >= 2 || calendar.get(Calendar.MONTH) + 1 <= 11);
+		//		//Caduca año próximo
+		//		else if ((calendar.get(Calendar.YEAR) % 100) + 1 == subscriptionVolume.getCreditCard().getExpirationYear())
+		//			Assert.isTrue(subscriptionVolume.getCreditCard().getExpirationMonth() >= 2 || calendar.get(Calendar.MONTH) + 1 <= 11);
 
 		//Caduca más tarde
 		else
