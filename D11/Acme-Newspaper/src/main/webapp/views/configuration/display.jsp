@@ -9,10 +9,10 @@
 
 <div class="container">
 
-	<spring:message code="configuration.taboo.words" />
-
+	<strong><spring:message code="configuration.taboo.words" /></strong>
+	<br>
 	<jstl:forEach var="row" items="${configuration.getTabooWords()}">
-		<jstl:out value="${row}"></jstl:out>
+		<jstl:out value="${row} "></jstl:out>
 	</jstl:forEach>
 	<br>
 	<br>
