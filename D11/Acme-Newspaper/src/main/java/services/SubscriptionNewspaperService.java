@@ -1,5 +1,6 @@
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,7 @@ public class SubscriptionNewspaperService {
 		SubscriptionNewspaper result;
 		Authority authority;
 		Boolean subscriptionNewspaperNoExists;
+		Calendar calendar;
 		
 		Assert.notNull(subscriptionNewspaper);
 		result = null;
@@ -103,6 +105,22 @@ public class SubscriptionNewspaperService {
 			Assert.isTrue(subscriptionNewspaperNoExists);
 			Assert.isTrue(subscriptionNewspaper.getNewspaper().getIsPrivate());
 		}
+		
+		calendar = Calendar.getInstance();
+
+		//CreditCard no caducada
+		//Caduca este año
+		if (calendar.get(Calendar.YEAR) % 100 == subscriptionNewspaper.getCreditCard().getExpirationYear())
+			Assert.isTrue(((subscriptionNewspaper.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 2);
+
+		//Caduca año próximo
+		else if ((calendar.get(Calendar.YEAR) % 100) + 1 == subscriptionNewspaper.getCreditCard().getExpirationYear())
+			Assert.isTrue(subscriptionNewspaper.getCreditCard().getExpirationMonth() >= 2 || calendar.get(Calendar.MONTH) + 1 <= 11);
+
+		//Caduca más tarde
+		else
+			Assert.isTrue(calendar.get(Calendar.YEAR) % 100 < subscriptionNewspaper.getCreditCard().getExpirationYear());
+
 		
 		result = this.subscriptionNewspaperRepository.save(subscriptionNewspaper);
 		
@@ -220,20 +238,23 @@ public class SubscriptionNewspaperService {
 	
 	// Pruned object domain
 	public SubscriptionNewspaper reconstruct(final SubscriptionNewspaper subscriptionNewspaper, final BindingResult binding) {
+		SubscriptionNewspaper result;
 		SubscriptionNewspaper aux;
 
-		if(subscriptionNewspaper.getId() != 0) {
+		if (subscriptionNewspaper.getId() == 0)
+			result = subscriptionNewspaper;
+		else {
+			result = subscriptionNewspaper;
 			aux = this.subscriptionNewspaperRepository.findOne(subscriptionNewspaper.getId());
-			
-			subscriptionNewspaper.setVersion(aux.getVersion());
-			subscriptionNewspaper.setCustomer(aux.getCustomer());
-			subscriptionNewspaper.setNewspaper(aux.getNewspaper());
-			
+			result.setVersion(aux.getVersion());
+			result.setCustomer(aux.getCustomer());
+			result.setNewspaper(aux.getNewspaper());
+			result.setCreditCard(subscriptionNewspaper.getCreditCard());
 		}
-		
-		this.validator.validate(subscriptionNewspaper, binding);
 
-		return subscriptionNewspaper;
+		this.validator.validate(result, binding);
+
+		return result;
 	}
 	
 }

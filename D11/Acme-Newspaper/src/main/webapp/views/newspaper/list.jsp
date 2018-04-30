@@ -102,7 +102,7 @@
 	<security:authorize access="hasRole('CUSTOMER')">
 		<display:column>
 			<jstl:if test="${requestURI.equals('newspaper/customer/listForSubscribe.do')}">
-			<a href="subscription/customer/create.do?newspaperId=${row.getId()}"> <spring:message
+			<a href="subscriptionNewspaper/customer/create.do?newspaperId=${row.getId()}"> <spring:message
 					code="newspaper.create.subscription" />
 			</a>
 			</jstl:if>

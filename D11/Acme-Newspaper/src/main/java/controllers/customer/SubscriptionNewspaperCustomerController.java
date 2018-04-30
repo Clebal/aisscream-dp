@@ -1,5 +1,9 @@
 package controllers.customer;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import security.LoginService;
 import services.SubscriptionNewspaperService;
@@ -16,6 +21,9 @@ import services.CustomerService;
 import services.NewspaperService;
 
 import controllers.AbstractController;
+import converters.CreditCardToStringConverter;
+import converters.StringToCreditCardConverter;
+import domain.Customer;
 import domain.SubscriptionNewspaper;
 
 @Controller
@@ -31,6 +39,12 @@ public class SubscriptionNewspaperCustomerController extends AbstractController 
 	
 	@Autowired
 	private NewspaperService newspaperService;
+	
+	@Autowired
+	private CreditCardToStringConverter	creditCardToStringConverter;
+	
+	@Autowired
+	private StringToCreditCardConverter	stringToCreditCardConverter;
 	
 	// Constructor
 	public SubscriptionNewspaperCustomerController() {
@@ -56,15 +70,22 @@ public class SubscriptionNewspaperCustomerController extends AbstractController 
 	
 	// Create
 	@RequestMapping(value="/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final int newspaperId) {
+	public ModelAndView create(@RequestParam final int newspaperId, final HttpServletRequest request) {
 		ModelAndView result;
-		SubscriptionNewspaper subscriptionNewspaper;		
+		SubscriptionNewspaper subscriptionNewspaper;
+		Cookie cookie;
+		Customer customer;
 
 		subscriptionNewspaper = this.subscriptionNewspaperService.create(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()), this.newspaperService.findOne(newspaperId));
+		customer = this.customerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(subscriptionNewspaper);
 
 		result = this.createEditModelAndView(subscriptionNewspaper);
 		
+		cookie = WebUtils.getCookie(request, "cookiemonster_" + customer.getId());
+		if (cookie != null)
+			result.addObject("lastCreditCard", this.stringToCreditCardConverter.convert(cookie.getValue()));
+
 		return result;
 	}
 
@@ -84,8 +105,9 @@ public class SubscriptionNewspaperCustomerController extends AbstractController 
 	
 	// Edit
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(SubscriptionNewspaper subscriptionNewspaper, BindingResult binding) {
+	public ModelAndView save(SubscriptionNewspaper subscriptionNewspaper, BindingResult binding, final HttpServletResponse response) {
 		ModelAndView result;
+		Cookie lastCreditCard;
 		
 		subscriptionNewspaper = this.subscriptionNewspaperService.reconstruct(subscriptionNewspaper, binding);
 		
@@ -94,6 +116,12 @@ public class SubscriptionNewspaperCustomerController extends AbstractController 
 		}else{
 			try {
 				this.subscriptionNewspaperService.save(subscriptionNewspaper);
+				// --- COOKIE --- //
+				lastCreditCard = new Cookie("cookiemonster_" + subscriptionNewspaper.getCustomer().getId(), this.creditCardToStringConverter.convert(subscriptionNewspaper.getCreditCard()));
+				lastCreditCard.setHttpOnly(true);
+				lastCreditCard.setMaxAge(3600000);
+				response.addCookie(lastCreditCard);
+				// --- COOKIE --- //
 				result = new ModelAndView("redirect:list.do");
 			} catch (Throwable oops) {
 				result = this.createEditModelAndView(subscriptionNewspaper, "subscriptionNewspaper.commit.error");

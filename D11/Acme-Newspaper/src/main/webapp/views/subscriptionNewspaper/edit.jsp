@@ -12,27 +12,43 @@
 <form:form action="subscriptionNewspaper/customer/edit.do" modelAttribute="subscriptionNewspaper">
 
 	<form:hidden path="id" />
-	<form:hidden path="newspaper"/>
 	
-	<jstl:if test="${subscription.getId() == 0}">
+	<jstl:if test="${subscriptionNewspaper.getId() == 0}">
 		<form:hidden path="customer" />
+		<form:hidden path="newspaper"/>
 	</jstl:if>
 	
-	<acme:textbox code="subscription.creditCard.holderName" path="creditCard.holderName"/>
+	<jstl:if test="${lastCreditCard==null}">
+		<acme:textbox code="subscription.creditCard.holderName" path="creditCard.holderName"/>
+		
+		<acme:textbox code="subscription.creditCard.brandName" path="creditCard.brandName"/>
 	
-	<acme:textbox code="subscription.creditCard.brandName" path="creditCard.brandName"/>
-
-	<acme:textbox code="subscription.creditCard.number" path="creditCard.number"/>
-	 
-	<acme:textbox code="subscription.creditCard.expirationMonth" path="creditCard.expirationMonth"/>
-	 
-	<acme:textbox code="subscription.creditCard.expirationYear" path="creditCard.expirationYear"/>
-	 
-	<acme:textbox code="subscription.creditCard.cvvcode" path="creditCard.cvvcode"/>	
+		<acme:textbox code="subscription.creditCard.number" path="creditCard.number"/>
+		 
+		<acme:textbox code="subscription.creditCard.expirationMonth" path="creditCard.expirationMonth"/>
+		 
+		<acme:textbox code="subscription.creditCard.expirationYear" path="creditCard.expirationYear"/>
+		 
+		<acme:textbox code="subscription.creditCard.cvvcode" path="creditCard.cvvcode"/>	
+	</jstl:if>
+	
+	<jstl:if test="${lastCreditCard!=null && subscriptionNewspaper.getId()==0}">
+		<acme:textbox code="subscription.creditCard.holderName" path="creditCard.holderName" value="${lastCreditCard.getHolderName()}"/>
+	
+		<acme:textbox code="subscription.creditCard.brandName" path="creditCard.brandName" value="${lastCreditCard.getBrandName()}"/>
+	
+		<acme:textbox code="subscription.creditCard.number" path="creditCard.number" value="${lastCreditCard.getNumber()}"/>
+		
+		<acme:textbox code="subscription.creditCard.expirationMonth" path="creditCard.expirationMonth" value="${lastCreditCard.getExpirationMonth()}"/>
+		
+		<acme:textbox code="subscription.creditCard.expirationYear" path="creditCard.expirationYear" value="${lastCreditCard.getExpirationYear()}"/>
+		
+		<acme:textbox code="subscription.creditCard.cvvcode" path="creditCard.cvvcode" value="${lastCreditCard.getCvvcode()}"/>
+	</jstl:if>
 	
 	<acme:submit name="save" code="subscription.save"/>
 
-	<jstl:if test="${subscription.getId() != 0 && !isAdded}">
+	<jstl:if test="${subscriptionNewspaper.getId() != 0 && !isAdded}">
 		<acme:submit name="delete" code="subscription.delete"/>
  	</jstl:if>
 	
