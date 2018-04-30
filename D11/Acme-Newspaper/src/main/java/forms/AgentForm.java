@@ -1,6 +1,7 @@
 
 package forms;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -94,6 +95,7 @@ public class AgentForm {
 		this.emailAddress = emailAddress;
 	}
 
+	@Pattern(regexp="^[+]{0,1}[\\d]+$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
