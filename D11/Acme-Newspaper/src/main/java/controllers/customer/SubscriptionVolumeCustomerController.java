@@ -1,6 +1,10 @@
 
 package controllers.customer;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -10,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import security.LoginService;
 import services.CustomerService;
 import services.SubscriptionVolumeService;
-import services.VolumeService;
 import controllers.AbstractController;
+import converters.CreditCardToStringConverter;
+import converters.StringToCreditCardConverter;
+import domain.Customer;
 import domain.SubscriptionVolume;
 
 @Controller
@@ -30,7 +37,10 @@ public class SubscriptionVolumeCustomerController extends AbstractController {
 	private CustomerService				customerService;
 
 	@Autowired
-	private VolumeService				volumeService;
+	private CreditCardToStringConverter	creditCardToStringConverter;
+
+	@Autowired
+	private StringToCreditCardConverter	stringToCreditCardConverter;
 
 
 	// Constructor
@@ -57,14 +67,21 @@ public class SubscriptionVolumeCustomerController extends AbstractController {
 
 	// Create
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final int volumeId) {
+	public ModelAndView create(@RequestParam final int volumeId, final HttpServletRequest request) {
 		ModelAndView result;
 		SubscriptionVolume subscriptionVolume;
+		Cookie cookie;
+		Customer customer;
 
 		subscriptionVolume = this.subscriptionVolumeService.create(volumeId);
+		customer = this.customerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(subscriptionVolume);
 
 		result = this.createEditModelAndView(subscriptionVolume);
+
+		cookie = WebUtils.getCookie(request, "cookiemonster_" + customer.getId());
+		if (cookie != null)
+			result.addObject("lastCreditCard", this.stringToCreditCardConverter.convert(cookie.getValue()));
 
 		return result;
 	}
@@ -85,8 +102,9 @@ public class SubscriptionVolumeCustomerController extends AbstractController {
 
 	// Edit
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(SubscriptionVolume subscriptionVolume, final BindingResult binding) {
+	public ModelAndView save(SubscriptionVolume subscriptionVolume, final BindingResult binding, final HttpServletResponse response) {
 		ModelAndView result;
+		Cookie lastCreditCard;
 
 		subscriptionVolume = this.subscriptionVolumeService.reconstruct(subscriptionVolume, binding);
 
@@ -95,6 +113,12 @@ public class SubscriptionVolumeCustomerController extends AbstractController {
 		else
 			try {
 				this.subscriptionVolumeService.save(subscriptionVolume);
+				// --- COOKIE --- //
+				lastCreditCard = new Cookie("cookiemonster_" + subscriptionVolume.getCustomer().getId(), this.creditCardToStringConverter.convert(subscriptionVolume.getCreditCard()));
+				lastCreditCard.setHttpOnly(true);
+				lastCreditCard.setMaxAge(3600000);
+				response.addCookie(lastCreditCard);
+				// --- COOKIE --- //
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(subscriptionVolume, "subscriptionVolume.commit.error");

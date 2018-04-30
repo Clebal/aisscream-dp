@@ -15,21 +15,36 @@
 	
 	<jstl:if test="${subscriptionVolume.getId() == 0}">
 		<form:hidden path="customer" />
-		<form:hidden path="volume"/>
-		
+		<form:hidden path="volume"/>	
 	</jstl:if>
 	
-	<acme:textbox code="subscriptionVolume.creditCard.holderName" path="creditCard.holderName"/>
+	<jstl:if test="${lastCreditCard==null}">
+		<acme:textbox code="subscriptionVolume.creditCard.holderName" path="creditCard.holderName"/>
+		
+		<acme:textbox code="subscriptionVolume.creditCard.brandName" path="creditCard.brandName"/>
 	
-	<acme:textbox code="subscriptionVolume.creditCard.brandName" path="creditCard.brandName"/>
-
-	<acme:textbox code="subscriptionVolume.creditCard.number" path="creditCard.number"/>
-	 
-	<acme:textbox code="subscriptionVolume.creditCard.expirationMonth" path="creditCard.expirationMonth"/>
-	 
-	<acme:textbox code="subscriptionVolume.creditCard.expirationYear" path="creditCard.expirationYear"/>
-	 
-	<acme:textbox code="subscriptionVolume.creditCard.cvvcode" path="creditCard.cvvcode"/>	
+		<acme:textbox code="subscriptionVolume.creditCard.number" path="creditCard.number"/>
+		 
+		<acme:textbox code="subscriptionVolume.creditCard.expirationMonth" path="creditCard.expirationMonth"/>
+		 
+		<acme:textbox code="subscriptionVolume.creditCard.expirationYear" path="creditCard.expirationYear"/>
+		 
+		<acme:textbox code="subscriptionVolume.creditCard.cvvcode" path="creditCard.cvvcode"/>	
+	</jstl:if>
+	
+	<jstl:if test="${lastCreditCard!=null && subscriptionVolume.getId()==0}">
+		<acme:textbox code="subscriptionVolume.creditCard.holderName" path="creditCard.holderName" value="${lastCreditCard.getHolderName()}"/>
+	
+		<acme:textbox code="subscriptionVolume.creditCard.brandName" path="creditCard.brandName" value="${lastCreditCard.getBrandName()}"/>
+	
+		<acme:textbox code="subscriptionVolume.creditCard.number" path="creditCard.number" value="${lastCreditCard.getNumber()}"/>
+		
+		<acme:textbox code="subscriptionVolume.creditCard.expirationMonth" path="creditCard.expirationMonth" value="${lastCreditCard.getExpirationMonth()}"/>
+		
+		<acme:textbox code="subscriptionVolume.creditCard.expirationYear" path="creditCard.expirationYear" value="${lastCreditCard.getExpirationYear()}"/>
+		
+		<acme:textbox code="subscriptionVolume.creditCard.cvvcode" path="creditCard.cvvcode" value="${lastCreditCard.getCvvcode()}"/>
+	</jstl:if>
 	
 	<acme:submit name="save" code="subscriptionVolume.save"/>
 
