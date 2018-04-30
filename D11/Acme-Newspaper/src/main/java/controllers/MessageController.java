@@ -248,6 +248,8 @@ public class MessageController extends AbstractController {
 		
 		if(message.getId() != 0)
 			result.addObject("showRecipients", false);
+		else
+			result.addObject("showRecipients", true);
 
 		return result;
 	}
