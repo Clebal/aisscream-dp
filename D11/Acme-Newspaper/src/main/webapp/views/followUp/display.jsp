@@ -28,9 +28,9 @@
 </div>
 
 
-<jstl:if test="${pictures.size()>0}">
+<jstl:if test="${followUp.getPictures().size()>0}">
 	
-	<jstl:forEach var="row" items="${pictures}">
+	<jstl:forEach var="row" items="${followUp.getPictures()}">
 		
 		<div class="container-square2">
 		
