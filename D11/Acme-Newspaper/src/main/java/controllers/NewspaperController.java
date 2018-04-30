@@ -183,8 +183,10 @@ public class NewspaperController extends AbstractController {
 		authority.setAuthority("CUSTOMER");
 		if (newspaper.getIsPrivate() == false)
 			canSeeArticles = true;
-		else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)
-			&& this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null)
+		else if (LoginService.isAuthenticated()
+			&& LoginService.getPrincipal().getAuthorities().contains(authority)
+			&& (this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()) != null || !this.volumeService.findByCustomerIdAndNewspaperId(
+				this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()).isEmpty()))
 			canSeeArticles = true;
 		else if (LoginService.isAuthenticated() && newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId())
 			canSeeArticles = true;
