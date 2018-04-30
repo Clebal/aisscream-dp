@@ -451,6 +451,7 @@ public class NewspaperService {
 		Collection<Advertisement> advertisements;
 		newspaper = this.findOne(newspaperId);
 		advertisement = this.advertisementService.findOne(advertisementId);
+		Assert.notNull(advertisement);
 		//No lo puede contener
 		Assert.isTrue(!newspaper.getAdvertisements().contains(advertisement));
 		Assert.isTrue(advertisement.getAgent().getUserAccount().equals(LoginService.getPrincipal()));
@@ -466,6 +467,8 @@ public class NewspaperService {
 		Collection<Advertisement> advertisements;
 		newspaper = this.findOne(newspaperId);
 		advertisement = this.advertisementService.findOne(advertisementId);
+		Assert.notNull(advertisement);
+
 		//Lo tiene que contener
 		Assert.isTrue(newspaper.getAdvertisements().contains(advertisement));
 		Assert.isTrue(advertisement.getAgent().getUserAccount().equals(LoginService.getPrincipal()));
