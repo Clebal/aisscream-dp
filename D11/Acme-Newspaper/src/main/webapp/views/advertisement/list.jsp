@@ -51,14 +51,12 @@
 		<jstl:if test="${row.getHasTaboo()}">
 			<acme:columnLink style="background:red; color:white" id="${row.getId()}" domain="advertisement" actor="administrator" action="delete"/>
 			<acme:column style="background:red; color:white" property="title" domain="advertisement" />
-			<acme:column style="background:red; color:white" property="creditCard.number" domain="advertisement" />
 			<acme:columnLink style="background:red; color:white" id="${row.getId()}" domain="advertisement" actor="agentAdministrator" action="display"/>
 		</jstl:if>
 		
 		<jstl:if test="${!row.getHasTaboo()}">
 			<acme:columnLink id="${row.getId()}" domain="advertisement" actor="administrator" action="delete"/>
 			<acme:column property="title" domain="advertisement" />
-			<acme:column property="creditCard.number" domain="advertisement" />
 			<acme:columnLink id="${row.getId()}" domain="advertisement" actor="agentAdministrator" action="display"/>
 		</jstl:if>
 	</security:authorize>
