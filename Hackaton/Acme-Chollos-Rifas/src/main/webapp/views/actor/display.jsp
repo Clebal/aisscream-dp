@@ -8,11 +8,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
-	
 <div class="container">
 
-	
 	<acme:display code="actor.name" value="${actor.getName()}"/>
 	
 	<acme:display code="actor.surname" value="${actor.getSurname()}"/>
@@ -23,20 +20,11 @@
 	
 	<acme:display code="actor.address" value="${actor.getAddress()}"/>
 	
-	<acme:display code="actor.birthdate" value="${actor.getBirthdate()}" codeMoment="actor.format.moment"/>
+	<acme:display code="actor.identifier" value="${actor.getIdentifier()}"/>
 	
-	<jstl:if test="${isUser==true }">
-		
-		<spring:url var="urlRendezvousCreated" value="rendezvous/listByUser.do">
-		<spring:param name="userId" value="${actor.getId()}" />
-		</spring:url>
-		<p><a href="${urlRendezvousCreated }"> <spring:message code="actor.rendezvous.created" /></a></p>
-		
-		<spring:url var="urlRendezvousAttendent" value="rendezvous/listByAttendant.do">
-		<spring:param name="attendantId" value="${actor.getId()}" />
-		</spring:url>
-		<p><a href="${urlRendezvousAttendent }"> <spring:message code="actor.rendezvous.attendant" /></a></p>
-	
+	<jstl:if test="${model.equals('company')}">
+		<acme:display code="actor.companyname" value="${actor.getCompanyName()}" />
+		<acme:display code="actor.type" value="${actor.getType()}" />
 	</jstl:if>
 		
 </div>

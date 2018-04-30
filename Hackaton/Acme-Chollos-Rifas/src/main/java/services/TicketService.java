@@ -102,6 +102,14 @@ public class TicketService {
 		}
 	}
 	
+	public Integer countByCreditCardId(final int creditCardId) {
+		Integer result;
+		
+		result = this.ticketRepository.countByCreditCardId(creditCardId);
+		
+		return result;
+	}
+	
 	// Auxiliary methods
 	public Collection<Ticket> reconstruct(final TicketForm ticketForm, final BindingResult binding) {
 		Collection<Ticket> result;

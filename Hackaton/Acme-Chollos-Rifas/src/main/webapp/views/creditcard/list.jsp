@@ -12,8 +12,16 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="creditCards" id="row" requestURI="creditcard/user/list.do">
 	
-	<acme:columnLink action="edit" domain="creditcard" id="${row.getId()}" />
-
+	<acme:columnLink action="edit" actor="user" domain="creditcard" id="${row.getId()}" />
+	
+	<jstl:if test="${row.getId() != primaryCreditCard}">
+		<acme:columnLink action="primary" domain="creditcard" id="${row.getId()}" actor="user" />
+	</jstl:if>
+	<jstl:if test="${row.getId() == primaryCreditCard}">
+		<display:column>
+		</display:column>
+	</jstl:if>
+	
 	<acme:column domain="creditcard" property="holderName"/>
 	
 	<acme:column domain="creditcard" property="brandName"/>
@@ -28,6 +36,6 @@
 
 </display:table> 
 	
-<p><a href="creditcard/user/create.do"><spring:message code="creditcard.create" /></a></p>
-
 <acme:paginate pageNumber="${pageNumber}" url="creditcard/user/list.do" objects="${creditCards}" page="${page}"/>
+<br><br>
+<a class="btn btn-primary" href="creditcard/user/create.do"><spring:message code="creditcard.create" /></a>

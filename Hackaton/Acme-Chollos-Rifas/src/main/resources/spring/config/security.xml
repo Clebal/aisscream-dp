@@ -86,6 +86,13 @@
   		<security:intercept-url pattern="/raffle/display.do" access="permitAll" />		
    		<security:intercept-url pattern="/raffle/user/buy.do" access="hasRole('USER')" />		
 		<security:intercept-url pattern="/raffle/user/completepayment.do" access="hasRole('USER')"/>
+		
+		<!-- Credit Card -->
+		<security:intercept-url pattern="/creditcard/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/creditcard/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/creditcard/user/primary.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/creditcard/user/edit.do" access="hasRole('USER')" />
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		
 		<security:form-login 
