@@ -85,6 +85,8 @@ public class ArticleUserController extends AbstractController {
 
 			article = this.articleService.findOne(articleId);
 			Assert.notNull(article);
+			
+			Assert.isTrue(article.getIsFinalMode() == false);
 
 			result = this.createEditModelAndView(article);
 

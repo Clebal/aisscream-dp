@@ -81,37 +81,3 @@
  	}
 	
  </script>
- 
- <script>
-	$("form:eq(0)")
-				.submit(
-						function() {
-							
-							var phone = $("input[name='phoneNumber']").val();
-							
-							console.log(phone);
-
-							var result = true;
-							var pattern = new RegExp(
-									"^[+]{0,1}[\\d]+$",
-									"m");
-							
-							if (phone != "") {
-
-								aux = pattern.test(phone);
-
-								if (!aux) {
-
-									alert("<spring:message code="actor.phone.message" />");
-
-									result = false;
-									
-								}
-
-							}
-
-							return result;
-
-						});
-
-</script>
