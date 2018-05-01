@@ -64,7 +64,7 @@ public class NewspaperUserController extends AbstractController {
 		ModelAndView result;
 		Page<Newspaper> newspapers;
 
-		newspapers = this.newspaperService.findByUserIdPublished(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), page, 5);
+		newspapers = this.newspaperService.findPublished(page, 5);
 		Assert.notNull(newspapers);
 
 		result = new ModelAndView("newspaper/list");
@@ -81,7 +81,7 @@ public class NewspaperUserController extends AbstractController {
 		ModelAndView result;
 		Page<Newspaper> newspapers;
 
-		newspapers = this.newspaperService.findAddNewspaper(volumeId, this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), page, 5);
+		newspapers = this.newspaperService.findAddNewspaper(volumeId, page, 5);
 		Assert.notNull(newspapers);
 
 		result = new ModelAndView("newspaper/list");
@@ -136,19 +136,34 @@ public class NewspaperUserController extends AbstractController {
 
 	}
 
-	@RequestMapping(value = "/publish", method = RequestMethod.GET)
-	public ModelAndView addCategory(@RequestParam final int newspaperId) {
+	// Edit
+	@RequestMapping(value = "/editDate", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int newspaperId) {
 		ModelAndView result;
+		Newspaper newspaper;
 
-		Assert.isTrue(newspaperId != 0);
+		newspaper = this.newspaperService.findOne(newspaperId);
+		Assert.notNull(newspaper);
+		Assert.isTrue(newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
-		this.newspaperService.publish(newspaperId);
-
-		result = new ModelAndView("redirect:list.do");
+		result = this.createEditModelAndView(newspaper);
 
 		return result;
-
 	}
+
+	//	@RequestMapping(value = "/publish", method = RequestMethod.GET)
+	//	public ModelAndView addCategory(@RequestParam final int newspaperId) {
+	//		ModelAndView result;
+	//
+	//		Assert.isTrue(newspaperId != 0);
+	//
+	//		this.newspaperService.publish(newspaperId);
+	//
+	//		result = new ModelAndView("redirect:list.do");
+	//
+	//		return result;
+	//
+	//	}
 	@RequestMapping(value = "/putPublic", method = RequestMethod.GET)
 	public ModelAndView putPublic(@RequestParam final int newspaperId) {
 		ModelAndView result;
@@ -205,7 +220,10 @@ public class NewspaperUserController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Newspaper newspaper, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("newspaper/create");
+		if (newspaper.getId() == 0)
+			result = new ModelAndView("newspaper/create");
+		else
+			result = new ModelAndView("newspaper/edit");
 
 		result.addObject("newspaper", newspaper);
 		result.addObject("message", messageCode);

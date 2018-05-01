@@ -485,7 +485,7 @@ Es requisito necesario para el uso de la web que lea y acepte los siguientes Té
 	
 	INFORMACIÓN PERSONAL
 	
-	Un administrador puede puede borrar un periódico, artículo, o chirp si considera que afecta moralmente a otros usuarios.
+	Un administrador puede puede borrar un periódico, artículo, chirp o anuncio si considera que afecta moralmente a otros usuarios.
 	Si cualquier usuario quiere borrar algún dato personal y la aplicación no le ofrece la posibilidad de hacerlo, debe ponerse en contacto con aisscreamacas@gmail.com
 
 
@@ -530,7 +530,7 @@ document.
  PERSONAL INFORMATION
  
  
-An administrator can delete a newspaper, article, chirp if think that it affects other users morally.
+An administrator can delete a newspaper, article, chirp or advertisement if think that it affects other users morally.
 If any user wants to delete some personal data and the application does not have the possibility to do that, you should contact with aisscreamacas@gmail.com
 
 
@@ -666,7 +666,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<!-- Newspaper -->
 	<bean id="newspaper1" class="domain.Newspaper">
 		<property name="title" value="Reunión de amigos. Viagra free." />
-		<property name="publicationDate" value="03/17/2017 10:44" />
+		<property name="publicationDate" value="03/17/2017" />
 		<property name="description" value="El próximo día nos reuniremos para hablar de cosas importantes." />
 		<property name="picture" value="http://www.quieninvento.net/wp-content/uploads/2017/07/portada-qui%C3%A9n-invent%C3%B3-el-peri%C3%B3dico-a%C3%B1o-6-1024x536.jpg" />
 		<property name="isPrivate" value="false" />
@@ -688,7 +688,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 
 	<bean id="newspaper2" class="domain.Newspaper">
 		<property name="title" value="Nuevo presupuesto" />
-		<property name="publicationDate" value="01/25/2017 12:00" />
+		<property name="publicationDate" value="01/25/2017" />
 		<property name="description" value="Tenemos nuevos presupuestos del Estado. Sex on fire." />
 		<property name="isPrivate" value="true" />
 		<property name="publisher" ref="user2" />
@@ -709,7 +709,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		
 	<bean id="newspaper3" class="domain.Newspaper">
 		<property name="title" value="Ventas de periódicos por las nubes" />
-		<property name="publicationDate" value="02/15/2017 20:05" />
+		<property name="publicationDate" value="02/15/2017" />
 		<property name="description" value="Suben las ventas de los grandes medios." />
 		<property name="picture" value="http://www.abc.es/Media/201312/03/portadas-periodicos--644x362.jpg" />
 		<property name="isPrivate" value="false" />
@@ -729,7 +729,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	
 	<bean id="newspaper4" class="domain.Newspaper">
 		<property name="title" value="El lider del partido más corrupto de Europa es encarcelado" />
-		<property name="publicationDate" value="12/30/2017 09:13" />
+		<property name="publicationDate" value="12/30/2017" />
 		<property name="description" value="Tras las manifestaciones se produjo su encarcelación." />
 		<property name="picture" value="https://ep01.epimg.net/politica/imagenes/2016/04/30/analitica/1462012657_146201_1462012657_000_sumario_normal.jpg" />
 		<property name="isPrivate" value="false" />
@@ -749,7 +749,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	
 	<bean id="newspaper5" class="domain.Newspaper">
 		<property name="title" value="Cita mundial por el medio ambiente" />
-		<property name="publicationDate" value="06/17/2019 09:13" />
+		<property name="publicationDate" value="06/17/2019" />
 		<property name="description" value="Necesario encuentro entre lideres mundiales." />
 		<property name="isPrivate" value="true" />
 		<property name="publisher" ref="user5" />
@@ -767,7 +767,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	
 	<bean id="newspaper6" class="domain.Newspaper">
 		<property name="title" value="Cita mundial por el medio ambiente segunda parte" />
-		<property name="publicationDate" value="06/18/2019 09:13" />
+		<property name="publicationDate" value="06/18/2019" />
 		<property name="description" value="Reunión medioambiental." />
 		<property name="isPrivate" value="false" />
 		<property name="publisher" ref="user1" />

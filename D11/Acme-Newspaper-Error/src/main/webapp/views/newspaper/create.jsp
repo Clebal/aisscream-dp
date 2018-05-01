@@ -12,6 +12,7 @@
 <form:form action="newspaper/user/edit.do" modelAttribute="newspaper">
 
 	<form:hidden path="id" />
+	<jstl:if test="${newspaper.getId()==0 }">
 	<form:hidden path="publisher" />
 	<form:hidden path="isPublished" />
 	<form:hidden path="articles" />
@@ -29,6 +30,13 @@
 	<acme:textbox code="newspaper.picture" path="picture"/>
 	
 	<acme:checkbox code="newspaper.isPrivate" path="isPrivate"/>
+	
+	</jstl:if>
+	
+	<jstl:if test="${newspaper.getId()!=0 }">
+	<acme:textbox path="publicationDate" code="newspaper.publicationDate" placeholder="dd/MM/yyyy" />
+	</jstl:if>
+	
 	
 	 
 	<acme:submit name="save" code="newspaper.save"/>

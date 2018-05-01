@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
+import services.AgentService;
 import services.NewspaperService;
 import controllers.AbstractController;
 import domain.Newspaper;
@@ -22,13 +24,16 @@ public class NewspaperAgentController extends AbstractController {
 	@Autowired
 	private NewspaperService	newspaperService;
 
+	@Autowired
+	private AgentService		agentService;
+
 
 	@RequestMapping(value = "/listWithAdvertisements", method = RequestMethod.GET)
 	public ModelAndView listWithAdvertisements(@RequestParam(required = false, defaultValue = "1") final Integer page) {
 		ModelAndView result;
 		Page<Newspaper> newspapers;
 
-		newspapers = this.newspaperService.findNewspaperWithAdvertisements(page, 5);
+		newspapers = this.newspaperService.findNewspaperWithAdvertisements(this.agentService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), page, 5);
 		Assert.notNull(newspapers);
 
 		result = new ModelAndView("newspaper/list");
@@ -45,7 +50,7 @@ public class NewspaperAgentController extends AbstractController {
 		ModelAndView result;
 		Page<Newspaper> newspapers;
 
-		newspapers = this.newspaperService.findNewspaperWithNoAdvertisements(page, 5);
+		newspapers = this.newspaperService.findNewspaperWithNoAdvertisements(this.agentService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), page, 5);
 		Assert.notNull(newspapers);
 
 		result = new ModelAndView("newspaper/list");

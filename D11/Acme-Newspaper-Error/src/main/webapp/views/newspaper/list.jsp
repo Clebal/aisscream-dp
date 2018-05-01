@@ -27,9 +27,9 @@
 	
 	<security:authorize access="hasRole('USER')">
 		<display:column>
-		<jstl:if test="${row.getIsPublished()==true && row.getPublicationDate()>currentMomentVar}">
-			<a href="newspaper/user/publish.do?newspaperId=${row.getId()}"> <spring:message
-					code="newspaper.publish" />
+		<jstl:if test="${row.getPublicationDate()>currentMomentVar}">
+			<a href="newspaper/user/editDate.do?newspaperId=${row.getId()}"> <spring:message
+					code="newspaper.editDate" />
 			</a>
 				</jstl:if>	
 		

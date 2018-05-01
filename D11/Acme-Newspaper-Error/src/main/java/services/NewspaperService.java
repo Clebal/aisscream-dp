@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -154,6 +155,10 @@ public class NewspaperService {
 	public Newspaper save(final Newspaper newspaper) {
 		Newspaper result;
 		Date currentMoment;
+		Calendar calendar;
+		Calendar myPublicationDate;
+
+		calendar = Calendar.getInstance();
 
 		Assert.notNull(newspaper);
 		Assert.notNull(newspaper.getPublicationDate());
@@ -161,16 +166,29 @@ public class NewspaperService {
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		if (newspaper.getId() == 0) {
-			Assert.isTrue(newspaper.getPublicationDate().compareTo(currentMoment) >= 0);
+			Assert.isTrue(newspaper.getPublicationDate().compareTo(currentMoment) > 0);
 			Assert.isTrue(newspaper.getIsPublished() == true);
 			Assert.isTrue(newspaper.getArticles().isEmpty());
 			Assert.isTrue(newspaper.getAdvertisements().isEmpty());
 			if (this.checkTabooWords(newspaper) == true)
 				newspaper.setHasTaboo(true);
+		} else if (newspaper.getPublicationDate().compareTo(currentMoment) < 0) {
+			myPublicationDate = NewspaperService.toCalendar(newspaper.getPublicationDate());
+			Assert.isTrue(myPublicationDate.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) && myPublicationDate.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) && myPublicationDate.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH));
+			for (final Article a : newspaper.getArticles()) {
+				a.setMoment(currentMoment);
+				this.articleService.saveFromNewspaper(a);
+			}
 		}
 		result = this.newspaperRepository.save(newspaper);
 
 		return result;
+	}
+	public static Calendar toCalendar(final Date date) {
+		Calendar cal;
+		cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal;
 	}
 
 	public void delete(final Newspaper newspaper) {
@@ -199,24 +217,24 @@ public class NewspaperService {
 
 	}
 
-	public void publish(final int newspaperId) {
-		Newspaper newspaperToPublish;
-		Date currentMoment;
-		currentMoment = new Date();
-
-		newspaperToPublish = this.findOne(newspaperId);
-		Assert.notNull(newspaperToPublish);
-		Assert.isTrue(LoginService.isAuthenticated());
-		Assert.isTrue(newspaperToPublish.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
-		Assert.isTrue(newspaperToPublish.getIsPublished() == true && newspaperToPublish.getPublicationDate().compareTo(currentMoment) > 0);
-		newspaperToPublish.setPublicationDate(currentMoment);
-		for (final Article a : newspaperToPublish.getArticles()) {
-			a.setMoment(currentMoment);
-			this.articleService.saveFromNewspaper(a);
-		}
-		this.newspaperRepository.save(newspaperToPublish);
-
-	}
+	//	public void publish(final int newspaperId) {
+	//		Newspaper newspaperToPublish;
+	//		Date currentMoment;
+	//		currentMoment = new Date();
+	//
+	//		newspaperToPublish = this.findOne(newspaperId);
+	//		Assert.notNull(newspaperToPublish);
+	//		Assert.isTrue(LoginService.isAuthenticated());
+	//		Assert.isTrue(newspaperToPublish.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
+	//		Assert.isTrue(newspaperToPublish.getIsPublished() == true && newspaperToPublish.getPublicationDate().compareTo(currentMoment) > 0);
+	//		newspaperToPublish.setPublicationDate(currentMoment);
+	//		for (final Article a : newspaperToPublish.getArticles()) {
+	//			a.setMoment(currentMoment);
+	//			this.articleService.saveFromNewspaper(a);
+	//		}
+	//		this.newspaperRepository.save(newspaperToPublish);
+	//
+	//	}
 
 	public void putPublic(final int newspaperId) {
 		Newspaper newspaperToPublic;
@@ -262,19 +280,17 @@ public class NewspaperService {
 
 	}
 
-	public Page<Newspaper> findByUserIdPublished(final int userId, final int page, final int size) {
+	public Page<Newspaper> findPublished(final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
 
-		Assert.isTrue(userId != 0);
 		authority = new Authority();
 		authority.setAuthority("USER");
 
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		Assert.isTrue(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == userId);
 
-		result = this.newspaperRepository.findByUserIdPublished(userId, this.getPageable(page, size));
+		result = this.newspaperRepository.findPublished(this.getPageable(page, size));
 
 		return result;
 
@@ -364,17 +380,16 @@ public class NewspaperService {
 
 	}
 
-	public Page<Newspaper> findAddNewspaper(final int volumeId, final int userId, final int page, final int size) {
+	public Page<Newspaper> findAddNewspaper(final int volumeId, final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
 		Assert.isTrue(volumeId != 0);
-		Assert.isTrue(userId != 0);
 
 		authority = new Authority();
 		authority.setAuthority("USER");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.newspaperRepository.findAddNewspaper(volumeId, userId, this.getPageable(page, size));
+		result = this.newspaperRepository.findAddNewspaper(volumeId, this.getPageable(page, size));
 
 		return result;
 
@@ -405,25 +420,27 @@ public class NewspaperService {
 		return result;
 	}
 
-	public Page<Newspaper> findNewspaperWithNoAdvertisements(final int page, final int size) {
+	public Page<Newspaper> findNewspaperWithNoAdvertisements(final int agentId, final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
+		Assert.isTrue(agentId != 0);
 		authority = new Authority();
 		authority.setAuthority("AGENT");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.newspaperRepository.findNewspapersWithNoAdvertisements(this.getPageable(page, size));
+		result = this.newspaperRepository.findNewspapersWithNoAdvertisements(agentId, this.getPageable(page, size));
 		return result;
 	}
 
-	public Page<Newspaper> findNewspaperWithAdvertisements(final int page, final int size) {
+	public Page<Newspaper> findNewspaperWithAdvertisements(final int agentId, final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
+		Assert.isTrue(agentId != 0);
 		authority = new Authority();
 		authority.setAuthority("AGENT");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.newspaperRepository.findNewspapersWithAdvertisements(this.getPageable(page, size));
+		result = this.newspaperRepository.findNewspapersWithAdvertisements(agentId, this.getPageable(page, size));
 		return result;
 	}
 
@@ -590,8 +607,25 @@ public class NewspaperService {
 
 	public Newspaper reconstruct(final Newspaper newspaper, final BindingResult binding) {
 		Newspaper result;
+		Newspaper aux;
 
-		result = newspaper;
+		if (newspaper.getId() == 0)
+			result = newspaper;
+		else {
+			result = newspaper;
+			aux = this.newspaperRepository.findOne(newspaper.getId());
+			result.setVersion(aux.getVersion());
+			result.setTitle(aux.getTitle());
+			result.setDescription(aux.getDescription());
+			result.setPicture(aux.getPicture());
+			result.setIsPrivate(aux.getIsPrivate());
+			result.setHasTaboo(aux.getHasTaboo());
+			result.setIsPublished(aux.getIsPublished());
+			result.setPublisher(aux.getPublisher());
+			result.setArticles(aux.getArticles());
+			result.setAdvertisements(aux.getAdvertisements());
+			result.setPublicationDate(newspaper.getPublicationDate());
+		}
 
 		this.validator.validate(result, binding);
 
