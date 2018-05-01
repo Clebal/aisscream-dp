@@ -26,6 +26,12 @@
 		<put-attribute name="body" value="/views/newspaper/create.jsp" />
 	</definition>
 	
+	<definition name="newspaper/edit" extends="master.page">	
+		<put-attribute name="title" value="Edit date" />
+		<put-attribute name="body" value="/views/newspaper/create.jsp" />
+	</definition>
+	
+	
 	<definition name="newspaper/display" extends="master.page">	
 		<put-attribute name="title" value="Newspaper" />
 		<put-attribute name="body" value="/views/newspaper/display.jsp" />

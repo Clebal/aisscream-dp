@@ -108,7 +108,7 @@
 		
 		<security:intercept-url pattern="/newspaper/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/create.do" access="hasRole('USER')" />
-		<security:intercept-url pattern="/newspaper/user/publish.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/newspaper/user/editDate.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/putPublic.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/putPrivate.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/user/edit.do" access="hasRole('USER')" />
