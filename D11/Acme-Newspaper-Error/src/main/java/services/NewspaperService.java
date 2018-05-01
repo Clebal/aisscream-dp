@@ -166,7 +166,7 @@ public class NewspaperService {
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
 		if (newspaper.getId() == 0) {
-			Assert.isTrue(newspaper.getPublicationDate().compareTo(currentMoment) > 0);
+			//Assert.isTrue(newspaper.getPublicationDate().compareTo(currentMoment) > 0);
 			Assert.isTrue(newspaper.getIsPublished() == true);
 			Assert.isTrue(newspaper.getArticles().isEmpty());
 			Assert.isTrue(newspaper.getAdvertisements().isEmpty());
