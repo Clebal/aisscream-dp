@@ -48,6 +48,7 @@
 
 <script type="text/javascript">
 
+	function activar() {
 		if  (document.getElementById("check").checked)
 			document.getElementById("check").checked = false;
 		else if (!document.getElementById("check").checked)

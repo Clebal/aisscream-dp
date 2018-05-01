@@ -26,8 +26,10 @@
 	
 	<acme:textbox code="article.pictures" path="pictures"/>
 	
-	<form:checkbox class="form-check-input" path="isFinalMode" value="" checked=''/>
-	<form:label path="isFinalMode"><spring:message code="article.isFinalMode" /></form:label>
+	<form:checkbox class="form-check-input" path="isFinalMode" id="check" value="" checked=''/>
+	<form:label path="isFinalMode">
+	<div onclick="activar()" ><spring:message code="article.isFinalMode" /></div>
+	</form:label>
 	<form:errors class="text-danger" path="isFinalMode"/>
 	<br />
 	
@@ -42,3 +44,14 @@
 	<acme:cancel url="welcome/index.do" code="article.cancel"/>
 
 </form:form>
+
+
+<script type="text/javascript">
+
+	function activar() {
+		if  (document.getElementById("check").checked)
+			document.getElementById("check").checked = false;
+		else if (!document.getElementById("check").checked)
+			document.getElementById("check").checked = true;
+	}
+</script>
