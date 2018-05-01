@@ -29,8 +29,12 @@
 	
 	<acme:textbox code="newspaper.picture" path="picture"/>
 	
-	<acme:checkbox code="newspaper.isPrivate" path="isPrivate"/>
-	
+	<form:checkbox class="form-check-input" path="isPrivate" id="check" value="" checked=''/>
+	<form:label path="isPrivate">
+	<div onclick="activar()" ><spring:message code="newspaper.isPrivate" /></div>
+	</form:label>
+	<form:errors class="text-danger" path="isPrivate"/>
+	<br>
 	</jstl:if>
 	
 	<jstl:if test="${newspaper.getId()!=0 }">
@@ -44,3 +48,13 @@
 	<acme:cancel url="newspaper/user/list.do" code="newspaper.cancel"/>
 			
 </form:form>
+
+<script type="text/javascript">
+
+	function activar() {
+		if  (document.getElementById("check").checked)
+			document.getElementById("check").checked = false;
+		else if (!document.getElementById("check").checked)
+			document.getElementById("check").checked = true;
+	}
+</script>
