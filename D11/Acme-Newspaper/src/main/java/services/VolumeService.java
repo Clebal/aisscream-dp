@@ -132,7 +132,6 @@ public class VolumeService {
 		Assert.notNull(volume);
 
 		Assert.isTrue(volume.getUser().getUserAccount().getId() == LoginService.getPrincipal().getId());
-		Assert.isTrue(newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
 		Assert.isTrue(newspaper.getPublicationDate().compareTo(new Date()) <= 0 && newspaper.getIsPublished() == true);
 		Assert.isTrue(!volume.getNewspapers().contains(newspaper));
@@ -154,7 +153,6 @@ public class VolumeService {
 		Assert.notNull(volume);
 
 		Assert.isTrue(volume.getUser().getUserAccount().getId() == LoginService.getPrincipal().getId());
-		Assert.isTrue(newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
 		Assert.isTrue(newspaper.getPublicationDate().compareTo(new Date()) <= 0 && newspaper.getIsPublished() == true);
 		Assert.isTrue(volume.getNewspapers().size() > 1);
