@@ -176,7 +176,7 @@ public class NewspaperService {
 			myPublicationDate = NewspaperService.toCalendar(newspaper.getPublicationDate());
 			Assert.isTrue(myPublicationDate.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) && myPublicationDate.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) && myPublicationDate.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH));
 			for (final Article a : newspaper.getArticles()) {
-				a.setMoment(currentMoment);
+				a.setMoment(newspaper.getPublicationDate());
 				this.articleService.saveFromNewspaper(a);
 			}
 		}
