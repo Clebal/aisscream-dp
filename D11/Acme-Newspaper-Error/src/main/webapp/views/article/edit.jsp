@@ -39,6 +39,6 @@
 	<acme:submit name="delete" code="article.delete" codeDelete="article.confirm.delete"/>
 	</jstl:if>
 	
-	<acme:cancel url="article/list.do" code="article.cancel"/>
+	<acme:cancel url="welcome/index.do" code="article.cancel"/>
 
 </form:form>

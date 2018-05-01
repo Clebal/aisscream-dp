@@ -43,7 +43,6 @@ public class Internationalization extends DomainEntity {
 		this.messageCode = messageCode;
 	}
 
-	@NotBlank
 	@Column(length = 1000000000)
 	public String getValue() {
 		return this.value;

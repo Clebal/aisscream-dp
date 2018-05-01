@@ -76,7 +76,7 @@ public class ArticleAdministratorController extends AbstractController {
 			if (page == null)
 				pageAux = 1;
 			else
-				pageAux = page;
+				pageAux = 10;
 			
 			articles = this.articleService.findAllPaginated(pageAux, 5);
 			
