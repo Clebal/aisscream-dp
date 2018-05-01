@@ -422,25 +422,27 @@ public class NewspaperService {
 		return result;
 	}
 
-	public Page<Newspaper> findNewspaperWithNoAdvertisements(final int page, final int size) {
+	public Page<Newspaper> findNewspaperWithNoAdvertisements(final int agentId, final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
+		Assert.isTrue(agentId != 0);
 		authority = new Authority();
 		authority.setAuthority("AGENT");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.newspaperRepository.findNewspapersWithNoAdvertisements(this.getPageable(page, size));
+		result = this.newspaperRepository.findNewspapersWithNoAdvertisements(agentId, this.getPageable(page, size));
 		return result;
 	}
 
-	public Page<Newspaper> findNewspaperWithAdvertisements(final int page, final int size) {
+	public Page<Newspaper> findNewspaperWithAdvertisements(final int agentId, final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
+		Assert.isTrue(agentId != 0);
 		authority = new Authority();
 		authority.setAuthority("AGENT");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.newspaperRepository.findNewspapersWithAdvertisements(this.getPageable(page, size));
+		result = this.newspaperRepository.findNewspapersWithAdvertisements(agentId, this.getPageable(page, size));
 		return result;
 	}
 
