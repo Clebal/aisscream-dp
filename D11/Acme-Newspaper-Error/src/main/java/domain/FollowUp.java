@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -21,66 +22,66 @@ import utilities.URLCollection;
 @Access(AccessType.PROPERTY)
 public class FollowUp extends DomainEntity {
 
-	private Date publicationMoment;
-	
-	private String title;
+	private Date				publicationMoment;
 
-	private String summary;
+	private String				title;
 
-	private String text;
+	private String				summary;
 
-	private Collection<String> pictures;
+	private String				text;
 
-	private User user;
+	private Collection<String>	pictures;
 
-	private Article article;
+	private User				user;
+
+	private Article				article;
+
 
 	@NotNull
 	@Past
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getPublicationMoment() {
-		return publicationMoment;
+		return this.publicationMoment;
 	}
 
-	public void setPublicationMoment(Date publicationMoment) {
+	public void setPublicationMoment(final Date publicationMoment) {
 		this.publicationMoment = publicationMoment;
 	}
 
-	@NotBlank
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
 	@NotBlank
 	public String getSummary() {
-		return summary;
+		return this.summary;
 	}
 
-	public void setSummary(String summary) {
+	public void setSummary(final String summary) {
 		this.summary = summary;
 	}
 
 	@NotBlank
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
-	public void setText(String text) {
+	public void setText(final String text) {
 		this.text = text;
 	}
 
 	@NotNull
 	@URLCollection
-	@ElementCollection 
+	@ElementCollection
 	public Collection<String> getPictures() {
-		return pictures;
+		return this.pictures;
 	}
 
-	public void setPictures(Collection<String> pictures) {
+	public void setPictures(final Collection<String> pictures) {
 		this.pictures = pictures;
 	}
 
@@ -88,10 +89,10 @@ public class FollowUp extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(final User user) {
 		this.user = user;
 	}
 
@@ -99,13 +100,11 @@ public class FollowUp extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Article getArticle() {
-		return article;
+		return this.article;
 	}
 
-	public void setArticle(Article article) {
+	public void setArticle(final Article article) {
 		this.article = article;
 	}
-	
-	
 
 }
