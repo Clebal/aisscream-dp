@@ -382,17 +382,16 @@ public class NewspaperService {
 
 	}
 
-	public Page<Newspaper> findAddNewspaper(final int volumeId, final int userId, final int page, final int size) {
+	public Page<Newspaper> findAddNewspaper(final int volumeId, final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
 		Assert.isTrue(volumeId != 0);
-		Assert.isTrue(userId != 0);
 
 		authority = new Authority();
 		authority.setAuthority("USER");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		result = this.newspaperRepository.findAddNewspaper(volumeId, userId, this.getPageable(page, size));
+		result = this.newspaperRepository.findAddNewspaper(volumeId, this.getPageable(page, size));
 
 		return result;
 
