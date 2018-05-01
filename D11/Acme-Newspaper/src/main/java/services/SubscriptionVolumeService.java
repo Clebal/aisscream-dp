@@ -55,12 +55,13 @@ public class SubscriptionVolumeService {
 		Assert.isTrue(volumeId != 0);
 		authority = new Authority();
 		authority.setAuthority("CUSTOMER");
+		volume = this.volumeService.findOne(volumeId);
+		Assert.notNull(volume);
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		customer = this.customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.isTrue(this.findByCustomerIdAndVolumeId(customer.getId(), volumeId) == null);
 		result = new SubscriptionVolume();
-		volume = this.volumeService.findOne(volumeId);
-		Assert.notNull(volume);
 		result.setCustomer(customer);
 		result.setVolume(volume);
 

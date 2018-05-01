@@ -280,19 +280,17 @@ public class NewspaperService {
 
 	}
 
-	public Page<Newspaper> findByUserIdPublished(final int userId, final int page, final int size) {
+	public Page<Newspaper> findPublished(final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
 
-		Assert.isTrue(userId != 0);
 		authority = new Authority();
 		authority.setAuthority("USER");
 
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		Assert.isTrue(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == userId);
 
-		result = this.newspaperRepository.findByUserIdPublished(userId, this.getPageable(page, size));
+		result = this.newspaperRepository.findPublished(this.getPageable(page, size));
 
 		return result;
 

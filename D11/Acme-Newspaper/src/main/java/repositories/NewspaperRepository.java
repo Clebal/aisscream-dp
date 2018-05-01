@@ -60,8 +60,8 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select DISTINCT n from Newspaper n join n.advertisements a where a.agent.id=?1 ")
 	Page<Newspaper> findNewspapersWithAdvertisements(int agentId, Pageable pageable);
 
-	@Query("select n from Newspaper n where n.publisher.id = ?1 and n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true")
-	Page<Newspaper> findByUserIdPublished(int userId, Pageable pageable);
+	@Query("select n from Newspaper n where n.publicationDate <= CURRENT_TIMESTAMP and n.isPublished=true")
+	Page<Newspaper> findPublished(Pageable pageable);
 
 	@Query("select n from Newspaper n join n.advertisements a where a.id=?1")
 	Collection<Newspaper> findNewspapersToUpdateAdvertisements(int advertisementId);

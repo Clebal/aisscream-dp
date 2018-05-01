@@ -64,7 +64,7 @@ public class NewspaperUserController extends AbstractController {
 		ModelAndView result;
 		Page<Newspaper> newspapers;
 
-		newspapers = this.newspaperService.findByUserIdPublished(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), page, 5);
+		newspapers = this.newspaperService.findPublished(page, 5);
 		Assert.notNull(newspapers);
 
 		result = new ModelAndView("newspaper/list");

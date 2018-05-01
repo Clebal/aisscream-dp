@@ -30,6 +30,7 @@
 	<acme:textbox code="newspaper.picture" path="picture"/>
 	
 	<acme:checkbox code="newspaper.isPrivate" path="isPrivate"/>
+	
 	</jstl:if>
 	
 	<jstl:if test="${newspaper.getId()!=0 }">
