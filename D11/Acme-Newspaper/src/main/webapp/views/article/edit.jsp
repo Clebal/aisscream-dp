@@ -13,9 +13,9 @@
 <form:form action="article/user/edit.do" modelAttribute="article">
 
 	<form:hidden path="id" />
-	<form:hidden path="newspaper" />
 	<form:hidden path="writer" />
-
+	<form:hidden path="newspaper" />
+	
 	<acme:textbox code="article.moment" path="moment" readonly="readonly"/>
 
 	<acme:textbox code="article.title" path="title"/>
@@ -25,9 +25,12 @@
 	<acme:textbox code="article.body" path="body"/>
 	
 	<acme:textbox code="article.pictures" path="pictures"/>
-	
-	<form:checkbox class="form-check-input" path="isFinalMode" value="" checked=''/>
-	<form:label path="isFinalMode"><spring:message code="article.isFinalMode" /></form:label>
+		
+		
+	<form:checkbox class="form-check-input" path="isFinalMode" id="check" value="" checked=''/>
+	<form:label path="isFinalMode">
+	<div onclick="activar()" ><spring:message code="article.isFinalMode" /></div>
+	</form:label>
 	<form:errors class="text-danger" path="isFinalMode"/>
 	<br />
 	
@@ -42,3 +45,12 @@
 	<acme:cancel url="article/list.do" code="article.cancel"/>
 
 </form:form>
+
+<script type="text/javascript">
+
+		if  (document.getElementById("check").checked)
+			document.getElementById("check").checked = false;
+		else if (!document.getElementById("check").checked)
+			document.getElementById("check").checked = true;
+	}
+</script>
