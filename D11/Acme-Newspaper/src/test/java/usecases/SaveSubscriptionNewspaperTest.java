@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import domain.CreditCard;
 import domain.Newspaper;
 import domain.Customer;
 import domain.SubscriptionNewspaper;
@@ -52,15 +53,15 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 	public void positiveSaveSubscriptionTest() {
 		final Object testingData[][] = {
 		{
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper5", null
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "customer1", "newspaper5", null
 			}, {
-				"customer2", "Alejandro", "Visa", "377564788646263", 8, 2020, 317, "customer2", "newspaper3",  null //TODO: CONVERTER NOT FOUND
+				"customer2", "Alejandro", "Visa", "377564788646263", 8, 20, 319, "customer2", "newspaper2",  null
 			}, {
-				"customer3", "Paco", "American Express", "345035739479236", 4, 2018, 147, "customer3", "newspaper5", null
+				"customer3", "Paco", "American Express", "345035739479236", 4, 19, 147, "customer3", "newspaper5", null
 			}, {
-				"customer2", "Manuel", "Credit Links", "6011516686715805", 5, 2017, 365, "customer2", "newspaper2", null
+				"customer2", "Manuel", "Credit Links", "6011516686715805", 5, 20, 365, "customer2", "newspaper2", null
 			}, {
-				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, "customer1", "newspaper5", null
+				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 21, 258, "customer1", "newspaper5", null
 			}
 		};
 			
@@ -88,7 +89,7 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 	 * 8. Number debe ser un número de tarjeta de crédito válido
 	 * 9. El mes de expiración debe estar comprendido entre 1 y 12
 	 * 10. El mes de expiración debe estar comprendido entre 1 y 12
-	 * 11. El año de expiración debe ser mayor que 0 
+	 * 11. La fecha no puede estar expirada
 	 * 12. El código CVV debe estar comprendido entre 100 y 999
 	 * 13. El código CVV debe estar comprendido entre 100 y 999
 	 * 14. El customer debe ser válido 
@@ -103,38 +104,38 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 	public void negativeSaveCustomersSubscriptionTest() {
 		final Object testingData[][] = {
 			{
-				null, "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper3", IllegalArgumentException.class 
+				null, "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper2", IllegalArgumentException.class 
 			}, 	{
-				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper3", IllegalArgumentException.class 
+				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper2", IllegalArgumentException.class 
 			}, {
-				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper3",  IllegalArgumentException.class
+				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper2",  IllegalArgumentException.class
 			}, {
-				"customer1", "", "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper5", ConstraintViolationException.class 
+				"customer1", "", "MasterCard", "5471664286416252", 9, 19, 258, "customer1", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer1", null, "MasterCard", "5471664286416252", 9, 2019, 258, "customer1", "newspaper5", ConstraintViolationException.class 
+				"customer1", null, "MasterCard", "5471664286416252", 9, 19, 258, "customer1", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer3", "Estefania", "", "4929254799279560", 2, 2021, 258, "customer3", "newspaper5", ConstraintViolationException.class 
+				"customer3", "Estefania", "", "4929254799279560", 2, 21, 258, "customer3", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer2", "Estefania", null, "5429007233826913", 2, 2021, 258, "customer2", "newspaper2", ConstraintViolationException.class 
-			},/* {
-				"customer1", "Manuel", "Credit Links", "1005", 5, 2017, 365, "customer1", "newspaper1", ConstraintViolationException.class 
-			}, */{
-				"customer2", "Manuel", "Credit Links", "5450634754850139", 0, 2017, 365, "customer2", "newspaper2", ConstraintViolationException.class
+				"customer2", "Estefania", null, "5429007233826913", 2, 21, 258, "customer2", "newspaper2", ConstraintViolationException.class 
 			}, {
-				"customer3", "Manuel", "Credit Links", "5429007233826913", 13, 2017, 365, "customer3", "newspaper5", ConstraintViolationException.class 
+				"customer2", "Manuel", "Credit Links", "1005", 5, 19, 365, "customer2", "newspaper2", ConstraintViolationException.class 
 			}, {
-				"customer3", "Paco", "American Express", "345035739479236", 4, -52, 147, "customer3", "newspaper5", ConstraintViolationException.class 
+				"customer2", "Manuel", "Credit Links", "5450634754850139", 0, 19, 365, "customer2", "newspaper2", ConstraintViolationException.class
 			}, {
-				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 50, "customer2", "newspaper2",  ConstraintViolationException.class 
+				"customer3", "Manuel", "Credit Links", "5429007233826913", 13, 19, 365, "customer3", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 2020, 5000, "customer2", "newspaper2", ConstraintViolationException.class 
+				"customer3", "Paco", "American Express", "345035739479236", 4, 17, 147, "customer3", "newspaper5", IllegalArgumentException.class 
 			}, {
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, "user1", "newspaper5", IllegalArgumentException.class 
+				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 20, 50, "customer2", "newspaper2",  ConstraintViolationException.class 
 			}, {
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 2019, 258, null, "newspaper3", IllegalArgumentException.class 
-			}, /*{
-				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 2021, 258, "customer1", "newspaper1", null
-			}*/
+				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 21, 5000, "customer2", "newspaper2", ConstraintViolationException.class 
+			}, {
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper5", IllegalArgumentException.class 
+			}, {
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, null, "newspaper2", IllegalArgumentException.class 
+			}, {
+				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 21, 258, "customer1", "newspaper2", IllegalArgumentException.class
+			}
 		};
 		
 		for (int i = 0; i < testingData.length; i++)
@@ -168,6 +169,7 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 		Customer customerEntity;
 		Newspaper newspaperEntity;
 		SubscriptionNewspaper subscription, subscriptionEntity;
+		CreditCard creditCard;
 
 		caught = null;
 		try {
@@ -184,13 +186,19 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 			Assert.notNull(newspaperEntity);
 			subscription = this.subscriptionNewspaperService.create(customerEntity, newspaperEntity);
 
-			subscription.getCreditCard().setHolderName(holderName);
-			subscription.getCreditCard().setBrandName(brandName);
-			subscription.getCreditCard().setNumber(number);
-			subscription.getCreditCard().setExpirationMonth(expirationMonth);
-			subscription.getCreditCard().setExpirationYear(expirationYear);
-			subscription.getCreditCard().setCvvcode(cvvcode);
+			creditCard = new CreditCard();;
+
+			creditCard.setHolderName(holderName);
+			creditCard.setBrandName(brandName);
+			creditCard.setNumber(number);
+			creditCard.setExpirationMonth(expirationMonth);
+			creditCard.setExpirationYear(expirationYear);
+			creditCard.setCvvcode(cvvcode);
+			
+			subscription.setCreditCard(creditCard);
+
 			subscriptionEntity = this.subscriptionNewspaperService.save(subscription);
+			
 			super.unauthenticate();
 			super.flushTransaction();
 			

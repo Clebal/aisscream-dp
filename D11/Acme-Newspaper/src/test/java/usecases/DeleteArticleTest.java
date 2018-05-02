@@ -39,9 +39,7 @@ public class DeleteArticleTest extends AbstractTest {
 	 * 
 	 * 	Primero se realizarán las pruebas desde un listado y luego
 	 * como si accedemos a la entidad desde getEntityId:
-	 * 1. Probando que el user2 borra la article2
-	 * 	2. Probando que el user3 borra la article3
-	 * 	3. Probando que el user1 borra la article3
+	 * 1. Probando que el user4 borra la article4
 	 * 
 	 * Requisitos:
 	 * 2. A user may create a newspaper, for which the system must store a title, a publication date
@@ -56,11 +54,7 @@ public class DeleteArticleTest extends AbstractTest {
 	public void positiveDeleteArticleTest() {
 		final Object testingData[][] = {
 			{
-				"user2", "article2", null
-			}, {
-				"user3", "article3", null
-			} , {
-				"user1", "article1", null
+				"user4", "article4", null
 			}
 		};
 			
@@ -74,7 +68,7 @@ public class DeleteArticleTest extends AbstractTest {
 				super.rollbackTransaction();
 			}
 	
-	/*for (int i = 0; i < testingData.length; i++)
+	for (int i = 0; i < testingData.length; i++)
 		try {
 			super.startTransaction();
 			this.templateNoList((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
@@ -82,7 +76,7 @@ public class DeleteArticleTest extends AbstractTest {
 			throw new RuntimeException(oops);
 		} finally {
 			super.rollbackTransaction();
-		}*/
+		}
 	}
 	
 	/*
@@ -94,6 +88,8 @@ public class DeleteArticleTest extends AbstractTest {
 	 * 1. No puede borrarlo un usuario no logueado
 	 * 2. Solo puede borrarlo un user
 	 * 3. Solo puede borrarlo un user
+	 * 4. Probando que el user3 borra la article3 - No se puede borrar un artículo en modo final
+	 * 	5. Probando que el user1 borra la article3 - No se puede borrar un artículo en modo final
 	 * 
 	 * Requisitos:
 	 * 2. A user may create a newspaper, for which the system must store a title, a publication date
@@ -113,6 +109,10 @@ public class DeleteArticleTest extends AbstractTest {
 				"administrator", "article1", IllegalArgumentException.class
 			}, {
 				"customer2", "article2", IllegalArgumentException.class 
+			}, {
+				"user3", "article3", IllegalArgumentException.class 
+			} , {
+				"user1", "article1", IllegalArgumentException.class 
 			}
 		};
 		
