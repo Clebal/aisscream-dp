@@ -1,8 +1,6 @@
 package controllers.user;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -44,13 +42,13 @@ public class UserController extends AbstractController {
 	public ModelAndView list(@RequestParam(required=false, defaultValue="1") final int page) {
 		ModelAndView result;
 		Page<User> userPage;
-		Map<User, Level> userLevel;
+		LinkedHashMap<User, Level> userLevel;
 		Level level;
 		
-		userPage = this.userService.findAllPaginated(page, 5);
+		userPage = this.userService.findOrderByPoints(page, 5);
 		Assert.notNull(userPage);
 		
-		userLevel = new HashMap<User, Level>();
+		userLevel = new LinkedHashMap<User, Level>();
 		for(User u: userPage.getContent()) {
 			level = this.levelService.findByPoints(u.getPoints());
 			Assert.notNull(level);
@@ -60,6 +58,28 @@ public class UserController extends AbstractController {
 		result = new ModelAndView("user/list");
 		result.addObject("page", page);
 		result.addObject("pageNumber", userPage.getTotalPages());
+		result.addObject("users", userLevel);
+		return result;
+	}
+	
+	// Display
+	@RequestMapping(value="/display", method=RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int userId) {
+		ModelAndView result;
+		User user;
+		Level level;
+		
+		user = this.userService.findOne(userId);
+		Assert.notNull(user);
+		
+		level = this.levelService.findByPoints(user.getPoints());
+		Assert.notNull(level);
+		
+		result = new ModelAndView("actor/display");
+		result.addObject("actor", user);
+		result.addObject("model", "user");
+		result.addObject("level", level);
+		result.addObject("isPublic", true);
 		
 		return result;
 	}

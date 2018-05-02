@@ -26,7 +26,6 @@
 <%@ attribute name="property" required="true" %> 
 <%@ attribute name="domain" required="true" %>
 <%@ attribute name="formatDate" required="false" %>
-<%@ attribute name="row" required="false" type="java.lang.Object" %>
 <%@ attribute name="style" required="false" %>
 <%@ attribute name="sortable" required="false" %>
 
@@ -45,14 +44,6 @@
 <%-- Definition --%>
 <spring:message code="${domain}.${property}" var="headerTitle" />
 
-<jstl:if test="${property.equals('user')}">
-	<jstl:if test="${domain.equals('chirp')}">
-		<display:column style="${style}" title="${headerTitle}">
-			<a href="actor/user/display.do?userId=${row.getUser().getId()}"><jstl:out value="${row.getUser().getName()} ${row.getUser().getSurname()}" /></a>
-		</display:column>
-	</jstl:if>
-</jstl:if>
-
 <jstl:if test="${!property.equals('user')}">
 	<jstl:if test="${formatDate == true}">
 		<spring:message code="${domain}.format.moment" var="format"/>
@@ -60,7 +51,7 @@
 	</jstl:if>
 	
 	<jstl:if test="${formatDate == false}">
-		<display:column style="${style}" property="${property}" title="${headerTitle}" />
+		<display:column style="${style}" property="${property}" title="${headerTitle}" sortable="${sortable}" />
 	</jstl:if>
 </jstl:if>
 

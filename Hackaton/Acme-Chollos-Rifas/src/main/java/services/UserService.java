@@ -130,6 +130,14 @@ public class UserService {
 
 		return result;
 	}
+	
+	public Page<User> findOrderByPoints(final int page, final int size) {
+		Page<User> result;
+
+		result = this.userRepository.findOrderByPoints(this.getPageable(page, size));
+
+		return result;
+	}
 
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {

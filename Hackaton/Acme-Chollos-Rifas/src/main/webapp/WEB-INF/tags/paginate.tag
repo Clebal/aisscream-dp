@@ -30,12 +30,11 @@
 <%@ attribute name="parameterValue" required="false" %> 
 <%@ attribute name="parameter2" required="false" %>
 <%@ attribute name="parameterValue2" required="false" %>    
-<%@ attribute name="objects" required="true" type="java.util.Collection" %> 
-
+<%@ attribute name="objects" required="false" type="java.lang.Object" %> 
 
 <%-- Definition --%>
 
-<jstl:if test="${objects.size() > 0 }">
+<jstl:if test="${objects.size() > 0}">
 
 	<jstl:forEach var="i" begin="1" end="${pageNumber}">
 	

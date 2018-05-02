@@ -51,6 +51,7 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="actor/list.do"><spring:message code="master.page.list.user" /></a></li>
+					<li><a href="raffle/user/list.do"><spring:message code="master.page.user.raffle" /></a></li>
 					<li><a href="creditcard/user/list.do"><spring:message code="master.page.user.creditCard" /></a></li>
 				</ul>
 			</security:authorize>
@@ -68,6 +69,7 @@
 	        <security:authorize access="isAuthenticated()">		
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
+					<li><a href="raffle/list.do"><spring:message code="master.page.list.raffle" /></a></li>
 					<security:authorize access="hasRole('USER')">
 						<li><a href="actor/user/profile.do"><spring:message code="master.page.profile" /></a></li>
 						<li><a href="actor/user/edit.do"><spring:message code="master.page.profile.edit" /></a></li>
@@ -103,12 +105,14 @@
 	      
 	      <security:authorize access="isAnonymous()">
 	      	<a href="security/login.do" class="btn btn-primary"><spring:message code="master.page.login"/></a>
+		   	<div class="btn-group">
 		   	<a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown"><spring:message	code="master.page.register" /> <span class="caret"></span></a>
        		<ul class="dropdown-menu">
 				<li><a href="actor/user/create.do"><spring:message code="master.page.create.user" /></a></li>
 		   		<li><a href="actor/sponsor/create.do"><spring:message code="master.page.create.sponsor" /></a></li>
 		   		<li><a href="actor/company/create.do"><spring:message code="master.page.create.company" /></a></li>
 			</ul>
+			</div>
 		   	<a href="actor/list.do" class="btn btn-primary"><spring:message code="master.page.list.user" /></a>
 	      </security:authorize>
       

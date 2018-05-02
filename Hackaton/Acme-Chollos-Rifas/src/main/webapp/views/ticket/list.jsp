@@ -15,7 +15,10 @@
 	<acme:column domain="ticket" property="code"/>
 
 	<jstl:if test="${showRaffle == true}">
-		<acme:columnLink domain="ticket" code="ticket.raffle" content="${row.getRaffle().getTitle()}" url="raffle/display.do?raffleId=${row.getRaffle().getId()}" />
+		<acme:columnLink domain="ticket" 
+						code="raffle" 
+						content="${row.getRaffle().getTitle()}" 
+						url="raffle/display.do?raffleId=${row.getRaffle().getId()}" />
 	</jstl:if>
 	
 	<spring:message code="ticket.payMethod" var="payMethodTitle" />
@@ -29,7 +32,10 @@
 	</display:column>
 	
 	<jstl:if test="${row.getCreditCard() != null}">
-		<acme:columnLink domain="ticket" code="ticket.creditcard" content="${row.getCreditCard().getNumber()}" url="creditcard/user/display.do?creditCardId=${row.getCreditCard().getId()}" />
+		<acme:columnLink domain="ticket" 
+						code="creditcard" 
+						content="${row.getCreditCard().getNumber()}" 
+						url="creditcard/user/display.do?creditCardId=${row.getCreditCard().getId()}" />
 	</jstl:if>
 	<jstl:if test="${row.getCreditCard() == null}">
 		<display:column>

@@ -14,12 +14,14 @@ import security.LoginService;
 import services.ActorService;
 import services.AdministratorService;
 import services.CompanyService;
+import services.LevelService;
 import services.ModeratorService;
 import services.SponsorService;
 import services.UserService;
 import domain.Actor;
 import domain.Administrator;
 import domain.Company;
+import domain.Level;
 import domain.Moderator;
 import domain.Sponsor;
 import domain.User;
@@ -51,6 +53,9 @@ public class ActorController extends AbstractController {
 	
 	@Autowired
 	private AdministratorService	administratorService;
+	
+	@Autowired
+	private LevelService levelService;
 
 	// Constructors
 	public ActorController() {
@@ -62,6 +67,10 @@ public class ActorController extends AbstractController {
 	public ModelAndView profile(@PathVariable(value="actor") final String model, @RequestParam(required=false) final Integer actorId) {
 		ModelAndView result;
 		Actor actor;
+		User user; 
+		Level level;
+		
+		level = null; 
 
 		if(actorId != null) {
 			actor = this.actorService.findOne(actorId);
@@ -69,10 +78,17 @@ public class ActorController extends AbstractController {
 			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 		}
 		Assert.notNull(actor);
+		
+		if(model.equals("user")) {
+			user = (User) actor;
+			level = this.levelService.findByPoints(user.getPoints()); 
+		}
 
 		result = new ModelAndView("actor/display");
 		result.addObject("actor", actor);
 		result.addObject("model", model);
+		result.addObject("isPublic", false);
+		if(model.equals("user")) result.addObject("level", level);
 		
 		return result;
 	}

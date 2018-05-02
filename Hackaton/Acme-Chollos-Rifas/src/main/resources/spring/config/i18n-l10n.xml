@@ -37,6 +37,8 @@
 		<value>/views/raffle/messages</value>
 		<value>/views/ticket/messages</value>
 		
+		<value>/views/level/messages</value>
+		
 	</util:list>
 
 </beans>

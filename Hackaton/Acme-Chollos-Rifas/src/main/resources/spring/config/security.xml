@@ -54,7 +54,8 @@
 		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()"  />
 		<security:intercept-url pattern="/actor/user/profile.do" access="hasRole('USER')"  />
 		<security:intercept-url pattern="/actor/user/list.do" access="permitAll"  />
-		
+		<security:intercept-url pattern="/actor/user/display.do" access="permitAll"  />
+
 		<security:intercept-url pattern="/actor/company/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/actor/company/edit.do" access="hasRole('COMPANY') or isAnonymous()"  />
 		<security:intercept-url pattern="/actor/company/profile.do" access="hasRole('COMPANY')"  />
@@ -89,7 +90,10 @@
   		<security:intercept-url pattern="/raffle/display.do" access="permitAll" />		
    		<security:intercept-url pattern="/raffle/user/buy.do" access="hasRole('USER')" />		
 		<security:intercept-url pattern="/raffle/user/completepayment.do" access="hasRole('USER')"/>
-		
+		<security:intercept-url pattern="/raffle/user/create.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/raffle/user/edit.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/raffle/user/list.do" access="hasRole('USER')"/>
+
 		<!-- Ticket -->
 		<security:intercept-url pattern="/ticket/user/list.do" access="permitAll" />
 		
