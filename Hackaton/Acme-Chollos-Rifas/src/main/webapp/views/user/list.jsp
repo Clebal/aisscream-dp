@@ -11,7 +11,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table class="table table-striped table-bordered table-hover" name="users" id="row" requestURI="${requestURI}">
+<%-- <display:table class="table table-striped table-bordered table-hover" name="users" id="row" requestURI="${requestURI}">
 	
 	<acme:column property="name" domain="actor"/>
 	
@@ -34,4 +34,4 @@
 </jstl:if>
 <jstl:if test="${requestURI=='actor/listAttendants.do'}">
 <acme:paginate url="${requestURI}" objects="${users}" pageNumber="${pageNumber}" page="${page}" parameter="rendezvousId" parameterValue="${rendezvousId}"/>
-</jstl:if>
+</jstl:if> --%>

@@ -16,14 +16,14 @@
 
 <tiles-definitions>
 
-	<definition name="raffle/display" extends="master.page">	
-		<put-attribute name="title" value="Raffle" />
-		<put-attribute name="body" value="/views/raffle/display.jsp" />
+	<definition name="ticket/list" extends="master.page">
+		<put-attribute name="title" value="Tiques" />
+		<put-attribute name="body" value="/views/ticket/list.jsp" />
 	</definition>
 	
-	<definition name="raffle/buy" extends="master.page">
-		<put-attribute name="title" value="Buy tickets" />
-		<put-attribute name="body" value="/views/raffle/buy.jsp" />
+	<definition name="ticket/display" extends="master.page">	
+		<put-attribute name="title" value="Tique" />
+		<put-attribute name="body" value="/views/ticket/display.jsp" />
 	</definition>
 
 </tiles-definitions>

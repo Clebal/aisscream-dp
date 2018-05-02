@@ -59,7 +59,27 @@ public class ActorController extends AbstractController {
 
 	// Profile
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public ModelAndView edit(@PathVariable(value="actor") final String model) {
+	public ModelAndView profile(@PathVariable(value="actor") final String model, @RequestParam(required=false) final Integer actorId) {
+		ModelAndView result;
+		Actor actor;
+
+		if(actorId != null) {
+			actor = this.actorService.findOne(actorId);
+		} else {
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		}
+		Assert.notNull(actor);
+
+		result = new ModelAndView("actor/display");
+		result.addObject("actor", actor);
+		result.addObject("model", model);
+		
+		return result;
+	}
+	
+	// Profile
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView editProfile(@PathVariable(value="actor") final String model) {
 		ModelAndView result;
 		Actor actor;
 
@@ -119,7 +139,6 @@ public class ActorController extends AbstractController {
 		result = null;
 		actor = null;
 		try {
-			if(model.equals("user")) actor = this.userService.reconstruct(actorForm, binding);
 			if(model.equals("sponsor")) actor = this.sponsorService.reconstruct(actorForm, binding);
 			if(model.equals("moderator")) actor = this.moderatorService.reconstruct(actorForm, binding);
 			if(model.equals("administrator")) actor = this.administratorService.reconstruct(actorForm, binding);
@@ -138,7 +157,6 @@ public class ActorController extends AbstractController {
 				result = this.createModelAndView(actorForm, model);
 			} else
 				try {
-					if(model.equals("user")) this.userService.save((User) actor);
 					if(model.equals("sponsor")) this.sponsorService.save((Sponsor) actor);
 					if(model.equals("moderator")) this.moderatorService.save((Moderator) actor);
 					if(model.equals("administrator")) this.administratorService.save((Administrator) actor);
@@ -161,16 +179,13 @@ public class ActorController extends AbstractController {
 
 	protected ModelAndView createModelAndView(final ActorForm actorForm, final String model, final String messageCode) {
 		ModelAndView result;
-		String requestURI;
-
-		requestURI = "actor/"+model+"/edit.do";
 
 		result = new ModelAndView("actor/edit");
 
 		result.addObject("model", model);
 		result.addObject("actorForm", actorForm);
 		result.addObject("message", messageCode);
-		result.addObject("requestURI", requestURI);
+		result.addObject("requestURI", "actor/"+model+"/edit.do");
 
 		return result;
 	}
@@ -190,6 +205,8 @@ public class ActorController extends AbstractController {
 		CompanyForm companyForm;
 		Company company;
 		ActorForm actorForm;
+		UserForm userForm;
+		User user;
 
 		canEdit = false;
 		
@@ -197,7 +214,7 @@ public class ActorController extends AbstractController {
 
 		if (actor.getUserAccount().getId() == LoginService.getPrincipal().getId()) canEdit = true;
 
-		if (model.equals("user") || model.equals("moderator") || model.equals("sponsor") || model.equals("administrator")) {
+		if (model.equals("moderator") || model.equals("sponsor") || model.equals("administrator")) {
 
 			actorForm = new ActorForm();
 
@@ -232,6 +249,26 @@ public class ActorController extends AbstractController {
 
 			result.addObject("actorForm", companyForm);
 
+		} else if (model.equals("user")) {
+			
+			userForm = new UserForm();
+
+			userForm.setAddress(actor.getAddress());
+			userForm.setEmail(actor.getEmail());
+			userForm.setId(actor.getId());
+			userForm.setName(actor.getName());
+			userForm.setPhone(actor.getPhone());
+			userForm.setSurname(actor.getSurname());
+			userForm.setUsername(actor.getUserAccount().getUsername());
+			userForm.setIdentifier(actor.getIdentifier());
+			
+			user = this.userService.findOne(actor.getId());
+			Assert.notNull(user);
+			
+			userForm.setAvatar(user.getAvatar());
+
+			result.addObject("actorForm", userForm);
+			
 		}
 
 		result.addObject("message", messageCode);

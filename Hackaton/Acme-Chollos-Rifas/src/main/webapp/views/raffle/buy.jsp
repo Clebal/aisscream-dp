@@ -10,3 +10,16 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<form:form action="raffle/user/buy.do" modelAttribute="ticketForm">
+
+ 	<form:hidden path="raffle" />
+	
+	<acme:textbox code="raffle.amount" path="amount" />
+	
+	<acme:select code="raffle.creditcard" path="creditCard" items="${creditCards}" itemLabel="number" selected="${primaryCreditCard}" />
+
+	<acme:submit name="save" code="creditcard.save"/>
+	
+	<acme:cancel url="raffle/display.do?raffleId=${raffleId}" code="raffle.cancel"/>
+			
+</form:form>

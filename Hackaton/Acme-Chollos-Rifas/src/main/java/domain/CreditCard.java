@@ -5,7 +5,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
@@ -67,7 +66,7 @@ public class CreditCard extends DomainEntity {
 		this.expirationMonth = expirationMonth;
 	}
 
-	@Min(0)
+	@Range(min = 0, max = 99)
 	public int getExpirationYear() {
 		return this.expirationYear;
 	}

@@ -5,6 +5,9 @@ import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -35,6 +38,9 @@ public class TicketService {
 	
 	@Autowired
 	private Validator			validator;
+	
+	@Autowired
+	private UserService			userService;
 	
 	// Constructor
 	public TicketService() {
@@ -81,11 +87,12 @@ public class TicketService {
 		Assert.isTrue(LoginService.isAuthenticated());
 		// El usuario que ha comprado el ticket debe ser el que está autenticado
 		Assert.isTrue(ticket.getUser().getUserAccount().equals(LoginService.getPrincipal()));
-		// El código único code no puede ser nulo
-		Assert.notNull(ticket.getCode());
 		
 		// Asignar código único
 		ticket.setCode(this.generateUniqueCode(ticket.getRaffle()));
+		
+		// El código único code no puede ser nulo
+		Assert.notNull(ticket.getCode());
 		
 		// Guardar
 		result = this.ticketRepository.save(ticket);
@@ -110,20 +117,56 @@ public class TicketService {
 		return result;
 	}
 	
+	public Page<Ticket> findByUserAccountId(final int userAccountId, int page, int size) {
+		Page<Ticket> result;
+		
+		Assert.isTrue(userAccountId != 0);
+		
+		result = this.ticketRepository.findByUserAccountId(userAccountId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
+	public Page<Ticket> findByRaffleIdAndUserAccountId(final int raffleId, final int userAccountId, int page, int size) {
+		Page<Ticket> result;
+		
+		Assert.isTrue(userAccountId != 0 && raffleId != 0);
+		
+		result = this.ticketRepository.findByRaffleIdAndUserAccountId(raffleId, userAccountId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
 	// Auxiliary methods
+	private Pageable getPageable(final int page, final int size) {
+		Pageable result;
+		
+		if (page == 0 || size <= 0)
+			result = new PageRequest(0, 5);
+		else
+			result = new PageRequest(page - 1, size);
+		
+		return result;
+	}
+	
 	public Collection<Ticket> reconstruct(final TicketForm ticketForm, final BindingResult binding) {
 		Collection<Ticket> result;
 		Ticket ticket;
+		User user;
 		
 		Assert.notNull(ticketForm);
 		
 		result = new ArrayList<Ticket>();
 		
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		ticketForm.setUser(user);
+		
+		if(binding != null) this.validator.validate(ticketForm, binding);
+		
 		for(int i = 0; i < ticketForm.getAmount(); i++) {
-			ticket = this.create(ticketForm.getRaffle(), ticketForm.getUser(), ticketForm.getCreditCard());
-			
-			if(binding != null) this.validator.validate(ticket, binding);
-			
+			ticket = this.create(ticketForm.getRaffle(), ticketForm.getUser(), ticketForm.getCreditCard());			
 			result.add(ticket);
 		}
 		

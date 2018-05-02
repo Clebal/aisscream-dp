@@ -17,7 +17,11 @@
 		<form:hidden path="user" />
 	</jstl:if>
 	
-	<acme:textbox code="creditcard.holderName" path="holderName"/>
+	<acme:textbox code="creditcard.holderName" path="holderName" />
+	<jstl:if test="${creditCard.getId() == 0}">
+		<div style="margin-top: -10px; display: flex;"><label for="check"><spring:message code="creditcard.useNameSurname" /></label><input type="checkbox" onclick="activar(this.form)" name="check" id="check" style="margin-left: 10px;" /></div>
+		<br>
+	</jstl:if>
 	
 	<acme:textbox code="creditcard.brandName" path="brandName"/>
 
@@ -38,3 +42,19 @@
 	<acme:cancel url="creditcard/user/list.do" code="creditcard.cancel"/>
 			
 </form:form>
+
+<script type="text/javascript">
+ 
+	window.onload = function() {
+    	document.getElementById("check").checked = false;
+	};
+	
+	function activar(form) {
+    	if (form.check.checked) {
+   			 form.holderName.readOnly=true;
+ 		 } else {     
+   			 form.holderName.readOnly=false;
+  		 }
+ 	}
+	
+ </script>

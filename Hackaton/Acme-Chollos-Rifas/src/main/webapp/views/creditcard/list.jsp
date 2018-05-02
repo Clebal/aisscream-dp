@@ -14,13 +14,30 @@
 	
 	<acme:columnLink action="edit" actor="user" domain="creditcard" id="${row.getId()}" />
 	
-	<jstl:if test="${row.getId() != primaryCreditCard}">
-		<acme:columnLink action="primary" domain="creditcard" id="${row.getId()}" actor="user" />
+	<jstl:if test="${row.getExpirationYear() - year >= 0 }">
+		<jstl:if test="${row.getExpirationMonth() - month >= 0}">
+			<jstl:if test="${row.getId() != primaryCreditCard}">
+				<acme:columnLink action="primary" domain="creditcard" id="${row.getId()}" actor="user" />
+			</jstl:if>
+			<jstl:if test="${row.getId() == primaryCreditCard}">
+				<display:column>
+					<p><spring:message code="creditcard.default" /></p>
+				</display:column>
+			</jstl:if>
+		</jstl:if>
 	</jstl:if>
-	<jstl:if test="${row.getId() == primaryCreditCard}">
-		<display:column>
-		</display:column>
+	
+	<jstl:if test="${row.getExpirationYear() - year < 0}">
+		<jstl:if test="${row.getExpirationMonth() - month < 0}">
+			<display:column>
+			</display:column>
+		</jstl:if>
+		<jstl:if test="${row.getExpirationMonth() - month >= 0}">
+			<display:column>
+			</display:column>
+		</jstl:if>
 	</jstl:if>
+
 	
 	<acme:column domain="creditcard" property="holderName"/>
 	

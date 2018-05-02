@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u")
 	Page<User> findAllPageable(Pageable pageable);
 
-	@Query("select count(u) from User u")
-	Integer findAllCount();
+	@Query("select u from User u order by u.points")
+	Page<User> findOrderByPoints(Pageable pageable);
 
 }

@@ -4,6 +4,7 @@ package services;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -18,7 +19,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.User;
-import forms.ActorForm;
+import forms.UserForm;
 
 @Service
 @Transactional
@@ -122,40 +123,27 @@ public class UserService {
 		return result;
 	}
 
-	public Collection<User> findAllPaginated(final int page, final int size) {
-		Collection<User> result;
-		Pageable pageable;
-		Authority authority;
-		UserAccount userAccount;
+	public Page<User> findAllPaginated(final int page, final int size) {
+		Page<User> result;
 
-		authority = new Authority();
-		authority.setAuthority("USER");
+		result = this.userRepository.findAllPageable(this.getPageable(page, size));
 
-		if(LoginService.isAuthenticated()) {
-			userAccount = LoginService.getPrincipal();
-			Assert.notNull(userAccount);
-			Assert.isTrue(userAccount.getAuthorities().contains(authority));
-		}
+		return result;
+	}
+
+	// Auxiliary methods
+	private Pageable getPageable(final int page, final int size) {
+		Pageable result;
 		
 		if (page == 0 || size <= 0)
-			pageable = new PageRequest(0, 5);
+			result = new PageRequest(0, 5);
 		else
-			pageable = new PageRequest(page - 1, size);
-
-		result = this.userRepository.findAllPageable(pageable).getContent();
-
+			result = new PageRequest(page - 1, size);
+		
 		return result;
 	}
-
-	public Integer countAllPaginated() {
-		Integer result;
-
-		result = this.userRepository.findAllCount();
-
-		return result;
-	}
-
-	public User reconstruct(final ActorForm userForm, final BindingResult binding) {
+	
+	public User reconstruct(final UserForm userForm, final BindingResult binding) {
 		User result;
 
 		if (userForm.getId() == 0) {
@@ -167,10 +155,13 @@ public class UserService {
 
 			result.getUserAccount().setUsername(userForm.getUsername());
 			result.getUserAccount().setPassword(userForm.getPassword());
+			
+			// Por defecto, un usuario tiene 50 puntos
+			result.setPoints(50);
 		} else {
 			result = this.findOne(userForm.getId());
 			Assert.notNull(result);
-			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
+			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));			
 		}
 
 		result.setName(userForm.getName());
@@ -179,6 +170,7 @@ public class UserService {
 		result.setEmail(userForm.getEmail());
 		result.setPhone(userForm.getPhone());
 		result.setIdentifier(userForm.getIdentifier());
+		result.setAvatar(userForm.getAvatar());
 
 		this.validator.validate(userForm, binding);
 

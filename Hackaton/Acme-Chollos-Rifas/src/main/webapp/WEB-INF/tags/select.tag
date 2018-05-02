@@ -32,6 +32,8 @@
 <%@ attribute name="option3" required="false" %>
 <%@ attribute name="option4" required="false" %>
 
+<%@ attribute name="selected" required="false" %>
+
 <%@ attribute name="id" required="false" %>
 <%@ attribute name="onchange" required="false" %>
 
@@ -45,7 +47,25 @@
 
 <%-- Definition --%>
 
-<jstl:if test="${option == null || option2 == null || option3 == null || option4 == null}">
+<jstl:if test="${path == 'creditCard'}">
+
+
+	<div class="form-group"> 
+		<form:label path="${path}">
+			<spring:message code="${code}" />:
+		</form:label>
+		<form:select id="selectCreditCardId" path="${path}" class="form-control">
+      		<option value="0">----</option>
+      		<jstl:forEach items="${items}" var="cc">
+				<option value="${cc.getId()}" ${cc.getId() == selected ? 'selected' : ''} >${cc.number}</option>
+        	</jstl:forEach>
+		</form:select>
+		<form:errors class="text-danger" path="${path}" />
+	</div>
+
+</jstl:if>
+
+<jstl:if test="${path != 'creditCard'}">
 	<div class="form-group">
 		<form:label path="${path}">
 			<spring:message code="${code}" />

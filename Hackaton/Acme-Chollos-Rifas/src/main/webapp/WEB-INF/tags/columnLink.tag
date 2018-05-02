@@ -23,12 +23,14 @@
 
 <%-- Attributes --%> 
 
-<%@ attribute name="action" required="true" %>
+<%@ attribute name="action" required="false" %>
 <%@ attribute name="domain" required="true" %>
-<%@ attribute name="id" required="true" %>
+<%@ attribute name="id" required="false" %>
 <%@ attribute name="url" required="false" %>
 <%@ attribute name="style" required="false" %>
 <%@ attribute name="actor" required="false" %>
+<%@ attribute name="content" required="false" %>
+<%@ attribute name="code" required="false" %>
 
 <jstl:if test="${style == null}">
 	<jstl:set var="style" value="background: inherit;" />
@@ -48,6 +50,15 @@
 	</spring:url>
 </jstl:if>
 
-<display:column style="${style}">
-	<a href="${url}"><spring:message code="${domain}.${action}" /></a>
-</display:column>
+<jstl:if test="${content == null}">
+	<display:column style="${style}">
+		<a href="${url}"><spring:message code="${domain}.${action}" /></a>
+	</display:column>
+</jstl:if>
+
+<jstl:if test="${content != null}">
+	<spring:message code="${code}" var="titleHeader"/>
+	<display:column title="${titleHeader}" style="${style}">
+		<a href="${url}"><jstl:out value="${content}" /></a>
+	</display:column>
+</jstl:if>

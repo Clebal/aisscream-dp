@@ -49,6 +49,11 @@
 	<!-- Phone -->
 	<acme:textbox code="actor.phone" path="phone"/>
 	
+	<jstl:if test="${model.equals('user')}">
+		<!-- Avatar -->
+		<acme:textbox code="actor.avatar" path="avatar"/>
+	</jstl:if>
+	
 	<br>
 	<h3><spring:message code="actor.identification" /></h3>
 	<p><spring:message code="actor.identification.help" /></p>
@@ -96,7 +101,7 @@
  
 	window.onload = function() {
     	document.getElementById("check").checked = false;
-	}
+	};
 	
 	function activar(form) {
     	if (form.check.checked) {

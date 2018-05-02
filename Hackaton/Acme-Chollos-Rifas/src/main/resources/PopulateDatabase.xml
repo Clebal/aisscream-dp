@@ -162,6 +162,8 @@
 		<property name="email" value="user1@acme.com" />
 		<property name="phone" value="+34618396001" />
 		<property name="address" value="Calle Sin Número, 123" />
+		<property name="avatar" value="https://www.w3schools.com/howto/img_avatar.png" />
+		<property name="points" value="620" />
 		<property name="userAccount" ref="userAccountUser1" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -171,6 +173,8 @@
 		<property name="surname" value="López González" />
 		<property name="email" value="user2@acme.com" />
 		<property name="address" value="Calle Falsa, 123" />
+		<property name="avatar" value="https://www.sahanet.net/wp-content/uploads/2018/02/avatar-2-300x300.png" />
+		<property name="points" value="50" />
 		<property name="userAccount" ref="userAccountUser2" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -180,6 +184,8 @@
 		<property name="surname" value="García Trinidad" />
 		<property name="email" value="user3@acme.com" />
 		<property name="phone" value="+3461738000" />
+		<property name="avatar" value="http://partnertekst.dk/wp-content/uploads/avatar-7.png" />
+		<property name="points" value="20" />
 		<property name="userAccount" ref="userAccountUser3" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -188,6 +194,8 @@
 		<property name="name" value="Sergio" />
 		<property name="surname" value="Sánchez Ortiz" />
 		<property name="email" value="user4@acme.com" />
+		<property name="avatar" value="http://partnertekst.dk/wp-content/uploads/avatar-7.png" />
+		<property name="points" value="300" />
 		<property name="userAccount" ref="userAccountUser4" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -197,6 +205,8 @@
 		<property name="surname" value="Casillas Martín" />
 		<property name="email" value="user5@acme.com" />
 		<property name="phone" value="+3461738010" />
+		<property name="avatar" value="http://partnertekst.dk/wp-content/uploads/avatar-7.png" />
+		<property name="points" value="100" />
 		<property name="userAccount" ref="userAccountUser5" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -206,6 +216,8 @@
 		<property name="surname" value="Crespo Sánchez" />
 		<property name="email" value="user6@acme.com" />
 		<property name="phone" value="+3461738011" />
+		<property name="avatar" value="http://partnertekst.dk/wp-content/uploads/avatar-7.png" />
+		<property name="points" value="-100" />
 		<property name="userAccount" ref="userAccountUser6" />
 		<property name="identifier" value="20063918-Y" />
 	</bean>
@@ -345,7 +357,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="5471664286416252" />
 		<property name="expirationMonth" value="9" />
-		<property name="expirationYear" value="2019" />
+		<property name="expirationYear" value="19" />
 		<property name="cvvcode" value="998" />
 		<property name="user" ref="user1" />
 	</bean>
@@ -355,7 +367,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="Visa" />
 		<property name="number" value="5229783098148518" />
 		<property name="expirationMonth" value="10" />
-		<property name="expirationYear" value="2018" />
+		<property name="expirationYear" value="18" />
 		<property name="cvvcode" value="258" />
 		<property name="user" ref="user2" />
 	</bean>
@@ -365,7 +377,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="5306320664868959" />
 		<property name="expirationMonth" value="10" />
-		<property name="expirationYear" value="2018" />
+		<property name="expirationYear" value="18" />
 		<property name="cvvcode" value="618" />
 		<property name="user" ref="user1" />
 	</bean>
@@ -375,7 +387,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="4350515568299247" />
 		<property name="expirationMonth" value="11" />
-		<property name="expirationYear" value="2019" />
+		<property name="expirationYear" value="19" />
 		<property name="cvvcode" value="608" />
 		<property name="user" ref="user3" />
 	</bean>
@@ -385,7 +397,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="MasterCard" />
 		<property name="number" value="4367834676464317" />
 		<property name="expirationMonth" value="10" />
-		<property name="expirationYear" value="2019" />
+		<property name="expirationYear" value="19" />
 		<property name="cvvcode" value="618" />
 		<property name="user" ref="user4" />
 	</bean>
@@ -395,7 +407,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="brandName" value="Visa" />
 		<property name="number" value="345035739479236" />
 		<property name="expirationMonth" value="2" />
-		<property name="expirationYear" value="2020" />
+		<property name="expirationYear" value="20" />
 		<property name="cvvcode" value="147" />
 		<property name="user" ref="user4" />
 	</bean>
@@ -551,6 +563,42 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="thirdCounter" value="0" />
 		<property name="fourthCounter" value="0"/>
 		<property name="fivethCounter" value="0"/>
+	</bean>
+	
+	<!-- Level -->
+	<bean id="level1" class="domain.Level">
+		<property name="name" value="Criminal" />
+		<property name="image" value="https://tinyurl.com/yd7wmdzq" />
+		<property name="minPoints" value="-1000" />
+		<property name="maxPoints" value="-1" />
+	</bean>
+	
+	<bean id="level2" class="domain.Level">
+		<property name="name" value="Bronce" />
+		<property name="image" value="https://tinyurl.com/yb3pwvsy" />
+		<property name="minPoints" value="0" />
+		<property name="maxPoints" value="100" />
+	</bean>
+	
+	<bean id="level3" class="domain.Level">
+		<property name="name" value="Plata" />
+		<property name="image" value="https://tinyurl.com/y7rxsfd9" />
+		<property name="minPoints" value="101" />
+		<property name="maxPoints" value="500" />
+	</bean>
+	
+	<bean id="level4" class="domain.Level">
+		<property name="name" value="Oro" />
+		<property name="image" value="https://tinyurl.com/y8mbeq8a" />
+		<property name="minPoints" value="501" />
+		<property name="maxPoints" value="999" />
+	</bean>
+	
+	<bean id="level5" class="domain.Level">
+		<property name="name" value="Diamante" />
+		<property name="image" value="https://tinyurl.com/ybtdgjzp" />
+		<property name="minPoints" value="1000" />
+		<property name="maxPoints" value="9999" />
 	</bean>
 	
 </beans>

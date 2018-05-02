@@ -1,5 +1,7 @@
 package controllers.user;
 
+import java.util.Calendar;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,6 +55,9 @@ public class CreditCardUserController extends AbstractController {
 		ModelAndView result;
 		Page<CreditCard> pageCreditCard;
 		Cookie cookie;
+		Calendar calendar;
+		
+		calendar = Calendar.getInstance();
 		
 		pageCreditCard = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId(), page, 5);
 		Assert.notNull(pageCreditCard);
@@ -61,6 +66,9 @@ public class CreditCardUserController extends AbstractController {
 		result.addObject("pageNumber", pageCreditCard.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("creditCards", pageCreditCard.getContent());
+		
+		result.addObject("month", calendar.get(Calendar.MONTH) + 1);
+		result.addObject("year", calendar.get(Calendar.YEAR) % 100);
 		
 		cookie = WebUtils.getCookie(request, "cookiemonster_"+LoginService.getPrincipal().getId());
 		if(cookie != null) result.addObject("primaryCreditCard", cookie.getValue());
@@ -94,6 +102,7 @@ public class CreditCardUserController extends AbstractController {
 		Cookie primaryCreditCard = new Cookie("cookiemonster_"+creditCard.getUser().getUserAccount().getId(), this.creditCardToStringConverter.convert(creditCard));
 		primaryCreditCard.setHttpOnly(true);
 		primaryCreditCard.setMaxAge(3600000);
+		primaryCreditCard.setPath("/");
 		response.addCookie(primaryCreditCard);
 		// --- COOKIE --- //
 		
@@ -124,6 +133,8 @@ public class CreditCardUserController extends AbstractController {
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(CreditCard creditCard, BindingResult binding) {
 		ModelAndView result;
+		
+		if(creditCard.getHolderName() != null && creditCard.getHolderName().equals("")) creditCard.setHolderName(creditCard.getUser().getName() + " " + creditCard.getUser().getSurname());
 		
 		creditCard = this.creditCardService.reconstruct(creditCard, binding);
 		

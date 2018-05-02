@@ -1,5 +1,6 @@
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +83,11 @@ public class CreditCardService {
 	public CreditCard save(final CreditCard creditCard) {
 		CreditCard result;
 		Authority authority;
+		Calendar calendar;
 		
 		Assert.notNull(creditCard);
+		
+		calendar = Calendar.getInstance();
 		
 		// Solo puede ser añadido por un usuario
 		authority = new Authority();
@@ -92,6 +96,9 @@ public class CreditCardService {
 		
 		// Solo puede ser añadido por el user de creditCard
 		Assert.isTrue(creditCard.getUser().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		// El año y el mes no puede ser anterior al actual
+ 		Assert.isTrue(((creditCard.getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 0 && calendar.get(Calendar.YEAR) % 100 >= creditCard.getExpirationYear());
 		
 		result = this.creditCardRepository.save(creditCard);
 		
