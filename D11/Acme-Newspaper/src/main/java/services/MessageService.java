@@ -67,8 +67,8 @@ public class MessageService {
 		Message result;
 
 		result = new Message();
-		result.setMoment(new Date(System.currentTimeMillis() - 1));
 		result.setSender(sender);
+		result.setMoment(new Date(System.currentTimeMillis() - 1));
 
 		return result;
 	}
@@ -95,7 +95,7 @@ public class MessageService {
 		Message result;
 		Message saved;
 
-		Assert.notNull(message, "message.notNull");
+		Assert.notNull(message);
 
 		// Si modificamos, nada debe haber cambiado salvo los folders, porque hayamos movido el mensaje
 		if (message.getId() != 0) {
@@ -183,6 +183,7 @@ public class MessageService {
 		return result;
 
 	}
+	
 	public Message moveMessage(final Message message, final Folder originFolder, final Folder destinationFolder) {
 
 		Message result;
@@ -218,56 +219,6 @@ public class MessageService {
 		return result;
 	}
 
-	public Collection<Message> findBySenderId(final int senderId) {
-		Collection<Message> result;
-
-		Assert.isTrue(senderId != 0);
-
-		result = this.messageRepository.findBySenderId(senderId);
-
-		return result;
-	}
-
-	public Collection<Message> findByActorId(final int actorId) {
-		Collection<Message> result;
-
-		Assert.isTrue(actorId != 0);
-
-		result = this.messageRepository.findByActorId(actorId);
-
-		return result;
-	}
-
-	public Collection<Message> findByFolderId(final int folderId) {
-		Collection<Message> result;
-
-		Assert.isTrue(folderId != 0);
-
-		result = this.messageRepository.findByFolderId(folderId);
-
-		return result;
-	}
-	
-	public Page<Message> findByFolderIdPaginated(final int folderId, final int page, final int size) {
-		Page<Message> result;
-
-		Assert.isTrue(folderId != 0);
-
-		result = this.messageRepository.findByFolderIdPaginated(folderId, this.getPageable(page, size));
-
-		return result;
-	}
-	
-	public Page<Message> findByActorUserAccountId(final int userAccountId, final int page, final int size) {
-		Page<Message> result;
-
-		Assert.isTrue(userAccountId != 0);
-
-		result = this.messageRepository.findByActorUserAccountId(userAccountId, this.getPageable(page, size));
-
-		return result;
-	}
-	
 	public Collection<Message> broadcastNotification(final Message notification) {
 		Collection<Actor> actors;
 		Authority authority;
@@ -333,6 +284,45 @@ public class MessageService {
 
 	}
 
+	public Collection<Message> findByActorId(final int actorId) {
+		Collection<Message> result;
+
+		Assert.isTrue(actorId != 0);
+
+		result = this.messageRepository.findByActorId(actorId);
+
+		return result;
+	}
+
+	public Collection<Message> findByFolderId(final int folderId) {
+		Collection<Message> result;
+
+		Assert.isTrue(folderId != 0);
+
+		result = this.messageRepository.findByFolderId(folderId);
+
+		return result;
+	}
+	
+	public Page<Message> findByFolderIdPaginated(final int folderId, final int page, final int size) {
+		Page<Message> result;
+
+		Assert.isTrue(folderId != 0);
+
+		result = this.messageRepository.findByFolderIdPaginated(folderId, this.getPageable(page, size));
+
+		return result;
+	}
+	
+	public Page<Message> findByActorUserAccountId(final int userAccountId, final int page, final int size) {
+		Page<Message> result;
+
+		Assert.isTrue(userAccountId != 0);
+
+		result = this.messageRepository.findByActorUserAccountId(userAccountId, this.getPageable(page, size));
+
+		return result;
+	}
 	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {

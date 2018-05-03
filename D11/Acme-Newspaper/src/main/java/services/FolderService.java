@@ -79,7 +79,6 @@ public class FolderService {
 	public Folder save(final Folder folder) {
 		Folder result;
 		Folder saved;
-		// boolean checkSpamWords;
 		List<String> listFatherFolders;
 		Folder folderCopy;
 		List<Folder> listChildrenFolders;
@@ -87,105 +86,78 @@ public class FolderService {
 		Collection<Folder> foldersActor;
 		Actor actor;
 
-		Assert.notNull(folder, "folder.notNull");
+		Assert.notNull(folder);
+		
 		saved = null;
-		// checkSpamWords = this.checkSpamWords(folder);
-
-		/*
-		 * si no es la primera vez que se registra, no puede modificar
-		 * parametros
-		 */
-		// checkTree = false;
-		// folder1 = new ArrayList<String😠);
-		// folder2 = folder;
-		// folder3 = new ArrayList<Folder😠);
-		//
-		// while (folder2.getFatherFolder() != null) {
-		// folder1.add(folder2.getFatherFolder().getName());
-		// folder2 = folder2.getFatherFolder();
-		// folder3.add(folder2.getFatherFolder());
-		// }
-		//
-		// for (final Folder c : folder.getFatherFolder().getChildrenFolders())
-		// if (c.getId() != folder.getId())
-		// folder1.add(c.getName());
-		// Assert.isTrue(!folder1.contains(folder.getName()));
-		//
-		// for (final Folder c1 : folder3) {
-		// checkTree = folder.getChildrenFolders().contains(c1);
-		// if (checkTree)
-		// break;
-		// }
-
+		
 		actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-		Assert.notNull(actor, "folder.logged");
-		Assert.isTrue(actor.equals(folder.getActor()), "folder.actor.equals");
+		Assert.notNull(actor);
+		Assert.isTrue(actor.equals(folder.getActor()));
 
+		
 		checkTree = false;
 		listFatherFolders = new ArrayList<String>();
-		folderCopy = folder;
 		listChildrenFolders = new ArrayList<Folder>();
-
+		folderCopy = folder;
+		
 		while (folderCopy.getFatherFolder() != null) {
-			//listFatherFolders.add(folderCopy.getFatherFolder().getName());
 			listChildrenFolders.add(folderCopy.getFatherFolder());
 			folderCopy = folderCopy.getFatherFolder();
 		}
 
 		if (folder.getFatherFolder() != null) {
-			// Crear una lista de father folder y ver que no contenta a la
-			// folder en cuestion
+			
+			Assert.isTrue(folder.getFatherFolder().getActor().equals(folder.getActor()));
+			
+			// Crear una lista de father folder y ver que no contenga a la folder en cuestion
 			for (final Folder c : folder.getFatherFolder().getChildrenFolders())
 				if (c.getId() != folder.getId())
 					listFatherFolders.add(c.getName());
-			Assert.isTrue(!listFatherFolders.contains(folder.getName()), "folder.name.brother");
-			// Crear una lista de children folder y ver que no contenta a la
-			// folder en cuestion
+			
+			Assert.isTrue(!listFatherFolders.contains(folder.getName()));
+			
+			// Crear una lista de children folder y ver que no contenga a la folder en cuestion
 			for (final Folder folderP : listChildrenFolders) {
 				checkTree = folder.getChildrenFolders().contains(folderP);
 				if (checkTree) {
-					Assert.isTrue(folder.getChildrenFolders().contains(folderP), "folder.childrens.father");
+					Assert.isTrue(folder.getChildrenFolders().contains(folderP));
 					break;
 				}
 			}
 		}
 
-		// No puede existir 2 carpetas con el mismo nombre en el mismo
-		// directorio
-
+		// No puede existir 2 carpetas con el mismo nombre en el mismo directorio
 		foldersActor = this.folderRepository.findByActorId(folder.getActor().getId());
 
 		for (final Folder f : foldersActor)
-			if (folder.getFatherFolder() == null && f.getFatherFolder() == null && f != folder)
-				Assert.isTrue(!folder.getName().equals(f.getName()), "folder.directory");
+			if (folder.getFatherFolder() == null && f.getFatherFolder() == null || folder.getFatherFolder() != null && folder.getFatherFolder().equals(f.getFatherFolder()) && f != folder)
+				Assert.isTrue(!folder.getName().equals(f.getName()));
 
-		// Un actor solo puede crear carpetas para si mismo y no pueden ser del
-		// Sistema
-		// Mirar que si se peristen/crear o cambian carpetas del sistema sea un
+		// Un actor solo puede crear carpetas para si mismo y no pueden ser del sistema
+		
+		// Mirar que si se peristen/crean o cambian carpetas del sistema sea un
 		// actor que todavía no se ha guardado
 		// Hay que tener en cuenta que no se pueden modificar las del sistema,
 		// pero si se pueden meter mensajes en ella.
-		// Los actores no pueden borrar, modificar o mover las carpetas del
-		// sistema
+		// Los actores no pueden borrar, modificar o mover las carpetas del sistema
 
 		// Si es una carpeta del sistema no puede modificarla
 		if (folder.getId() != 0) {
-			// Assert.isTrue(folder.getActor().getFolders().contains(folder));
-			Assert.isTrue(this.folderRepository.findByActorId(folder.getActor().getId()).contains(folder), "folder.actor.equals");
+			saved = this.findOne(folder.getId());
+			if(folder.getFatherFolder() != null) Assert.isTrue(folder.getFatherFolder().equals(saved.getFatherFolder()));
+			Assert.isTrue(this.folderRepository.findByActorId(folder.getActor().getId()).contains(folder));
 			if (folder.getSystem()) {
-				saved = this.findOne(folder.getId());
-				Assert.isTrue(saved.getSystem(), "folder.equals.system");
-				Assert.isTrue(saved.getName().equals(folder.getName()), "folder.equals.name");
+				Assert.isTrue(saved.getSystem());
+				Assert.isTrue(saved.getName().equals(folder.getName()));
 				if (saved.getFatherFolder() != null)
-					Assert.isTrue(saved.getFatherFolder().equals(folder.getFatherFolder()), "folder.equals.fatherFolder");
+					Assert.isTrue(saved.getFatherFolder().equals(folder.getFatherFolder()));
 			}
 		}
 
-		// if (folder.getActor().getFolders().size() >= 5)
 		if (this.folderRepository.findByActorId(folder.getActor().getId()).size() >= 5)
 			if (folder.getActor().getId() != 0)
 				if (folder.getId() == 0)
-					Assert.isTrue(!folder.getSystem(), "folder.equals.notSystem");
+					Assert.isTrue(!folder.getSystem());
 
 		result = this.folderRepository.save(folder);
 
@@ -212,10 +184,22 @@ public class FolderService {
 	}
 
 	// Other business methods -------------------------------------------------
-
+	public Folder findOneToEdit(final int folderId) {
+		Folder result;
+		
+		Assert.isTrue(folderId != 0);
+		
+		result = this.folderRepository.findOne(folderId);
+		Assert.notNull(result);
+		
+		Assert.isTrue(result.getActor().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		return result;
+	}
+	
 	public void deleteSystemFolder(final Folder folder) {
 
-		Assert.notNull(folder, "folder.notNull");
+		Assert.notNull(folder);
 
 		for (final Folder folders : folder.getChildrenFolders())
 			if (folders.getChildrenFolders().isEmpty())

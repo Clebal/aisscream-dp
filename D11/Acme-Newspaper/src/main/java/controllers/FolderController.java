@@ -162,7 +162,7 @@ public class FolderController extends AbstractController {
 		ModelAndView result;
 		Folder folder;
 
-		folder = this.folderService.findOne(folderId);
+		folder = this.folderService.findOneToEdit(folderId);
 		Assert.notNull(folder);
 
 		result = this.createEditModelAndView(folder);
