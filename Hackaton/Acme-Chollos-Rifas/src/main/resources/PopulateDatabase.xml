@@ -12,7 +12,7 @@
 	<bean id="userAccountAdministrator" class="security.UserAccount">
 		<property name="username" value="admin" />
 		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="ADMIN" />
@@ -24,7 +24,7 @@
 	<bean id="userAccountUser1" class="security.UserAccount">
 		<property name="username" value="user1" />
 		<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="USER" />
@@ -36,7 +36,7 @@
 	<bean id="userAccountUser2" class="security.UserAccount">
 		<property name="username" value="user2" />
 		<property name="password" value="7e58d63b60197ceb55a1c487989a3720" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="USER" />
@@ -48,7 +48,7 @@
 	<bean id="userAccountUser3" class="security.UserAccount">
 		<property name="username" value="user3" />
 		<property name="password" value="92877af70a45fd6a2ed7fe81e1236b78" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="USER" />
@@ -60,7 +60,7 @@
 	<bean id="userAccountUser4" class="security.UserAccount">
 		<property name="username" value="user4" />
 		<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="USER" />
@@ -72,7 +72,7 @@
 	<bean id="userAccountUser5" class="security.UserAccount">
 		<property name="username" value="user5" />
 		<property name="password" value="0a791842f52a0acfbb3a783378c066b8" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="USER" />
@@ -84,7 +84,7 @@
 	<bean id="userAccountUser6" class="security.UserAccount">
 		<property name="username" value="user6" />
 		<property name="password" value="affec3b64cf90492377a8114c86fc093" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="USER" />
@@ -97,7 +97,7 @@
 	<bean id="userAccountModerator1" class="security.UserAccount">
 		<property name="username" value="moderator1" />
 		<property name="password" value="38caf4a470117125b995f7ce53e6e6b9" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="MODERATOR" />
@@ -109,7 +109,7 @@
 	<bean id="userAccountModerator2" class="security.UserAccount">
 		<property name="username" value="moderator2" />
 		<property name="password" value="95d88ad73653fc7ad4fec3bc56677c3c" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="MODERATOR" />
@@ -122,7 +122,7 @@
 	<bean id="userAccountCompany1" class="security.UserAccount">
 		<property name="username" value="company1" />
 		<property name="password" value="df655f976f7c9d3263815bd981225cd9" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="COMPANY" />
@@ -134,7 +134,7 @@
 	<bean id="userAccountCompany2" class="security.UserAccount">
 		<property name="username" value="company2" />
 		<property name="password" value="d196a28097115067fefd73d25b0c0be8" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="COMPANY" />
@@ -146,7 +146,7 @@
 	<bean id="userAccountCompany3" class="security.UserAccount">
 		<property name="username" value="company3" />
 		<property name="password" value="e828ae3339b8d80b3902c1564578804e" />
-		<property name="authorities">
+		<property name="enabled" value="true" /> <property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="COMPANY" />
@@ -166,6 +166,10 @@
 		<property name="points" value="620" />
 		<property name="userAccount" ref="userAccountUser1" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="wishList">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="user2" class="domain.User">
@@ -177,6 +181,10 @@
 		<property name="points" value="50" />
 		<property name="userAccount" ref="userAccountUser2" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="wishList">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="user3" class="domain.User">
@@ -188,6 +196,10 @@
 		<property name="points" value="20" />
 		<property name="userAccount" ref="userAccountUser3" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="wishList">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="user4" class="domain.User">
@@ -198,6 +210,10 @@
 		<property name="points" value="300" />
 		<property name="userAccount" ref="userAccountUser4" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="wishList">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="user5" class="domain.User">
@@ -209,6 +225,10 @@
 		<property name="points" value="100" />
 		<property name="userAccount" ref="userAccountUser5" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="wishList">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="user6" class="domain.User">
@@ -220,6 +240,10 @@
 		<property name="points" value="-100" />
 		<property name="userAccount" ref="userAccountUser6" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="wishList">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<!-- Administrator -->

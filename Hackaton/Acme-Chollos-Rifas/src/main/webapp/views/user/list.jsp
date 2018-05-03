@@ -22,6 +22,9 @@
 			<th><spring:message code="actor.phone" /></th>
 			<th><spring:message code="actor.address" /></th>
 			<th></th>
+			<jstl:if test="${requestURI.equals('user/moderator/list.do')}">
+				<th></th>
+			</jstl:if>
 		</tr>
 	</thead>
 	<tbody>
@@ -36,6 +39,14 @@
 			<td><jstl:out value="${entry.key.getPhone()}"/></td>
 			<td><jstl:out value="${entry.key.getAddress()}"/></td>
 			<td><a href="actor/user/display.do?userId=${entry.key.getId()}"><spring:message code="actor.display" /></a></td>
+			<jstl:if test="${requestURI.equals('user/moderator/list.do')}">
+				<jstl:if test="${entry.key.getUserAccount().isEnabled()}">
+					<td><a href="user/moderator/ban.do?userId=${entry.key.getId()}"><spring:message code="actor.ban" /></a></td>
+				</jstl:if>
+				<jstl:if test="${!entry.key.getUserAccount().isEnabled()}">
+					<td><a href="user/moderator/ban.do?userId=${entry.key.getId()}"><spring:message code="actor.unban" /></a></td>
+				</jstl:if>
+			</jstl:if>
 		</tr>
 	</c:forEach>
 	</tbody>

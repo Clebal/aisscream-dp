@@ -13,11 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
 
+import domain.Bargain;
 import domain.User;
 import domain.Level;
 import forms.ActorForm;
 import forms.UserForm;
 
+import security.LoginService;
+import services.BargainService;
 import services.LevelService;
 import services.UserService;
 
@@ -31,6 +34,9 @@ public class UserController extends AbstractController {
 	
 	@Autowired
 	private LevelService levelService;
+	
+	@Autowired
+	private BargainService bargainService;
 	
 	// Constructor
 	public UserController() {
@@ -80,6 +86,47 @@ public class UserController extends AbstractController {
 		result.addObject("model", "user");
 		result.addObject("level", level);
 		result.addObject("isPublic", true);
+		
+		return result;
+	}
+	
+	@RequestMapping(value="/wishlist", method=RequestMethod.GET)
+	public ModelAndView wishList(@RequestParam final int actorId, @RequestParam(required=false, defaultValue="1") final int page) {
+		ModelAndView result;
+		User user;
+		Page<Bargain> bargainPage;
+		
+		user = this.userService.findOne(actorId);
+		Assert.notNull(user);
+		
+		if(LoginService.isAuthenticated()) {
+			if(!LoginService.getPrincipal().equals(user.getUserAccount()))
+				Assert.isTrue(user.getIsPublicWishList());
+		} else
+			Assert.isTrue(user.getIsPublicWishList());
+		
+		bargainPage = this.bargainService.findBargainByUserAccountId(LoginService.getPrincipal().getId(), page, 5);
+		
+		result = new ModelAndView("bargain/list");
+		result.addObject("bargains", bargainPage.getContent());
+		result.addObject("page", page);
+		result.addObject("pageNumber", bargainPage.getTotalPages());
+		
+		return result;
+	}
+	
+	// Change the status of WishList
+	@RequestMapping(value="/changewishlist", method=RequestMethod.GET)
+	public ModelAndView changeWishList() {
+		ModelAndView result;
+		User user;
+		
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+				
+		this.userService.changeWishList(user);
+		
+		result = new ModelAndView("redirect:profile.do");
 		
 		return result;
 	}

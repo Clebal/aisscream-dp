@@ -28,6 +28,12 @@
 		
 		<jstl:if test="${!isPublic}">
 			<acme:display code="actor.identifier" value="${actor.getIdentifier()}"/>
+			<jstl:if test="${actor.getIsPublicWishList()}">
+				<p><span class="display"><spring:message code="actor.isPublicWishListTrue" /></span>&nbsp;-&nbsp;<a href="actor/user/changewishlist.do"><spring:message code="actor.changewishlist" /></a></p>
+			</jstl:if>
+			<jstl:if test="${!actor.getIsPublicWishList()}">
+				<p><span class="display"><spring:message code="actor.isPublicWishListFalse" /></span>&nbsp;-&nbsp;<a href="actor/user/changewishlist.do"><spring:message code="actor.changewishlist" /></a></p>
+			</jstl:if>
 		</jstl:if>
 				
 		<jstl:if test="${model.equals('user')}">
@@ -36,8 +42,11 @@
 			<br>
 			<h4><spring:message code="actor.level" /></h4>
 			<br>
-			<acme:display code="level.name" value="${level.getName()}" />
-			<span class="display"><spring:message code="level.image" />:</span> <img width="50" height="50" src="${level.getImage()}" />
+			<acme:display code="level.name" value="${level.getName()}" /><img width="50" height="50" src="${level.getImage()}" />
+			
+			<br><br>
+			<a href="actor/user/wishlist.do?actorId=${actor.getId()}" class="btn btn-primary"><spring:message code="actor.wishlist" /></a>
+			<br>
 		</jstl:if>
 		
 		<jstl:if test="${model.equals('company')}">

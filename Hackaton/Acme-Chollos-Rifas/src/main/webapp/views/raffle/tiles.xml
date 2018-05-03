@@ -21,11 +21,6 @@
 		<put-attribute name="body" value="/views/raffle/display.jsp" />
 	</definition>
 	
-	<definition name="raffle/buy" extends="master.page">
-		<put-attribute name="title" value="Buy tickets" />
-		<put-attribute name="body" value="/views/raffle/buy.jsp" />
-	</definition>
-	
 	<definition name="raffle/list" extends="master.page">
 		<put-attribute name="title" value="Raffles" />
 		<put-attribute name="body" value="/views/raffle/list.jsp" />

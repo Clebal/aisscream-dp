@@ -29,12 +29,12 @@
 	<security:authorize access="hasRole('USER')">
 		<br>
 		<div style="text-align: center">
-			<a class="btn btn-primary" href="raffle/user/buy.do?raffleId=${raffle.getId()}"><spring:message code="raffle.buy.creditcard" /></a>
+			<a class="btn btn-primary" href="ticket/user/buy.do?raffleId=${raffle.getId()}"><spring:message code="raffle.buy.creditcard" /></a>
 			<jstl:if test="${raffle.getPrice() != 0.0}">
 				<a class="btn btn-primary" href="#" data-toggle="modal" data-target="#myModal"><spring:message code="raffle.buy.paypal" /></a>
 			</jstl:if>
 			<jstl:if test="${raffle.getPrice() == 0.0}">
-				<a class="btn btn-primary" href="raffle/user/buy.do?raffleId=${raffle.getId()}&method=PAYPAL"><spring:message code="raffle.buy.creditcard" /></a>
+				<a class="btn btn-primary" href="ticket/user/buy.do?raffleId=${raffle.getId()}&method=PAYPAL"><spring:message code="raffle.buy.creditcard" /></a>
 			</jstl:if>
 		</div>
 		
@@ -47,12 +47,12 @@
 			        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
 			        <h4 class="modal-title" id="myModalLabel"><spring:message code="welcome.amountTicketToBuy" /></h4>
 			      </div>
-		          <form action="raffle/user/buy.do" method="GET">
+		          <form action="ticket/user/buy.do" method="GET">
 				      <div class="modal-body">
 				        	<input type="hidden" name="raffleId" value="${raffle.getId()}" />
 				        	<input type="hidden" name="method" value="PAYPAL" />
 				        	<div class="from-group">
-				        		<input class="form-control" type="number" name="amount" />
+				        		<input class="form-control" type="number" name="amount" min="1" />
 				        	</div>
 				      </div>
 				      <div class="modal-footer">

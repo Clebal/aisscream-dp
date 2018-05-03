@@ -44,7 +44,7 @@ public class PaypalClient {
 
 	    RedirectUrls redirectUrls = new RedirectUrls();
 	    redirectUrls.setCancelUrl("http://localhost:8080/Acme-Chollos-Rifas/raffle/display.do?raffleId="+raffleId);
-	    redirectUrls.setReturnUrl("http://localhost:8080/Acme-Chollos-Rifas/raffle/user/completepayment.do?raffleId="+raffleId+"&amount="+amountItem);
+	    redirectUrls.setReturnUrl("http://localhost:8080/Acme-Chollos-Rifas/ticket/user/completepayment.do?raffleId="+raffleId+"&amount="+amountItem);
 	    payment.setRedirectUrls(redirectUrls);
 	    
 	    Payment createdPayment;

@@ -89,14 +89,13 @@ public class UserService {
 		encoder = new Md5PasswordEncoder();
 		authority = new Authority();
 		Assert.notNull(user);
-		authority.setAuthority("USER");
+		authority.setAuthority("MODERATOR");
 
 		/* Si el user ya existe, debe ser el que este logueado */
 		if (user.getId() != 0) {
 			userAccount = LoginService.getPrincipal();
 			Assert.notNull(userAccount);
-			Assert.isTrue(userAccount.getAuthorities().contains(authority));
-			Assert.isTrue(userAccount.equals(user.getUserAccount()));
+			Assert.isTrue(userAccount.getAuthorities().contains(authority) || user.getUserAccount().equals(LoginService.getPrincipal()));
 			saved = this.userRepository.findOne(user.getId());
 			Assert.notNull(saved);
 			Assert.isTrue(saved.getUserAccount().getUsername().equals(user.getUserAccount().getUsername()));
@@ -139,6 +138,53 @@ public class UserService {
 		result = this.userRepository.findOrderByPoints(this.getPageable(page, size));
 
 		return result;
+	}
+	
+	public void addPoints(final int points) {
+		User user;
+		
+		Assert.isTrue(LoginService.isAuthenticated());
+		
+		user = this.userRepository.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		user.setPoints(user.getPoints()+points);
+		
+		this.save(user);
+	}
+	
+	public void ban(final User user) {
+		Authority authority;
+		
+		Assert.notNull(user);
+		
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		if(user.getUserAccount().isEnabled()) {
+			user.getUserAccount().setEnabled(false);
+		} else {
+			user.getUserAccount().setEnabled(true);
+		}
+		
+		this.save(user);
+
+	}
+	
+	public void changeWishList(final User user) {
+		
+		Assert.notNull(user);
+		Assert.isTrue(user.getUserAccount().equals(LoginService.getPrincipal()));
+
+		if(user.getIsPublicWishList()) 
+			user.setIsPublicWishList(false);
+		else
+			user.setIsPublicWishList(true);
+		
+		this.save(user);
+		
 	}
 
 	public void addBargainToWishList(final Bargain bargain) {

@@ -98,6 +98,9 @@ public class TicketService {
 		// Guardar
 		result = this.ticketRepository.save(ticket);
 		
+		// Añadir los puntos a la cuenta del usuario
+		this.userService.addPoints(5);
+		
 		return result;
 	}
 	
