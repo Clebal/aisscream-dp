@@ -78,6 +78,7 @@ public class RaffleUserController extends AbstractController {
 		return result;
 	}
 	
+	// TODDO: PASAR AL TICKETUSERCONTROLLER
 	@RequestMapping(value="/buy", method = RequestMethod.GET)
 	public ModelAndView buy(@RequestParam(defaultValue="CREDITCARD") final String method, @RequestParam(defaultValue="1", required=false) final Integer amount, @RequestParam int raffleId, HttpServletRequest request) {
 		ModelAndView result;
@@ -171,7 +172,7 @@ public class RaffleUserController extends AbstractController {
 		if(binding.hasErrors()) {
 			for(ObjectError e: binding.getAllErrors())
 				System.out.println(e);
-			result = this.createModelAndView(ticketForm);
+			result = this.buyModelAndView(ticketForm);
 		} else {
 			try {
 				this.ticketService.save(tickets);
@@ -184,15 +185,15 @@ public class RaffleUserController extends AbstractController {
 		return result;
 	}
 	
-	protected ModelAndView createModelAndView(final TicketForm ticketForm) {
+	protected ModelAndView buyModelAndView(final TicketForm ticketForm) {
 		ModelAndView result;
 
-		result = this.createModelAndView(ticketForm, null);
+		result = this.buyModelAndView(ticketForm, null);
 
 		return result;
 	}
 
-	protected ModelAndView createModelAndView(final TicketForm ticketForm, final String messageCode) {
+	protected ModelAndView buyModelAndView(final TicketForm ticketForm, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("raffle/buy");

@@ -96,7 +96,7 @@
 	<!-- Moderators UserAccount -->	
 	<bean id="userAccountModerator1" class="security.UserAccount">
 		<property name="username" value="moderator1" />
-		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="password" value="38caf4a470117125b995f7ce53e6e6b9" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -108,7 +108,7 @@
 	
 	<bean id="userAccountModerator2" class="security.UserAccount">
 		<property name="username" value="moderator2" />
-		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+		<property name="password" value="95d88ad73653fc7ad4fec3bc56677c3c" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">

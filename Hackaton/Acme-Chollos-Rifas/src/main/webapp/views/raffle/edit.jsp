@@ -10,16 +10,30 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="raffle/user/buy.do" modelAttribute="ticketForm">
+<form:form action="raffle/company/edit.do" modelAttribute="raffle">
 
- 	<form:hidden path="raffle" />
+ 	<form:hidden path="id" />
 	
-	<acme:textbox code="raffle.amount" path="amount" />
+	<acme:textbox code="raffle.title" path="title" />
 	
-	<acme:select code="raffle.creditcard" path="creditCard" items="${creditCards}" itemLabel="number" selected="${primaryCreditCard}" />
-
+	<acme:textbox code="raffle.description" path="description" />
+	
+	<acme:textbox code="raffle.productName" path="productName" />
+	
+	<acme:textbox code="raffle.productUrl" path="productUrl" />
+	
+	<acme:textbox code="raffle.productImages" path="productImages" />
+	
+	<acme:textbox code="raffle.maxDate" path="maxDate" />
+	
+	<acme:textbox code="raffle.price" path="price" />
+	
 	<acme:submit name="save" code="raffle.save"/>
 	
-	<acme:cancel url="raffle/display.do?raffleId=${raffleId}" code="raffle.cancel"/>
+	<jstl:if test="${raffle.getId() != 0 && countTickets == 0}">
+		<acme:submit name="delete" code="raffle.delete"/>
+ 	</jstl:if>
+	
+	<acme:cancel url="raffle/company/list.do" code="raffle.cancel"/>
 			
 </form:form>

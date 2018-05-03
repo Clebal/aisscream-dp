@@ -9,10 +9,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
+import domain.Company;
 import domain.Raffle;
+import domain.Ticket;
 
 import repositories.RaffleRepository;
+import security.Authority;
+import security.LoginService;
 
 @Service
 @Transactional
@@ -23,6 +29,14 @@ public class RaffleService {
 	private RaffleRepository raffleRepository;
 	
 	// Supporting services
+	@Autowired
+	private CompanyService companyService;
+	
+	@Autowired
+	private TicketService ticketService;
+	
+	@Autowired
+	private Validator		validator;
 	
 	// Constructor
 	public RaffleService() {
@@ -30,6 +44,15 @@ public class RaffleService {
 	}
 	
 	// Simple CRUD methods
+	public Raffle create(final Company company) {
+		Raffle result;
+		
+		result = new Raffle();
+		result.setCompany(company);
+		
+		return result;
+	}
+	
 	public Collection<Raffle> findAll() {
 		Collection<Raffle> result;
 		
@@ -38,30 +61,61 @@ public class RaffleService {
 		return result;
 	}
 	
-	public Raffle findOne(final int rifaId) {
+	public Raffle findOne(final int raffleId) {
 		Raffle result;
 		
-		Assert.isTrue(rifaId != 0);
+		Assert.isTrue(raffleId != 0);
 		
-		result = this.raffleRepository.findOne(rifaId);
+		result = this.raffleRepository.findOne(raffleId);
 		
 		return result;
 	}
 	
-	public Raffle save(final Raffle rifa) {
+	public Raffle save(final Raffle raffle) {
 		Raffle result;
+		Authority authority;
 		
-		Assert.notNull(rifa);
+		Assert.notNull(raffle);
 		
-		// El usuario está logeado
+		authority = new Authority();
+		authority.setAuthority("COMPANY");
+		
+		// La empresa está logeado
+		Assert.isTrue(LoginService.isAuthenticated());
+		
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		Assert.isTrue(raffle.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		// Guardar
-		result = this.raffleRepository.save(rifa);
+		result = this.raffleRepository.save(raffle);
 		
 		return result;
 	}
 	
 	// Delete
+	public void delete(final Raffle raffle) {
+		Raffle saved;
+		Authority authority;
+		Collection<Ticket> tickets;
+		
+		Assert.notNull(raffle);
+
+		saved = this.raffleRepository.findOne(raffle.getId());
+		
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		if(LoginService.getPrincipal().getAuthorities().contains(authority)) {
+			tickets = this.ticketService.findByRaffleId(raffle.getId());
+			Assert.notNull(tickets);
+			for(Ticket t: tickets)
+				this.ticketService.delete(t);
+		} else {
+			Assert.isTrue(saved.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+		}
+		
+		this.raffleRepository.delete(saved);
+	}
 	
 	// Other business methods 
 	public Page<Raffle> findAvailables(final int page, final int size) {
@@ -82,10 +136,40 @@ public class RaffleService {
 		return result;
 	}
 	
+	public Page<Raffle> findByCompanyAccountId(final int userAccountId, final int page, final int size) {
+		Page<Raffle> result;
+		
+		Assert.isTrue(userAccountId != 0);
+		
+		result = this.raffleRepository.findByCompanyAccountId(userAccountId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
 	public Page<Raffle> findOrderedByMaxDate(final int page, final int size) {
 		Page<Raffle> result;
 		
 		result = this.raffleRepository.findOrderedByMaxDate(this.getPageable(page, size));
+		
+		return result;
+	}
+	
+	public Page<Raffle> findAllPaginated(final int page, final int size) {
+		Page<Raffle> result;
+		
+		result = this.raffleRepository.findAllPaginated(this.getPageable(page, size));
+		
+		return result;
+	}
+	
+	public Raffle findOneToEdit(final int raffleId) {
+		Raffle result;
+		
+		result = this.findOne(raffleId);
+		Assert.notNull(result);
+		
+		// El que edite tiene que ser el creador del raffle
+		Assert.isTrue(result.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		return result;
 	}
@@ -100,6 +184,26 @@ public class RaffleService {
 			result = new PageRequest(page - 1, size);
 		
 		return result;
+	}
+	
+	public Raffle reconstruct(final Raffle raffle, final BindingResult binding) {
+		Raffle result;
+		Company company;
+		
+		if(raffle.getId() == 0) {
+			company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+			Assert.notNull(company);
+		} else {
+			result = this.raffleRepository.findOne(raffle.getId());
+			company = result.getCompany();
+			raffle.setVersion(result.getVersion());
+		}
+		
+		raffle.setCompany(company);
+
+		this.validator.validate(raffle, binding);
+		
+		return raffle;
 	}
 	
 }

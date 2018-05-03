@@ -22,6 +22,7 @@ import domain.User;
 import forms.TicketForm;
 
 import repositories.TicketRepository;
+import security.Authority;
 import security.LoginService;
 
 @Service
@@ -101,6 +102,16 @@ public class TicketService {
 	}
 	
 	// Delete
+	public void delete(final Ticket ticket) {
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		this.ticketRepository.delete(ticket);
+	}
 	
 	// Other business methods 
 	public void save(final Collection<Ticket> tickets) {
@@ -112,7 +123,19 @@ public class TicketService {
 	public Integer countByCreditCardId(final int creditCardId) {
 		Integer result;
 		
+		Assert.isTrue(creditCardId != 0);
+		
 		result = this.ticketRepository.countByCreditCardId(creditCardId);
+		
+		return result;
+	}
+	
+	public Integer countByRaffleId(final int raffleId) {
+		Integer result;
+		
+		Assert.isTrue(raffleId != 0);
+
+		result = this.ticketRepository.countByRaffleId(raffleId);
 		
 		return result;
 	}
@@ -133,6 +156,16 @@ public class TicketService {
 		Assert.isTrue(userAccountId != 0 && raffleId != 0);
 		
 		result = this.ticketRepository.findByRaffleIdAndUserAccountId(raffleId, userAccountId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
+	public Collection<Ticket> findByRaffleId(final int raffleId) {
+		Collection<Ticket> result;
+		
+		Assert.isTrue(raffleId != 0);
+		
+		result = this.ticketRepository.findByRaffleId(raffleId);
 		
 		return result;
 	}

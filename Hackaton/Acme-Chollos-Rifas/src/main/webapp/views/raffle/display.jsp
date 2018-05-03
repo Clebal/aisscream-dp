@@ -11,7 +11,9 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <div class="container">
-	
+
+	<acme:share url="http://sukafe.com" message="Share it" />
+
 	<h3><jstl:out value="${raffle.getTitle()}" /></h3>
 	
 	<p><jstl:out value="${raffle.getDescription()}" /></p>
