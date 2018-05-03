@@ -51,7 +51,7 @@ public class RegisterUserTest extends AbstractTest {
 				}, {
 					null, "alexito", "alexito", "Alejandro", "Perez", "987532146", null, "a@hotmail.com", null 
 				}, {
-					null, "carlos", "carlos", "Carlos", "Sánchez", "", null, "carlosuser@mail.com", null 
+					null, "carlos", "carlos", "Carlos", "Sánchez", null, null, "carlosuser@mail.com", null 
 				}, {
 					null, "paquito", "paquito", "Paco", "Millán", null, "Calle Real Nº6", "paquito@mail.com", null 
 				}, {
@@ -59,7 +59,7 @@ public class RegisterUserTest extends AbstractTest {
 				}, {
 					null, "pepito", "pepito", "Pepe", "Escolar", "321456987", "Dirección incorrecta", "pepe@mail.com", null
 				}, {
-					null, "francisco", "francisco", "Francisco", "Cerrada", "", "", "fran@mail.com", null 
+					null, "francisco", "francisco", "Francisco", "Cerrada", null, "", "fran@mail.com", null 
 				}
 		};
 			

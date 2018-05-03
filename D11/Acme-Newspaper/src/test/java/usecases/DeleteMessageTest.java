@@ -50,7 +50,6 @@ public class DeleteMessageTest extends AbstractTest {
 			
 	for (int i = 0; i < testingData.length; i++)
 		try {
-			System.out.println(i);
 			super.startTransaction();
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 		} catch (final Throwable oops) {

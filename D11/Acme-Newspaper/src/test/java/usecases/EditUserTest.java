@@ -57,7 +57,7 @@ public class EditUserTest extends AbstractTest {
 			}, {
 				"user2", "user2", "user2", "user2", "Alejandro", "Perez", "987532146", null, "a@hotmail.com", null
 			}, {
-				"user3", "user3", "user3", "user3", "Carlos", "Sánchez", "", null, "carlosuser@mail.com", null
+				"user3", "user3", "user3", "user3", "Carlos", "Sánchez", null, null, "carlosuser@mail.com", null
 			}, {
 				"user4", "user4", "user4", "user4", "Paco", "Millán", null, "Calle Real Nº6", "paquito@mail.com", null 
 			}, {
@@ -65,7 +65,7 @@ public class EditUserTest extends AbstractTest {
 			}, {
 				"user6", "user6", "user6", "user6", "Pepe", "Escolar", "321456987", "Direccion incorrecta", "pepe@mail.com", null 
 			}, {
-				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", "", "", "fran@mail.com", null
+				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", null, "", "fran@mail.com", null
 			}
 		};
 			

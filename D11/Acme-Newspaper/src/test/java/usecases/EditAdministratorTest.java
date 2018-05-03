@@ -52,7 +52,7 @@ public class EditAdministratorTest extends AbstractTest {
 			}, {
 				"admin", "administrator", "admin", "admin", "Alejandro", "Perez", "987532146", null, "a@hotmail.com", null
 			}, {
-				"admin", "administrator", "admin", "admin", "Carlos", "Sánchez", "", null, "carlosadmin1istrator@mail.com", null
+				"admin", "administrator", "admin", "admin", "Carlos", "Sánchez", null, null, "carlosadmin1istrator@mail.com", null
 			}, {
 				"admin", "administrator", "admin", "admin", "Carlos", "Sánchez", null, "Calle Real Nº6", "paquito@mail.com", null 
 			}, {
@@ -60,7 +60,7 @@ public class EditAdministratorTest extends AbstractTest {
 			}, {
 				"admin", "administrator", "admin", "admin", "Carlos", "Sánchez", "321456987", "Direccion incorrecta", "pepe@mail.com", null 
 			}, {
-				"admin", "administrator", "admin", "admin", "Francisco", "Cerrada", "", "", "fran@mail.com", null
+				"admin", "administrator", "admin", "admin", "Francisco", "Cerrada", null, "", "fran@mail.com", null
 			}
 		};
 			

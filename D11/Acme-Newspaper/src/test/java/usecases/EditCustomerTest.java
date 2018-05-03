@@ -52,7 +52,7 @@ public class EditCustomerTest extends AbstractTest {
 			}, {
 				"customer2", "customer2", "customer2", "customer2", "Alejandro", "Perez", "987532146", null, "a@hotmail.com", null
 			}, {
-				"customer3", "customer3", "customer3", "customer3", "Carlos", "Sánchez", "", null, "carloscustomer@mail.com", null
+				"customer3", "customer3", "customer3", "customer3", "Carlos", "Sánchez", null, null, "carloscustomer@mail.com", null
 			}, {
 				"customer3", "customer3", "customer3", "customer3", "Carlos", "Sánchez", null, "Calle Real Nº6", "paquito@mail.com", null 
 			}, {
@@ -60,7 +60,7 @@ public class EditCustomerTest extends AbstractTest {
 			}, {
 				"customer3", "customer3", "customer3", "customer3", "Carlos", "Sánchez", "321456987", "Direccion incorrecta", "pepe@mail.com", null 
 			}, {
-				"customer3", "customer3", "customer3", "customer3", "Francisco", "Cerrada", "", "", "fran@mail.com", null
+				"customer3", "customer3", "customer3", "customer3", "Francisco", "Cerrada", null, "", "fran@mail.com", null
 			}
 		};
 			
