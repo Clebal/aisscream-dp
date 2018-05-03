@@ -133,6 +133,19 @@ public class MessageService {
 	}
 
 	// Other business methods
+	public Message findOneToEdit(final int messageId) {
+		Message result;
+
+		Assert.isTrue(messageId != 0);
+
+		result = this.messageRepository.findOne(messageId);
+		Assert.notNull(result);
+		
+		Assert.isTrue(result.getFolder().getActor().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		return result;
+	}
+	
 	public Map<String, Message> sendMessage(final Message message) {
 
 		// Declaramos las variables

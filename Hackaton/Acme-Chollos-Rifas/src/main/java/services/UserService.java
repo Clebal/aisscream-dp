@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import repositories.UserRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Bargain;
 import domain.User;
 import forms.UserForm;
 
@@ -139,6 +141,34 @@ public class UserService {
 		return result;
 	}
 
+	public void addBargainToWishList(final Bargain bargain) {
+		User user;
+		
+		Assert.notNull(bargain);
+		
+		Assert.isTrue(LoginService.isAuthenticated());
+		user = this.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		user.getWishList().add(bargain);
+		
+		this.save(user);
+	}
+	
+	public void removeBargainFromWishList(final Bargain bargain) {
+		User user;
+		
+		Assert.notNull(bargain);
+		
+		Assert.isTrue(LoginService.isAuthenticated());
+		user = this.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		user.getWishList().remove(bargain);
+		
+		this.save(user);
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
@@ -153,7 +183,10 @@ public class UserService {
 	
 	public User reconstruct(final UserForm userForm, final BindingResult binding) {
 		User result;
-
+		Collection<Bargain> wishList;
+		
+		wishList = new ArrayList<Bargain>();
+		
 		if (userForm.getId() == 0) {
 			result = this.create();
 
@@ -166,6 +199,8 @@ public class UserService {
 			
 			// Por defecto, un usuario tiene 50 puntos
 			result.setPoints(50);
+			
+			result.setWishList(wishList);
 		} else {
 			result = this.findOne(userForm.getId());
 			Assert.notNull(result);

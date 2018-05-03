@@ -70,7 +70,7 @@ public class MessageController extends AbstractController {
 		ModelAndView result;
 		Message message;
 
-		message = this.messageService.findOne(messageId);
+		message = this.messageService.findOneToEdit(messageId);
 		Assert.notNull(message);
 
 		result = this.moveModelAndView(message);
@@ -84,7 +84,7 @@ public class MessageController extends AbstractController {
 		ModelAndView result;
 		Message messageObject;
 
-		messageObject = this.messageService.findOne(messageId);
+		messageObject = this.messageService.findOneToEdit(messageId);
 		Assert.notNull(messageObject);
 		
 		result = new ModelAndView("message/display");
@@ -150,7 +150,7 @@ public class MessageController extends AbstractController {
 		ModelAndView result;
 		Message message;
 
-		message = this.messageService.findOne(messageId);
+		message = this.messageService.findOneToEdit(messageId);
 		Assert.notNull(message);
 
 		result = this.createEditModelAndView(message);
@@ -198,7 +198,7 @@ public class MessageController extends AbstractController {
 		
 		message = this.messageService.reconstructMove(message, binding);
 		
-		oldMessage = this.messageService.findOne(message.getId());
+		oldMessage = this.messageService.findOneToEdit(message.getId());
 		if (binding.hasErrors())
 			result = this.moveModelAndView(message);
 		else

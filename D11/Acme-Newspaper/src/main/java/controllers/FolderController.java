@@ -120,7 +120,7 @@ public class FolderController extends AbstractController {
 		Page<Message> messagePage;
 		boolean isChildren;
 
-		folder = this.folderService.findOne(folderId);
+		folder = this.folderService.findOneToEdit(folderId);
 		Assert.notNull(folder);
 		
 		isChildren = true;
