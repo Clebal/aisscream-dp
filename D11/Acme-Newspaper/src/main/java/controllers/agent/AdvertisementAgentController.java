@@ -99,7 +99,7 @@ public class AdvertisementAgentController extends AbstractController {
 		ModelAndView result;
 		Advertisement advertisement;
 
-		advertisement = this.advertisementService.findOne(advertisementId);
+		advertisement = this.advertisementService.findOneToDisplay(advertisementId);
 		Assert.notNull(advertisement);
 
 		result = this.createEditModelAndView(advertisement);
