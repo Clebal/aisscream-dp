@@ -219,7 +219,7 @@ public class ChirpService {
 		tabooWords = this.configurationService.findTabooWords();
 
 		for (final String tabooWord : tabooWords) {
-			result = chirp.getTitle() != null && chirp.getTitle().toLowerCase().contains(tabooWord) || chirp.getDescription() != null && chirp.getDescription().toLowerCase().contains(tabooWord);
+			result = chirp.getTitle() != null && chirp.getTitle().toLowerCase().contains(tabooWord.toLowerCase()) || chirp.getDescription() != null && chirp.getDescription().toLowerCase().contains(tabooWord.toLowerCase());
 			if (result == true)
 				break;
 		}
