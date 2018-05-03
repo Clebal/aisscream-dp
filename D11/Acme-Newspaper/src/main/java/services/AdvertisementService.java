@@ -90,6 +90,7 @@ public class AdvertisementService {
 		calendar = Calendar.getInstance();
 
 		//CreditCard no caducada
+		Assert.notNull(advertisement.getCreditCard());
 		//Caduca este año
 		if (calendar.get(Calendar.YEAR) % 100 == advertisement.getCreditCard().getExpirationYear())
 			Assert.isTrue(((advertisement.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 1);
@@ -154,6 +155,10 @@ public class AdvertisementService {
 
 	}
 
+	public void flush() {
+		this.advertisementRepository.flush();
+	}
+
 	public Advertisement findRandomAdvertisement(final int newspaperId) {
 		Advertisement result;
 		Page<Advertisement> advertisements;
@@ -177,7 +182,7 @@ public class AdvertisementService {
 		tabooWords = this.configurationService.findTabooWords();
 
 		for (final String tabooWord : tabooWords) {
-			result = advertisement.getTitle() != null && advertisement.getTitle().toLowerCase().contains(tabooWord);
+			result = advertisement.getTitle() != null && advertisement.getTitle().toLowerCase().contains(tabooWord.toLowerCase());
 			if (result == true)
 				break;
 		}
@@ -234,6 +239,7 @@ public class AdvertisementService {
 		Agent agent;
 
 		agent = this.agentService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(agent);
 
 		result = this.advertisementRepository.findByAgentId(agent.getId(), this.getPageable(page, size));
 
@@ -246,6 +252,7 @@ public class AdvertisementService {
 		Agent agent;
 
 		agent = this.agentService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(agent);
 
 		result = this.advertisementRepository.findByAgentIdUnLinkToNewspaper(agent.getId(), newspaperId, this.getPageable(page, size));
 
@@ -258,6 +265,7 @@ public class AdvertisementService {
 		Agent agent;
 
 		agent = this.agentService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(agent);
 
 		result = this.advertisementRepository.findByAgentIdLinkToNewspaper(agent.getId(), newspaperId, this.getPageable(page, size));
 

@@ -13,11 +13,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import services.AdvertisementService;
 import services.ArticleService;
 import services.ChirpService;
 import services.ConfigurationService;
 import services.NewspaperService;
 import utilities.AbstractTest;
+import domain.Advertisement;
 import domain.Article;
 import domain.Chirp;
 import domain.Configuration;
@@ -43,6 +45,9 @@ public class ConfigurationTest extends AbstractTest {
 	@Autowired
 	private NewspaperService		newspaperService;
 
+	@Autowired
+	private AdvertisementService	advertisementService;
+
 
 	// Tests ------------------------------------------------------------------
 
@@ -52,6 +57,8 @@ public class ConfigurationTest extends AbstractTest {
 	 * 2. Borramos una taboo word, el newspaper se debe no marcar como taboo.
 	 * 3. Guardamos una taboo word, el article se debe no marcar como taboo.
 	 * 4. Dejar mismas tabooWords, ver que no cambia el valor en un newspaper;
+	 * 5. Borramos una taboo word, el advertisement se debe no marcar como taboo.
+	 * 6. Guardamos una taboo word, el advertisement se debe no marcar como taboo.
 	 */
 
 	@Test
@@ -67,6 +74,10 @@ public class ConfigurationTest extends AbstractTest {
 				"admin", "article3", "add", "", "felicidad", "article", null
 			}, {
 				"admin", "newspaper4", "equal", "", "", "newspaper", null
+			}, {
+				"admin", "advertisement1", "delete", "sex", "", "advertisement", null
+			}, {
+				"admin", "advertisement3", "add", "", "Lanjarón", "advertisement", null
 			},
 		};
 
@@ -76,6 +87,29 @@ public class ConfigurationTest extends AbstractTest {
 
 	}
 
+	//Pruebas
+	/*
+	 * 1. List taboo word.
+	 * 2. List taboo word autenticado con otro actor.
+	 */
+
+	@Test
+	public void listTabooWord() {
+
+		//rol, expected) {
+		final Object testingData[][] = {
+			{
+				"admin", null
+			}, {
+				"customer1", IllegalArgumentException.class
+			},
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+
+			this.templateListTabooWord((String) testingData[i][0], (Class<?>) testingData[i][1]);
+
+	}
 	//Pruebas
 	/*
 	 * 1. Edita otro actor
@@ -101,8 +135,7 @@ public class ConfigurationTest extends AbstractTest {
 	 * 1. Autenticarnos como admin.
 	 * 2. Acceder a la configuración.
 	 */
-	@Test
-	public void listTabooWord() {
+	public void templateListTabooWord(final String userName, final Class<?> expected) {
 		Configuration configuration;
 		Class<?> caught;
 
@@ -110,7 +143,7 @@ public class ConfigurationTest extends AbstractTest {
 
 		try {
 			super.startTransaction();
-			this.authenticate("admin");
+			this.authenticate(userName);
 
 			//Sacamos la configuration
 			configuration = this.configurationService.findUnique();
@@ -122,7 +155,7 @@ public class ConfigurationTest extends AbstractTest {
 			super.rollbackTransaction();
 		}
 
-		this.checkExceptions(null, caught);
+		this.checkExceptions(expected, caught);
 
 	}
 
@@ -137,6 +170,7 @@ public class ConfigurationTest extends AbstractTest {
 		Article article;
 		int entityId;
 		Chirp chirp;
+		Advertisement advertisement;
 		Newspaper newspaper;
 		Configuration configuration;
 		boolean auxiliar;
@@ -174,6 +208,11 @@ public class ConfigurationTest extends AbstractTest {
 			} else if (entityTest.equals("newspaper")) {
 				newspaper = this.newspaperService.findOne(entityId);
 				auxiliarBefore = newspaper.getHasTaboo();
+
+			} else if (entityTest.equals("advertisement")) {
+				advertisement = this.advertisementService.findOne(entityId);
+				auxiliarBefore = advertisement.getHasTaboo();
+
 			} else {
 
 				article = this.articleService.findOne(entityId);
@@ -193,6 +232,11 @@ public class ConfigurationTest extends AbstractTest {
 			} else if (entityTest.equals("newspaper")) {
 				newspaper = this.newspaperService.findOne(entityId);
 				auxiliar = newspaper.getHasTaboo();
+
+			} else if (entityTest.equals("advertisement")) {
+				advertisement = this.advertisementService.findOne(entityId);
+				auxiliar = advertisement.getHasTaboo();
+
 			} else {
 
 				article = this.articleService.findOne(entityId);
