@@ -47,7 +47,7 @@ public class ArticleUserController extends AbstractController {
 			ModelAndView result;
 			Article articleFind;
 
-			articleFind = this.articleService.findOne(article.getId());
+			articleFind = this.articleService.findOneToEdit(article.getId());
 			this.articleService.delete(articleFind);			
 			result = new ModelAndView("redirect:/article/list.do");
 			
@@ -100,13 +100,15 @@ public class ArticleUserController extends AbstractController {
 
 			article = this.articleService.reconstruct(article, binding);
 			
-			if (binding.hasErrors())
+			if (binding.hasErrors()){
+				System.out.println("BINDING: " +binding.getAllErrors());
 				result = this.createEditModelAndView(article);
-			else
+			}else
 				try {
 					this.articleService.save(article);
 					result = new ModelAndView("redirect:/article/list.do");
 				} catch (final Throwable oops) {
+					System.out.println("OOPS: " + oops.getMessage());
 					result = this.createEditModelAndView(article, "article.commit.error");
 				}
 

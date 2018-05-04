@@ -46,6 +46,12 @@ public class ArticleService {
 	@Autowired
 	private CustomerService			customerService;
 
+	@Autowired
+	private UserService			userService;
+	
+	@Autowired
+	private NewspaperService			newspaperService;
+
 
 	// Constructors -----------------------------------------------------------
 	public ArticleService() {
@@ -388,21 +394,24 @@ public class ArticleService {
 
 	public Article reconstruct(final Article article, final BindingResult binding) {
 		Article result, aux;
+		User user;
+		Newspaper newspaper;
 
-		if (article.getId() == 0)
+		if (article.getId() == 0) {
+				
 			result = article;
-		else {
+			result.setWriter(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()));
+			
+		} else {
 			result = article;
 			aux = this.articleRepository.findOne(article.getId());
 			result.setVersion(aux.getVersion());
-			result.setWriter(aux.getWriter());
-			result.setTitle(aux.getTitle());
-			result.setMoment(aux.getMoment());
-			result.setSummary(article.getSummary());
-			result.setBody(article.getBody());
-			result.setPictures(article.getPictures());
-			result.setIsFinalMode(article.getIsFinalMode());
-			result.setNewspaper(article.getNewspaper());
+			
+			user = this.userService.findOne(aux.getWriter().getId());
+			newspaper = this.newspaperService.findOne(aux.getNewspaper().getId());
+			result.setWriter(user);
+			result.setNewspaper(newspaper);
+			result.setMoment(newspaper.getPublicationDate());
 
 		}
 
@@ -431,8 +440,8 @@ public class ArticleService {
 		tabooWords = this.configurationService.findTabooWords();
 
 		for (final String tabooWord : tabooWords) {
-			result = article.getTitle() != null && article.getTitle().toLowerCase().contains(tabooWord) || article.getBody() != null && article.getBody().toLowerCase().contains(tabooWord) || article.getSummary() != null
-				&& article.getSummary().toLowerCase().contains(tabooWord);
+			result = article.getTitle() != null && article.getTitle().toLowerCase().contains(tabooWord.toLowerCase()) || article.getBody() != null && article.getBody().toLowerCase().contains(tabooWord.toLowerCase()) || article.getSummary() != null
+				&& article.getSummary().toLowerCase().contains(tabooWord.toLowerCase());
 			;
 			if (result == true)
 				break;

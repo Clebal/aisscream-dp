@@ -13,9 +13,10 @@
 <form:form action="article/user/edit.do" modelAttribute="article">
 
 	<form:hidden path="id" />
-	<form:hidden path="writer" />
-	<form:hidden path="newspaper" />
 	
+	<jstl:if test="${article.getId() == 0 }">
+		<form:hidden path="newspaper" />
+	</jstl:if>
 	<acme:textbox code="article.moment" path="moment" readonly="readonly"/>
 
 	<acme:textbox code="article.title" path="title"/>
