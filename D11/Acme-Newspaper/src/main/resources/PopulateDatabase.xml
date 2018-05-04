@@ -604,6 +604,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="newspapers">
 			<list>
+				<ref bean="newspaper1" />
 				<ref bean="newspaper3" />
 			</list>
 		</property>
