@@ -64,6 +64,7 @@
 
 
 	<security:authorize access="hasRole('USER')">
+	<jstl:if test="${requestURI.equals('newspaper/user/addNewspaper.do') || requestURI.equals('newspaper/user/deleteNewspaper.do')}">
 		<display:column>
 			<jstl:if test="${requestURI.equals('newspaper/user/addNewspaper.do')}">
 			<spring:url var="urlAddNewspaper" value="volume/user/addNewspaper.do">
@@ -87,7 +88,8 @@
 		
 			</jstl:if>
 		</display:column>
-	
+	</jstl:if>	
+<jstl:if test="${requestURI.equals('newspaper/user/list.do') || requestURI.equals('newspaper/list.do') }">	
 	<display:column>
 		<jstl:if test="${ row.getIsPublished()==false || row.getPublicationDate()> currentMomentVar}">
 			<a href="article/user/create.do?newspaperId=${row.getId()}"> <spring:message
@@ -96,18 +98,19 @@
 				</jstl:if>	
 		
 		</display:column>
+</jstl:if>	
 		
 	</security:authorize>
 	
-	<security:authorize access="hasRole('CUSTOMER')">
+<security:authorize access="hasRole('CUSTOMER')">
+	<jstl:if test="${requestURI.equals('newspaper/customer/listForSubscribe.do')}">	
 		<display:column>
-			<jstl:if test="${requestURI.equals('newspaper/customer/listForSubscribe.do')}">
 			<a href="subscriptionNewspaper/customer/create.do?newspaperId=${row.getId()}"> <spring:message
 					code="newspaper.create.subscription" />
 			</a>
-			</jstl:if>
-		</display:column>	
-	</security:authorize>
+		</display:column>
+	</jstl:if>	
+</security:authorize>
 	
 	<security:authorize access="hasRole('AGENT')">
 		<jstl:if test="${requestURI.equals('newspaper/list.do')}">

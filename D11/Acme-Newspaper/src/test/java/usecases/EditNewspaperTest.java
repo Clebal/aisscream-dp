@@ -1,6 +1,7 @@
 
 package usecases;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 
 import security.LoginService;
 import services.NewspaperService;
@@ -36,14 +38,15 @@ public class EditNewspaperTest extends AbstractTest {
 
 	/*
 	 * Test
-	 * 1. Publicamos el newspaper6 que no está publicado y puede publicarse (no salta excepción)
-	 * 2. Publicamos el newspaper5 que no está publicado y puede publicarse (no salta excepción)
-	 * 3. Intentamos publicar el newspaper1 que ya está publicado logeados como user1 (salta un IllegalArgumentException)
-	 * 4. Intentamos publicar el newspaper4 que no puede ser publicado logeados como user4 (salta un IllegalArgumentException)
-	 * 5. Intentamos publicar el newspaper6 como el user2 que no es su creador (salta un IllegalArgumentException)
-	 * 6. Intentamos publicar el newspaper6 logeados como customer (salta un IllegalArgumentException)
-	 * 7. Intentamos publicar el newspaper6 logeados como admin (salta un IllegalArgumentException)
-	 * 8. Intentamos publicar el newspaper6 sin estar logeado (salta un IllegalArgumentException)
+	 * 1. Nos logeamos como user1 y al newspaper6 le cambiamos la fecha de publicación al 12/07/2018 (no salta excepción)
+	 * 2. Nos logeamos como user5 y al newspaper6 le cambiamos la fecha de publicación al 15/08/2019 (no salta excepción)
+	 * 3. Nos logeamos como user1 y al newspaper1 que ya ha pasado la fecha de publicación le cambiamos la fecha de publicación al 12/07/2018 (salta un IllegalArgumentEXception)
+	 * 4. Nos logeamos como user4 y al newspaper4 que no es tuyo le cambiamos la fecha de publicación al 12/07/2018 (salta un IllegalArgumentEXception)
+	 * 5. Nos logeamos como user2 y al newspaper6 que no es tuyo le cambiamos la fecha de publicación al 12/07/2018 (salta un IllegalArgumentEXception)
+	 * 6. Nos logeamos como customer1 y al newspaper6 que no es tuyo le cambiamos la fecha de publicación al 12/07/2018 (salta un IllegalArgumentEXception)
+	 * 7. Nos logeamos como admin y al newspaper6 que no es tuyo le cambiamos la fecha de publicación al 12/07/2018 (salta un IllegalArgumentEXception)
+	 * 8. No nos logeamos y al newspaper6 que no es tuyo le cambiamos la fecha de publicación al 12/07/2018 (salta un IllegalArgumentEXception)
+	 * 9. NOs logeamos como user5 y al newspaper5 le cambiamos a una fecha en el pasado (salta un IllegalArgumentException)
 	 * 
 	 * Requisitos:
 	 * C.6.2: An actor who is authenticated as a user must be able to publish a newspaper that he or she is created. Note that no newspaper can be published
@@ -54,34 +57,35 @@ public class EditNewspaperTest extends AbstractTest {
 	public void publishTest() {
 		final Object testingData[][] = {
 			{
-				"user", "user1", "newspaper6", true, null
+				"user", "user1", "newspaper6", "12/07/2018", true, null
 			}, {
-				"user", "user5", "newspaper5", true, null
+				"user", "user5", "newspaper5", "15/08/2019", true, null
 			}, {
-				"user", "user1", "newspaper1", true, IllegalArgumentException.class
+				"user", "user1", "newspaper1", "12/07/2018", true, IllegalArgumentException.class
 			}, {
-				"user", "user4", "newspaper4", true, IllegalArgumentException.class
+				"user", "user4", "newspaper4", "12/07/2018", true, IllegalArgumentException.class
 			}, {
-				"user", "user2", "newspaper6", false, IllegalArgumentException.class
+				"user", "user2", "newspaper6", "12/07/2018", false, IllegalArgumentException.class
 			}, {
-				"customer", "customer1", "newspaper6", false, IllegalArgumentException.class
+				"customer", "customer1", "newspaper6", "12/07/2018", false, IllegalArgumentException.class
 			}, {
-				"admin", "admin", "newspaper6", false, IllegalArgumentException.class
+				"admin", "admin", "newspaper6", "12/07/2018", false, IllegalArgumentException.class
 			}, {
-				null, null, "newspaper6", false, IllegalArgumentException.class
+				null, null, "newspaper6", "12/07/2018", false, IllegalArgumentException.class
+			}, {
+				"user", "user5", "newspaper5", "15/08/2017", true, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.templatePublish((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Class<?>) testingData[i][4]);
+				this.templatePublish((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Boolean) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
 				super.rollbackTransaction();
 			}
 	}
-
 	/*
 	 * Test
 	 * 1.Logeados como user1 ponemos como privado el newspaper1 (no salta excepción)
@@ -201,10 +205,51 @@ public class EditNewspaperTest extends AbstractTest {
 			}
 	}
 
-	protected void templatePublish(final String user, final String username, final String newspaperBean, final boolean correctBeans, final Class<?> expected) {
+	/*
+	 * Test
+	 * 1. Logeados como user5 hacemos el findOneToEdit con el newspaper5 (no salta excepción)
+	 * 2. Logeados como user1 hacemos el findOneToEdit con el newspaper6 (no salta excepción)
+	 * 3. Logeados como user1 hacemos el findOneToEdit con el newspaper1 (salta un IllegalArgumentException)
+	 * 4. Logeados como user1 hacemos el findOneToEdit con el newspaper5 (salta un IllegalArgumentException)
+	 * 5. hacemos el findOneToEdit con un newspaper de id 0(salta un IllegalArgumentException)
+	 */
+	@Test
+	public void findOneToEdit() {
+		final Object testingData[][] = {
+			{
+				"user", "user5", "newspaper5", false, true, null
+			}, {
+				"user", "user1", "newspaper6", false, true, null
+			}, {
+				"user", "user1", "newspaper1", false, true, IllegalArgumentException.class
+			}, {
+				"user", "user1", "newspaper5", false, false, IllegalArgumentException.class
+			}, {
+				"user", "user1", "newspaper6", true, true, IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				this.templateFindOneToEdit((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Boolean) testingData[i][4], (Class<?>) testingData[i][5]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+
+	protected void templatePublish(final String user, final String username, final String newspaperBean, final String publicationDate, final boolean correctBeans, final Class<?> expected) {
 		Class<?> caught;
 		int newspaperId;
 		int newspaperIdAux;
+		Newspaper newspaper;
+		Newspaper copyNewspaper;
+		SimpleDateFormat format;
+		DataBinder binder;
+		Date date;
+		Newspaper newspaperReconstruct;
+		Newspaper saved;
 
 		caught = null;
 		try {
@@ -228,11 +273,21 @@ public class EditNewspaperTest extends AbstractTest {
 			} else
 				newspaperId = super.getEntityId(newspaperBean); //Si no estás logeados o no eres un user entonces pilla la id directamente para simular hackeos.
 
-			this.newspaperService.publish(newspaperId); //Publicamos el newspaper
+			newspaper = this.newspaperService.findOneToEdit(newspaperId);
+			Assert.notNull(newspaper);
+			copyNewspaper = this.copyNewspaper(newspaper);
+			date = null;
+			if (publicationDate != null) {
+				format = new SimpleDateFormat("dd/MM/yyyy");
+				date = format.parse(publicationDate); //Si el momento no es nulo creamos el momento
+			}
+			copyNewspaper.setPublicationDate(date);
 
-			Assert.isTrue(this.newspaperService.findOne(newspaperId).getIsPublished() == true && this.newspaperService.findOne(newspaperId).getPublicationDate().compareTo(new Date()) <= 0); //Vemos que esté publicado
+			binder = new DataBinder(newspaper);
+			newspaperReconstruct = this.newspaperService.reconstruct(copyNewspaper, binder.getBindingResult());
+			saved = this.newspaperService.save(newspaperReconstruct); //Guardamos el newspaper
 			super.flushTransaction();
-
+			Assert.isTrue(saved.getPublicationDate().compareTo(date) == 0);
 			super.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -335,6 +390,64 @@ public class EditNewspaperTest extends AbstractTest {
 		}
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
+	}
+
+	protected void templateFindOneToEdit(final String user, final String username, final String newspaperBean, final boolean falseId, final boolean myNewspaper, final Class<?> expected) {
+		Class<?> caught;
+		int newspaperId;
+		final Newspaper newspaper;
+		final int newspaperIdAux;
+
+		caught = null;
+		try {
+			if (user != null)
+				super.authenticate(username);//Nos logeamos si es necesario
+
+			newspaperId = 0;
+			if (myNewspaper == true) {
+				newspaperIdAux = super.getEntityId(newspaperBean);
+				for (int i = 1; i <= this.newspaperService.findByUserId(super.getEntityId(username), 1, 5).getTotalPages(); i++)
+					//Si no pero es visible lo pillas desde el findAll para los no logeados
+					for (final Newspaper n : this.newspaperService.findByUserId(super.getEntityId(username), i, 5).getContent())
+						if (newspaperIdAux == n.getId())
+							newspaperId = n.getId();
+			} else
+				newspaperId = super.getEntityId(newspaperBean); // Si no cogemos la id directamente para simular hackeos
+
+			if (falseId == false)
+				newspaper = this.newspaperService.findOneToEdit(newspaperId); //Se prueba el findOneToDisplay
+			else
+				newspaper = this.newspaperService.findOneToEdit(0); //Se prueba el findOne 
+
+			Assert.notNull(newspaper);
+			super.flushTransaction();
+
+			super.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+	}
+
+	private Newspaper copyNewspaper(final Newspaper newspaper) {
+		Newspaper result;
+
+		result = new Newspaper();
+		result.setId(newspaper.getId());
+		result.setVersion(newspaper.getVersion());
+		result.setPublicationDate(newspaper.getPublicationDate());
+		result.setTitle(newspaper.getTitle());
+		result.setDescription(newspaper.getDescription());
+		result.setPicture(newspaper.getPicture());
+		result.setIsPrivate(newspaper.getIsPrivate());
+		result.setHasTaboo(newspaper.getHasTaboo());
+		result.setIsPublished(newspaper.getIsPublished());
+		result.setPublisher(newspaper.getPublisher());
+		result.setArticles(newspaper.getArticles());
+		result.setAdvertisements(newspaper.getAdvertisements());
+
+		return result;
 	}
 
 }

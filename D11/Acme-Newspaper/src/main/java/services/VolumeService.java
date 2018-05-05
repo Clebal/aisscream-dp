@@ -134,6 +134,7 @@ public class VolumeService {
 		Assert.notNull(newspaper);
 		Assert.notNull(volume);
 
+		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(volume.getUser().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
 		Assert.isTrue(newspaper.getPublicationDate().compareTo(new Date()) <= 0 && newspaper.getIsPublished() == true);
@@ -155,6 +156,7 @@ public class VolumeService {
 		Assert.notNull(newspaper);
 		Assert.notNull(volume);
 
+		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(volume.getUser().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
 		Assert.isTrue(newspaper.getPublicationDate().compareTo(new Date()) <= 0 && newspaper.getIsPublished() == true);
@@ -174,6 +176,12 @@ public class VolumeService {
 		volumeToDelete = this.findOne(volume.getId());
 
 		this.volumeRepository.delete(volumeToDelete);
+	}
+
+	public void saveFromNewspaper(final Volume volume) {
+
+		Assert.notNull(volume);
+		this.volumeRepository.save(volume);
 	}
 	public Page<Volume> findByUserAccountId(final int userAccountId, final int page, final int size) {
 		Page<Volume> result;
@@ -195,8 +203,14 @@ public class VolumeService {
 
 	public Collection<Volume> findByNewspaperId(final int newspaperId) {
 		Collection<Volume> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
 
 		Assert.isTrue(newspaperId != 0);
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
 		result = this.volumeRepository.findByNewspaperId(newspaperId);
 
@@ -208,6 +222,7 @@ public class VolumeService {
 		Collection<Volume> result;
 
 		Assert.isTrue(newspaperId != 0);
+		Assert.isTrue(customerId != 0);
 
 		result = this.volumeRepository.findByCustomerIdAndNewspaperId(customerId, newspaperId);
 

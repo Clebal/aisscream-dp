@@ -142,7 +142,7 @@ public class NewspaperUserController extends AbstractController {
 		ModelAndView result;
 		Newspaper newspaper;
 
-		newspaper = this.newspaperService.findOne(newspaperId);
+		newspaper = this.newspaperService.findOneToEdit(newspaperId);
 		Assert.notNull(newspaper);
 		Assert.isTrue(newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId());
 

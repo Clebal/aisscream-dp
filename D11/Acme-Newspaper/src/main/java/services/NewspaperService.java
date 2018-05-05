@@ -106,6 +106,18 @@ public class NewspaperService {
 		return result;
 	}
 
+	public Newspaper findOneToEdit(final int newspaperId) {
+		Newspaper result;
+
+		result = this.findOne(newspaperId);
+
+		Assert.isTrue(newspaperId != 0);
+		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getId() == result.getPublisher().getUserAccount().getId());
+		Assert.isTrue(result.getPublicationDate().compareTo(new Date()) > 0);
+
+		return result;
+	}
+
 	public Newspaper findOneToDisplay(final int newspaperId) {
 		Newspaper result;
 		Authority authority;
@@ -173,6 +185,7 @@ public class NewspaperService {
 			if (this.checkTabooWords(newspaper) == true)
 				newspaper.setHasTaboo(true);
 		} else if (newspaper.getPublicationDate().compareTo(currentMoment) < 0) {
+			Assert.isTrue(this.findOne(newspaper.getId()).getPublicationDate().compareTo(new Date()) > 0);
 			myPublicationDate = NewspaperService.toCalendar(newspaper.getPublicationDate());
 			Assert.isTrue(myPublicationDate.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) && myPublicationDate.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) && myPublicationDate.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH));
 			for (final Article a : newspaper.getArticles()) {
@@ -211,7 +224,12 @@ public class NewspaperService {
 			this.subscriptionNewspaperService.deleteFromNewspaper(s);
 
 		for (final Volume v : this.volumeService.findByNewspaperId(newspaper.getId()))
-			this.volumeService.deleteFromNewspaper(v);
+			if (v.getNewspapers().size() == 1)
+				this.volumeService.deleteFromNewspaper(v);
+			else {
+				v.getNewspapers().remove(this.findOne(newspaper.getId()));
+				this.volumeService.saveFromNewspaper(v);
+			}
 
 		this.newspaperRepository.delete(this.findOne(newspaperToDelete.getId()));
 
@@ -383,12 +401,16 @@ public class NewspaperService {
 	public Page<Newspaper> findAddNewspaper(final int volumeId, final int page, final int size) {
 		Page<Newspaper> result;
 		Authority authority;
+		Volume volume;
 		Assert.isTrue(volumeId != 0);
 
+		volume = this.volumeService.findOne(volumeId);
+		Assert.notNull(volume);
 		authority = new Authority();
 		authority.setAuthority("USER");
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(LoginService.getPrincipal().getId() == volume.getUser().getUserAccount().getId());
 		result = this.newspaperRepository.findAddNewspaper(volumeId, this.getPageable(page, size));
 
 		return result;

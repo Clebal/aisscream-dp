@@ -58,3 +58,31 @@
 			document.getElementById("check").checked = true;
 	}
 </script>
+
+<script type="text/javascript">
+	if(${newspaper.getId()!=0}){
+
+        $("#newspaper").submit(function() {
+        	var result =true;
+        	var myDate= $("#publicationDate").val();
+    		var d = new Date();
+            var month =myDate.split("/")[1];
+            var day = myDate.split("/")[0];
+            var year = myDate.split("/")[2];
+            var currentMonth = (d.getMonth() + 1)
+            var currentDay = d.getDate();
+            var currentYear = d.getFullYear();
+			
+       		if(${newspaper.getIsPublished()==false}){
+        		if(month==currentMonth && day==currentDay && year==currentYear){
+					var confirmation = confirm("<spring:message code="newspaper.messageEditDate" />");
+					if (!confirmation) {
+					 	result = false;
+					}
+        		}
+        	}
+        	 return result;
+        	});
+	}
+
+</script>
