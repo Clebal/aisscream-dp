@@ -11,11 +11,15 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="folders" id="row" requestURI="${requestURI}">
 
+	
 	<display:column>
-		<jstl:if test="${row.getSystem()==false }">
-			<jstl:if test="${isChildren==false }">
+		<jstl:if test="${row.getSystem()==false}">
+			<jstl:if test="${isChildren==false}">
 				<acme:displayLink code="folder.edit" action="folder/actor/edit.do" parametre="folderId" parametreValue="${row.getId()}"></acme:displayLink>
 			</jstl:if>
+		</jstl:if>
+		<jstl:if test="${row.getSystem()==true}">
+			<spring:message code="folder.cannotBeEdited" />
 		</jstl:if>
 	</display:column>
 	
