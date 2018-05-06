@@ -223,11 +223,11 @@ public class NewspaperService {
 		for (final SubscriptionNewspaper s : this.subscriptionNewspaperService.findByNewspaperId(newspaperToDelete.getId()))
 			this.subscriptionNewspaperService.deleteFromNewspaper(s);
 
-		for (final Volume v : this.volumeService.findByNewspaperId(newspaper.getId()))
+		for (final Volume v : this.volumeService.findByNewspaperId(newspaperToDelete.getId()))
 			if (v.getNewspapers().size() == 1)
 				this.volumeService.deleteFromNewspaper(v);
 			else {
-				v.getNewspapers().remove(this.findOne(newspaper.getId()));
+				v.getNewspapers().remove(this.findOne(newspaperToDelete.getId()));
 				this.volumeService.saveFromNewspaper(v);
 			}
 
