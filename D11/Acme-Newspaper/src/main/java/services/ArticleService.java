@@ -148,7 +148,7 @@ public class ArticleService {
 
 			isFinal = true;
 
-			if (article.getIsFinalMode()) {
+			if (article.getIsFinalMode() && article.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
 				articles = this.findByNewspaperId(article.getNewspaper().getId());
 				for (final Article a : articles) {
 					isFinal = true;
@@ -157,7 +157,7 @@ public class ArticleService {
 						break;
 					}
 				}
-				if (!isFinal)
+				if (isFinal)
 					article.getNewspaper().setIsPublished(true);
 			}
 		}
@@ -189,7 +189,7 @@ public class ArticleService {
 
 		isFinal = true;
 
-		if (article.getIsFinalMode()) {
+		if (article.getIsFinalMode() && article.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
 			articles = this.findByNewspaperId(article.getNewspaper().getId());
 			for (final Article a : articles) {
 				isFinal = true;
@@ -198,7 +198,7 @@ public class ArticleService {
 					break;
 				}
 			}
-			if (!isFinal)
+			if (isFinal)
 				article.getNewspaper().setIsPublished(true);
 		}
 
@@ -235,7 +235,7 @@ public class ArticleService {
 
 		isFinal = true;
 
-		if (!article.getIsFinalMode()) {
+		if (!article.getIsFinalMode() && article.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
 			articles = this.findByNewspaperId(articleToDelete.getNewspaper().getId());
 			for (final Article a : articles) {
 				isFinal = true;
@@ -244,7 +244,7 @@ public class ArticleService {
 					break;
 				}
 			}
-			if (!isFinal)
+			if (isFinal)
 				articleToDelete.getNewspaper().setIsPublished(true);
 		}
 
@@ -273,7 +273,7 @@ public class ArticleService {
 
 		isFinal = true;
 
-		if (!article.getIsFinalMode()) {
+		if (!article.getIsFinalMode()  && article.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
 			articles = this.findByNewspaperId(article.getNewspaper().getId());
 			for (final Article a : articles) {
 				isFinal = true;
@@ -282,7 +282,7 @@ public class ArticleService {
 					break;
 				}
 			}
-			if (!isFinal)
+			if (isFinal)
 				article.getNewspaper().setIsPublished(true);
 		}
 

@@ -139,6 +139,7 @@ public class ListDashboardTest extends AbstractTest {
 
 			// 1. Autenticar administrador
 			super.authenticate(user);
+			
 			// Comprobar que el usuario autenticado es un administrador
 			Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
@@ -180,7 +181,7 @@ public class ListDashboardTest extends AbstractTest {
 
 			//The average number of follow-ups per article up to one week after the corresponding newspaper's been published.
 			followOneWeek = this.followUpService.averageFollowUpPerArticleOneWeek();
-			Assert.isTrue(followOneWeek == 0.3333);
+			Assert.isTrue(followOneWeek == 0.0);
 
 			//The average number of follow-ups per article up to two weeks after the corresponding newspaper's been published.
 			followTwoWeek = this.followUpService.averageFollowUpPerArticleTwoWeek();
@@ -201,15 +202,16 @@ public class ListDashboardTest extends AbstractTest {
 
 			//The average number of articles per private newspapers.
 			averageArticlesPrivateNewspaper = this.articleService.avgArticlesPerPrivateNewpaper();
+
 			Assert.isTrue(averageArticlesPrivateNewspaper == 0.5);
 
 			//The average number of articles per public newspapers. 
 			averageArticlesPublicNewspaper = this.articleService.avgArticlesPerPublicNewpaper();
+
 			Assert.isTrue(averageArticlesPublicNewspaper == 0.75);
 
 			//The ratio of subscribers per private newspaper versus the total number of customers.
 			ratioSuscribers = this.customerService.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers(1);
-
 			Assert.isTrue(ratioSuscribers.size() == 5);
 
 			//The average ratio of private versus public newspapers per publisher.
