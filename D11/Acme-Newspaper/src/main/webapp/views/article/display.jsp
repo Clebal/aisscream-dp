@@ -24,41 +24,43 @@
 
 	<acme:display code="article.body" value="${article.getBody()}"/>
 	
-		<jstl:if test="${article.getHasTaboo()}">
-			<acme:display code="article.hasTaboo" value="X"/>
-		</jstl:if>
-		
-		<jstl:if test="${article.getIsFinalMode()}">
-			<acme:display code="article.isFinalMode" value="X"/>
-		</jstl:if>
+	<jstl:if test="${article.getHasTaboo()}">
+		<acme:display code="article.hasTaboo" value="X"/>
+	</jstl:if>
+	
+	<jstl:if test="${article.getIsFinalMode()}">
+		<acme:display code="article.isFinalMode" value="X"/>
+	</jstl:if>
 	
 	<spring:url var="urlNewspaper" value="newspaper/display.do">
-	<spring:param name="newspaperId" value="${article.getNewspaper().getId()}" />
+		<spring:param name="newspaperId" value="${article.getNewspaper().getId()}" />
 	</spring:url>
 	<p><a href="${urlNewspaper}"> <spring:message code="article.newspaper" /></a></p>
 	
 	<spring:url var="urlFollowUp" value="followUp/list.do">
-	<spring:param name="articleId" value="${article.getId()}" />
+		<spring:param name="articleId" value="${article.getId()}" />
 	</spring:url>
 	<p><a href="${urlFollowUp}"> <spring:message code="article.followup" /></a></p>
 	
 	<spring:url var="urlUser" value="actor/user/display.do">
-	<spring:param name="userId" value="${article.getWriter().getId()}" />
+		<spring:param name="userId" value="${article.getWriter().getId()}" />
 	</spring:url>
 	<p><a href="${urlUser}"> <spring:message code="article.writer" /></a></p>
 	
 	<security:authorize access="hasRole('USER')">
-	<jstl:if test="${article.getIsFinalMode() && article.getNewspaper().getIsPublished()}">
-	<spring:url var="urlFollow" value="followUp/user/create.do">
-	<spring:param name="articleId" value="${article.getId()}" />
-	</spring:url>
-	<p><a href="${urlFollow}"> <spring:message code="article.follow" /></a></p>
-	</jstl:if>
+		<jstl:if test="${article.getIsFinalMode() && article.getNewspaper().getIsPublished()}">
+			<spring:url var="urlFollow" value="followUp/user/create.do">
+				<spring:param name="articleId" value="${article.getId()}" />
+			</spring:url>
+			<p><a href="${urlFollow}"> <spring:message code="article.follow" /></a></p>
+		</jstl:if>
 	</security:authorize>
 	
-	<acme:display code="article.pictures" value=""/>
-	<jstl:forEach items="${article.getPictures()}" var="picture">
-    	<img src="${picture}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" /><br /><br />
-	</jstl:forEach>
+	<jstl:if test="${article.getPictures().size() != 0}">
+		<acme:display code="article.pictures" value=""/>
+		<jstl:forEach items="${article.getPictures()}" var="picture">
+	    	<img src="${picture}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" /><br /><br />
+		</jstl:forEach>
+	</jstl:if>
 
 </div>

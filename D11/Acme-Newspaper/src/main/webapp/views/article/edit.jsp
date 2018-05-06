@@ -14,9 +14,10 @@
 
 	<form:hidden path="id" />
 	
-	<jstl:if test="${article.getId() == 0 }">
+	<jstl:if test="${article.getId() == 0}">
 		<form:hidden path="newspaper" />
 	</jstl:if>
+	
 	<acme:textbox code="article.moment" path="moment" readonly="readonly"/>
 
 	<acme:textbox code="article.title" path="title"/>
@@ -26,24 +27,24 @@
 	<acme:textbox code="article.body" path="body"/>
 	
 	<acme:textbox code="article.pictures" path="pictures"/>
-		
-		
+	
+	<br>
 	<form:checkbox class="form-check-input" path="isFinalMode" id="check" value="" checked=''/>
 	<form:label path="isFinalMode">
-	<div onclick="activar()" ><spring:message code="article.isFinalMode" /></div>
+		<div onclick="activar()" ><spring:message code="article.isFinalMode" /></div>
 	</form:label>
 	<form:errors class="text-danger" path="isFinalMode"/>
-	<br />
+	<br>
 	
 	<jstl:if test="${article.getId() == 0 || !article.getIsFinalMode()}">
-	<acme:submit name="save" code="article.save" />
+		<acme:submit name="save" code="article.save" />
 	</jstl:if>
 	
 	<jstl:if test="${article.getId() != 0 && !article.getIsFinalMode()}">
-	<acme:submit name="delete" code="article.delete" codeDelete="article.confirm.delete"/>
+		<acme:submit name="delete" code="article.delete" codeDelete="article.confirm.delete"/>
 	</jstl:if>
 	
-	<acme:cancel url="article/list.do" code="article.cancel"/>
+	<acme:cancel url="article/user/list.do" code="article.cancel"/>
 
 </form:form>
 

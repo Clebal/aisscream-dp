@@ -133,6 +133,10 @@ public class MessageService {
 	}
 
 	// Other business methods
+	public void flush() {
+		this.messageRepository.flush();
+	}
+	
 	public Message findOneToEdit(final int messageId) {
 		Message result;
 

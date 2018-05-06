@@ -53,11 +53,9 @@
 	</h2>
 	<jstl:if test="${articles != null && articles.size() != 0}">
 		<jstl:forEach var="a" items="${articles}">
-			<a href="article/display.do?articleId=${a.getId()}"><jstl:out
-					value="${a.getTitle()}" /></a>
+			<p><a href="article/display.do?articleId=${a.getId()}"><jstl:out
+					value="${a.getTitle()}" /></a></p>
 		</jstl:forEach>
-		<br>
-		<br>
 		<a class="btn btn-primary"
 			href="article/list.do?userId=${user.getId()}"><spring:message
 				code="user.readMoreArticles" /></a>

@@ -2,6 +2,7 @@
 package controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -39,81 +40,126 @@ public class ArticleUserController extends AbstractController {
 		super();
 	}
 	
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(required=false, defaultValue="1") final int page) {
+		ModelAndView result;
+		Page<Article> articles;
+		User user;
+		
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		articles = this.articleService.findByWritterId(user.getId(), page, 5);
+		Assert.notNull(articles);
+		
+		result = new ModelAndView("article/list");
+
+		result.addObject("articles", articles.getContent());
+		result.addObject("pageNumber", articles.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("requestURI", "article/user/list.do");
+		
+		return result;
+	}
 	
-				
-		// Delete
-		@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
-		public ModelAndView delete(Article article, BindingResult binding) {
-			ModelAndView result;
-			Article articleFind;
+	@RequestMapping(value = "/listSearch", method = RequestMethod.GET)
+	public ModelAndView listSearch(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam(required = false, defaultValue = "") final String keyword) {
+		ModelAndView result;
+		Page<Article> articles;
+		User user;
 
-			articleFind = this.articleService.findOneToEdit(article.getId());
-			this.articleService.delete(articleFind);			
-			result = new ModelAndView("redirect:/article/list.do");
-			
-			return result;
-		}
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
 		
-		// Create
-		@RequestMapping(value = "/create", method = RequestMethod.GET)
-		public ModelAndView create(@RequestParam final int newspaperId) {
-			ModelAndView result;
-			Article article;
-			User writer;
-			Newspaper newspaper;
+		articles = this.articleService.findPublishedSearch(user.getId(), keyword, page, 5);
+		Assert.notNull(articles);
 
-			writer = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			Assert.notNull(writer);
+		result = new ModelAndView("article/list");
+		result.addObject("pageNumber", articles.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("articles", articles.getContent());
 
-			newspaper = this.newspaperService.findOne(newspaperId);
-			Assert.notNull(newspaper);
+		result.addObject("requestURI", "article/user/listSearch.do");
 			
-			article = this.articleService.create(writer, newspaper);
+		result.addObject("keyword", keyword);
 
-			result = this.createEditModelAndView(article);
+		return result;
+	}
+	
+	// Create
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create(@RequestParam final int newspaperId) {
+		ModelAndView result;
+		Article article;
+		User writer;
+		Newspaper newspaper;
 
-			return result;
-		}
+		writer = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(writer);
+
+		newspaper = this.newspaperService.findOne(newspaperId);
+		Assert.notNull(newspaper);
 		
+		article = this.articleService.create(writer, newspaper);
+		Assert.notNull(article);
+		
+		result = this.createEditModelAndView(article);
+
+		return result;
+	}
+	
 	// Request -------------------------------------------------------------------------------------------
 
-		// Edit
-		@RequestMapping(value = "/edit", method = RequestMethod.GET)
-		public ModelAndView edit(@RequestParam final int articleId) {
-			ModelAndView result;
-			Article article;
+	// Edit
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int articleId) {
+		ModelAndView result;
+		Article article;
 
-			article = this.articleService.findOne(articleId);
-			Assert.notNull(article);
-			
-			Assert.isTrue(article.getIsFinalMode() == false);
-
-			result = this.createEditModelAndView(article);
-
-			return result;
-		}
+		article = this.articleService.findOne(articleId);
+		Assert.notNull(article);
 		
-		// Save
-		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(Article article, final BindingResult binding) {
-			ModelAndView result;
+		Assert.isTrue(article.getIsFinalMode() == false);
 
-			article = this.articleService.reconstruct(article, binding);
-			
-			if (binding.hasErrors()){
-				System.out.println("BINDING: " +binding.getAllErrors());
-				result = this.createEditModelAndView(article);
-			}else
-				try {
-					this.articleService.save(article);
-					result = new ModelAndView("redirect:/article/list.do");
-				} catch (final Throwable oops) {
-					System.out.println("OOPS: " + oops.getMessage());
-					result = this.createEditModelAndView(article, "article.commit.error");
-				}
+		result = this.createEditModelAndView(article);
 
-			return result;
+		return result;
+	}
+	
+	// Save
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(Article article, final BindingResult binding) {
+		ModelAndView result;
+
+		article = this.articleService.reconstruct(article, binding);
+		
+		if (binding.hasErrors()){
+			result = this.createEditModelAndView(article);
+		}else
+			try {
+				this.articleService.save(article);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(article, "article.commit.error");
+			}
+
+		return result;
+	}
+	
+	// Delete
+	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(final Article article, final BindingResult binding) {
+		ModelAndView result;
+		
+		try {
+			this.articleService.delete(article);
+			result = new ModelAndView("redirect:list.do");
+		} catch(final Throwable oops) {
+			result = this.createEditModelAndView(article, "article.commit.error");
 		}
+				
+		return result;
+	}
 
 	// Ancillary methods
 	protected ModelAndView createEditModelAndView(final Article article) {

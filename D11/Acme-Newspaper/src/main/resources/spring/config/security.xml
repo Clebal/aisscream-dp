@@ -86,12 +86,24 @@
 		<security:intercept-url pattern="/message/administrator/edit.do" access="hasRole('ADMIN')"/>
 
         <!-- Villarín -->
-        <security:intercept-url pattern="/article/user/**" access="hasRole('USER')"/>
-        <security:intercept-url pattern="/article/administrator/**" access="hasRole('ADMIN')"/>
         <security:intercept-url pattern="/article/display.do" access="permitAll"/>
         <security:intercept-url pattern="/article/list.do" access="permitAll"/>
-        <security:intercept-url pattern="/subscriptionNewspaper/customer/**" access="hasRole('CUSTOMER')"/>
         <security:intercept-url pattern="/article/listSearch.do" access="permitAll"/>
+               
+        <security:intercept-url pattern="/article/user/list.do" access="hasRole('USER')"/>
+        <security:intercept-url pattern="/article/user/listSearch.do" access="hasRole('USER')"/>
+        <security:intercept-url pattern="/article/user/create.do" access="hasRole('USER')"/>
+        <security:intercept-url pattern="/article/user/edit.do" access="hasRole('USER')"/>
+        
+        <security:intercept-url pattern="/article/administrator/listTaboo.do" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="/article/administrator/list.do" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="/article/administrator/listSearch.do" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="/article/administrator/listSearchTaboo.do" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="/article/administrator/deleteLis.do" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="/article/administrator/deleteTab.do" access="hasRole('ADMIN')"/>
+        
+       	<security:intercept-url pattern="/subscriptionNewspaper/customer/**" access="hasRole('CUSTOMER')"/>
+        
         <security:intercept-url pattern="/actor/agent/create.do" access="isAnonymous()" />
         <security:intercept-url pattern="/actor/agent/edit.do" access="hasRole('AGENT') or isAnonymous()" />
      

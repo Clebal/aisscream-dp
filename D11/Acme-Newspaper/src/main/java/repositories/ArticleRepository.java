@@ -36,7 +36,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where a.newspaper.id=?1 and a.newspaper.isPublished=true ")
 	Collection<Article> findByNewspaperId(final int newspaperId);
 	
-	@Query("select a from Article a where a.newspaper.id=?1 and a.newspaper.isPublished=true and a.isFinalMode=true")
+	@Query("select a from Article a where a.newspaper.id=?1 and a.isFinalMode=true")
 	Page<Article> findByNewspaperIdPaginated(final int newspaperId, final Pageable pageable);
 	
 	@Query("select a from Article a where a.writer.id=?1 and a.newspaper.isPublished=true and a.isFinalMode=true and (a.title like CONCAT('%',?2,'%') or a.summary like CONCAT('%',?2,'%') or a.body like CONCAT('%',?2,'%'))")

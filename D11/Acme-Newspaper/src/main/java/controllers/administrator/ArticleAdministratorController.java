@@ -29,113 +29,72 @@ public class ArticleAdministratorController extends AbstractController {
 
 	// List taboo
 		@RequestMapping(value="/listTaboo", method = RequestMethod.GET)
-		public ModelAndView listTaboo(@RequestParam(required=false) Integer page) {
+		public ModelAndView listTaboo(@RequestParam(required=false, defaultValue="1") Integer page) {
 			ModelAndView result;
 			Page<Article> articles;
-			Integer pageAux;
-			boolean editar, borrar, taboo;
 			
-			editar = false;
-			borrar = true;
-			taboo = true;
-			
-			if (page == null)
-				pageAux = 1;
-			else
-				pageAux = page;
-			
-			articles = this.articleService.findAllTabooPaginated(pageAux, 5);
+			articles = this.articleService.findAllTabooPaginated(page, 5);
 			Assert.notNull(articles);
 			
 			result = new ModelAndView("article/list");
 
 			result.addObject("articles", articles.getContent());
 			result.addObject("pageNumber", articles.getTotalPages());
-			result.addObject("page", pageAux);
+			result.addObject("page", page);
+			
 			result.addObject("requestURI", "article/administrator/listTaboo.do");
-			result.addObject("editar", editar);
-			result.addObject("borrar", borrar);
-			result.addObject("taboo", taboo);
-
 			
 			return result;
 		}
 		
 		// List
 		@RequestMapping(value="/list", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam(required=false) Integer page) {
+		public ModelAndView list(@RequestParam(required=false, defaultValue="1") Integer page) {
 			ModelAndView result;
 			Page<Article> articles;
-			Integer pageAux;
-			boolean editar, borrar, taboo;
 			
-			editar = false;
-			borrar = true;
-			taboo = false;
-			
-			if (page == null)
-				pageAux = 1;
-			else
-				pageAux = page;
-			
-			articles = this.articleService.findAllPaginated(pageAux, 5);
-			
+			articles = this.articleService.findAllPaginated(page, 5);
 			Assert.notNull(articles);
 			
 			result = new ModelAndView("article/list");
 
 			result.addObject("articles", articles.getContent());
 			result.addObject("pageNumber", articles.getTotalPages());
-			result.addObject("page", pageAux);
+			result.addObject("page", page);
+			
 			result.addObject("requestURI", "article/administrator/list.do");
-			result.addObject("editar", editar);
-			result.addObject("borrar", borrar);
-			result.addObject("taboo", taboo);
 			
 			return result;
 		}
 		
 		
 		@RequestMapping(value = "/listSearch", method = RequestMethod.GET)
-		public ModelAndView listSearch(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam(required = false, defaultValue = "") final String keyword) {
+		public ModelAndView listSearch(@RequestParam(required = false, defaultValue = "1") final int page, @RequestParam(required = false, defaultValue = "") final String keyword) {
 			ModelAndView result;
 			Page<Article> articles;
-			boolean editar, borrar, taboo;
 			
-			editar = false;
-			borrar = true;
-			taboo = false;
-
 			articles = this.articleService.findPublishedSearchNoAuth(keyword, page, 5);
 			Assert.notNull(articles);
 
 			result = new ModelAndView("article/list");
+			
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", page);
 			result.addObject("articles", articles.getContent());
-			if (keyword == null)
-				result.addObject("requestURI", "article/administrator/listSearch.do");
-			else
-				result.addObject("requestURI", "article/administrator/listSearch.do?keyword="+keyword);
+			
+			result.addObject("requestURI", "article/administrator/listSearch.do");
+			
 			result.addObject("keyword", keyword);
-			result.addObject("editar", editar);
-			result.addObject("borrar", borrar);
-			result.addObject("taboo", taboo);
 
 
 			return result;
 		}
 		
 		@RequestMapping(value = "/listSearchTaboo", method = RequestMethod.GET)
-		public ModelAndView listSearchTaboo(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam(required = false, defaultValue = "") final String keyword) {
+		public ModelAndView listSearchTaboo(@RequestParam(required = false, defaultValue = "1") final int page, @RequestParam(required = false, defaultValue = "") final String keyword) {
 			ModelAndView result;
 			Page<Article> articles;
-			boolean editar, borrar, taboo;
 			
-			editar = false;
-			borrar = true;
-			taboo = true;
-
 			articles = this.articleService.findPublishedSearchTaboo(keyword, page, 5);
 			Assert.notNull(articles);
 
@@ -143,14 +102,10 @@ public class ArticleAdministratorController extends AbstractController {
 			result.addObject("pageNumber", articles.getTotalPages());
 			result.addObject("page", page);
 			result.addObject("articles", articles.getContent());
-			if (keyword == null)
-				result.addObject("requestURI", "article/administrator/listSearchTaboo.do");
-			else
-				result.addObject("requestURI", "article/administrator/listSearchTaboo.do?keyword="+keyword);
+
+			result.addObject("requestURI", "article/administrator/listSearchTaboo.do");
+			
 			result.addObject("keyword", keyword);
-			result.addObject("editar", editar);
-			result.addObject("borrar", borrar);
-			result.addObject("taboo", taboo);
 
 			return result;
 		}

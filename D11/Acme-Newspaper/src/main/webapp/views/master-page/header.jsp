@@ -64,7 +64,7 @@
 					<li><a href="chirp/user/list.do"><spring:message code="master.page.all.chirps" /></a></li>	
 					<li><a href="chirp/user/create.do"><spring:message code="master.page.create.chirps" /></a></li>	
 					<li><a href="followUp/user/list.do"><spring:message code="master.page.user.followUp" /></a></li>
-				    <li><a href="article/list.do"><spring:message code="master.page.article.list" /></a></li>
+				    <li><a href="article/user/list.do"><spring:message code="master.page.article.list" /></a></li>
 				</ul>
 			</security:authorize>
 			

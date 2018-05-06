@@ -217,6 +217,8 @@ public class ArticleService {
 		Collection<FollowUp> followUps;
 		Collection<Article> articles;
 		boolean isFinal;
+		
+		Assert.notNull(article);
 
 		articleToDelete = this.findOne(article.getId());
 
@@ -235,7 +237,7 @@ public class ArticleService {
 
 		isFinal = true;
 
-		if (!article.getIsFinalMode() && article.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
+		if (!articleToDelete.getIsFinalMode() && articleToDelete.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
 			articles = this.findByNewspaperId(articleToDelete.getNewspaper().getId());
 			for (final Article a : articles) {
 				isFinal = true;
@@ -248,7 +250,7 @@ public class ArticleService {
 				articleToDelete.getNewspaper().setIsPublished(true);
 		}
 
-		article.getNewspaper().getArticles().remove(article);
+		articleToDelete.getNewspaper().getArticles().remove(articleToDelete);
 
 		this.articleRepository.delete(articleToDelete);
 
@@ -293,9 +295,7 @@ public class ArticleService {
 	}
 
 	public void flush() {
-
 		this.articleRepository.flush();
-
 	}
 
 	//Auxiliare methods
@@ -393,31 +393,25 @@ public class ArticleService {
 	}
 
 	public Article reconstruct(final Article article, final BindingResult binding) {
-		Article result, aux;
+		Article saved;
 		User user;
-		Newspaper newspaper;
 
 		if (article.getId() == 0) {
-				
-			result = article;
-			result.setWriter(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()));
-			
+			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+			Assert.notNull(user);
+			article.setWriter(user);
 		} else {
-			result = article;
-			aux = this.articleRepository.findOne(article.getId());
-			result.setVersion(aux.getVersion());
-			
-			user = this.userService.findOne(aux.getWriter().getId());
-			newspaper = this.newspaperService.findOne(aux.getNewspaper().getId());
-			result.setWriter(user);
-			result.setNewspaper(newspaper);
-			result.setMoment(newspaper.getPublicationDate());
-
+			saved = this.articleRepository.findOne(article.getId());
+			Assert.notNull(saved);
+			article.setVersion(saved.getVersion());
+			article.setWriter(saved.getWriter());
+			article.setNewspaper(saved.getNewspaper());
+			article.setMoment(saved.getNewspaper().getPublicationDate());
 		}
 
-		this.validator.validate(result, binding);
+		this.validator.validate(article, binding);
 
-		return result;
+		return article;
 	}
 
 	private Pageable getPageable(final int page, final int size) {

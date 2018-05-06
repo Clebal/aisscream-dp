@@ -184,6 +184,10 @@ public class FolderService {
 	}
 
 	// Other business methods -------------------------------------------------
+	public void flush() {
+		this.folderRepository.flush();
+	}
+	
 	public Folder findOneToEdit(final int folderId) {
 		Folder result;
 		
