@@ -235,6 +235,10 @@ public class NewspaperService {
 
 	}
 
+	public void flush() {
+		this.newspaperRepository.flush();
+	}
+
 	//	public void publish(final int newspaperId) {
 	//		Newspaper newspaperToPublish;
 	//		Date currentMoment;
