@@ -218,7 +218,7 @@
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}" parameter="volumeId" parameterValue="${volumeId}"/>
 </jstl:if>
 
-<jstl:if test="${requestURI.equals('newspaper/user/addNewspaper.do') || requestURI.equals('newspaper/user/deleteNewspaper.do') || requestURI.equals('newspaper/listFromVolume.do') }">
+<jstl:if test="${requestURI.equals('newspaper/user/addNewspaper.do') || requestURI.equals('newspaper/user/deleteNewspaper.do')}">
 		<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}" parameter="volumeId" parameterValue="${volumeId}"/>
 </jstl:if>
 

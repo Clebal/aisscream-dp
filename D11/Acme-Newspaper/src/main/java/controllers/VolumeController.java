@@ -1,6 +1,9 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -13,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import security.Authority;
 import security.LoginService;
 import services.CustomerService;
+import services.NewspaperService;
 import services.SubscriptionVolumeService;
 import services.VolumeService;
+import domain.Newspaper;
 import domain.Volume;
 
 @Controller
@@ -32,6 +37,9 @@ public class VolumeController extends AbstractController {
 	@Autowired
 	private SubscriptionVolumeService	subscriptionVolumeService;
 
+	@Autowired
+	private NewspaperService			newspaperService;
+
 
 	// Constructor
 	public VolumeController() {
@@ -39,14 +47,14 @@ public class VolumeController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int volumeId) {
+	public ModelAndView display(@RequestParam final int volumeId, @RequestParam(required = false, defaultValue = "1") final Integer page) {
 		ModelAndView result;
 		Volume volume;
 
 		volume = this.volumeService.findOne(volumeId);
 
 		Assert.notNull(volume);
-		result = this.createDisplayModelAndView(volume);
+		result = this.createDisplayModelAndView(volume, page);
 
 		return result;
 	}
@@ -69,10 +77,13 @@ public class VolumeController extends AbstractController {
 	}
 
 	//Ancillary methods -----------------------
-	protected ModelAndView createDisplayModelAndView(final Volume volume) {
+	protected ModelAndView createDisplayModelAndView(final Volume volume, final int page) {
 		ModelAndView result;
 		Boolean canCreateVolumeSubscription;
 		Authority authority;
+		Page<Newspaper> newspapers;
+		List<Newspaper> newspapersAux;
+		Integer pageNumber, fromId, toId;
 
 		canCreateVolumeSubscription = false;
 		authority = new Authority();
@@ -83,7 +94,24 @@ public class VolumeController extends AbstractController {
 				canCreateVolumeSubscription = true;
 
 		result = new ModelAndView("volume/display");
+		if (LoginService.isAuthenticated()) {
+			newspapersAux = new ArrayList<Newspaper>(volume.getNewspapers());
+			fromId = this.fromIdAndToId(newspapersAux.size(), page)[0];
+			toId = this.fromIdAndToId(newspapersAux.size(), page)[1];
 
+			pageNumber = newspapersAux.size();
+			pageNumber = (int) Math.floor(((pageNumber / (5 + 0.0)) - 0.1) + 1);
+			result.addObject("pageNumber", pageNumber);
+			result.addObject("newspapers", newspapersAux.subList(fromId, toId));
+		} else {
+			newspapers = this.newspaperService.findByVolumeAllPublics(volume.getId(), page, 5);
+			Assert.notNull(newspapers);
+			result.addObject("pageNumber", newspapers.getTotalPages());
+			result.addObject("newspapers", newspapers.getContent());
+		}
+
+		result.addObject("page", page);
+		result.addObject("requestURI", "volume/display.do");
 		result.addObject("volume", volume);
 		result.addObject("canCreateVolumeSubscription", canCreateVolumeSubscription);
 
@@ -91,4 +119,32 @@ public class VolumeController extends AbstractController {
 
 	}
 
+	private Integer[] fromIdAndToId(final Integer tamañoAux, final Integer page) {
+		Integer tamaño, pageAux, fromId, toId;
+		tamaño = tamañoAux;
+		Integer[] result;
+
+		result = new Integer[2];
+
+		pageAux = page;
+		if (page <= 0)
+			pageAux = 1;
+
+		fromId = (pageAux - 1) * 5;
+		if (fromId > tamaño)
+			fromId = 0;
+		toId = (pageAux * 5);
+		if (tamaño > 5) {
+			if (toId > tamaño && fromId == 0)
+				toId = 5;
+			else if (toId > tamaño && fromId != 0)
+				toId = tamaño;
+		} else
+			toId = tamaño;
+
+		result[0] = fromId;
+		result[1] = toId;
+
+		return result;
+	}
 }

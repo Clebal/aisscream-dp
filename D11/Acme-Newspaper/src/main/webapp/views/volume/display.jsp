@@ -22,7 +22,6 @@
 					
 			<acme:display code="volume.year" value="${volume.getYear()}" />
 					
-			<acme:displayLink parametre="volumeId" code="volume.newspapers" action="newspaper/listFromVolume.do" parametreValue="${volume.getId()}"/>
 						
 		</div>
 	
@@ -48,5 +47,42 @@
 			</div>
 		</jstl:if>	
 	</security:authorize>
+	
+	<jstl:if test="${newspapers.size()>0 }">
+	<display:table class="table table-striped table-bordered table-hover" name="newspapers" id="row">
+	
+	<acme:column property="title" domain="newspaper" />
+	
+	<acme:column property="description" domain="newspaper" />
+	
+	<acme:column property="publicationDate" domain="newspaper" formatDate="true" />
+	
+	<spring:message code="newspaper.isPublished" var="newspaperIsPublished"/>
+	<display:column title="${newspaperIsPublished}">
+		<jstl:if test="${ row.getIsPublished()==true && row.getPublicationDate()<=currentMomentVar}">
+			<jstl:out value="X"/>
+		</jstl:if>	
+	</display:column>
+	
+	<spring:message code="newspaper.isPrivateTheNewspaper" var="newspaperIsPrivate"/>
+	<display:column title="${newspaperIsPrivate}">
+		<jstl:if test="${ row.getIsPrivate()==true}">
+			<jstl:out value="X"/>
+		</jstl:if>	
+	</display:column>
+		
+		<spring:url var="urlDisplay" value="newspaper/display.do">
+		<spring:param name="newspaperId" value="${row.getId()}" />
+		
+	</spring:url>
+		<display:column>
+			<a href="${urlDisplay }"> <spring:message code="newspaper.display" /></a>
+	</display:column>
+	
+	</display:table>
+	
+	<acme:paginate pageNumber="${pageNumber }" url="${requestURI }" objects="${newspapers}" page="${page}" parameter="volumeId" parameterValue="${volume.getId()}"/>
+	
+	</jstl:if>
 																			
 	</div>

@@ -136,7 +136,6 @@
 		<security:intercept-url pattern="/newspaper/display.do" access="permitAll" />
 		<security:intercept-url pattern="/newspaper/list.do" access="permitAll" />
 		<security:intercept-url pattern="/newspaper/listSearch.do" access="permitAll" />
-		<security:intercept-url pattern="/newspaper/listFromVolume.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/volume/display.do" access="permitAll" />
 		<security:intercept-url pattern="/volume/list.do" access="permitAll" />

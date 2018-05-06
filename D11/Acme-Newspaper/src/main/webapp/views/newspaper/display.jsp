@@ -58,13 +58,20 @@
 						<br>
 						<span class="display"><spring:message code="newspaper.article.writer"/></span><a href="actor/user/display.do?userId=${row.getWriter().getId()}"><jstl:out value="${row.getWriter().getName()}"/> <jstl:out value="${row.getWriter().getSurname()}"/></a>
 						<br>
-						<jstl:if test="${row.getSummary().length()<10}">
+					</jstl:if>
+					<jstl:if test="${canSeeArticles==false }">
+					<span class="display"><spring:message code="newspaper.article.title"/></span><jstl:out value="${row.getTitle()}" />
+						<br>
+					<span class="display"><spring:message code="newspaper.article.writer"/></span><jstl:out value="${row.getWriter().getName()}"/>
+						<br>
+					</jstl:if>
+					<jstl:if test="${row.getSummary().length()<10}">
 						<p><span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary()}"/></p>
 						</jstl:if>
 						<jstl:if test="${row.getSummary().length()>=10 }">
 						<p>
 							<span class="display"><spring:message code="newspaper.article.summary"/></span>
-							<span id="shortText" onclick="showHideText();"><jstl:out value="${row.getSummary().substring(0, 10)}"/><span id="puntosuspensivos">...</span> <span id="fullText" style="display: none">${row.getSummary().substring(10)}</span></span>
+							<span id="shortText" onclick="showHideText();"><jstl:out value="${row.getSummary().substring(0, 10)}"/><span id="puntosuspensivos">...</span><span id="fullText" style="display: none">${row.getSummary().substring(10)}</span></span>
 						</p>
 						<script>
 						function showHideText() {
@@ -81,20 +88,7 @@
 						}
 						</script>
 						</jstl:if>
-					</jstl:if>
-					<jstl:if test="${canSeeArticles==false }">
-					<span class="display"><spring:message code="newspaper.article.title"/></span><jstl:out value="${row.getTitle()}" />
-						<br>
-					<span class="display"><spring:message code="newspaper.article.writer"/></span><jstl:out value="${row.getWriter().getName()}"/>
-						<br>
-						<jstl:if test="${row.getSummary().length()<100 }">
-							<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary()}"/>
-						</jstl:if>
-						<jstl:if test="${row.getSummary().length()>=100 }">
-							<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary().substring(0, 99)}"/>
-						</jstl:if>
-					</jstl:if>
-					</div>
+						</div>
 					<br>
 				</jstl:forEach>
 				
