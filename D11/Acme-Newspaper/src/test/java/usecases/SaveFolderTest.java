@@ -13,8 +13,8 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.Folder;
 import security.LoginService;
-import services.ActorService;
 import services.FolderService;
+import services.UserService;
 import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
@@ -22,22 +22,22 @@ import utilities.AbstractTest;
 	})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class DeleteFolderTest extends AbstractTest {
+public class SaveFolderTest extends AbstractTest {
 
 	// System under test ------------------------------------------------------
 
 	@Autowired
 	private FolderService		folderService;
-	
+
 	@Autowired
-	private ActorService		actorService;
+	private UserService			userService;
 	
 	// Tests ------------------------------------------------------------------
 
 	/*
 	 * Pruebas:
-	 * 		1. Un customer borra una carpeta con hijos
-	 * 		2. Un customer borra una carpeta sin hijos
+	 * 		1. Un actor autenticado como USER crea una carpeta
+	 * 		2. Un actor autenticado como USER crea una carpeta hija de la carpeta IN BOX
 	 *
 	 * Requisitos:
 	 * 		
@@ -47,16 +47,16 @@ public class DeleteFolderTest extends AbstractTest {
 	public void driverPositiveTest() {		
 		final Object testingData[][] = {
 			{
-				"customer1", "folder6c1", null, null
+				"user1", "test folder", null, false, null
 			}, {
-				"customer1", "folder7c1", null, null
+				"user1", "test folder", "folder1u1", false, null
 			}
 		};
 			
 	for (int i = 0; i < testingData.length; i++)
 		try {
 			super.startTransaction();
-			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
+			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Class<?>) testingData[i][4]);
 		} catch (final Throwable oops) {
 			throw new RuntimeException(oops);
 		} finally {
@@ -66,9 +66,7 @@ public class DeleteFolderTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. Un customer trata de eliminar una carpeta del sistema
-	 * 		2. Un customer trata de eliminar una carpeta que no es suya
-	 * 		3. Un customer trata de eliminar una carpeta que no es suya intentando suplantar la identidad
+	 * 		1. 
 	 * 
 	 * Requisitos:
 	 * 		
@@ -77,18 +75,20 @@ public class DeleteFolderTest extends AbstractTest {
 	public void driverNegativeTest() {		
 		final Object testingData[][] = {
 				{
-					"customer1", "folder5c1", null, IllegalArgumentException.class
+					"user1", null, null, false, IllegalArgumentException.class
 				}, {
-					"customer2", "folder6c1", null, IllegalArgumentException.class
+					"user1", "in box", null, false, IllegalArgumentException.class
 				}, {
-					"customer2", "folder6c1", "customer1", IllegalArgumentException.class
+					"user2", "test folder", "folder1u1", false, IllegalArgumentException.class
+				}, {
+					"user1", "test folder", "folder1u1", true, IllegalArgumentException.class
 				}
 			};
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Class<?>) testingData[i][4]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -99,59 +99,60 @@ public class DeleteFolderTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Editar carpeta
+	 * Enviar/Difundir mensaje
 	 * Pasos:
-	 * 		1. Autenticar actor
-	 * 		2. Listar carpetas
-	 * 		3. Editar carpeta
+	 * 		1. Autenticar como usuario o admin
+	 * 		2. Enviar/difundir mensaje
 	 * 		3. Volver al listado de mensajes
 	 */
-	protected void template(final String actorBean, final String folderBean, final String actorHackingBean, final Class<?> expected) {
+	protected void template(final String actorBean, final String name, final String fatherFolderBean, final Boolean duplicate, final Class<?> expected) {
 		Class<?> caught;
-		Folder folder, folderCopy;
+		Folder folder, fatherFolder, savedFolder;
 		Page<Folder> folders;
-		Actor actor;
-		Integer folderId, folderPage, actorId;
+		Actor user;
+		Integer fatherFolderId, folderPage;
 
 		caught = null;
-		actor = null;
+		user = null;
+		fatherFolder = null;
 		try {
 			
-			if(actorHackingBean != null) {
-				actorId = super.getEntityId(actorHackingBean);
-				Assert.notNull(actorId);
-				actor = this.actorService.findOne(actorId);
-				Assert.notNull(actor);
+			if(fatherFolderBean != null) {
+				fatherFolderId = super.getEntityId(fatherFolderBean);
+				Assert.notNull(fatherFolderId);
+				fatherFolder = this.folderService.findOne(fatherFolderId);
 			}
 
-			folderId = super.getEntityId(folderBean);
-			Assert.notNull(folderId);
-			
 			// 1. Autenticar como usuario
 			super.authenticate(actorBean);
-					
+			if(!actorBean.equals("admin")) {
+				user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+				Assert.notNull(user);
+			}
+			
 			// 2. Listar carpetas
 			folders = this.folderService.findByActorUserAccountId(LoginService.getPrincipal().getId(), this.getPage(null), 5);
 			Assert.notNull(folders);
-						
-			// 3. Editar carpeta
-			folder = this.folderService.findOneToEdit(folderId);
-			folderCopy = this.copyFolder(folder);
-			if(actorHackingBean != null) {
-				folderCopy.setActor(actor);
+			
+			// 3. Crear carpeta
+			folder = this.folderService.create(user);
+			if(name == null) Assert.notNull(name);
+			else folder.setName(name);
+			if(fatherFolderBean != null) {
+				folder.setFatherFolder(fatherFolder);
 			}
-								
-			this.folderService.delete(folderCopy);
+					
+			savedFolder = this.folderService.save(folder);
 			
 			this.folderService.flush();
-						
-			// 3. Volver al listado de mensajes
-			folderPage = this.getPage(folderCopy);
-			Assert.isNull(folderPage);
 			
-			if(folder.getChildrenFolders() != null)
-				for(Folder f: folder.getChildrenFolders())
-					Assert.isNull(this.folderService.findOne(f.getId()));
+			if(duplicate) this.folderService.save(folder);
+			
+			this.folderService.flush();
+			
+			// 3. Volver al listado de mensajes
+			folderPage = this.getPage(savedFolder);
+			Assert.notNull(folderPage);
 			
 			super.unauthenticate();
 			super.flushTransaction();
@@ -160,21 +161,6 @@ public class DeleteFolderTest extends AbstractTest {
 		}
 		
 		super.checkExceptions(expected, caught);
-	}
-	
-	private Folder copyFolder(final Folder folder) {
-		Folder result;
-		
-		result = new Folder();
-		result.setId(folder.getId());
-		result.setVersion(folder.getVersion());
-		result.setActor(folder.getActor());
-		result.setChildrenFolders(folder.getChildrenFolders());
-		result.setFatherFolder(folder.getFatherFolder());
-		result.setName(folder.getName());
-		result.setSystem(folder.getSystem());
-		
-		return result;
 	}
 	
 	private Integer getPage(final Folder folder) {

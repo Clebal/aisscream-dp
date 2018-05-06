@@ -16,27 +16,31 @@
 		<img src="${newspaper.getPicture()}" alt="Picture" width="400px" height="200px" style="margin-left:15px;" />
 	</jstl:if>
 </jstl:if>	
+
 	<br>
+	
 	<div>
-	<jstl:if test="${canSeeArticles==true }">
 	
-		<div class="container">
-			
-			<acme:display code="newspaper.title" value="${newspaper.getTitle()}"/>
-			
-			<acme:display code="newspaper.description" value="${newspaper.getDescription()}"/>
-					
-			<acme:display code="newspaper.publicationDate" value="${newspaper.getPublicationDate()}" codeMoment="newspaper.format.moment"/>
+		<jstl:if test="${canSeeArticles==true }">
+		
+			<div class="container">
+				
+				<acme:display code="newspaper.title" value="${newspaper.getTitle()}"/>
+				
+				<acme:display code="newspaper.description" value="${newspaper.getDescription()}"/>
 						
-		</div>
-	</jstl:if>
+				<acme:display code="newspaper.publicationDate" value="${newspaper.getPublicationDate()}" codeMoment="newspaper.format.moment"/>
+							
+			</div>
+			
+		</jstl:if>
 	
-	<security:authorize access="hasRole('ADMIN')">
-		<div class="container">	
-		<span style="font-size:20px"><spring:message code="newspaper.admin.actions"/></span>	
-		<acme:displayLink parametre="newspaperId" code="newspaper.delete" action="newspaper/administrator/delete.do" parametreValue="${newspaper.getId()}"/>
-		</div>
-	</security:authorize>
+		<security:authorize access="hasRole('ADMIN')">
+			<div class="container">	
+			<span style="font-size:20px"><spring:message code="newspaper.admin.actions"/></span>	
+			<acme:displayLink parametre="newspaperId" code="newspaper.delete" action="newspaper/administrator/delete.do" parametreValue="${newspaper.getId()}"/>
+			</div>
+		</security:authorize>
 		
 	
 																
@@ -52,13 +56,30 @@
 					<jstl:if test="${canSeeArticles==true }">
 						<span class="display"><spring:message code="newspaper.article.title"/></span><a href="article/display.do?articleId=${row.getId()}"> <jstl:out value="${row.getTitle()}"/> </a>
 						<br>
-						<span class="display"><spring:message code="newspaper.article.writer"/></span><a href="actor/user/display.do?userId=${row.getWriter().getId()}"><jstl:out value="${row.getWriter().getName()}"/></a>
+						<span class="display"><spring:message code="newspaper.article.writer"/></span><a href="actor/user/display.do?userId=${row.getWriter().getId()}"><jstl:out value="${row.getWriter().getName()}"/> <jstl:out value="${row.getWriter().getSurname()}"/></a>
 						<br>
-						<jstl:if test="${row.getSummary().length()<100 }">
-						<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary()}"/>
+						<jstl:if test="${row.getSummary().length()<10}">
+						<p><span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary()}"/></p>
 						</jstl:if>
-						<jstl:if test="${row.getSummary().length()>=100 }">
-						<span class="display"><spring:message code="newspaper.article.summary"/></span><jstl:out value="${row.getSummary().substring(0, 99)}"/>
+						<jstl:if test="${row.getSummary().length()>=10 }">
+						<p>
+							<span class="display"><spring:message code="newspaper.article.summary"/></span>
+							<span id="shortText" onclick="showHideText();"><jstl:out value="${row.getSummary().substring(0, 10)}"/><span id="puntosuspensivos">...</span> <span id="fullText" style="display: none">${row.getSummary().substring(10)}</span></span>
+						</p>
+						<script>
+						function showHideText() {
+						    var x = document.getElementById("fullText");
+						    var puntosuspensivos = document.getElementById("puntosuspensivos");
+
+						    if (x.style.display === "none") {
+						    	puntosuspensivos.style.display = "none";
+						        x.style.display = "inline";
+						    } else {
+						        x.style.display = "none";
+						    	puntosuspensivos.style.display = "inline";
+						    }
+						}
+						</script>
 						</jstl:if>
 					</jstl:if>
 					<jstl:if test="${canSeeArticles==false }">

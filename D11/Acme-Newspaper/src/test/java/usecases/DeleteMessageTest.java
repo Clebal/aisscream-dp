@@ -118,6 +118,8 @@ public class DeleteMessageTest extends AbstractTest {
 			
 			// 3. Eliminar message
 			this.messageService.delete(message);
+			
+			this.messageService.flush();
 
 			messageAux = this.messageService.findOne(messageId);
 			Assert.notNull(messageAux);
@@ -125,7 +127,7 @@ public class DeleteMessageTest extends AbstractTest {
 			
 			if(action != null && action.equals("delete")){
 				this.messageService.delete(message);
-
+				this.messageService.flush();
 				// 4. Volver al listado de messages
 				pageResult = this.getPage(message);
 				Assert.isNull(pageResult);

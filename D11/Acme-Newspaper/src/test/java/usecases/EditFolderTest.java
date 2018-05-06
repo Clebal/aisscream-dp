@@ -49,6 +49,8 @@ public class EditFolderTest extends AbstractTest {
 				"customer1", "folder6c1", "test folder", null, null, null
 			}, {
 				"customer1", "folder7c1", "test folder2", null, null, null
+			}, {
+				"customer1", "folder7c1", "test folder", "folder5c1", null, null
 			}
 		};
 			
@@ -68,7 +70,6 @@ public class EditFolderTest extends AbstractTest {
 	 * 		1. Un customer trata de editar una carpeta quitando el campo name
 	 * 		2. Un customer trata de editar una carpeta que no es suya
 	 * 		3. Un customer trata de editar una carpeta del sistema
-	 * 		4. Un customer trata de editar una carpeta editando el father folder
 	 * 		5. Un customer trata de editar una carpeta editando el usuario
 	 * 
 	 * Requisitos:
@@ -83,8 +84,6 @@ public class EditFolderTest extends AbstractTest {
 					"customer2", "folder6c1", "adsf", null, null, IllegalArgumentException.class
 				}, {
 					"customer1", "folder5c1", "test folder", null, null, IllegalArgumentException.class
-				}, {
-					"customer1", "folder7c1", "test folder", "folder5c1", null, IllegalArgumentException.class
 				}, {
 					"customer1", "folder6c1", "test folder", null, "customer2", IllegalArgumentException.class
 				}
@@ -165,6 +164,8 @@ public class EditFolderTest extends AbstractTest {
 			}
 								
 			savedFolder = this.folderService.save(folderCopy);
+			
+			this.folderService.flush();
 						
 			// 3. Volver al listado de mensajes
 			folderPage = this.getPage(savedFolder);

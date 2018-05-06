@@ -217,7 +217,6 @@ public class FolderController extends AbstractController {
 		ModelAndView result;
 		Collection<Folder> folders;
 		Actor actor;
-		UserAccount userAccount;
 		int numeroDeMensajes;
 		boolean canCreateAndEdit;
 
@@ -232,18 +231,12 @@ public class FolderController extends AbstractController {
 			result = new ModelAndView("folder/edit");
 		else
 			result = new ModelAndView("folder/create");
-
-		if (folder.getId() == 0) {
 			
-			userAccount = LoginService.getPrincipal();
-
-			actor = this.actorService.findByUserAccountId(userAccount.getId());
-			Assert.notNull(actor);
-			folders = this.folderService.findByActorId(actor.getId());
-			Assert.notNull(folders);
-			result.addObject("folders", folders);
-		}
-		
+		actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(actor);
+		folders = this.folderService.findByActorId(actor.getId());
+		Assert.notNull(folders);
+			
 		if (folder.getId() > 0) {
 			numeroDeMensajes = this.messageService.findByFolderId(folder.getId()).size();
 			Assert.notNull(numeroDeMensajes);
@@ -253,6 +246,7 @@ public class FolderController extends AbstractController {
 		result.addObject("folder", folder);
 		result.addObject("message", messageCode);
 		result.addObject("canCreateAndEdit", canCreateAndEdit);
+		result.addObject("folders", folders);
 
 		return result;
 	}

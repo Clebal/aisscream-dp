@@ -200,6 +200,8 @@ public class SaveMessageTest extends AbstractTest {
 				Assert.notNull(saved);
 			}
 			
+			this.messageService.flush();
+			
 			// 3. Volver al listado de mensajes
 			if(actorBean.equals("admin")) {
 				numberMessageBySenderNew = this.messageService.findByActorId(senderId).size();

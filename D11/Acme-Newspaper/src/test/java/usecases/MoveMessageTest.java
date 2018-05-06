@@ -149,6 +149,8 @@ public class MoveMessageTest extends AbstractTest {
 			// 2. Mover mensaje
 			this.messageService.moveMessage(message, message.getFolder(), folder);
 			
+			this.messageService.flush();
+			
 			// 3. Volver al listado de mensajes
 			// Comprobar que el mensaje ha cambiado de carpeta
 			Assert.isTrue(this.messageService.findOne(messageId).getFolder().equals(folder));

@@ -12,22 +12,11 @@
 <form:form action="folder/actor/edit.do" modelAttribute="folder">
 
 	<form:hidden path="id" />
-	
-	<jstl:if test="${folder.getId() == 0}">
-		<form:hidden path="actor" />
-		<form:hidden path="childrenFolders" />
-	</jstl:if>
-	
-	<jstl:if test="${folder.getId() != 0}">
-		<form:hidden path="fatherFolder" />
-	</jstl:if>	
 		
 	<acme:textbox code="folder.name" path="name"/>
 	
-	<jstl:if test="${folder.getId() == 0}">
-		<acme:select items="${folders}" itemLabel="name" code="folder.fatherFolder" path="fatherFolder"/>
-	</jstl:if>
-	
+	<acme:select items="${folders}" itemLabel="name" code="folder.fatherFolder" path="fatherFolder"/>
+
 	<jstl:if test="${canCreateAndEdit}">
 		<acme:submit name="save" code="folder.save"/>
 	</jstl:if>

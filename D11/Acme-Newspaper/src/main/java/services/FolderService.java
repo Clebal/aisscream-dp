@@ -127,11 +127,12 @@ public class FolderService {
 		}
 
 		// No puede existir 2 carpetas con el mismo nombre en el mismo directorio
-		foldersActor = this.folderRepository.findByActorId(folder.getActor().getId());
-
-		for (final Folder f : foldersActor)
-			if (folder.getFatherFolder() == null && f.getFatherFolder() == null || folder.getFatherFolder() != null && folder.getFatherFolder().equals(f.getFatherFolder()) && f != folder)
-				Assert.isTrue(!folder.getName().equals(f.getName()));
+		if(folder.getId() == 0) {
+			foldersActor = this.folderRepository.findByActorId(folder.getActor().getId());
+			for (final Folder f : foldersActor)
+				if (folder.getFatherFolder() == null && f.getFatherFolder() == null || folder.getFatherFolder() != null && folder.getFatherFolder().equals(f.getFatherFolder()) && f != folder)
+					Assert.isTrue(!folder.getName().equals(f.getName()));
+		}
 
 		// Un actor solo puede crear carpetas para si mismo y no pueden ser del sistema
 		
@@ -141,16 +142,21 @@ public class FolderService {
 		// pero si se pueden meter mensajes en ella.
 		// Los actores no pueden borrar, modificar o mover las carpetas del sistema
 
-		// Si es una carpeta del sistema no puede modificarla
 		if (folder.getId() != 0) {
 			saved = this.findOne(folder.getId());
-			if(folder.getFatherFolder() != null) Assert.isTrue(folder.getFatherFolder().equals(saved.getFatherFolder()));
 			Assert.isTrue(this.folderRepository.findByActorId(folder.getActor().getId()).contains(folder));
+			// Si es una carpeta del sistema no puede modificarla
 			if (folder.getSystem()) {
 				Assert.isTrue(saved.getSystem());
 				Assert.isTrue(saved.getName().equals(folder.getName()));
 				if (saved.getFatherFolder() != null)
 					Assert.isTrue(saved.getFatherFolder().equals(folder.getFatherFolder()));
+			}
+			if(!folder.getName().equals(saved.getName())) {
+				foldersActor = this.folderRepository.findByActorId(folder.getActor().getId());
+				for (final Folder f : foldersActor)
+					if (folder.getFatherFolder() == null && f.getFatherFolder() == null || folder.getFatherFolder() != null && folder.getFatherFolder().equals(f.getFatherFolder()) && f != folder)
+						Assert.isTrue(!folder.getName().equals(f.getName()));
 			}
 		}
 
@@ -301,19 +307,24 @@ public class FolderService {
 	public Folder reconstruct(final Folder folder, final BindingResult binding) {
 		Folder saved;
 		Collection<Folder> childrenFolders;
+		Actor actor;
 		
 		childrenFolders = new ArrayList<Folder>();
 		
 		if (folder.getId() == 0) {
 			folder.setSystem(false);
 			folder.setChildrenFolders(childrenFolders);
+			
+			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			Assert.notNull(actor);
+			
+			folder.setActor(actor);
 		} else {
 			saved = this.folderRepository.findOne(folder.getId());
 			folder.setSystem(saved.getSystem());
 			folder.setActor(saved.getActor());
 			folder.setVersion(saved.getVersion());
 			folder.setChildrenFolders(saved.getChildrenFolders());
-			folder.setFatherFolder(saved.getFatherFolder());
 		}
 
 		this.validator.validate(folder, binding);

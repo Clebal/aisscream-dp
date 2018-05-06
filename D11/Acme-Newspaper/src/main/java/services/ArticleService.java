@@ -48,9 +48,6 @@ public class ArticleService {
 
 	@Autowired
 	private UserService			userService;
-	
-	@Autowired
-	private NewspaperService			newspaperService;
 
 
 	// Constructors -----------------------------------------------------------
