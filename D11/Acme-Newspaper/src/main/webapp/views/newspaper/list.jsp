@@ -31,7 +31,10 @@
 			<a href="newspaper/user/editDate.do?newspaperId=${row.getId()}"> <spring:message
 					code="newspaper.editDate" />
 			</a>
-				</jstl:if>	
+				</jstl:if>
+			<jstl:if test="${row.getPublicationDate()<=currentMomentVar}">
+			<spring:message code="newspaper.noEdit" />  
+			</jstl:if>			
 		
 		</display:column>
 		
@@ -96,6 +99,9 @@
 					code="newspaper.create.article" />
 			</a>
 				</jstl:if>	
+		<jstl:if test="${ row.getIsPublished()==true && row.getPublicationDate()<= currentMomentVar}">
+			<spring:message code="newspaper.noCreateArticle" />  
+		</jstl:if>	
 		
 		</display:column>
 </jstl:if>	
@@ -197,6 +203,9 @@
 		<jstl:if test="${canPermit==true}">	
 			<a href="${urlDisplay }"> <spring:message code="newspaper.display" /></a>
 		</jstl:if>
+		<jstl:if test="${ canPermit==false}">
+			<spring:message code="newspaper.noDisplay" />  
+		</jstl:if>	
 	</display:column>
 		
 </display:table>
