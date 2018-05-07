@@ -471,6 +471,7 @@ public class ArticleService {
 		Authority authority;
 		Authority authority2;
 		Authority authority3;
+		Authority authority4;
 		Date currentMoment;
 
 		result = false;
@@ -484,6 +485,8 @@ public class ArticleService {
 		authority2.setAuthority("CUSTOMER");
 		authority3 = new Authority();
 		authority3.setAuthority("ADMIN");
+		authority4 = new Authority();
+		authority4.setAuthority("AGENT");
 		currentMoment = new Date();
 		result = false;
 
@@ -510,6 +513,12 @@ public class ArticleService {
 				else if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true
 					&& this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()) != null  &&
 							this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()).size() > 0)
+					result = true;
+
+				//Si es un AGENT
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authority4) && article.getIsFinalMode()) {
+				//Si está publicado y no es privado
+				if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true && !article.getNewspaper().getIsPrivate())
 					result = true;
 
 				//Si es un ADMIN
