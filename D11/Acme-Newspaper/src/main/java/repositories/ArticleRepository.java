@@ -15,9 +15,15 @@ import domain.Article;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	
-	@Query("select a from Article a where a.writer.id=?1 and a.newspaper.isPublished=true and a.isFinalMode=true")
+	@Query("select a from Article a where a.writer.id=?1 and a.newspaper.isPublished=true and a.isFinalMode=true and (a.newspaper.isPrivate=false)")
 	Page<Article> findAllUserPaginated(final int userId, final Pageable pageable);
-
+	
+	@Query("select a from Article a where a.writer.id=?1 and a.newspaper.isPublished=true and a.isFinalMode=true and ((a.writer.id=?2) or (a.newspaper.id IN (select (s.newspaper.id) from SubscriptionNewspaper s where s.customer.id=?2) and a.newspaper.isPrivate=true or a.newspaper.id IN (select (n1) from SubscriptionVolume sv join sv.volume.newspapers n1 where sv.customer.id=?2)))")
+	Page<Article> findAllUserPaginatedByCustomer(final int userId, int principalId, final Pageable pageable);
+	
+	@Query("select a from Article a where a.writer.id=?1 and a.isFinalMode=true")
+	Page<Article> findAllUserPaginatedByAdmin(final int userId, final Pageable pageable);
+		
 	@Query("select a from Article a where a.writer.id=?1 and a.newspaper.id=?2 and a.newspaper.isPublished=true and a.isFinalMode=true")
 	Page<Article> findAllNewspaperPaginated(final int userId, final int newspaperId, final Pageable pageable);
 	

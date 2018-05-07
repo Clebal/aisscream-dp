@@ -296,11 +296,34 @@ public class ArticleService {
 	}
 
 	//Auxiliare methods
-
 	public Page<Article> findAllUserPaginated(final int userId, final int page, final int size) {
 		Page<Article> result;
+		
+		Assert.isTrue(userId != 0);
 
 		result = this.articleRepository.findAllUserPaginated(userId, this.getPageable(page, size));
+
+		return result;
+
+	}
+	
+	public Page<Article> findAllUserPaginatedByCustomer(final int userId, final int principalId, final int page, final int size) {
+		Page<Article> result;
+		
+		Assert.isTrue(userId != 0);
+
+		result = this.articleRepository.findAllUserPaginatedByCustomer(userId, principalId, this.getPageable(page, size));
+
+		return result;
+
+	}
+
+	public Page<Article> findAllUserPaginatedByAdmin(final int userId, final int page, final int size) {
+		Page<Article> result;
+		
+		Assert.isTrue(userId != 0);
+
+		result = this.articleRepository.findAllUserPaginatedByAdmin(userId, this.getPageable(page, size));
 
 		return result;
 
@@ -308,8 +331,10 @@ public class ArticleService {
 
 	public Page<Article> findAllNewspaperPaginated(final int userId, final int newspaperId, final int page, final int size) {
 		Page<Article> result;
+		
 		Assert.isTrue(LoginService.isAuthenticated());
-
+		Assert.isTrue(userId != 0);
+		
 		result = this.articleRepository.findAllNewspaperPaginated(userId, newspaperId, this.getPageable(page, size));
 
 		return result;
