@@ -106,12 +106,15 @@ public class NewspaperController extends AbstractController {
 		Page<Article> articles;
 		Boolean canSeeArticles;
 		Authority authority;
+		Authority authority2;
 
 		articles = this.articleService.findByNewspaperIdPaginated(newspaper.getId(), page, 5);
 
 		canSeeArticles = false;
 		authority = new Authority();
 		authority.setAuthority("CUSTOMER");
+		authority2 = new Authority();
+		authority2.setAuthority("ADMIN");
 		if (newspaper.getIsPrivate() == false)
 			canSeeArticles = true;
 		else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)
@@ -121,6 +124,8 @@ public class NewspaperController extends AbstractController {
 			&& this.volumeService.findByCustomerIdAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), newspaper.getId()).size() > 0)
 			canSeeArticles = true;
 		else if (LoginService.isAuthenticated() && newspaper.getPublisher().getUserAccount().getId() == LoginService.getPrincipal().getId())
+			canSeeArticles = true;
+		else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority2))
 			canSeeArticles = true;
 
 		result = new ModelAndView("newspaper/display");
