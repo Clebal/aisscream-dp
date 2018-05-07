@@ -666,7 +666,7 @@ public class NewspaperService {
 		tabooWords = this.configurationService.findTabooWords();
 
 		for (final String tabooWord : tabooWords) {
-			result = newspaper.getTitle() != null && newspaper.getTitle().toLowerCase().contains(tabooWord) || newspaper.getDescription() != null && newspaper.getDescription().toLowerCase().contains(tabooWord);
+			result = newspaper.getTitle() != null && newspaper.getTitle().toLowerCase().contains(tabooWord.toLowerCase()) || newspaper.getDescription() != null && newspaper.getDescription().toLowerCase().contains(tabooWord.toLowerCase());
 			if (result == true)
 				break;
 		}

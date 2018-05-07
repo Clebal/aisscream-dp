@@ -43,7 +43,7 @@
 		</security:authorize>
 		
 	
-																
+			<jstl:set var="num" value="0"/>													
 			<jstl:if test="${!articles.isEmpty()}">
 		
 			<div>
@@ -71,12 +71,12 @@
 						<jstl:if test="${row.getSummary().length()>=10 }">
 						<p>
 							<span class="display"><spring:message code="newspaper.article.summary"/></span>
-							<span id="shortText" onclick="showHideText();"><jstl:out value="${row.getSummary().substring(0, 10)}"/><span id="puntosuspensivos">...</span><span id="fullText" style="display: none">${row.getSummary().substring(10)}</span></span>
+							<span id="shortText" onclick="showHideText(${num});"><jstl:out value="${row.getSummary().substring(0, 10)}"/><span id="puntosuspensivos${num}">...</span><span id="fullText${num }" style="display: none">${row.getSummary().substring(10)}</span></span>
 						</p>
 						<script>
-						function showHideText() {
-						    var x = document.getElementById("fullText");
-						    var puntosuspensivos = document.getElementById("puntosuspensivos");
+						function showHideText (num) {
+						    var x = document.getElementById("fullText"+num);
+						    var puntosuspensivos = document.getElementById("puntosuspensivos"+num);
 
 						    if (x.style.display === "none") {
 						    	puntosuspensivos.style.display = "none";
@@ -90,6 +90,7 @@
 						</jstl:if>
 						</div>
 					<br>
+					<jstl:set var="num" value="${num+1 }"/>													
 				</jstl:forEach>
 				
 			<acme:paginate pageNumber="${pageNumber }" url="newspaper/display.do" objects="${articles}" page="${page }" parameter="newspaperId" parameterValue="${newspaper.getId()}"/>
