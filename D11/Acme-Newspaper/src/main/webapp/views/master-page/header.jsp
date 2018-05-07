@@ -23,7 +23,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a style="background-image: url(http://europeanscoutfoundation.com/wp-content/uploads/2018/02/newspaper-1.jpg); -ms-behavior: url(styles/backgroundsize.min.htc);" class="navbar-brand" href="#"><span>Acme Newspaper</span></a>
+	  <a style="background-image: url(images/newspaper-1.jpg); -ms-behavior: url(styles/backgroundsize.min.htc);" class="navbar-brand" href="#"><span>Acme Newspaper</span></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
