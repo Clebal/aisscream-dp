@@ -4,6 +4,7 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
@@ -46,6 +47,7 @@ public class CreditCard {
 
 	@CreditCardNumber
 	@NotBlank
+	@Pattern(regexp="([0-9])+")
 	public String getNumber() {
 		return this.number;
 	}

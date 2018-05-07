@@ -997,7 +997,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Gran catastrofe en julio de 2017" />
 		<property name="summary" value="Inmensa tormenta." />
 		<property name="body" value="Tres desaparecidos. [sex]" />
-		<property name="moment" value="03/17/2017 10:44" />
+		<property name="moment" value="03/17/2017" />
 		<property name="pictures">
 			<list>
 				<value>https://i.ytimg.com/vi/d8WNiRKMlpc/maxresdefault.jpg</value>
@@ -1013,7 +1013,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="La historia de Twitter" />
 		<property name="summary" value="Exclusiva sobre el pajarito azul." />
 		<property name="body" value="Hay muchos bots. [viagra free]" />
-		<property name="moment" value="01/25/2017 12:00" />
+		<property name="moment" value="01/25/2017" />
 		<property name="isFinalMode" value="true" />
 		<property name="writer" ref="user2" />
 		<property name="newspaper" ref="newspaper2" />
@@ -1028,7 +1028,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Investigamos la felicidad" />
 		<property name="summary" value="¿Que nos hace felices?" />
 		<property name="body" value="Os contaremos los resultados." />
-		<property name="moment" value="02/15/2017 20:05" />
+		<property name="moment" value="02/15/2017" />
 		<property name="pictures">
 			<list>
 				<value>https://blogs.iadb.org/wp-content/blogs.dir/74/files/2017/04/happiness.png</value>
@@ -1045,7 +1045,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Articulo sin acabar" />
 		<property name="summary" value="Borrador con ideas importantes." />
 		<property name="body" value="No olvidar completar." />
-		<property name="moment" value="12/30/2017 09:13" />
+		<property name="moment" value="12/30/2017" />
 		<property name="isFinalMode" value="false" />
 		<property name="writer" ref="user4" />
 		<property name="newspaper" ref="newspaper4" />

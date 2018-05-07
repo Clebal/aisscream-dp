@@ -145,7 +145,7 @@ public class ArticleService {
 
 			isFinal = true;
 
-			if (article.getIsFinalMode() && article.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
+			if (article.getIsFinalMode()) {
 				articles = this.findByNewspaperId(article.getNewspaper().getId());
 				for (final Article a : articles) {
 					isFinal = true;
@@ -186,7 +186,7 @@ public class ArticleService {
 
 		isFinal = true;
 
-		if (article.getIsFinalMode() && article.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
+		if (article.getIsFinalMode()) {
 			articles = this.findByNewspaperId(article.getNewspaper().getId());
 			for (final Article a : articles) {
 				isFinal = true;
@@ -234,7 +234,7 @@ public class ArticleService {
 
 		isFinal = true;
 
-		if (!articleToDelete.getIsFinalMode() && articleToDelete.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
+		if (!articleToDelete.getIsFinalMode()) {
 			articles = this.findByNewspaperId(articleToDelete.getNewspaper().getId());
 			for (final Article a : articles) {
 				isFinal = true;
@@ -272,7 +272,7 @@ public class ArticleService {
 
 		isFinal = true;
 
-		if (!article.getIsFinalMode()  && article.getNewspaper().getPublicationDate().compareTo(new Date()) <=0) {
+		if (!article.getIsFinalMode() ) {
 			articles = this.findByNewspaperId(article.getNewspaper().getId());
 			for (final Article a : articles) {
 				isFinal = true;
@@ -483,7 +483,8 @@ public class ArticleService {
 
 				//Si esta publicado y tiene una suscripción
 				else if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true
-					&& this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()) != null)
+					&& this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()) != null  &&
+							this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()).size() > 0)
 					result = true;
 
 				//Si es un ADMIN
