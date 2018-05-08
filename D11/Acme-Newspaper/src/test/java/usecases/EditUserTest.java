@@ -239,11 +239,10 @@ public class EditUserTest extends AbstractTest {
 				if(u.getUserAccount().getUsername().equals(userToFollowBean)) userToFollow = this.userService.findOne(u.getId());
 			
 			// 4. Seguir o dejar de seguir usuario
+			this.userService.addRemoveFollower(userToFollow.getId());
 			if(action.equals("follow")) {
-				this.userService.addFollower(userToFollow.getId());
 				Assert.isTrue(this.userService.findOne(userToFollow.getId()).getFollowers().contains(userAuthenticated));
 			}else if(action.equals("unfollow")) {
-				this.userService.removeFollower(userToFollow.getId());
 				Assert.isTrue(!this.userService.findOne(userToFollow.getId()).getFollowers().contains(userAuthenticated));
 			}
 			

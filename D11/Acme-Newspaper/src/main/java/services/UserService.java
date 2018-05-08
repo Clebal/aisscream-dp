@@ -120,31 +120,22 @@ public class UserService {
 	}
 
 	// Other business methods
-	public User addFollower(final int userToFollowId) {
+	public User addRemoveFollower(final int userToFollowId) {
 		User user, userToFollow, result;
 		
 		user = this.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
 		
-		userToFollow = this.findOneToDisplay(userToFollowId);
-		Assert.notNull(userToFollow);
-		
-		userToFollow.getFollowers().add(user);
-		result = this.save(user);
-		
-		return result;
-	}
-	
-	public User removeFollower(final int userToFollowId) {
-		User user, userToFollow, result;
-		
-		user = this.findByUserAccountId(LoginService.getPrincipal().getId());
-		Assert.notNull(user);
+		Assert.isTrue(user.getId() != userToFollowId);
 		
 		userToFollow = this.findOneToDisplay(userToFollowId);
 		Assert.notNull(userToFollow);
 		
-		userToFollow.getFollowers().remove(user);
+		if(userToFollow.getFollowers().contains(user))
+			userToFollow.getFollowers().remove(user);
+		else
+			userToFollow.getFollowers().add(user);
+		
 		result = this.save(user);
 		
 		return result;

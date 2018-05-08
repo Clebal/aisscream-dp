@@ -51,19 +51,7 @@ public class UserController extends AbstractController {
 	public ModelAndView follow(@RequestParam int userId) {
 		ModelAndView result;		
 		
-		this.userService.addFollower(userId);
-		
-		result = new ModelAndView("redirect:display.do?userId="+userId);
-		
-		return result;
-	}
-	
-	// Unfollow
-	@RequestMapping(value="/unfollow", method = RequestMethod.GET) 
-	public ModelAndView unfollow(@RequestParam int userId) {
-		ModelAndView result;		
-		
-		this.userService.removeFollower(userId);
+		this.userService.addRemoveFollower(userId);
 		
 		result = new ModelAndView("redirect:display.do?userId="+userId);
 		

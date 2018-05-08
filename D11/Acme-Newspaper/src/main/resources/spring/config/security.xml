@@ -59,7 +59,6 @@
         <security:intercept-url pattern="/actor/user/list.do" access="permitAll" />
         <security:intercept-url pattern="/actor/user/display.do" access="permitAll" />
         <security:intercept-url pattern="/actor/user/follow.do" access="hasRole('USER')" />
-        <security:intercept-url pattern="/actor/user/unfollow.do" access="hasRole('USER')" />
         <security:intercept-url pattern="/actor/user/followers.do" access="permitAll" />
         <security:intercept-url pattern="/actor/user/followeds.do" access="permitAll" />
         

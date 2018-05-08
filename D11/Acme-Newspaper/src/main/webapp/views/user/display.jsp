@@ -23,7 +23,7 @@
 			</jstl:if>
 			<jstl:if test="${isFollowing}">
 				<a class="btn btn-primary"
-					href="actor/user/unfollow.do?userId=${user.getId()}"><spring:message
+					href="actor/user/follow.do?userId=${user.getId()}"><spring:message
 						code="user.unfollow" /></a>
 				<br>
 				<br>
