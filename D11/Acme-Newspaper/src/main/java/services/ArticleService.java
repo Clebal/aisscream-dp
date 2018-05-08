@@ -28,26 +28,29 @@ public class ArticleService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ArticleRepository		articleRepository;
+	private ArticleRepository				articleRepository;
 
 	@Autowired
-	private Validator				validator;
+	private Validator						validator;
 
 	// Supporting Service
 	@Autowired
-	private ConfigurationService	configurationService;
+	private ConfigurationService			configurationService;
 
 	@Autowired
-	private FollowUpService			followUpService;
+	private FollowUpService					followUpService;
 
 	@Autowired
-	private SubscriptionNewspaperService		subscriptionNewspaperService;
+	private SubscriptionNewspaperService	subscriptionNewspaperService;
 
 	@Autowired
-	private CustomerService			customerService;
+	private VolumeService					volumeService;
 
 	@Autowired
-	private UserService			userService;
+	private CustomerService					customerService;
+
+	@Autowired
+	private UserService						userService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -214,7 +217,7 @@ public class ArticleService {
 		Collection<FollowUp> followUps;
 		Collection<Article> articles;
 		boolean isFinal;
-		
+
 		Assert.notNull(article);
 
 		articleToDelete = this.findOne(article.getId());
@@ -224,7 +227,7 @@ public class ArticleService {
 		Assert.isTrue(LoginService.isAuthenticated());
 
 		Assert.isTrue(articleToDelete.getWriter().getUserAccount().getId() == LoginService.getPrincipal().getId());
-		
+
 		Assert.isTrue(!articleToDelete.getIsFinalMode());
 
 		followUps = this.followUpService.findByArticleId(articleToDelete.getId());
@@ -272,7 +275,7 @@ public class ArticleService {
 
 		isFinal = true;
 
-		if (!article.getIsFinalMode() ) {
+		if (!article.getIsFinalMode()) {
 			articles = this.findByNewspaperId(article.getNewspaper().getId());
 			for (final Article a : articles) {
 				isFinal = true;
@@ -298,7 +301,7 @@ public class ArticleService {
 	//Auxiliare methods
 	public Page<Article> findAllUserPaginated(final int userId, final int page, final int size) {
 		Page<Article> result;
-		
+
 		Assert.isTrue(userId != 0);
 
 		result = this.articleRepository.findAllUserPaginated(userId, this.getPageable(page, size));
@@ -306,10 +309,10 @@ public class ArticleService {
 		return result;
 
 	}
-	
+
 	public Page<Article> findAllUserPaginatedByCustomer(final int userId, final int principalId, final int page, final int size) {
 		Page<Article> result;
-		
+
 		Assert.isTrue(userId != 0);
 
 		result = this.articleRepository.findAllUserPaginatedByCustomer(userId, principalId, this.getPageable(page, size));
@@ -320,7 +323,7 @@ public class ArticleService {
 
 	public Page<Article> findAllUserPaginatedByAdmin(final int userId, final int page, final int size) {
 		Page<Article> result;
-		
+
 		Assert.isTrue(userId != 0);
 
 		result = this.articleRepository.findAllUserPaginatedByAdmin(userId, this.getPageable(page, size));
@@ -331,10 +334,10 @@ public class ArticleService {
 
 	public Page<Article> findAllNewspaperPaginated(final int userId, final int newspaperId, final int page, final int size) {
 		Page<Article> result;
-		
+
 		Assert.isTrue(LoginService.isAuthenticated());
 		Assert.isTrue(userId != 0);
-		
+
 		result = this.articleRepository.findAllNewspaperPaginated(userId, newspaperId, this.getPageable(page, size));
 
 		return result;
@@ -510,9 +513,11 @@ public class ArticleService {
 					result = true;
 
 				//Si esta publicado y tiene una suscripción
-				else if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0 && article.getNewspaper().getIsPublished() == true
-					&& this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()) != null  &&
-							this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()).size() > 0)
+				else if (article.getNewspaper().getPublicationDate().compareTo(currentMoment) <= 0
+					&& article.getNewspaper().getIsPublished() == true
+					&& ((this.subscriptionNewspaperService.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()) != null && this.subscriptionNewspaperService
+						.findByCustomerAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()).size() > 0) || this.volumeService.findByCustomerIdAndNewspaperId(
+						this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), article.getNewspaper().getId()).size() > 0))
 					result = true;
 
 				//Si es un AGENT
@@ -532,7 +537,6 @@ public class ArticleService {
 
 		return result;
 	}
-
 	public Double[] avgStandartDerivationArticlesPerWriter() {
 		Double[] result;
 

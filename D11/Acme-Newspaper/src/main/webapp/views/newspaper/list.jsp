@@ -119,7 +119,7 @@
 </security:authorize>
 	
 	<security:authorize access="hasRole('AGENT')">
-		<jstl:if test="${requestURI.equals('newspaper/list.do')}">
+		<jstl:if test="${requestURI.equals('newspaper/list.do')||requestURI.equals('newspaper/listSearch.do')}">
 		<display:column>
 			<a href="advertisement/agent/listLink.do?newspaperId=${row.getId()}"> <spring:message
 					code="newspaper.advertisement.unLink" />
