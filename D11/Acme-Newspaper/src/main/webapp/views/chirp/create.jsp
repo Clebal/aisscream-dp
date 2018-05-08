@@ -12,7 +12,6 @@
 <form:form action="chirp/user/create.do" modelAttribute="chirp">
 
 	<form:hidden path="id" />
-	<form:hidden path="user" />
 		
 	<acme:textbox code="chirp.title" path="title"/>
 

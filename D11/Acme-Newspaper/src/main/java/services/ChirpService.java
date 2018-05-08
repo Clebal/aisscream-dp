@@ -35,6 +35,9 @@ public class ChirpService {
 	@Autowired
 	private ConfigurationService configurationService;
 	
+	@Autowired
+	private UserService			userService;
+	
 	// Constructor
 	public ChirpService() {
 		super();
@@ -180,9 +183,15 @@ public class ChirpService {
 	}
 	
 	public Chirp reconstruct(final Chirp chirp, final BindingResult binding) {
+		User user;
+		
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
 		chirp.setVersion(0);
 		chirp.setHasTaboo(false);
 		chirp.setMoment(new Date(System.currentTimeMillis() - 1));
+		chirp.setUser(user);
 
 		this.validator.validate(chirp, binding);
 
