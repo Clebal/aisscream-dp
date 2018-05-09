@@ -1,0 +1,1 @@
+Hemos incluido los apartados a y b en el mismo documento ya que consideramos que están bastante ligados y al separarlo encontramos mucha información repetida.
