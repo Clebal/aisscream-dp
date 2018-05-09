@@ -53,7 +53,7 @@
 			<form:option value="0" label="----" />		
 			<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 		</form:select>
-		<form:errors path="${path}" cssClass="error" />
+		<form:errors path="${path}" class="text-danger" />
 	</div>
 </jstl:if>
 
@@ -68,7 +68,7 @@
 			<form:option label="${option2}" value="${option2}" />
 			<form:option label="${option3}" value="${option3}" />
 		</form:select>
-		<form:errors path="${path}" cssClass="error" />
+		<form:errors path="${path}" class="text-danger" />
 	</div>
 </jstl:if>
 
