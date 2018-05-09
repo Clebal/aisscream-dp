@@ -35,9 +35,9 @@
 	
 		<acme:textbox code="advertisement.creditCard.number" path="creditCard.number"/>
 		
-		<acme:textbox code="advertisement.creditCard.expiration.month" path="creditCard.expirationMonth"/>
+		<acme:textbox code="advertisement.creditCard.expiration.month" path="creditCard.expirationMonth" placeholder="XX"/>
 		
-		<acme:textbox code="advertisement.creditCard.expiration.year" path="creditCard.expirationYear"/>
+		<acme:textbox code="advertisement.creditCard.expiration.year" path="creditCard.expirationYear" placeholder="XX"/>
 		
 		<acme:textbox code="advertisement.creditCard.cvv.code" path="creditCard.cvvcode"/>
 	</jstl:if>

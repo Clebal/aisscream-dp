@@ -25,9 +25,9 @@
 	
 		<acme:textbox code="subscriptionVolume.creditCard.number" path="creditCard.number"/>
 		 
-		<acme:textbox code="subscriptionVolume.creditCard.expirationMonth" path="creditCard.expirationMonth"/>
+		<acme:textbox code="subscriptionVolume.creditCard.expirationMonth" path="creditCard.expirationMonth" placeholder="XX"/>
 		 
-		<acme:textbox code="subscriptionVolume.creditCard.expirationYear" path="creditCard.expirationYear"/>
+		<acme:textbox code="subscriptionVolume.creditCard.expirationYear" path="creditCard.expirationYear" placeholder="XX"/>
 		 
 		<acme:textbox code="subscriptionVolume.creditCard.cvvcode" path="creditCard.cvvcode"/>	
 	</jstl:if>

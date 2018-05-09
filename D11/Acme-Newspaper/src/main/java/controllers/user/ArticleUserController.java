@@ -13,8 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.ArticleService;
-import services.UserService;
 import services.NewspaperService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Article;
 import domain.Newspaper;
@@ -26,42 +26,43 @@ public class ArticleUserController extends AbstractController {
 
 	// Services
 	@Autowired
-	private ArticleService			articleService;
+	private ArticleService		articleService;
 
 	@Autowired
-	private NewspaperService			newspaperService;
-	
+	private NewspaperService	newspaperService;
+
 	@Autowired
-	private UserService					userService;
-	
+	private UserService			userService;
+
+
 	// Constructor
-	
+
 	public ArticleUserController() {
 		super();
 	}
-	
-	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required=false, defaultValue="1") final int page) {
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(required = false, defaultValue = "1") final int page) {
 		ModelAndView result;
 		Page<Article> articles;
 		User user;
-		
+
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
-		
+
 		articles = this.articleService.findByWritterId(user.getId(), page, 5);
 		Assert.notNull(articles);
-		
+
 		result = new ModelAndView("article/list");
 
 		result.addObject("articles", articles.getContent());
 		result.addObject("pageNumber", articles.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("requestURI", "article/user/list.do");
-		
+
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/listSearch", method = RequestMethod.GET)
 	public ModelAndView listSearch(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam(required = false, defaultValue = "") final String keyword) {
 		ModelAndView result;
@@ -70,7 +71,7 @@ public class ArticleUserController extends AbstractController {
 
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
-		
+
 		articles = this.articleService.findPublishedSearch(user.getId(), keyword, page, 5);
 		Assert.notNull(articles);
 
@@ -80,12 +81,12 @@ public class ArticleUserController extends AbstractController {
 		result.addObject("articles", articles.getContent());
 
 		result.addObject("requestURI", "article/user/listSearch.do");
-			
+
 		result.addObject("keyword", keyword);
 
 		return result;
 	}
-	
+
 	// Create
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int newspaperId) {
@@ -99,15 +100,15 @@ public class ArticleUserController extends AbstractController {
 
 		newspaper = this.newspaperService.findOne(newspaperId);
 		Assert.notNull(newspaper);
-		
+
 		article = this.articleService.create(writer, newspaper);
 		Assert.notNull(article);
-		
+
 		result = this.createEditModelAndView(article);
 
 		return result;
 	}
-	
+
 	// Request -------------------------------------------------------------------------------------------
 
 	// Edit
@@ -119,28 +120,28 @@ public class ArticleUserController extends AbstractController {
 
 		article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
-		
+
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
-		
-		Assert.isTrue(article.getWriter() == user);
+
+		Assert.isTrue(article.getWriter().equals(user));
 		Assert.isTrue(article.getIsFinalMode() == false);
 
 		result = this.createEditModelAndView(article);
 
 		return result;
 	}
-	
+
 	// Save
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(Article article, final BindingResult binding) {
 		ModelAndView result;
 
 		article = this.articleService.reconstruct(article, binding);
-		
-		if (binding.hasErrors()){
+
+		if (binding.hasErrors())
 			result = this.createEditModelAndView(article);
-		}else
+		else
 			try {
 				this.articleService.save(article);
 				result = new ModelAndView("redirect:list.do");
@@ -150,19 +151,19 @@ public class ArticleUserController extends AbstractController {
 
 		return result;
 	}
-	
+
 	// Delete
-	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Article article, final BindingResult binding) {
 		ModelAndView result;
-		
+
 		try {
 			this.articleService.delete(article);
 			result = new ModelAndView("redirect:list.do");
-		} catch(final Throwable oops) {
+		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(article, "article.commit.error");
 		}
-				
+
 		return result;
 	}
 
@@ -176,16 +177,16 @@ public class ArticleUserController extends AbstractController {
 	}
 
 	protected ModelAndView createEditModelAndView(final Article article, final String messageCode) {
-		ModelAndView result;		
+		ModelAndView result;
 
 		if (article.getId() > 0)
 			result = new ModelAndView("article/edit");
 		else
 			result = new ModelAndView("article/create");
-		
+
 		result.addObject("article", article);
 		result.addObject("message", messageCode);
 		return result;
 	}
-	
+
 }

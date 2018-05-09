@@ -30,6 +30,12 @@ public class SubscriptionNewspaperService {
 	@Autowired
 	private SubscriptionNewspaperRepository	subscriptionNewspaperRepository;
 
+	@Autowired
+	private VolumeService					volumeService;
+
+	@Autowired
+	private CustomerService					customerService;
+
 	// Supporting service
 	@Autowired
 	private Validator						validator;
@@ -105,6 +111,7 @@ public class SubscriptionNewspaperService {
 		if (subscriptionNewspaper.getId() == 0) {
 			Assert.isTrue(subscriptionNewspaperNoExists);
 			Assert.isTrue(subscriptionNewspaper.getNewspaper().getIsPrivate());
+			Assert.isTrue(this.volumeService.findByCustomerIdAndNewspaperId(this.customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId(), subscriptionNewspaper.getNewspaper().getId()).size() == 0);
 		}
 
 		calendar = Calendar.getInstance();
