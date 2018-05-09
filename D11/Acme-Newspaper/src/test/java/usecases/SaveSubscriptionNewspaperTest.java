@@ -55,11 +55,11 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 		{
 				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "customer1", "newspaper5", null
 			}, {
-				"customer2", "Alejandro", "Visa", "377564788646263", 8, 20, 319, "customer2", "newspaper2",  null
+				"customer2", "Alejandro", "Visa", "377564788646263", 8, 20, 319, "customer2", "newspaper5",  null
 			}, {
 				"customer3", "Paco", "American Express", "345035739479236", 4, 19, 147, "customer3", "newspaper5", null
 			}, {
-				"customer2", "Manuel", "Credit Links", "6011516686715805", 5, 20, 365, "customer2", "newspaper2", null
+				"customer2", "Manuel", "Credit Links", "6011516686715805", 5, 20, 365, "customer2", "newspaper5", null
 			}, {
 				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 21, 258, "customer1", "newspaper5", null
 			}
@@ -94,7 +94,6 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 	 * 13. El código CVV debe estar comprendido entre 100 y 999
 	 * 14. El customer debe ser válido 
 	 * 15. El customer no puede ser nulo
-	 * 16. Un customer solo puede tener un subscription por cada newspaper
 	 * 
 	 * Requisitos:
 	 * 	22. An actor who is authenticated as a customer can:
@@ -104,11 +103,11 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 	public void negativeSaveCustomersSubscriptionTest() {
 		final Object testingData[][] = {
 			{
-				null, "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper2", IllegalArgumentException.class 
+				null, "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper5", IllegalArgumentException.class 
 			}, 	{
-				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper2", IllegalArgumentException.class 
+				"user1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper5", IllegalArgumentException.class 
 			}, {
-				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper2",  IllegalArgumentException.class
+				"user2", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper5",  IllegalArgumentException.class
 			}, {
 				"customer1", "", "MasterCard", "5471664286416252", 9, 19, 258, "customer1", "newspaper5", ConstraintViolationException.class 
 			}, {
@@ -116,30 +115,29 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 			}, {
 				"customer3", "Estefania", "", "4929254799279560", 2, 21, 258, "customer3", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer2", "Estefania", null, "5429007233826913", 2, 21, 258, "customer2", "newspaper2", ConstraintViolationException.class 
+				"customer2", "Estefania", null, "5429007233826913", 2, 21, 258, "customer2", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer2", "Manuel", "Credit Links", "1005", 5, 19, 365, "customer2", "newspaper2", ConstraintViolationException.class 
+				"customer2", "Manuel", "Credit Links", "1005", 5, 19, 365, "customer2", "newspaper5", ConstraintViolationException.class 
 			}, {
-				"customer2", "Manuel", "Credit Links", "5450634754850139", 0, 19, 365, "customer2", "newspaper2", ConstraintViolationException.class
+				"customer2", "Manuel", "Credit Links", "5450634754850139", 0, 19, 365, "customer2", "newspaper5", ConstraintViolationException.class
 			}, {
 				"customer3", "Manuel", "Credit Links", "5429007233826913", 13, 19, 365, "customer3", "newspaper5", ConstraintViolationException.class 
 			}, {
 				"customer3", "Paco", "American Express", "345035739479236", 4, 17, 147, "customer3", "newspaper5", IllegalArgumentException.class 
 			}, {
-				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 20, 50, "customer2", "newspaper2",  ConstraintViolationException.class 
+				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 20, 50, "customer2", "newspaper5",  ConstraintViolationException.class 
 			}, {
-				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 21, 5000, "customer2", "newspaper2", ConstraintViolationException.class 
+				"customer2", "Alejandro", "Visa", "4929231012264199", 8, 21, 5000, "customer2", "newspaper5", ConstraintViolationException.class 
 			}, {
 				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, "user1", "newspaper5", IllegalArgumentException.class 
 			}, {
-				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, null, "newspaper2", IllegalArgumentException.class 
-			}, {
-				"customer1", "Estefania", "MasterCard", "5429007233826913", 2, 21, 258, "customer1", "newspaper2", IllegalArgumentException.class
+				"customer1", "Antonio", "MasterCard", "5471664286416252", 9, 19, 258, null, "newspaper5", IllegalArgumentException.class 
 			}
 		};
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
+				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7],  (String) testingData[i][8], (Class<?>) testingData[i][9]);
 			} catch (final Throwable oops) {
@@ -207,6 +205,8 @@ public class SaveSubscriptionNewspaperTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
+		System.out.println("Expected: " + expected);
+		System.out.println("Caught: " + caught);
 
 		super.checkExceptions(expected, caught);
 	}
