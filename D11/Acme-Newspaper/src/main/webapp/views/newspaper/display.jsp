@@ -71,7 +71,7 @@
 						<jstl:if test="${row.getSummary().length()>=10 }">
 						<p>
 							<span class="display"><spring:message code="newspaper.article.summary"/></span>
-							<span id="shortText" onclick="showHideText(${num});"><jstl:out value="${row.getSummary().substring(0, 10)}"/><span id="puntosuspensivos${num}">...</span><span id="fullText${num }" style="display: none">${row.getSummary().substring(10)}</span></span>
+							<span id="shortText" onclick="showHideText(${num});"><jstl:out value="${row.getSummary().substring(0, 10)}"/><span id="puntosuspensivos${num}">...</span><span id="fullText${num}" style="display: none"><jstl:out value="${row.getSummary().substring(10)}"/></span></span>
 						</p>
 						<script>
 						function showHideText (num) {

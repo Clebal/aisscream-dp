@@ -18,9 +18,9 @@
 	
 	<jstl:forEach var="row" items="${chirps}">
 		<div class="bg-primary" style="padding:15px;">
-			<h3 style="margin-top: 0px;">${row.getTitle()}</h3>
-			<p>${row.getDescription()}</p>
-			<small><a style="color: white" href="actor/user/display.do?userId=${row.getUser().getId()}">${row.getUser().getName()} ${row.getUser().getSurname()}</a></small>
+			<h3 style="margin-top: 0px;"><jstl:out value="${row.getTitle()}"/></h3>
+			<p><jstl:out value="${row.getDescription()}"/></p>
+			<small><a style="color: white" href="actor/user/display.do?userId=${row.getUser().getId()}"><jstl:out value="${row.getUser().getName()}"/> <jstl:out value="${row.getUser().getSurname()}"/></a></small>
 		</div>
 		<br>
 	</jstl:forEach>
