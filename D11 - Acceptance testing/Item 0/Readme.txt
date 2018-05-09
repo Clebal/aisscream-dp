@@ -1,1 +1,2 @@
 Hemos vuelto a realizar los test de rendimiento desde cero, incluidos los del entregable anterior para mejorar sus conclusiones.
+Incluimos de nuevo el A+ del HTTPS, ya que nosotros usamos HTTPS en el servidor en vez de en cada proyecto, para que nos aporte mayor utilidad.
