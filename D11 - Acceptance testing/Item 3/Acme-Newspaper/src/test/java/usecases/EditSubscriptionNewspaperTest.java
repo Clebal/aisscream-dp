@@ -50,7 +50,7 @@ public class EditSubscriptionNewspaperTest extends AbstractTest {
 		1. Subscribe to a private newspaper by providing a valid credit card.
 	 * 
 	 */
-	//@Test
+	@Test
 	public void positiveEditSubscriptionTest() {
 		final Object testingData[][] = {
 			{	
