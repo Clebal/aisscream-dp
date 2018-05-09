@@ -115,10 +115,15 @@ public class ArticleUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int articleId) {
 		ModelAndView result;
 		Article article;
+		User user;
 
 		article = this.articleService.findOne(articleId);
 		Assert.notNull(article);
 		
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		Assert.isTrue(article.getWriter() == user);
 		Assert.isTrue(article.getIsFinalMode() == false);
 
 		result = this.createEditModelAndView(article);
