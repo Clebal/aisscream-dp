@@ -40,7 +40,7 @@ public class SaveFolderTest extends AbstractTest {
 	 * 		2. Un actor autenticado como USER crea una carpeta hija de la carpeta IN BOX
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		13.2 An actor who is authenticated must be able to manage his or her message folders, except for the system folders.
 	 * 
 	 */
 	@Test
@@ -66,10 +66,14 @@ public class SaveFolderTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
+	 * 		1. Un usuario trata de crear una carpeta con el campo nombre a nulo
+	 * 		2. Un usuario trata de crear una carpeta llamandola igual que otra que ya existe
+	 * 		3. Un usuario trata de crear una carpeta poniendola como hija de un carpeta padre que no es suya
+	 * 		4. Un usuario trata de crear una carpeta poniendola como hija de un carpeta padre que no es suya
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		13.2 An actor who is authenticated must be able to manage his or her message folders, except for the system folders.
+	 * 
 	 */
 	@Test
 	public void driverNegativeTest() {		

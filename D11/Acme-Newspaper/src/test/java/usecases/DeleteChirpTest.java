@@ -64,7 +64,8 @@ public class DeleteChirpTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
+	 * 		1. Un usuario trata de borrar un chirp
+	 * 		2. Un cliente trata de borrar un chirp
 	 * 
 	 * Requisitos:
 	 * 		17. An actor who is authenticated as an administrator must be able to: 

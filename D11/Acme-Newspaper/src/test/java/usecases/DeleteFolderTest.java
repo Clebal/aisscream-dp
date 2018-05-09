@@ -40,7 +40,7 @@ public class DeleteFolderTest extends AbstractTest {
 	 * 		2. Un customer borra una carpeta sin hijos
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		13.2 An actor who is authenticated must be able to manage his or her message folders, except for the system folders.
 	 * 
 	 */
 	@Test
@@ -71,7 +71,8 @@ public class DeleteFolderTest extends AbstractTest {
 	 * 		3. Un customer trata de eliminar una carpeta que no es suya intentando suplantar la identidad
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		13.2 An actor who is authenticated must be able to manage his or her message folders, except for the system folders.
+	 *
 	 */
 	@Test
 	public void driverNegativeTest() {		

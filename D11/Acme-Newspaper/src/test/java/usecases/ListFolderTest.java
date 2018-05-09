@@ -37,7 +37,7 @@ public class ListFolderTest extends AbstractTest {
 	 * 		2. Un customer entra en una vista donde se llama al método findChildrenFoldersByFolderId
 	 * 
 	 * Requisitos:
-	 * 		
+	 *		13.2 An actor who is authenticated must be able to manage his or her message folders, except for the system folders.
 	 */
 	@Test
 	public void driverTest() {

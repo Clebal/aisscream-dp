@@ -1,7 +1,6 @@
 package usecases;
 
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +41,9 @@ public class MoveMessageTest extends AbstractTest {
 	 *
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		13.1 An actor who is authenticated must be able to exchange messages with 
+	 * 				other actors and manage them, which includes deleting and
+	 *				moving them from one folder to another folder.
 	 * 
 	 */
 	@Test
@@ -72,24 +73,21 @@ public class MoveMessageTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
+	 * 		1. Un usuario trata de mover un mensaje que no es suyo
+	 * 		2. Un usuario trata de mover un mensaje a una carpeta que no es suya
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		13.1 An actor who is authenticated must be able to exchange messages with 
+	 * 				other actors and manage them, which includes deleting and
+	 *				moving them from one folder to another folder.
 	 */
-	//@Test
+	@Test
 	public void driverNegativeTest() {		
 		final Object testingData[][] = {
 				{
-					"user1", "LOWWW", "Test subject", "Test body", "user1", "user2", ConstraintViolationException.class
+					"customer1", "message3", "folder3c1", IllegalArgumentException.class
 				}, {
-					"user1", "LOW", null, "Test body", "user1", "user2", ConstraintViolationException.class
-				}, {
-					"user1", "LOW", "Test subject", null, "user1", "user2", ConstraintViolationException.class
-				}, {
-					"user1", "LOW", "Test subject", "Test body", null, "user2", IllegalArgumentException.class
-				}, {
-					"user1", "LOW", "Test subject", "Test body", "user1", null, IllegalArgumentException.class
+					"user2", "message3", "folder2u1", IllegalArgumentException.class
 				}
 			};
 		

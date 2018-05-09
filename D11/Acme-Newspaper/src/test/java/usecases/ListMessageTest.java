@@ -35,7 +35,11 @@ public class ListMessageTest extends AbstractTest {
 	 * Pruebas:
 	 * 		1. Un actor autenticado como USER entra a una vista que llama al método findByFolderIdPaginated
 	 * 		2. Un actor autenticado como USER entra a una vista que llama al método findByActorUserAccountId
+	 * 
 	 * Requisitos:
+	 * 		13.1 An actor who is authenticated must be able to exchange messages with 
+	 * 				other actors and manage them, which includes deleting and
+	 *				moving them from one folder to another folder
 	 * 
 	 */
 	@Test

@@ -55,7 +55,11 @@ public class SaveMessageTest extends AbstractTest {
 	 *
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		13.1 An actor who is authenticated must be able to exchange messages with 
+	 * 				other actors and manage them, which includes deleting and
+	 *				moving them from one folder to another folder.
+	 *		14.1 An actor who is authenticated as an administrator must be able to broadcast a 
+	 *				message to the actors of the system.
 	 * 
 	 */
 	@Test
@@ -85,10 +89,19 @@ public class SaveMessageTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
+	 * 		1. Un usuario trata de enviar un mensaje con el patrón de priority incorrecto
+	 * 		2. Un usuario trata de enviar un mensaje con el campo subject a nulo
+	 * 		3. Un usuario trata de enviar un mensaje con el campo body a nulo
+	 * 		4. Un usuario trata de enviar un mensaje como si fuera otra usuario
+	 * 		5. Un usuario trata de enviar un mensaje sin receptor
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		13.1 An actor who is authenticated must be able to exchange messages with 
+	 * 				other actors and manage them, which includes deleting and
+	 *				moving them from one folder to another folder.
+	 *		14.1 An actor who is authenticated as an administrator must be able to broadcast a 
+	 *				message to the actors of the system.
+	 *
 	 */
 	@Test
 	public void driverNegativeTest() {		

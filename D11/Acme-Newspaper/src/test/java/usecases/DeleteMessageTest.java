@@ -35,7 +35,9 @@ public class DeleteMessageTest extends AbstractTest {
 	 * 		1. Un actor autenticado como CUSTOMER trata de borrar un mensaje por primera vez y lo manda a la trash box.
 	 * 		2. Un actor autenticado como CUSTOMER borra desde la trashbox un mensaje y se borra definitivamente del sistema.
 	 * Requisitos:
-	 * 		
+	 * 		13.1 An actor who is authenticated must be able to exchange messages with 
+	 * 				other actors and manage them, which includes deleting and
+	 *				moving them from one folder to another folder
 	 * 
 	 */
 	@Test
@@ -64,7 +66,9 @@ public class DeleteMessageTest extends AbstractTest {
 	 * 		1. Un usuario intenta borrar un mensaje que no es suyo.
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		13.1 An actor who is authenticated must be able to exchange messages with 
+	 * 				other actors and manage them, which includes deleting and
+	 *				moving them from one folder to another folder
 	 */
 	@Test
 	public void driverNegativeTest() {

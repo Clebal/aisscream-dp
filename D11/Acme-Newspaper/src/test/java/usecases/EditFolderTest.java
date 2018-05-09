@@ -39,7 +39,7 @@ public class EditFolderTest extends AbstractTest {
 	 * 		1. Un actor autenticado como CUSTOMER editar el nombre de una de sus carpetas
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		13.2 An actor who is authenticated must be able to manage his or her message folders, except for the system folders.
 	 * 
 	 */
 	@Test
@@ -70,10 +70,10 @@ public class EditFolderTest extends AbstractTest {
 	 * 		1. Un customer trata de editar una carpeta quitando el campo name
 	 * 		2. Un customer trata de editar una carpeta que no es suya
 	 * 		3. Un customer trata de editar una carpeta del sistema
-	 * 		5. Un customer trata de editar una carpeta editando el usuario
+	 * 		4. Un customer trata de editar una carpeta editando el usuario
 	 * 
 	 * Requisitos:
-	 * 		
+	 *		13.2 An actor who is authenticated must be able to manage his or her message folders, except for the system folders.
 	 */
 	@Test
 	public void driverNegativeTest() {		
