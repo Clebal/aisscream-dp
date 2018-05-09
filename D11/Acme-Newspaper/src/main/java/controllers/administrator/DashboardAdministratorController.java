@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AdvertisementService;
 import services.ArticleService;
 import services.ChirpService;
 import services.CustomerService;
 import services.FollowUpService;
 import services.NewspaperService;
-import services.UserService;
-import services.AdvertisementService;
 import services.SubscriptionVolumeService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Newspaper;
 
@@ -27,28 +27,29 @@ public class DashboardAdministratorController extends AbstractController {
 
 	//Services
 	@Autowired
-	private UserService			userService;
+	private UserService					userService;
 
 	@Autowired
-	private NewspaperService	newspaperService;
+	private NewspaperService			newspaperService;
 
 	@Autowired
-	private FollowUpService		followUpService;
+	private FollowUpService				followUpService;
 
 	@Autowired
-	private ArticleService		articleService;
+	private ArticleService				articleService;
 
 	@Autowired
-	private ChirpService		chirpService;
+	private ChirpService				chirpService;
 
 	@Autowired
-	private CustomerService		customerService;
-	
+	private CustomerService				customerService;
+
 	@Autowired
 	private AdvertisementService		advertisementService;
-	
+
 	@Autowired
-	private SubscriptionVolumeService		subscriptionVolumeService;
+	private SubscriptionVolumeService	subscriptionVolumeService;
+
 
 	// Constructor
 	public DashboardAdministratorController() {
@@ -76,7 +77,7 @@ public class DashboardAdministratorController extends AbstractController {
 		final Double numberArticlesPerPublicNewspaper;
 		final Map<Newspaper, Double> ratioSuscribersPrivateVsTotalCustomer;
 		final Double averageRatioPrivateVsPublicNewspaperPerPublisher;
-		
+
 		final Double ratioNewspaperHaveAdvertisementVsHavent;
 		final Double ratioAdvertisementHaveTaboo;
 		final Double avgNewspaperPerVolume;
@@ -104,7 +105,7 @@ public class DashboardAdministratorController extends AbstractController {
 
 		pageNumber = (int) Math.floor(((pageNumber / (5 + 0.0)) - 0.1) + 1);
 		averageRatioPrivateVsPublicNewspaperPerPublisher = this.newspaperService.ratioPrivateVersusPublicNewspaperPerPublisher();
-		
+
 		ratioNewspaperHaveAdvertisementVsHavent = this.advertisementService.ratioNewspaperHaveAtLeastOneAdvertisementVSNoAdvertisement();
 		ratioAdvertisementHaveTaboo = this.advertisementService.ratioHaveTabooWords();
 		avgNewspaperPerVolume = this.newspaperService.averageNewspaperPerVolume();
@@ -133,7 +134,7 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("ratioAdvertisementHaveTaboo", ratioAdvertisementHaveTaboo);
 		result.addObject("avgNewspaperPerVolume", avgNewspaperPerVolume);
 		result.addObject("ratioSubscriptionVolumeVsNewspaper", ratioSubscriptionVolumeVsNewspaper);
-		result.addObject("pageNumber", pageNumber / 2);
+		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);
 
 		return result;

@@ -33,10 +33,11 @@ public class CustomerService {
 
 	// Supporting services-----------------------------------------------------------
 	@Autowired
-	private Validator		validator;
-	
+	private Validator			validator;
+
 	@Autowired
-	private FolderService 	folderService;
+	private FolderService		folderService;
+
 
 	// Constructors -----------------------------------------------------------
 	public CustomerService() {
@@ -111,7 +112,7 @@ public class CustomerService {
 		//Guardamos los folders por defecto cuando creamos el actor
 		if (customer.getId() == 0)
 			this.folderService.createDefaultFolders(result);
-		
+
 		return result;
 	}
 
@@ -153,7 +154,7 @@ public class CustomerService {
 		Integer result;
 
 		res = this.customerRepository.ratioSuscribersPerPrivateNewspaperVersusNumberCustomers();
-		result = res.size() * 2;
+		result = res.size();
 
 		return result;
 
