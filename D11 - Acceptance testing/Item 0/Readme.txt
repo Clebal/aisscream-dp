@@ -1,0 +1,1 @@
+En los tests de rendimiento hemos rehecho lo del D10 porque pensamos que no están del todo correctos, ya que no mirábamos todos los parámetros necesarios para poder asegurar que el sistema estaba funcionando eficientemente, como la columna del 90%. Por lo tanto todos y cada uno de ellos han sido rehechos
