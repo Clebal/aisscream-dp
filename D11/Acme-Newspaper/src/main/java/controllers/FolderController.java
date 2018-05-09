@@ -236,6 +236,9 @@ public class FolderController extends AbstractController {
 		Assert.notNull(actor);
 		folders = this.folderService.findByActorId(actor.getId());
 		Assert.notNull(folders);
+		
+		// Borramos la carpeta que vamos a editar
+		folders.remove(folder);
 			
 		if (folder.getId() > 0) {
 			numeroDeMensajes = this.messageService.findByFolderId(folder.getId()).size();

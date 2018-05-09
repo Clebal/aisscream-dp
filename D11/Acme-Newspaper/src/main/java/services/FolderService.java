@@ -145,6 +145,7 @@ public class FolderService {
 		if (folder.getId() != 0) {
 			saved = this.findOne(folder.getId());
 			Assert.isTrue(this.folderRepository.findByActorId(folder.getActor().getId()).contains(folder));
+			if(folder.getFatherFolder() != null) Assert.isTrue(!folder.getFatherFolder().equals(folder));
 			// Si es una carpeta del sistema no puede modificarla
 			if (folder.getSystem()) {
 				Assert.isTrue(saved.getSystem());
