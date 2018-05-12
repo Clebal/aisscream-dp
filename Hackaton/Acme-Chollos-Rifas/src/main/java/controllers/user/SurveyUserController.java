@@ -54,7 +54,7 @@ public class SurveyUserController extends AbstractController {
 	public SurveyUserController() {
 		super();
 	}
-/*
+
 	// List
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required = false) Integer page) {
@@ -85,11 +85,11 @@ public class SurveyUserController extends AbstractController {
 
 		questionAnswer = new LinkedHashMap<Question, Answer>();
 
-		survey = this.surveyService.findOneToDisplay(surveyId);
+		survey = this.surveyService.findOne(surveyId);
 		Assert.notNull(survey);
 
 		for (final Question q : this.questionService.findByBargainId(survey.getBargain().getId()))
-			questionAnswer.put(q, this.answerService.findByRSVPIdAndQuestionId(survey.getId(), q.getId()));
+			questionAnswer.put(q, this.answerService.findByBargainIdAndQuestionId(survey.getId(), q.getId()));
 
 		result = new ModelAndView("survey/display");
 		result.addObject("survey", survey);
@@ -106,7 +106,6 @@ public class SurveyUserController extends AbstractController {
 
 		survey = this.surveyService.findOne(surveyId);
 
-		survey.setStatus("CANCELLED");
 		this.surveyService.save(survey);
 		result = new ModelAndView("redirect:list.do");
 
@@ -121,7 +120,6 @@ public class SurveyUserController extends AbstractController {
 
 		survey = this.surveyService.findOne(surveyId);
 
-		survey.setStatus("ACCEPTED");
 		this.surveyService.save(survey);
 		result = new ModelAndView("redirect:list.do");
 
@@ -137,7 +135,7 @@ public class SurveyUserController extends AbstractController {
 		Collection<Question> questions;
 		LinkedHashMap<Integer, String> questionsMap;
 		LinkedHashMap<Integer, String> answersMap;
-		SurveyForm surveyForm;
+		Survey survey;
 		Survey survey;
 
 		bargain = this.bargainService.findOneToDisplay(bargainId);
@@ -163,18 +161,18 @@ public class SurveyUserController extends AbstractController {
 			questionsMap = new LinkedHashMap<Integer, String>();
 			answersMap = new LinkedHashMap<Integer, String>();
 
-			surveyForm = new SurveyForm();
+			survey = new Survey();
 
 			for (final Question question : questions) {
 				questionsMap.put(question.getId(), question.getText());
 				answersMap.put(question.getId(), "");
 			}
 
-			surveyForm.setQuestions(questionsMap);
-			surveyForm.setAnswers(answersMap);
-			surveyForm.setBargainId(bargainId);
+			survey.setQuestions(questionsMap);
+			survey.setAnswers(answersMap);
+			survey.setBargainId(bargainId);
 
-			result = this.createEditModelAndView2(surveyForm);
+			result = this.createEditModelAndView2(survey);
 
 		}
 
@@ -182,7 +180,7 @@ public class SurveyUserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final SurveyForm surveyForm, final BindingResult binding) {
+	public ModelAndView save(@Valid final Survey survey, final BindingResult binding) {
 		ModelAndView result;
 		final Survey survey;
 		Collection<Answer> answers;
@@ -196,25 +194,25 @@ public class SurveyUserController extends AbstractController {
 		deleteSurvey = false;
 		result = null;
 
-		if (surveyForm.getQuestions() == null)
-			surveyForm.setQuestions(new LinkedHashMap<Integer, String>());
+		if (survey.getQuestions() == null)
+			survey.setQuestions(new LinkedHashMap<Integer, String>());
 
-		if (surveyForm.getAnswers() == null)
-			surveyForm.setAnswers(new LinkedHashMap<Integer, String>());
+		if (survey.getAnswers() == null)
+			survey.setAnswers(new LinkedHashMap<Integer, String>());
 
 		//Reconstruimos las respuestas y creamos el survey
 		try {
-			answers = this.answerService.reconstruct(surveyForm, binding);
+			answers = this.answerService.reconstruct(survey, binding);
 
 		} catch (final Throwable e) {
 			next = false;
-			result = this.createEditModelAndView2(surveyForm, "survey.commit.error", new ArrayList<Answer>());
+			result = this.createEditModelAndView2(survey, "survey.commit.error", new ArrayList<Answer>());
 		}
 
 		//Si todo ha ido bien anteriormente vemos si hay errores y si no guardamos las respuestas
 		if (next)
 			if (binding.hasErrors()) {
-				result = this.createEditModelAndView2(surveyForm, null, answers);
+				result = this.createEditModelAndView2(survey, null, answers);
 				deleteSurvey = true;
 
 			} else
@@ -228,12 +226,12 @@ public class SurveyUserController extends AbstractController {
 				} catch (final Throwable oops) {
 
 					deleteSurvey = true;
-					result = this.createEditModelAndView2(surveyForm, "survey.commit.error", new ArrayList<Answer>());
+					result = this.createEditModelAndView2(survey, "survey.commit.error", new ArrayList<Answer>());
 				}
 
 		if (deleteSurvey) {
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			bargain = this.bargainService.findOne(surveyForm.getBargainId());
+			bargain = this.bargainService.findOne(survey.getBargainId());
 
 			survey = this.surveyService.findByAttendantUserIdAndBargainId(user.getId(), bargain.getId());
 
@@ -244,23 +242,23 @@ public class SurveyUserController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView2(final SurveyForm surveyForm) {
+	protected ModelAndView createEditModelAndView2(final Survey survey) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView2(surveyForm, null, new ArrayList<Answer>());
+		result = this.createEditModelAndView2(survey, null, new ArrayList<Answer>());
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView2(final SurveyForm surveyForm, final String messageCode, final Collection<Answer> answers) {
+	protected ModelAndView createEditModelAndView2(final Survey survey, final String messageCode, final Collection<Answer> answers) {
 		ModelAndView result;
 
 		result = new ModelAndView("survey/edit");
 
-		result.addObject("surveyForm", surveyForm);
+		result.addObject("survey", survey);
 		result.addObject("answers", answers);
 		result.addObject("message", messageCode);
 
 		return result;
-	}*/
+	}
 }

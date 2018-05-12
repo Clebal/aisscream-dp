@@ -24,6 +24,16 @@ public class BargainService {
 	
 	// Simple CRUD methods
 	
+	public Bargain findOne(final int bargainId) {
+		Bargain result;
+
+		Assert.isTrue(bargainId != 0);
+
+		result = this.bargainRepository.findOne(bargainId);
+
+		return result;
+	}
+	
 	// Other business methods
 	public Page<Bargain> findBargainByUserAccountId(final int userAccountId, final int page, final int size) {
 		Page<Bargain> result;

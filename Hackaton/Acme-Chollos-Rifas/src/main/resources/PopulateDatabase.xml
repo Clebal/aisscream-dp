@@ -983,9 +983,32 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain1" />
 	</bean>
 	
+	<!--  Entidades creadas para realizar mis pruebas (eliminar cuando existan entidades) -->
+	
 	<bean id="bargain1" class="domain.Bargain">
 		<property name="company" ref="company1" />
 	</bean>
 	
+	<bean id="userAccountSponsor1" class="security.UserAccount">
+		<property name="username" value="sponsor1" />
+		<property name="password" value="42c63ad66d4dc07ed17753772bef96d6" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="SPONSOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sponsor1" class="domain.Sponsor">
+		<property name="name" value="Mario" />
+		<property name="surname" value="Macías Reyes" />
+		<property name="email" value="moderator2@acme.com" />
+		<property name="phone" value="+34602245841" />
+		<property name="address" value="Calle El Río, 2" />
+		<property name="userAccount" ref="userAccountSponsor1" />
+		<property name="identifier" value="20063918-Y" />
+	</bean>
 	
 </beans>

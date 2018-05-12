@@ -107,9 +107,36 @@
 		<!-- User -->
    		<security:intercept-url pattern="/user/moderator/list.do" access="hasRole('MODERATOR')" />		
    		<security:intercept-url pattern="/user/moderator/ban.do" access="hasRole('MODERATOR')" />		
-		
-		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
-		
+				
+		 <!-- Evaluation -->
+		<security:intercept-url pattern="/evaluation/user/list.do" access="hasRole('USER')" />	
+  		<security:intercept-url pattern="/evaluation/user/create.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/evaluation/user/edit.do" access="hasRole('USER')" />		
+  		<security:intercept-url pattern="/evaluation/list.do" access="permitAll" />	
+  		<security:intercept-url pattern="/evaluation/display.do" access="permitAll" />	
+  		
+  		 <!-- Comment -->
+		<security:intercept-url pattern="/comment/user/list.do" access="hasRole('USER')" />	
+  		<security:intercept-url pattern="/comment/user/create.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/comment/user/edit.do" access="hasRole('USER')" />	  		
+  		<security:intercept-url pattern="/comment/list.do" access="permitAll" />	
+  		<security:intercept-url pattern="/comment/display.do" access="permitAll" />	
+  		
+  		 <!-- Tag -->
+  		<security:intercept-url pattern="/tag/company/create.do" access="hasRole('COMPANY')" />
+  		<security:intercept-url pattern="/tag/company/edit.do" access="hasRole('COMPANY')" />
+  		<security:intercept-url pattern="/tag/company/list.do" access="hasRole('COMPANY')" />
+  		<security:intercept-url pattern="/tag/administrator/edit.do" access="hasRole('ADMIN')" />		
+  		<security:intercept-url pattern="/tag/administrator/list.do" access="hasRole('ADMIN')" />		
+  		<security:intercept-url pattern="/tag/list.do" access="permitAll" />
+  		
+  		<!-- Para pruebas (se cambiará cuando se realice esta parte al completo) -->
+  		<security:intercept-url pattern="/survey/**" access="permitAll" />
+  		<security:intercept-url pattern="/question/**" access="permitAll" />
+  		<security:intercept-url pattern="/answer/**" access="permitAll" />
+  		
+  		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
+  		
 		<security:form-login 
 			login-page="/security/login.do"
 			password-parameter="password" 

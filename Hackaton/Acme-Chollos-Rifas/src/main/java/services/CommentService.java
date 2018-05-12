@@ -33,6 +33,9 @@ public class CommentService {
 	private UserService			userService;
 
 	@Autowired
+	private BargainService		bargainService;
+	
+	@Autowired
 	private Validator			validator;
 
 
@@ -48,7 +51,6 @@ public class CommentService {
 		User user;
 
 		Assert.notNull(bargain);
-		Assert.notNull(repliedComment);
 
 		result = new Comment();
 
@@ -98,6 +100,8 @@ public class CommentService {
 		Comment result;
 		User user;
 		final Authority authority;
+
+		System.out.println("4 PARTE: " + comment.getBargain().getId());
 
 		Assert.notNull(comment);
 		Assert.notNull(comment.getUser());
@@ -236,7 +240,7 @@ public class CommentService {
 		return result;
 	}
 	
-	public Comment reconstruct(final Comment comment, final BindingResult binding) {
+	/*public Comment reconstruct(final Comment comment, final BindingResult binding) {
 		Comment result;
 		Comment aux;
 
@@ -254,6 +258,38 @@ public class CommentService {
 		this.validator.validate(result, binding);
 
 		return result;
+	}*/
+	
+	public Comment reconstruct(final Comment comment, final BindingResult binding) {
+		Comment saved;
+		Bargain bargain;
+		Comment repliedComment;
+		User user;
+
+		if (comment.getId() == 0) {
+			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+			Assert.notNull(user);
+			bargain = this.bargainService.findOne(5169);
+			Assert.notNull(bargain);
+			repliedComment = this.findOne(comment.getRepliedComment().getId());
+			Assert.notNull(repliedComment);
+			comment.setUser(user);
+			comment.setBargain(bargain);
+			comment.setRepliedComment(repliedComment);
+			System.out.println("3 PARTE: " + comment.getBargain().getId());
+
+		} else {
+			saved = this.commentRepository.findOne(comment.getId());
+			Assert.notNull(saved);
+			comment.setVersion(saved.getVersion());
+			comment.setUser(saved.getUser());
+			comment.setBargain(saved.getBargain());
+			comment.setRepliedComment(saved.getRepliedComment());
+		}
+
+		this.validator.validate(comment, binding);
+
+		return comment;
 	}
 
 }

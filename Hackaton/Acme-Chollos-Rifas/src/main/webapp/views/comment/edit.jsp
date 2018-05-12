@@ -10,32 +10,29 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="comment/${actor}/edit.do" modelAttribute="comment">
+<form:form action="comment/user/edit.do" modelAttribute="comment">
 
-	<form:hidden path="id"/>
+	<form:hidden path="id" />
+	<form:hidden path="bargain" />
 	
-	<jstl:if test="${comment.getId()==0}">
-	 	<form:hidden path="bargain"/>
+	<jstl:if test="${comment.getId() == 0}">
 	 	<form:hidden path="repliedComment"/>
  	</jstl:if>
- 	
- 	<jstl:if test="${comment.getId()!=0}">
-		<form:hidden path="bargain"/>
-	</jstl:if>
 
+	<jstl:out value="${comment.getBargain().getId()}"> </jstl:out>
 	<security:authorize access="hasRole('USER')">
 		<acme:textbox code="comment.image" path="image"/>
 		
-		<acme:textbox code="comment.text" path="text"/>
+		<acme:textarea code="comment.text" path="text"/>
 	</security:authorize>
 	
 		<security:authorize access="hasRole('ADMIN')">
 		<acme:textbox code="comment.image" path="image" readonly="readonly" />
 		
-		<acme:textbox code="comment.text" path="text" readonly="readonly" />
+		<acme:textarea code="comment.text" path="text" readonly="readonly" />
 	</security:authorize>
 	
-	<acme:textbox code="comment.moment" path="moment" readonly="readonly" placeholder="dd/MM/yyyy HH:mm"/>
+	<acme:textbox code="comment.moment" path="moment" readonly="readonly"/>
 	
 	<security:authorize access="hasRole('USER')">
 		<security:authentication var="principal" property="principal.username"/>

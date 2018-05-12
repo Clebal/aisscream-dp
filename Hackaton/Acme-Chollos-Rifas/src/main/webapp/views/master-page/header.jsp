@@ -42,10 +42,10 @@
         		<ul class="dropdown-menu">
 					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.admin.dashboard" /></a></li>
 					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>		
-					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.admin.configuration" /></a></li>		
+					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.admin.configuration" /></a></li>
+					<li><a href="tag/administrator/list.do"><spring:message code="master.page.admin.tag" /></a></li>		
 				</ul>
 			</security:authorize>
-	
 			
 			<security:authorize access="hasRole('USER')">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
@@ -53,6 +53,8 @@
 					<li><a href="actor/list.do"><spring:message code="master.page.list.user" /></a></li>
 					<li><a href="raffle/user/list.do"><spring:message code="master.page.user.raffle" /></a></li>
 					<li><a href="creditcard/user/list.do"><spring:message code="master.page.user.creditCard" /></a></li>
+					<li><a href="evaluation/user/list.do"><spring:message code="master.page.user.evaluation" /></a></li>
+					<li><a href="comment/user/list.do"><spring:message code="master.page.user.comment" /></a></li>
 				</ul>
 			</security:authorize>
 			
@@ -62,6 +64,12 @@
 				</ul>
 			</security:authorize>
 			
+			<security:authorize access="hasRole('COMPANY')">
+        		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.company" /> <span class="caret"></span></a>
+        		<ul class="dropdown-menu">
+        		<li><a href="tag/company/list.do"><spring:message code="master.page.company.tag" /></a></li>
+				</ul>
+			</security:authorize>
 			
         </li>
         

@@ -49,10 +49,10 @@ public class SurveyController extends AbstractController{
 		size = 5;
 		if (page == null) page = 1;
 				
-		surveys = this.surveyService.findByRendezvousIdToDisplay(rendezvousId, page, size);
+		surveys = this.surveyService.findByBargainIdToDisplay(rendezvousId, page, size);
 		Assert.notNull(surveys);
 		
-		result = super.paginateModelAndView("survey/list", this.surveyService.countByRendezvousId(rendezvousId), page, size);
+		result = super.paginateModelAndView("survey/list", this.surveyService.countByBargainId(rendezvousId), page, size);
 		result.addObject("requestURI", "survey/list.do");	
 		result.addObject("surveys", surveys);
 		
@@ -71,8 +71,8 @@ public class SurveyController extends AbstractController{
 		survey = this.surveyService.findOneToDisplay(surveyId);
 		Assert.notNull(survey);
 		
-		for(Question q: this.questionService.findByRendezvousId(survey.getRendezvous().getId())) {
-			questionAnswer.put(q, this.answerService.findByRSVPIdAndQuestionId(surveyId, q.getId()));
+		for(Question q: this.questionService.findByBargainId(survey.getBargain().getId())) {
+			questionAnswer.put(q, this.answerService.findByBargainIdAndQuestionId(surveyId, q.getId()));
 		}
 				
 		result = new ModelAndView("survey/display");

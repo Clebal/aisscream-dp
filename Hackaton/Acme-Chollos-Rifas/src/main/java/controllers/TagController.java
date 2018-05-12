@@ -42,7 +42,6 @@ public class TagController extends AbstractController {
 	public ModelAndView list(@RequestParam final int bargainId) {
 		ModelAndView result;
 		Collection<Tag> tags;
-		String requestURI;
 		UserAccount userAccount;
 		Bargain bargain;
 		boolean canEditOrCreate;

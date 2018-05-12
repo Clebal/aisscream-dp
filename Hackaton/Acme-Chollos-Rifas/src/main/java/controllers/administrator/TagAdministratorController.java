@@ -18,7 +18,6 @@ import services.AdministratorService;
 import services.BargainService;
 import services.TagService;
 import controllers.AbstractController;
-import domain.Bargain;
 import domain.Tag;
 
 @Controller
@@ -38,21 +37,6 @@ public class TagAdministratorController extends AbstractController {
 	// Constructor
 	public TagAdministratorController() {
 		super();
-	}
-
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final int bargainId) {
-		ModelAndView result;
-		Tag tag;
-		Bargain bargain;
-
-		bargain = this.bargainService.findOne(bargainId);
-		tag = this.tagService.create(bargain);
-
-		result = this.createEditModelAndView(tag);
-
-		return result;
-
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)

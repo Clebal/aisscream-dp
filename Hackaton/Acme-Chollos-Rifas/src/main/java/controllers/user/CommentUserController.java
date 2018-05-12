@@ -68,7 +68,6 @@ public class CommentUserController extends AbstractController {
 		if (repliedCommentId != null) {
 			repliedComment = this.commentService.findOne(repliedCommentId);
 			Assert.notNull(repliedComment);
-
 		} else
 			repliedComment = null;
 
@@ -85,6 +84,7 @@ public class CommentUserController extends AbstractController {
 	public ModelAndView save(Comment comment, final BindingResult binding) {
 		ModelAndView result;
 
+		System.out.println("EDIT: " + comment.getBargain());
 		comment = this.commentService.reconstruct(comment, binding);
 
 		if (binding.hasErrors())
@@ -125,11 +125,14 @@ public class CommentUserController extends AbstractController {
 		Assert.notNull(user);
 
 		canEdit = false;
+		
+		if (comment.getUser().equals(user))
+			canEdit = true;
 
 		Assert.isTrue(canEdit);
 		result.addObject("canEdit", canEdit);
+		System.out.println("CREATEEDIT: " + comment.getBargain());
 		result.addObject("comment", comment);
-		result.addObject("actor", "user");
 		result.addObject("message", messageCode);
 
 		return result;

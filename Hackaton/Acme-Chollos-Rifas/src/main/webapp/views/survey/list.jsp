@@ -29,15 +29,7 @@
 			</display:column>
 		</jstl:if>
 	</jstl:if>
-	
-	<acme:column property="status" domain="rsvp" />
-	
-	<jstl:if test="${requestURI.equals('rsvp/list.do')}">
-		<acme:column property="user" domain="rsvp" row="${row}" />
-	</jstl:if>
-
-	<acme:column property="rendezvous" domain="rsvp" row="${row}" />
-	
+		
 	<jstl:if test="${!requestURI.equals('rsvp/list.do')}">
 		<acme:columnLink action="display" domain="rsvp" id="${row.getId()}" />
 	</jstl:if>
