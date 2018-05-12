@@ -16,9 +16,9 @@ public class Question extends DomainEntity {
 
 	public String text;
 
-	public Integer number;
+	public int number;
 
-	private Survey survey;
+	public Survey survey;
 
 	@NotBlank
 	public String getText() {

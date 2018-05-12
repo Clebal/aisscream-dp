@@ -46,6 +46,26 @@
 		<bean class="converters.TicketToStringConverter" />
 		<bean class="converters.StringToTicketConverter" />
 		
+		<bean class="converters.QuestionToStringConverter" />
+		<bean class="converters.StringToQuestionConverter" />
+		
+		<bean class="converters.EvaluationToStringConverter" />
+		<bean class="converters.StringToEvaluationConverter" />
+		
+		<bean class="converters.CommentToStringConverter" />
+		<bean class="converters.StringToCommentConverter" />
+		
+		<bean class="converters.TagToStringConverter" />
+		<bean class="converters.StringToTagConverter" />
+		
+		<bean class="converters.QuestionToStringConverter" />
+		<bean class="converters.StringToQuestionConverter" />
+		
+		<bean class="converters.AnswerToStringConverter" />
+		<bean class="converters.StringToAnswerConverter" />
+		
+		<bean class="converters.SurveyToStringConverter" />
+		<bean class="converters.StringToSurveyConverter" />
 	</util:list>
 	
 </beans>

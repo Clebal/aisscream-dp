@@ -4,7 +4,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +18,7 @@ public class Tag extends DomainEntity {
 
 	public String name;
 
-	private Collection<Bargain> bargain;
+	public Collection<Bargain> bargains;
 
 	@NotBlank
 	@Column(unique = true)
@@ -32,13 +32,13 @@ public class Tag extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@ManyToOne(optional = false)
-	public Collection<Bargain> getBargain() {
-		return bargain;
+	@ManyToMany
+	public Collection<Bargain> getBargains() {
+		return bargains;
 	}
 
-	public void setBargain(Collection<Bargain> bargain) {
-		this.bargain = bargain;
+	public void setBargains(Collection<Bargain> bargains) {
+		this.bargains = bargains;
 	}
 
 }

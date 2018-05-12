@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.validation.Validator;
 
@@ -15,8 +16,8 @@ import repositories.TagRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Administrator;
 import domain.Bargain;
+import domain.Company;
 import domain.Tag;
 
 @Service
@@ -31,7 +32,7 @@ public class TagService {
 	//Supporting services -----------------------------------------------------------
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private CompanyService			companyService;
 	
 	@Autowired
 	private Validator				validator;
@@ -44,10 +45,14 @@ public class TagService {
 
 	// Simple CRUD methods -----------------------------------------------------------
 	
-	public Tag create() {
+	public Tag create(final Bargain bargain) {
 		Tag result;
+		Collection<Bargain> bargains;
 
+		bargains = new HashSet<Bargain>();
+		bargains.add(bargain);
 		result = new Tag();
+		result.setBargains(bargains);
 
 		return result;
 	}
@@ -70,17 +75,17 @@ public class TagService {
 	}
 
 	public Tag save(final Tag tag) {
-		Tag result;
+		Tag result, aux;
 		Authority authority;
 		UserAccount userAccount;
-		Administrator administrator;
+		Company company;
 
 		Assert.notNull(tag);
 
 		userAccount = LoginService.getPrincipal();
 
-		administrator = this.administratorService.findByUserAccountId(userAccount.getId());
-		Assert.notNull(administrator);
+		company = this.companyService.findByUserAccountId(userAccount.getId());
+		Assert.notNull(company);
 		
 		// Las compañías pueden crearlas y editarlas
 		
@@ -88,7 +93,14 @@ public class TagService {
 		authority.setAuthority("COMPANY");
 		Assert.isTrue(userAccount.getAuthorities().contains(authority));
 
-		result = this.tagRepository.save(tag);
+		aux = this.findByName(tag.getName());
+		if (aux == null) {
+			aux = tag;
+		} else { 
+			aux.getBargains().addAll(tag.getBargains());
+		}
+		
+		result = this.tagRepository.save(aux);
 
 		return result;
 	}
@@ -120,6 +132,15 @@ public class TagService {
 		return tags;
 	}
 	
+	public Tag findByName(String name) {
+		Tag tag;
+		
+		Assert.notNull(name);
+		
+		tag = this.tagRepository.findByName(name);
+		
+		return tag;
+	}
 
 	public Tag reconstruct(final Tag tag, final BindingResult binding) {
 		Tag result, aux;
@@ -131,7 +152,7 @@ public class TagService {
 			aux = this.tagRepository.findOne(tag.getId());
 			result.setVersion(aux.getVersion());
 			result.setName(aux.getName());
-			result.setBargain(aux.getBargain());
+			result.setBargains(aux.getBargains());
 		}
 
 		this.validator.validate(result, binding);

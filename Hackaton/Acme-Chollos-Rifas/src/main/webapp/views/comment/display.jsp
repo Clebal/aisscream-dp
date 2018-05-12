@@ -1,0 +1,70 @@
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.Date"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<div class="container">
+
+	<spring:message code="comment.alt" var="commentAlt"/>
+	
+	<jstl:if test="${comment.getImage()!=null && comment.getImage()!='' && linkBroken==false}">
+		<acme:image value="${comment.getImage()}" alt="${commentAlt}"/>
+		<br/><br/>
+	</jstl:if>
+	
+	<jstl:if test="${comment.getImage()!=null && comment.getImage()!='' && linkBroken==true}">
+		<acme:image value="images/link_broken.png" alt="${commentAlt}"/>		
+		<br/><br/>
+	</jstl:if>
+		
+	<acme:display code="comment.moment" value="${comment.getMoment()}" codeMoment="comment.format.moment"/>
+	
+	<acme:display code="comment.text" value="${comment.getText()}"/>
+
+	
+	<security:authorize access="hasRole('USER')"> 
+		<jstl:if test="${canComment}">
+			<spring:url var="urlCreateComment" value="comment/user/create.do">
+				<spring:param name="repliedCommentId" value="${comment.getId()}" />
+				<spring:param name="bargainId" value="${comment.getBargain().getId()}" />
+			</spring:url>
+			
+			<p><span  style='margin-right:10px;'><a href="${urlCreateComment}" class='btn btn-primary'><spring:message code="comment.create"/></a></span></p>
+		</jstl:if>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ADMIN')">
+		<acme:displayLink parameter="commentId" code="comment.delete" action="comment/administrator/edit.do" parameterValue="${comment.getId()}" css="btn btn-warning"></acme:displayLink>
+	</security:authorize>
+	
+	<acme:displayLink parameter="bargainId" code="comment.bargain" action="bargain/display.do" parameterValue="${comment.getBargain().getId()}" css="btn btn-primary"></acme:displayLink>		
+	<acme:displayLink parameter="actorId" code="comment.user" action="actor/user/display.do" parameterValue="${comment.getUser().getId()}" css="btn btn-primary"></acme:displayLink>		
+	
+<jstl:if test="${comments.size()>0}">
+	<span class="display"><spring:message code="comment.replied.comment"/></span>
+	
+	<jstl:forEach var="row" items="${comments}">
+		
+		<div class="container-square2">
+				
+			<acme:display code="comment.moment" value="${row.getMoment()}" codeMoment="comment.format.moment"/>
+	
+			<acme:display code="comment.text" value="${row.getText()}"/>
+			
+			<acme:displayLink parameter="commentId" code="comment.more" action="comment/display.do" parameterValue="${row.getId()}" css="btn btn-primary"></acme:displayLink>		
+			
+		</div>
+		
+	</jstl:forEach>
+	
+	<acme:paginate url="comment/display.do" objects="${comments}" parameter="commentId" parameterValue="${comment.getId()}" page="${page}" pageNumber="${pageNumber}"/>
+		
+</jstl:if> 
+</div>

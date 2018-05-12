@@ -37,6 +37,13 @@
 		<value>/views/raffle/tiles.xml</value>
 		<value>/views/ticket/tiles.xml</value>
 		
+        <value>/views/question/tiles.xml</value>	
+		<value>/views/evaluation/tiles.xml</value>
+		<value>/views/comment/tiles.xml</value>
+		<value>/views/tag/tiles.xml</value>
+		<value>/views/survey/tiles.xml</value>
+		<value>/views/answer/tiles.xml</value>
+		
 	</util:list>
 
 </beans>

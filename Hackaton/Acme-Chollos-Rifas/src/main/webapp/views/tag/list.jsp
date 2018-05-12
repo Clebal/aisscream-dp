@@ -22,7 +22,7 @@
 	
 </display:table> 
 
-<acme:paginate pageNumber="${pageNumber}" url="subscription/customer/list.do" objects="${subscriptions}" page="${page}"/>
+<acme:paginate pageNumber="${pageNumber}" url="${requestURI}" objects="${tags}" page="${page}"/>
 
 	<jstl:if test="${canEditOrCreate==true }">
 	<spring:url var="urlCreate" value="tag/company/create.do"></spring:url>

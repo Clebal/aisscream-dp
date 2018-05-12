@@ -13,7 +13,10 @@ import domain.Tag;
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
 
-	@Query("select t from Tag t where ?1 MEMBER OF t.bargain")
+	@Query("select t from Tag t where ?1 MEMBER OF t.bargains")
 	Collection<Tag> findByBargain(final Bargain bargain);
+
+	@Query("select t from Tag t where ?1 = t.name")
+	Tag findByName(final String name);
 
 }

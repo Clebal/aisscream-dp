@@ -15,9 +15,9 @@ public class Answer extends DomainEntity {
 
 	public String text;
 
-	private User user;
+	public User user;
 
-	private Question question;
+	public Question question;
 
 	@NotBlank
 	public String getText() {

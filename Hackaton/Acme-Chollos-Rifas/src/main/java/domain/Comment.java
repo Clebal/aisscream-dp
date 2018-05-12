@@ -23,11 +23,11 @@ public class Comment extends DomainEntity {
 
 	public String image;
 
-	private Bargain bargain;
+	public Bargain bargain;
 
 	public Comment repliedComment;
 
-	private User user;
+	public User user;
 
 	@Past
 	public Date getMoment() {
@@ -68,7 +68,7 @@ public class Comment extends DomainEntity {
 	}
 
 	@Valid
-	@NotNull
+	//@NotNull
 	@ManyToOne(optional = true)
 	public Comment getRepliedComment() {
 		return repliedComment;

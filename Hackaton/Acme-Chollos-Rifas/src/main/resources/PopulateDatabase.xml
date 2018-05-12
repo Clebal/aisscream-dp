@@ -625,4 +625,367 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="maxPoints" value="9999" />
 	</bean>
 	
+	<!-- Answer -->
+	<bean id="answer1" class="domain.Answer">
+		<property name="text" value="No" />
+		<property name="question" ref="question1" />
+		<property name="user" ref="user1" />
+	</bean>
+	
+	<bean id="answer2" class="domain.Answer">
+		<property name="text" value="No" />
+		<property name="question" ref="question2" />
+		<property name="user" ref="user1" />
+	</bean>
+	
+	<bean id="answer3" class="domain.Answer">
+		<property name="text" value="Vegano" />
+		<property name="question" ref="question3" />
+		<property name="user" ref="user2" />
+	</bean>
+	
+	<bean id="answer4" class="domain.Answer">
+		<property name="text" value="Ninguno" />
+		<property name="question" ref="question4" />
+		<property name="user" ref="user3" />
+	</bean>
+	
+	<bean id="answer5" class="domain.Answer">
+		<property name="text" value="No" />
+		<property name="question" ref="question5" />
+		<property name="user" ref="user3" />
+	</bean>
+	
+	<bean id="answer6" class="domain.Answer">
+		<property name="text" value="Vegano" />
+		<property name="question" ref="question3" />
+		<property name="user" ref="user4" />
+	</bean>
+	
+	<bean id="answer7" class="domain.Answer">
+		<property name="text" value="No" />
+		<property name="question" ref="question1" />
+		<property name="user" ref="user5" />
+	</bean>
+	
+	<bean id="answer8" class="domain.Answer">
+		<property name="text" value="No que yo sepa" />
+		<property name="question" ref="question2" />
+		<property name="user" ref="user5" />
+	</bean>
+	
+	<bean id="answer9" class="domain.Answer">
+		<property name="text" value="Sí, a las amapolas." />
+		<property name="question" ref="question1" />
+		<property name="user" ref="user6" />
+	</bean>
+	
+	<bean id="answer10" class="domain.Answer">
+		<property name="text" value="No, ninguna." />
+		<property name="question" ref="question2" />
+		<property name="user" ref="user2" />
+	</bean>
+	 
+	<bean id="answer11" class="domain.Answer">
+		<property name="text" value="Sí, es un buen tipo." />
+		<property name="question" ref="question6" />
+		<property name="user" ref="user1" />
+	</bean>
+	
+	<bean id="answer12" class="domain.Answer">
+		<property name="text" value="Sí, es un buen tipo." />
+		<property name="question" ref="question7" />
+		<property name="user" ref="user2" />
+	</bean>
+	
+	<bean id="answer13" class="domain.Answer">
+		<property name="text" value="Los macarrones." />
+		<property name="question" ref="question8" />
+		<property name="user" ref="user3" />
+	</bean>
+	
+	<bean id="answer14" class="domain.Answer">
+		<property name="text" value="Porque me hace ilusión conocer gente nueva" />
+		<property name="question" ref="question9" />
+		<property name="user" ref="user4" />
+	</bean>
+	
+	<bean id="answer15" class="domain.Answer">
+		<property name="text" value="El cocodrilo" />
+		<property name="question" ref="question10" />
+		<property name="user" ref="user6" />
+	</bean>
+	
+	<bean id="answer16" class="domain.Answer">
+		<property name="text" value="1,80 metros" />
+		<property name="question" ref="question11" />
+		<property name="user" ref="user5" />
+	</bean>
+	
+	<bean id="answer17" class="domain.Answer">
+		<property name="text" value="De Sevilla" />
+		<property name="question" ref="question12" />
+		<property name="user" ref="user6" />
+	</bean>
+	
+	<!-- Question -->
+	<bean id="question1" class="domain.Question">
+		<property name="text" value="¿Tienes alergia a algo?" />
+		<property name="number" value="1" />
+		<property name="survey" ref="survey1" />
+	</bean>
+	
+	<bean id="question2" class="domain.Question">
+		<property name="text" value="¿Sufres alguna enfermedad cardiaca?" />
+		<property name="number" value="2" />
+		<property name="survey" ref="survey1" />
+	</bean>
+	
+	<bean id="question3" class="domain.Question">
+		<property name="text" value="¿Menú especial?" />
+		<property name="number" value="1" />
+		<property name="survey" ref="survey2" />
+	</bean>
+	
+	<bean id="question4" class="domain.Question">
+		<property name="text" value="¿Tienes alguna problema en que te haga el chequeo alguien del sexo opuesto?" />
+		<property name="number" value="1" />
+		<property name="survey" ref="survey3" />
+	</bean>
+	
+	<bean id="question5" class="domain.Question">
+		<property name="text" value="¿En el anterior chequeo se descubrió algun problema?" />
+		<property name="number" value="2" />
+		<property name="survey" ref="survey3" />
+	</bean>
+	
+	<bean id="question6" class="domain.Question">
+		<property name="text" value="¿Te cae bien el coordinador?" />
+		<property name="number" value="1" />
+		<property name="survey" ref="survey4" />
+	</bean>
+	
+	<bean id="question7" class="domain.Question">
+		<property name="text" value="¿Te cae bien el coordinador?" />
+		<property name="number" value="1" />
+		<property name="survey" ref="survey5" />
+	</bean>
+	
+	<bean id="question8" class="domain.Question">
+		<property name="text" value="¿Cuál es tu comida favorita?" />
+		<property name="number" value="2" />
+		<property name="survey" ref="survey5" />
+	</bean>
+	
+	<bean id="question9" class="domain.Question">
+		<property name="text" value="¿Por qué quieres venir con nosotros?" />
+		<property name="number" value="3" />
+		<property name="survey" ref="survey5" />
+	</bean>
+	
+	<bean id="question10" class="domain.Question">
+		<property name="text" value="¿Cuál es tu animal favorito?" />
+		<property name="number" value="4" />
+		<property name="survey" ref="survey5" />
+	</bean>
+	
+	<bean id="question11" class="domain.Question">
+		<property name="text" value="¿Cuánto mides?" />
+		<property name="number" value="5" />
+		<property name="survey" ref="survey5" />
+	</bean>
+	
+	<bean id="question12" class="domain.Question">
+		<property name="text" value="¿De donde eres?" />
+		<property name="number" value="6" />
+		<property name="survey" ref="survey5" />
+	</bean>
+	
+
+		
+    <!-- Survey -->
+    <bean id="survey1" class="domain.Survey">
+		<property name="title" value="¿Qué color os gusta más?" />
+		<property name="hasInteration" value="true" />
+		<property name="numberDays" value="20" />
+		<property name="percentage" value="10" />
+		<property name="moderator" ref="moderator2" />
+		<property name="company" ref="company1" />
+		<property name="sponsor" ref="sponsor1" />
+	</bean>
+	
+	<bean id="survey2" class="domain.Survey">
+		<property name="title" value="¿Pepsi o CocaCola?" />
+		<property name="numberDays" value="5" />
+		<property name="percentage" value="5" />
+		<property name="moderator" ref="moderator2" />
+		<property name="company" ref="company3" />
+		<property name="sponsor" ref="sponsor1" />
+	</bean>
+	
+	<bean id="survey3" class="domain.Survey">
+		<property name="title" value="¿Te gustaría mejoras?" />
+		<property name="hasInteration" value="true" />
+		<property name="percentage" value="15" />
+		<property name="moderator" ref="moderator2" />
+		<property name="company" ref="company3" />
+		<property name="sponsor" ref="sponsor1" />
+	</bean>
+	
+	<bean id="survey4" class="domain.Survey">
+		<property name="title" value="¿Qué producto compras más?" />
+		<property name="hasInteration" value="false" />
+		<property name="numberDays" value="30" />
+		<property name="moderator" ref="moderator2" />
+		<property name="company" ref="company1" />
+		<property name="sponsor" ref="sponsor1" />
+	</bean>
+	
+	<bean id="survey5" class="domain.Survey">
+		<property name="title" value="¿Que color os gusta más?" />
+		<property name="moderator" ref="moderator2" />
+		<property name="company" ref="company2" />
+		<property name="sponsor" ref="sponsor1" />
+	</bean>
+	
+	<!-- Evaluation -->
+	<bean id="evaluation1" class="domain.Evaluation">
+		<property name="content" value="Buen producto" />
+		<property name="puntuation" value="5" />
+		<property name="isAnonymous" value="true" />
+		<property name="company" ref="company1" />
+        <property name="user" ref="user1" />
+	</bean>
+	
+	<bean id="evaluation2" class="domain.Evaluation">
+		<property name="content" value="No me gustó la empresa" />
+		<property name="puntuation" value="1" />
+		<property name="isAnonymous" value="false" />
+		<property name="company" ref="company2" />
+        <property name="user" ref="user2" />
+	</bean>
+	
+	<bean id="evaluation3" class="domain.Evaluation">
+		<property name="content" value="Regu regu" />
+		<property name="puntuation" value="4" />
+		<property name="isAnonymous" value="true" />
+		<property name="company" ref="company3" />
+        <property name="user" ref="user2" />
+	</bean>
+	
+	<bean id="evaluation4" class="domain.Evaluation">
+		<property name="content" value="Ni bien ni mal" />
+		<property name="puntuation" value="3" />
+		<property name="isAnonymous" value="true" />
+		<property name="company" ref="company2" />
+        <property name="user" ref="user3" />
+	</bean>
+	
+		<!-- Tag -->
+	<bean id="tag1" class="domain.Tag">
+		<property name="name" value="electronics" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain1" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="tag2" class="domain.Tag">
+		<property name="name" value="home" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain1" />
+			</list>
+		</property>	
+    </bean>
+
+	<bean id="tag3" class="domain.Tag">
+		<property name="name" value="gardening" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain1" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Comment -->
+	<bean id="comment1" class="domain.Comment">
+		<property name="moment" value="02/01/2018 15:30" />
+		<property name="text" value="Buen producto!" />
+		<property name="user" ref="user3" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment2" class="domain.Comment">
+		<property name="moment" value="02/16/2018 12:43" />
+		<property name="text" value="¿Cuál es la página del chollo loco?" />
+		<property name="user" ref="user3" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment3" class="domain.Comment">
+		<property name="moment" value="02/16/2018 15:21" />
+		<property name="text" value="Es tuchollito.es" />
+		<property name="image" value="https://vignette.wikia.nocookie.net/simpsons/images/c/ca/742_Evergreen_Terrace.png/revision/latest/scale-to-width-down/640?cb=20130421182211" />
+		<property name="user" ref="user1" />
+		<property name="repliedComment" ref="comment2" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment4" class="domain.Comment">
+		<property name="moment" value="02/01/2018 15:30" />
+		<property name="text" value="Ha sido muy divertido" />
+		<property name="user" ref="user1" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment5" class="domain.Comment">
+		<property name="moment" value="02/02/2018 15:30" />
+		<property name="text" value="Ya falta menos" />
+		<property name="user" ref="user1" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment6" class="domain.Comment">
+		<property name="moment" value="02/03/2018 15:30" />
+		<property name="text" value="Gracias por apuntarse" />
+		<property name="user" ref="user1" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment7" class="domain.Comment">
+		<property name="moment" value="02/04/2018 15:30" />
+		<property name="text" value="Bienvenidos a todos" />
+		<property name="user" ref="user1" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment8" class="domain.Comment">
+		<property name="moment" value="02/05/2018 15:30" />
+		<property name="text" value="Que buen día hace hoy" />
+		<property name="user" ref="user1" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment9" class="domain.Comment">
+		<property name="moment" value="02/06/2018 15:30" />
+		<property name="text" value="Qué ganas que llegue el día" />
+		<property name="user" ref="user1" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="comment10" class="domain.Comment">
+		<property name="moment" value="02/16/2018 15:21" />
+		<property name="text" value="Muchas gracias nano!" />
+		<property name="user" ref="user3" />
+		<property name="repliedComment" ref="comment3" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="bargain1" class="domain.Bargain">
+		<property name="company" ref="company1" />
+	</bean>
+	
+	
 </beans>

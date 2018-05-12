@@ -17,15 +17,15 @@ public class Survey extends DomainEntity {
 
 	public Boolean hasInteration;
 
-	public Integer numberDays;
+	public int numberDays;
 
-	public Integer percentage;
+	public int percentage;
 
 	private Moderator moderator;
 
-	private Company company;
+	public Company company;
 
-	private Sponsor sponsor;
+	public Sponsor sponsor;
 
 	@NotBlank
 	public String getTitle() {
@@ -71,6 +71,9 @@ public class Survey extends DomainEntity {
 		this.moderator = moderator;
 	}
 
+	@Valid
+	@NotNull
+	@ManyToOne(optional = true)
 	public Company getCompany() {
 		return company;
 	}
@@ -79,6 +82,9 @@ public class Survey extends DomainEntity {
 		this.company = company;
 	}
 
+	@Valid
+	@NotNull
+	@ManyToOne(optional = true)
 	public Sponsor getSponsor() {
 		return sponsor;
 	}

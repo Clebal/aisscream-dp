@@ -20,15 +20,15 @@ import domain.Bargain;
 import domain.Tag;
 
 @Controller
-@RequestMapping("/tagValue")
+@RequestMapping("/tag")
 public class TagController extends AbstractController {
 
 	// Services
 	@Autowired
-	TagService				tagService;
+	TagService					tagService;
 
 	@Autowired
-	CompanyService	companyService;
+	CompanyService				companyService;
 
 	@Autowired
 	BargainService				bargainService;
@@ -61,13 +61,12 @@ public class TagController extends AbstractController {
 		if (bargain.getCompany().getUserAccount().getId() == userAccountId)
 			canEditOrCreate = true;
 
-		requestURI = "tag/list.do?bargainId=" + bargainId;
 		tags = this.tagService.findByBargain(bargain);
 		Assert.notNull(tags);
 
 		result = new ModelAndView("tag/list");
 		result.addObject("tags", tags);
-		result.addObject("requestURI", requestURI);
+		result.addObject("requestURI", "tag/list.do?bargainId=" + bargainId);
 		result.addObject("bargainId", bargainId);
 		result.addObject("canEditOrCreate", canEditOrCreate);
 

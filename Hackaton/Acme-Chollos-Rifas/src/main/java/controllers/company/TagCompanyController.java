@@ -1,6 +1,9 @@
 
 package controllers.company;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
+import security.UserAccount;
+import services.BargainService;
 import services.CompanyService;
 import services.TagService;
 import controllers.AbstractController;
+import domain.Bargain;
 import domain.Tag;
 
 @Controller
@@ -28,18 +35,22 @@ public class TagCompanyController extends AbstractController {
 	@Autowired
 	CompanyService			companyService;
 
-
+	@Autowired
+	BargainService			bargainService;
+	
 	// Constructor
 	public TagCompanyController() {
 		super();
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int bargainId) {
 		ModelAndView result;
 		Tag tag;
+		Bargain bargain;
 
-		tag = this.tagService.create();
+		bargain = this.bargainService.findOne(bargainId);
+		tag = this.tagService.create(bargain);
 
 		result = this.createEditModelAndView(tag);
 
@@ -112,6 +123,7 @@ public class TagCompanyController extends AbstractController {
 
 		result.addObject("tag", tag);
 		result.addObject("message", messageCode);
+		result.addObject("canEdit", true);
 
 		return result;
 	}
