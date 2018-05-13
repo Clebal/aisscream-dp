@@ -16,15 +16,15 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Evaluation extends DomainEntity {
 
-	public String content;
+	private String content;
 
-	public int puntuation;
+	private Integer puntuation;
 
-	public Boolean isAnonymous;
+	private Boolean isAnonymous;
 
-	public Company company;
+	private Company company;
 
-	public User user;
+	private User user;
 
 	@NotBlank
 	@Length(max=500)

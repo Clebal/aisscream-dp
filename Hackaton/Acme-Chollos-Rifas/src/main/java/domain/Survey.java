@@ -13,19 +13,19 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Survey extends DomainEntity {
 
-	public String title;
+	private String title;
 
-	public Boolean hasInteration;
+	private Boolean hasInteration;
 
-	public int numberDays;
+	private Integer numberDays;
 
-	public int percentage;
+	private Integer percentage;
 
 	private Moderator moderator;
 
-	public Company company;
+	private Company company;
 
-	public Sponsor sponsor;
+	private Sponsor sponsor;
 
 	@NotBlank
 	public String getTitle() {

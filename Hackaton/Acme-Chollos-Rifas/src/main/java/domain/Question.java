@@ -14,11 +14,11 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Question extends DomainEntity {
 
-	public String text;
+	private String text;
 
-	public int number;
+	private Integer number;
 
-	public Survey survey;
+	private Survey survey;
 
 	@NotBlank
 	public String getText() {

@@ -17,17 +17,17 @@ import java.util.Date;
 @Access(AccessType.PROPERTY)
 public class Comment extends DomainEntity {
 
-	public Date moment;
+	private Date moment;
 
-	public String text;
+	private String text;
 
-	public String image;
+	private String image;
 
-	public Bargain bargain;
+	private Bargain bargain;
 
-	public Comment repliedComment;
+	private Comment repliedComment;
 
-	public User user;
+	private User user;
 
 	@Past
 	public Date getMoment() {

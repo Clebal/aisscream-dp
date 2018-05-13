@@ -16,9 +16,9 @@ import java.util.Collection;
 @Access(AccessType.PROPERTY)
 public class Tag extends DomainEntity {
 
-	public String name;
+	private String name;
 
-	public Collection<Bargain> bargains;
+	private Collection<Bargain> bargains;
 
 	@NotBlank
 	@Column(unique = true)
