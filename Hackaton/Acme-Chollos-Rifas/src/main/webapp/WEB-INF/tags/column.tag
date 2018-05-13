@@ -47,11 +47,11 @@
 <jstl:if test="${!property.equals('user')}">
 	<jstl:if test="${formatDate == true}">
 		<spring:message code="${domain}.format.moment" var="format"/>
-		<display:column style="${style}" property="${property}" title="${headerTitle}" format="{0,date,${format}}" sortable="${sortable}"/>
+		<display:column style="${style}" escapeXml="true" property="${property}" title="${headerTitle}" format="{0,date,${format}}" sortable="${sortable}"/>
 	</jstl:if>
 	
 	<jstl:if test="${formatDate == false}">
-		<display:column style="${style}" property="${property}" title="${headerTitle}" sortable="${sortable}" />
+		<display:column style="${style}" escapeXml="true" property="${property}" title="${headerTitle}" sortable="${sortable}" />
 	</jstl:if>
 </jstl:if>
 
