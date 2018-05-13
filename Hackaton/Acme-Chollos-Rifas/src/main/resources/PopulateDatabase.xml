@@ -674,103 +674,103 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<bean id="answer1" class="domain.Answer">
 		<property name="text" value="No" />
 		<property name="question" ref="question1" />
-		<property name="user" ref="user1" />
+		<property name="counter" value="0" />
 	</bean>
 	
 	<bean id="answer2" class="domain.Answer">
 		<property name="text" value="No" />
 		<property name="question" ref="question2" />
-		<property name="user" ref="user1" />
+		<property name="counter" value="2" />
 	</bean>
 	
 	<bean id="answer3" class="domain.Answer">
 		<property name="text" value="Vegano" />
 		<property name="question" ref="question3" />
-		<property name="user" ref="user2" />
+		<property name="counter" value="3" />
 	</bean>
 	
 	<bean id="answer4" class="domain.Answer">
 		<property name="text" value="Ninguno" />
 		<property name="question" ref="question4" />
-		<property name="user" ref="user3" />
+		<property name="counter" value="1" />
 	</bean>
 	
 	<bean id="answer5" class="domain.Answer">
 		<property name="text" value="No" />
 		<property name="question" ref="question5" />
-		<property name="user" ref="user3" />
+		<property name="counter" value="0" />
 	</bean>
 	
 	<bean id="answer6" class="domain.Answer">
 		<property name="text" value="Vegano" />
 		<property name="question" ref="question3" />
-		<property name="user" ref="user4" />
+		<property name="counter" value="5" />
 	</bean>
 	
 	<bean id="answer7" class="domain.Answer">
 		<property name="text" value="No" />
 		<property name="question" ref="question1" />
-		<property name="user" ref="user5" />
+		<property name="counter" value="4" />
 	</bean>
 	
 	<bean id="answer8" class="domain.Answer">
 		<property name="text" value="No que yo sepa" />
 		<property name="question" ref="question2" />
-		<property name="user" ref="user5" />
+		<property name="counter" value="6" />
 	</bean>
 	
 	<bean id="answer9" class="domain.Answer">
 		<property name="text" value="Sí, a las amapolas." />
 		<property name="question" ref="question1" />
-		<property name="user" ref="user6" />
+		<property name="counter" value="3" />
 	</bean>
 	
 	<bean id="answer10" class="domain.Answer">
 		<property name="text" value="No, ninguna." />
 		<property name="question" ref="question2" />
-		<property name="user" ref="user2" />
+		<property name="counter" value="2" />
 	</bean>
 	 
 	<bean id="answer11" class="domain.Answer">
 		<property name="text" value="Sí, es un buen tipo." />
 		<property name="question" ref="question6" />
-		<property name="user" ref="user1" />
+		<property name="counter" value="1" />
 	</bean>
 	
 	<bean id="answer12" class="domain.Answer">
 		<property name="text" value="Sí, es un buen tipo." />
 		<property name="question" ref="question7" />
-		<property name="user" ref="user2" />
+		<property name="counter" value="4" />
 	</bean>
 	
 	<bean id="answer13" class="domain.Answer">
 		<property name="text" value="Los macarrones." />
 		<property name="question" ref="question8" />
-		<property name="user" ref="user3" />
+		<property name="counter" value="0" />
 	</bean>
 	
 	<bean id="answer14" class="domain.Answer">
 		<property name="text" value="Porque me hace ilusión conocer gente nueva" />
 		<property name="question" ref="question9" />
-		<property name="user" ref="user4" />
+		<property name="counter" value="7" />
 	</bean>
 	
 	<bean id="answer15" class="domain.Answer">
 		<property name="text" value="El cocodrilo" />
 		<property name="question" ref="question10" />
-		<property name="user" ref="user6" />
+		<property name="counter" value="4" />
 	</bean>
 	
 	<bean id="answer16" class="domain.Answer">
 		<property name="text" value="1,80 metros" />
 		<property name="question" ref="question11" />
-		<property name="user" ref="user5" />
+		<property name="counter" value="3" />
 	</bean>
 	
 	<bean id="answer17" class="domain.Answer">
 		<property name="text" value="De Sevilla" />
 		<property name="question" ref="question12" />
-		<property name="user" ref="user6" />
+		<property name="counter" value="2" />
 	</bean>
 	
 	<!-- Question -->
