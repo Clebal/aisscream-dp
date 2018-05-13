@@ -12,10 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.AnswerRepository;
-import security.LoginService;
 import domain.Answer;
 import domain.Question;
-import domain.User;
 
 @Service
 @Transactional
@@ -26,9 +24,7 @@ public class AnswerService {
 	private AnswerRepository	answerRepository;
 
 	// Services
-	@Autowired
-	private UserService			userService;
-
+	
 	@Autowired
 	private Validator			validator;
 
@@ -48,7 +44,7 @@ public class AnswerService {
 		result = new Answer();
 
 		result.setQuestion(question);
-		result.setUser(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()));
+		result.setCounter(0);
 
 		return result;
 	}
@@ -73,21 +69,13 @@ public class AnswerService {
 
 	public Answer save(final Answer answer) {
 		Answer result;
-		final Answer saved;
-		final User user;
 
 		Assert.notNull(answer);
-		Assert.notNull(answer.getUser());
 		Assert.notNull(answer.getQuestion());
 
-		// Solo puede realizarla su user
-		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		Assert.notNull(user);
-		Assert.isTrue(answer.getUser().equals(user));
-
 		// Solo hay una respuesta por pregunta y usuario
-		saved = this.answerRepository.findByQuestionIdAndUserAccountId(answer.getQuestion().getSurvey().getId(), user.getUserAccount().getId());
-		Assert.isTrue(saved == null || saved.equals(answer));
+		/*saved = this.answerRepository.findByQuestionIdAndUserAccountId(answer.getQuestion().getSurvey().getId(), user.getUserAccount().getId());
+		Assert.isTrue(saved == null || saved.equals(answer));*/
 
 		result = this.answerRepository.save(answer);
 
@@ -96,14 +84,12 @@ public class AnswerService {
 	}
 
 	public void delete(final Answer answer) {
-		User user;
-
+		
 		Assert.notNull(answer);
 
 		// Lo borra el creador de la pregunta
-		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		Assert.notNull(user);
-		Assert.isTrue(answer.getUser().equals(user));
+		/*user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);*/
 
 		this.answerRepository.delete(answer);
 
@@ -135,17 +121,11 @@ public class AnswerService {
 	
 	public Answer reconstruct(final Answer answer, final BindingResult binding) {
 		Answer saved;
-		User user;
 
-		if (answer.getId() == 0) {
-			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-			Assert.notNull(user);
-			answer.setUser(user);
-		} else {
+		if (answer.getId() != 0) {
 			saved = this.answerRepository.findOne(answer.getId());
 			Assert.notNull(saved);
 			answer.setVersion(saved.getVersion());
-			answer.setUser(saved.getUser());
 			answer.setQuestion(saved.getQuestion());
 		}
 
