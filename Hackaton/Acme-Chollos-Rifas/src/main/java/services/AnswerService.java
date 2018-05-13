@@ -99,20 +99,11 @@ public class AnswerService {
 		this.answerRepository.flush();
 	}
 
-	public Answer findByQuestionIdAndUserAccountId(final int questionId, final int userAccountId) {
-		Answer result;
-
-		Assert.isTrue(questionId != 0 && userAccountId != 0);
-		result = this.answerRepository.findByQuestionIdAndUserAccountId(questionId, userAccountId);
-
-		return result;
-	}
-
-	public Integer countSurveyIdAndUserId(final int surveyId, final int userAccountId) {
+	public Integer countSurveyIdAndUserId(final int surveyId) {
 		Integer result;
 
-		Assert.isTrue(surveyId != 0 && userAccountId != 0);
-		result = this.answerRepository.countSurveyIdAndUserId(surveyId, userAccountId);
+		Assert.isTrue(surveyId != 0);
+		result = this.answerRepository.countSurveyId(surveyId);
 
 		return result;
 	}
