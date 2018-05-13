@@ -26,11 +26,14 @@
 <%@ attribute name="code" required="true" %>
 <%@ attribute name="items" required="false" type="java.util.Collection" %>
 <%@ attribute name="itemLabel" required="false" %>
+<%@ attribute name="object" required="false" type="java.lang.Object"%>
 
 <%@ attribute name="option" required="false" %>
 <%@ attribute name="option2" required="false" %>
 <%@ attribute name="option3" required="false" %>
 <%@ attribute name="option4" required="false" %>
+<%@ attribute name="selectPattern" required="false" type="java.lang.Boolean" %>
+
 
 <%@ attribute name="selected" required="false" %>
 
@@ -55,7 +58,12 @@
 			<spring:message code="${code}" />:
 		</form:label>
 		<form:select id="selectCreditCardId" path="${path}" class="form-control">
-      		<option value="0">----</option>
+      		<jstl:if test="${object.getId()==0 }">
+      			<option value="0">----</option>
+      		</jstl:if>
+      		<jstl:if test="${object.getId()!=0 }">
+      			<option value="${object.getCreditCard().getId() }">${object.getCreditCard().getNumber() }</option>
+      		</jstl:if>	
       		<jstl:forEach items="${items}" var="cc">
 				<option value="${cc.getId()}" ${cc.getId() == selected ? 'selected' : ''} >${cc.number}</option>
         	</jstl:forEach>
@@ -65,7 +73,7 @@
 
 </jstl:if>
 
-<jstl:if test="${path != 'creditCard'}">
+<jstl:if test="${path != 'creditCard' && selectPattern == null}">
 	<div class="form-group">
 		<form:label path="${path}">
 			<spring:message code="${code}" />
@@ -78,19 +86,43 @@
 	</div>
 </jstl:if>
 
-<jstl:if test="${option != null || option2 != null || option3 != null || option4 != null}">
-	<div class="form-group">
-		<form:label path="${path}">
-			<spring:message code="${code}" />
-		</form:label>	
-		<form:select id="${id}" path="${path}" onchange="${onchange}" class="form-control">
-			<form:option value="0" label="----" />		
-			<form:option label="${option}" value="${option}" />
-			<form:option label="${option2}" value="${option2}" />
-			<form:option label="${option3}" value="${option3}" />
-			<form:option label="${option4}" value="${option4}" />
-		</form:select>
-		<form:errors path="${path}" cssClass="error" />
-	</div>
-</jstl:if>
+<jstl:if test="${selectPattern == null }">
+	<jstl:if test="${option != null || option2 != null || option3 != null || option4 != null}">
+		<div class="form-group">
+			<form:label path="${path}">
+				<spring:message code="${code}" />
+			</form:label>	
+			<form:select id="${id}" path="${path}" onchange="${onchange}" class="form-control">
+				<form:option value="0" label="----" />		
+				<form:option label="${option}" value="${option}" />
+				<form:option label="${option2}" value="${option2}" />
+				<form:option label="${option3}" value="${option3}" />
+				<form:option label="${option4}" value="${option4}" />
+			</form:select>
+			<form:errors path="${path}" cssClass="error" />
+		</div>
+	</jstl:if>
+</jstl:if>	
+
+<jstl:if test="${selectPattern == true }">
+		<div class="form-group">
+			<form:label path="${path}">
+				<spring:message code="${code}" />
+			</form:label>	
+			<form:select path="${path}" class="form-control">
+				<form:option value="0" label="----" />		
+				<form:option label="${option}" value="${option}" />
+				<jstl:if test="${option2 != null }">
+					<form:option label="${option2}" value="${option2}" />
+				</jstl:if>
+				<jstl:if test="${option3 != null }">
+					<form:option label="${option3}" value="${option3}" />
+				</jstl:if>				
+				<jstl:if test="${option4 != null }">
+					<form:option label="${option4}" value="${option4}" />
+				</jstl:if>			
+				</form:select>
+			<form:errors path="${path}" cssClass="error" />
+		</div>
+</jstl:if>	
 

@@ -46,6 +46,9 @@
 		<value>/views/comment/messages</value>
 		<value>/views/tag/messages</value>
 		
+		<value>/views/plan/messages</value>
+		<value>/views/subscription/messages</value>		
+				
 	</util:list>
 
 </beans>

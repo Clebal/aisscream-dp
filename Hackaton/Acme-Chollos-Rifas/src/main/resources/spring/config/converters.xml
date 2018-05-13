@@ -66,6 +66,12 @@
 		
 		<bean class="converters.SurveyToStringConverter" />
 		<bean class="converters.StringToSurveyConverter" />
+		
+		<bean class="converters.PlanToStringConverter" />
+		<bean class="converters.StringToPlanConverter" />
+		
+		<bean class="converters.SubscriptionToStringConverter" />
+		<bean class="converters.StringToSubscriptionConverter" />
 	</util:list>
 	
 </beans>

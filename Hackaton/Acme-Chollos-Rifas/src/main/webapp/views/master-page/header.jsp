@@ -33,6 +33,8 @@
       	<li><a href="welcome/index.do"><spring:message code="master.page.home" /></a></li>
       	
       	<security:authorize access="isAnonymous()">
+      		<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
+  
       	</security:authorize>
                
         <li class="dropdown">
@@ -43,7 +45,8 @@
 					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.admin.dashboard" /></a></li>
 					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>		
 					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.admin.configuration" /></a></li>
-					<li><a href="tag/administrator/list.do"><spring:message code="master.page.admin.tag" /></a></li>		
+					<li><a href="tag/administrator/list.do"><spring:message code="master.page.admin.tag" /></a></li>
+					<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>							
 				</ul>
 			</security:authorize>
 			
@@ -55,12 +58,15 @@
 					<li><a href="creditcard/user/list.do"><spring:message code="master.page.user.creditCard" /></a></li>
 					<li><a href="evaluation/user/list.do"><spring:message code="master.page.user.evaluation" /></a></li>
 					<li><a href="comment/user/list.do"><spring:message code="master.page.user.comment" /></a></li>
+					<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
+					<li><a href="subscription/user/display.do"><spring:message code="master.page.user.mySubscription" /></a></li>																													
 				</ul>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('MANAGER')">
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.manager" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
+        		<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>												
 				</ul>
 			</security:authorize>
 			
@@ -68,6 +74,7 @@
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.company" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
         		<li><a href="tag/company/list.do"><spring:message code="master.page.company.tag" /></a></li>
+        		<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>												       	
 				</ul>
 			</security:authorize>
 			

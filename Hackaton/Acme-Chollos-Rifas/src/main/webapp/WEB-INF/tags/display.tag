@@ -26,6 +26,7 @@
 <%@ attribute name="code" required="true" %> 
 <%@ attribute name="value" required="true" type="java.lang.Object" %>
 <%@ attribute name="codeMoment" required="false" %>
+<%@ attribute name="domain" required="false" %>
 <%@ attribute name="formatNumber" required="false" type="java.lang.Boolean" %>  
 
 
@@ -54,7 +55,12 @@
 	<span class="display">
 		<spring:message code="${code}" />:
 	</span> 
-<fmt:formatNumber value="${value}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+	<jstl:if test="${domain == null}">
+		<fmt:formatNumber value="${value}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+	</jstl:if>
+	<jstl:if test="${domain != null}">
+		<spring:message code="${domain}.var1" /><fmt:formatNumber value="${value}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/><spring:message code="${domain}.var2"/>
+	</jstl:if>
 </p>
 </jstl:if>
 

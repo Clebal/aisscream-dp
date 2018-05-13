@@ -354,6 +354,51 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="banner" value="https://tinyurl.com/yabcto3u" />
 	</bean>
 	
+	<!-- Plan -->
+	<bean id="plan1" class="domain.Plan">
+		<property name="name" value="Basic Premium" />
+		<property name="description" value="Plan básico que ofrece mayores privilegios, ventajas y descuentos" />
+		<property name="cost" value="5.0" />
+	</bean>
+	
+	<bean id="plan2" class="domain.Plan">
+		<property name="name" value="Gold Premium" />
+		<property name="description" value="Plan oro que ofrece las ventajas del plan básico y mucho más" />
+		<property name="cost" value="10.0" />
+	</bean>
+	<!--  -->
+	
+	<!-- Subscription -->
+	<bean id="subscription1" class="domain.Subscription">
+		<property name="payFrecuency" value="Monthly" />
+		<property name="plan" ref="plan1" />
+		<property name="creditCard" ref="creditCard1" />
+		<property name="user" ref="user1" />
+	</bean>
+	
+	<bean id="subscription2" class="domain.Subscription">
+		<property name="payFrecuency" value="Anually" />
+		<property name="plan" ref="plan2" />
+		<property name="creditCard" ref="creditCard2" />
+		<property name="user" ref="user2" />
+	</bean>
+	
+	<bean id="subscription3" class="domain.Subscription">
+		<property name="payFrecuency" value="Anually" />
+		<property name="plan" ref="plan2" />
+		<property name="creditCard" ref="creditCard4" />
+		<property name="user" ref="user3" />
+	</bean>
+	
+	<bean id="subscription4" class="domain.Subscription">
+		<property name="payFrecuency" value="Quarterly" />
+		<property name="plan" ref="plan1" />
+		<property name="creditCard" ref="creditCard5" />
+		<property name="user" ref="user4" />
+	</bean>
+	<!--  -->
+	
+	
 	<!-- Moderator -->
 	<bean id="moderator1" class="domain.Moderator">
 		<property name="name" value="Mario" />

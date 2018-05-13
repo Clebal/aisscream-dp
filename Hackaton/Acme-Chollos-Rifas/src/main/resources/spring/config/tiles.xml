@@ -44,6 +44,9 @@
 		<value>/views/survey/tiles.xml</value>
 		<value>/views/answer/tiles.xml</value>
 		
+		<value>/views/plan/tiles.xml</value>
+		<value>/views/subscription/tiles.xml</value>
+		
 	</util:list>
 
 </beans>

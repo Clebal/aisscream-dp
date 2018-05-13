@@ -130,6 +130,18 @@
   		<security:intercept-url pattern="/tag/administrator/list.do" access="hasRole('ADMIN')" />		
   		<security:intercept-url pattern="/tag/list.do" access="permitAll" />
   		
+  		
+  		<!-- Plan -->
+  		<security:intercept-url pattern="/plan/administrator/edit.do" access="hasRole('ADMIN')" />
+  		<security:intercept-url pattern="/plan/display.do" access="permitAll" />
+  		<!--  -->
+  		
+  		<!-- Subscription -->
+  		<security:intercept-url pattern="/subscription/user/display.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/subscription/user/create.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/subscription/user/edit.do" access="hasRole('USER')" />	
+  		<!--  -->
+  		
   		<!-- Para pruebas (se cambiará cuando se realice esta parte al completo) -->
   		<security:intercept-url pattern="/survey/**" access="permitAll" />
   		<security:intercept-url pattern="/question/**" access="permitAll" />
