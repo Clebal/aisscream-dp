@@ -13,7 +13,7 @@
 
 	<form:hidden path="id" />
 	
-	<acme:textbox code="plan.name" path="name"/>
+	<acme:textbox code="plan.name" path="name" readonly="readonly"/>
 	<acme:textarea code="plan.description" path="description" cols="20" rows="20"/> 
 	<acme:textbox code="plan.cost" path="cost"/>
 	<acme:submit name="save" code="plan.save" />
