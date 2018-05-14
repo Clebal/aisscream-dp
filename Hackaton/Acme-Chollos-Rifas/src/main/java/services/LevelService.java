@@ -175,6 +175,11 @@ public class LevelService {
 		Level result;
 
 		result = this.levelRepository.findByPoints(points);
+		if (result == null)
+			if (points > this.maxPoints())
+				result = this.maxLevel();
+			else if (points < this.minPoints())
+				result = this.minLevel();
 
 		return result;
 	}
