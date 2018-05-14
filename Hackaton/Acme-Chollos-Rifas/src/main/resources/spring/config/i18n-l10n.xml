@@ -47,7 +47,9 @@
 		<value>/views/tag/messages</value>
 		
 		<value>/views/plan/messages</value>
-		<value>/views/subscription/messages</value>		
+		<value>/views/subscription/messages</value>
+		<value>/views/level/messages</value>		
+				
 				
 	</util:list>
 
