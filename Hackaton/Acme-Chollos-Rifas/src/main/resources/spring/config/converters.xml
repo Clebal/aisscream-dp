@@ -72,6 +72,10 @@
 		
 		<bean class="converters.SubscriptionToStringConverter" />
 		<bean class="converters.StringToSubscriptionConverter" />
+		
+		<bean class="converters.BargainToStringConverter" />
+		<bean class="converters.StringToBargainConverter" />
+		
 	</util:list>
 	
 </beans>

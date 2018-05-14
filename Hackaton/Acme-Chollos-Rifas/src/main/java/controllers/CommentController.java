@@ -87,7 +87,6 @@ public class CommentController extends AbstractController {
 					openCode = (HttpsURLConnection) linkImage.openConnection();
 				}
 				openCode.setRequestMethod("GET");
-		        openCode.setConnectTimeout(100);
 		        openCode.connect();
 		        contentTypes = openCode.getContentType().split("/");
 		        contentType = contentTypes[0];

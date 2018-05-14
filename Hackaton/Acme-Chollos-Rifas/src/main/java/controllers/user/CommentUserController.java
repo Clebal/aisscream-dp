@@ -84,12 +84,11 @@ public class CommentUserController extends AbstractController {
 	public ModelAndView save(Comment comment, final BindingResult binding) {
 		ModelAndView result;
 
-		System.out.println("EDIT: " + comment.getBargain());
 		comment = this.commentService.reconstruct(comment, binding);
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(comment);
-		else
+		} else
 			try {
 				this.commentService.save(comment);
 
@@ -131,7 +130,6 @@ public class CommentUserController extends AbstractController {
 
 		Assert.isTrue(canEdit);
 		result.addObject("canEdit", canEdit);
-		System.out.println("CREATEEDIT: " + comment.getBargain());
 		result.addObject("comment", comment);
 		result.addObject("message", messageCode);
 

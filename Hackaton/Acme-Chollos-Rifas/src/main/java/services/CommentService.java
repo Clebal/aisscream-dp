@@ -101,8 +101,6 @@ public class CommentService {
 		User user;
 		final Authority authority;
 
-		System.out.println("4 PARTE: " + comment.getBargain().getId());
-
 		Assert.notNull(comment);
 		Assert.notNull(comment.getUser());
 		Assert.notNull(comment.getBargain());
@@ -269,15 +267,13 @@ public class CommentService {
 		if (comment.getId() == 0) {
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 			Assert.notNull(user);
-			bargain = this.bargainService.findOne(5169);
+			bargain = this.bargainService.findOne(comment.getBargain().getId());
 			Assert.notNull(bargain);
 			repliedComment = this.findOne(comment.getRepliedComment().getId());
 			Assert.notNull(repliedComment);
 			comment.setUser(user);
 			comment.setBargain(bargain);
 			comment.setRepliedComment(repliedComment);
-			System.out.println("3 PARTE: " + comment.getBargain().getId());
-
 		} else {
 			saved = this.commentRepository.findOne(comment.getId());
 			Assert.notNull(saved);
