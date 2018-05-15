@@ -1031,8 +1031,26 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain1" />
 	</bean>
 	
-	<!--  Entidades creadas para realizar mis pruebas (eliminar cuando existan entidades) -->
+	<!-- Notification -->
+	<bean id="notification1" class="domain.Notification">
+		<property name="subject" value="¡Enhorabuena, usted ha sido el ganador de la rifa: Jamón del bueno para tu casa: jamón ibérico!" />
+		<property name="actor" ref="user1" />
+		<property name="visited" value="false" />
+	</bean>
 	
+	<bean id="notification2" class="domain.Notification">
+		<property name="subject" value="¡Enhorabuena, usted ha sido el ganador de la rifa: Rifa benéfica y llévate una PS4!" />
+		<property name="actor" ref="user1" />
+		<property name="visited" value="false" />
+	</bean>
+	
+	<bean id="notification3" class="domain.Notification">
+		<property name="subject" value="¡Enhorabuena, usted ha sido el ganador de la rifa: Tarjeta regalo de Amazon!" />
+		<property name="actor" ref="user1" />
+		<property name="visited" value="true" />
+	</bean>
+	
+	<!-- Bargain -->
 	<bean id="bargain1" class="domain.Bargain">
 		<property name="productName" value="PlayStation 4" />
 		<property name="productUrl" value="https://www.game.es/videojuegos/playstation-4" />
@@ -1048,6 +1066,9 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		</property>
 		<property name="company" ref="company1" />
 	</bean>
+	<!--  Entidades creadas para realizar mis pruebas (eliminar cuando existan entidades) -->
+	
+	
 	
 	<bean id="userAccountSponsor1" class="security.UserAccount">
 		<property name="username" value="sponsor1" />
