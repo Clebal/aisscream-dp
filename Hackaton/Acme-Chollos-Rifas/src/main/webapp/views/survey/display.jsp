@@ -11,19 +11,49 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<script src="scripts/Chart.js"></script>
+
 <div>
+            
+    <jstl:forEach items="${questionsAnswerRatio}" var="mapEntry">
+        
+    <h2><jstl:out value="${mapEntry.key}" /></h2>
+        
+    <canvas id="<jstl:out value="${mapEntry.key}" />"></canvas>
+    <spring:message code="survey.avg.answer" var="mediaRespuestas"/>
+                
+    <script>    
+    var ctx = document.getElementById('<jstl:out value="${mapEntry.key}" />');
+    var media = new Chart.Line(ctx, {
+    data: {
+    labels: [<jstl:forEach items="${mapEntry.value}" var="mapValue"><jstl:out value="\'" escapeXml="false"/><jstl:out value="${mapValue.key.text}"/><jstl:out value="\', " escapeXml="false"/></jstl:forEach>],
+    datasets: [{
+                label: '${mediaRespuestas}',
+                fill: true,
+                lineTension: 0.5,
+                backgroundColor: "rgba(75,192,192,0.4)",
+                borderColor: "rgba(75,192,192,1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(75,192,192,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 1,
+                pointRadius: 5,
+                pointHitRadius: 10,
+                data: [<jstl:forEach items="${mapEntry.value}" var="mapValue"><jstl:out value="\'" escapeXml="false"/><jstl:out value="${mapValue.value}" escapeXml="false"/><jstl:out value="\', " escapeXml="false"/></jstl:forEach>],
+                spanGaps: true,
+            }]
+        }
+    });
 
-	<acme:display code="rsvp.status" value="${rsvp.getStatus()}" />
-		
-	<p><span class="display"><spring:message code="rsvp.attendant" /></span>: <a href="actor/display.do?actorId=${rsvp.getAttendant().getId()}"><jstl:out value="${rsvp.getAttendant().getName()} ${rsvp.getAttendant().getSurname()}" /></a></p>
-
-	<p><span class="display"><spring:message code="rsvp.rendezvous" /></span>: <a href="rendezvous/display.do?rendezvousId=${rsvp.getRendezvous().getId()}"><jstl:out value="${rsvp.getRendezvous().getName()}" /></a></p>
-
-	<h2><spring:message code="rsvp.answers" /></h2>
-
-	<c:forEach items="${questionAnswer}" var="entry">
-  		<p style="font-size: 17.5px;"><span class="display"><spring:message code="rsvp.question" /> No <jstl:out value="${entry.key.getNumber()}" /></span>: <jstl:out value="${entry.key.getText()}" /></p>
-  		<p><span class="display"><spring:message code="rsvp.answer" /></span>: <jstl:out value="${entry.value.getText()}" /></p>
-	</c:forEach>
+    </script>
+    
+    </jstl:forEach>
 
 </div>
