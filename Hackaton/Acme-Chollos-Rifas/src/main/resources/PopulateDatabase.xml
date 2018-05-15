@@ -675,105 +675,105 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	
 	<!-- Answer -->
 	<bean id="answer1" class="domain.Answer">
-		<property name="text" value="No" />
+		<property name="text" value="No." />
 		<property name="question" ref="question1" />
-		<property name="counter" value="0" />
+		<property name="counter" value="10" />
 	</bean>
 	
 	<bean id="answer2" class="domain.Answer">
-		<property name="text" value="No" />
+		<property name="text" value="No." />
 		<property name="question" ref="question2" />
-		<property name="counter" value="2" />
+		<property name="counter" value="21" />
 	</bean>
 	
 	<bean id="answer3" class="domain.Answer">
-		<property name="text" value="Vegano" />
+		<property name="text" value="Vegano." />
 		<property name="question" ref="question3" />
-		<property name="counter" value="3" />
+		<property name="counter" value="33" />
 	</bean>
 	
 	<bean id="answer4" class="domain.Answer">
-		<property name="text" value="Ninguno" />
+		<property name="text" value="Ninguno." />
 		<property name="question" ref="question4" />
-		<property name="counter" value="1" />
+		<property name="counter" value="14" />
 	</bean>
 	
 	<bean id="answer5" class="domain.Answer">
-		<property name="text" value="No" />
+		<property name="text" value="No." />
 		<property name="question" ref="question5" />
-		<property name="counter" value="0" />
+		<property name="counter" value="18" />
 	</bean>
 	
 	<bean id="answer6" class="domain.Answer">
-		<property name="text" value="Vegano" />
+		<property name="text" value="Normal." />
 		<property name="question" ref="question3" />
-		<property name="counter" value="5" />
+		<property name="counter" value="16" />
 	</bean>
 	
 	<bean id="answer7" class="domain.Answer">
-		<property name="text" value="No" />
+		<property name="text" value="Sí, pero no recuerdo." />
 		<property name="question" ref="question1" />
-		<property name="counter" value="4" />
+		<property name="counter" value="47" />
 	</bean>
 	
 	<bean id="answer8" class="domain.Answer">
-		<property name="text" value="No que yo sepa" />
+		<property name="text" value="No, que yo sepa." />
 		<property name="question" ref="question2" />
-		<property name="counter" value="6" />
+		<property name="counter" value="33" />
 	</bean>
 	
 	<bean id="answer9" class="domain.Answer">
 		<property name="text" value="Sí, a las amapolas." />
 		<property name="question" ref="question1" />
-		<property name="counter" value="3" />
+		<property name="counter" value="31" />
 	</bean>
 	
 	<bean id="answer10" class="domain.Answer">
 		<property name="text" value="No, ninguna." />
 		<property name="question" ref="question2" />
-		<property name="counter" value="2" />
+		<property name="counter" value="25" />
 	</bean>
 	 
 	<bean id="answer11" class="domain.Answer">
-		<property name="text" value="Sí, es un buen tipo." />
+		<property name="text" value="Sí, por favor." />
 		<property name="question" ref="question6" />
-		<property name="counter" value="1" />
+		<property name="counter" value="56" />
 	</bean>
 	
 	<bean id="answer12" class="domain.Answer">
-		<property name="text" value="Sí, es un buen tipo." />
+		<property name="text" value="Sí, mucho." />
 		<property name="question" ref="question7" />
-		<property name="counter" value="4" />
+		<property name="counter" value="19" />
 	</bean>
 	
 	<bean id="answer13" class="domain.Answer">
 		<property name="text" value="Los macarrones." />
 		<property name="question" ref="question8" />
-		<property name="counter" value="0" />
+		<property name="counter" value="24" />
 	</bean>
 	
 	<bean id="answer14" class="domain.Answer">
-		<property name="text" value="Porque me hace ilusión conocer gente nueva" />
+		<property name="text" value="Porque quiero precios bajos." />
 		<property name="question" ref="question9" />
-		<property name="counter" value="7" />
+		<property name="counter" value="10" />
 	</bean>
 	
 	<bean id="answer15" class="domain.Answer">
-		<property name="text" value="El cocodrilo" />
+		<property name="text" value="El cocodrilo." />
 		<property name="question" ref="question10" />
-		<property name="counter" value="4" />
+		<property name="counter" value="11" />
 	</bean>
 	
 	<bean id="answer16" class="domain.Answer">
-		<property name="text" value="1,80 metros" />
+		<property name="text" value="1,80 metros." />
 		<property name="question" ref="question11" />
-		<property name="counter" value="3" />
+		<property name="counter" value="19" />
 	</bean>
 	
 	<bean id="answer17" class="domain.Answer">
-		<property name="text" value="De Sevilla" />
+		<property name="text" value="De Sevilla." />
 		<property name="question" ref="question12" />
-		<property name="counter" value="2" />
+		<property name="counter" value="25" />
 	</bean>
 	
 	<!-- Question -->
@@ -808,13 +808,13 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 	<bean id="question6" class="domain.Question">
-		<property name="text" value="¿Te cae bien el coordinador?" />
+		<property name="text" value="¿Prefieres que haya menos anuncios?" />
 		<property name="number" value="1" />
 		<property name="survey" ref="survey4" />
 	</bean>
 	
 	<bean id="question7" class="domain.Question">
-		<property name="text" value="¿Te cae bien el coordinador?" />
+		<property name="text" value="¿Te gusta la electrónica?" />
 		<property name="number" value="1" />
 		<property name="survey" ref="survey5" />
 	</bean>
@@ -826,7 +826,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 	<bean id="question9" class="domain.Question">
-		<property name="text" value="¿Por qué quieres venir con nosotros?" />
+		<property name="text" value="¿Por qué quieres comprar con nosotros?" />
 		<property name="number" value="3" />
 		<property name="survey" ref="survey5" />
 	</bean>
@@ -848,12 +848,10 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="number" value="6" />
 		<property name="survey" ref="survey5" />
 	</bean>
-	
-
 		
     <!-- Survey -->
     <bean id="survey1" class="domain.Survey">
-		<property name="title" value="¿Qué color os gusta más?" />
+		<property name="title" value="La encuesta que te puede salvar la vida." />
 		<property name="hasInteration" value="true" />
 		<property name="numberDays" value="20" />
 		<property name="percentage" value="10" />
@@ -863,7 +861,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 	<bean id="survey2" class="domain.Survey">
-		<property name="title" value="¿Pepsi o CocaCola?" />
+		<property name="title" value="¿Cuánto de importante es para ti la comida?" />
 		<property name="numberDays" value="5" />
 		<property name="percentage" value="5" />
 		<property name="moderator" ref="moderator2" />
@@ -872,7 +870,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 	<bean id="survey3" class="domain.Survey">
-		<property name="title" value="¿Te gustaría mejoras?" />
+		<property name="title" value="¿Te sientes cómodo?" />
 		<property name="hasInteration" value="true" />
 		<property name="percentage" value="15" />
 		<property name="moderator" ref="moderator2" />
@@ -881,7 +879,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 	<bean id="survey4" class="domain.Survey">
-		<property name="title" value="¿Qué producto compras más?" />
+		<property name="title" value="Nos preocupamos por ti" />
 		<property name="hasInteration" value="false" />
 		<property name="numberDays" value="30" />
 		<property name="moderator" ref="moderator2" />
@@ -890,7 +888,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 	<bean id="survey5" class="domain.Survey">
-		<property name="title" value="¿Que color os gusta más?" />
+		<property name="title" value="¿Te gustaría mejoras?" />
 		<property name="moderator" ref="moderator2" />
 		<property name="company" ref="company2" />
 		<property name="sponsor" ref="sponsor1" />
@@ -1030,6 +1028,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="repliedComment" ref="comment3" />
 		<property name="bargain" ref="bargain1" />
 	</bean>
+	
 	
 	<!-- Notification -->
 	<bean id="notification1" class="domain.Notification">
