@@ -89,6 +89,7 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /><span style="display: inline-block" class="caret"></span><span style="display: inline-block; margin-left:5px;" class="circle">${notificationNotVisited}</span></a>
 				<ul class="dropdown-menu">
 					<li><a href="raffle/list.do"><spring:message code="master.page.list.raffle" /></a></li>
+					<li><a href="notification/actor/list.do"><spring:message code="master.page.notification" /></a></li>
 					<security:authorize access="hasRole('USER')">
 						<li><a href="actor/user/profile.do"><spring:message code="master.page.profile" /></a></li>
 						<li><a href="actor/user/edit.do"><spring:message code="master.page.profile.edit" /></a></li>
