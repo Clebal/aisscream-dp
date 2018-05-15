@@ -18,7 +18,7 @@
 	<h3><jstl:out value="${notification.getSubject()}" /></h3>
 	
 	<jstl:if test="${notification.getUrl()!=null}">
-		<acme:displayLink code="notification.url" action="${notification.getUrl()}" css="btn btn-primary"></acme:displayLink>
+		<acme:displayLink code="notification.url" newTab="yes" action="${notification.getUrl()}" css="btn btn-primary"></acme:displayLink>
 	</jstl:if>
 	
 </div>

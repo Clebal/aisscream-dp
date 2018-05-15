@@ -17,7 +17,8 @@
 <%@ attribute name="parameter3" required="false" %> 
 <%@ attribute name="parameterValue3" required="false" type="java.lang.Object" %> 
 <%@ attribute name="code" required="true" %>
-<%@ attribute name="css" required="false" %>  
+<%@ attribute name="css" required="false" %>
+<%@ attribute name="newTab" required="false" %>   
 
 <%-- Definition --%>
 
@@ -33,4 +34,10 @@
 	</jstl:if>
 </spring:url>
 
-<p><a href="${urlDisplayLink}" class="${css}"><spring:message code="${code}"/></a></p>
+<jstl:if test="${newTab!=null}">
+	<p><a href="${urlDisplayLink}" target="_blank" class="${css}"><spring:message code="${code}"/></a></p>
+</jstl:if>
+
+<jstl:if test="${newTab==null}">
+	<p><a href="${urlDisplayLink}" class="${css}"><spring:message code="${code}"/></a></p>
+</jstl:if>
