@@ -486,6 +486,174 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	<!--  -->
 	
+	<!-- GroupOn -->
+	<bean id="groupon1" class="domain.Groupon">
+		<property name="title" value="Conjunta1" />
+		<property name="description" value="Televisión a un precio reducido si conseguimos las suficientes personas interesadas" />
+		<property name="productName" value="Televisión" />
+		<property name="productUrl" value="https://tiendas.mediamarkt.es/p/tv-led-28-lg-28mt49s-pz-hd-smart-tv-wifi-1360736" />
+		<property name="minAmountProduct" value="10" />
+		<property name="maxDate" value="09/15/2018 15:00" />
+		<property name="originalPrice" value="210.00" />
+		<property name="price" value="180.00" />
+		<property name="discountCode" value="345180318AAAAA"/>
+		<property name="creator" ref="user1" />		
+	</bean>
+	
+	<bean id="groupon2" class="domain.Groupon">
+		<property name="title" value="Conjunta2" />
+		<property name="description" value="Ordenador a un precio excelente y solo depende de ustedes" />
+		<property name="productName" value="Ordenador" />
+		<property name="productUrl" value="https://tiendas.mediamarkt.es/p/pc-gaming-microstar-p443-pcc452-gtx-1070-1364996" />
+		<property name="minAmountProduct" value="30" />
+		<property name="maxDate" value="10/15/2018 16:00" />
+		<property name="originalPrice" value="800.00" />
+		<property name="price" value="650.00" />
+		<property name="creator" ref="user1" />		
+	</bean>
+	
+	<bean id="groupon3" class="domain.Groupon">
+		<property name="title" value="Conjunta3" />
+		<property name="description" value="Teléfono movil a un gran precio" />
+		<property name="productName" value="SmartPhone" />
+		<property name="productUrl" value="https://tiendas.mediamarkt.es/p/movil-xiaomi-redmi-note-4-5.5-full-hd-3gb-1383690" />
+		<property name="minAmountProduct" value="15" />
+		<property name="maxDate" value="03/20/2018 16:00" />
+		<property name="originalPrice" value="200.00" />
+		<property name="price" value="150.00" />
+		<property name="discountCode" value="331120218AAAAA"/>
+		<property name="creator" ref="user1" />		
+	</bean>
+	
+	<bean id="groupon4" class="domain.Groupon">
+		<property name="title" value="Conjunta4" />
+		<property name="description" value="Videoconsola de Sony rebajada si se consigue el apoyo de todos" />
+		<property name="productName" value="Playstation" />
+		<property name="productUrl" value="https://www.game.es/hardware/consola/playstation-4/playstation-4-pro-1tb-blanca-chassis-b/149705" />
+		<property name="minAmountProduct" value="40" />
+		<property name="maxDate" value="04/20/2018 17:00" />
+		<property name="originalPrice" value="400.00" />
+		<property name="price" value="250.00" />
+		<property name="creator" ref="user1" />		
+	</bean>
+	
+	<bean id="groupon5" class="domain.Groupon">
+		<property name="title" value="Conjunta5" />
+		<property name="description" value="Conjunta para conseguir una radio a un mejor precio" />
+		<property name="productName" value="Radio" />
+		<property name="productUrl" value="https://tiendas.mediamarkt.es/p/radio-cd-daewoo-dbu-50-rosa-puerto-usb-1228477" />
+		<property name="minAmountProduct" value="30" />
+		<property name="maxDate" value="10/20/2018 17:00" />
+		<property name="originalPrice" value="46.00" />
+		<property name="price" value="20.00" />
+		<property name="creator" ref="user1" />		
+	</bean>
+	
+	<bean id="groupon6" class="domain.Groupon">
+		<property name="title" value="Conjunta6" />
+		<property name="description" value="Aspiradora para el hogar a un gran precio, depende de ti" />
+		<property name="productName" value="Aspiradora" />
+		<property name="productUrl" value="https://tiendas.mediamarkt.es/p/aspirador-escoba-cecotec-duo-stick-easy-1383667" />
+		<property name="minAmountProduct" value="30" />
+		<property name="maxDate" value="10/21/2018 17:00" />
+		<property name="originalPrice" value="29.00" />
+		<property name="price" value="10.00" />
+		<property name="creator" ref="user1" />		
+	</bean>
+	
+	<bean id="groupon7" class="domain.Groupon">
+		<property name="title" value="Conjunta7" />
+		<property name="description" value="Vuelve a lo clásico con este MP4 rebajado si se consigue un buen apoyo" />
+		<property name="productName" value="MP4" />
+		<property name="productUrl" value="https://tiendas.mediamarkt.es/p/reproductor-mp4-sony-walkman-nwze394r-1312621" />
+		<property name="minAmountProduct" value="35" />
+		<property name="maxDate" value="11/21/2018 17:00" />
+		<property name="originalPrice" value="79.00" />
+		<property name="price" value="59.00" />
+		<property name="creator" ref="user2" />		
+	</bean>
+	
+	<!--  -->
+	
+	<!-- Participation -->
+	<bean id="participation1" class="domain.Participation">
+		<property name="amountProduct" value="3" />
+		<property name="user" ref="user2" />
+		<property name="groupon" ref="groupon1" />						
+	</bean>
+	
+	<bean id="participation2" class="domain.Participation">
+		<property name="amountProduct" value="2" />
+		<property name="user" ref="user3" />
+		<property name="groupon" ref="groupon1" />						
+	</bean>
+	
+	<bean id="participation3" class="domain.Participation">
+		<property name="amountProduct" value="4" />
+		<property name="user" ref="user4" />
+		<property name="groupon" ref="groupon1" />						
+	</bean>
+	
+	<bean id="participation4" class="domain.Participation">
+		<property name="amountProduct" value="3" />
+		<property name="user" ref="user5" />
+		<property name="groupon" ref="groupon1" />						
+	</bean>
+	
+	<bean id="participation5" class="domain.Participation">
+		<property name="amountProduct" value="1" />
+		<property name="user" ref="user6" />
+		<property name="groupon" ref="groupon1" />						
+	</bean>
+	
+	<bean id="participation6" class="domain.Participation">
+		<property name="amountProduct" value="7" />
+		<property name="user" ref="user2" />
+		<property name="groupon" ref="groupon3" />						
+	</bean>
+	
+	<bean id="participation7" class="domain.Participation">
+		<property name="amountProduct" value="7" />
+		<property name="user" ref="user3" />
+		<property name="groupon" ref="groupon3" />						
+	</bean>
+	
+	<bean id="participation8" class="domain.Participation">
+		<property name="amountProduct" value="4" />
+		<property name="user" ref="user4" />
+		<property name="groupon" ref="groupon3" />						
+	</bean>
+	
+	<bean id="participation9" class="domain.Participation">
+		<property name="amountProduct" value="4" />
+		<property name="user" ref="user2" />
+		<property name="groupon" ref="groupon4" />						
+	</bean>
+	
+	<bean id="participation10" class="domain.Participation">
+		<property name="amountProduct" value="4" />
+		<property name="user" ref="user4" />
+		<property name="groupon" ref="groupon4" />						
+	</bean>
+	
+	<bean id="participation11" class="domain.Participation">
+		<property name="amountProduct" value="2" />
+		<property name="user" ref="user2" />
+		<property name="groupon" ref="groupon2" />						
+	</bean>
+	
+	<bean id="participation12" class="domain.Participation">
+		<property name="amountProduct" value="2" />
+		<property name="user" ref="user2" />
+		<property name="groupon" ref="groupon5" />						
+	</bean>
+	
+	<bean id="participation13" class="domain.Participation">
+		<property name="amountProduct" value="2" />
+		<property name="user" ref="user2" />
+		<property name="groupon" ref="groupon6" />						
+	</bean>
+	<!--  -->
 	
 	<!-- Moderator -->
 	<bean id="moderator1" class="domain.Moderator">
