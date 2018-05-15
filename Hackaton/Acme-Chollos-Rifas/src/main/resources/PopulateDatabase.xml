@@ -352,6 +352,9 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="slogan" value="Buy different" />
 		<property name="email" value="aisscreamacas@gmail.com" />
 		<property name="banner" value="https://tinyurl.com/yabcto3u" />
+		<property name="sellComission" value="20" />
+		<property name="defaultImage" value="http://localhost:8080/Acme-Chollos-Rifas/images/avatar.jpg" />
+		<property name="defaultAvatar" value="http://localhost:8080/Acme-Chollos-Rifas/images/link_broken.png" />
 	</bean>
 	
 	<!-- Plan -->
@@ -1031,6 +1034,18 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<!--  Entidades creadas para realizar mis pruebas (eliminar cuando existan entidades) -->
 	
 	<bean id="bargain1" class="domain.Bargain">
+		<property name="productName" value="PlayStation 4" />
+		<property name="productUrl" value="https://www.game.es/videojuegos/playstation-4" />
+		<property name="description" value="Últimas promociones" />
+		<property name="price" value="200" />
+		<property name="benefitPercent" value="5" />
+		<property name="estimatedSells" value="50" />
+		<property name="isPublished" value="false" />
+		<property name="productImages">
+			<list>
+				<value>https://http2.mlstatic.com/D_Q_NP_389521-MLA20811128213_072016-Q.jpg</value>
+			</list>
+		</property>
 		<property name="company" ref="company1" />
 	</bean>
 	
