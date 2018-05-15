@@ -21,4 +21,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u order by u.points desc")
 	Page<User> findOrderByPoints(Pageable pageable);
 	
+	@Query("select s.user from Subscription s where s.plan.name = 'Gold Premium'")
+	Page<User> findWithGoldPremium(Pageable pageable);
+
+	@Query("select s.user from Subscription s where s.plan.name = 'Basic Premium'")
+	Page<User> findWithBasicPremium(Pageable pageable);
+	
 }

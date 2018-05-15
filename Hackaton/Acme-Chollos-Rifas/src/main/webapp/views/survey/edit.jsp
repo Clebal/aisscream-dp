@@ -10,33 +10,20 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="rsvp/user/create.do" modelAttribute="rsvpForm">
+<form:form action="survey/${model}/edit.do" modelAttribute="surveyForm">
 
-	<form:hidden path="rendezvousId"/>
+	<form:hidden path="id"/>
+
+	<acme:textbox code="survey.title" path="title" />
 	
-	<jstl:forEach items="${rsvpForm.getQuestions()}" var="mapEntry">
-		
-		<form:hidden path="questions[${mapEntry.key}]"/>
-		
-		<div class="form-group"> 
-			<form:label path="answers[${mapEntry.key}]" >
-            	<jstl:out value="${mapEntry.value}"></jstl:out>
-            </form:label>
-			<form:input class="form-control" path="answers[${mapEntry.key}]" />
-		</div>
-		<br/>
-	</jstl:forEach>
+	<jstl:if test="${surveyForm.getId() == 0}">
 	
-	<jstl:if test="${rsvpForm.getQuestions().values().size()!=0}">
-		<p><form:errors class="text-danger" path="answers"/></p>
+		<acme:surveyInput codeQuestion="survey.question" codeAnswer="survey.answer" />
+	
 	</jstl:if>
 	
-	
-	
-	<security:authorize access="hasRole('USER')">
-		<acme:submit name="save" code="rsvp.save" />
-	</security:authorize>
-	
-	<acme:cancel url="rendezvous/list.do" code="rsvp.cancel"/>
+	<acme:submit name="save" code="survey.save" />
+
+	<acme:cancel url="survey/${model}/list.do" code="survey.cancel"/>
 
 </form:form>

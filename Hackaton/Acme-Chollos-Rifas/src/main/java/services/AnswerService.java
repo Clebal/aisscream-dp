@@ -12,8 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.AnswerRepository;
+import security.LoginService;
 import domain.Answer;
 import domain.Question;
+import domain.User;
 
 @Service
 @Transactional
@@ -24,7 +26,9 @@ public class AnswerService {
 	private AnswerRepository	answerRepository;
 
 	// Services
-	
+	@Autowired
+	private UserService			userService;
+
 	@Autowired
 	private Validator			validator;
 
@@ -42,9 +46,9 @@ public class AnswerService {
 		Assert.notNull(question);
 
 		result = new Answer();
-
-		result.setQuestion(question);
+		
 		result.setCounter(0);
+		result.setQuestion(question);
 
 		return result;
 	}
@@ -69,13 +73,19 @@ public class AnswerService {
 
 	public Answer save(final Answer answer) {
 		Answer result;
+		final Answer saved;
+		final User user;
 
 		Assert.notNull(answer);
 		Assert.notNull(answer.getQuestion());
 
+		// Solo puede realizarla su user
+//		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+//		Assert.notNull(user);
+
 		// Solo hay una respuesta por pregunta y usuario
-		/*saved = this.answerRepository.findByQuestionIdAndUserAccountId(answer.getQuestion().getSurvey().getId(), user.getUserAccount().getId());
-		Assert.isTrue(saved == null || saved.equals(answer));*/
+//		saved = this.answerRepository.findByQuestionIdAndUserAccountId(answer.getQuestion().getSurvey().getId(), user.getUserAccount().getId());
+//		Assert.isTrue(saved == null || saved.equals(answer));
 
 		result = this.answerRepository.save(answer);
 
@@ -84,12 +94,13 @@ public class AnswerService {
 	}
 
 	public void delete(final Answer answer) {
-		
+		User user;
+
 		Assert.notNull(answer);
 
 		// Lo borra el creador de la pregunta
-		/*user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		Assert.notNull(user);*/
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
 
 		this.answerRepository.delete(answer);
 
@@ -97,15 +108,6 @@ public class AnswerService {
 
 	public void flush() {
 		this.answerRepository.flush();
-	}
-
-	public Integer countSurveyIdAndUserId(final int surveyId) {
-		Integer result;
-
-		Assert.isTrue(surveyId != 0);
-		result = this.answerRepository.countSurveyId(surveyId);
-
-		return result;
 	}
 	
 	// Pruned object domain
@@ -123,6 +125,17 @@ public class AnswerService {
 		this.validator.validate(answer, binding);
 
 		return answer;
+	}
+	
+	public Answer reconstructFromSurvey(final Answer answer, final Question question) {
+		Answer result;
+		
+		result = this.create(question);
+		result.setId(0);
+		result.setVersion(0);
+		result.setText(answer.getText());
+		
+		return result;
 	}
 
 	public Collection<Answer> saveAnswers(final Collection<Answer> answers) {

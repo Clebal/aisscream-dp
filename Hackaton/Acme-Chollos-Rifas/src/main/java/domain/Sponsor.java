@@ -6,6 +6,6 @@ import javax.persistence.Entity;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Sponsor extends Actor {
+public class Sponsor extends Actor implements Surveyer {
 
 }

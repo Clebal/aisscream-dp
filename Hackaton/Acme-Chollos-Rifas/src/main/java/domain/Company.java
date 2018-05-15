@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Company extends Actor {
+public class Company extends Actor implements Surveyer {
 
 	private String companyName;
 	

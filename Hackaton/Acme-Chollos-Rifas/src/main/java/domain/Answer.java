@@ -16,7 +16,7 @@ public class Answer extends DomainEntity {
 
 	private String text;
 
-	private Integer counter;
+	private int counter;
 
 	private Question question;
 
@@ -30,11 +30,11 @@ public class Answer extends DomainEntity {
 	}
 
 	@Min(0)
-	public Integer getCounter() {
+	public int getCounter() {
 		return counter;
 	}
 
-	public void setCounter(Integer counter) {
+	public void setCounter(final int counter) {
 		this.counter = counter;
 	}
 
@@ -45,7 +45,7 @@ public class Answer extends DomainEntity {
 		return question;
 	}
 
-	public void setQuestion(Question question) {
+	public void setQuestion(final Question question) {
 		this.question = question;
 	}
 

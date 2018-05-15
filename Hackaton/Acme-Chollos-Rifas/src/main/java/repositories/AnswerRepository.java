@@ -11,10 +11,7 @@ import domain.Answer;
 
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Integer> {
-
-	@Query("select count(a) from Answer a where a.question.survey.id=?1")
-	Integer countSurveyId(int surveyId);
-
+	
 	@Query("select a from Answer a where a.question.id=?1")
 	Collection<Answer> findByQuestionId(int questionId);
 	

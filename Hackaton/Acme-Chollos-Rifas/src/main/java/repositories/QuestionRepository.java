@@ -14,10 +14,10 @@ import domain.Question;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
-	@Query("select q from Question q where q.survey.moderator.userAccount.id = ?1 or q.survey.company.userAccount.id = ?1 or q.survey.sponsor.userAccount.id = ?1 order by q.number")
+	@Query("select q from Question q where q.survey.surveyer.userAccount.id = ?1 order by q.number")
 	Page<Question> findByCreatorUserAccountId(int userAccountId, Pageable pageable);
 
-	@Query("select count(q) from Question q where q.survey.moderator.userAccount.id = ?1 or q.survey.company.userAccount.id = ?1 or q.survey.sponsor.userAccount.id = ?1")
+	@Query("select count(q) from Question q where q.survey.surveyer.userAccount.id = ?1")
 	Integer countByCreatorUserAccountId(int userAccountId);
 
 	@Query("select q from Question q where q.survey.id = ?1 order by q.number ASC")

@@ -75,6 +75,15 @@
 		
 		<bean class="converters.BargainToStringConverter" />
 		<bean class="converters.StringToBargainConverter" />
+
+		<bean class="converters.ModeratorToStringConverter" />
+		<bean class="converters.StringToModeratorConverter" />
+		
+		<bean class="converters.SponsorToStringConverter" />
+		<bean class="converters.StringToSponsorConverter" />
+		
+		<bean class="converters.CompanyToStringConverter" />
+		<bean class="converters.StringToCompanyConverter" />
 		
 	</util:list>
 	

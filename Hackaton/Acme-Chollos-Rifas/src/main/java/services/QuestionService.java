@@ -14,6 +14,7 @@ import org.springframework.validation.Validator;
 import domain.Question;
 import domain.Answer;
 import domain.Survey;
+import forms.QuestionForm;
 
 import repositories.QuestionRepository;
 
@@ -42,9 +43,16 @@ public class QuestionService {
 		Question result;
 		
 		result = new Question();
+		result.setSurvey(survey);
 		
-		result.setNumber(this.questionRepository.countBySurveyId(survey.getId()) + 1);
+		return result;
+	}
+	
+	public Question create(final Survey survey, final Integer number) {
+		Question result;
 		
+		result = new Question();
+		result.setNumber(number);
 		result.setSurvey(survey);
 		
 		return result;
@@ -82,9 +90,7 @@ public class QuestionService {
 	public Question save(final Question question) {
 		Question result, saved;
 		
-		if(question.getId() == 0){
-			question.setNumber(this.questionRepository.countBySurveyId(question.getSurvey().getId()) + 1);
-		}else{
+		if(question.getId() != 0) {
 			saved = this.questionRepository.findOne(question.getId());
 			Assert.isTrue(saved.getNumber() == question.getNumber());
 		}
@@ -194,6 +200,16 @@ public class QuestionService {
 		
 		this.validator.validate(question, binding);
 
+		return question;
+	}
+	
+	public Question reconstructFromSurvey(final QuestionForm questionForm, final Survey survey, final Integer number) {
+		Question question;
+		
+		question = this.create(survey, number);
+		question.setText(questionForm.getText());
+		question.setSurvey(survey);
+				
 		return question;
 	}
 	

@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Moderator extends Actor {
+public class Moderator extends Actor implements Surveyer {
 	
 //	private string	vat;
 //

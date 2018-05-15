@@ -215,6 +215,24 @@ public class UserService {
 		this.save(user);
 	}
 	
+	public Page<User> findWithGoldPremium(final int page, final int size) {
+		Page<User> result;
+
+		result = this.userRepository.findWithGoldPremium(this.getPageable(page, size));
+
+		return result;
+
+	}
+	
+	public Page<User> findWithBasicPremium(final int page, final int size) {
+		Page<User> result;
+
+		result = this.userRepository.findWithBasicPremium(this.getPageable(page, size));
+
+		return result;
+
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;

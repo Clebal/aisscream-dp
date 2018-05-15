@@ -2,11 +2,12 @@
 package services;
 
 import java.util.Collection;
-import java.util.HashSet;
-
 import org.springframework.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -16,9 +17,9 @@ import repositories.SurveyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Bargain;
-import domain.Company;
+import domain.Surveyer;
 import domain.Survey;
+import forms.SurveyForm;
 
 @Service
 @Transactional
@@ -30,12 +31,18 @@ public class SurveyService {
 	private SurveyRepository			surveyRepository;
 
 	//Supporting services -----------------------------------------------------------
-
+	
+	@Autowired
+	private Validator				validator;
+	
 	@Autowired
 	private CompanyService			companyService;
 	
 	@Autowired
-	private Validator				validator;
+	private SponsorService			sponsorService;
+	
+	@Autowired
+	private ModeratorService		moderatorService;
 
 	// Constructors -----------------------------------------------------------
 	
@@ -45,12 +52,9 @@ public class SurveyService {
 
 	// Simple CRUD methods -----------------------------------------------------------
 	
-	public Survey create(final Bargain bargain) {
+	public Survey create() {
 		Survey result;
-		Collection<Bargain> bargains;
-
-		bargains = new HashSet<Bargain>();
-		bargains.add(bargain);
+		
 		result = new Survey();
 
 		return result;
@@ -75,23 +79,9 @@ public class SurveyService {
 
 	public Survey save(final Survey survey) {
 		Survey result;
-		Authority authority;
-		UserAccount userAccount;
-		Company company;
 
 		Assert.notNull(survey);
 
-		userAccount = LoginService.getPrincipal();
-
-		company = this.companyService.findByUserAccountId(userAccount.getId());
-		Assert.notNull(company);
-		
-		// Las compañías pueden crearlas y editarlas
-		
-		authority = new Authority();
-		authority.setAuthority("COMPANY");
-		Assert.isTrue(userAccount.getAuthorities().contains(authority));
-		
 		result = this.surveyRepository.save(survey);
 
 		return result;
@@ -113,21 +103,52 @@ public class SurveyService {
 	}
 
 	//Other business methods -------------------------------------------------
-
-	public Survey reconstruct(final Survey survey, final BindingResult binding) {
-		Survey result, aux;
-
-		if (survey.getId() == 0)
-			result = survey;
-		else {
-			result = survey;
-			aux = this.surveyRepository.findOne(survey.getId());
-			result.setVersion(aux.getVersion());
-		}
-
-		this.validator.validate(result, binding);
-
+	public Page<Survey> findByActorUserAccountId(final int userAccountId, final int page, final int size) {
+		Page<Survey> result;
+		
+		Assert.isTrue(userAccountId != 0);
+	
+		result = this.surveyRepository.findByActorUserAccountId(userAccountId, this.getPageable(page,size));
+		
 		return result;
+	}
+	
+	
+	// Auxiliary methods
+	private Pageable getPageable(final int page, final int size) {
+		Pageable result;
+		
+		if (page == 0 || size <= 0)
+			result = new PageRequest(0, 5);
+		else
+			result = new PageRequest(page - 1, size);
+		
+		return result;
+	}
+	
+	public Survey reconstruct(final SurveyForm surveyForm, final String model, final BindingResult binding) {
+		Survey survey;
+		Surveyer surveyer;
+		
+		survey = this.create();
+				
+		surveyer = null;
+		if(model.equals("moderator")) {
+			surveyer = this.moderatorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		} else if (model.equals("company")) {
+			surveyer = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+		} else if (model.equals("sponsor")) {
+			surveyer = this.sponsorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		}
+		Assert.notNull(surveyer);
+
+		survey.setSurveyer(surveyer);
+		
+		survey.setTitle(surveyForm.getTitle());
+		
+		this.validator.validate(survey, binding);
+				
+		return survey;
 	}
 	
 }
