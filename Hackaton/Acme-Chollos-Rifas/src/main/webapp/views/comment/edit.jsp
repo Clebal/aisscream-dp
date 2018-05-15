@@ -19,7 +19,6 @@
 	 	<form:hidden path="repliedComment"/>
  	</jstl:if>
 
-	<jstl:out value="${comment.getBargain().getId()}"> </jstl:out>
 	<security:authorize access="hasRole('USER')">
 		<acme:textbox code="comment.image" path="image"/>
 		

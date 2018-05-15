@@ -1,8 +1,7 @@
 package controllers;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,20 +29,18 @@ public class EvaluationController extends AbstractController {
 	
 	// List
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) Integer page, @RequestParam int companyId) {
+	public ModelAndView list(@RequestParam(required = false, defaultValue="1") Integer page, @RequestParam int companyId) {
 		ModelAndView result;
-		Collection<Evaluation> evaluations;
-		Integer size;
-
-		size = 5;
-		if (page == null) page = 1;
+		Page<Evaluation> evaluations;
 				
-		evaluations = this.evaluationService.findByCompanyId(companyId, page, size);
+		evaluations = this.evaluationService.findByCompanyId(companyId, page, 5);
 		Assert.notNull(evaluations);
 		
-		result = super.paginateModelAndView("evaluation/list", this.evaluationService.countByCompanyId(companyId), page, size);
+		result = new ModelAndView("evaluation/list");
 		result.addObject("requestURI", "evaluation/list.do?companyId=" + companyId);
-		result.addObject("evaluations", evaluations);
+		result.addObject("page", page);
+		result.addObject("pageNumber", evaluations.getTotalPages());
+		result.addObject("evaluations", evaluations.getContent());
 		
 		return result;
 	}

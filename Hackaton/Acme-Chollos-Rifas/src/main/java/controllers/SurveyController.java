@@ -1,6 +1,10 @@
 
 package controllers;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -68,59 +72,44 @@ public class SurveyController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", surveyPage.getTotalPages());
 		result.addObject("requestURI", "survey/"+model+"/list.do");
+		result.addObject("model", model);
 		    
 		return result;
 	}
-
-	// Disply
-//	@RequestMapping(value = "/display", method = RequestMethod.GET)
-//	public ModelAndView display(@RequestParam(required = false) final int surveyId) {
-//		ModelAndView result;
-//		Survey survey;
-//		LinkedHashMap<Question, Answer> questionAnswer;
-//
-//		questionAnswer = new LinkedHashMap<Question, Answer>();
-//
-//		survey = this.surveyService.findOne(surveyId);
-//		Assert.notNull(survey);
-//
-//		for (final Question q : this.questionService.findByBargainId(survey.getBargain().getId()))
-//			questionAnswer.put(q, this.answerService.findByBargainIdAndQuestionId(survey.getId(), q.getId()));
-//
-//		result = new ModelAndView("survey/display");
-//		result.addObject("survey", survey);
-//		result.addObject("questionAnswer", questionAnswer);
-//
-//		return result;
-//	}
-
-	// Cancel
-//	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
-//	public ModelAndView editCancel(@RequestParam final int surveyId) {
-//		ModelAndView result;
-//		Survey survey;
-//
-//		survey = this.surveyService.findOne(surveyId);
-//
-//		this.surveyService.save(survey);
-//		result = new ModelAndView("redirect:list.do");
-//
-//		return result;
-//	}
-//
-//	// Accept
-//	@RequestMapping(value = "/accept", method = RequestMethod.GET)
-//	public ModelAndView editAccept(@RequestParam final int surveyId) {
-//		ModelAndView result;
-//		Survey survey;
-//
-//		survey = this.surveyService.findOne(surveyId);
-//
-//		this.surveyService.save(survey);
-//		result = new ModelAndView("redirect:list.do");
-//
-//		return result;
-//	}
+	
+	// Display
+		@RequestMapping(value="/display", method = RequestMethod.GET)
+		public ModelAndView display(@RequestParam int surveyId, @PathVariable(value="actor") final String model) {
+			ModelAndView result;
+			Survey survey;
+			Collection<Question> questions;
+			Collection<Answer> answers;
+			Map<Answer, Double> answersRatio;
+			Map<String, Map<Answer, Double>> questionsAnswerRatio;
+			
+			survey = this.surveyService.findOne(surveyId);
+			Assert.notNull(survey);
+			
+			questions = this.questionService.findBySurveyId(surveyId, 1, this.questionService.countBySurveyId(surveyId));
+			
+			questionsAnswerRatio = new HashMap<String, Map<Answer, Double>>();
+			
+			for(Question q : questions) {
+				answersRatio = new HashMap<Answer, Double>();
+				answers = this.answerService.findByQuestionId(q.getId());
+				for (Answer a : answers)
+					answersRatio.put(a, this.answerService.ratioAnswerPerQuestion(q.getId(), a.getId()));
+				questionsAnswerRatio.put(q.getText(), answersRatio);
+			}
+			
+			result = new ModelAndView("survey/display");
+			result.addObject("requestURI", "survey/"+model+"/list.do");
+			result.addObject("survey", survey);
+			result.addObject("questions", questions);
+			result.addObject("questionsAnswerRatio", questionsAnswerRatio);
+					
+			return result;
+		}
 
 	// Create-------------------------------------------------------------------------------------------
 

@@ -14,7 +14,7 @@
 	
 	<acme:column property="title" domain="survey" />
 	
-	<acme:columnLink action="display" actor="actor" domain="survey" id="${row.getId()}" />
+	<acme:columnLink action="display" actor="${model}" domain="survey" id="${row.getId()}" />
 
 </display:table>
 

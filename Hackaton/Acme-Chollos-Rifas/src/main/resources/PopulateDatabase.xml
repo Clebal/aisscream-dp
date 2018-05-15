@@ -852,46 +852,27 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
     <!-- Survey -->
     <bean id="survey1" class="domain.Survey">
 		<property name="title" value="La encuesta que te puede salvar la vida." />
-		<property name="hasInteration" value="true" />
-		<property name="numberDays" value="20" />
-		<property name="percentage" value="10" />
-		<property name="moderator" ref="moderator2" />
-		<property name="company" ref="company1" />
-		<property name="sponsor" ref="sponsor1" />
+		<property name="surveyer" ref="company1" />
 	</bean>
 	
 	<bean id="survey2" class="domain.Survey">
 		<property name="title" value="¿Cuánto de importante es para ti la comida?" />
-		<property name="numberDays" value="5" />
-		<property name="percentage" value="5" />
-		<property name="moderator" ref="moderator2" />
-		<property name="company" ref="company3" />
-		<property name="sponsor" ref="sponsor1" />
+		<property name="surveyer" ref="moderator2" />
 	</bean>
 	
 	<bean id="survey3" class="domain.Survey">
 		<property name="title" value="¿Te sientes cómodo?" />
-		<property name="hasInteration" value="true" />
-		<property name="percentage" value="15" />
-		<property name="moderator" ref="moderator2" />
-		<property name="company" ref="company3" />
-		<property name="sponsor" ref="sponsor1" />
+		<property name="surveyer" ref="sponsor1" />
 	</bean>
 	
 	<bean id="survey4" class="domain.Survey">
 		<property name="title" value="Nos preocupamos por ti" />
-		<property name="hasInteration" value="false" />
-		<property name="numberDays" value="30" />
-		<property name="moderator" ref="moderator2" />
-		<property name="company" ref="company1" />
-		<property name="sponsor" ref="sponsor1" />
+		<property name="surveyer" ref="moderator2" />
 	</bean>
 	
 	<bean id="survey5" class="domain.Survey">
 		<property name="title" value="¿Te gustaría mejoras?" />
-		<property name="moderator" ref="moderator2" />
-		<property name="company" ref="company2" />
-		<property name="sponsor" ref="sponsor1" />
+		<property name="surveyer" ref="company2" />
 	</bean>
 	
 	<!-- Evaluation -->

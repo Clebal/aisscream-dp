@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -154,28 +155,37 @@ public class CommentService {
 		this.commentRepository.flush();
 	}
 
-	public Collection<Comment> findByUserId(final int userId) {
-		Collection<Comment> result;
+	public Page<Comment> findByUserId(final int userId, final int page, final int size) {
+		Page<Comment> result;
 
 		Assert.isTrue(userId != 0);
-		result = this.commentRepository.findByUserId(userId);
+		result = this.commentRepository.findByUserId(userId, this.getPageable(page, size));
+
+		return result;
+	}
+	
+	public Integer countByUserId(final int userId) {
+		Integer result;
+
+		Assert.isTrue(userId != 0);
+		result = this.commentRepository.countByUserId(userId);
 
 		return result;
 	}
 
-	public Collection<Comment> findByNoRepliedComment(final int page, final int size) {
-		Collection<Comment> result;
+	public Page<Comment> findByNoRepliedComment(final int page, final int size) {
+		Page<Comment> result;
 
-		result = this.commentRepository.findByNoRepliedComment(this.getPageable(page, size)).getContent();
+		result = this.commentRepository.findByNoRepliedComment(this.getPageable(page, size));
 
 		return result;
 	}
 
-	public Collection<Comment> findByRepliedCommentId(final int repliedCommentId, final int page, final int size) {
-		Collection<Comment> result;
+	public Page<Comment> findByRepliedCommentId(final int repliedCommentId, final int page, final int size) {
+		Page<Comment> result;
 
 		Assert.isTrue(repliedCommentId != 0);
-		result = this.commentRepository.findByRepliedCommentId(repliedCommentId, this.getPageable(page, size)).getContent();
+		result = this.commentRepository.findByRepliedCommentId(repliedCommentId, this.getPageable(page, size));
 
 		return result;
 	}
@@ -200,12 +210,12 @@ public class CommentService {
 		return result;
 	}
 
-	public Collection<Comment> findByBargainId(final int bargainId, final int page, final int size) {
-		Collection<Comment> result;
+	public Page<Comment> findByBargainId(final int bargainId, final int page, final int size) {
+		Page<Comment> result;
 
 		Assert.isTrue(bargainId != 0);
 		
-		result = this.commentRepository.findByBargainId(bargainId, this.getPageable(page, size)).getContent();
+		result = this.commentRepository.findByBargainId(bargainId, this.getPageable(page, size));
 		
 		return result;
 	}
@@ -219,12 +229,12 @@ public class CommentService {
 		return result;
 	}
 	
-	public Collection<Comment> findByUserAccountId(final int userAccountId, final int page, final int size) {
-		Collection<Comment> result;
+	public Page<Comment> findByUserAccountId(final int userAccountId, final int page, final int size) {
+		Page<Comment> result;
 
 		Assert.isTrue(userAccountId != 0);
 		
-		result = this.commentRepository.findByUserAccountId(userAccountId, this.getPageable(page, size)).getContent();
+		result = this.commentRepository.findByUserAccountId(userAccountId, this.getPageable(page, size));
 		
 		return result;
 	}
@@ -237,26 +247,6 @@ public class CommentService {
 
 		return result;
 	}
-	
-	/*public Comment reconstruct(final Comment comment, final BindingResult binding) {
-		Comment result;
-		Comment aux;
-
-		aux = this.create(comment.getBargain(), comment.getRepliedComment());
-
-		result = comment;
-
-		result.setBargain(aux.getBargain());
-		result.setUser(aux.getUser());
-		result.setRepliedComment(comment.getRepliedComment());
-		result.setMoment(comment.getMoment());
-		result.setImage(comment.getImage());
-		result.setText(comment.getText());
-
-		this.validator.validate(result, binding);
-
-		return result;
-	}*/
 	
 	public Comment reconstruct(final Comment comment, final BindingResult binding) {
 		Comment saved;

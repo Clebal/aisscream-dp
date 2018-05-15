@@ -73,19 +73,9 @@ public class AnswerService {
 
 	public Answer save(final Answer answer) {
 		Answer result;
-		final Answer saved;
-		final User user;
 
 		Assert.notNull(answer);
 		Assert.notNull(answer.getQuestion());
-
-		// Solo puede realizarla su user
-//		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-//		Assert.notNull(user);
-
-		// Solo hay una respuesta por pregunta y usuario
-//		saved = this.answerRepository.findByQuestionIdAndUserAccountId(answer.getQuestion().getSurvey().getId(), user.getUserAccount().getId());
-//		Assert.isTrue(saved == null || saved.equals(answer));
 
 		result = this.answerRepository.save(answer);
 
@@ -158,6 +148,24 @@ public class AnswerService {
 
 		Assert.isTrue(questionId != 0);
 		result = this.answerRepository.findByQuestionId(questionId);
+
+		return result;
+	}
+	
+	public Integer countSurveyId(final int surveyId) {
+		Integer result;
+
+		Assert.isTrue(surveyId != 0);
+		result = this.answerRepository.countSurveyId(surveyId);
+
+		return result;
+	}
+	
+	public Double ratioAnswerPerQuestion(final int questionId, final int answerId) {
+		Double result;
+
+		Assert.isTrue(questionId != 0 && answerId != 0);
+		result = this.answerRepository.ratioAnswerPerQuestion(questionId, answerId);
 
 		return result;
 	}

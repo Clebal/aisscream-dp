@@ -1,9 +1,8 @@
 
 package controllers.user;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -36,20 +35,18 @@ public class CommentUserController extends AbstractController {
 
 	// List
 		@RequestMapping(value="/list", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam(required = false) Integer page) {
+		public ModelAndView list(@RequestParam(required = false, defaultValue="1") Integer page) {
 			ModelAndView result;
-			Collection<Comment> comments;
-			Integer size;
-
-			size = 5;
-			if (page == null) page = 1;
+			Page<Comment> comments;
 					
-			comments = this.commentService.findByUserAccountId(LoginService.getPrincipal().getId(), page, size);
+			comments = this.commentService.findByUserAccountId(LoginService.getPrincipal().getId(), page, 5);
 			Assert.notNull(comments);
 			
-			result = super.paginateModelAndView("comment/list", this.commentService.countByUserAccountnId(LoginService.getPrincipal().getId()), page, size);
+			result = new ModelAndView("comment/list");
 			result.addObject("requestURI", "comment/user/list.do");
-			result.addObject("comments", comments);
+			result.addObject("comments", comments.getContent());
+			result.addObject("page", page);
+			result.addObject("pageNumber", comments.getTotalPages());
 					
 			return result;
 	}

@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.springframework.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -149,12 +150,12 @@ public class EvaluationService {
 		this.evaluationRepository.flush();
 	}
 	
-	public Collection<Evaluation> findByCompanyId(int companyId, final int page, final int size){
-		Collection<Evaluation> result;
+	public Page<Evaluation> findByCompanyId(int companyId, final int page, final int size){
+		Page<Evaluation> result;
 		
 		Assert.isTrue(companyId != 0);
 		
-		result = this.evaluationRepository.findByCompanyId(companyId, this.getPageable(page, size)).getContent();
+		result = this.evaluationRepository.findByCompanyId(companyId, this.getPageable(page, size));
 		
 		return result;
 	}
@@ -169,12 +170,12 @@ public class EvaluationService {
 		return result;
 	}
 	
-	public Collection<Evaluation> findByCreatorUserAccountId(int userAccountId, final int page, final int size){
-		Collection<Evaluation> result;
+	public Page<Evaluation> findByCreatorUserAccountId(int userAccountId, final int page, final int size){
+		Page<Evaluation> result;
 		
 		Assert.isTrue(userAccountId != 0);
 		
-		result = this.evaluationRepository.findByCreatorUserAccountId(userAccountId, this.getPageable(page, size)).getContent();
+		result = this.evaluationRepository.findByCreatorUserAccountId(userAccountId, this.getPageable(page, size));
 		
 		return result;
 	}

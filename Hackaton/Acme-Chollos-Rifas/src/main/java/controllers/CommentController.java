@@ -1,9 +1,6 @@
 
 package controllers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,6 +9,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,20 +30,18 @@ public class CommentController extends AbstractController {
 	
 	// List
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int bargainId, @RequestParam(required = false) Integer page) {
+	public ModelAndView list(@RequestParam final int bargainId, @RequestParam(required = false, defaultValue="1") Integer page) {
 		ModelAndView result;
-		Collection<Comment> comments;
-		Integer size;
-
-		size = 5;
-		if (page == null) page = 1;
+		Page<Comment> comments;
 				
-		comments = this.commentService.findByBargainId(bargainId, page, size);
+		comments = this.commentService.findByBargainId(bargainId, page, 5);
 		Assert.notNull(comments);
 		
-		result = super.paginateModelAndView("comment/list", this.commentService.countByBargainId(bargainId), page, size);
+		result = new ModelAndView("comment/list");
 		result.addObject("requestURI", "comment/list.do?bargainId=" + bargainId);
-		result.addObject("comments", comments);
+		result.addObject("comments", comments.getContent());
+		result.addObject("page", page);
+		result.addObject("pageNumber", comments.getTotalPages());
 				
 		return result;
 	}
@@ -104,30 +100,19 @@ public class CommentController extends AbstractController {
 	//Ancillary methods -----------------------
 	protected ModelAndView displayModelAndView(final Comment comment, final int page) {
 		ModelAndView result;
-		Collection<Comment> comments;
-		Integer pageNumber;
-		Integer size;
+		Page<Comment> comments;
 		Boolean canComment;
 
 		canComment = true;
 		
-		comments = new ArrayList<Comment>();
-		size = 5;
-		pageNumber = 0;
-
-		comments = this.commentService.findByRepliedCommentId(comment.getId(), page, size);
-
-		if (comments.size() != 0)
-			pageNumber = this.commentService.countByRepliedCommentId(comment.getId());
+		comments = this.commentService.findByRepliedCommentId(comment.getId(), page, 5);
 
 		result = new ModelAndView("comment/display");
 
-		pageNumber = (int) Math.floor(((pageNumber / (size + 0.0)) - 0.1) + 1);
-
-		result.addObject("pageNumber", pageNumber);
+		result.addObject("pageNumber", comments.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("comment", comment);
-		result.addObject("comments", comments);
+		result.addObject("comments", comments.getContent());
 		result.addObject("canComment", canComment);
 		result.addObject("linkBroken", this.checkLinkImage(comment));
 

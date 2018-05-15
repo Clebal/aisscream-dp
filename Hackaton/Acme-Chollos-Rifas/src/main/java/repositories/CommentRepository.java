@@ -1,8 +1,6 @@
 
 package repositories;
 
-import java.util.Collection;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +13,10 @@ import domain.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
 	@Query("select c from Comment c where c.user.id=?1")
-	Collection<Comment> findByUserId(int userId);
+	Page<Comment> findByUserId(int userId, Pageable pageable);
+	
+	@Query("select count(c) from Comment c where c.user.id=?1")
+	Integer countByUserId(int userId);
 
 	@Query("select c from Comment c where c.repliedComment is null")
 	Page<Comment> findByNoRepliedComment(Pageable pageable);

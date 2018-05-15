@@ -1,8 +1,7 @@
 package controllers.user;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -43,20 +42,18 @@ public class EvaluationUserController extends AbstractController {
 	
 	// List
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) Integer page) {
+	public ModelAndView list(@RequestParam(required = false, defaultValue="1") Integer page) {
 		ModelAndView result;
-		Collection<Evaluation> evaluations;
-		Integer size;
-
-		size = 5;
-		if (page == null) page = 1;
+		Page<Evaluation> evaluations;
 				
-		evaluations = this.evaluationService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), page, size);
+		evaluations = this.evaluationService.findByCreatorUserAccountId(LoginService.getPrincipal().getId(), page, 5);
 		Assert.notNull(evaluations);
 		
-		result = super.paginateModelAndView("evaluation/list", this.evaluationService.countByCreatorUserAccountId(LoginService.getPrincipal().getId()), page, size);
+		result = new ModelAndView("evaluation/list");
 		result.addObject("requestURI", "evaluation/user/list.do");
-		result.addObject("evaluations", evaluations);
+		result.addObject("page", page);
+		result.addObject("pageNumber", evaluations.getTotalPages());
+		result.addObject("evaluations", evaluations.getContent());
 		
 		return result;
 	}
