@@ -48,6 +48,8 @@
 		<value>/views/subscription/tiles.xml</value>
 		<value>/views/level/tiles.xml</value>
 		
+		<value>/views/notification/tiles.xml</value>
+		
 	</util:list>
 
 </beans>

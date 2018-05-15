@@ -148,6 +148,14 @@
   		<security:intercept-url pattern="/level/list.do" access="permitAll" />
   		<security:intercept-url pattern="/level/display.do" access="permitAll" />
   		<!--  -->
+		
+		<!-- Notification -->
+  		<security:intercept-url pattern="/notification/actor/display.do" access="isAuthenticated()" />
+  		<security:intercept-url pattern="/notification/actor/list.do" access="isAuthenticated()" />
+  		<security:intercept-url pattern="/notification/actor/delete.do" access="isAuthenticated()" />
+  		<!--  -->
+		
+		
   		<!-- Para pruebas (se cambiará cuando se realice esta parte al completo) -->
   		<security:intercept-url pattern="/survey/**" access="permitAll" />
   		<security:intercept-url pattern="/question/**" access="permitAll" />

@@ -86,7 +86,7 @@
         
         <li class="dropdown">
 	        <security:authorize access="isAuthenticated()">		
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /> <span class="caret"></span></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /><span style="display: inline-block" class="caret"></span><span style="display: inline-block; margin-left:5px;" class="circle">${notificationNotVisited}</span></a>
 				<ul class="dropdown-menu">
 					<li><a href="raffle/list.do"><spring:message code="master.page.list.raffle" /></a></li>
 					<security:authorize access="hasRole('USER')">

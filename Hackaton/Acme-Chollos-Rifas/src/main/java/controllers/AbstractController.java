@@ -20,12 +20,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
+import services.NotificationService;
 
 @Controller
 public class AbstractController {
 	
 	@Autowired
 	private ConfigurationService configurationService;
+	
+	@Autowired
+	private NotificationService		notificationService;
 	
 	public ModelAndView paginateModelAndView(final String path, final double collectionSize, final Integer page, final Integer size){
 		ModelAndView result;
@@ -43,14 +47,17 @@ public class AbstractController {
 	@ModelAttribute
 	public void headerConfiguration(final Model model) {
 		String banner, nameHeader, slogan;
+		Integer notificationNotVisited;
 
 		banner = this.configurationService.findBanner();
 		slogan = this.configurationService.findSlogan();
 		nameHeader = this.configurationService.findName();
+		notificationNotVisited = this.notificationService.countNotVisitedByActorId();
 
 		model.addAttribute("banner", banner);
 		model.addAttribute("slogan", slogan);
 		model.addAttribute("nameHeader", nameHeader);
+		model.addAttribute("notificationNotVisited", notificationNotVisited);
 	}
 	
 	// Panic handler ----------------------------------------------------------
