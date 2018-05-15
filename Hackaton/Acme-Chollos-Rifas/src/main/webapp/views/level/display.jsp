@@ -13,7 +13,15 @@
 
 <div class="container">
 	
-	<acme:image value="${level.getImage() }"/>
+	<jstl:if test="${level.getImage()!=null && level.getImage()!='' && linkBroken==false}">
+		<acme:image value="${level.getImage()}" alt="${levelAlt}"/>
+		<br/><br/>
+	</jstl:if>
+	
+	<jstl:if test="${level.getImage()!=null && level.getImage()!='' && linkBroken==true}">
+		<acme:image value="images/link_broken.png" alt="${levelAlt}"/>		
+		<br/><br/>
+	</jstl:if>
 	
 	<acme:display code="level.name" value="${level.getName()}"/>
 	
