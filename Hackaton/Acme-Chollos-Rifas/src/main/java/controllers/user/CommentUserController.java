@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.BargainService;
 import services.CommentService;
+import services.PlanService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Bargain;
@@ -33,6 +34,9 @@ public class CommentUserController extends AbstractController {
 	@Autowired
 	private UserService			userService;
 
+	@Autowired
+	private PlanService			planService;
+	
 	// List
 		@RequestMapping(value="/list", method = RequestMethod.GET)
 		public ModelAndView list(@RequestParam(required = false, defaultValue="1") Integer page) {
@@ -112,7 +116,7 @@ public class CommentUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Comment comment, final String messageCode) {
 		ModelAndView result;
-		Boolean canEdit;
+		Boolean canEdit, canImage;
 		User user;
 
 		result = new ModelAndView("comment/create");
@@ -121,12 +125,17 @@ public class CommentUserController extends AbstractController {
 		Assert.notNull(user);
 
 		canEdit = false;
+		canImage = false;
 		
 		if (comment.getUser().equals(user))
 			canEdit = true;
+		
+		if (this.planService.findByUserId(comment.getUser().getId()).getName().equals("Gold Premium"))
+			canImage = true;
 
 		Assert.isTrue(canEdit);
 		result.addObject("canEdit", canEdit);
+		result.addObject("canImage", canImage);
 		result.addObject("comment", comment);
 		result.addObject("message", messageCode);
 

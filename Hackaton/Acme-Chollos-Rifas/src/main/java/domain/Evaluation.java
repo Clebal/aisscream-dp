@@ -18,7 +18,7 @@ public class Evaluation extends DomainEntity {
 
 	private String content;
 
-	private Integer puntuation;
+	private int puntuation;
 
 	private Boolean isAnonymous;
 

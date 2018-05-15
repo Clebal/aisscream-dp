@@ -259,11 +259,13 @@ public class CommentService {
 			Assert.notNull(user);
 			bargain = this.bargainService.findOne(comment.getBargain().getId());
 			Assert.notNull(bargain);
-			repliedComment = this.findOne(comment.getRepliedComment().getId());
-			Assert.notNull(repliedComment);
+			if(comment.getRepliedComment() != null) {
+				repliedComment = this.findOne(comment.getRepliedComment().getId());
+				comment.setRepliedComment(repliedComment);
+			}
 			comment.setUser(user);
 			comment.setBargain(bargain);
-			comment.setRepliedComment(repliedComment);
+			
 		} else {
 			saved = this.commentRepository.findOne(comment.getId());
 			Assert.notNull(saved);

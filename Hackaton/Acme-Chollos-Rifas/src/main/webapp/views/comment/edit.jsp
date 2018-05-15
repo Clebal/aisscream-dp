@@ -20,7 +20,9 @@
  	</jstl:if>
 
 	<security:authorize access="hasRole('USER')">
-		<acme:textbox code="comment.image" path="image"/>
+		<jstl:if test="${canImage}">
+			<acme:textbox code="comment.image" path="image"/>
+		</jstl:if>
 		
 		<acme:textarea code="comment.text" path="text"/>
 	</security:authorize>
