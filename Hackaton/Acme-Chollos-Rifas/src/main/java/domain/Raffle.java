@@ -40,6 +40,8 @@ public class Raffle extends DomainEntity {
 	
 	private Company company;
 	
+	private User winner;
+	
 	@NotBlank
 	public String getTitle() {
 		return title;
@@ -113,8 +115,18 @@ public class Raffle extends DomainEntity {
 		return company;
 	}
 
-	public void setCompany(Company company) {
+	public void setCompany(final Company company) {
 		this.company = company;
+	}
+	
+	@Valid
+	@ManyToOne(optional=true)
+	public User getWinner() {
+		return winner;
+	}
+	
+	public void setWinner(final User winner) {
+		this.winner = winner;
 	}
 	
 }
