@@ -863,7 +863,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<value>https://media.redadn.es/imagenes/playstation4_314481.jpg</value>
 			</list>
 		</property>
-		<property name="maxDate" value="10/05/2018" />
+		<property name="maxDate" value="05/10/2018" />
 		<property name="price" value="1" />
 		<property name="company" ref="company1" />
 		<property name="winner" ref="user1" />
@@ -880,7 +880,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<value>https://img.us.news.samsung.com/us/wp-content/uploads/2016/12/31205307/Image1-Flex-Wash-Flex-Dry-1.jpg</value>
 			</list>
 		</property>
-		<property name="maxDate" value="30/08/2018" />
+		<property name="maxDate" value="08/30/2018" />
 		<property name="price" value="2" />
 		<property name="company" ref="company1" />
 	</bean>
@@ -945,7 +945,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<value>https://images-na.ssl-images-amazon.com/images/I/714aLdXMoeL._SL1500_.jpg</value>
 			</list>
 		</property>
-		<property name="maxDate" value="15/12/2017" />
+		<property name="maxDate" value="12/15/2017" />
 		<property name="price" value="5" />
 		<property name="company" ref="company1" />
 		<property name="winner" ref="user1" />
@@ -961,7 +961,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<value>http://sevilla.abc.es/deportes/orgullodenervion/wp-content/uploads/2017/10/Escudo_sevillafc.jpg</value>
 			</list>
 		</property>
-		<property name="maxDate" value="10/03/2018" />
+		<property name="maxDate" value="03/10/2018" />
 		<property name="price" value="1" />
 		<property name="company" ref="company4" />
 		<property name="winner" ref="user1" />
@@ -977,7 +977,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<value>https://images-na.ssl-images-amazon.com/images/I/31MSkky6Y-L._SX466_.jpg</value>
 			</list>
 		</property>
-		<property name="maxDate" value="25/04/2018" />
+		<property name="maxDate" value="04/25/2018" />
 		<property name="price" value="1" />
 		<property name="company" ref="company1" />
 		<property name="winner" ref="user1" />
@@ -993,7 +993,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 				<value>https://images-na.ssl-images-amazon.com/images/I/81QOsztPuLL._SL1500_.jpg</value>
 			</list>
 		</property>
-		<property name="maxDate" value="06/01/2018" />
+		<property name="maxDate" value="01/06/2018" />
 		<property name="price" value="2" />
 		<property name="company" ref="company1" />
 		<property name="winner" ref="user1" />
@@ -1017,7 +1017,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Cartera Billabong" />
 		<property name="description" value="Una cartera de últimas calidades cocida por los mejores tejedores de Murcia ofrecida por la marca Billabong de forma totalmente GRATUITA." />
 		<property name="productName" value="Cartera Billabong" />
-		<property name="maxDate" value="31/12/2017" />
+		<property name="maxDate" value="12/11/2017" />
 		<property name="productImages">
 			<list>
 			</list>
@@ -1030,7 +1030,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Xiaomi Redmi Note 4, el móvil de moda" />
 		<property name="description" value="Sukafe te trae el móvil de moda, el móvil que lo está petando en todo el mercado, por solo un euro! Unete a esta locuuuuura." />
 		<property name="productName" value="Xiaomi Redmi Note 4 64GB" />
-		<property name="maxDate" value="10/02/2018" />
+		<property name="maxDate" value="02/10/2018" />
 		<property name="productImages">
 			<list>
 			</list>
