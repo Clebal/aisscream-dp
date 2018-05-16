@@ -51,6 +51,8 @@
 		<value>/views/level/messages</value>		
 		
 		<value>/views/notification/messages</value>
+		
+		<value>/views/company/messages</value>
 				
 	</util:list>
 

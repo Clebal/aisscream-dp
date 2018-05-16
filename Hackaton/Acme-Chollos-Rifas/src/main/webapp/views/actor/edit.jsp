@@ -68,7 +68,7 @@
 		<br>
 		
 		<!-- Company name -->
-		<acme:textbox code="actor.companyname" path="companyName"/>
+		<acme:textbox code="actor.companyName" path="companyName"/>
 		
 		<!-- Type -->
 		<acme:select code="actor.type" path="type" option="SL" option2="SA" option3="AUTONOMO" option4="COOPERATIVA"/>

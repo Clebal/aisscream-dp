@@ -50,6 +50,8 @@
 		
 		<value>/views/notification/tiles.xml</value>
 		
+		<value>/views/company/tiles.xml</value>
+		
 	</util:list>
 
 </beans>

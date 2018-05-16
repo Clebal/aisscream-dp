@@ -35,6 +35,8 @@
       	<security:authorize access="isAnonymous()">
       		<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
   			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>
+  			<li><a href="actor/user/list.do"><spring:message code="master.page.users" /></a></li>
+			<li><a href="actor/company/list.do"><spring:message code="master.page.companies" /></a></li>
       	</security:authorize>
                
         <li class="dropdown">
@@ -65,20 +67,21 @@
 				</ul>
 			</security:authorize>
 			
-			<security:authorize access="hasRole('MANAGER')">
-        		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.manager" /> <span class="caret"></span></a>
+			<security:authorize access="hasRole('MODERATOR')">
+        		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.moderator" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
-        		<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
-        		<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>												
+        			<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
+        			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>					
 				</ul>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('COMPANY')">
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.company" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
-        		<li><a href="tag/company/list.do"><spring:message code="master.page.company.tag" /></a></li>
-        		<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
-        		<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>												       	
+        			<li><a href="tag/company/list.do"><spring:message code="master.page.company.tag" /></a></li>
+        			<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
+        			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>		
+ 		        	<li><a href="evaluation/company/list.do"><spring:message code="master.page.evaluations" /></a></li>										       	
 				</ul>
 			</security:authorize>
 			
@@ -90,6 +93,8 @@
 				<ul class="dropdown-menu">
 					<li><a href="raffle/list.do"><spring:message code="master.page.list.raffle" /></a></li>
 					<li><a href="notification/actor/list.do"><spring:message code="master.page.notification" /></a></li>
+					<li><a href="actor/user/list.do"><spring:message code="master.page.users" /></a></li>
+					<li><a href="actor/company/list.do"><spring:message code="master.page.companies" /></a></li>
 					<security:authorize access="hasRole('USER')">
 						<li><a href="actor/user/profile.do"><spring:message code="master.page.profile" /></a></li>
 						<li><a href="actor/user/edit.do"><spring:message code="master.page.profile.edit" /></a></li>

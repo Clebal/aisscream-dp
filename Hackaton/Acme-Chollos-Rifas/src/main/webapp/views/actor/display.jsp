@@ -26,13 +26,15 @@
 		
 		<acme:display code="actor.address" value="${actor.getAddress()}"/>
 		
-		<jstl:if test="${!isPublic}">
-			<acme:display code="actor.identifier" value="${actor.getIdentifier()}"/>
-			<jstl:if test="${actor.getIsPublicWishList()}">
-				<p><span class="display"><spring:message code="actor.isPublicWishListTrue" /></span>&nbsp;-&nbsp;<a href="actor/user/changewishlist.do"><spring:message code="actor.changewishlist" /></a></p>
-			</jstl:if>
-			<jstl:if test="${!actor.getIsPublicWishList()}">
-				<p><span class="display"><spring:message code="actor.isPublicWishListFalse" /></span>&nbsp;-&nbsp;<a href="actor/user/changewishlist.do"><spring:message code="actor.changewishlist" /></a></p>
+		<jstl:if test="${model.equals('user')}">
+			<jstl:if test="${!isPublic}">
+				<acme:display code="actor.identifier" value="${actor.getIdentifier()}"/>
+				<jstl:if test="${actor.getIsPublicWishList()}">
+					<p><span class="display"><spring:message code="actor.isPublicWishListTrue" /></span>&nbsp;-&nbsp;<a href="actor/user/changewishlist.do"><spring:message code="actor.changewishlist" /></a></p>
+				</jstl:if>
+				<jstl:if test="${!actor.getIsPublicWishList()}">
+					<p><span class="display"><spring:message code="actor.isPublicWishListFalse" /></span>&nbsp;-&nbsp;<a href="actor/user/changewishlist.do"><spring:message code="actor.changewishlist" /></a></p>
+				</jstl:if>
 			</jstl:if>
 		</jstl:if>
 				
@@ -50,8 +52,12 @@
 		</jstl:if>
 		
 		<jstl:if test="${model.equals('company')}">
-			<acme:display code="actor.companyname" value="${actor.getCompanyName()}" />
+			<acme:display code="actor.companyName" value="${actor.getCompanyName()}" />
 			<acme:display code="actor.type" value="${actor.getType()}" />
+			<security:authorize access="hasRole('USER')">
+				<a class="btn btn-primary" href="evaluation/user/create.do?companyId=${actor.getId()}"><spring:message code="actor.addEvaluation" /></a>
+			</security:authorize>
+			<a class="btn btn-primary" href="evaluation/list.do?companyId=${actor.getId()}"><spring:message code="actor.seeEvaluations" /></a>
 		</jstl:if>
 		
 	</div>

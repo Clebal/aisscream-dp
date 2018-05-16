@@ -42,6 +42,16 @@
 			<jstl:if test="${pageNumber > 1}">
 				<li><a href='<jstl:out value="${url}" />'> <span>&laquo;</span></a></li>
 			</jstl:if>
+			
+			<spring:url var="urlFirstPage" value="${url}">
+				<jstl:if test="${parameter!=null && parameterValue!=null}">
+					<spring:param name="${parameter}" value="${parameterValue}" />
+				</jstl:if>
+				<jstl:if test="${parameter2!=null && parameterValue2!=null}">
+					<spring:param name="${parameter2}" value="${parameterValue2}" />
+				</jstl:if>
+			</spring:url>
+			
 			<jstl:forEach var="i" begin="1" end="${pageNumber}">
 
 				<spring:url var="urlNextPage" value="${url}">
@@ -61,17 +71,7 @@
 					<jstl:if test="${parameter2!=null && parameterValue2!=null}">
 						<spring:param name="${parameter2}" value="${parameterValue2}" />
 					</jstl:if>
-					<spring:param name="page" value="${i}" />
-				</spring:url>
-				
-				<spring:url var="urlFirstPage" value="${url}">
-					<jstl:if test="${parameter!=null && parameterValue!=null}">
-						<spring:param name="${parameter}" value="${parameterValue}" />
-					</jstl:if>
-					<jstl:if test="${parameter2!=null && parameterValue2!=null}">
-						<spring:param name="${parameter2}" value="${parameterValue2}" />
-					</jstl:if>
-					<spring:param name="page" value="${i}" />
+					<spring:param name="page" value="${pageNumber}" />
 				</spring:url>
 
 
@@ -84,7 +84,7 @@
 
 			</jstl:forEach>
 			<jstl:if test="${pageNumber > 1}">
-				<li><a href="#"><span>&raquo;</span></a></li>
+				<li><a href="${urlLastPage}"><span>&raquo;</span></a></li>
 			</jstl:if>
 		</ul>
 	</nav>

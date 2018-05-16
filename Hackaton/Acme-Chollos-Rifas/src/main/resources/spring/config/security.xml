@@ -60,7 +60,7 @@
 
 		<security:intercept-url pattern="/actor/company/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/actor/company/edit.do" access="hasRole('COMPANY') or isAnonymous()"  />
-		<security:intercept-url pattern="/actor/company/profile.do" access="hasRole('COMPANY')"  />
+		<security:intercept-url pattern="/actor/company/profile.do" access="permitAll"  />
 		<security:intercept-url pattern="/actor/company/list.do" access="permitAll"  />
 		
 		<security:intercept-url pattern="/actor/sponsor/create.do" access="isAnonymous()" />
