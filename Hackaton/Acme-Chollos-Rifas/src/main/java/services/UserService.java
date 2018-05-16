@@ -215,22 +215,20 @@ public class UserService {
 		this.save(user);
 	}
 	
-	public Page<User> findWithGoldPremium(final int page, final int size) {
-		Page<User> result;
+	public Collection<User> findWithGoldPremium(final int page, final int size) {
+		Collection<User> result;
 
-		result = this.userRepository.findWithGoldPremium(this.getPageable(page, size));
+		result = this.userRepository.findWithGoldPremium(this.getPageable(page, size)).getContent();
 
 		return result;
-
 	}
 	
-	public Page<User> findWithBasicPremium(final int page, final int size) {
-		Page<User> result;
+	public Collection<User> findWithBasicPremium(final int page, final int size) {
+		Collection<User> result;
 
-		result = this.userRepository.findWithBasicPremium(this.getPageable(page, size));
+		result = this.userRepository.findWithBasicPremium(this.getPageable(page, size)).getContent();
 
 		return result;
-
 	}
 	
 	// Auxiliary methods
