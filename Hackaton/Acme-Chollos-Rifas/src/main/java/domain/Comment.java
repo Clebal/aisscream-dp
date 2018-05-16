@@ -2,6 +2,7 @@ package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -9,9 +10,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import utilities.URLCollection;
+
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -22,7 +25,7 @@ public class Comment extends DomainEntity {
 
 	private String text;
 
-	private String image;
+	private Collection<String> images;
 
 	private Bargain bargain;
 
@@ -49,13 +52,14 @@ public class Comment extends DomainEntity {
 		this.text = text;
 	}
 
-	@URL
-	public String getImage() {
-		return image;
+	@ElementCollection
+	@URLCollection
+	public Collection<String> getImages() {
+		return images;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setImages(Collection<String> images) {
+		this.images = images;
 	}
 	
 	@Valid
@@ -70,7 +74,6 @@ public class Comment extends DomainEntity {
 	}
 
 	@Valid
-	//@NotNull
 	@ManyToOne(optional = true)
 	public Comment getRepliedComment() {
 		return repliedComment;

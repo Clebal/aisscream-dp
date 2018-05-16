@@ -18,6 +18,15 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLException;
 
 import services.ConfigurationService;
 import services.NotificationService;
@@ -58,6 +67,77 @@ public class AbstractController {
 		model.addAttribute("slogan", slogan);
 		model.addAttribute("nameHeader", nameHeader);
 		model.addAttribute("notificationNotVisited", notificationNotVisited);
+	}
+	
+	public boolean checkLinkImage(final String image) {
+		boolean linkBroken;
+        URL linkImage;
+        HttpURLConnection openCode;
+        String[] contentTypes;
+        String contentType;
+		
+        linkBroken = false;
+
+		if (image != null) {
+			try {
+				linkImage = new URL(image);
+				if (linkImage.getProtocol().equals("http"))
+					openCode = (HttpURLConnection) linkImage.openConnection();
+				else {
+					System.setProperty("https.protocols", "TLSv1");
+					openCode = (HttpsURLConnection) linkImage.openConnection();
+				}
+				openCode.setRequestMethod("GET");
+		        openCode.connect();
+		        contentTypes = openCode.getContentType().split("/");
+		        contentType = contentTypes[0];
+		        if(openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
+		        	linkBroken = true; 
+	        } catch (SSLException s) {
+				linkBroken = false;
+			} catch (IOException e) {
+				linkBroken = true;
+			} 
+		}
+		return linkBroken;
+	}
+	
+	public Map<String, Boolean> checkLinkImages(final Collection<String> images) {
+		Map<String, Boolean> mapLinkBoolean;
+		boolean linkBroken;
+        URL linkImage;
+        HttpURLConnection openCode;
+        String[] contentTypes;
+        String contentType;
+		
+        mapLinkBoolean = new HashMap<String, Boolean>();
+        linkBroken = false;
+        
+		if (images != null) {
+			for (String link : images) {
+				try {
+					linkImage = new URL(link);
+					if (linkImage.getProtocol().equals("http"))
+						openCode = (HttpURLConnection) linkImage.openConnection();
+					else {
+						System.setProperty("https.protocols", "TLSv1");
+						openCode = (HttpsURLConnection) linkImage.openConnection();
+					}
+					openCode.setRequestMethod("GET");
+			        openCode.connect();
+			        contentTypes = openCode.getContentType().split("/");
+			        contentType = contentTypes[0];
+			        if(openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
+			        	linkBroken = true;
+		        } catch (SSLException s) {
+					linkBroken = false;
+				} catch (IOException e) {
+					linkBroken = true;
+				}
+				mapLinkBoolean.put(link, linkBroken);
+			}
+		}
+		return mapLinkBoolean;
 	}
 	
 	// Panic handler ----------------------------------------------------------

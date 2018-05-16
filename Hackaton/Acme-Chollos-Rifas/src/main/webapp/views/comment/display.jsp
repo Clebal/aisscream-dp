@@ -14,15 +14,19 @@
 
 	<spring:message code="comment.alt" var="commentAlt"/>
 	
-	<jstl:if test="${comment.getImage()!=null && comment.getImage()!='' && linkBroken==false}">
-		<acme:image value="${comment.getImage()}" alt="${commentAlt}"/>
-		<br/><br/>
-	</jstl:if>
+	<jstl:forEach items="${mapLinkBoolean}" var="mapEntry">
+     
+		<jstl:if test="${mapEntry.key!=null && mapEntry.key!='' && mapEntry.value==false}">
+			<acme:image value="${mapEntry.key}" alt="${commentAlt}"/>
+			<br/><br/>
+		</jstl:if>
+		
+		<jstl:if test="${mapEntry.key!=null && mapEntry.key!='' && mapEntry.value==true}">
+			<acme:image value="images/link_broken.png" alt="${commentAlt}"/>		
+			<br/><br/>
+		</jstl:if>
 	
-	<jstl:if test="${comment.getImage()!=null && comment.getImage()!='' && linkBroken==true}">
-		<acme:image value="images/link_broken.png" alt="${commentAlt}"/>		
-		<br/><br/>
-	</jstl:if>
+	</jstl:forEach>
 		
 	<acme:display code="comment.moment" value="${comment.getMoment()}" codeMoment="comment.format.moment"/>
 	

@@ -72,7 +72,8 @@
         		<ul class="dropdown-menu">
         			<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
         			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>					
-        			<li><a href="raffle/moderator/list.do"><spring:message code="master.page.list.raffle" /></a></li>					
+        			<li><a href="raffle/moderator/list.do"><spring:message code="master.page.list.raffle" /></a></li>
+        			<li><a href="survey/moderator/list.do"><spring:message code="master.page.my.surveys" /></a></li>					
 				</ul>
 			</security:authorize>
 			
@@ -82,7 +83,15 @@
         			<li><a href="tag/company/list.do"><spring:message code="master.page.company.tag" /></a></li>
         			<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
         			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>		
- 		        	<li><a href="evaluation/company/list.do"><spring:message code="master.page.evaluations" /></a></li>										       	
+ 		        	<li><a href="evaluation/company/list.do"><spring:message code="master.page.evaluations" /></a></li>	
+ 		        	<li><a href="survey/company/list.do"><spring:message code="master.page.my.surveys" /></a></li>														       	
+				</ul>
+			</security:authorize>
+			
+			<security:authorize access="hasRole('SPONSOR')">
+        		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.sponsor" /> <span class="caret"></span></a>
+        		<ul class="dropdown-menu">
+ 		        	<li><a href="survey/sponsor/list.do"><spring:message code="master.page.my.surveys" /></a></li>														       	
 				</ul>
 			</security:authorize>
 			

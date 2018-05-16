@@ -1571,6 +1571,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="text" value="Buen producto!" />
 		<property name="user" ref="user3" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="comment2" class="domain.Comment">
@@ -1578,12 +1583,22 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="text" value="¿Cuál es la página del chollo loco?" />
 		<property name="user" ref="user3" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="comment3" class="domain.Comment">
 		<property name="moment" value="02/16/2018 15:21" />
 		<property name="text" value="Es tuchollito.es" />
-		<property name="image" value="https://vignette.wikia.nocookie.net/simpsons/images/c/ca/742_Evergreen_Terrace.png/revision/latest/scale-to-width-down/640?cb=20130421182211" />
+		<property name="images">
+			<list>
+				<value>https://vignette.wikia.nocookie.net/simpsons/images/c/ca/742_Evergreen_Terrace.png/revision/latest/scale-to-width-down/640?cb=20130421182211</value>
+				<value>https://falsa.com</value>
+			</list>
+		</property>
 		<property name="user" ref="user1" />
 		<property name="repliedComment" ref="comment2" />
 		<property name="bargain" ref="bargain1" />
@@ -1594,6 +1609,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="text" value="Ha sido muy divertido" />
 		<property name="user" ref="user1" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="comment5" class="domain.Comment">
@@ -1601,6 +1621,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="text" value="Ya falta menos" />
 		<property name="user" ref="user1" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="comment6" class="domain.Comment">
@@ -1608,6 +1633,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="text" value="Gracias por apuntarse" />
 		<property name="user" ref="user1" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="comment7" class="domain.Comment">
@@ -1615,6 +1645,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="text" value="Bienvenidos a todos" />
 		<property name="user" ref="user1" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="comment8" class="domain.Comment">
@@ -1622,6 +1657,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="text" value="Que buen día hace hoy" />
 		<property name="user" ref="user1" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="comment9" class="domain.Comment">
@@ -1629,6 +1669,11 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="text" value="Qué ganas que llegue el día" />
 		<property name="user" ref="user1" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="comment10" class="domain.Comment">
@@ -1637,8 +1682,12 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="repliedComment" ref="comment3" />
 		<property name="bargain" ref="bargain1" />
+		<property name="images">
+			<list>
+				<value></value>
+			</list>
+		</property>
 	</bean>
-	
 	
 	<!-- Notification -->
 	<bean id="notification1" class="domain.Notification">

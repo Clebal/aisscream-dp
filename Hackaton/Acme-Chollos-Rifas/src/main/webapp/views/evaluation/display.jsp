@@ -45,14 +45,16 @@
 	
 	<br/><br/>
 	
-	<security:authorize access="hasRole('USER')">
+	<security:authorize access="hasAnyRole('USER', 'COMPANY')">
 	<security:authentication var="principal" property="principal.username"/>
 	</security:authorize>
-	<jstl:if test="${!evaluation.getIsAnonymous() || principal.equals(evaluation.getUser().getUserAccount().getUsername())}">
-	<acme:displayLink parameter="userId" code="evaluation.user.name" action="actor/user/display.do" parameterValue="${evaluation.getUser().getId()}" ></acme:displayLink>
+	<jstl:if test="${!evaluation.getIsAnonymous() || !principal.equals(evaluation.getUser().getUserAccount().getUsername())}">
+		<acme:displayLink parameter="userId" code="evaluation.user.name" action="actor/user/display.do" parameterValue="${evaluation.getUser().getId()}" ></acme:displayLink>
 	</jstl:if>
 	
-	<acme:displayLink parameter="companyId" code="evaluation.company.name" action="actor/company/display.do" parameterValue="${evaluation.getCompany().getId()}" ></acme:displayLink>
+	<jstl:if test="${!principal.equals(evaluation.getCompany().getUserAccount().getUsername())}">
+		<acme:displayLink parameter="companyId" code="evaluation.company.name" action="actor/company/profile.do" parameterValue="${evaluation.getCompany().getId()}" ></acme:displayLink>
+	</jstl:if>
 </div>	
 
 	

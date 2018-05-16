@@ -1,13 +1,6 @@
 
 package controllers;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -64,39 +57,6 @@ public class CommentController extends AbstractController {
 		return result;
 	}
 	
-	private boolean checkLinkImage(final Comment comment) {
-		boolean linkBroken;
-        URL linkImage;
-        HttpURLConnection openCode;
-        String[] contentTypes;
-        String contentType;
-		
-        linkBroken = false;
-
-		if (comment.getImage() != null) {
-			try {
-				linkImage = new URL(comment.getImage());
-				if (linkImage.getProtocol().equals("http"))
-					openCode = (HttpURLConnection) linkImage.openConnection();
-				else {
-					System.setProperty("https.protocols", "TLSv1");
-					openCode = (HttpsURLConnection) linkImage.openConnection();
-				}
-				openCode.setRequestMethod("GET");
-		        openCode.connect();
-		        contentTypes = openCode.getContentType().split("/");
-		        contentType = contentTypes[0];
-		        if(openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
-		        	linkBroken = true; 
-	        } catch (SSLException s) {
-				linkBroken = false;
-			} catch (IOException e) {
-				linkBroken = true;
-			} 
-		}
-		return linkBroken;
-	}
-
 	//Ancillary methods -----------------------
 	protected ModelAndView displayModelAndView(final Comment comment, final int page) {
 		ModelAndView result;
@@ -114,7 +74,7 @@ public class CommentController extends AbstractController {
 		result.addObject("comment", comment);
 		result.addObject("comments", comments.getContent());
 		result.addObject("canComment", canComment);
-		result.addObject("linkBroken", this.checkLinkImage(comment));
+		result.addObject("mapLinkBoolean", super.checkLinkImages(comment.getImages()));
 
 		return result;
 
