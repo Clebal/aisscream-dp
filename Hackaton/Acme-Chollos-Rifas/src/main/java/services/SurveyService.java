@@ -17,8 +17,11 @@ import repositories.SurveyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Answer;
+import domain.Question;
 import domain.Surveyer;
 import domain.Survey;
+import forms.QuestionForm;
 import forms.SurveyForm;
 
 @Service
@@ -43,6 +46,12 @@ public class SurveyService {
 	
 	@Autowired
 	private ModeratorService		moderatorService;
+	
+	@Autowired
+	private AnswerService		answerService;
+
+	@Autowired
+	private QuestionService		questionService;
 
 	// Constructors -----------------------------------------------------------
 	
@@ -77,12 +86,28 @@ public class SurveyService {
 		return result;
 	}
 
-	public Survey save(final Survey survey) {
+	public Survey save(final Survey survey, final SurveyForm surveyForm) {
 		Survey result;
+		Question question, questionSaved;
+		Answer answer;
+		Integer number;
 
 		Assert.notNull(survey);
 
 		result = this.surveyRepository.save(survey);
+		
+		if(surveyForm.getId() == 0) {
+			number = 0;
+			for(QuestionForm q: surveyForm.getQuestions()) {
+				question = this.questionService.reconstructFromSurvey(q, result, number);
+				questionSaved = this.questionService.save(question);
+				for(Answer a: q.getAnswers()) {
+					answer = this.answerService.reconstructFromSurvey(a, questionSaved);
+					this.answerService.save(answer);
+				}
+			}
+			number++;
+		}
 
 		return result;
 	}

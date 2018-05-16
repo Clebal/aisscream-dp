@@ -28,15 +28,22 @@
 <%@ attribute name="readonly" required="false" %>
 <%@ attribute name="placeholder" required="false" %>
 
+<%@ attribute name="style" required="false" %>
+
 <jstl:if test="${readonly != null}">
 	<jstl:set var="readonly" value="readOnly" />
 </jstl:if>
+
+<jstl:if test="${style == null}">
+	<jstl:set var="style" value="" />
+</jstl:if>
+
 
 <%-- Definition --%>
 
 <jstl:if test="${readonly == null}">
 
-<div class="form-group">
+<div class="form-group" style="${style}">
 	<form:label path="${path}" placeholder="${placeholder}">
 		<spring:message code="${code}" />
 	</form:label>	
@@ -46,7 +53,7 @@
 
 </jstl:if>
 <jstl:if test="${readonly != null}">
-<div class="form-group">
+<div class="form-group" style="${style}">
 	<form:label path="${path}" placeholder="${placeholder}">
 		<spring:message code="${code}" />
 	</form:label>	

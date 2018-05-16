@@ -14,13 +14,24 @@
 
 <%@ attribute name="path" required="true" %>
 <%@ attribute name="code" required="true" %>
+<%@ attribute name="id" required="false" %>
+<%@ attribute name="style" required="false" %>
+
+<jstl:if test="${style == null}">
+	<jstl:set var="style" value="" />
+</jstl:if>
 
 <%-- Definition --%>
 
-<div class="form-group">
+<div class="form-group" style="${style}">
 	<form:label path="${path}">
 		<spring:message code="${code}" />
 	</form:label>
-	<form:checkbox path="${path}"/>
+	<jstl:if test="${id == null}">
+		<form:checkbox path="${path}"/>
+	</jstl:if>
+	<jstl:if test="${id != null}">
+		<form:checkbox id="${id}" path="${path}"/>
+	</jstl:if>
+	<form:errors path="${path}" class="text-danger" />
 </div>
-

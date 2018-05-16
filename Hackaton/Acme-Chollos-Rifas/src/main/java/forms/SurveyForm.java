@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.AutoPopulatingList;
@@ -21,6 +22,12 @@ public class SurveyForm {
 
 	private List<QuestionForm> questions = new AutoPopulatingList<QuestionForm>(QuestionForm.class);
 
+	private String toActor;
+	
+	private	boolean hasAds;
+		
+	private Integer		minimumPoints;
+	
 	private Surveyer surveyer;
 	
 	public SurveyForm() {
@@ -35,6 +42,32 @@ public class SurveyForm {
 		this.id = id;
 	}
 
+	@NotBlank
+	@Pattern(regexp = "^(USER|SPONSOR)$")
+	public String getToActor() {
+		return toActor;
+	}
+
+	public void setToActor(final String toActor) {
+		this.toActor = toActor;
+	}
+
+	public boolean isHasAds() {
+		return hasAds;
+	}
+
+	public void setHasAds(boolean hasAds) {
+		this.hasAds = hasAds;
+	}
+
+	public Integer getMinimumPoints() {
+		return minimumPoints;
+	}
+
+	public void setMinimumPoints(final Integer minimumPoints) {
+		this.minimumPoints = minimumPoints;
+	}
+	
 	@NotBlank
 	public String getTitle() {
 		return title;
