@@ -58,12 +58,10 @@ public class CommentAdministratorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Comment comment, final BindingResult binding) {
 		ModelAndView result;
-		int bargainId;
 		try {
 			Assert.notNull(comment.getBargain());
-			bargainId = comment.getBargain().getId();
 			this.commentService.deleteAdmin(comment);
-			result = new ModelAndView("redirect:/bargain/display.do?bargainId=" + bargainId);
+			result = new ModelAndView("redirect:/comment/administrator/list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(comment, "comment.commit.error");
 		}

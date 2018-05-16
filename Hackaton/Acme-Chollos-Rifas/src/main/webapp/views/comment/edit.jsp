@@ -10,7 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="comment/user/edit.do" modelAttribute="comment">
+<form:form action="comment/${actor}/edit.do" modelAttribute="comment">
 
 	<form:hidden path="id" />
 	<form:hidden path="bargain" />
@@ -28,9 +28,9 @@
 	</security:authorize>
 	
 		<security:authorize access="hasRole('ADMIN')">
-		<acme:textbox code="comment.image" path="image" readonly="readonly" />
+		<acme:textbox code="comment.image" path="images" readonly="readonly" />
 		
-		<acme:textarea code="comment.text" path="text" readonly="readonly" />
+		<acme:textbox code="comment.text" path="text" readonly="readonly" />
 	</security:authorize>
 	
 	<acme:textbox code="comment.moment" path="moment" readonly="readonly"/>
@@ -53,7 +53,7 @@
 	</jstl:if>
 	
 	<jstl:if test="${comment.getRepliedComment()==null}">
-		<acme:cancel url="bargain/display.do?bargainId=${comment.getBargain().getId()}" code="comment.cancel"/>
+		<acme:cancel url="comment/display.do?commentId=${comment.getId()}" code="comment.cancel"/>
 	</jstl:if>
 	
 

@@ -174,6 +174,27 @@ public class CommentService {
 
 	}
 	
+	public void deleteFromBargain(final Bargain bargain) {
+		Comment commentForDelete;
+		Integer size;
+		Collection<Comment> comments;
+
+		Assert.isTrue(bargain.getId() != 0);
+		
+		comments = this.findByBargainId(bargain.getId(), 1, this.countByBargainId(bargain.getId())).getContent();
+
+		for (Comment c : comments) { 
+			size = this.countByRepliedCommentId(c.getId());
+	
+			//Delete repliedComments
+			for (final Comment repliedComment : this.findByRepliedCommentId(c.getId(), 1, size))
+				this.delete(repliedComment);
+	
+			commentForDelete = this.findOne(c.getId());
+			this.commentRepository.delete(commentForDelete);
+		}
+	}
+	
 	public void flush() {
 		this.commentRepository.flush();
 	}
@@ -209,6 +230,24 @@ public class CommentService {
 
 		Assert.isTrue(repliedCommentId != 0);
 		result = this.commentRepository.findByRepliedCommentId(repliedCommentId, this.getPageable(page, size));
+
+		return result;
+	}
+	
+	public Page<Comment> findByBargainIdAndNoRepliedComment(final int bargainId, final int page, final int size) {
+		Page<Comment> result;
+
+		Assert.isTrue(bargainId != 0);
+		result = this.commentRepository.findByRepliedCommentId(bargainId, this.getPageable(page, size));
+
+		return result;
+	}
+	
+	public Integer countByBargainIdAndNoRepliedComment(final int bargainId) {
+		Integer result;
+
+		Assert.isTrue(bargainId != 0);
+		result = this.commentRepository.countByBargainIdAndNoRepliedComment(bargainId);
 
 		return result;
 	}

@@ -42,4 +42,10 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 	@Query("select count(c) from Comment c where c.user.userAccount.id=?1")
 	Integer countByUserAccountId(int userAccountId);
 	
+	@Query("select c from Comment c where c.repliedComment is null and c.bargain.id=?1")
+	Page<Comment> findByBargainIdAndNoRepliedComment(int bargainId, Pageable pageable);
+
+	@Query("select count(c) from Comment c where c.repliedComment is null and c.bargain.id=?1")
+	Integer countByBargainIdAndNoRepliedComment(int bargainId);
+
 }

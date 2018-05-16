@@ -138,6 +138,7 @@ public class CommentUserController extends AbstractController {
 		result.addObject("canImage", canImage);
 		result.addObject("comment", comment);
 		result.addObject("message", messageCode);
+		result.addObject("actor", "user");
 
 		return result;
 	}
