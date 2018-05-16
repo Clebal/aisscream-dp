@@ -72,6 +72,7 @@
         		<ul class="dropdown-menu">
         			<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
         			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>					
+        			<li><a href="raffle/moderator/list.do"><spring:message code="master.page.list.raffle" /></a></li>					
 				</ul>
 			</security:authorize>
 			

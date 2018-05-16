@@ -10,33 +10,45 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<jsp:useBean id="today" class="java.util.Date" />
+
 <display:table class="table table-striped table-bordered table-hover" name="raffles" id="row" requestURI="${requestURI}">
 
 	<jstl:if test="${requestURI.equals('raffle/moderator/list.do')}">
 		<acme:columnLink domain="raffle" action="delete" id="${row.getId()}" actor="moderator" />
+		<jstl:if test="${row.getWinner() == null && row.getMaxDate()<(today)}">
+			<acme:columnLink domain="raffle" action="toraffle" id="${row.getId()}" actor="moderator" />
+		</jstl:if>
+		<jstl:if test="${row.getWinner() != null && row.getMaxDate()>=(today)}">
+			<display:column><p><spring:message code="raffle.alreadyRaffled" /></p></display:column>
+		</jstl:if>
 	</jstl:if>
-	<jstl:if test="${!requestURI.equals('raffle/moderator/list.do')}">
+	<jstl:if test="${requestURI.equals('raffle/company/list.do') && row.getWinner() == null}">
 		<acme:columnLink domain="raffle" action="edit" id="${row.getId()}" actor="company" />
+	</jstl:if>
+	<jstl:if test="${requestURI.equals('raffle/company/list.do') && row.getWinner() != null}">
+		<display:column><p>Cannot be edited</p></display:column>
 	</jstl:if>
 
 	<acme:column domain="raffle" property="title"/>
 	
 	<acme:column domain="raffle" property="description"/>
 	
-	<jstl:if test="${row.getProductUrl() != null && !row.getProductUrl().equals('')}">
-		<acme:columnLink domain="raffle" code="productName" content="${row.getProductName()}" url="${row.getProductUrl()}"/>
-	</jstl:if>
-	
-	<jstl:if test="${row.getProductUrl() == null || row.getProductUrl().equals('')}">
-		<acme:column domain="raffle" property="productName" />
-	</jstl:if>
+	<acme:column domain="raffle" property="productName" />
 
 	<acme:column domain="raffle" property="maxDate" formatDate="true" sortable="true"/>
 	
 	<acme:column domain="raffle" property="price" sortable="true" />
 	
+	<jstl:if test="${row.getWinner() != null}">
+		<acme:columnLink domain="raffle" code="winner" content="${row.getWinner().getName()} ${row.getWinner().getSurname()}" url="actor/user/display.do?actorId=${row.getCompany().getId()}" />
+	</jstl:if>
+	<jstl:if test="${row.getWinner() == null}">
+		<display:column></display:column>
+	</jstl:if>
+	
 	<jstl:if test="${!requestURI.equals('raffle/company/list.do')}">
-		<acme:columnLink domain="raffle" code="company" content="${row.getCompany().getName()} ${row.getCompany().getSurname()}" url="actor/company/display.do?actorId=${row.getCompany().getId()}" />
+		<acme:columnLink domain="raffle" code="company" content="${row.getCompany().getName()} ${row.getCompany().getSurname()}" url="actor/company/profile.do?actorId=${row.getCompany().getId()}" />
 	</jstl:if>
 	
 	<jstl:if test="${requestURI.equals('raffle/company/list.do')}">

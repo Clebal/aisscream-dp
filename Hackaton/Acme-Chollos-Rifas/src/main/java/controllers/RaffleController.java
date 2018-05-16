@@ -21,14 +21,12 @@ import services.RaffleService;
 @RequestMapping(value="/raffle")
 public class RaffleController extends AbstractController {
 
-//    private final PaypalClient paypalClient;
-//    
-//    public RaffleController(){
-//        this.paypalClient = new PaypalClient();
-//    }
-	
 	@Autowired
 	private RaffleService raffleService;
+	
+	public RaffleController() {
+		super();
+	}
 	
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required=false, defaultValue="1") final int page) {
@@ -42,6 +40,7 @@ public class RaffleController extends AbstractController {
 		result.addObject("raffles", rafflePage.getContent());
 		result.addObject("pageNumber", rafflePage.getTotalPages());
 		result.addObject("page", page);
+		result.addObject("requestURI", "raffle/list.do");
 		
 		return result;
 	}

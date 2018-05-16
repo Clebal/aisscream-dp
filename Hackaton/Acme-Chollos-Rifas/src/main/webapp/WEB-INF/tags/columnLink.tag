@@ -59,6 +59,6 @@
 <jstl:if test="${content != null}">
 	<spring:message code="${domain}.${code}" var="titleHeader"/>
 	<display:column title="${titleHeader}" style="${style}">
-		<a href="${url}"><jstl:out value="${content}" /></a>
+		<a href="<jstl:out value='${url}'/>"><jstl:out value="${content}" /></a>
 	</display:column>
 </jstl:if>

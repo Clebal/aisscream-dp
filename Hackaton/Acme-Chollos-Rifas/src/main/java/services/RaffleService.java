@@ -1,6 +1,8 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,9 +14,11 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Actor;
 import domain.Company;
 import domain.Raffle;
 import domain.Ticket;
+import domain.User;
 
 import repositories.RaffleRepository;
 import security.Authority;
@@ -34,6 +38,9 @@ public class RaffleService {
 	
 	@Autowired
 	private TicketService ticketService;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@Autowired
 	private Validator		validator;
@@ -72,20 +79,43 @@ public class RaffleService {
 	}
 	
 	public Raffle save(final Raffle raffle) {
-		Raffle result;
-		Authority authority;
+		Raffle result, saved;
+		Authority authorityCompany, authorityModerator;
 		
 		Assert.notNull(raffle);
 		
-		authority = new Authority();
-		authority.setAuthority("COMPANY");
+		authorityCompany = new Authority();
+		authorityCompany.setAuthority("COMPANY");
 		
-		// La empresa está logeado
+		authorityModerator = new Authority();
+		authorityModerator.setAuthority("MODERATOR");
+		
+		// El actor está logeado
 		Assert.isTrue(LoginService.isAuthenticated());
 		
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		
-		Assert.isTrue(raffle.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+		if(raffle.getId() == 0) {
+			// Solo puede ser creado por un actor autenticado como compañía
+			Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authorityCompany));
+			
+			// La compañía autenticada debe ser la que esté en la rifa
+			Assert.isTrue(raffle.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+		} else {
+			saved = this.findOne(raffle.getId());
+						
+			// Si estamos añadiendo el ganador el actor autenticado debe ser el moderador
+			if(saved.getWinner() == null && raffle.getWinner() != null) {
+				// Comprueba que no esté intentando cambiar la fecha máxima cuando cambia el winner
+				Assert.isTrue(saved.getMaxDate().compareTo(raffle.getMaxDate()) == 0);
+				// Comprobar que solo lo cambie el moderador
+				Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authorityModerator));
+			}
+			
+			// Si el ganador ya se ha puesto, la rifa no se puede modificar
+			if(saved.getWinner() != null) {
+				Assert.isNull(saved.getWinner());
+			}
+			
+		}
 		
 		// Guardar
 		result = this.raffleRepository.save(raffle);
@@ -165,16 +195,85 @@ public class RaffleService {
 	public Raffle findOneToEdit(final int raffleId) {
 		Raffle result;
 		
+		Assert.isTrue(raffleId != 0);
+
 		result = this.findOne(raffleId);
 		Assert.notNull(result);
 		
 		// El que edite tiene que ser el creador del raffle
 		Assert.isTrue(result.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+				
+		return result;
+	}
+	
+	public Raffle findOneToDelete(final int raffleId) {
+		Raffle result;
+		Authority authority;
+
+		Assert.isTrue(raffleId != 0);
+		
+		// El que borre tiene que ser el moderador
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.findOne(raffleId);
+		Assert.notNull(result);
+				
+		return result;
+	}
+	
+	public void toRaffle(final int raffleId) {
+		List<Actor> winner;
+		Raffle raffle, copyRaffle;
+		Authority authority;
+		
+		Assert.isTrue(raffleId != 0);
+		
+		// Solo lo puede sortear el moderador
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		raffle = this.findOne(raffleId);
+		Assert.notNull(raffle);
+		
+		// La fecha del sorteo debe haber pasado
+		Assert.isTrue(raffle.getMaxDate().compareTo(new Date()) < 0);
+		
+		// El ganado del sorteo no puede estar relleno
+		Assert.isTrue(raffle.getWinner() == null);
+		
+		winner = this.raffleRepository.toRaffle(raffle.getId(), this.getPageable(1, 1)).getContent();
+		Assert.notNull(winner);
+		
+		copyRaffle = this.copy(raffle);
+		
+		copyRaffle.setWinner((User) winner.get(0));
+		
+		this.save(copyRaffle);
+		
+		this.notificationService.send(winner, "¡Has ganado un sorteo! Este sorteo es: " + raffle.getTitle(), null);
+	}
+	
+	// Auxiliary methods
+	private Raffle copy(final Raffle raffle) {
+		Raffle result;
+		
+		result = new Raffle();
+		result.setId(raffle.getId());
+		result.setVersion(raffle.getVersion());
+		result.setTitle(raffle.getTitle());
+		result.setDescription(raffle.getDescription());
+		result.setMaxDate(raffle.getMaxDate());
+		result.setProductName(raffle.getProductName());
+		result.setProductUrl(raffle.getProductUrl());
+		result.setProductImages(raffle.getProductImages());
+		result.setWinner(raffle.getWinner());
 		
 		return result;
 	}
 	
-	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
 		

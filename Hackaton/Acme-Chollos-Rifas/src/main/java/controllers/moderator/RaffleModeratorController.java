@@ -43,12 +43,25 @@ public class RaffleModeratorController extends AbstractController {
 		return result;
 	}
 	
+	@RequestMapping(value="/toraffle", method = RequestMethod.GET)
+	public ModelAndView raffle(@RequestParam final int raffleId) {
+		ModelAndView result;
+		
+		this.raffleService.toRaffle(raffleId);
+		
+		result = new ModelAndView("redirect:list");
+		
+		result.addObject("requestURI", "raffle/moderator/list.do");
+		
+		return result;
+	}
+	
 	@RequestMapping(value="/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int raffleId) {
 		ModelAndView result;
 		Raffle raffle;
 		
-		raffle = this.raffleService.findOne(raffleId);
+		raffle = this.raffleService.findOneToDelete(raffleId);
 		Assert.notNull(raffle);
 		
 		this.raffleService.delete(raffle);

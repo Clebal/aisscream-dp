@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import domain.Actor;
 import domain.Raffle;
 
 public interface RaffleRepository extends JpaRepository<Raffle, Integer> {
@@ -23,5 +24,8 @@ public interface RaffleRepository extends JpaRepository<Raffle, Integer> {
 	
 	@Query("select r from Raffle r")
 	Page<Raffle> findAllPaginated(Pageable pageable);
+	
+	@Query("select t.user from Ticket t where t.raffle.id = ?1 ORDER BY RAND()")
+	Page<Actor> toRaffle(int raffleId, Pageable pageable);
 	
 }
