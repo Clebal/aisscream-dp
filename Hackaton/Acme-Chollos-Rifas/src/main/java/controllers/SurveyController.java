@@ -27,7 +27,6 @@ import domain.Answer;
 import domain.Question;
 import domain.Surveyer;
 import domain.Survey;
-import forms.QuestionForm;
 import forms.SurveyForm;
 
 @Controller
@@ -141,10 +140,7 @@ public class SurveyController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final SurveyForm surveyForm, final BindingResult binding, @PathVariable(value="actor") final String model) {
 		ModelAndView result;
-		Survey survey, surveySaved;
-		Question question, questionSaved;
-		Answer answer;
-		Integer number;
+		Survey survey;
 		
 		survey = this.surveyService.reconstruct(surveyForm, model, binding);
 		Assert.notNull(survey);
@@ -153,23 +149,11 @@ public class SurveyController extends AbstractController {
 			result = createEditModelAndView(surveyForm, model);
 		} else {
 			try {
-				surveySaved = this.surveyService.save(survey);
-				if(surveyForm.getId() == 0) {
-					number = 0;
-					for(QuestionForm q: surveyForm.getQuestions()) {
-						question = this.questionService.reconstructFromSurvey(q, surveySaved, number);
-						questionSaved = this.questionService.save(question);
-						for(Answer a: q.getAnswers()) {
-							answer = this.answerService.reconstructFromSurvey(a, questionSaved);
-							this.answerService.save(answer);
-						}
-					}
-					number++;
-				}
+				this.surveyService.save(survey, surveyForm);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 //				result = super.panic(oops);
-				result = this.createEditModelAndView(surveyForm, "survey.commit.error");
+				result = this.createEditModelAndView(surveyForm, null, "survey.commit.error");
 			}
 		}
 			
