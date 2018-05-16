@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import domain.Actor;
 import domain.User;
 
 @Repository
@@ -22,9 +23,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	Page<User> findOrderByPoints(Pageable pageable);
 	
 	@Query("select s.user from Subscription s where s.plan.name = 'Gold Premium'")
-	Page<User> findWithGoldPremium(Pageable pageable);
+	Page<Actor> findWithGoldPremium(Pageable pageable);
 
 	@Query("select s.user from Subscription s where s.plan.name = 'Basic Premium'")
-	Page<User> findWithBasicPremium(Pageable pageable);
+	Page<Actor> findWithBasicPremium(Pageable pageable);
 	
 }

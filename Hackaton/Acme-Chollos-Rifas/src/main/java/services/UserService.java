@@ -19,6 +19,7 @@ import repositories.UserRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Actor;
 import domain.Bargain;
 import domain.User;
 import forms.UserForm;
@@ -215,16 +216,16 @@ public class UserService {
 		this.save(user);
 	}
 	
-	public Collection<User> findWithGoldPremium(final int page, final int size) {
-		Collection<User> result;
+	public Collection<Actor> findWithGoldPremium(final int page, final int size) {
+		Collection<Actor> result;
 
 		result = this.userRepository.findWithGoldPremium(this.getPageable(page, size)).getContent();
 
 		return result;
 	}
 	
-	public Collection<User> findWithBasicPremium(final int page, final int size) {
-		Collection<User> result;
+	public Collection<Actor> findWithBasicPremium(final int page, final int size) {
+		Collection<Actor> result;
 
 		result = this.userRepository.findWithBasicPremium(this.getPageable(page, size)).getContent();
 
