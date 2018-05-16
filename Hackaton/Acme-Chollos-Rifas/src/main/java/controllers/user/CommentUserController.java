@@ -130,7 +130,7 @@ public class CommentUserController extends AbstractController {
 		if (comment.getUser().equals(user))
 			canEdit = true;
 		
-		if (this.planService.findByUserId(comment.getUser().getId()).getName().equals("Gold Premium"))
+		if (this.planService.findByUserId(comment.getUser().getId()) != null)
 			canImage = true;
 
 		Assert.isTrue(canEdit);
