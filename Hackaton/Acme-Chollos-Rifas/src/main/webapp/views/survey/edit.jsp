@@ -23,9 +23,11 @@
 		<script>
 			$("#surveyForm").submit(function(e) {
 				$("input[name^='question']").each(function(i) {
-					if(this.value == "") $("#cannotBeEmpty").fadeIn();
+					if(this.value == "") {
+						$("#cannotBeEmpty").fadeIn();
+						e.preventDefault();
+					}
 				});
-				e.preventDefault();
 			});
 		</script>
 	

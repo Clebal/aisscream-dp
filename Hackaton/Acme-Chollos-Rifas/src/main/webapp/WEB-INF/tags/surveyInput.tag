@@ -59,7 +59,7 @@ $(document).ready(function() {
 	var questionsContainer = $("#questionsContainer");
 	var number = questionsContainer.attr("data-number");
 	var number2 = questionsContainer.attr("data-number2");
-	$(questionsContainer).append('<br><div><label>'+questionText+ ' ' + number2 +'&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].text"><a class="addAnswer" data-number="1" data-number2="2" data-container="1">'+addAnswer+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number2+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].answers[0].text" /></div></div></div>');
+	$(questionsContainer).append('<br><div><label>'+questionText+ ' ' + number2 +'&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].text">&nbsp;&nbsp;<a class="addAnswer" data-number="1" data-number2="2" data-container="1">'+addAnswer+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number2+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].answers[0].text" /></div></div></div>');
 });
 
 $("#addQuestion").click(function(e) {
@@ -69,7 +69,7 @@ $("#addQuestion").click(function(e) {
 	var number2 = questionsContainer.attr("data-number2");
 	$("#questionsContainer").attr("data-number", ++number);
 	$("#questionsContainer").attr("data-number2", ++number2);
-	$(questionsContainer).append('<br><div><label>'+questionText+ ' ' + number2 +'&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].text"><a class="addAnswer" data-number="1" data-number2="2" data-container="'+number2+'">'+addAnswer+'</a> - <a class="removeQuestion">'+removeQuestion+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number2+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].answers[0].text" /></div></div></div>');
+	$(questionsContainer).append('<br><div><label>'+questionText+ ' ' + number2 +'&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].text">&nbsp;&nbsp;<a class="addAnswer" data-number="1" data-number2="2" data-container="'+number2+'">'+addAnswer+'</a> - <a class="removeQuestion">'+removeQuestion+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number2+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].answers[0].text" /></div></div></div>');
 });
 
 $("body").on("click", ".addAnswer", function(e){
