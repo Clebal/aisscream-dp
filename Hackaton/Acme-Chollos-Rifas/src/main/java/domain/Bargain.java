@@ -29,11 +29,11 @@ public class Bargain extends DomainEntity {
 
 	private String				description;
 
-	private int					price;
+	private double				price;
 
-	private int					minimumPrice;
+	private double				minimumPrice;
 
-	private int					originalPrice;
+	private double				originalPrice;
 
 	private int					estimatedSells;
 
@@ -84,29 +84,29 @@ public class Bargain extends DomainEntity {
 	}
 
 	@Min(0)
-	public int getPrice() {
+	public double getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(final int price) {
+	public void setPrice(final double price) {
 		this.price = price;
 	}
 
 	@Min(0)
-	public int getMinimumPrice() {
+	public double getMinimumPrice() {
 		return this.minimumPrice;
 	}
 
-	public void setMinimumPrice(final int minimumPrice) {
+	public void setMinimumPrice(final double minimumPrice) {
 		this.minimumPrice = minimumPrice;
 	}
 
 	@Min(0)
-	public int getOriginalPrice() {
+	public double getOriginalPrice() {
 		return this.originalPrice;
 	}
 
-	public void setOriginalPrice(final int originalPrice) {
+	public void setOriginalPrice(final double originalPrice) {
 		this.originalPrice = originalPrice;
 	}
 
