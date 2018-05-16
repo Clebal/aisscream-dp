@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -21,8 +20,6 @@ public class Configuration extends DomainEntity {
 	private String	email;
 
 	private String	banner;
-
-	private int		sellComission;
 
 	private String	defaultImage;
 
@@ -65,15 +62,6 @@ public class Configuration extends DomainEntity {
 
 	public void setBanner(final String banner) {
 		this.banner = banner;
-	}
-
-	@Range(min = 0, max = 100)
-	public int getSellComission() {
-		return this.sellComission;
-	}
-
-	public void setSellComission(final int sellComission) {
-		this.sellComission = sellComission;
 	}
 
 	@NotBlank

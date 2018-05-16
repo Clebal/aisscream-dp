@@ -13,7 +13,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 import utilities.URLCollection;
@@ -32,7 +31,9 @@ public class Bargain extends DomainEntity {
 
 	private int					price;
 
-	private int					benefitPercent;
+	private int					minimumPrice;
+
+	private int					originalPrice;
 
 	private int					estimatedSells;
 
@@ -91,13 +92,22 @@ public class Bargain extends DomainEntity {
 		this.price = price;
 	}
 
-	@Range(min = 0, max = 100)
-	public int getBenefitPercent() {
-		return this.benefitPercent;
+	@Min(0)
+	public int getMinimumPrice() {
+		return this.minimumPrice;
 	}
 
-	public void setBenefitPercent(final int benefitPercent) {
-		this.benefitPercent = benefitPercent;
+	public void setMinimumPrice(final int minimumPrice) {
+		this.minimumPrice = minimumPrice;
+	}
+
+	@Min(0)
+	public int getOriginalPrice() {
+		return this.originalPrice;
+	}
+
+	public void setOriginalPrice(final int originalPrice) {
+		this.originalPrice = originalPrice;
 	}
 
 	@Min(0)

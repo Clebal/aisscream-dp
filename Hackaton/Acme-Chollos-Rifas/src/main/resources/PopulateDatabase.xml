@@ -437,7 +437,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="slogan" value="Buy different" />
 		<property name="email" value="aisscreamacas@gmail.com" />
 		<property name="banner" value="https://tinyurl.com/yabcto3u" />
-		<property name="sellComission" value="20" />
 		<property name="defaultImage" value="http://localhost:8080/Acme-Chollos-Rifas/images/avatar.jpg" />
 		<property name="defaultAvatar" value="http://localhost:8080/Acme-Chollos-Rifas/images/link_broken.png" />
 	</bean>
@@ -1660,13 +1659,38 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="visited" value="true" />
 	</bean>
 	
+	<bean id="notification4" class="domain.Notification">
+		<property name="subject" value="¡Enhorabuena, usted ha sido el ganador de la rifa: Entrada para ver el betis o el sevilla!" />
+		<property name="actor" ref="user1" />
+		<property name="visited" value="true" />
+	</bean>
+	
+	<bean id="notification5" class="domain.Notification">
+		<property name="subject" value="¡Enhorabuena, usted ha sido el ganador de la rifa: Pantalla ultrawide por la patilla!" />
+		<property name="actor" ref="user1" />
+		<property name="visited" value="true" />
+	</bean>
+	
+	<bean id="notification6" class="domain.Notification">
+		<property name="subject" value="¡Enhorabuena, usted ha sido el ganador de la rifa: LG SmartTV, la envidia de tu cuñado!" />
+		<property name="actor" ref="user1" />
+		<property name="visited" value="true" />
+	</bean>
+	
+	<bean id="notification7" class="domain.Notification">
+		<property name="subject" value="¡Enhorabuena, usted ha sido el ganador de la rifa: Video cámara FullHD 4K de Sony!" />
+		<property name="actor" ref="user2" />
+		<property name="visited" value="true" />
+	</bean>
+	
 	<!-- Bargain -->
 	<bean id="bargain1" class="domain.Bargain">
 		<property name="productName" value="PlayStation 4" />
 		<property name="productUrl" value="https://www.game.es/videojuegos/playstation-4" />
 		<property name="description" value="Últimas promociones" />
 		<property name="price" value="200" />
-		<property name="benefitPercent" value="5" />
+		<property name="minimumPrice" value="100" />
+		<property name="originalPrice" value="300" />
 		<property name="estimatedSells" value="50" />
 		<property name="isPublished" value="false" />
 		<property name="productImages">
