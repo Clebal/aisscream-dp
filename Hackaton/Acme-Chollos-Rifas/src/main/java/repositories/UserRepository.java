@@ -1,6 +1,8 @@
 
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,9 +25,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	Page<User> findOrderByPoints(Pageable pageable);
 	
 	@Query("select s.user from Subscription s where s.plan.name = 'Gold Premium'")
-	Page<Actor> findWithGoldPremium(Pageable pageable);
+	Collection<Actor> findWithGoldPremium();
 
 	@Query("select s.user from Subscription s where s.plan.name = 'Basic Premium'")
-	Page<Actor> findWithBasicPremium(Pageable pageable);
+	Collection<Actor> findWithBasicPremium();
 	
 }

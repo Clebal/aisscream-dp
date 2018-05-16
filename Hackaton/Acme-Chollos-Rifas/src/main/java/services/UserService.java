@@ -216,18 +216,18 @@ public class UserService {
 		this.save(user);
 	}
 	
-	public Collection<Actor> findWithGoldPremium(final int page, final int size) {
+	public Collection<Actor> findWithGoldPremium() {
 		Collection<Actor> result;
 
-		result = this.userRepository.findWithGoldPremium(this.getPageable(page, size)).getContent();
+		result = this.userRepository.findWithGoldPremium();
 
 		return result;
 	}
 	
-	public Collection<Actor> findWithBasicPremium(final int page, final int size) {
+	public Collection<Actor> findWithBasicPremium() {
 		Collection<Actor> result;
 
-		result = this.userRepository.findWithBasicPremium(this.getPageable(page, size)).getContent();
+		result = this.userRepository.findWithBasicPremium();
 
 		return result;
 	}
