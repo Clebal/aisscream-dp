@@ -151,6 +151,29 @@ public class CommentService {
 
 	}
 
+	public void deleteAdmin(final Comment comment) {
+		final Authority authority;
+		Comment commentForDelete;
+		Integer size;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		Assert.notNull(comment);
+
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		size = this.countByRepliedCommentId(comment.getId());
+
+		//Delete repliedComments
+		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))
+			this.delete(repliedComment);
+
+		commentForDelete = this.findOne(comment.getId());
+		this.commentRepository.delete(commentForDelete);
+
+	}
+	
 	public void flush() {
 		this.commentRepository.flush();
 	}
@@ -226,6 +249,14 @@ public class CommentService {
 		Assert.isTrue(bargainId != 0);
 		result = this.commentRepository.countByBargainId(bargainId);
 
+		return result;
+	}
+	
+	public Page<Comment> findAllComments(final int page, final int size) {
+		Page<Comment> result;
+		
+		result = this.commentRepository.findAllComments(this.getPageable(page, size));
+		
 		return result;
 	}
 	

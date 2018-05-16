@@ -2,6 +2,7 @@
 package controllers.administrator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -21,8 +22,25 @@ public class CommentAdministratorController extends AbstractController {
 	// Services
 	@Autowired
 	private CommentService	commentService;
-
-
+	
+	// List
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(required = false, defaultValue="1") Integer page) {
+		ModelAndView result;
+		Page<Comment> comments;
+				
+		comments = this.commentService.findAllComments(page, 5);
+		Assert.notNull(comments);
+		
+		result = new ModelAndView("comment/list");
+		result.addObject("requestURI", "comment/administrator/list.do");
+		result.addObject("comments", comments.getContent());
+		result.addObject("page", page);
+		result.addObject("pageNumber", comments.getTotalPages());
+				
+		return result;
+	}
+	
 	// Delete
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int commentId) {
@@ -44,7 +62,7 @@ public class CommentAdministratorController extends AbstractController {
 		try {
 			Assert.notNull(comment.getBargain());
 			bargainId = comment.getBargain().getId();
-			this.commentService.delete(comment);
+			this.commentService.deleteAdmin(comment);
 			result = new ModelAndView("redirect:/bargain/display.do?bargainId=" + bargainId);
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(comment, "comment.commit.error");

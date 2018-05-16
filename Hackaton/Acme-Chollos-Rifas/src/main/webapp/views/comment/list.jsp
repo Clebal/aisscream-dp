@@ -12,6 +12,10 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="comments" id="row" requestURI="${requestURI}">
 	
+	<jstl:if test="${requestURI == 'comment/administrator/list.do'}">
+		<acme:columnLink action="edit" actor="administrator" domain="comment" id="${row.getId()}" />
+	</jstl:if>
+	
 	<acme:column property="moment" domain="comment" formatDate="true"/>
 	
 	<acme:column property="text" domain="comment" />

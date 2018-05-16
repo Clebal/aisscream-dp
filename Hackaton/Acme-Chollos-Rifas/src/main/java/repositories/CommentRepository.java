@@ -12,6 +12,9 @@ import domain.Comment;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
+	@Query("select c from Comment c")
+	Page<Comment> findAllComments(Pageable pageable);
+	
 	@Query("select c from Comment c where c.user.id=?1")
 	Page<Comment> findByUserId(int userId, Pageable pageable);
 	
