@@ -114,7 +114,28 @@ public class UserService {
 	}
 
 	// Other business methods
-
+	public void updateFromBargain(final Bargain bargain) {
+		Collection<User> users;
+		Authority authority;
+		
+		Assert.notNull(bargain);
+		
+		authority = new Authority();
+		authority.setAuthority("COMPANY");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		Assert.isTrue(bargain.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		users = this.userRepository.findByBargainId(bargain.getId());
+		Assert.notNull(users);
+		
+		for(User u: users) {
+			u.getWishList().remove(bargain);
+			this.userRepository.save(u);
+		}
+		
+	}
+	
 	public User findByUserAccountId(final int id) {
 		User result;
 

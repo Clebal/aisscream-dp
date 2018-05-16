@@ -30,4 +30,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select s.user from Subscription s where s.plan.name = 'Basic Premium'")
 	Collection<Actor> findWithBasicPremium();
 	
+	@Query("select u from User u, Bargain b where b.id = ?1 and b IN u.wishList")
+	Collection<User> findByBargainId(final int bargainId);
+	
 }
