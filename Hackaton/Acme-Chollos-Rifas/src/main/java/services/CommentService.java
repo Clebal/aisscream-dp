@@ -3,6 +3,7 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,7 +54,8 @@ public class CommentService {
 	public Comment create(final Bargain bargain, final Comment repliedComment) {
 		Comment result;
 		User user;
-
+		Collection<String> images;
+		
 		Assert.notNull(bargain);
 
 		result = new Comment();
@@ -65,9 +67,10 @@ public class CommentService {
 		if (repliedComment != null)
 			result.setRepliedComment(repliedComment);
 
+		images = new HashSet<String>();
 		result.setBargain(bargain);
-
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
+		result.setImages(images);
 
 		return result;
 	}
@@ -92,10 +95,15 @@ public class CommentService {
 	
 	public Comment findOneToDisplay(final int commentId) {
 		Comment result;
+		Bargain bargain;
 
 		Assert.isTrue(commentId != 0);
 
 		result = this.commentRepository.findOne(commentId);
+		
+		bargain = this.bargainService.findOne(result.getBargain().getId());
+		
+		Assert.isTrue(this.bargainService.canDisplay(bargain));
 
 		return result;
 	}
@@ -122,7 +130,7 @@ public class CommentService {
 
 		Assert.isTrue(comment.getUser().equals(user));
 		
-		if (comment.getImages() != null || !comment.getImages().isEmpty())
+		if (comment.getId() != 0 && !comment.getImages().isEmpty())
 			Assert.isTrue(this.planService.findByUserId(comment.getUser().getId()) != null);
 
 		if (comment.getRepliedComment() != null)
@@ -330,6 +338,9 @@ public class CommentService {
 			}
 			comment.setUser(user);
 			comment.setBargain(bargain);
+			if (this.planService.findByUserId(comment.getUser().getId()) == null) {
+				comment.setImages(new HashSet<String>());
+			}
 			
 		} else {
 			saved = this.commentRepository.findOne(comment.getId());

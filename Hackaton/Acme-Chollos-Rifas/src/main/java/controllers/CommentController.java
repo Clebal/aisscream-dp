@@ -1,6 +1,9 @@
 
 package controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
+import services.PlanService;
 import domain.Comment;
 
 @Controller
@@ -21,20 +25,33 @@ public class CommentController extends AbstractController {
 	@Autowired
 	private CommentService	commentService;
 	
+	@Autowired
+	private PlanService	planService;
+	
 	// List
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam final int bargainId, @RequestParam(required = false, defaultValue="1") Integer page) {
 		ModelAndView result;
 		Page<Comment> comments;
+		Map<Comment, Boolean> mapCommentBoolean;
+		Boolean hasPlan;
 				
 		comments = this.commentService.findByBargainId(bargainId, page, 5);
 		Assert.notNull(comments);
+		mapCommentBoolean = new HashMap<Comment, Boolean>();
+		for (Comment c : comments) {
+			hasPlan = false;
+			if (this.planService.findByUserId(c.getUser().getId()) != null)
+				hasPlan = true;
+			mapCommentBoolean.put(c, hasPlan);
+		}
 		
 		result = new ModelAndView("comment/list");
 		result.addObject("requestURI", "comment/list.do?bargainId=" + bargainId);
 		result.addObject("comments", comments.getContent());
 		result.addObject("page", page);
 		result.addObject("pageNumber", comments.getTotalPages());
+		result.addObject("mapCommentBoolean", mapCommentBoolean);
 				
 		return result;
 	}
@@ -45,7 +62,7 @@ public class CommentController extends AbstractController {
 		ModelAndView result;
 		Comment comment;
 
-		comment = this.commentService.findOne(commentId);
+		comment = this.commentService.findOneToDisplay(commentId);
 
 		Assert.notNull(comment);
 
@@ -62,10 +79,24 @@ public class CommentController extends AbstractController {
 		ModelAndView result;
 		Page<Comment> comments;
 		Boolean canComment;
-
+		Map<Comment, Boolean> mapCommentBoolean;
+		Boolean hasPlan, hasPlanComment;
+		
 		canComment = true;
 		
 		comments = this.commentService.findByRepliedCommentId(comment.getId(), page, 5);
+		
+		hasPlanComment = false;
+		if (this.planService.findByUserId(comment.getUser().getId()) != null)
+			hasPlanComment = true;
+		
+		mapCommentBoolean = new HashMap<Comment, Boolean>();
+		for (Comment c : comments) {
+			hasPlan = false;
+			if (this.planService.findByUserId(c.getUser().getId()) != null)
+				hasPlan = true;
+			mapCommentBoolean.put(c, hasPlan);
+		}
 
 		result = new ModelAndView("comment/display");
 
@@ -75,6 +106,8 @@ public class CommentController extends AbstractController {
 		result.addObject("comments", comments.getContent());
 		result.addObject("canComment", canComment);
 		result.addObject("mapLinkBoolean", super.checkLinkImages(comment.getImages()));
+		result.addObject("mapCommentBoolean", mapCommentBoolean);
+		result.addObject("hasPlanComment", hasPlanComment);
 
 		return result;
 

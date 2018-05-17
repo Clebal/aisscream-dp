@@ -66,10 +66,6 @@ public class CommentModeratorController extends AbstractController {
 			this.commentService.deleteModerator(comment);
 			result = new ModelAndView("redirect:/comment/moderator/list.do");
 		} catch (final Throwable oops) {
-			System.out.println("oops: " + oops.getMessage());
-			System.out.println("oops: " + oops.getLocalizedMessage());
-			System.out.println("oops: " + oops.getCause());
-
 			result = this.createEditModelAndView(comment, "comment.commit.error");
 		}
 
@@ -93,6 +89,7 @@ public class CommentModeratorController extends AbstractController {
 		result.addObject("comment", comment);
 		result.addObject("actor", "moderator");
 		result.addObject("message", messageCode);
+		result.addObject("requestURI", "comment/moderator/edit.do");
 
 		return result;
 	}

@@ -20,14 +20,21 @@
  	</jstl:if>
 
 	<security:authorize access="hasRole('USER')">
+		<jstl:if test="${comment.getId()==0}">
 		<jstl:if test="${canImage}">
 			<acme:textbox code="comment.image" path="images"/>
 		</jstl:if>
-		
 		<acme:textarea code="comment.text" path="text"/>
+		</jstl:if>
+		<jstl:if test="${comment.getId()!=0}">
+		<jstl:if test="${canImage}">
+			<acme:textbox code="comment.image" path="images" readonly="readonly" />
+		</jstl:if>
+		<acme:textbox code="comment.text" path="text" readonly="readonly" />
+		</jstl:if>
 	</security:authorize>
 	
-		<security:authorize access="hasRole('MODERATOR')">
+	<security:authorize access="hasRole('MODERATOR')">
 		<acme:textbox code="comment.image" path="images" readonly="readonly" />
 		
 		<acme:textbox code="comment.text" path="text" readonly="readonly" />
@@ -42,18 +49,16 @@
 		</jstl:if>
 	</security:authorize>
 	
-	<security:authorize access="hasRole('MODERATOR')">
-		<jstl:if test="${comment.getId()!= 0}">
-			<acme:submit name="delete" code="comment.delete" codeDelete="comment.confirm.delete"/>
-		</jstl:if>
-	</security:authorize>
-	
-	<jstl:if test="${comment.getRepliedComment()!=null}">
-		<acme:cancel url="comment/display.do?commentId=${comment.getRepliedComment().getId()}" code="comment.cancel"/>
+	<jstl:if test="${comment.getId()!= 0}">
+		<acme:submit name="delete" code="comment.delete" codeDelete="comment.confirm.delete"/>
 	</jstl:if>
 	
-	<jstl:if test="${comment.getRepliedComment()==null}">
-		<acme:cancel url="comment/display.do?commentId=${comment.getId()}" code="comment.cancel"/>
+	<jstl:if test="${requestURI=='comment/user/edit.do' || requestURI=='comment/user/create.do'}">
+		<acme:cancel url="comment/user/list.do" code="comment.cancel"/>
+	</jstl:if>
+	
+	<jstl:if test="${requestURI=='comment/moderator/edit.do'}">
+		<acme:cancel url="comment/moderator/list.do" code="comment.cancel"/>
 	</jstl:if>
 	
 

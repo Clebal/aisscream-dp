@@ -27,7 +27,6 @@ import services.QuestionService;
 import services.SponsorService;
 import services.SurveyService;
 import services.UserService;
-import domain.Actor;
 import domain.Answer;
 import domain.Question;
 import domain.Surveyer;

@@ -12,6 +12,10 @@
 
 <div class="container">
 
+	<jstl:if test="${hasPlanComment}">
+		<jstl:set value='background-color: #ec6354;' var="styleComment"/>
+	</jstl:if>
+	
 	<spring:message code="comment.alt" var="commentAlt"/>
 	
 	<jstl:forEach items="${mapLinkBoolean}" var="mapEntry">
@@ -27,11 +31,12 @@
 		</jstl:if>
 	
 	</jstl:forEach>
-		
+	
+	<div style="${styleComment}">
 	<acme:display code="comment.moment" value="${comment.getMoment()}" codeMoment="comment.format.moment"/>
 	
 	<acme:display code="comment.text" value="${comment.getText()}"/>
-
+	</div>
 	
 	<security:authorize access="hasRole('USER')"> 
 		<jstl:if test="${canComment}">
@@ -56,7 +61,11 @@
 	
 	<jstl:forEach var="row" items="${comments}">
 		
-		<div class="container-square2">
+		<jstl:if test="${mapCommentBoolean[row]}">
+			<jstl:set value='background-color: #ec6354;' var="style"/>
+		</jstl:if>
+	
+		<div class="container-square2" style="${style}">
 				
 			<acme:display code="comment.moment" value="${row.getMoment()}" codeMoment="comment.format.moment"/>
 	
