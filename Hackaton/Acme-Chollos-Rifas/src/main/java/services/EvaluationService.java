@@ -96,20 +96,21 @@ public class EvaluationService {
 
 	public void delete(final Evaluation evaluation) {
 		Authority authority;
-		UserAccount userAccount;
+		Evaluation saved;
 
 		Assert.notNull(evaluation);
-		userAccount = LoginService.getPrincipal();
+		
+		saved = this.findOne(evaluation.getId());
+		Assert.notNull(saved);
 
 		// Solo su usuario puede borrarlas
-		
 		authority = new Authority();
 		authority.setAuthority("USER");
-		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
-		Assert.isTrue(evaluation.getUser().getUserAccount().equals(userAccount));
+		Assert.isTrue(saved.getUser().getUserAccount().equals(LoginService.getPrincipal()));
 
-		this.evaluationRepository.delete(evaluation);
+		this.evaluationRepository.delete(saved);
 	}
 
 	//Other business methods -------------------------------------------------
