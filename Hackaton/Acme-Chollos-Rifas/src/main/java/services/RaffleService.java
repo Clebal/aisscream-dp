@@ -43,6 +43,9 @@ public class RaffleService {
 	private NotificationService notificationService;
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private Validator		validator;
 	
 	// Constructor
@@ -81,6 +84,9 @@ public class RaffleService {
 	public Raffle save(final Raffle raffle) {
 		Raffle result, saved;
 		Authority authorityCompany, authorityModerator;
+		User user;
+		Collection<Actor> actors;
+		Ticket ticket;
 		
 		Assert.notNull(raffle);
 		
@@ -99,7 +105,9 @@ public class RaffleService {
 			
 			// La compañía autenticada debe ser la que esté en la rifa
 			Assert.isTrue(raffle.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+			
 		} else {
+			
 			saved = this.findOne(raffle.getId());
 						
 			// Si estamos añadiendo el ganador el actor autenticado debe ser el moderador
@@ -119,6 +127,18 @@ public class RaffleService {
 		
 		// Guardar
 		result = this.raffleRepository.save(raffle);
+		
+		if(raffle.getId() == 0) {
+
+			actors = this.userService.findWithGoldPremium();
+			Assert.notNull(actors);
+			
+			for(Actor a: actors) {
+				user = (User) a;
+				ticket = this.ticketService.create(result, user);
+				this.ticketService.save(ticket);
+			}
+		}
 		
 		return result;
 	}
@@ -270,6 +290,7 @@ public class RaffleService {
 		result.setProductUrl(raffle.getProductUrl());
 		result.setProductImages(raffle.getProductImages());
 		result.setWinner(raffle.getWinner());
+		result.setCompany(raffle.getCompany());
 		
 		return result;
 	}

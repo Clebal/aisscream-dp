@@ -10,19 +10,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<jsp:useBean id="today" class="java.util.Date" />
-
 <display:table class="table table-striped table-bordered table-hover" name="raffles" id="row" requestURI="${requestURI}">
 
 	<jstl:if test="${requestURI.equals('raffle/moderator/list.do')}">
 		<acme:columnLink domain="raffle" action="delete" id="${row.getId()}" actor="moderator" />
-		<jstl:if test="${row.getWinner() == null && row.getMaxDate()<(today)}">
-			<acme:columnLink domain="raffle" action="toraffle" id="${row.getId()}" actor="moderator" />
-		</jstl:if>
-		<jstl:if test="${row.getWinner() != null && row.getMaxDate()>=(today)}">
-			<display:column><p><spring:message code="raffle.alreadyRaffled" /></p></display:column>
-		</jstl:if>
 	</jstl:if>
+	
 	<jstl:if test="${requestURI.equals('raffle/company/list.do') && row.getWinner() == null}">
 		<acme:columnLink domain="raffle" action="edit" id="${row.getId()}" actor="company" />
 	</jstl:if>
@@ -38,13 +31,15 @@
 
 	<acme:column domain="raffle" property="maxDate" formatDate="true" sortable="true"/>
 	
-	<acme:column domain="raffle" property="price" sortable="true" />
+	<acme:column domain="raffle" property="${row.getPrice()}" formatPrice="true" codeSymbol1="raffle.currency.english" codeSymbol2="raffle.currency.spanish" sortable="true" />
 	
-	<jstl:if test="${row.getWinner() != null}">
-		<acme:columnLink domain="raffle" code="winner" content="${row.getWinner().getName()} ${row.getWinner().getSurname()}" url="actor/user/display.do?actorId=${row.getCompany().getId()}" />
-	</jstl:if>
-	<jstl:if test="${row.getWinner() == null}">
-		<display:column></display:column>
+	<jstl:if test="${!requestURI.equals('raffle/list.do')}">
+		<jstl:if test="${row.getWinner() != null}">
+			<acme:columnLink domain="raffle" code="winner" content="${row.getWinner().getName()} ${row.getWinner().getSurname()}" url="actor/user/display.do?actorId=${row.getCompany().getId()}" />
+		</jstl:if>
+		<jstl:if test="${row.getWinner() == null}">
+			<display:column title="<spring:message code='raffle.winner'/>"></display:column>
+		</jstl:if>
 	</jstl:if>
 	
 	<jstl:if test="${!requestURI.equals('raffle/company/list.do')}">
@@ -55,10 +50,8 @@
 		<acme:columnLink domain="raffle" action="display" id="${row.getId()}" actor="company" />
 	</jstl:if>
 	
-	<jstl:if test="${requestURI.equals('raffle/moderator/list.do')}">
-		<acme:columnLink domain="raffle" action="display" id="${row.getId()}" />
-	</jstl:if>
-	
+	<acme:columnLink domain="raffle" action="display" id="${row.getId()}" />
+
 </display:table>
 
 <acme:paginate pageNumber="${pageNumber}" url="${requestURI}" objects="${raffles}" page="${page}"/>

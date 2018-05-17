@@ -24,7 +24,7 @@
 	
 	<acme:textbox code="raffle.productImages" path="productImages" />
 	
-	<acme:textbox code="raffle.maxDate" path="maxDate" />
+	<acme:textbox code="raffle.maxDate" path="maxDate" placeholder="dd/MM/YYYY" />
 	
 	<acme:textbox code="raffle.price" path="price" />
 	

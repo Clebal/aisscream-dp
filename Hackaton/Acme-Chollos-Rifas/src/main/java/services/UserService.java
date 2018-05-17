@@ -175,6 +175,14 @@ public class UserService {
 		this.save(user);
 	}
 	
+	public void addPoints(final User user, final int points) {		
+		Assert.isTrue(LoginService.isAuthenticated());
+		
+		user.setPoints(user.getPoints()+points);
+		
+		this.userRepository.save(user);
+	}
+	
 	public void ban(final User user) {
 		Authority authority;
 		

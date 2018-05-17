@@ -16,6 +16,7 @@ import org.springframework.validation.Validator;
 
 import domain.CreditCard;
 import domain.Identifier;
+import domain.Plan;
 import domain.Raffle;
 import domain.Ticket;
 import domain.User;
@@ -36,6 +37,9 @@ public class TicketService {
 	// Supporting services
 	@Autowired
 	private IdentifierService	identifierService;
+	
+	@Autowired
+	private PlanService planService;
 	
 	@Autowired
 	private Validator			validator;
@@ -61,6 +65,17 @@ public class TicketService {
 		return result;
 	}
 	
+	public Ticket create(final Raffle raffle, final User user) {
+		Ticket result;
+		
+		result = new Ticket();
+		
+		result.setRaffle(raffle);
+		result.setUser(user);
+		
+		return result;
+	}
+	
 	public Collection<Ticket> findAll() {
 		Collection<Ticket> result;
 		
@@ -81,13 +96,24 @@ public class TicketService {
 	
 	public Ticket save(final Ticket ticket) {
 		Ticket result;
+		Authority authority;
+		Plan plan;
 		
 		Assert.notNull(ticket);
+		
+		authority = new Authority();
+		authority.setAuthority("COMPANY");
 		
 		// El usuario debe estar logeado
 		Assert.isTrue(LoginService.isAuthenticated());
 		// El usuario que ha comprado el ticket debe ser el que está autenticado
-		Assert.isTrue(ticket.getUser().getUserAccount().equals(LoginService.getPrincipal()));
+		plan = this.planService.findByUserId(ticket.getUser().getId());
+		Assert.notNull(plan);
+		if(LoginService.getPrincipal().getAuthorities().contains(authority) && plan.getName().equals("Gold Premium")) {
+			Assert.isTrue(ticket.getRaffle().getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+		} else {
+			Assert.isTrue(ticket.getUser().getUserAccount().equals(LoginService.getPrincipal()));
+		}
 		
 		// Asignar código único
 		ticket.setCode(this.generateUniqueCode(ticket.getRaffle()));
@@ -99,7 +125,7 @@ public class TicketService {
 		result = this.ticketRepository.save(ticket);
 		
 		// Añadir los puntos a la cuenta del usuario
-		this.userService.addPoints(5);
+		this.userService.addPoints(ticket.getUser(), 5);
 		
 		return result;
 	}

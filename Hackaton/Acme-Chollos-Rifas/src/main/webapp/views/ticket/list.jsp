@@ -38,8 +38,11 @@
 						url="creditcard/user/display.do?creditCardId=${row.getCreditCard().getId()}" />
 	</jstl:if>
 	<jstl:if test="${row.getCreditCard() == null}">
-		<display:column>
+		<spring:message code="ticket.creditcard" var="creditCardHeader" />
+		<display:column title="${creditCardHeader}">
 		</display:column>
 	</jstl:if>
-	
+		
 </display:table>
+
+<acme:paginate pageNumber="${pageNumber}" url="${requestURI}" objects="${tickets}" page="${page}"/>

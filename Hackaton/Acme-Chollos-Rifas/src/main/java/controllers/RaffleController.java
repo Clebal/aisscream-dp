@@ -1,5 +1,7 @@
 package controllers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import controllers.AbstractController;
 import domain.Raffle;
 
 import services.RaffleService;
+import services.TicketService;
 
 //import api.PaypalClient;
 
@@ -23,6 +26,9 @@ public class RaffleController extends AbstractController {
 
 	@Autowired
 	private RaffleService raffleService;
+	
+	@Autowired
+	private TicketService ticketService;
 	
 	public RaffleController() {
 		super();
@@ -46,17 +52,27 @@ public class RaffleController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int raffleId) {
+	public ModelAndView display(@RequestParam final int raffleId, HttpServletRequest request) {
 		ModelAndView result;
 		Raffle raffle;
+		Integer numberTickets; 
 		
 		raffle = this.raffleService.findOne(raffleId);
 		Assert.notNull(raffle);
 		
+		numberTickets = this.ticketService.countByRaffleId(raffle.getId());
+		Assert.notNull(numberTickets);
+		
 		result = new ModelAndView("raffle/display");
 		result.addObject("raffle", raffle);
+		result.addObject("hasTicketsSelled", numberTickets >= 1);
+		result.addObject("url", this.makeUrl(request));
 		
 		return result;
+	}
+	
+	public String makeUrl(final HttpServletRequest request) {
+		return request.getRequestURL() + "?" + request.getQueryString();
 	}
 	
 }

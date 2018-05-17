@@ -49,10 +49,8 @@ public class RaffleModeratorController extends AbstractController {
 		
 		this.raffleService.toRaffle(raffleId);
 		
-		result = new ModelAndView("redirect:list");
-		
-		result.addObject("requestURI", "raffle/moderator/list.do");
-		
+		result = new ModelAndView("redirect:list.do");
+				
 		return result;
 	}
 	

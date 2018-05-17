@@ -29,8 +29,16 @@
 <%@ attribute name="style" required="false" %>
 <%@ attribute name="sortable" required="false" %>
 
+<%@ attribute name="formatPrice" required="false" %>
+<%@ attribute name="codeSymbol1" required="false" %>
+<%@ attribute name="codeSymbol2" required="false" %>
+
 <jstl:if test="${formatDate == null}">
 	<jstl:set var="formatDate" value="false" />
+</jstl:if>
+
+<jstl:if test="${formatPrice == null}">
+	<jstl:set var="formatPrice" value="false" />
 </jstl:if>
 
 <jstl:if test="${sortable == null}">
@@ -42,15 +50,21 @@
 </jstl:if>
 
 <%-- Definition --%>
-<spring:message code="${domain}.${property}" var="headerTitle" />
-
 <jstl:if test="${!property.equals('user')}">
 	<jstl:if test="${formatDate == true}">
+		<spring:message code="${domain}.${property}" var="headerTitle" />
 		<spring:message code="${domain}.format.moment" var="format"/>
 		<display:column style="${style}" property="${property}" title="${headerTitle}" format="{0,date,${format}}" sortable="${sortable}"/>
 	</jstl:if>
 	
-	<jstl:if test="${formatDate == false}">
+	<jstl:if test="${formatPrice == true}">
+		<display:column style="${style}" title="${headerTitle}" sortable="${sortable}">
+			<spring:message code="${codeSymbol1}"/><fmt:formatNumber value="${property}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/><spring:message code="${codeSymbol2}" />
+		</display:column>
+	</jstl:if>
+	
+	<jstl:if test="${formatDate == false && formatPrice == false}">
+		<spring:message code="${domain}.${property}" var="headerTitle" />
 		<display:column style="${style}" escapeXml="true" property="${property}" title="${headerTitle}" sortable="${sortable}" />
 	</jstl:if>
 </jstl:if>

@@ -10,9 +10,20 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<jsp:useBean id="today" class="java.util.Date" />
+
 <div class="container">
 
-	<acme:share url="http://sukafe.com" message="Share it" />
+	<security:authorize access="hasRole('MODERATOR')">
+		<jstl:if test="${raffle.getWinner() == null && raffle.getMaxDate() < (today) && hasTicketsSelled}">
+			<acme:displayLink code="raffle.toraffle" action="raffle/moderator/toraffle.do" parameter="raffleId" parameterValue="${raffle.getId()}" css="btn btn-primary" />
+		</jstl:if>
+		<jstl:if test="${raffle.getWinner() != null && raffle.getMaxDate()>=(today)}">
+			<p><spring:message code="raffle.alreadyRaffled" /></p>
+		</jstl:if>
+	</security:authorize>
+
+	<acme:share url="${url}" message="Share it" />
 
 	<h3><jstl:out value="${raffle.getTitle()}" /></h3>
 	

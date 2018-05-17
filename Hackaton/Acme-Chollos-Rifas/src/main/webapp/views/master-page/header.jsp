@@ -57,8 +57,8 @@
 			<security:authorize access="hasRole('USER')">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.user" /> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="actor/list.do"><spring:message code="master.page.list.user" /></a></li>
 					<li><a href="raffle/user/list.do"><spring:message code="master.page.user.raffle" /></a></li>
+					<li><a href="ticket/user/list.do"><spring:message code="master.page.list.tickets" /></a></li>
 					<li><a href="creditcard/user/list.do"><spring:message code="master.page.user.creditCard" /></a></li>
 					<li><a href="evaluation/user/list.do"><spring:message code="master.page.user.evaluation" /></a></li>
 					<li><a href="comment/user/list.do"><spring:message code="master.page.user.comment" /></a></li>
@@ -88,6 +88,7 @@
         			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>		
  		        	<li><a href="evaluation/company/list.do"><spring:message code="master.page.evaluations" /></a></li>	
  		        	<li><a href="survey/company/list.do"><spring:message code="master.page.my.surveys" /></a></li>
+					<li><a href="raffle/company/list.do"><spring:message code="master.page.user.raffle" /></a></li>														       	
 				</ul>
 			</security:authorize>
 			
