@@ -115,22 +115,10 @@ public class ActorController extends AbstractController {
 		result = new ModelAndView("actor/edit");
 		
 		result.addObject("requestURI", "actor/"+actor+"/edit.do");
-		
-		if(actor.equals("user")) {
-			UserForm actorForm;
-			actorForm = new UserForm();
-			result.addObject("actorForm", actorForm);
-		}
-		
+
 		if(actor.equals("sponsor")) {
 			SponsorForm actorForm;
 			actorForm = new SponsorForm();
-			result.addObject("actorForm", actorForm);
-		}
-		
-		if(actor.equals("company")) {
-			CompanyForm actorForm;
-			actorForm = new CompanyForm();
 			result.addObject("actorForm", actorForm);
 		}
 		

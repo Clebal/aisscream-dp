@@ -91,7 +91,7 @@ public class CompanyService {
 			Assert.isTrue(company.getUserAccount().equals(LoginService.getPrincipal()));
 			
 			// No se puede cambiar usuario ni contraseña
-			saved = this.companyRepository.findOne(company.getId());
+			saved = this.findOne(company.getId());
 			Assert.isTrue(saved.getUserAccount().getUsername().equals(company.getUserAccount().getUsername()));
 			Assert.isTrue(company.getUserAccount().getPassword().equals(saved.getUserAccount().getPassword()));
 		}
@@ -138,7 +138,7 @@ public class CompanyService {
 	// Reconstruct
 	public Company reconstruct(CompanyForm companyForm, final BindingResult binding) {
 		Company result;
-
+		
 		if (companyForm.getId() == 0) {
 			result = this.create();
 
@@ -153,15 +153,16 @@ public class CompanyService {
 			Assert.notNull(result);
 			Assert.isTrue(result.getUserAccount().getUsername().equals(companyForm.getUsername()));
 		}
-
+		
 		result.setName(companyForm.getName());
 		result.setSurname(companyForm.getSurname());
 		result.setAddress(companyForm.getAddress());
 		result.setEmail(companyForm.getEmail());
 		result.setPhone(companyForm.getPhone());
 		result.setIdentifier(companyForm.getIdentifier());		
+		
 		result.setCompanyName(companyForm.getCompanyName());
-		result.setType(companyForm.getCompanyName());
+		result.setType(companyForm.getType());
 		
 		this.validator.validate(companyForm, binding);
 

@@ -32,7 +32,7 @@
 	<acme:column domain="raffle" property="maxDate" formatDate="true" sortable="true"/>
 	
 	<acme:column domain="raffle" property="${row.getPrice()}" code="price" formatPrice="true" codeSymbol1="raffle.currency.english" codeSymbol2="raffle.currency.spanish" sortable="true" />
-	
+
 	<jstl:if test="${!requestURI.equals('raffle/list.do')}">
 		<jstl:if test="${row.getWinner() != null}">
 			<acme:columnLink domain="raffle" code="winner" content="${row.getWinner().getName()} ${row.getWinner().getSurname()}" url="actor/user/display.do?userId=${row.getWinner().getId()}" />
@@ -59,4 +59,6 @@
 
 <br><br>
 
-<a href="raffle/company/create.do" class="btn btn-primary"><spring:message code="raffle.create" /></a>
+<jstl:if test="${requestURI.equals('raffle/company/list.do')}">
+	<a href="raffle/company/create.do" class="btn btn-primary"><spring:message code="raffle.create" /></a>
+</jstl:if>

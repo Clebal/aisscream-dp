@@ -16,7 +16,6 @@ import controllers.AbstractController;
 import domain.Bargain;
 import domain.User;
 import domain.Level;
-import forms.ActorForm;
 import forms.UserForm;
 
 import security.LoginService;
@@ -131,8 +130,23 @@ public class UserController extends AbstractController {
 		return result;
 	}
 	
+	@RequestMapping(value="/create", method=RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView result;
+		UserForm userForm;
+		
+		userForm = new UserForm();
+		
+		result = new ModelAndView("user/edit");
+		result.addObject("requestURI", "actor/user/edit.do");
+		result.addObject("userForm", userForm);
+		result.addObject("model", "user");
+		
+		return result;
+	}
+	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final UserForm actorForm, final BindingResult binding, @RequestParam final String model) {
+	public ModelAndView save(final UserForm userForm, final BindingResult binding, @RequestParam final String model) {
 		ModelAndView result;
 		User user;
 		boolean next;
@@ -141,47 +155,47 @@ public class UserController extends AbstractController {
 		result = null;
 		user = null;
 		try {
-			user = this.userService.reconstruct(actorForm, binding);
+			user = this.userService.reconstruct(userForm, binding);
 		} catch (final Throwable e) {
 
 			if (binding.hasErrors())
-				result = this.createEditModelAndView(actorForm);
+				result = this.createEditModelAndView(userForm);
 			else
-				result = this.createEditModelAndView(actorForm, "actor.commit.error");
+				result = this.createEditModelAndView(userForm, "actor.commit.error");
 
 			next = false;
 		}
 
 		if (next)
 			if (binding.hasErrors())
-				result = this.createEditModelAndView(actorForm);
+				result = this.createEditModelAndView(userForm);
 			else
 				try {
 					this.userService.save(user);
 					result = new ModelAndView("redirect:/");
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(actorForm, "actor.commit.error");
+					result = this.createEditModelAndView(userForm, "actor.commit.error");
 				}
 
 		return result;
 	}
 
 	// Ancillary methods
-	protected ModelAndView createEditModelAndView(final ActorForm actorForm) {
+	protected ModelAndView createEditModelAndView(final UserForm userForm) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(actorForm, null);
+		result = this.createEditModelAndView(userForm, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final ActorForm actorForm, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final UserForm userForm, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("actor/edit");
+		result = new ModelAndView("user/edit");
 
 		result.addObject("model", "user");
-		result.addObject("actorForm", actorForm);
+		result.addObject("userForm", userForm);
 		result.addObject("message", messageCode);
 		result.addObject("requestURI", "actor/user/edit.do");
 

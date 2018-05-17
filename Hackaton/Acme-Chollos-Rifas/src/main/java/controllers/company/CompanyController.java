@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CompanyService;
 import controllers.AbstractController;
 import domain.Company;
-import forms.ActorForm;
 import forms.CompanyForm;
 
 @Controller
@@ -46,9 +45,24 @@ public class CompanyController extends AbstractController {
 		
 		return result;
 	}
+	
+	@RequestMapping(value="/create", method=RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView result;
+		CompanyForm companyForm;
+		
+		companyForm = new CompanyForm();
+		
+		result = new ModelAndView("company/edit");
+		result.addObject("requestURI", "actor/company/edit.do");
+		result.addObject("companyForm", companyForm);
+		result.addObject("model", "company");
+		
+		return result;
+	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final CompanyForm actorForm, final BindingResult binding, @RequestParam final String model) {
+	public ModelAndView save(final CompanyForm companyForm, final BindingResult binding, @RequestParam final String model) {
 		ModelAndView result;
 		Company company;
 		boolean next;
@@ -57,47 +71,49 @@ public class CompanyController extends AbstractController {
 		result = null;
 		company = null;
 		try {
-			company = this.companyService.reconstruct(actorForm, binding);
+			company = this.companyService.reconstruct(companyForm, binding);
 		} catch (final Throwable e) {
 
 			if (binding.hasErrors())
-				result = this.createEditModelAndView(actorForm);
-			else
-				result = this.createEditModelAndView(actorForm, "actor.commit.error");
+				result = this.createEditModelAndView(companyForm);
+			else {
+				result = this.createEditModelAndView(companyForm, "actor.commit.error");
+			}
+
 
 			next = false;
 		}
 
 		if (next)
 			if (binding.hasErrors())
-				result = this.createEditModelAndView(actorForm);
+				result = this.createEditModelAndView((CompanyForm) companyForm);
 			else
 				try {
 					this.companyService.save(company);
 					result = new ModelAndView("redirect:/");
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(actorForm, "actor.commit.error");
+					result = this.createEditModelAndView(companyForm, "actor.commit.error");
 				}
 
 		return result;
 	}
 
 	// Ancillary methods
-	protected ModelAndView createEditModelAndView(final ActorForm actorForm) {
+	protected ModelAndView createEditModelAndView(final CompanyForm companyForm) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(actorForm, null);
+		result = this.createEditModelAndView(companyForm, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final ActorForm actorForm, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final CompanyForm companyForm, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("actor/edit");
+		result = new ModelAndView("company/edit");
 
 		result.addObject("model", "company");
-		result.addObject("actorForm", actorForm);
+		result.addObject("companyForm", companyForm);
 		result.addObject("message", messageCode);
 		result.addObject("requestURI", "actor/company/edit.do");
 

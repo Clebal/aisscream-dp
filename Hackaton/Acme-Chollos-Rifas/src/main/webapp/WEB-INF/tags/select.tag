@@ -76,7 +76,7 @@
 
 </jstl:if>
 
-<jstl:if test="${path != 'creditCard' && selectPattern == null}">
+<jstl:if test="${path != 'creditCard' && itemLabel != null && selectPattern == null}">
 	<div class="form-group">
 		<form:label path="${path}">
 			<spring:message code="${code}" />
@@ -85,7 +85,7 @@
 			<form:option value="0" label="----" />		
 			<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 		</form:select>
-		<form:errors path="${path}" cssClass="error" />
+		<form:errors path="${path}" class="text-danger" />
 	</div>
 </jstl:if>
 
@@ -102,7 +102,7 @@
 				<form:option label="${option3}" value="${option3}" />
 				<form:option label="${option4}" value="${option4}" />
 			</form:select>
-			<form:errors path="${path}" cssClass="error" />
+			<form:errors path="${path}" class="text-danger" />
 		</div>
 	</jstl:if>
 </jstl:if>	
@@ -125,7 +125,7 @@
 					<form:option label="${option4}" value="${option4}" />
 				</jstl:if>			
 				</form:select>
-			<form:errors path="${path}" cssClass="error" />
+			<form:errors path="${path}" class="text-danger" />
 		</div>
 </jstl:if>	
 

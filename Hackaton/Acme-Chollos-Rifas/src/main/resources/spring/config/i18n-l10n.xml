@@ -39,8 +39,6 @@
 		
 		<value>/views/level/messages</value>
 		
-        <value>/views/question/messages</value>
-		<value>/views/answer/messages</value>
 		<value>/views/survey/messages</value>		
 		<value>/views/evaluation/messages</value>
 		<value>/views/comment/messages</value>

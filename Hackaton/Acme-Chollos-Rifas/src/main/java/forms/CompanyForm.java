@@ -1,6 +1,8 @@
 
 package forms;
 
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 public class CompanyForm extends ActorForm {
@@ -21,6 +23,7 @@ public class CompanyForm extends ActorForm {
 		this.companyName = companyName;
 	}
 
+	@Pattern(regexp="^(SL||SA||AUTONOMO||COOPERATIVA)$")
 	@NotBlank
 	public String getType() {
 		return type;

@@ -96,6 +96,7 @@ public class ActorForm {
 		this.email = email;
 	}
 
+	@NotBlank
 	public String getPhone() {
 		return this.phone;
 	}
