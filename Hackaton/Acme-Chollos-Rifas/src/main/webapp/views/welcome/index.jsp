@@ -37,7 +37,7 @@
 	 						<p style="text-align: center; font-size: 20px; font-weight: bold;"><spring:message code="raffle.free" /></p>
 						</jstl:if>
 						
-						<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/display.do?actorId=${item.getCompany().getId()}">${item.getCompany().getCompanyName()}</a></small><br><br>
+						<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/profile.do?actorId=${item.getCompany().getId()}">${item.getCompany().getCompanyName()}</a></small><br><br>
 						
 						<security:authorize access="hasRole('USER')">
 							<a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown"><spring:message code="welcome.buy" /> <span class="caret"></span></a>
