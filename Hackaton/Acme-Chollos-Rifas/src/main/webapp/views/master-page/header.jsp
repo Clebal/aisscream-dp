@@ -77,6 +77,7 @@
         			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>					
         			<li><a href="raffle/moderator/list.do"><spring:message code="master.page.list.raffle" /></a></li>
         			<li><a href="survey/moderator/list.do"><spring:message code="master.page.my.surveys" /></a></li>
+        			<li><a href="comment/moderator/list.do"><spring:message code="master.page.moderator.comment" /></a></li>
 				</ul>
 			</security:authorize>
 			
