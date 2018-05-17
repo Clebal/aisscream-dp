@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.validation.Validator;
 
@@ -17,7 +18,9 @@ import repositories.SurveyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Actor;
 import domain.Answer;
+import domain.Company;
 import domain.Question;
 import domain.Surveyer;
 import domain.Survey;
@@ -52,6 +55,13 @@ public class SurveyService {
 
 	@Autowired
 	private QuestionService		questionService;
+	
+	@Autowired
+	private	UserService			userService;
+	
+	@Autowired
+	private	NotificationService	notificationService;
+	
 
 	// Constructors -----------------------------------------------------------
 	
@@ -91,10 +101,25 @@ public class SurveyService {
 		Question question, questionSaved;
 		Answer answer;
 		Integer number;
+		Collection<Actor> actors;
+		Authority authority;
 
 		Assert.notNull(survey);
 
 		result = this.surveyRepository.save(survey);
+		
+		if(surveyForm.getId() != 0) {
+			number = 0;
+			for(QuestionForm q: surveyForm.getQuestions()) {
+				question = this.questionService.reconstructFromSurvey(q, result, number);
+				questionSaved = this.questionService.save(question);
+				for(Answer a: q.getAnswers()) {
+					answer = this.answerService.reconstructFromSurvey(a, questionSaved);
+					this.answerService.save(answer);
+				}
+			}
+			number++;
+		}
 		
 		if(surveyForm.getId() == 0) {
 			number = 0;
@@ -107,6 +132,23 @@ public class SurveyService {
 				}
 			}
 			number++;
+			actors = new ArrayList<Actor>();
+			if(surveyForm.getToActor().equals("USER")) {
+				Assert.notNull(surveyForm.getMinimumPoints());
+				Assert.isTrue(surveyForm.getMinimumPoints() >= 0);
+				actors = this.userService.findByMinimumPoints(surveyForm.getMinimumPoints());
+			} else if(surveyForm.getToActor().equals("SPONSOR")) {
+				authority = new Authority();
+				authority.setAuthority("COMPANY");
+				Assert.notNull(surveyForm.getHasAds());
+				Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+				if(surveyForm.getHasAds()) {
+					actors = this.sponsorService.findByIfHaveAds((Company) surveyForm.getSurveyer());
+				} else {
+					actors = this.sponsorService.findAllActor();
+				}
+			}
+			this.notificationService.send(actors, "Has sido escogido para realizar una escuesta. Pinche en el enlace:", "survey/actor/answer.do?surveyId="+survey.getId());
 		}
 
 		return result;
@@ -138,6 +180,22 @@ public class SurveyService {
 		return result;
 	}
 	
+	public Survey findOneToEdit(final int surveyId) {
+		Survey result;
+		Actor actor;
+		
+		Assert.isTrue(surveyId != 0);
+		
+		result = this.surveyRepository.findOne(surveyId);
+		Assert.notNull(result);
+		
+		actor = (Actor) result.getSurveyer();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().equals(LoginService.getPrincipal()));
+		
+		return result;
+	}
+	
 	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
@@ -155,19 +213,24 @@ public class SurveyService {
 		Survey survey;
 		Surveyer surveyer;
 		
-		survey = this.create();
-				
-		surveyer = null;
-		if(model.equals("moderator")) {
-			surveyer = this.moderatorService.findByUserAccountId(LoginService.getPrincipal().getId());
-		} else if (model.equals("company")) {
-			surveyer = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-		} else if (model.equals("sponsor")) {
-			surveyer = this.sponsorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		if(surveyForm.getId() == 0) {
+			survey = this.create();
+					
+			surveyer = null;
+			if(model.equals("moderator")) {
+				surveyer = this.moderatorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			} else if (model.equals("company")) {
+				surveyer = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+			} else if (model.equals("sponsor")) {
+				surveyer = this.sponsorService.findByUserAccountId(LoginService.getPrincipal().getId());
+			}
+			Assert.notNull(surveyer);
+	
+			survey.setSurveyer(surveyer);
+		} else {
+			survey = this.surveyRepository.findOne(surveyForm.getId());
+			Assert.notNull(survey);
 		}
-		Assert.notNull(surveyer);
-
-		survey.setSurveyer(surveyer);
 		
 		survey.setTitle(surveyForm.getTitle());
 		

@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,7 @@ import domain.Answer;
 import domain.Question;
 import domain.Surveyer;
 import domain.Survey;
+import forms.QuestionForm;
 import forms.SurveyForm;
 
 @Controller
@@ -77,43 +79,43 @@ public class SurveyController extends AbstractController {
 	}
 	
 	// Display
-		@RequestMapping(value="/display", method = RequestMethod.GET)
-		public ModelAndView display(@RequestParam int surveyId, @PathVariable(value="actor") final String model) {
-			ModelAndView result;
-			Survey survey;
-			Collection<Question> questions;
-			Collection<Answer> answers;
-			Map<Answer, Double> answersRatio;
-			Map<String, Map<Answer, Double>> questionsAnswerRatio;
-			
-			survey = this.surveyService.findOne(surveyId);
-			Assert.notNull(survey);
-			
-			questions = this.questionService.findBySurveyId(surveyId, 1, this.questionService.countBySurveyId(surveyId));
-			
-			questionsAnswerRatio = new HashMap<String, Map<Answer, Double>>();
-			
-			for(Question q : questions) {
-				answersRatio = new HashMap<Answer, Double>();
-				answers = this.answerService.findByQuestionId(q.getId());
-				for (Answer a : answers)
-					answersRatio.put(a, this.answerService.ratioAnswerPerQuestion(q.getId(), a.getId()));
-				questionsAnswerRatio.put(q.getText(), answersRatio);
-			}
-			
-			result = new ModelAndView("survey/display");
-			result.addObject("requestURI", "survey/"+model+"/list.do");
-			result.addObject("survey", survey);
-			result.addObject("questions", questions);
-			result.addObject("questionsAnswerRatio", questionsAnswerRatio);
-					
-			return result;
+	@RequestMapping(value="/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam int surveyId, @PathVariable(value="actor") final String model) {
+		ModelAndView result;
+		Survey survey;
+		Collection<Question> questions;
+		Collection<Answer> answers;
+		Map<Answer, Double> answersRatio;
+		Map<String, Map<Answer, Double>> questionsAnswerRatio;
+		
+		survey = this.surveyService.findOne(surveyId);
+		Assert.notNull(survey);
+		
+		questions = this.questionService.findBySurveyId(surveyId, 1, this.questionService.countBySurveyId(surveyId)).getContent();
+		
+		questionsAnswerRatio = new HashMap<String, Map<Answer, Double>>();
+		
+		for(Question q : questions) {
+			answersRatio = new HashMap<Answer, Double>();
+			answers = this.answerService.findByQuestionId(q.getId());
+			for (Answer a : answers)
+				answersRatio.put(a, this.answerService.ratioAnswerPerQuestion(q.getId(), a.getId()));
+			questionsAnswerRatio.put(q.getText(), answersRatio);
 		}
+		
+		result = new ModelAndView("survey/display");
+		result.addObject("requestURI", "survey/"+model+"/list.do");
+		result.addObject("survey", survey);
+		result.addObject("questions", questions);
+		result.addObject("questionsAnswerRatio", questionsAnswerRatio);
+				
+		return result;
+	}
 
 	// Create-------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView edit(@PathVariable(value="actor") final String model) {
+	public ModelAndView create(@PathVariable(value="actor") final String model) {
 		ModelAndView result;
 		SurveyForm surveyForm;
 		Surveyer surveyer;
@@ -136,6 +138,46 @@ public class SurveyController extends AbstractController {
 		
 		return result;
 	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int surveyId, @PathVariable(value="actor") final String model) {
+		ModelAndView result;
+		SurveyForm surveyForm;
+		Survey survey;
+		Collection<Question> questions;
+		Collection<QuestionForm> listQuestionForm;
+		Collection<Answer> answers;
+		QuestionForm questionForm;
+		
+		survey = this.surveyService.findOneToEdit(surveyId);
+		Assert.notNull(survey);
+		
+		surveyForm = new SurveyForm();
+		surveyForm.setTitle(survey.getTitle());
+		surveyForm.setId(survey.getId());
+		surveyForm.setSurveyer(survey.getSurveyer());
+		
+		questions = this.questionService.findBySurveyId(survey.getId());
+		Assert.notNull(questions);
+		
+		listQuestionForm = new ArrayList<QuestionForm>();
+		for(Question q: questions) {
+			answers = this.answerService.findByQuestionId(q.getId());
+			Assert.notNull(answers);
+			questionForm = new QuestionForm();
+			questionForm.setId(q.getId());
+			questionForm.setText(q.getText());
+			for(Answer a: answers) questionForm.getAnswers().add(a);
+			listQuestionForm.add(questionForm);
+		}
+		
+		surveyForm.setQuestions(listQuestionForm);
+		surveyForm.setSurveyer(survey.getSurveyer());
+		
+		result = this.createEditModelAndView(surveyForm, model);
+		
+		return result;
+	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final SurveyForm surveyForm, final BindingResult binding, @PathVariable(value="actor") final String model) {
@@ -152,7 +194,6 @@ public class SurveyController extends AbstractController {
 				this.surveyService.save(survey, surveyForm);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-//				result = super.panic(oops);
 				result = this.createEditModelAndView(surveyForm, null, "survey.commit.error");
 			}
 		}

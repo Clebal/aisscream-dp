@@ -33,4 +33,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u, Bargain b where b.id = ?1 and b IN u.wishList")
 	Collection<User> findByBargainId(final int bargainId);
 	
+	@Query("select u from User u where u.points >= ?1")
+	Collection<Actor> findByMinimumPoints(int points);
+	
 }

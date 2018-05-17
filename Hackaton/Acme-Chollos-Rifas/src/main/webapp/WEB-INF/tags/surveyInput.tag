@@ -24,6 +24,7 @@
  
 <%@ attribute name="codeQuestion" required="true" %>
 <%@ attribute name="codeAnswer" required="true" %>
+<%@ attribute name="object" required="true" type="forms.SurveyForm" %>
 
 <%-- Definition --%>
 
@@ -41,8 +42,27 @@ label.answer {
 <spring:message code="survey.removeAnswer" var="removeAnswer" />
 <spring:message code="survey.removeQuestion" var="removeQuestion" />
 
-<div id="questionsContainer" data-number="0" data-number2="1">
-
+<div id="questionsContainer">
+	<jstl:if test="${object.questions != null && object.questions.size() >= 1}">
+		<jstl:forEach items="${object.questions}" var="question" varStatus="loop">
+			<br>
+			<div>
+				<label>${questionText} ${loop.index+1}</label>
+				<input type="hidden" name="questions[${loop.index}].id" value="${question.id}">
+				<input type="text" name="questions[${loop.index}].text" value="${question.text}">&nbsp;&nbsp;<a class="addAnswer" data-container="${loop.index+1}">${addAnswer}</a> - <a class="removeAnswer">${removeAnswer}</a>
+				<br>
+				<div class="answersContainer${loop.index+1}" style="display:inline;margin-right:5px;">
+					<jstl:forEach items="${question.answers}" var="answer" varStatus="loopAnswer">
+						<div style="display:inline;margin-right:5px">
+							<label class="answer">${answerText} ${loopAnswer.index+1}</label>
+							<input type="text" name="questions[${loop.index}].answers[${loopAnswer.index}].text" value="${answer.text}">
+							<input type="hidden" name="questions[${loop.index}].answers[${loopAnswer.index}].id" value="${answer.id}">
+						</div>
+					</jstl:forEach>
+				</div>
+			</div>
+		</jstl:forEach>
+	</jstl:if>
 </div>
 
 <button class="btn btn-primary" id="addQuestion"><spring:message code="survey.addQuestion" /></button><br><br>
@@ -55,51 +75,44 @@ var addAnswer = "${addAnswer}";
 var removeAnswer ="${removeAnswer}";
 var removeQuestion ="${removeQuestion}";
 
-$(document).ready(function() {
-	var questionsContainer = $("#questionsContainer");
-	var number = questionsContainer.attr("data-number");
-	var number2 = questionsContainer.attr("data-number2");
-	$(questionsContainer).append('<br><div><label>'+questionText+ ' ' + number2 +'&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].text">&nbsp;&nbsp;<a class="addAnswer" data-number="1" data-number2="2" data-container="1">'+addAnswer+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number2+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].answers[0].text" /></div></div></div>');
-});
+if(${object.questions != null && object.questions.size() == 0}) {
+	$(document).ready(function() {
+		var questionsContainer = $("#questionsContainer");
+		var number = questionsContainer.children().length;
+		var number2 = questionsContainer.children().length+1;
+		$(questionsContainer).append('<div><br><label>'+questionText+ ' ' + number2 +'&nbsp;&nbsp;</label><input type="hidden" name="questions['+number+'].id" value="0"><input type="text" name="questions['+number+'].text">&nbsp;&nbsp;<a class="addAnswer" data-container="1">'+addAnswer+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number2+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].answers[0].text" /><input type="hidden" name="questions['+number+'].answers[0].id" value="0" /></div></div></div>');
+	});
+}
 
 $("#addQuestion").click(function(e) {
 	e.preventDefault();
 	var questionsContainer = $("#questionsContainer");
-	var number = questionsContainer.attr("data-number");
-	var number2 = questionsContainer.attr("data-number2");
-	$("#questionsContainer").attr("data-number", ++number);
-	$("#questionsContainer").attr("data-number2", ++number2);
-	$(questionsContainer).append('<br><div><label>'+questionText+ ' ' + number2 +'&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].text">&nbsp;&nbsp;<a class="addAnswer" data-number="1" data-number2="2" data-container="'+number2+'">'+addAnswer+'</a> - <a class="removeQuestion">'+removeQuestion+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number2+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].answers[0].text" /></div></div></div>');
+	var number = questionsContainer.children("div").length+1;
+	var number2 = questionsContainer.children("div").length;
+	$(questionsContainer).append('<div><br><label>'+questionText+ ' ' + number +'&nbsp;&nbsp;</label><input type="text" name="questions['+number2+'].text">&nbsp;&nbsp;<a class="addAnswer" data-container="'+number+'">'+addAnswer+'</a> - <a class="removeQuestion">'+removeQuestion+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number2+'].answers[0].text" /><input type="hidden" name="questions['+number2+'].answers[0].id" value="0" /></div></div></div>');
 });
 
 $("body").on("click", ".addAnswer", function(e){
 	e.preventDefault();
-	var numberAnswer = $(e.currentTarget).attr("data-number");
-	var numberAnswer2 = $(e.currentTarget).attr("data-number2");
-	var numberQuestion = $("#questionsContainer").attr("data-number2");
+
 	var numberContainer = $(e.currentTarget).attr("data-container");
-	$(".answersContainer"+numberContainer).append('<div  style="display: inline; margin-right: 5px"><br><label class="answer">'+answerText + ' ' + numberAnswer2 +'&nbsp;&nbsp;</label><input type="text" name="questions['+--numberQuestion+'].answers['+ numberAnswer +'].text" /></div>');
-	$(e.currentTarget).attr("data-number", ++numberAnswer);
-	$(e.currentTarget).attr("data-number2", ++numberAnswer2);
+
+	var numberAnswer = $(".answersContainer"+numberContainer).children("div").length;
+	var numberAnswer2 = $(".answersContainer"+numberContainer).children("div").length+1;
+	var numberQuestion = numberContainer-1;
+
+	$(".answersContainer"+numberContainer).append('<div  style="display: inline; margin-right: 5px"><br><label class="answer">'+answerText + ' ' + numberAnswer2 +'&nbsp;&nbsp;</label><input type="text" name="questions['+numberQuestion+'].answers['+ numberAnswer +'].text" /><input type="hidden" name="questions['+numberQuestion+'].answers['+ numberAnswer +'].id" value="0" /></div>');
 });
 
 $("body").on("click", ".removeAnswer", function(e){
 	e.preventDefault();
 	if($(e.currentTarget.parentNode).children("div").children().length > 1) {
-		var number = $($(e.currentTarget.parentNode).children()[2]).attr("data-number");
-		var number2 = $($(e.currentTarget.parentNode).children()[2]).attr("data-number2");
-		$($(e.currentTarget.parentNode).children()[2]).attr("data-number", --number);
-		$($(e.currentTarget.parentNode).children()[2]).attr("data-number2", --number2);
 		$(e.currentTarget.parentNode).children("div").children(":last-child").remove();
 	}
 });
 
 $("body").on("click", ".removeQuestion", function(e){
 	e.preventDefault();
-	var number = $(e.currentTarget.parentNode.parentNode).attr("data-number");
-	var number2 = $(e.currentTarget.parentNode.parentNode).attr("data-number2");
-	$(e.currentTarget.parentNode.parentNode).attr("data-number", --number);
-	$(e.currentTarget.parentNode.parentNode).attr("data-number2", --number2);
 	$(e.currentTarget.parentNode).remove();
 });
 

@@ -120,10 +120,15 @@ public class AnswerService {
 	public Answer reconstructFromSurvey(final Answer answer, final Question question) {
 		Answer result;
 		
-		result = this.create(question);
-		result.setId(0);
-		result.setVersion(0);
-		result.setText(answer.getText());
+		if(answer.getId() == 0) {
+			result = this.create(question);
+			result.setId(0);
+			result.setVersion(0);
+			result.setText(answer.getText());
+		} else {
+			result = this.answerRepository.findOne(answer.getId());
+			result.setText(answer.getText());
+		}
 		
 		return result;
 	}

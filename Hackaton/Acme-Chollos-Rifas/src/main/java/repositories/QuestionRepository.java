@@ -22,6 +22,9 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
 	@Query("select q from Question q where q.survey.id = ?1 order by q.number ASC")
 	Page<Question> findBySurveyId(int surveyId, Pageable pageable);
+	
+	@Query("select q from Question q where q.survey.id = ?1 order by q.number ASC")
+	Collection<Question> findBySurveyId(int surveyId);
 
 	@Query("select count(q) from Question q where q.survey.id=?1")
 	Integer countBySurveyId(int surveyId);

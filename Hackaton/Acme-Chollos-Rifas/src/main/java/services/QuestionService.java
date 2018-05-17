@@ -3,6 +3,7 @@ package services;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -143,12 +144,22 @@ public class QuestionService {
 		return result;
 	}
 	
-	public Collection<Question> findBySurveyId(final int surveyId, final int page, final int size) {
+	public Page<Question> findBySurveyId(final int surveyId, final int page, final int size) {
+		Page<Question> result;
+		
+		Assert.isTrue(surveyId != 0);
+		
+		result = this.questionRepository.findBySurveyId(surveyId, this.getPageable(page, size));
+		
+		return result;
+	}
+	
+	public Collection<Question> findBySurveyId(final int surveyId) {
 		Collection<Question> result;
 		
 		Assert.isTrue(surveyId != 0);
 		
-		result = this.questionRepository.findBySurveyId(surveyId, this.getPageable(page, size)).getContent();
+		result = this.questionRepository.findBySurveyId(surveyId);
 		
 		return result;
 	}
@@ -206,9 +217,14 @@ public class QuestionService {
 	public Question reconstructFromSurvey(final QuestionForm questionForm, final Survey survey, final Integer number) {
 		Question question;
 		
-		question = this.create(survey, number);
+		if(questionForm.getId() == 0) {
+			question = this.create(survey, number);
+			question.setSurvey(survey);
+		} else {
+			question = this.findOne(questionForm.getId());
+		}
+
 		question.setText(questionForm.getText());
-		question.setSurvey(survey);
 				
 		return question;
 	}

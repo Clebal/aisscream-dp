@@ -17,6 +17,7 @@
 	<acme:textbox code="survey.title" path="title" />
 	
 	<jstl:if test="${surveyForm.getId() == 0}">
+	
 		<br>
 		<h4><spring:message code="survey.chooseActor" /></h4>
 		<form:radiobutton path="toActor" value="USER" /><spring:message code="survey.users" />
@@ -58,21 +59,21 @@
 		
 		<br>
 		
-		<acme:surveyInput codeQuestion="survey.question" codeAnswer="survey.answer" />
-		
-		<script>
-			$("#surveyForm").submit(function(e) {
-				$("input[name^='question']").each(function(i) {
-					if(this.value == "") {
-						$("#cannotBeEmpty").fadeIn();
-						e.preventDefault();
-					}
-				});
-			});
-		</script>
-	
 	</jstl:if>
 	
+	<acme:surveyInput codeQuestion="survey.question" codeAnswer="survey.answer" object="${surveyForm}" />
+	
+	<script>
+		$("#surveyForm").submit(function(e) {
+			$("input[name^='question']").each(function(i) {
+				if(this.value == "") {
+					$("#cannotBeEmpty").fadeIn();
+					e.preventDefault();
+				}
+			});
+		});
+	</script>
+		
 	<p id="cannotBeEmpty" style="color: red; display:none"><spring:message code="survey.cannotBeEmpty" /></p>
 	
 	<acme:submit name="save" code="survey.save" />

@@ -1,7 +1,7 @@
 
 package forms;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.AutoPopulatingList;
@@ -10,10 +10,24 @@ import domain.Answer;
 
 public class QuestionForm {
 	
+	private int id;
+	
 	private String text;
 	
-	private List<Answer> answers = new AutoPopulatingList<Answer>(Answer.class); 
+	private Collection<Answer> answers = new AutoPopulatingList<Answer>(Answer.class); 
 
+	public QuestionForm() {
+		super();
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(final int id) {
+		this.id = id;
+	}
+	
 	@NotBlank
 	public String getText() {
 		return text;
@@ -23,11 +37,11 @@ public class QuestionForm {
 		this.text = text;
 	}
 
-	public List<Answer> getAnswers() {
+	public Collection<Answer> getAnswers() {
 		return answers;
 	}
 
-	public void setAnswers(List<Answer> answers) {
+	public void setAnswers(final Collection<Answer> answers) {
 		this.answers = answers;
 	}
 	

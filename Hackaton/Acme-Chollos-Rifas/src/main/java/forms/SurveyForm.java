@@ -1,7 +1,7 @@
 
 package forms;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -20,11 +20,11 @@ public class SurveyForm {
 	
 	private String title;
 
-	private List<QuestionForm> questions = new AutoPopulatingList<QuestionForm>(QuestionForm.class);
+	private Collection<QuestionForm> questions = new AutoPopulatingList<QuestionForm>(QuestionForm.class);
 
 	private String toActor;
 	
-	private	boolean hasAds;
+	private	Boolean hasAds;
 		
 	private Integer		minimumPoints;
 	
@@ -52,11 +52,11 @@ public class SurveyForm {
 		this.toActor = toActor;
 	}
 
-	public boolean isHasAds() {
+	public Boolean getHasAds() {
 		return hasAds;
 	}
 
-	public void setHasAds(boolean hasAds) {
+	public void setHasAds(final Boolean hasAds) {
 		this.hasAds = hasAds;
 	}
 
@@ -88,11 +88,11 @@ public class SurveyForm {
 		this.surveyer = surveyer;
 	}
 
-	public List<QuestionForm> getQuestions() {
+	public Collection<QuestionForm> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(final List<QuestionForm> questions) {
+	public void setQuestions(final Collection<QuestionForm> questions) {
 		this.questions = questions;
 	}
 	

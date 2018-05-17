@@ -10,6 +10,8 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Actor;
+import domain.Company;
 import domain.Sponsor;
 import forms.ActorForm;
 import repositories.SponsorRepository;
@@ -104,6 +106,24 @@ public class SponsorService {
 		Assert.isTrue(userAccountId != 0);
 		
 		result = this.sponsorRepository.findByUserAccountId(userAccountId);
+		
+		return result;
+	}
+	
+	public Collection<Actor> findByIfHaveAds(final Company company) {
+		Collection<Actor> result;
+		
+		Assert.notNull(company);
+		
+		result = this.sponsorRepository.findByIfHaveAds(company.getId());
+		
+		return result;
+	}
+	
+	public Collection<Actor> findAllActor() {
+		Collection<Actor> result;
+				
+		result = this.sponsorRepository.findAllActor();
 		
 		return result;
 	}

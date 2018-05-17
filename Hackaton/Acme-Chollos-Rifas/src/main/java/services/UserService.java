@@ -253,6 +253,14 @@ public class UserService {
 		return result;
 	}
 	
+	public Collection<Actor> findByMinimumPoints(final int points) {
+		Collection<Actor> result;
+		
+		result = this.userRepository.findByMinimumPoints(points);
+		
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
