@@ -158,7 +158,20 @@
   		<security:intercept-url pattern="/notification/actor/list.do" access="isAuthenticated()" />
   		<security:intercept-url pattern="/notification/actor/delete.do" access="isAuthenticated()" />
   		<!--  -->
+  		
+  		<!-- Participation -->
+  		<security:intercept-url pattern="/participation/user/list.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/participation/user/create.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/participation/user/edit.do" access="hasRole('USER')" />	
+  		<!--  -->
 		
+		<!-- Groupon  -->
+		<security:intercept-url pattern="/groupon/user/list.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/groupon/user/create.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/groupon/user/edit.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/groupon/list.do" access="permitAll" />
+  		<security:intercept-url pattern="/groupon/display.do" access="permitAll" />
+		<!--  -->
 		
   		<!-- Para pruebas (se cambiará cuando se realice esta parte al completo) -->
   		<security:intercept-url pattern="/survey/**" access="permitAll" />

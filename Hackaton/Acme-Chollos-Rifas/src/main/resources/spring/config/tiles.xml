@@ -51,6 +51,8 @@
 		<value>/views/notification/tiles.xml</value>
 		
 		<value>/views/company/tiles.xml</value>
+		<value>/views/groupon/tiles.xml</value>
+		<value>/views/participation/tiles.xml</value>
 		
 	</util:list>
 

@@ -85,6 +85,9 @@
 		<bean class="converters.CompanyToStringConverter" />
 		<bean class="converters.StringToCompanyConverter" />
 		
+		<bean class="converters.GrouponToStringConverter" />
+		<bean class="converters.StringToGrouponConverter" />
+		
 	</util:list>
 	
 </beans>

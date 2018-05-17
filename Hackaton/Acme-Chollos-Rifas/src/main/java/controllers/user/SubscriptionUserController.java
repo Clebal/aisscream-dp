@@ -20,7 +20,6 @@ import security.LoginService;
 import services.CreditCardService;
 import services.SubscriptionService;
 import services.UserService;
-import services.res.PaypalClient;
 import controllers.AbstractController;
 import converters.CreditCardToStringConverter;
 import domain.CreditCard;
@@ -46,7 +45,7 @@ public class SubscriptionUserController extends AbstractController {
 
 
 	public SubscriptionUserController() {
-		new PaypalClient();
+		super();
 	}
 
 	// Display

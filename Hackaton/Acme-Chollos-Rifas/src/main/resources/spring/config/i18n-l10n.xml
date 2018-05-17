@@ -53,6 +53,9 @@
 		<value>/views/notification/messages</value>
 		
 		<value>/views/company/messages</value>
+		
+		<value>/views/groupon/messages</value>
+		<value>/views/participation/messages</value>
 				
 	</util:list>
 
