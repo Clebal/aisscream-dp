@@ -12,6 +12,8 @@
 
 <display:table class="table table-striped table-bordered table-hover" name="surveys" id="row" requestURI="${requestURI}">
 	
+	<acme:columnLink domain="survey" action="edit" id="${row.getId()}" actor="${model}"/>
+	
 	<acme:column property="title" domain="survey" />
 	
 	<acme:columnLink action="display" actor="${model}" domain="survey" id="${row.getId()}" />
