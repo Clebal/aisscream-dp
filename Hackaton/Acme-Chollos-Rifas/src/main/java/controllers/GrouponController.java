@@ -83,7 +83,7 @@ public class GrouponController extends AbstractController {
 		Boolean canCreateParticipation;
 		Authority authority;
 
-		currentUrl = GrouponController.makeUrl(request);
+		currentUrl = super.makeUrl(request);
 		canSeeGroupon = false;
 		canSeeDiscountCode = false;
 		canCreateParticipation = false;
@@ -120,7 +120,5 @@ public class GrouponController extends AbstractController {
 
 		return result;
 	}
-	public static String makeUrl(final HttpServletRequest request) {
-		return request.getRequestURL() + "?" + request.getQueryString();
-	}
+
 }

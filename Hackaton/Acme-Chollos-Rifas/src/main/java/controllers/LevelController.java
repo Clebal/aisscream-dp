@@ -1,13 +1,6 @@
 
 package controllers;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -63,40 +56,9 @@ public class LevelController extends AbstractController {
 
 		result = new ModelAndView("level/display");
 		result.addObject("level", level);
-		result.addObject("linkBroken", this.checkLinkImage(level));
+		result.addObject("linkBroken", super.checkLinkImage(level.getImage()));
 
 		return result;
 	}
 
-	private boolean checkLinkImage(final Level level) {
-		boolean linkBroken;
-		URL linkImage;
-		HttpURLConnection openCode;
-		String[] contentTypes;
-		String contentType;
-
-		linkBroken = false;
-
-		if (level.getImage() != null)
-			try {
-				linkImage = new URL(level.getImage());
-				if (linkImage.getProtocol().equals("http"))
-					openCode = (HttpURLConnection) linkImage.openConnection();
-				else {
-					System.setProperty("https.protocols", "TLSv1");
-					openCode = (HttpsURLConnection) linkImage.openConnection();
-				}
-				openCode.setRequestMethod("GET");
-				openCode.connect();
-				contentTypes = openCode.getContentType().split("/");
-				contentType = contentTypes[0];
-				if (openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
-					linkBroken = true;
-			} catch (final SSLException s) {
-				linkBroken = false;
-			} catch (final IOException e) {
-				linkBroken = true;
-			}
-		return linkBroken;
-	}
 }

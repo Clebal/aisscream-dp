@@ -96,11 +96,21 @@ public class LevelAdministratorController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Level level, final String messageCode) {
 		ModelAndView result;
 		Boolean canDeleteLevel;
+		Boolean isMinimumLevel;
+		Boolean isMaximumLevel;
 
+		isMinimumLevel = false;
+		isMaximumLevel = false;
 		canDeleteLevel = false;
-		if (level.getId() != 0)
+		if (level.getId() != 0) {
 			result = new ModelAndView("level/edit");
-		else
+			result.addObject("previousMinPoints", this.levelService.findOne(level.getId()).getMinPoints());
+			result.addObject("previousMaxPoints", this.levelService.findOne(level.getId()).getMaxPoints());
+			if (this.levelService.findOne(level.getId()).getId() == this.levelService.minLevel().getId())
+				isMinimumLevel = true;
+			else if (this.levelService.findOne(level.getId()).getId() == this.levelService.maxLevel().getId())
+				isMaximumLevel = true;
+		} else
 			result = new ModelAndView("level/create");
 
 		if (this.levelService.findAll().size() > 2)
@@ -108,6 +118,10 @@ public class LevelAdministratorController extends AbstractController {
 		result.addObject("level", level);
 		result.addObject("message", messageCode);
 		result.addObject("canDeleteLevel", canDeleteLevel);
+		result.addObject("isMinimumLevel", isMinimumLevel);
+		result.addObject("isMaximumLevel", isMaximumLevel);
+		result.addObject("minimumPoints", this.levelService.minPoints());
+		result.addObject("maximumPoints", this.levelService.maxPoints());
 
 		return result;
 	}

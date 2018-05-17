@@ -10,14 +10,6 @@
 
 package controllers;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.ClassUtils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,29 +19,40 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLException;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.ClassUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
 import services.NotificationService;
 
 @Controller
 public class AbstractController {
-	
+
 	@Autowired
-	private ConfigurationService configurationService;
-	
+	private ConfigurationService	configurationService;
+
 	@Autowired
 	private NotificationService		notificationService;
-	
-	public ModelAndView paginateModelAndView(final String path, final double collectionSize, final Integer page, final Integer size){
+
+
+	public ModelAndView paginateModelAndView(final String path, final double collectionSize, final Integer page, final Integer size) {
 		ModelAndView result;
 		Integer pageNumber;
-		
-        pageNumber = (int) Math.floor(((collectionSize / (size + 0.0)) - 0.1) + 1);
 
-        result = new ModelAndView(path);
+		pageNumber = (int) Math.floor(((collectionSize / (size + 0.0)) - 0.1) + 1);
+
+		result = new ModelAndView(path);
 		result.addObject("pageNumber", pageNumber);
 		result.addObject("page", page);
-		
+
 		return result;
 	}
 
@@ -68,17 +71,21 @@ public class AbstractController {
 		model.addAttribute("nameHeader", nameHeader);
 		model.addAttribute("notificationNotVisited", notificationNotVisited);
 	}
-	
+
+	public String makeUrl(final HttpServletRequest request) {
+		return request.getRequestURL() + "?" + request.getQueryString();
+	}
+
 	public boolean checkLinkImage(final String image) {
 		boolean linkBroken;
-        URL linkImage;
-        HttpURLConnection openCode;
-        String[] contentTypes;
-        String contentType;
-		
-        linkBroken = false;
+		URL linkImage;
+		HttpURLConnection openCode;
+		String[] contentTypes;
+		String contentType;
 
-		if (image != null) {
+		linkBroken = false;
+
+		if (image != null)
 			try {
 				linkImage = new URL(image);
 				if (linkImage.getProtocol().equals("http"))
@@ -88,33 +95,32 @@ public class AbstractController {
 					openCode = (HttpsURLConnection) linkImage.openConnection();
 				}
 				openCode.setRequestMethod("GET");
-		        openCode.connect();
-		        contentTypes = openCode.getContentType().split("/");
-		        contentType = contentTypes[0];
-		        if(openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
-		        	linkBroken = true; 
-	        } catch (SSLException s) {
+				openCode.connect();
+				contentTypes = openCode.getContentType().split("/");
+				contentType = contentTypes[0];
+				if (openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
+					linkBroken = true;
+			} catch (final SSLException s) {
 				linkBroken = false;
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				linkBroken = true;
-			} 
-		}
+			}
 		return linkBroken;
 	}
-	
+
 	public Map<String, Boolean> checkLinkImages(final Collection<String> images) {
 		Map<String, Boolean> mapLinkBoolean;
 		boolean linkBroken;
-        URL linkImage;
-        HttpURLConnection openCode;
-        String[] contentTypes;
-        String contentType;
-		
-        mapLinkBoolean = new HashMap<String, Boolean>();
-        linkBroken = false;
-        
-		if (images != null) {
-			for (String link : images) {
+		URL linkImage;
+		HttpURLConnection openCode;
+		String[] contentTypes;
+		String contentType;
+
+		mapLinkBoolean = new HashMap<String, Boolean>();
+		linkBroken = false;
+
+		if (images != null)
+			for (final String link : images) {
 				try {
 					linkImage = new URL(link);
 					if (linkImage.getProtocol().equals("http"))
@@ -124,22 +130,21 @@ public class AbstractController {
 						openCode = (HttpsURLConnection) linkImage.openConnection();
 					}
 					openCode.setRequestMethod("GET");
-			        openCode.connect();
-			        contentTypes = openCode.getContentType().split("/");
-			        contentType = contentTypes[0];
-			        if(openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
-			        	linkBroken = true;
-		        } catch (SSLException s) {
+					openCode.connect();
+					contentTypes = openCode.getContentType().split("/");
+					contentType = contentTypes[0];
+					if (openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
+						linkBroken = true;
+				} catch (final SSLException s) {
 					linkBroken = false;
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					linkBroken = true;
 				}
 				mapLinkBoolean.put(link, linkBroken);
 			}
-		}
 		return mapLinkBoolean;
 	}
-	
+
 	// Panic handler ----------------------------------------------------------
 
 	@ExceptionHandler(Throwable.class)
