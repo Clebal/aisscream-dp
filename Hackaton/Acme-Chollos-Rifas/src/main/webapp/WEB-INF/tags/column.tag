@@ -30,6 +30,7 @@
 <%@ attribute name="sortable" required="false" %>
 
 <%@ attribute name="formatPrice" required="false" %>
+<%@ attribute name="code" required="false" %>
 <%@ attribute name="codeSymbol1" required="false" %>
 <%@ attribute name="codeSymbol2" required="false" %>
 
@@ -58,6 +59,7 @@
 	</jstl:if>
 	
 	<jstl:if test="${formatPrice == true}">
+		<spring:message code="${domain}.${code}" var="headerTitle" />
 		<display:column style="${style}" title="${headerTitle}" sortable="${sortable}">
 			<spring:message code="${codeSymbol1}"/><fmt:formatNumber value="${property}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/><spring:message code="${codeSymbol2}" />
 		</display:column>
