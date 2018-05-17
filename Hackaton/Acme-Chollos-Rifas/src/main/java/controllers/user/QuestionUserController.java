@@ -53,7 +53,7 @@ public class QuestionUserController extends AbstractController {
 		size = 1;
 		if (page == null) page = 1;
 				
-		questions = this.questionService.findBySurveyId(surveyId, page, size);
+		questions = this.questionService.findBySurveyId(surveyId, page, size).getContent();
 		Assert.notNull(questions);
 		
 		for (Question q : questions){

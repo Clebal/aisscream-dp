@@ -31,4 +31,9 @@
 		<put-attribute name="body" value="/views/survey/edit.jsp" />
 	</definition>
 	
+	<definition name="survey/answer" extends="master.page">	
+		<put-attribute name="title" value="Answer survey" />
+		<put-attribute name="body" value="/views/survey/answer.jsp" />
+	</definition>
+	
 </tiles-definitions>

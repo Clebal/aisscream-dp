@@ -171,13 +171,20 @@
   		<security:intercept-url pattern="/groupon/user/edit.do" access="hasRole('USER')" />
   		<security:intercept-url pattern="/groupon/list.do" access="permitAll" />
   		<security:intercept-url pattern="/groupon/display.do" access="permitAll" />
-		<!--  -->
 		
-  		<!-- Para pruebas (se cambiará cuando se realice esta parte al completo) -->
-  		<security:intercept-url pattern="/survey/**" access="permitAll" />
-  		<security:intercept-url pattern="/question/**" access="permitAll" />
-  		<security:intercept-url pattern="/answer/**" access="permitAll" />
-  		
+  		<!-- Survey -->
+  		<security:intercept-url pattern="/survey/user/answer.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/survey/sponsor/answer.do" access="hasRole('SPONSOR')" />
+  		<security:intercept-url pattern="/survey/company/list.do" access="hasRole('COMPANY')" />
+  		<security:intercept-url pattern="/survey/company/edit.do" access="hasRole('COMPANY')" />
+  		<security:intercept-url pattern="/survey/company/display.do" access="hasRole('COMPANY')" />
+  		<security:intercept-url pattern="/survey/company/list.do" access="hasRole('SPONSOR')" />
+  		<security:intercept-url pattern="/survey/company/edit.do" access="hasRole('SPONSOR')" />
+  		<security:intercept-url pattern="/survey/company/display.do" access="hasRole('SPONSOR')" />
+  		<security:intercept-url pattern="/survey/company/list.do" access="hasRole('MODERATOR')" />
+  		<security:intercept-url pattern="/survey/company/edit.do" access="hasRole('MODERATOR')" />
+  		<security:intercept-url pattern="/survey/company/display.do" access="hasRole('MODERATOR')" /> 
+  		 		
   		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
   		
 		<security:form-login 

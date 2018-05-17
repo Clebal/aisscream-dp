@@ -26,6 +26,7 @@
 <%@ attribute name="code" required="true" %>
 <%@ attribute name="items" required="false" type="java.util.Collection" %>
 <%@ attribute name="itemLabel" required="false" %>
+<%@ attribute name="hideFirstOption" required="false" type="java.lang.Boolean"%>
 <%@ attribute name="object" required="false" type="java.lang.Object"%>
 
 <%@ attribute name="option" required="false" %>
@@ -49,6 +50,8 @@
 </jstl:if>
 
 <%-- Definition --%>
+
+<jstl:if test="${hideFirstOption == null || hideFirstOption == false}">
 
 <jstl:if test="${path == 'creditCard'}">
 
@@ -126,3 +129,18 @@
 		</div>
 </jstl:if>	
 
+</jstl:if>
+
+<jstl:if test="${hideFirstOption == true}">
+	<div class="form-group"> 
+		<form:label path="${path}">
+			<spring:message code="${code}" />:
+		</form:label>
+		<form:select path="${path}" class="form-control">
+      		<jstl:forEach items="${items}" var="cc">
+				<option value="${cc.getId()}" ${cc.getId() == selected ? 'selected' : ''} >${cc.text}</option>
+        	</jstl:forEach>
+		</form:select>
+		<form:errors class="text-danger" path="${path}" />
+	</div>
+</jstl:if>

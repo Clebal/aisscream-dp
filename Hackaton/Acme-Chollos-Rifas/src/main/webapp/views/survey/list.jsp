@@ -21,3 +21,5 @@
 </display:table>
 
 <acme:paginate url="${requestURI}" objects="${surveys}" pageNumber="${pageNumber}" page="${page}" />
+
+<acme:displayLink code="survey.create" action="survey/${model}/create.do"/>

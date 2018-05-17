@@ -4,6 +4,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import domain.Answer;
 import domain.Question;
 import domain.Surveyer;
 import domain.Survey;
+import forms.AnswerSurveyForm;
 import forms.QuestionForm;
 import forms.SurveyForm;
 
@@ -215,6 +217,109 @@ public class SurveyController extends AbstractController {
 		result = new ModelAndView("survey/edit");
 
 		result.addObject("surveyForm", surveyForm);
+		result.addObject("message", messageCode);
+		result.addObject("model", model);
+
+		return result;
+	}
+
+	// Answer ---------------------------------------------------------------------------------------------------------------
+	
+	@RequestMapping(value = "/answer", method = RequestMethod.GET)
+	public ModelAndView answer(@RequestParam int surveyId, @PathVariable(value="actor") final String model) {
+		ModelAndView result;
+		AnswerSurveyForm answerSurveyForm;
+		Survey survey;
+		Collection<Question> questions;
+		Collection<Answer> answers;
+		Map<Question, Collection<Answer>> questionAnswers;
+		
+		survey = this.surveyService.findOne(surveyId);
+		Assert.notNull(survey);
+		
+		questions = this.questionService.findBySurveyId(surveyId, 1, this.questionService.countBySurveyId(surveyId)).getContent();
+		
+		questionAnswers = new HashMap<Question, Collection<Answer>>();
+		
+		for(Question q : questions) {
+			answers = this.answerService.findByQuestionId(q.getId());
+			questionAnswers.put(q, answers);
+		}
+		
+		answerSurveyForm = new AnswerSurveyForm();
+		answerSurveyForm.setMapQuestionAnswers(questionAnswers);
+		
+		result = this.createEditModelAndView2(answerSurveyForm, model);
+		
+		return result;
+	}
+
+	@RequestMapping(value = "/answer", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(final AnswerSurveyForm answerSurveyForm, final BindingResult binding, @PathVariable(value="actor") final String model) {
+		ModelAndView result;
+		Answer answer, answerPunt;
+		Collection<Answer> answers, answersReconstruct, answersCollection;
+		Integer counter;
+		
+		answers = new HashSet<Answer>();
+		answersReconstruct = new HashSet<Answer>();
+		answerPunt = new Answer();
+		
+		Assert.notNull(answerSurveyForm.getAnswers());
+		
+		for (int i : answerSurveyForm.getAnswers()) {
+			answerPunt = this.answerService.findOne(i);
+			answers.add(this.answerService.findOne(i));
+		}
+		
+		// Por cada pregunta solo y al menos debe existir una respuesta
+		
+		for (Question q : this.questionService.findBySurveyId(answerPunt.getQuestion().getSurvey().getId(), 1, this.questionService.countBySurveyId(answerPunt.getQuestion().getSurvey().getId()))) {
+			answersCollection = this.answerService.findByQuestionId(q.getId());
+			counter = 0;
+			for (Answer a : answersCollection) {
+				if (answers.contains(a))
+					counter ++;
+			}
+			Assert.isTrue(counter == 1);	
+		}
+		
+		for (Answer a : answers) {
+			answer = this.answerService.reconstruct(a, binding);
+			answersReconstruct.add(answer);
+		}
+			
+		if(binding.hasErrors()) {
+			result = createEditModelAndView2(answerSurveyForm, model);
+		} else {
+			try {
+				for (Answer a : answersReconstruct) {
+					a.setCounter(a.getCounter()+1);
+					this.answerService.save(a);
+				}
+				result = new ModelAndView("redirect:/notification/actor/list.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView2(answerSurveyForm, "survey.commit.error");
+			}
+		}
+			
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView2(final AnswerSurveyForm answerSurveyForm, final String model) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView2(answerSurveyForm, model, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView2(final AnswerSurveyForm answerSurveyForm, final String model, final String messageCode) {
+		ModelAndView result;
+
+		result = new ModelAndView("survey/answer");
+
+		result.addObject("answerSurveyForm", answerSurveyForm);
 		result.addObject("message", messageCode);
 		result.addObject("model", model);
 
