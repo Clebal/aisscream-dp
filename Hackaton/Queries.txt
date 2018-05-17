@@ -1,0 +1,78 @@
+SERGIO - Mínimo, máximo, media y desviación estándar de los banners por cada patrocinador.
+
+
+CARLOS - La media de la ratio de etiquetas por chollos.
+
+
+VILLARIN - Chollo con más y menos patrocinadores.
+
+
+SANTOS - Los chollos que estén en más listas de  deseo.
+
+Query: select b from Bargain b ORDER BY cast((select count(u) from User u where b member of u.wishList) as float)
+
+SERGIO - Ratio de notificaciones vistas por chollo.
+
+
+CARLOS - Ratio de notificaciones vistas sobre el total.
+
+
+VILLARIN - Media de usuarios que tienen una participación en una rifa respecto al total.
+
+
+SANTOS - Las empresas que han realizado más del 15%, 10% y 5% de las encuestas llevadas a  cabo por empresas.
+
+Query: select c from Company c where cast((select count(s) from Survey s where 'COMPANY' member of s.surveyer.userAccount.authorities) as float )*?1 <= (select count(s) from Survey s where s.surveyer.id = c.id )
+
+SERGIO - Los usuarios que han respondido a más encuestas.
+
+
+CARLOS - Top-5 usuarios que más valoraciones han  realizado.
+
+
+VILLARIN - Ratio de usuarios que realizan  comentarios.
+
+
+SANTOS - Usuarios que han realizado más del 10% de interacciones con el sistema.
+
+Query: select u from User u where u.points > (select sum(u2.points) from User u2)*0.1
+
+SERGIO - Categorías con más chollos que la  media.
+
+
+CARLOS - Las empresas que proveen más etiquetas  a sus chollos.
+
+
+VILLARIN - La media del ratio de chollos por  categorías.
+
+
+
+VILLARIN - Usuario con mayor media de número de caracteres escritos en sus valoraciones a las  empresas.
+
+
+
+SERGIO - Conjuntas con un 10% de más  participación que la media.
+
+
+
+CARLOS - Mínimo, máximo, media y desviación estándar del descuento de un chollo.
+
+
+
+VILLARIN - Mínimo, máximo, media y desviación estándar del descuento de una conjunta.
+
+
+
+SANTOS - Usuario que más rifas ha ganado.
+
+Query: select u from User u where cast((select count(r.winner) from Raffle r where r.winner.id = u.id )as float) = (select max(cast((select count(r2.winner) from Raffle r2 where r2.winner.id=u2.id)as float)) from User u2)
+
+SERGIO - Usuario que ha comprado más tiques para una rifa y el que menos.
+
+
+
+CARLOS - Media de tiques comprados por los usuarios para una rifa.
+
+
+
+VILLARIN - Usuario que ha comprado más del 25% del total de tiques vendidos en total para todas  las rifas.
