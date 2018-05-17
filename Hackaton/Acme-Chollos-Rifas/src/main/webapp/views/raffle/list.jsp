@@ -31,14 +31,15 @@
 
 	<acme:column domain="raffle" property="maxDate" formatDate="true" sortable="true"/>
 	
-	<acme:column domain="raffle" property="${row.getPrice()}" formatPrice="true" codeSymbol1="raffle.currency.english" codeSymbol2="raffle.currency.spanish" sortable="true" />
+	<acme:column domain="raffle" property="${row.getPrice()}" code="price" formatPrice="true" codeSymbol1="raffle.currency.english" codeSymbol2="raffle.currency.spanish" sortable="true" />
 	
 	<jstl:if test="${!requestURI.equals('raffle/list.do')}">
 		<jstl:if test="${row.getWinner() != null}">
-			<acme:columnLink domain="raffle" code="winner" content="${row.getWinner().getName()} ${row.getWinner().getSurname()}" url="actor/user/display.do?actorId=${row.getCompany().getId()}" />
+			<acme:columnLink domain="raffle" code="winner" content="${row.getWinner().getName()} ${row.getWinner().getSurname()}" url="actor/user/display.do?userId=${row.getWinner().getId()}" />
 		</jstl:if>
 		<jstl:if test="${row.getWinner() == null}">
-			<display:column title="<spring:message code='raffle.winner'/>"></display:column>
+			<spring:message code='raffle.winner' var="winnerHeader"/>
+			<display:column title="${winnerHeader}"><spring:message code="raffle.notRaffledYet" /></display:column>
 		</jstl:if>
 	</jstl:if>
 	
