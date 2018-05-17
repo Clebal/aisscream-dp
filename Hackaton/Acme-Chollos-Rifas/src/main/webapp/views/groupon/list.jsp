@@ -36,10 +36,10 @@
 	
 	<acme:column property="maxDate" domain="groupon" formatDate="true" />
 	
-	<acme:column domain="groupon" property="originalPrice"/>
-	
-	<acme:column domain="groupon" property="price"/>
-		
+	<acme:column domain="groupon" property="${row.getOriginalPrice()}" code="originalPrice" formatPrice="true" codeSymbol1="groupon.currency.english" codeSymbol2="groupon.currency.spanish" />
+			
+	<acme:column domain="groupon" property="${row.getPrice()}" code="price" formatPrice="true" codeSymbol1="groupon.currency.english" codeSymbol2="groupon.currency.spanish" />
+			
 	<acme:columnLink action="display" domain="groupon" id="${row.getId()}"/>
 	
 	
