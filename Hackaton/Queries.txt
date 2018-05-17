@@ -1,10 +1,16 @@
 SERGIO - Mínimo, máximo, media y desviación estándar de los banners por cada patrocinador.
 
+Query: 
+select  avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float )), min(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as int )), max(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as int )), sqrt(sum((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id)*(select count(sp) from Sponsorship sp where sp.sponsor.id=s.id))/(select count(s2) from Sponsor s2)-avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float ))*avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float ))) from Sponsor s
 
 CARLOS - La media de la ratio de etiquetas por chollos.
 
 
 VILLARIN - Chollo con más y menos patrocinadores.
+
+Query:select b from Bargain b where cast((select count(s) from Sponsorship s where s.bargain.id = b.id )as float) = (select max(cast((select count(s2) from Sponsorship s2 where s2.bargain.id=b2.id)as float)) from Bargain b2)
+
+Query: select b from Bargain b where cast((select count(s) from Sponsorship s where s.bargain.id = b.id )as float) = (select min(cast((select count(s2) from Sponsorship s2 where s2.bargain.id=b2.id)as float)) from Bargain b2)
 
 
 SANTOS - Los chollos que estén en más listas de  deseo.
