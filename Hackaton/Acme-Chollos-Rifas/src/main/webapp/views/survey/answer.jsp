@@ -22,5 +22,6 @@
 	
 	<acme:submit name="save" code="survey.save" />
 
+	<acme:cancel url="/notification/actor/list.do" code="survey.cancel"/>
 
 </form:form>
