@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,13 @@ import services.ModeratorService;
 import services.QuestionService;
 import services.SponsorService;
 import services.SurveyService;
+import services.UserService;
+import domain.Actor;
 import domain.Answer;
 import domain.Question;
 import domain.Surveyer;
 import domain.Survey;
+import domain.User;
 import forms.AnswerSurveyForm;
 import forms.QuestionForm;
 import forms.SurveyForm;
@@ -56,6 +60,9 @@ public class SurveyController extends AbstractController {
 	@Autowired
 	private SponsorService	sponsorService;
 
+	@Autowired
+	private UserService	userService;
+	
 	// Constructor
 	public SurveyController() {
 		super();
@@ -87,18 +94,18 @@ public class SurveyController extends AbstractController {
 		Survey survey;
 		Collection<Question> questions;
 		Collection<Answer> answers;
-		Map<Answer, Double> answersRatio;
-		Map<String, Map<Answer, Double>> questionsAnswerRatio;
+		LinkedHashMap <Answer, Double> answersRatio;
+		LinkedHashMap <String, Map<Answer, Double>> questionsAnswerRatio;
 		
 		survey = this.surveyService.findOne(surveyId);
 		Assert.notNull(survey);
 		
 		questions = this.questionService.findBySurveyId(surveyId, 1, this.questionService.countBySurveyId(surveyId)).getContent();
 		
-		questionsAnswerRatio = new HashMap<String, Map<Answer, Double>>();
+		questionsAnswerRatio = new LinkedHashMap <String, Map<Answer, Double>>();
 		
 		for(Question q : questions) {
-			answersRatio = new HashMap<Answer, Double>();
+			answersRatio = new LinkedHashMap <Answer, Double>();
 			answers = this.answerService.findByQuestionId(q.getId());
 			for (Answer a : answers)
 				answersRatio.put(a, this.answerService.ratioAnswerPerQuestion(q.getId(), a.getId()));
@@ -223,7 +230,7 @@ public class SurveyController extends AbstractController {
 		return result;
 	}
 
-	// Answer ---------------------------------------------------------------------------------------------------------------
+	// Answer -------------------------------------------------------------------------------
 	
 	@RequestMapping(value = "/answer", method = RequestMethod.GET)
 	public ModelAndView answer(@RequestParam int surveyId, @PathVariable(value="actor") final String model) {
@@ -260,6 +267,7 @@ public class SurveyController extends AbstractController {
 		Answer answer, answerPunt;
 		Collection<Answer> answers, answersReconstruct, answersCollection;
 		Integer counter;
+		User user;
 		
 		answers = new HashSet<Answer>();
 		answersReconstruct = new HashSet<Answer>();
@@ -296,6 +304,11 @@ public class SurveyController extends AbstractController {
 				for (Answer a : answersReconstruct) {
 					a.setCounter(a.getCounter()+1);
 					this.answerService.save(a);
+				}
+				if(model.equals("user")) {
+					user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+					user.setPoints(user.getPoints()+10);
+					this.userService.save(user);
 				}
 				result = new ModelAndView("redirect:/notification/actor/list.do");
 			} catch (final Throwable oops) {

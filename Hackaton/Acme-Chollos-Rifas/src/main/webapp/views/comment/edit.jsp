@@ -27,7 +27,7 @@
 		<acme:textarea code="comment.text" path="text"/>
 	</security:authorize>
 	
-		<security:authorize access="hasRole('ADMIN')">
+		<security:authorize access="hasRole('MODERATOR')">
 		<acme:textbox code="comment.image" path="images" readonly="readonly" />
 		
 		<acme:textbox code="comment.text" path="text" readonly="readonly" />
@@ -42,7 +42,7 @@
 		</jstl:if>
 	</security:authorize>
 	
-	<security:authorize access="hasRole('ADMIN')">
+	<security:authorize access="hasRole('MODERATOR')">
 		<jstl:if test="${comment.getId()!= 0}">
 			<acme:submit name="delete" code="comment.delete" codeDelete="comment.confirm.delete"/>
 		</jstl:if>

@@ -1,5 +1,5 @@
 
-package controllers.administrator;
+package controllers.moderator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +16,8 @@ import controllers.AbstractController;
 import domain.Comment;
 
 @Controller
-@RequestMapping("/comment/administrator")
-public class CommentAdministratorController extends AbstractController {
+@RequestMapping("/comment/moderator")
+public class CommentModeratorController extends AbstractController {
 
 	// Services
 	@Autowired
@@ -33,7 +33,7 @@ public class CommentAdministratorController extends AbstractController {
 		Assert.notNull(comments);
 		
 		result = new ModelAndView("comment/list");
-		result.addObject("requestURI", "comment/administrator/list.do");
+		result.addObject("requestURI", "comment/moderator/list.do");
 		result.addObject("comments", comments.getContent());
 		result.addObject("page", page);
 		result.addObject("pageNumber", comments.getTotalPages());
@@ -56,13 +56,20 @@ public class CommentAdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final Comment comment, final BindingResult binding) {
+	public ModelAndView delete(Comment comment, final BindingResult binding) {
 		ModelAndView result;
+		
+		comment = this.commentService.reconstruct(comment, binding);
+
 		try {
 			Assert.notNull(comment.getBargain());
-			this.commentService.deleteAdmin(comment);
-			result = new ModelAndView("redirect:/comment/administrator/list.do");
+			this.commentService.deleteModerator(comment);
+			result = new ModelAndView("redirect:/comment/moderator/list.do");
 		} catch (final Throwable oops) {
+			System.out.println("oops: " + oops.getMessage());
+			System.out.println("oops: " + oops.getLocalizedMessage());
+			System.out.println("oops: " + oops.getCause());
+
 			result = this.createEditModelAndView(comment, "comment.commit.error");
 		}
 
@@ -84,7 +91,7 @@ public class CommentAdministratorController extends AbstractController {
 		result = new ModelAndView("comment/edit");
 
 		result.addObject("comment", comment);
-		result.addObject("actor", "administrator");
+		result.addObject("actor", "moderator");
 		result.addObject("message", messageCode);
 
 		return result;

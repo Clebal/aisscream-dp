@@ -37,6 +37,9 @@ public class CommentService {
 	private BargainService		bargainService;
 	
 	@Autowired
+	private PlanService			planService;
+	
+	@Autowired
 	private Validator			validator;
 
 
@@ -110,12 +113,17 @@ public class CommentService {
 		authority.setAuthority("USER");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
-		Assert.isTrue(comment.getId() == 0); // No se permitirán editar en principio
-
+		Assert.isTrue(comment.getId() == 0); // No se permitirán editar 
+		
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
+		user.setPoints(user.getPoints()+5);
+		this.userService.save(user);
 
 		Assert.isTrue(comment.getUser().equals(user));
+		
+		if (comment.getImages() != null || !comment.getImages().isEmpty())
+			Assert.isTrue(this.planService.findByUserId(comment.getUser().getId()) != null);
 
 		if (comment.getRepliedComment() != null)
 			Assert.isTrue(comment.getRepliedComment().getBargain().equals(comment.getBargain()));
@@ -129,16 +137,19 @@ public class CommentService {
 	}
 
 	public void delete(final Comment comment) {
-		final Authority authority;
+		final Authority authority1, authority2;
 		Comment commentForDelete;
 		Integer size;
 
-		authority = new Authority();
-		authority.setAuthority("USER");
+		authority1 = new Authority();
+		authority1.setAuthority("USER");
+		authority2 = new Authority();
+		authority2.setAuthority("COMPANY");
 
 		Assert.notNull(comment);
 
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority1) 
+				|| LoginService.getPrincipal().getAuthorities().contains(authority2));
 
 		size = this.countByRepliedCommentId(comment.getId());
 
@@ -151,48 +162,32 @@ public class CommentService {
 
 	}
 
-	public void deleteAdmin(final Comment comment) {
+	public void deleteModerator(final Comment comment) {
 		final Authority authority;
 		Comment commentForDelete;
 		Integer size;
+		User user;
 
 		authority = new Authority();
-		authority.setAuthority("ADMIN");
+		authority.setAuthority("MODERATOR");
 
 		Assert.notNull(comment);
 
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
 		size = this.countByRepliedCommentId(comment.getId());
-
-		//Delete repliedComments
-		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))
-			this.delete(repliedComment);
-
-		commentForDelete = this.findOne(comment.getId());
-		this.commentRepository.delete(commentForDelete);
-
-	}
-	
-	public void deleteFromBargain(final Bargain bargain) {
-		Comment commentForDelete;
-		Integer size;
-		Collection<Comment> comments;
-
-		Assert.isTrue(bargain.getId() != 0);
 		
-		comments = this.findByBargainId(bargain.getId(), 1, this.countByBargainId(bargain.getId())).getContent();
+		user = this.userService.findOne(comment.getUser().getId());
+		user.setPoints(user.getPoints()-10);
+		this.userService.save(user);
+		
+		//Delete repliedComments
+		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))
+			this.deleteModerator(repliedComment);
 
-		for (Comment c : comments) { 
-			size = this.countByRepliedCommentId(c.getId());
-	
-			//Delete repliedComments
-			for (final Comment repliedComment : this.findByRepliedCommentId(c.getId(), 1, size))
-				this.delete(repliedComment);
-	
-			commentForDelete = this.findOne(c.getId());
-			this.commentRepository.delete(commentForDelete);
-		}
+		commentForDelete = this.findOne(comment.getId());
+		this.commentRepository.delete(commentForDelete);
+
 	}
 	
 	public void flush() {

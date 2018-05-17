@@ -44,8 +44,8 @@
 		</jstl:if>
 	</security:authorize>
 	
-	<security:authorize access="hasRole('ADMIN')">
-		<acme:displayLink parameter="commentId" code="comment.delete" action="comment/administrator/edit.do" parameterValue="${comment.getId()}" css="btn btn-warning"></acme:displayLink>
+	<security:authorize access="hasRole('MODERATOR')">
+		<acme:displayLink parameter="commentId" code="comment.delete" action="comment/moderator/edit.do" parameterValue="${comment.getId()}" css="btn btn-warning"></acme:displayLink>
 	</security:authorize>
 	
 	<acme:displayLink parameter="bargainId" code="comment.bargain" action="bargain/display.do" parameterValue="${comment.getBargain().getId()}" css="btn btn-primary"></acme:displayLink>		
