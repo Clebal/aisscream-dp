@@ -304,11 +304,8 @@ public class SurveyController extends AbstractController {
 					a.setCounter(a.getCounter()+1);
 					this.answerService.save(a);
 				}
-				if(model.equals("user")) {
-					user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-					user.setPoints(user.getPoints()+10);
-					this.userService.save(user);
-				}
+				if(model.equals("user"))
+					this.userService.addPoints(10);
 				result = new ModelAndView("redirect:/notification/actor/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView2(answerSurveyForm, "survey.commit.error");

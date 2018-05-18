@@ -125,8 +125,9 @@ public class CommentService {
 		
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
-		user.setPoints(user.getPoints()+5);
-		this.userService.save(user);
+		
+		// Añadir puntos
+		this.userService.addPoints(5);
 
 		Assert.isTrue(comment.getUser().equals(user));
 		
@@ -174,7 +175,6 @@ public class CommentService {
 		final Authority authority;
 		Comment commentForDelete;
 		Integer size;
-		User user;
 
 		authority = new Authority();
 		authority.setAuthority("MODERATOR");
@@ -184,10 +184,9 @@ public class CommentService {
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
 		size = this.countByRepliedCommentId(comment.getId());
-		
-		user = this.userService.findOne(comment.getUser().getId());
-		user.setPoints(user.getPoints()-10);
-		this.userService.save(user);
+				
+		// Quitar puntos
+		this.userService.addPoints(comment.getUser(), -10);
 		
 		//Delete repliedComments
 		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))

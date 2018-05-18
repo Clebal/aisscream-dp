@@ -78,7 +78,6 @@ public class EvaluationService {
 		Evaluation result;
 		Authority authority;
 		UserAccount userAccount;
-		User user;
 
 		Assert.notNull(evaluation);
 
@@ -91,9 +90,7 @@ public class EvaluationService {
 		Assert.isTrue(evaluation.getUser().getUserAccount().equals(userAccount));
 		
 		if (evaluation.getId() == 0) { 
-			user = this.userService.findOne(evaluation.getUser().getId());
-			user.setPoints(user.getPoints()+10);
-			this.userService.save(user);
+			this.userService.addPoints(evaluation.getUser(), 10);
 		}
 		
 		result = this.evaluationRepository.save(evaluation);
@@ -128,6 +125,8 @@ public class EvaluationService {
 		
 		saved = this.findOne(evaluation.getId());
 		Assert.notNull(saved);
+		
+		this.userService.addPoints(evaluation.getUser(), -10);
 
 		authority = new Authority();
 		authority.setAuthority("MODERATOR");
