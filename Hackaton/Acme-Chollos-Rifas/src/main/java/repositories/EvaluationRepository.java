@@ -9,6 +9,9 @@ import domain.Evaluation;
 
 public interface EvaluationRepository extends JpaRepository<Evaluation, Integer> {
 
+	@Query("select e from Evaluation e")
+	Page<Evaluation> findAllEvaluations(Pageable pageable);
+	
 	@Query("select c from Evaluation c where c.company.id = ?1")
 	Page<Evaluation> findByCompanyId(int companyId, Pageable pageable);
 

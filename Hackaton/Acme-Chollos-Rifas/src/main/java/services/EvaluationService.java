@@ -119,9 +119,33 @@ public class EvaluationService {
 
 		this.evaluationRepository.delete(saved);
 	}
+	
+	public void deleteModerator(final Evaluation evaluation) {
+		Authority authority;
+		Evaluation saved;
+
+		Assert.notNull(evaluation);
+		
+		saved = this.findOne(evaluation.getId());
+		Assert.notNull(saved);
+
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		this.evaluationRepository.delete(saved);
+	}
 
 	//Other business methods -------------------------------------------------
 
+	public Page<Evaluation> findAllEvaluations(final int page, final int size) {
+		Page<Evaluation> result;
+		
+		result = this.evaluationRepository.findAllEvaluations(this.getPageable(page, size));
+		
+		return result;
+	}
+	
 	public Evaluation reconstruct(final Evaluation evaluation, final BindingResult binding) {
 		Evaluation saved;
 		User user;

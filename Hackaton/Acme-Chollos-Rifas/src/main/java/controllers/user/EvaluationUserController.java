@@ -148,6 +148,7 @@ public class EvaluationUserController extends AbstractController {
 		
 		result.addObject("evaluation", evaluation);
 		result.addObject("message", messageCode);
+		result.addObject("requestURI", "evaluation/user/edit.do");
 
 		return result;
 	}

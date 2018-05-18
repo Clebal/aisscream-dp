@@ -15,6 +15,9 @@
 	<jstl:if test="${requestURI == 'evaluation/user/list.do'}">
 		<acme:columnLink action="edit" actor="user" domain="evaluation" id="${row.getId()}" />
 	</jstl:if>
+	<jstl:if test="${requestURI == 'evaluation/moderator/list.do'}">
+		<acme:columnLink action="edit" actor="moderator" domain="evaluation" id="${row.getId()}" />
+	</jstl:if>
 	
 	<spring:message code="evaluation.puntuation" var="puntu" />
 	<display:column style="background: inherit;" title="${puntu}">

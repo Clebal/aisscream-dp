@@ -48,7 +48,7 @@
 	<security:authorize access="hasAnyRole('USER', 'COMPANY')">
 	<security:authentication var="principal" property="principal.username"/>
 	</security:authorize>
-	<jstl:if test="${!evaluation.getIsAnonymous() || !principal.equals(evaluation.getUser().getUserAccount().getUsername())}">
+	<jstl:if test="${!evaluation.getIsAnonymous() || principal.equals(evaluation.getUser().getUserAccount().getUsername())}">
 		<acme:displayLink parameter="userId" code="evaluation.user.name" action="actor/user/display.do" parameterValue="${evaluation.getUser().getId()}" ></acme:displayLink>
 	</jstl:if>
 	

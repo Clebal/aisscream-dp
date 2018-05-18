@@ -10,7 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="evaluation/user/edit.do" modelAttribute="evaluation">
+<form:form action="${requestURI}" modelAttribute="evaluation">
 
 	<form:hidden path="id"/>
 	
@@ -18,6 +18,7 @@
  		<form:hidden path="company"/>
  	</jstl:if>
  	 	
+	<jstl:if test="${requestURI != 'evaluation/moderator/edit.do'}">
  	<div class="form-group">
 		<form:label path="puntuation">
 			<spring:message code="evaluation.puntuation" />
@@ -41,15 +42,32 @@
 	</div>
 	
 	<br/>
+	</jstl:if>
 	
-	<acme:submit name="save" code="evaluation.save" />
+	<jstl:if test="${requestURI == 'evaluation/moderator/edit.do'}">
+ 	
+	<acme:textbox code="evaluation.puntuation" path="puntuation" readonly="readonly"/>
+	
+	<acme:textbox path="content" code="evaluation.content" readonly="readonly" />
+	
+	<br/>
+	</jstl:if>
+	
+	<jstl:if test="${requestURI != 'evaluation/moderator/edit.do'}">
+		<acme:submit name="save" code="evaluation.save" />
+	</jstl:if>
 
 	<jstl:if test="${evaluation.getId()!= 0}">
 		<acme:submit name="delete" code="evaluation.delete" />
 	</jstl:if>
 	
-	<acme:cancel code="evaluation.cancel" url="evaluation/user/list.do" />
-
+	<jstl:if test="${requestURI != 'evaluation/moderator/edit.do'}">
+		<acme:cancel code="evaluation.cancel" url="evaluation/user/list.do" />
+	</jstl:if>
+	<jstl:if test="${requestURI == 'evaluation/moderator/edit.do'}">
+		<acme:cancel code="evaluation.cancel" url="evaluation/moderator/list.do" />
+	</jstl:if>
+	
 </form:form>
 
 <script type="text/javascript">

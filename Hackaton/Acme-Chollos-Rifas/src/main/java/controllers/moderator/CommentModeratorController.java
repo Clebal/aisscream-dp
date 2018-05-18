@@ -1,6 +1,9 @@
 
 package controllers.moderator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
+import services.PlanService;
 import controllers.AbstractController;
 import domain.Comment;
 
@@ -23,20 +27,35 @@ public class CommentModeratorController extends AbstractController {
 	@Autowired
 	private CommentService	commentService;
 	
+	@Autowired
+	private PlanService		planService;
+	
 	// List
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required = false, defaultValue="1") Integer page) {
 		ModelAndView result;
 		Page<Comment> comments;
+		Map<Comment, Boolean> mapCommentBoolean;
+		Boolean hasPlan;
 				
 		comments = this.commentService.findAllComments(page, 5);
 		Assert.notNull(comments);
+		
+
+		mapCommentBoolean = new HashMap<Comment, Boolean>();
+		for (Comment c : comments) {
+			hasPlan = false;
+			if (this.planService.findByUserId(c.getUser().getId()) != null)
+				hasPlan = true;
+			mapCommentBoolean.put(c, hasPlan);
+		}
 		
 		result = new ModelAndView("comment/list");
 		result.addObject("requestURI", "comment/moderator/list.do");
 		result.addObject("comments", comments.getContent());
 		result.addObject("page", page);
 		result.addObject("pageNumber", comments.getTotalPages());
+		result.addObject("mapCommentBoolean", mapCommentBoolean);
 				
 		return result;
 	}

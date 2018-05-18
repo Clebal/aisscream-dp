@@ -241,7 +241,7 @@ public class CommentService {
 		Page<Comment> result;
 
 		Assert.isTrue(bargainId != 0);
-		result = this.commentRepository.findByRepliedCommentId(bargainId, this.getPageable(page, size));
+		result = this.commentRepository.findByBargainIdAndNoRepliedComment(bargainId, this.getPageable(page, size));
 
 		return result;
 	}

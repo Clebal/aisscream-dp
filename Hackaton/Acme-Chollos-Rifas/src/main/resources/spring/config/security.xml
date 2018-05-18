@@ -110,9 +110,11 @@
    		<security:intercept-url pattern="/user/moderator/ban.do" access="hasRole('MODERATOR')" />		
 				
 		 <!-- Evaluation -->
-		<security:intercept-url pattern="/evaluation/user/list.do" access="hasRole('USER')" />	
+		<security:intercept-url pattern="/evaluation/user/list.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/evaluation/moderator/list.do" access="hasRole('MODERATOR')" />		
   		<security:intercept-url pattern="/evaluation/user/create.do" access="hasRole('USER')" />
-  		<security:intercept-url pattern="/evaluation/user/edit.do" access="hasRole('USER')" />		
+  		<security:intercept-url pattern="/evaluation/user/edit.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/evaluation/moderator/edit.do" access="hasRole('MODERATOR')" />			
   		<security:intercept-url pattern="/evaluation/list.do" access="permitAll" />	
   		<security:intercept-url pattern="/evaluation/company/list.do" access="hasRole('COMPANY')" />		
   		<security:intercept-url pattern="/evaluation/display.do" access="permitAll" />	
