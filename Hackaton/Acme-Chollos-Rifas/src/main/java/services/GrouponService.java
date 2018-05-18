@@ -147,6 +147,28 @@ public class GrouponService {
 
 	}
 
+	public void deleteFromModerator(final Groupon groupon) {
+		Groupon grouponToDelete;
+		Authority authority;
+		User user;
+
+		Assert.notNull(groupon);
+		grouponToDelete = this.findOne(groupon.getId());
+		Assert.notNull(grouponToDelete);
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		for (final Participation p : this.participationService.findByGrouponId(grouponToDelete.getId()))
+			this.participationService.deleteFromGrouponModerator(p);
+
+		user = grouponToDelete.getCreator();
+		this.userService.addPoints(user, -10);
+
+		this.grouponRepository.delete(grouponToDelete);
+
+	}
+
 	public void saveFromParticipation(final Groupon groupon) {
 		Assert.notNull(groupon);
 		this.grouponRepository.save(groupon);

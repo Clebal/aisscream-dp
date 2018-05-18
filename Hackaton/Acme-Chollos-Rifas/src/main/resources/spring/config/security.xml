@@ -171,6 +171,7 @@
 		<security:intercept-url pattern="/groupon/user/list.do" access="hasRole('USER')" />
   		<security:intercept-url pattern="/groupon/user/create.do" access="hasRole('USER')" />
   		<security:intercept-url pattern="/groupon/user/edit.do" access="hasRole('USER')" />
+  		<security:intercept-url pattern="/groupon/moderator/delete.do" access="hasRole('MODERATOR')" />
   		<security:intercept-url pattern="/groupon/list.do" access="permitAll" />
   		<security:intercept-url pattern="/groupon/display.do" access="permitAll" />
 		

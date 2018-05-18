@@ -138,6 +138,16 @@ public class ParticipationService {
 		this.participationRepository.delete(participation);
 	}
 
+	public void deleteFromGrouponModerator(final Participation participation) {
+		Authority authority;
+
+		Assert.notNull(participation);
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority));
+		this.participationRepository.delete(participation);
+	}
+
 	public Integer requestedProductsByGrouponId(final int grouponId) {
 		Integer result;
 

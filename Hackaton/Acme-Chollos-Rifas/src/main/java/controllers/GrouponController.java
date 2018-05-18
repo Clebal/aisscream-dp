@@ -51,14 +51,19 @@ public class GrouponController extends AbstractController {
 		ModelAndView result;
 		Page<Groupon> groupons;
 		Authority authority;
+		Authority authority2;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
+		authority2 = new Authority();
+		authority2.setAuthority("MODERATOR");
 		groupons = null;
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			if (this.planService.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId()) != null)
 				groupons = this.grouponService.findAllPaginated(page, 5);
-		} else
+		} else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority2))
+			groupons = this.grouponService.findAllPaginated(page, 5);
+		else
 			groupons = this.grouponService.findWithMaxDateFuture(page, 5);
 
 		Assert.notNull(groupons);
@@ -82,6 +87,7 @@ public class GrouponController extends AbstractController {
 		Boolean canSeeDiscountCode;
 		Boolean canCreateParticipation;
 		Authority authority;
+		Authority authority2;
 
 		currentUrl = super.makeUrl(request);
 		canSeeGroupon = false;
@@ -89,16 +95,21 @@ public class GrouponController extends AbstractController {
 		canCreateParticipation = false;
 		authority = new Authority();
 		authority.setAuthority("USER");
+		authority2 = new Authority();
+		authority2.setAuthority("MODERATOR");
 		groupon = this.grouponService.findOne(grouponId);
 		Assert.notNull(groupon);
 
 		if (groupon.getMaxDate().compareTo(new Date()) > 0)
 			canSeeGroupon = true;
-		else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority))
+		else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			if (groupon.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId()
 				|| this.participationService.findByGrouponIdAndUserId(groupon.getId(), this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId()) != null
 				|| this.planService.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId()) != null)
 				canSeeGroupon = true;
+
+		} else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority2))
+			canSeeGroupon = true;
 
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			if (groupon.getCreator().getUserAccount().getId() == LoginService.getPrincipal().getId()
