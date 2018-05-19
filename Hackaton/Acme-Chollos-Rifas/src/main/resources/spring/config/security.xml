@@ -65,7 +65,7 @@
 		
 		<security:intercept-url pattern="/actor/sponsor/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/actor/sponsor/edit.do" access="hasRole('SPONSOR') or isAnonymous()"  />
-		<security:intercept-url pattern="/actor/sponsor/profile.do" access="hasRole('SPONSOR')"  />
+		<security:intercept-url pattern="/actor/sponsor/profile.do" access="permitAll"  />
 				
 		<!-- Term Condition -->
 		<security:intercept-url pattern="/termCondition/administrator/**" access="hasRole('ADMIN')" />

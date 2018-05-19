@@ -42,20 +42,6 @@ public class AbstractController {
 	@Autowired
 	private NotificationService		notificationService;
 
-
-	public ModelAndView paginateModelAndView(final String path, final double collectionSize, final Integer page, final Integer size) {
-		ModelAndView result;
-		Integer pageNumber;
-
-		pageNumber = (int) Math.floor(((collectionSize / (size + 0.0)) - 0.1) + 1);
-
-		result = new ModelAndView(path);
-		result.addObject("pageNumber", pageNumber);
-		result.addObject("page", page);
-
-		return result;
-	}
-
 	@ModelAttribute
 	public void headerConfiguration(final Model model) {
 		String banner, nameHeader, slogan;

@@ -66,13 +66,9 @@ public class RaffleController extends AbstractController {
 		result = new ModelAndView("raffle/display");
 		result.addObject("raffle", raffle);
 		result.addObject("hasTicketsSelled", numberTickets >= 1);
-		result.addObject("url", this.makeUrl(request));
+		result.addObject("url", super.makeUrl(request));
 		
 		return result;
-	}
-	
-	public String makeUrl(final HttpServletRequest request) {
-		return request.getRequestURL() + "?" + request.getQueryString();
 	}
 	
 }
