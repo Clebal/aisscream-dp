@@ -840,7 +840,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="type" value="SL" />
 	</bean>
 	
-	<bean id="csompany6" class="domain.Company">
+	<bean id="company6" class="domain.Company">
 		<property name="name" value="company6" />
 		<property name="surname" value="Clemente De la Fuente" />
 		<property name="email" value="company6@acme.com" />
