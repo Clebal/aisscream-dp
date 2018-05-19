@@ -54,9 +54,11 @@
 		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER') or isAnonymous()"  />
 		<security:intercept-url pattern="/actor/user/profile.do" access="hasRole('USER')"  />
 		<security:intercept-url pattern="/actor/user/changewishlist.do" access="hasRole('USER')"  />
+		<security:intercept-url pattern="/actor/user/addremovewishlist.do" access="hasRole('USER')"  />
 		<security:intercept-url pattern="/actor/user/wishlist.do" access="permitAll"  />
 		<security:intercept-url pattern="/actor/user/list.do" access="permitAll"  />
 		<security:intercept-url pattern="/actor/user/display.do" access="permitAll"  />
+		
 
 		<security:intercept-url pattern="/actor/company/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/actor/company/edit.do" access="hasRole('COMPANY') or isAnonymous()"  />
