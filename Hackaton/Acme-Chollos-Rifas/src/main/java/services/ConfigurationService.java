@@ -1,3 +1,4 @@
+
 package services;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,12 @@ public class ConfigurationService {
 
 	// Managed repository
 	@Autowired
-	private ConfigurationRepository		configurationRepository;
+	private ConfigurationRepository	configurationRepository;
 
 	// Other Services
 	@Autowired
-	private Validator					validator;
+	private Validator				validator;
+
 
 	// Constructor
 	public ConfigurationService() {
@@ -54,50 +56,67 @@ public class ConfigurationService {
 	public Configuration findUnique() {
 		Configuration result;
 		Authority authority;
-		
+
 		// Solo puede ser modificado por el admin
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
-		if(LoginService.isAuthenticated()) Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-		
+		if (LoginService.isAuthenticated())
+			Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
 		result = this.configurationRepository.findUnique();
-		
+
 		return result;
 	}
-	
+
 	public String findName() {
 		String result;
-		
+
 		result = this.configurationRepository.findName();
 
 		return result;
 	}
-	
+
 	public String findSlogan() {
 		String result;
-		
+
 		result = this.configurationRepository.findSlogan();
 
 		return result;
 	}
-	
+
 	public String findEmail() {
 		String result;
-		
+
 		result = this.configurationRepository.findEmail();
 
 		return result;
 	}
 
 	public String findBanner() {
-		String result;		
-		
+		String result;
+
 		result = this.configurationRepository.findBanner();
 
 		return result;
 	}
-	
-	public void flush(){
+
+	public String findDefaultAvatar() {
+		String result;
+
+		result = this.configurationRepository.findDefaultAvatar();
+
+		return result;
+	}
+
+	public String findDefaultImage() {
+		String result;
+
+		result = this.configurationRepository.findDefaultImage();
+
+		return result;
+	}
+
+	public void flush() {
 		this.configurationRepository.flush();
 	}
 
@@ -107,17 +126,12 @@ public class ConfigurationService {
 
 		aux = this.configurationRepository.findOne(configuration.getId());
 		Assert.notNull(aux);
-		
+
 		configuration.setVersion(aux.getVersion());
-		
-		configuration.setName(aux.getName());
-		configuration.setSlogan(aux.getSlogan());
-		configuration.setEmail(aux.getEmail());
-		configuration.setBanner(aux.getBanner());
-		
+
 		this.validator.validate(configuration, binding);
 
 		return configuration;
 	}
-	
+
 }

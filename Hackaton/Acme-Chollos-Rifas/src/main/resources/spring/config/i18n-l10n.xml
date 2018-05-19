@@ -49,6 +49,9 @@
 		<value>/views/level/messages</value>		
 		
 		<value>/views/notification/messages</value>
+		<value>/views/bargain/messages</value>
+		<value>/views/sponsorship/messages</value>
+		<value>/views/category/messages</value>
 		
 		<value>/views/company/messages</value>
 		

@@ -88,6 +88,18 @@
 		<bean class="converters.GrouponToStringConverter" />
 		<bean class="converters.StringToGrouponConverter" />
 		
+		<bean class="converters.CategoryToStringConverter" />
+		<bean class="converters.StringToCategoryConverter" />
+		
+		<bean class="converters.SponsorshipToStringConverter" />
+		<bean class="converters.StringToSponsorshipConverter" />
+		
+		<bean class="converters.ConfigurationToStringConverter" />
+		<bean class="converters.StringToConfigurationConverter" />
+		
+		<bean class="converters.NotificationToStringConverter" />
+		<bean class="converters.StringToNotificationConverter" />
+		
 	</util:list>
 	
 </beans>

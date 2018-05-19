@@ -126,16 +126,7 @@
   		<security:intercept-url pattern="/comment/user/create.do" access="hasRole('USER')" />
   		<security:intercept-url pattern="/comment/user/edit.do" access="hasRole('USER')" />	  		
   		<security:intercept-url pattern="/comment/list.do" access="permitAll" />	
-  		<security:intercept-url pattern="/comment/display.do" access="permitAll" />	
-  		
-  		 <!-- Tag -->
-  		<security:intercept-url pattern="/tag/company/create.do" access="hasRole('COMPANY')" />
-  		<security:intercept-url pattern="/tag/company/edit.do" access="hasRole('COMPANY')" />
-  		<security:intercept-url pattern="/tag/company/list.do" access="hasRole('COMPANY')" />
-  		<security:intercept-url pattern="/tag/administrator/edit.do" access="hasRole('ADMIN')" />		
-  		<security:intercept-url pattern="/tag/administrator/list.do" access="hasRole('ADMIN')" />		
-  		<security:intercept-url pattern="/tag/list.do" access="permitAll" />
-  		
+  		<security:intercept-url pattern="/comment/display.do" access="permitAll" />		
   		
   		<!-- Plan -->
   		<security:intercept-url pattern="/plan/administrator/edit.do" access="hasRole('ADMIN')" />
@@ -160,6 +151,41 @@
   		<security:intercept-url pattern="/notification/actor/list.do" access="isAuthenticated()" />
   		<security:intercept-url pattern="/notification/actor/delete.do" access="isAuthenticated()" />
   		<!--  -->
+		
+		<!-- Bargain -->
+  		<security:intercept-url pattern="/bargain/display.do" access="permitAll" />
+  		<security:intercept-url pattern="/bargain/list.do" access="permitAll"/>
+  		<security:intercept-url pattern="/bargain/company/list.do" access="hasRole('COMPANY')"/>
+  		<security:intercept-url pattern="/bargain/company/create.do" access="hasRole('COMPANY')"/>
+  		<security:intercept-url pattern="/bargain/company/edit.do" access="hasRole('COMPANY')"/>
+  		<security:intercept-url pattern="/bargain/sponsor/list.do" access="hasRole('SPONSOR')"/>
+  		<security:intercept-url pattern="/bargain/moderator/list.do" access="hasRole('MODERATOR')"/>
+  		<security:intercept-url pattern="/bargain/moderator/delete.do" access="hasRole('MODERATOR')"/>
+  		<security:intercept-url pattern="/bargain/bycategory.do" access="permitAll" /> 
+  		<security:intercept-url pattern="/bargain/bytag.do" access="permitAll" /> 
+  		<security:intercept-url pattern="/bargain/company/addCategory.do" access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/bargain/company/removeCategory.do" access="hasRole('COMPANY')" />
+  		
+  		<!-- Sponsorship -->
+		<security:intercept-url pattern="/sponsorship/sponsor/display.do" access="hasRole('SPONSOR')" />
+  		<security:intercept-url pattern="/sponsorship/list.do" access="permitAll"/>
+  		<security:intercept-url pattern="/sponsorship/sponsor/list.do" access="hasRole('SPONSOR')"/>
+  		<security:intercept-url pattern="/sponsorship/sponsor/create.do" access="hasRole('SPONSOR')"/>
+  		<security:intercept-url pattern="/sponsorship/sponsor/edit.do" access="hasRole('SPONSOR')"/>
+		
+		
+		<!-- Category -->
+		<security:intercept-url pattern="/category/moderator/edit.do" access="hasRole('MODERATOR')" /> 
+		<security:intercept-url pattern="/category/moderator/create.do" access="hasRole('MODERATOR')" /> 
+		<security:intercept-url pattern="/category/moderator/reorganising.do" access="hasRole('MODERATOR')" /> 
+		<security:intercept-url pattern="/category/display.do" access="permitAll" /> 
+		<security:intercept-url pattern="/category/company/removeCategory.do" access="hasRole('COMPANY')" /> 
+		<security:intercept-url pattern="/category/company/addCategory.do" access="hasRole('COMPANY')" />   
+		<security:intercept-url pattern="/category/company/createBargain.do" access="hasRole('COMPANY')" />
+		
+		
+		<!-- Tag -->
+		<security:intercept-url pattern="/tag/list.do" access="permitAll" /> 
   		
   		<!-- Participation -->
   		<security:intercept-url pattern="/participation/user/list.do" access="hasRole('USER')" />

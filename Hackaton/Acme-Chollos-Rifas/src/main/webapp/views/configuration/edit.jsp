@@ -20,6 +20,10 @@
 	<acme:textbox code="configuration.email" path="email" />
 		
 	<acme:textbox code="configuration.banner" path="banner" />
+	
+	<acme:textbox code="configuration.default.avatar" path="defaultAvatar" />
+	
+	<acme:textbox code="configuration.default.image" path="defaultImage" />
 
 	<acme:submit name="save" code="configuration.save" />
 

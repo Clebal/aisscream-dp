@@ -1,9 +1,8 @@
 
 package controllers;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import security.UserAccount;
 import services.TagService;
-import services.BargainService;
-import services.CompanyService;
-import domain.Bargain;
 import domain.Tag;
 
 @Controller
@@ -25,13 +19,8 @@ public class TagController extends AbstractController {
 
 	// Services
 	@Autowired
-	TagService					tagService;
+	TagService	tagService;
 
-	@Autowired
-	CompanyService				companyService;
-
-	@Autowired
-	BargainService				bargainService;
 
 	// Constructor
 	public TagController() {
@@ -39,35 +28,17 @@ public class TagController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int bargainId) {
+	public ModelAndView list(@RequestParam(required = false, defaultValue = "1") final int page) {
 		ModelAndView result;
-		Collection<Tag> tags;
-		UserAccount userAccount;
-		Bargain bargain;
-		boolean canEditOrCreate;
-		int userAccountId;
+		Page<Tag> tags;
 
-		userAccountId = 0;
-		canEditOrCreate = false;
-
-		if (LoginService.isAuthenticated()) {
-			userAccount = LoginService.getPrincipal();
-			userAccountId = userAccount.getId();
-		}
-		
-		bargain = this.bargainService.findOne(bargainId);
-		Assert.notNull(bargain);
-		if (bargain.getCompany().getUserAccount().getId() == userAccountId)
-			canEditOrCreate = true;
-
-		tags = this.tagService.findByBargain(bargain);
+		tags = this.tagService.findAllPaginated(page, 5);
 		Assert.notNull(tags);
 
 		result = new ModelAndView("tag/list");
-		result.addObject("tags", tags);
-		result.addObject("requestURI", "tag/list.do?bargainId=" + bargainId);
-		result.addObject("bargainId", bargainId);
-		result.addObject("canEditOrCreate", canEditOrCreate);
+		result.addObject("tags", tags.getContent());
+		result.addObject("page", page);
+		result.addObject("pageNumber", tags.getTotalPages());
 
 		return result;
 	}

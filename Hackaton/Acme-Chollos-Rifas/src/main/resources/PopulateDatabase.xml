@@ -356,7 +356,7 @@ Es requisito necesario para el uso de la web que lea y acepte los siguientes Té
 	
 	INFORMACIÓN PERSONAL
 	
-	Un administrador puede marcar como eliminado una cita o cancelar un servicio si considera que tiene contenido inadecuado. Además, puede borrar un comentario o anuncio si considera que afecta moralmente a otros usuarios.
+	Un moderador puede puede borrar un comentario, chollo... si considera que afecta moralmente a otros usuarios.
 	Si cualquier usuario quiere borrar algún dato personal y la aplicación no le ofrece la posibilidad de hacerlo, debe ponerse en contacto con aisscreamacas@gmail.com
 
 
@@ -401,7 +401,7 @@ document.
  PERSONAL INFORMATION
  
  
-An administrator can mark an rendezvous or service as deleted if he/she considers it has inappropriate content. In addition, he/she can delete a comment or announcement if think that it affects other users morally.
+An moderator can delete a comment, bargain... if he/she think that it affects other users morally.
 If any user wants to delete some personal data and the application does not have the possibility to do that, you should contact with aisscreamacas@gmail.com
 
 
@@ -437,8 +437,8 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="slogan" value="Buy different" />
 		<property name="email" value="aisscreamacas@gmail.com" />
 		<property name="banner" value="https://tinyurl.com/yabcto3u" />
-		<property name="defaultImage" value="http://localhost:8080/Acme-Chollos-Rifas/images/avatar.jpg" />
-		<property name="defaultAvatar" value="http://localhost:8080/Acme-Chollos-Rifas/images/link_broken.png" />
+		<property name="defaultAvatar" value="http://localhost:8080/Acme-Chollos-Rifas/images/avatar.jpg" />
+		<property name="defaultImage" value="http://localhost:8080/Acme-Chollos-Rifas/images/link_broken.png" />
 	</bean>
 	
 	<!-- Plan -->
@@ -1537,30 +1537,113 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
         <property name="user" ref="user3" />
 	</bean>
 	
-		<!-- Tag -->
+	<!-- Tag -->
 	<bean id="tag1" class="domain.Tag">
-		<property name="name" value="electronics" />
+		<property name="name" value="electronica" />
         <property name="bargains">
 			<list>
 				<ref bean="bargain1" />
+				<ref bean="bargain2" />
+				<ref bean="bargain3" />
 			</list>
 		</property>
 	</bean>
 
 	<bean id="tag2" class="domain.Tag">
-		<property name="name" value="home" />
+		<property name="name" value="chollazo" />
         <property name="bargains">
 			<list>
+				<ref bean="bargain4" />
+				<ref bean="bargain5" />
+				<ref bean="bargain6" />
+				<ref bean="bargain12" />
+				<ref bean="bargain7" />
 				<ref bean="bargain1" />
+				<ref bean="bargain2" />
+			</list>
+		</property>	
+    </bean>
+    
+    <bean id="tag3" class="domain.Tag">
+		<property name="name" value="favorito" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain6" />
 			</list>
 		</property>	
     </bean>
 
-	<bean id="tag3" class="domain.Tag">
-		<property name="name" value="gardening" />
+	<bean id="tag4" class="domain.Tag">
+		<property name="name" value="navidad" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain10" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tag5" class="domain.Tag">
+		<property name="name" value="coches" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain4" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tag6" class="domain.Tag">
+		<property name="name" value="entradas" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain5" />
+				<ref bean="bargain6" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tag7" class="domain.Tag">
+		<property name="name" value="envidia" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain6" />
+				<ref bean="bargain8" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tag8" class="domain.Tag">
+		<property name="name" value="sé el primero" />
         <property name="bargains">
 			<list>
 				<ref bean="bargain1" />
+				<ref bean="bargain2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tag9" class="domain.Tag">
+		<property name="name" value="calentito" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain7" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tag10" class="domain.Tag">
+		<property name="name" value="buen precio" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain9" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tag11" class="domain.Tag">
+		<property name="name" value="viaja" />
+        <property name="bargains">
+			<list>
+				<ref bean="bargain9" />
 			</list>
 		</property>
 	</bean>
@@ -1732,24 +1815,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="visited" value="true" />
 	</bean>
 	
-	<!-- Bargain -->
-	<bean id="bargain1" class="domain.Bargain">
-		<property name="productName" value="PlayStation 4" />
-		<property name="productUrl" value="https://www.game.es/videojuegos/playstation-4" />
-		<property name="description" value="Últimas promociones" />
-		<property name="price" value="200" />
-		<property name="minimumPrice" value="100" />
-		<property name="originalPrice" value="300" />
-		<property name="estimatedSells" value="50" />
-		<property name="isPublished" value="false" />
-		<property name="productImages">
-			<list>
-				<value>https://http2.mlstatic.com/D_Q_NP_389521-MLA20811128213_072016-Q.jpg</value>
-			</list>
-		</property>
-		<property name="company" ref="company1" />
-	</bean>	
-	
 	<!-- Sponsor -->
 	<bean id="sponsor1" class="domain.Sponsor">
 		<property name="name" value="sponsor1" />
@@ -1789,6 +1854,559 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="address" value="Calle Robledo, 12" />
 		<property name="userAccount" ref="userAccountSponsor4" />
 		<property name="identifier" value="50063918-Z" />
+	</bean>
+	
+	<!-- Sponsorship -->
+	<bean id="sponsorship1" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor1" />
+		<property name="image" value="http://www.cocacolaespana.es/content/dam/journey/es/es/private/historia/love-coca-cola/2015/logo-coca-cola-lead.png" />
+		<property name="url" value="https://www.cocacola.es/es/home/" />
+		<property name="amount" value="20" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="sponsorship2" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor2" />
+		<property name="image" value="https://i0.wp.com/creatividadenblanco.com/wp-content/uploads/2017/05/fanta_2017_logo_colors.png" />
+		<property name="url" value="https://www.cocacola.es/fanta/es/home/" />
+		<property name="amount" value="30" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="sponsorship3" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor3" />
+		<property name="image" value="http://www.brandemia.org/sites/default/files/inline/images/logo_nestea_antes_0.jpg" />
+		<property name="url" value="https://www.cocacola.es/nestea/es/home/" />
+		<property name="amount" value="25" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="sponsorship4" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor4" />
+		<property name="image" value="http://www.ripollfemenia.com/wp-content/uploads/2013/05/lanjaron-LOGO.jpg" />
+		<property name="url" value="https://www.lanjaron.com/" />
+		<property name="amount" value="25" />
+		<property name="bargain" ref="bargain1" />
+	</bean>
+	
+	<bean id="sponsorship5" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor1" />
+		<property name="image" value="http://s3-eu-west-1.amazonaws.com/pruebapd.esy.es/wp-content/uploads/2011/10/bic_logo1.png" />
+		<property name="url" value="https://www.bicworld.com/es" />
+		<property name="amount" value="25" />
+		<property name="bargain" ref="bargain2" />
+	</bean>
+	
+	<bean id="sponsorship6" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor2" />
+		<property name="image" value="https://dlcdnimgs.asus.com/20160129_cosmo/cosmo/images/asus_logo.jpg" />
+		<property name="url" value="https://www.asus.com/es/" />
+		<property name="amount" value="25" />
+		<property name="bargain" ref="bargain2" />
+	</bean>
+	
+	<bean id="sponsorship7" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor3" />
+		<property name="image" value="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/HP_New_Logo_2D.svg/1200px-HP_New_Logo_2D.svg.png" />
+		<property name="url" value="http://www8.hp.com/es/es/home.html" />
+		<property name="amount" value="50" />
+		<property name="bargain" ref="bargain2" />
+	</bean>
+	
+	<bean id="sponsorship8" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor1" />
+		<property name="image" value="https://i2.wp.com/www.expertosenmarca.com/wp-content/uploads/2015/10/hd-wallpaper-ralph-lauren-logo.jpeg" />
+		<property name="url" value="https://www.ralphlauren.com/" />
+		<property name="amount" value="40" />
+		<property name="bargain" ref="bargain3" />
+	</bean>
+	
+	<bean id="sponsorship9" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor2" />
+		<property name="image" value="https://logosmarcas.com/wp-content/uploads/2018/03/Adidas-logo.png" />
+		<property name="url" value="https://www.agenciatelling.com/el-origen-del-logo-de-adidas/" />
+		<property name="amount" value="10" />
+		<property name="bargain" ref="bargain3" />
+	</bean>
+	
+	<bean id="sponsorship10" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor1" />
+		<property name="image" value="http://www.ferniplastmayorista.com/wp-content/uploads/2014/06/Nivea-logo.jpg" />
+		<property name="url" value="https://www.nivea.es/" />
+		<property name="amount" value="10" />
+		<property name="bargain" ref="bargain5" />
+	</bean>
+	
+	<bean id="sponsorship11" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor1" />
+		<property name="image" value="http://logonoid.com/images/gigaset-logo.png" />
+		<property name="url" value="http://www.gigaset.com/es_es/" />
+		<property name="amount" value="3" />
+		<property name="bargain" ref="bargain10" />
+	</bean>
+	
+	<bean id="sponsorship12" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor1" />
+		<property name="image" value="https://d2jljza7x0a5yy.cloudfront.net/media/k2/items/cache/897299971c45604fa1bdefb646b1c4db_XL.jpg?t=1458131205" />
+		<property name="url" value="https://www.factoriadeficcion.com/" />
+		<property name="amount" value="5" />
+		<property name="bargain" ref="bargain8" />
+	</bean>
+	
+	<bean id="sponsorship13" class="domain.Sponsorship">
+		<property name="sponsor" ref="sponsor1" />
+		<property name="image" value="https://andro2id.com/wp-content/uploads/2018/02/logo-xiaomi-2.png" />
+		<property name="url" value="http://www.mi.com/es/" />
+		<property name="amount" value="1" />
+		<property name="bargain" ref="bargain12" />
+	</bean>
+	
+	<!-- Category -->
+	<bean id="category1" class="domain.Category">
+		<property name="name" value="Esto es una categoría por defecto" />
+		<property name="image" value="http://www.finanzzas.com/wp-content/uploads/DefaultLogo.png" />
+		<property name="defaultCategory" value="true" />
+		<property name="bargains">
+			<list>
+				<ref bean="bargain4" />
+				<ref bean="bargain5" />
+				<ref bean="bargain6" />
+				<ref bean="bargain9" />
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category2" class="domain.Category">
+		<property name="name" value="Electrónica" />
+		<property name="image" value="http://ciinova.com/wp-content/uploads/2016/09/casa-central-ingenieria-civil-electronica.w700.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="bargains">
+			<list>
+				<ref bean="bargain1" />
+				<ref bean="bargain2" />
+				<ref bean="bargain3" />
+				<ref bean="bargain8" />
+				<ref bean="bargain11" />
+				<ref bean="bargain12" />
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category3" class="domain.Category">
+		<property name="name" value="Portátiles" />
+		<property name="image" value="https://lifeinformatica.com/wp-content/uploads/Life/Familias/family-portatiles-y-accesorios-01_300x300.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category2" />
+		<property name="bargains">
+			<list>
+				<ref bean="bargain3" />
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category4" class="domain.Category">
+		<property name="name" value="Videoconsolas" />
+		<property name="image" value="http://www.avproyectores.es/images/videoconsolas.png" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category2" />
+		<property name="bargains">
+			<list>
+				<ref bean="bargain1" />
+				<ref bean="bargain2" />
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category5" class="domain.Category">
+		<property name="name" value="Móviles" />
+		<property name="image" value="https://www.movilzona.es/app/uploads/2016/10/moviles-intex.jpg?x=720" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category2" />
+		<property name="bargains">
+			<list>
+				<ref bean="bargain8" />
+				<ref bean="bargain12" />
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category6" class="domain.Category">
+		<property name="name" value="Hogar" />
+		<property name="image" value="https://www.verti.es/media/images/seguros-hogar.png" />
+		<property name="defaultCategory" value="false" />
+		<property name="bargains">
+			<list>
+				<ref bean="bargain7" />
+				<ref bean="bargain10" />
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category7" class="domain.Category">
+		<property name="name" value="Cocina y comedor" />
+		<property name="image" value="http://www.leroymerlin.es/dam/jcr:5b9cbf1c-d045-44a6-84da-7dc67ad42097/cocina5.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category6" />
+		<property name="bargains">
+			<list>
+				<ref bean="bargain10" />
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category8" class="domain.Category">
+		<property name="name" value="Baño" />
+		<property name="image" value="https://decoracion2.com/imagenes/2014/12/cuarto-de-bano-1.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category6" />
+		<property name="bargains">
+			<list>
+				<ref bean="bargain10" />
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category9" class="domain.Category">
+		<property name="name" value="Iluminación" />
+		<property name="image" value="https://revistacitylife.com/wp-content/uploads/2018/03/guia-basica-iluminacion.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category6" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category10" class="domain.Category">
+		<property name="name" value="Limpieza" />
+		<property name="image" value="http://sanitum.com/wp-content/uploads/2015/12/limpieza-y-desinfeccion-hogar-germenes-virus-bacterias-hongos-sanitum.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category6" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category11" class="domain.Category">
+		<property name="name" value="Moda" />
+		<property name="image" value="http://tinyur1.co/wp-content/uploads/2017/01/moda.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category12" class="domain.Category">
+		<property name="name" value="Mujer" />
+		<property name="image" value="https://i.ytimg.com/vi/HfgEQ7cmjq8/maxresdefault.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category11" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category13" class="domain.Category">
+		<property name="name" value="Hombre" />
+		<property name="image" value="http://abcrevista.com/wp-content/uploads2/2017/05/consejos-de-moda-para-hombres-jeans.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category11" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category14" class="domain.Category">
+		<property name="name" value="Niña" />
+		<property name="image" value="https://i.pinimg.com/originals/6d/46/75/6d4675afabdf3d086d4e83d8617a9b43.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category11" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category15" class="domain.Category">
+		<property name="name" value="Niño" />
+		<property name="image" value="http://lamodaatualcance.com/wp-content/uploads/cheeky-coleccion-oton%CC%83o-invierno-2012-moda1.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category11" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category16" class="domain.Category">
+		<property name="name" value="Bebé" />
+		<property name="image" value="http://www.blogmodabebe.com/wp-content/uploads/2016/08/nueva-coleccion-de-moda-bebe-de-pili-carrera-blogmodabebe-116.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category11" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category17" class="domain.Category">
+		<property name="name" value="Bolsos" />
+		<property name="image" value="https://blogs.hogarmania.com/wp-content/uploads/2017/01/bolsos-personalizables-Justo.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category11" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category18" class="domain.Category">
+		<property name="name" value="Joyería" />
+		<property name="image" value="https://i.ytimg.com/vi/RI0v8-3XmiY/maxresdefault.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category11" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="category19" class="domain.Category">
+		<property name="name" value="Relojes" />
+		<property name="image" value="https://images-na.ssl-images-amazon.com/images/I/81PAdiIjRzL._UX569_.jpg" />
+		<property name="defaultCategory" value="false" />
+		<property name="fatherCategory" ref="category11" />
+		<property name="bargains">
+			<list>
+			</list>
+		</property>	
+	</bean>
+	
+	
+	<!-- Bargain -->
+	<bean id="bargain1" class="domain.Bargain">
+		<property name="productName" value="PlayStation 4" />
+		<property name="productUrl" value="https://www.game.es/videojuegos/playstation-4" />
+		<property name="description" value="Últimas promociones" />
+		<property name="price" value="200" />
+		<property name="minimumPrice" value="100" />
+		<property name="originalPrice" value="300" />
+		<property name="estimatedSells" value="50" />
+		<property name="isPublished" value="true" />
+		<property name="discountCode" value="FL6g5ty234" />
+		<property name="productImages">
+			<list>
+				<value>https://http2.mlstatic.com/D_Q_NP_389521-MLA20811128213_072016-Q.jpg</value>
+				<value>https://http2.mlstatic.com/rosario-playstation-4-sony-ps4-500gb-play4-garantia-nuevas-D_NQ_NP_18094-MLA20149500299_082014-F.jpg</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>	
+	
+	<bean id="bargain2" class="domain.Bargain">
+		<property name="productName" value="XBOX" />
+		<property name="productUrl" value="https://www.xbox.com/es-ES" />
+		<property name="description" value="Último modelo." />
+		<property name="price" value="200" />
+		<property name="minimumPrice" value="100" />
+		<property name="originalPrice" value="300" />
+		<property name="estimatedSells" value="10" />
+		<property name="isPublished" value="true" />
+		<property name="discountCode" value="0LjshY61920" />
+		<property name="productImages">
+			<list>
+				<value>https://compass-ssl.xbox.com/assets/3a/f0/3af0da7b-f5d0-418f-88ab-8ae631aafe9d.jpg?n=X1-Wireless-Controller-White_gallery_1056x594_01.jpg</value>
+				<value>https://compass-ssl.xbox.com/assets/e7/d4/e7d46aea-90d0-4bf1-9544-cc85d59f6d18.jpg?n=Xbox-Family_Home-Hero-0_FY-18-X1X-Lead_1067x667_02.jpg</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>	
+	
+	<bean id="bargain3" class="domain.Bargain">
+		<property name="productName" value="MSI" />
+		<property name="productUrl" value="https://www.pccomponentes.com/msi-gl62m-7rdx-2203xes-intel-core-i5-7300hq-8gb-1tb-gtx-1050-156?gclid=EAIaIQobChMI24yIqv-R2wIVgcCyCh0-dwhbEAQYASABEgIW2PD_BwE" />
+		<property name="description" value="Consigue ahora este magnifico portátil a un precio regalado." />
+		<property name="price" value="400" />
+		<property name="minimumPrice" value="100" />
+		<property name="originalPrice" value="450" />
+		<property name="estimatedSells" value="5" />
+		<property name="isPublished" value="true" />
+		<property name="productImages">
+			<list>
+				<value>https://images.anandtech.com/doci/12307/carouselgt75vrtitproklr1550_678x452.jpg</value>
+				<value>https://www.profesionalreview.com/wp-content/uploads/2018/01/MSI-GE63-73-Raider-RGB.png</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>	
+	
+	<bean id="bargain4" class="domain.Bargain">
+		<property name="productName" value="Ford Mondeo" />
+		<property name="productUrl" value="https://www.ford.es/turismos/mondeo" />
+		<property name="description" value="Consigue ahora este Ford Mondeo pagando lo mínimo." />
+		<property name="price" value="2000" />
+		<property name="minimumPrice" value="1000" />
+		<property name="originalPrice" value="2000" />
+		<property name="estimatedSells" value="25" />
+		<property name="isPublished" value="true" />
+		<property name="productImages">
+			<list>
+				<value>https://media3.ocu.org//images/BF6ED83321B467BC3F27AA737670783F6669F373/h300-c4/ic0900854460000.jpg</value>
+				<value>https://d1eip2zddc2vdv.cloudfront.net/dphotos/750x400/13869-1443635803.jpg</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>	
+	
+	<bean id="bargain5" class="domain.Bargain">
+		<property name="productName" value="Dos entradas Disneyland Paris" />
+		<property name="productUrl" value="http://www.disneylandparis.es/" />
+		<property name="description" value="Escápate un fin de semana y vive una experiencia inolvidable." />
+		<property name="price" value="20" />
+		<property name="minimumPrice" value="0" />
+		<property name="originalPrice" value="30" />
+		<property name="estimatedSells" value="2" />
+		<property name="isPublished" value="true" />
+		<property name="discountCode" value="883ddu2JSJ22" />
+		<property name="productImages">
+			<list>
+				<value>http://weloversize.com/wp-content/uploads/2018/03/Disney-header.jpg</value>
+				<value>http://cdn4.dlp-media.com/resize/mwImage/1/640/360/75/wdpromedia.disney.go.com/media/wdpro-dlp-assets/prod/es-es/system/images/n013051_2019may13_menagerie-du-royaume_16-9.jpg</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean id="bargain6" class="domain.Bargain">
+		<property name="productName" value="Abono Sevilla FC" />
+		<property name="productUrl" value="http://sevillafc.es/" />
+		<property name="description" value="Vive la próxima temporada al mejor precio." />
+		<property name="price" value="30" />
+		<property name="minimumPrice" value="30" />
+		<property name="originalPrice" value="30" />
+		<property name="estimatedSells" value="5" />
+		<property name="isPublished" value="true" />
+		<property name="discountCode" value="IUEncd7822" />
+		<property name="productImages">
+			<list>
+				<value>http://e00-marca.uecdn.es/assets/multimedia/imagenes/2018/02/08/15180917158846.jpg</value>
+				<value>https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuZzky7Xbg_On-8oJHA8ljr_Rm0zw-NHM5gai0KxOmFZgQOAbM</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean id="bargain7" class="domain.Bargain">
+		<property name="productName" value="Batamanta" />
+		<property name="productUrl" value="http://batamanta.es/" />
+		<property name="description" value="Lo mejor para estar por casa." />
+		<property name="price" value="10" />
+		<property name="minimumPrice" value="0" />
+		<property name="originalPrice" value="15" />
+		<property name="estimatedSells" value="50" />
+		<property name="isPublished" value="true" />
+		<property name="discountCode" value="Isdofos09PP822" />
+		<property name="productImages">
+			<list>
+				<value>http://www.lavanguardia.com/r/GODO/LV/p4/WebSite/2017/02/20/Recortada/img_jsilvestre_20170220-194423_imagenes_lv_terceros_batamanta_dos-469-kZ2D-U42182488553QHE-992x558@LaVanguardia-Web.png</value>
+				<value>http://www.lavanguardia.com/r/GODO/LV/p4/WebSite/2017/02/20/img_jsilvestre_20170220-194423_imagenes_lv_terceros_batamanta_regalopedia.jpg</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean id="bargain8" class="domain.Bargain">
+		<property name="productName" value="Samsung S9" />
+		<property name="productUrl" value="http://www.samsung.com/es/smartphones/galaxy-s9/shop/" />
+		<property name="description" value="Disfruta del smartphone que siempre quisiste tener." />
+		<property name="price" value="100" />
+		<property name="minimumPrice" value="50" />
+		<property name="originalPrice" value="100" />
+		<property name="estimatedSells" value="20" />
+		<property name="isPublished" value="true" />
+		<property name="discountCode" value="IUEncdspf7PP822" />
+		<property name="productImages">
+			<list>
+				<value>http://www.directd.com.my/content/images/thumbs/0020896_samsung-galaxy-s9-ready-stock-freebies-worth-rm200.png</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean id="bargain9" class="domain.Bargain">
+		<property name="productName" value="Viajes baratos" />
+		<property name="productUrl" value="https://www.skyscanner.es/" />
+		<property name="description" value="Disfruta del viaje que más te guste" />
+		<property name="price" value="100" />
+		<property name="minimumPrice" value="50" />
+		<property name="originalPrice" value="100" />
+		<property name="estimatedSells" value="100" />
+		<property name="isPublished" value="true" />
+		<property name="discountCode" value="dsj7PP687T" />
+		<property name="productImages">
+			<list>
+				<value>http://pic.vpackage.net/viaje_a_Zanzibar/image-003_24900.jpg</value>
+				<value>https://www.felicesvacaciones.es/img/2016/02/26/fv_dubai_mauricio-05a.jpg</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean id="bargain10" class="domain.Bargain">
+		<property name="productName" value="Cesta de Navidad" />
+		<property name="productUrl" value="https://www.lotesycestasdenavidad.es/" />
+		<property name="description" value="Ya pronto llegan estas fechas, no lo dejes escapar..." />
+		<property name="price" value="5" />
+		<property name="minimumPrice" value="0" />
+		<property name="originalPrice" value="2" />
+		<property name="estimatedSells" value="25" />
+		<property name="isPublished" value="true" />
+		<property name="discountCode" value="9876yui87T" />
+		<property name="productImages">
+			<list>
+				<value>https://www.sadival.com/189-thickbox_default/cesta-de-navidad-65.jpg</value>
+				<value>https://www.shbarcelona.es/blog/es/wp-content/uploads/2015/11/34ooe49.png</value>
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean id="bargain11" class="domain.Bargain">
+		<property name="productName" value="Televisores" />
+		<property name="productUrl" value="https://www.pccomponentes.com/televisores" />
+		<property name="description" value="Renueva tu televisor" />
+		<property name="price" value="50" />
+		<property name="minimumPrice" value="0" />
+		<property name="originalPrice" value="50" />
+		<property name="estimatedSells" value="25" />
+		<property name="isPublished" value="false" />
+		<property name="productImages">
+			<list>
+				
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean id="bargain12" class="domain.Bargain">
+		<property name="productName" value="Teléfonos" />
+		<property name="productUrl" value="https://www.phonehouse.es/moviles/moviles-libres.html" />
+		<property name="description" value="Renueva tu teléfono" />
+		<property name="price" value="9" />
+		<property name="minimumPrice" value="0" />
+		<property name="originalPrice" value="10" />
+		<property name="estimatedSells" value="20" />
+		<property name="isPublished" value="false" />
+		<property name="productImages">
+			<list>
+				
+			</list>
+		</property>
+		<property name="company" ref="company2" />
 	</bean>
 	
 </beans>

@@ -26,7 +26,7 @@ public class Category extends DomainEntity {
 
 	private Category			fatherCategory;
 
-	private Collection<Bargain>	bargain;
+	private Collection<Bargain>	bargains;
 
 
 	@NotBlank
@@ -69,12 +69,12 @@ public class Category extends DomainEntity {
 	@ManyToMany
 	@Valid
 	@NotNull
-	public Collection<Bargain> getBargain() {
-		return this.bargain;
+	public Collection<Bargain> getBargains() {
+		return this.bargains;
 	}
 
-	public void setBargain(final Collection<Bargain> bargain) {
-		this.bargain = bargain;
+	public void setBargains(final Collection<Bargain> bargains) {
+		this.bargains = bargains;
 	}
 
 }

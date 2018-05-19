@@ -12,20 +12,14 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table class="table table-striped table-bordered table-hover" name="tags" id="row" requestURI="${requestURI }" pagesize="5">
-
-	<jstl:if test="${canEditOrCreate==true }">
-	<acme:columnLink action="edit" domain="tag" actor="company" id="${row.getId()}" />
-	</jstl:if>
+<display:table class="table table-striped table-bordered table-hover" name="tags" id="row" requestURI="tag/list.do">
+	<spring:url value="bargain/bytag.do" var="url"><spring:param name="tagId" value="${row.getId()}" /></spring:url>
+	
 	
 	<acme:column domain="tag" property="name"/>
+	<display:column><a href="${url}"><spring:message code="tag.bargains" /></a></display:column>
+
 	
-</display:table> 
+</display:table>
 
-<acme:paginate pageNumber="${pageNumber}" url="${requestURI}" objects="${tags}" page="${page}"/>
-
-	<jstl:if test="${canEditOrCreate==true }">
-	<spring:url var="urlCreate" value="tag/company/create.do"></spring:url>
-	<p><a href="${urlCreate}"> <spring:message code="tag.create" /></a></p>
-	</jstl:if>
-
+<acme:paginate pageNumber="${pageNumber}" url="tag/list.do" objects="${tags}" page="${page}" />

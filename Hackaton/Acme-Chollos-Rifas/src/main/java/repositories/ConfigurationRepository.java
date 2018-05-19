@@ -1,3 +1,4 @@
+
 package repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +12,7 @@ public interface ConfigurationRepository extends JpaRepository<Configuration, In
 
 	@Query("select c from Configuration c")
 	Configuration findUnique();
-	
+
 	@Query("select c.name from Configuration c")
 	String findName();
 
@@ -20,8 +21,13 @@ public interface ConfigurationRepository extends JpaRepository<Configuration, In
 
 	@Query("select c.email from Configuration c")
 	String findEmail();
-	
+
 	@Query("select c.banner from Configuration c")
 	String findBanner();
-	
+
+	@Query("select c.defaultImage from Configuration c")
+	String findDefaultImage();
+
+	@Query("select c.defaultAvatar from Configuration c")
+	String findDefaultAvatar();
 }

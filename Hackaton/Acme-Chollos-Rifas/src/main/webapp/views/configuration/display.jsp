@@ -13,7 +13,9 @@
 	<acme:display code="configuration.slogan" value="${configuration.getSlogan()}" />
 	<acme:display code="configuration.email" value="${configuration.getEmail()}" />
 	<acme:display code="configuration.banner" value="${configuration.getBanner()}" />
+	<acme:display code="configuration.default.avatar" value="${configuration.getDefaultAvatar()}" />
+	<acme:display code="configuration.default.image" value="${configuration.getDefaultImage()}" />
 	
-	<acme:displayLink code="configuration.edit" action="configuration/administrator/edit.do" />
+	<acme:displayLink code="configuration.edit" action="configuration/administrator/edit.do" css="btn btn-primary"/>
 	
 </div>
