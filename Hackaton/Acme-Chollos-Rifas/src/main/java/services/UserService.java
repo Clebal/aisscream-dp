@@ -245,6 +245,28 @@ public class UserService {
 		this.save(user);
 	}
 	
+	public void removeBargainFromAllWishList(final Bargain bargain) {		
+		Collection<User> users;
+		Authority authority;
+		
+		Assert.notNull(bargain);
+		Assert.notNull(user);
+		
+		Assert.isTrue(LoginService.isAuthenticated());
+		
+		// Puede ser borrado por el moderador o por su compañía
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority) || bargain.getCompany().getUserAccount().equals(LoginService.getPrincipal()));			
+		
+		users = this.userRepository.findByBargainId(bargain.getId());
+		Assert.notNull(users);
+		
+		user.getWishList().remove(bargain);
+		
+		this.save(user);
+	}
+	
 	public Collection<Actor> findWithGoldPremium() {
 		Collection<Actor> result;
 
