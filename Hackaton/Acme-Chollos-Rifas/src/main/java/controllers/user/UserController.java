@@ -130,6 +130,17 @@ public class UserController extends AbstractController {
 		return result;
 	}
 	
+	@RequestMapping(value="/addremovewishlist", method=RequestMethod.GET)
+	public ModelAndView addRemoveWishList(@RequestParam final int bargainId) {
+		ModelAndView result;
+				
+		this.userService.addRemoveBargainToWishList(bargainId);
+		
+		result = new ModelAndView("redirect:/bargain/display.do?bargainId="+bargainId);
+		
+		return result;
+	}
+	
 	@RequestMapping(value="/create", method=RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
@@ -174,7 +185,8 @@ public class UserController extends AbstractController {
 					this.userService.save(user);
 					result = new ModelAndView("redirect:/");
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(userForm, "actor.commit.error");
+//					result = this.createEditModelAndView(userForm, "actor.commit.error");
+					result = super.panic(oops);
 				}
 
 		return result;

@@ -50,6 +50,8 @@
 	<acme:column domain="creditcard" property="expirationYear"/>
 
 	<acme:column domain="creditcard" property="cvvcode"/>
+	
+	<acme:columnLink domain="creditcard" action="display" actor="user" url="creditcard/user/display.do?creditCardId=${row.getId()}"/>
 
 </display:table> 
 	

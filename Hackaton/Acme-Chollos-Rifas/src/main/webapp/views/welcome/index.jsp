@@ -40,48 +40,8 @@
 								<p style="text-align: center; font-size: 20px; font-weight: bold;"><spring:message code="raffle.free" /></p>
 							</jstl:if>
 							
-							<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/profile.do?actorId=${item.getCompany().getId()}">${item.getCompany().getCompanyName()}</a></small><br><br>
+							<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/profile.do?actorId=${item.getCompany().getId()}"><jstl:out value="${item.getCompany().getCompanyName()}" /></a></small><br><br>
 							
-							<security:authorize access="hasRole('USER')">
-								<a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown"><spring:message code="welcome.buy" /> <span class="caret"></span></a>
-								<ul class="dropdown-menu" style="top: inherit; left: inherit;">
-									<li><a href="ticket/user/buy.do?raffleId=${item.getId()}&method=CREDITCARD"><spring:message code="welcome.creditcard" /></a></li>
-									<jstl:if test="${item.getPrice() != 0.0}">
-										<li><a href="#" data-toggle="modal" data-target="#myModal">PayPal</a></li>
-									</jstl:if>
-									<jstl:if test="${item.getPrice() == 0.0}">
-										<li><a href="ticket/user/buy.do?raffleId=${item.getId()}&method=PAYPAL">PayPal</a></li>
-									</jstl:if>		
-								</ul>
-								
-								<jstl:if test="${item.getPrice() != 0.0}">
-									<!-- Modal -->
-									<div class="modal fade" id="myModal" tabindex="-1">
-									  <div class="modal-dialog">
-										<div class="modal-content">
-										  <div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-											<h4 class="modal-title" id="myModalLabel"><spring:message code="welcome.amountTicketToBuy" /></h4>
-										  </div>
-										  <form action="ticket/user/buy.do" method="GET">
-											  <div class="modal-body">
-													<input type="hidden" name="raffleId" value="${item.getId()}" />
-													<input type="hidden" name="method" value="PAYPAL" />
-													<div class="from-group">
-														<input class="form-control" type="number" name="amount" />
-													</div>
-											  </div>
-											  <div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="welcome.cancel" /></button>
-												<button type="submit" class="btn btn-primary"><spring:message code="welcome.buy" /></button>
-											  </div>
-										  </form>
-										</div>
-									  </div>
-									</div>
-								</jstl:if>
-								
-							</security:authorize>
 							<a href="raffle/display.do?raffleId=${item.getId()}" class="btn btn-default"><spring:message code="welcome.details" /></a>
 							
 						</div>

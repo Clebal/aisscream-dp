@@ -226,6 +226,19 @@ public class RaffleService {
 		return result;
 	}
 	
+	
+	public Raffle findOneToDisplay(final int raffleId) {
+		Raffle result;
+		
+		Assert.isTrue(raffleId != 0);
+
+		result = this.findOne(raffleId);
+		Assert.notNull(result);
+		
+		return result;
+	}
+	
+	
 	public Raffle findOneToDelete(final int raffleId) {
 		Raffle result;
 		Authority authority;

@@ -45,10 +45,11 @@
 			<h4><spring:message code="actor.level" /></h4>
 			<br>
 			<acme:display code="level.name" value="${level.getName()}" /><img width="50" height="50" src="${level.getImage()}" />
-			
-			<br><br>
-			<a href="actor/user/wishlist.do?actorId=${actor.getId()}" class="btn btn-primary"><spring:message code="actor.wishlist" /></a>
-			<br>
+			<jstl:if test="${actor.getIsPublicWishList() || !isPublic}">
+				<br><br>
+				<a href="actor/user/wishlist.do?actorId=${actor.getId()}" class="btn btn-primary"><spring:message code="actor.wishlist" /></a>
+				<br>
+			</jstl:if>
 		</jstl:if>
 		
 		<jstl:if test="${model.equals('company')}">

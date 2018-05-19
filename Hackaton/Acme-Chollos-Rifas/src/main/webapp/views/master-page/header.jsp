@@ -81,6 +81,7 @@
         			<li><a href="comment/moderator/list.do"><spring:message code="master.page.moderator.comment" /></a></li>
         			<li><a href="evaluation/moderator/list.do"><spring:message code="master.page.moderator.evaluation" /></a></li>
         			<li><a href="bargain/moderator/list.do"><spring:message code="master.page.bargain.moderator" /></a></li>
+        			<li><a href="user/moderator/list.do"><spring:message code="master.page.users" /></a></li>
 				</ul>
 			</security:authorize>
 			

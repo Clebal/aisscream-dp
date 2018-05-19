@@ -110,6 +110,11 @@
 		} else if (window.attachEvent) {
 			window.attachEvent('onload', a);
 		}
+		
+		$('img').on("error", function () {
+	        $(this).attr('src', '${defaultImage}');
+		});
+
 		</script>
 		
 	</body>

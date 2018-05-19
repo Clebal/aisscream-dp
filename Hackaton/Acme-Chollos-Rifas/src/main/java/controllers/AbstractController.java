@@ -44,18 +44,20 @@ public class AbstractController {
 
 	@ModelAttribute
 	public void headerConfiguration(final Model model) {
-		String banner, nameHeader, slogan;
+		String banner, nameHeader, slogan, defaultImage;
 		Integer notificationNotVisited;
 
 		banner = this.configurationService.findBanner();
 		slogan = this.configurationService.findSlogan();
 		nameHeader = this.configurationService.findName();
 		notificationNotVisited = this.notificationService.countNotVisitedByActorId();
+		defaultImage = this.configurationService.findDefaultImage();
 
 		model.addAttribute("banner", banner);
 		model.addAttribute("slogan", slogan);
 		model.addAttribute("nameHeader", nameHeader);
 		model.addAttribute("notificationNotVisited", notificationNotVisited);
+		model.addAttribute("defaultImage", defaultImage);
 	}
 
 	public String makeUrl(final HttpServletRequest request) {

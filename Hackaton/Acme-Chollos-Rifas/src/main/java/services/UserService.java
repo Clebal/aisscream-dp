@@ -31,6 +31,12 @@ public class UserService {
 	// Managed repository -----------------------------------------------------
 	@Autowired
 	private UserRepository	userRepository;
+	
+	@Autowired
+	private BargainService bargainService;
+	
+	@Autowired
+	private ConfigurationService configurationService;
 
 	@Autowired
 	private Validator		validator;
@@ -86,6 +92,7 @@ public class UserService {
 		UserAccount userAccount;
 		Authority authority;
 		Md5PasswordEncoder encoder;
+		String defaultAvatar;
 
 		encoder = new Md5PasswordEncoder();
 		authority = new Authority();
@@ -106,6 +113,9 @@ public class UserService {
 
 			Assert.isTrue(!LoginService.isAuthenticated());
 			user.getUserAccount().setPassword(encoder.encodePassword(user.getUserAccount().getPassword(), null));
+			
+			defaultAvatar = this.configurationService.findDefaultAvatar();
+			if(user.getAvatar() == null || user.getAvatar() != null && user.getAvatar() == "") user.setAvatar(defaultAvatar);
 		}
 
 		result = this.userRepository.save(user);
@@ -217,30 +227,23 @@ public class UserService {
 		
 	}
 
-	public void addBargainToWishList(final Bargain bargain) {
+	public void addRemoveBargainToWishList(final int bargainId) {
 		User user;
+		Bargain bargain;
 		
+		Assert.isTrue(bargainId != 0);
+		Assert.isTrue(LoginService.isAuthenticated());
+
+		bargain = this.bargainService.findOne(bargainId);
 		Assert.notNull(bargain);
 		
-		Assert.isTrue(LoginService.isAuthenticated());
 		user = this.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
 		
-		user.getWishList().add(bargain);
-		
-		this.save(user);
-	}
-	
-	public void removeBargainFromWishList(final Bargain bargain) {
-		User user;
-		
-		Assert.notNull(bargain);
-		
-		Assert.isTrue(LoginService.isAuthenticated());
-		user = this.findByUserAccountId(LoginService.getPrincipal().getId());
-		Assert.notNull(user);
-		
-		user.getWishList().remove(bargain);
+		if(user.getWishList().contains(bargain))
+			user.getWishList().remove(bargain);
+		else
+			user.getWishList().add(bargain);
 		
 		this.save(user);
 	}

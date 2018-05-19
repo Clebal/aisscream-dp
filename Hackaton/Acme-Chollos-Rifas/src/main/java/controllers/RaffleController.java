@@ -15,6 +15,8 @@ import controllers.AbstractController;
 
 import domain.Raffle;
 
+import security.Authority;
+import security.LoginService;
 import services.RaffleService;
 import services.TicketService;
 
@@ -56,6 +58,11 @@ public class RaffleController extends AbstractController {
 		ModelAndView result;
 		Raffle raffle;
 		Integer numberTickets; 
+		boolean notBuyedYet;
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("USER");
 		
 		raffle = this.raffleService.findOne(raffleId);
 		Assert.notNull(raffle);
@@ -64,6 +71,12 @@ public class RaffleController extends AbstractController {
 		Assert.notNull(numberTickets);
 		
 		result = new ModelAndView("raffle/display");
+		
+		if(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority) && raffle.getPrice() == 0) {
+			notBuyedYet = this.ticketService.findByRaffleIdAndUserAccountId(raffleId, LoginService.getPrincipal().getId(), 1, 1).getTotalElements() == 0;
+			result.addObject("notBuyedYet", notBuyedYet);
+		}
+		
 		result.addObject("raffle", raffle);
 		result.addObject("hasTicketsSelled", numberTickets >= 1);
 		result.addObject("url", super.makeUrl(request));

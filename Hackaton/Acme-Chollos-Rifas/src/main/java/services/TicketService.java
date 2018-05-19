@@ -114,7 +114,7 @@ public class TicketService {
 		} else {
 			Assert.isTrue(ticket.getUser().getUserAccount().equals(LoginService.getPrincipal()));
 		}
-		
+				
 		// Asignar código único
 		ticket.setCode(this.generateUniqueCode(ticket.getRaffle()));
 		
@@ -224,6 +224,9 @@ public class TicketService {
 		Assert.notNull(user);
 		
 		ticketForm.setUser(user);
+		
+		if(ticketForm.getRaffle().getPrice() == 0) 
+			ticketForm.setAmount(1);
 		
 		if(binding != null) this.validator.validate(ticketForm, binding);
 		
