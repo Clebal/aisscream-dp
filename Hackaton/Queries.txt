@@ -17,8 +17,8 @@ SANTOS - Los chollos que estén en más listas de  deseo.
 
 Query: select b from Bargain b ORDER BY cast((select count(u) from User u where b member of u.wishList) as float)
 
-SERGIO - Ratio de notificaciones vistas por chollo.
-
+SERGIO - Encuesta/s m‡s popular/es
+select s from Survey s where (cast((select sum(a2.counter) from Answer a2 where a2.question.survey.id = s.id) as float)) >= (cast((select avg(cast(( select sum(a2.counter) from Answer a2 where a2.question.survey.id = s2.id) as float)) from Survey s2) as float ));
 
 CARLOS - Ratio de notificaciones vistas sobre el total.
 
@@ -29,9 +29,6 @@ VILLARIN - Media de usuarios que tienen una participación en una rifa respecto a
 SANTOS - Las empresas que han realizado más del 15%, 10% y 5% de las encuestas llevadas a  cabo por empresas.
 
 Query: select c from Company c where cast((select count(s) from Survey s where 'COMPANY' member of s.surveyer.userAccount.authorities) as float )*?1 <= (select count(s) from Survey s where s.surveyer.id = c.id )
-
-SERGIO - Los usuarios que han respondido a más encuestas.
-
 
 CARLOS - Top-5 usuarios que más valoraciones han  realizado.
 
@@ -44,7 +41,7 @@ SANTOS - Usuarios que han realizado más del 10% de interacciones con el sistema.
 Query: select u from User u where u.points > (select sum(u2.points) from User u2)*0.1
 
 SERGIO - Categorías con más chollos que la  media.
-
+select c from Category c where (cast((select count(b) from Bargain b where b member of c.bargain)as float)) >= (cast((select avg(cast((select count(b2) from Bargain b2 where b2 member of c2.bargain)as float)) from Category c2)as float));
 
 CARLOS - Las empresas que proveen más etiquetas  a sus chollos.
 
@@ -58,8 +55,7 @@ VILLARIN - Usuario con mayor media de número de caracteres escritos en sus valor
 
 
 SERGIO - Conjuntas con un 10% de más  participación que la media.
-
-
+select g from Groupon g where (cast((select count(p) from Participation p where p.groupon.id = g.id)as float)) >= 0.1*(cast((select avg(cast((select count(p2) from Participation p2 where p2.groupon.id = g2.id)as float)) from Groupon g2)as float));
 
 CARLOS - Mínimo, máximo, media y desviación estándar del descuento de un chollo.
 
@@ -74,7 +70,10 @@ SANTOS - Usuario que más rifas ha ganado.
 Query: select u from User u where cast((select count(r.winner) from Raffle r where r.winner.id = u.id )as float) = (select max(cast((select count(r2.winner) from Raffle r2 where r2.winner.id=u2.id)as float)) from User u2)
 
 SERGIO - Usuario que ha comprado más tiques para una rifa y el que menos.
+(Pueden ser varios)
+El que m‡s: select u from User u where (cast((select count(t2) from Ticket t2 where t2.user.id = u.id)as float)) = (select max(cast((select count(t) from Ticket t where t.user.id = u2.id)as float)) from User u2);
 
+El que menos: select u from User u where (cast((select count(t2) from Ticket t2 where t2.user.id = u.id)as float)) = (select min(cast((select count(t) from Ticket t where t.user.id = u2.id)as float)) from User u2);
 
 
 CARLOS - Media de tiques comprados por los usuarios para una rifa.
