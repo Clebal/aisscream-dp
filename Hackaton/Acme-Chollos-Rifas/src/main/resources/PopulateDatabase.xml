@@ -1685,7 +1685,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="moment" value="02/01/2018 15:30" />
 		<property name="text" value="Buen producto!" />
 		<property name="user" ref="user3" />
-		<property name="bargain" ref="bargain1" />
+		<property name="bargain" ref="bargain2" />
 		<property name="images">
 			<list>
 				<value></value>
@@ -1723,7 +1723,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="moment" value="02/01/2018 15:30" />
 		<property name="text" value="Ha sido muy divertido" />
 		<property name="user" ref="user1" />
-		<property name="bargain" ref="bargain1" />
+		<property name="bargain" ref="bargain3" />
 		<property name="images">
 			<list>
 				<value></value>
@@ -1735,7 +1735,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="moment" value="02/02/2018 15:30" />
 		<property name="text" value="Ya falta menos" />
 		<property name="user" ref="user1" />
-		<property name="bargain" ref="bargain1" />
+		<property name="bargain" ref="bargain4" />
 		<property name="images">
 			<list>
 				<value></value>
@@ -1747,7 +1747,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="moment" value="02/03/2018 15:30" />
 		<property name="text" value="Gracias por apuntarse" />
 		<property name="user" ref="user1" />
-		<property name="bargain" ref="bargain1" />
+		<property name="bargain" ref="bargain4" />
 		<property name="images">
 			<list>
 				<value></value>
@@ -1759,7 +1759,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="moment" value="02/04/2018 15:30" />
 		<property name="text" value="Bienvenidos a todos" />
 		<property name="user" ref="user1" />
-		<property name="bargain" ref="bargain1" />
+		<property name="bargain" ref="bargain11" />
 		<property name="images">
 			<list>
 				<value></value>
@@ -1771,7 +1771,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="moment" value="02/05/2018 15:30" />
 		<property name="text" value="Que buen día hace hoy" />
 		<property name="user" ref="user1" />
-		<property name="bargain" ref="bargain1" />
+		<property name="bargain" ref="bargain12" />
 		<property name="images">
 			<list>
 				<value></value>
