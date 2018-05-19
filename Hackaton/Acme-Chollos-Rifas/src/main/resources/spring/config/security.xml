@@ -147,9 +147,9 @@
   		<!--  -->
 		
 		<!-- Notification -->
-  		<security:intercept-url pattern="/notification/actor/display.do" access="isAuthenticated()" />
-  		<security:intercept-url pattern="/notification/actor/list.do" access="isAuthenticated()" />
-  		<security:intercept-url pattern="/notification/actor/delete.do" access="isAuthenticated()" />
+  		<security:intercept-url pattern="/notification/actor/display.do" access="hasRole('SPONSOR') or hasRole('USER')" />
+  		<security:intercept-url pattern="/notification/actor/list.do" access="hasRole('SPONSOR') or hasRole('USER')" />
+  		<security:intercept-url pattern="/notification/actor/delete.do" access="hasRole('SPONSOR') or hasRole('USER')" />
   		<!--  -->
 		
 		<!-- Bargain -->

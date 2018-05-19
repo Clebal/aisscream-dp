@@ -38,6 +38,8 @@
   			<li><a href="actor/user/list.do"><spring:message code="master.page.users" /></a></li>
 			<li><a href="actor/company/list.do"><spring:message code="master.page.companies" /></a></li>
 			<li><a href="groupon/list.do"><spring:message code="master.page.all.available.groupons" /></a></li>
+      		<li><a href="tag/list.do"><spring:message code="master.page.admin.tag" /></a></li>
+      		<li><a href="category/display.do"><spring:message code="master.page.category" /></a></li>
       	</security:authorize>
                
         <li class="dropdown">
@@ -48,7 +50,6 @@
 					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.admin.dashboard" /></a></li>
 					<li><a href="termCondition/administrator/display.do"><spring:message code="master.page.admin.termCondition" /></a></li>		
 					<li><a href="configuration/administrator/display.do"><spring:message code="master.page.admin.configuration" /></a></li>
-					<li><a href="tag/administrator/list.do"><spring:message code="master.page.admin.tag" /></a></li>
 					<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
 					<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>
 				</ul>
@@ -79,18 +80,19 @@
         			<li><a href="survey/moderator/list.do"><spring:message code="master.page.my.surveys" /></a></li>
         			<li><a href="comment/moderator/list.do"><spring:message code="master.page.moderator.comment" /></a></li>
         			<li><a href="evaluation/moderator/list.do"><spring:message code="master.page.moderator.evaluation" /></a></li>
+        			<li><a href="bargain/moderator/list.do"><spring:message code="master.page.bargain.moderator" /></a></li>
 				</ul>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('COMPANY')">
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.company" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
-        			<li><a href="tag/company/list.do"><spring:message code="master.page.company.tag" /></a></li>
         			<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
         			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>		
  		        	<li><a href="evaluation/company/list.do"><spring:message code="master.page.evaluations" /></a></li>	
  		        	<li><a href="survey/company/list.do"><spring:message code="master.page.my.surveys" /></a></li>
-					<li><a href="raffle/company/list.do"><spring:message code="master.page.user.raffle" /></a></li>														       	
+					<li><a href="raffle/company/list.do"><spring:message code="master.page.user.raffle" /></a></li>	
+					<li><a href="bargain/company/list.do"><spring:message code="master.page.my.bargain" /></a></li>													       	
 				</ul>
 			</security:authorize>
 			
@@ -98,25 +100,37 @@
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.sponsor" /> <span class="caret"></span></a>
         		<ul class="dropdown-menu">
  		        	<li><a href="survey/sponsor/list.do"><spring:message code="master.page.my.surveys" /></a></li>
+					<li><a href="bargain/sponsor/list.do"><spring:message code="master.page.new.sponsorship" /></a></li>
+					<li><a href="sponsorship/sponsor/list.do"><spring:message code="master.page.sponsorships" /></a></li>
 				</ul>
 			</security:authorize>
 			
         </li>
         
         <li class="dropdown">
-	        <security:authorize access="isAuthenticated()">		
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /><span style="display: inline-block" class="caret"></span><span style="display: inline-block; margin-left:5px;" class="circle">${notificationNotVisited}</span></a>
+	        <security:authorize access="isAuthenticated()">	
+	        	<security:authorize access="hasRole('SPONSOR') or hasRole('USER')">	
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /><span style="display: inline-block" class="caret"></span><span style="display: inline-block; margin-left:5px;" class="circle">${notificationNotVisited}</span></a>
+				</security:authorize>
+				<security:authorize access="hasRole('MODERATOR') or hasRole('COMPANY') or hasRole('ADMIN')">	
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="master.page.profile" /><span style="display: inline-block" class="caret"></span></a>
+				</security:authorize>
+				
 				<ul class="dropdown-menu">
 					<li><a href="groupon/list.do"><spring:message code="master.page.all.available.groupons" /></a></li>
 					<li><a href="raffle/list.do"><spring:message code="master.page.list.raffle" /></a></li>
-					<li><a href="notification/actor/list.do"><spring:message code="master.page.notification" /></a></li>
 					<li><a href="actor/user/list.do"><spring:message code="master.page.users" /></a></li>
 					<li><a href="actor/company/list.do"><spring:message code="master.page.companies" /></a></li>
+					<li><a href="tag/list.do"><spring:message code="master.page.admin.tag" /></a></li>
+      				<li><a href="category/display.do"><spring:message code="master.page.category" /></a></li>
+      				<li><a href="bargain/list.do"><spring:message code="master.page.bargain" /></a></li>
 					<security:authorize access="hasRole('USER')">
+						<li><a href="notification/actor/list.do"><spring:message code="master.page.notification" /></a></li>
 						<li><a href="actor/user/profile.do"><spring:message code="master.page.profile" /></a></li>
 						<li><a href="actor/user/edit.do"><spring:message code="master.page.profile.edit" /></a></li>
 					</security:authorize>
 					<security:authorize access="hasRole('SPONSOR')">
+						<li><a href="notification/actor/list.do"><spring:message code="master.page.notification" /></a></li>
 						<li><a href="actor/sponsor/profile.do"><spring:message code="master.page.profile" /></a></li>
 						<li><a href="actor/sponsor/edit.do"><spring:message code="master.page.profile.edit" /></a></li>
 					</security:authorize>

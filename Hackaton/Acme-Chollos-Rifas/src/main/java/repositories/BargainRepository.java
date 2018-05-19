@@ -58,6 +58,6 @@ public interface BargainRepository extends JpaRepository<Bargain, Integer> {
 	@Query("select b from Bargain b where b.isPublished=true or b.company.id=?1 order by cast((select count(s) from Sponsorship s where s.bargain.id=b.id) as int) DESC")
 	Page<Bargain> findWithMoreSponsorshipsAllPublishedOrMine(int companyId, Pageable pageable);
 
-	@Query("select b from Bargain b where (select s from Sponsorship s where s.sponsor.id=?1) is null")
+	@Query("select b from Bargain b where b not in (select s.bargain from Sponsorship s where s.sponsor.id=?1)")
 	Page<Bargain> findBySponsorIdWithNoSponsorship(int sponsorId, Pageable pageable);
 }
