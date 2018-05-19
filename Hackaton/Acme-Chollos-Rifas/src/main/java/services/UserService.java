@@ -250,7 +250,6 @@ public class UserService {
 		Authority authority;
 		
 		Assert.notNull(bargain);
-		Assert.notNull(user);
 		
 		Assert.isTrue(LoginService.isAuthenticated());
 		
@@ -262,9 +261,10 @@ public class UserService {
 		users = this.userRepository.findByBargainId(bargain.getId());
 		Assert.notNull(users);
 		
-		user.getWishList().remove(bargain);
-		
-		this.save(user);
+		for(User u: users) {
+			u.getWishList().remove(bargain);
+			this.save(u);
+		}
 	}
 	
 	public Collection<Actor> findWithGoldPremium() {
