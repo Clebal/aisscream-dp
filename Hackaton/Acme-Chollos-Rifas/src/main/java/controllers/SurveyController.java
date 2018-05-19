@@ -31,7 +31,6 @@ import domain.Answer;
 import domain.Question;
 import domain.Surveyer;
 import domain.Survey;
-import domain.User;
 import forms.AnswerSurveyForm;
 import forms.QuestionForm;
 import forms.SurveyForm;
@@ -209,6 +208,28 @@ public class SurveyController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(final SurveyForm surveyForm, final BindingResult binding, @PathVariable(value="actor") final String model) {
+		ModelAndView result;
+		Survey survey;
+		
+		survey = this.surveyService.reconstruct(surveyForm, model, binding);
+		Assert.notNull(survey);
+			
+		if(binding.hasErrors()) {
+			result = createEditModelAndView(surveyForm, model);
+		} else {
+			try {
+				this.surveyService.delete(survey);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(surveyForm, null, "survey.commit.error");
+			}
+		}
+			
+		return result;
+	}
+	
 	protected ModelAndView createEditModelAndView(final SurveyForm surveyForm, final String model) {
 		ModelAndView result;
 
@@ -266,7 +287,6 @@ public class SurveyController extends AbstractController {
 		Answer answer, answerPunt;
 		Collection<Answer> answers, answersReconstruct, answersCollection;
 		Integer counter;
-		User user;
 		
 		answers = new HashSet<Answer>();
 		answersReconstruct = new HashSet<Answer>();

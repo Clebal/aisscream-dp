@@ -78,6 +78,8 @@
 	
 	<acme:submit name="save" code="survey.save" />
 
+	<acme:submit name="delete" code="survey.delete" />
+
 	<acme:cancel url="survey/${model}/list.do" code="survey.cancel"/>
 
 </form:form>

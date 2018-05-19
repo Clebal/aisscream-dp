@@ -149,6 +149,7 @@ public class CommentService {
 		final Authority authority1, authority2, authority3;
 		Comment commentForDelete;
 		Integer size;
+		User user;
 
 		authority1 = new Authority();
 		authority1.setAuthority("USER");
@@ -162,6 +163,11 @@ public class CommentService {
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority1)
 				|| LoginService.getPrincipal().getAuthorities().contains(authority2)
 				|| LoginService.getPrincipal().getAuthorities().contains(authority3));
+
+		if (LoginService.getPrincipal().getAuthorities().contains(authority1)) { 
+			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+			Assert.isTrue(comment.getUser().equals(user));
+		}
 
 		size = this.countByRepliedCommentId(comment.getId());
 

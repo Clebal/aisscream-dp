@@ -139,7 +139,12 @@ public class EvaluationService {
 
 	public Page<Evaluation> findAllEvaluations(final int page, final int size) {
 		Page<Evaluation> result;
+		Authority authority;
 		
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
 		result = this.evaluationRepository.findAllEvaluations(this.getPageable(page, size));
 		
 		return result;
@@ -203,7 +208,12 @@ public class EvaluationService {
 	
 	public Page<Evaluation> findByCreatorUserAccountId(int userAccountId, final int page, final int size){
 		Page<Evaluation> result;
+		Authority authority;
 		
+		authority = new Authority();
+		authority.setAuthority("USER");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
 		Assert.isTrue(userAccountId != 0);
 		
 		result = this.evaluationRepository.findByCreatorUserAccountId(userAccountId, this.getPageable(page, size));

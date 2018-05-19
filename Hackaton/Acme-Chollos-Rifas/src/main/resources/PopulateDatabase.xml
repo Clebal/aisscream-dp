@@ -1537,6 +1537,38 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
         <property name="user" ref="user3" />
 	</bean>
 	
+    <bean id="evaluation5" class="domain.Evaluation">
+		<property name="content" value="So good" />
+		<property name="puntuation" value="5" />
+		<property name="isAnonymous" value="true" />
+		<property name="company" ref="company4" />
+        <property name="user" ref="user4" />
+	</bean>
+	
+	<bean id="evaluation6" class="domain.Evaluation">
+		<property name="content" value="Excelente servicio" />
+		<property name="puntuation" value="1" />
+		<property name="isAnonymous" value="false" />
+		<property name="company" ref="company5" />
+        <property name="user" ref="user5" />
+	</bean>
+	
+	<bean id="evaluation7" class="domain.Evaluation">
+		<property name="content" value="Regular la verdad" />
+		<property name="puntuation" value="4" />
+		<property name="isAnonymous" value="true" />
+		<property name="company" ref="company5" />
+        <property name="user" ref="user6" />
+	</bean>
+	
+	<bean id="evaluation8" class="domain.Evaluation">
+		<property name="content" value="Regulin Regulag" />
+		<property name="puntuation" value="3" />
+		<property name="isAnonymous" value="false" />
+		<property name="company" ref="company6" />
+        <property name="user" ref="user6" />
+	</bean>
+	
 	<!-- Tag -->
 	<bean id="tag1" class="domain.Tag">
 		<property name="name" value="electronica" />

@@ -155,16 +155,33 @@ public class SurveyService {
 	}
 
 	public void delete(final Survey survey) {
-		Authority authority;
+		Authority authority1, authority2, authority3;
 		UserAccount userAccount;
+		Collection<Question> questions;
+		Collection<Answer> answers;
 
 		Assert.notNull(survey);
 		userAccount = LoginService.getPrincipal();
 
-		// Las compañías pueden borrarlas
-		authority = new Authority();
-		authority.setAuthority("COMAPNY");
-		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+		authority1 = new Authority();
+		authority1.setAuthority("COMPANY");
+		authority2 = new Authority();
+		authority2.setAuthority("MODERATOR");
+		authority3 = new Authority();
+		authority3.setAuthority("SPONSOR");
+		
+		Assert.isTrue(userAccount.getAuthorities().contains(authority1) 
+				|| userAccount.getAuthorities().contains(authority2) 
+				|| userAccount.getAuthorities().contains(authority3));
+		
+		questions = this.questionService.findBySurveyId(survey.getId());
+		
+		for (Question q : questions) {
+			answers = this.answerService.findByQuestionId(q.getId());
+			for (Answer a : answers)
+				this.answerService.delete(a);
+			this.questionService.delete(q);
+		}
 
 		this.surveyRepository.delete(survey);
 	}

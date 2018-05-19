@@ -18,6 +18,9 @@ import domain.Survey;
 import forms.QuestionForm;
 
 import repositories.QuestionRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -105,6 +108,21 @@ public class QuestionService {
 	
 	public void delete(final Question question) {
 		Question savedQuestion;
+		Authority authority1, authority2, authority3;
+		UserAccount userAccount;
+
+		userAccount = LoginService.getPrincipal();
+		
+		authority1 = new Authority();
+		authority1.setAuthority("COMPANY");
+		authority2 = new Authority();
+		authority2.setAuthority("MODERATOR");
+		authority3 = new Authority();
+		authority3.setAuthority("SPONSOR");
+		
+		Assert.isTrue(userAccount.getAuthorities().contains(authority1) 
+				|| userAccount.getAuthorities().contains(authority2) 
+				|| userAccount.getAuthorities().contains(authority3));
 		
 		Assert.notNull(question);
 		

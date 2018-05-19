@@ -12,10 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.AnswerRepository;
+import security.Authority;
 import security.LoginService;
+import security.UserAccount;
 import domain.Answer;
 import domain.Question;
-import domain.User;
 
 @Service
 @Transactional
@@ -26,8 +27,6 @@ public class AnswerService {
 	private AnswerRepository	answerRepository;
 
 	// Services
-	@Autowired
-	private UserService			userService;
 
 	@Autowired
 	private Validator			validator;
@@ -84,15 +83,27 @@ public class AnswerService {
 	}
 
 	public void delete(final Answer answer) {
-		User user;
+		Authority authority1, authority2, authority3;
+		UserAccount userAccount;
+		Answer savedAnswer;
 
 		Assert.notNull(answer);
+		userAccount = LoginService.getPrincipal();
+		
+		authority1 = new Authority();
+		authority1.setAuthority("COMPANY");
+		authority2 = new Authority();
+		authority2.setAuthority("MODERATOR");
+		authority3 = new Authority();
+		authority3.setAuthority("SPONSOR");
+		
+		Assert.isTrue(userAccount.getAuthorities().contains(authority1) 
+				|| userAccount.getAuthorities().contains(authority2) 
+				|| userAccount.getAuthorities().contains(authority3));
 
-		// Lo borra el creador de la pregunta
-		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		Assert.notNull(user);
+		savedAnswer = this.answerRepository.findOne(answer.getId());
 
-		this.answerRepository.delete(answer);
+		this.answerRepository.delete(savedAnswer);
 
 	}
 
