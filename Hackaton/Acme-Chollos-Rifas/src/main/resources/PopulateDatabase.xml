@@ -2436,9 +2436,9 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="productName" value="Cesta de Navidad" />
 		<property name="productUrl" value="https://www.lotesycestasdenavidad.es/" />
 		<property name="description" value="Ya pronto llegan estas fechas, no lo dejes escapar..." />
-		<property name="price" value="5" />
+		<property name="price" value="2" />
 		<property name="minimumPrice" value="0" />
-		<property name="originalPrice" value="2" />
+		<property name="originalPrice" value="5" />
 		<property name="estimatedSells" value="25" />
 		<property name="isPublished" value="true" />
 		<property name="discountCode" value="9876yui87T" />
