@@ -95,7 +95,7 @@ public class SurveyController extends AbstractController {
 		LinkedHashMap <Answer, Double> answersRatio;
 		LinkedHashMap <String, Map<Answer, Double>> questionsAnswerRatio;
 		
-		survey = this.surveyService.findOne(surveyId);
+		survey = this.surveyService.findOneToEdit(surveyId);
 		Assert.notNull(survey);
 		
 		questions = this.questionService.findBySurveyId(surveyId, 1, this.questionService.countBySurveyId(surveyId)).getContent();
@@ -241,7 +241,10 @@ public class SurveyController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final SurveyForm surveyForm, final String model, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("survey/edit");
+		if (surveyForm.getId() != 0)
+			result = new ModelAndView("survey/edit");
+		else 
+			result = new ModelAndView("survey/create");
 
 		result.addObject("surveyForm", surveyForm);
 		result.addObject("message", messageCode);

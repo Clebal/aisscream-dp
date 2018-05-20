@@ -78,8 +78,10 @@
 	
 	<acme:submit name="save" code="survey.save" />
 
-	<acme:submit name="delete" code="survey.delete" />
-
+	<jstl:if test="${surveyForm.getId() != 0}">
+		<acme:submit name="delete" code="survey.delete" />
+	</jstl:if>
+	
 	<acme:cancel url="survey/${model}/list.do" code="survey.cancel"/>
 
 </form:form>

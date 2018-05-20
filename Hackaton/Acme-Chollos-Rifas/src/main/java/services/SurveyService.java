@@ -30,7 +30,7 @@ import forms.SurveyForm;
 @Service
 @Transactional
 public class SurveyService {
-
+	
 	// Managed repository -----------------------------------------------------
 	
 	@Autowired
@@ -83,8 +83,10 @@ public class SurveyService {
 		Survey result;
 
 		Assert.isTrue(surveyId != 0);
+		
 		result = this.surveyRepository.findOne(surveyId);
-
+		Assert.notNull(result);
+		
 		return result;
 	}
 
@@ -137,6 +139,7 @@ public class SurveyService {
 				Assert.notNull(surveyForm.getMinimumPoints());
 				Assert.isTrue(surveyForm.getMinimumPoints() >= 0);
 				actors = this.userService.findByMinimumPoints(surveyForm.getMinimumPoints());
+				this.notificationService.send(actors, "Has sido escogido para realizar una escuesta. Pinche en el enlace:", "survey/user/answer.do?surveyId=" + result.getId());
 			} else if(surveyForm.getToActor().equals("SPONSOR")) {
 				authority = new Authority();
 				authority.setAuthority("COMPANY");
@@ -144,11 +147,13 @@ public class SurveyService {
 				Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 				if(surveyForm.getHasAds()) {
 					actors = this.sponsorService.findByIfHaveAds((Company) surveyForm.getSurveyer());
+					this.notificationService.send(actors, "Has sido escogido para realizar una escuesta. Pinche en el enlace:", "survey/sponsor/answer.do?surveyId=" + result.getId());
 				} else {
 					actors = this.sponsorService.findAllActor();
+					this.notificationService.send(actors, "Has sido escogido para realizar una escuesta. Pinche en el enlace:", "survey/sponsor/answer.do?surveyId=" + result.getId());
 				}
 			}
-			this.notificationService.send(actors, "Has sido escogido para realizar una escuesta. Pinche en el enlace:", "survey/actor/answer.do?surveyId="+survey.getId());
+			
 		}
 
 		return result;
@@ -213,6 +218,13 @@ public class SurveyService {
 		return result;
 	}
 	
+	public Page<Survey> surveyMorePopular(final int page, final int size) {
+		Page<Survey> result;
+
+		result = this.surveyRepository.surveyMorePopular(this.getPageable(page,size));
+
+		return result;
+	}
 	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {

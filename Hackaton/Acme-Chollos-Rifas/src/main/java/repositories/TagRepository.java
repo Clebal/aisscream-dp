@@ -26,4 +26,6 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
 	@Query("select t from Tag t")
 	Page<Tag> findAllPaginated(Pageable pageable);
 
+	@Query("select avg(1.0*(select cast((count(t)) as float)/cast((select count(t1)*1.0 from Tag t1) as int) from Tag t where b member of t.bargains)) from Bargain b")
+	Double avgRatioTagsPerBargain();
 }

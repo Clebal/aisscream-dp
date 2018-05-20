@@ -239,6 +239,14 @@ public class TagService {
 
 		return result;
 	}
+	
+	public Double avgRatioTagsPerBargain() {
+		Double result;
+
+		result = this.tagRepository.avgRatioTagsPerBargain();
+
+		return result;
+	}
 
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {

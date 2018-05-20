@@ -42,6 +42,7 @@ VILLARIN - Media de usuarios que tienen una participación en una rifa respecto a
 
 Método del servicio: avgUsersWithParticipationsPerTotal
 
+Query: select avg(1.0*(select cast((count(u)) as float) from Participation p, User u where p.groupon.id = b.id and p.user.id = u.id))/cast((select count(u1)*1.0 from User u1) as int) from Groupon b
 
 SANTOS - Las empresas que han realizado más del 15%, 10% y 5% de las encuestas llevadas a  cabo por empresas. (Servicio de Company)
 
@@ -55,10 +56,11 @@ Query: select u from User u ORDER BY cast((select count(e.user) from Evaluation 
 
 url = user/administrator/topFiveUsersMoreValorations.do
 
-
 VILLARIN - Ratio de usuarios que realizan  comentarios. (Servicio de User)
 
 Método del servicio: ratioUsersWithComments
+
+Query: select (cast((count(distinct u))as float))/(cast((select count(distinct u1) from User u1)as float)) from User u, Comment c where c.user.id = u.id; 
 
 SANTOS - Usuarios que han realizado más del 10% de interacciones con el sistema. (Servicio de User)
 
@@ -81,13 +83,16 @@ VILLARIN - La media del ratio de chollos por  categorías. (Servicio de Bargain)
 
 Método del servicio: avgRatioBargainPerCategory
 
+Query: select avg(1.0*(select cast((count(c)) as float)/cast((select count(c1)*1.0 from Category c1) as int) from Category c where b member of c.bargains)) from Bargain b
+
 VILLARIN - Usuario con mayor media de número de caracteres escritos en sus valoraciones a las  empresas. (Servicio de user)
 
 url = user/administrator/moreAverageCharacterLenght.do
 
-
+Query: select u from User u where cast((select avg(length(ev.content)) from Evaluation ev where ev.user.id = u.id )as float) = (select max(cast((select avg(length(ev2.content)) from Evaluation ev2 where ev2.user.id = u2.id)as float)) from User u2)
 
 SERGIO - Conjuntas con un 10% de más  participación que la media. (Servicio de Groupon)
+
 select g from Groupon g where (cast((select count(p) from Participation p where p.groupon.id = g.id)as float)) >= 0.1*(cast((select avg(cast((select count(p2) from Participation p2 where p2.groupon.id = g2.id)as float)) from Groupon g2)as float));
 
 url= groupon/administrator/tenPercentageMoreParticipationsThanAverage.do
@@ -102,6 +107,7 @@ VILLARIN - Mínimo, máximo, media y desviación estándar del descuento de una conj
 
 Método del servicio: avgMinMaxStandarDesviationDiscountPerGroupon
 
+Query: select min((g.originalPrice - g.price)/(g.originalPrice * 1.0)), max((g.originalPrice - g.price)/(g.originalPrice * 1.0)), avg((g.originalPrice - g.price)/(g.originalPrice * 1.0)), stddev((g.originalPrice - g.price)/(g.originalPrice * 1.0)) from Groupon g;
 
 SANTOS - Usuario que más rifas ha ganado. (Servicio de User)
 
@@ -119,14 +125,14 @@ El que menos: select u from User u where (cast((select count(t2) from Ticket t2 
 
 url= user/administrator/purchaseLessTickets.do
 
-
 CARLOS - Media de tiques comprados por los usuarios para una rifa. (Servicio de Ticket)
 
 Query: select avg(cast((select count(t) from Ticket t where t.raffle.id=r.id) as float)) from Raffle r
 
 Método del servicio: avgTicketsPurchaseByUsersPerRaffle
 
-
 VILLARIN - Usuario que ha comprado más del 25% del total de tiques vendidos en total para todas  las rifas. (Servicio de User)
 
 url = user/administrator/purchase25PercentageMoreTotalForAllRaffles.do
+
+select u from User u where cast((select count(t2) from Ticket t2 where t2.user.id = u.id) as float ) >= 0.25*(select count(t) from Ticket t);
