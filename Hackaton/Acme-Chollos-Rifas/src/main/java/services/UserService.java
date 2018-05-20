@@ -309,7 +309,7 @@ public class UserService {
 	public User reconstruct(final UserForm userForm, final BindingResult binding) {
 		User result;
 		Collection<Bargain> wishList;
-		
+		String defaultAvatar;
 		wishList = new ArrayList<Bargain>();
 		
 		if (userForm.getId() == 0) {
@@ -338,6 +338,10 @@ public class UserService {
 		result.setEmail(userForm.getEmail());
 		result.setPhone(userForm.getPhone());
 		result.setIdentifier(userForm.getIdentifier());
+		
+		defaultAvatar = this.configurationService.findDefaultAvatar();
+		if(userForm.getAvatar() == null || userForm.getAvatar() != null && userForm.getAvatar() == "") userForm.setAvatar(defaultAvatar);
+		
 		result.setAvatar(userForm.getAvatar());
 
 		this.validator.validate(userForm, binding);

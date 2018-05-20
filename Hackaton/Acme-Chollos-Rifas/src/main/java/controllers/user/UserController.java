@@ -185,8 +185,7 @@ public class UserController extends AbstractController {
 					this.userService.save(user);
 					result = new ModelAndView("redirect:/");
 				} catch (final Throwable oops) {
-//					result = this.createEditModelAndView(userForm, "actor.commit.error");
-					result = super.panic(oops);
+					result = this.createEditModelAndView(userForm, "actor.commit.error");
 				}
 
 		return result;
