@@ -42,7 +42,7 @@ public class TicketForm {
 		return amount;
 	}
 
-	public void setAmount(Integer amount) {
+	public void setAmount(final int amount) {
 		this.amount = amount;
 	}
 

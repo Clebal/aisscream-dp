@@ -122,6 +122,22 @@ public class CompanyService {
 		return result;
 	}
 	
+	public Page<Company> companiesWithMoreTags(final int page, final int size) {
+		Page<Company> result;
+		Authority authority;
+		
+		Assert.isTrue(page >= 0);
+		
+		// Solo accesible por el administrador
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.companyRepository.companiesWithMoreTags(this.getPageable(page, size));
+
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;

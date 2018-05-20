@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,6 +77,20 @@ public class CreditCardUserController extends AbstractController {
 		return result;
 	}
 	
+	@RequestMapping(value="/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int creditCardId) {
+		ModelAndView result;
+		CreditCard creditCard;
+				
+		creditCard = this.creditCardService.findOneToDisplayEdit(creditCardId);
+		Assert.notNull(creditCard);
+		
+		result = new ModelAndView("creditcard/display");
+		result.addObject("creditcard", creditCard);
+		
+		return result;
+	}
+	
 	// Create
 	@RequestMapping(value="/create", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -118,7 +133,7 @@ public class CreditCardUserController extends AbstractController {
 		CreditCard creditCard;
 		boolean isAdded;
 
-		creditCard = this.creditCardService.findOneToEdit(creditcardId);
+		creditCard = this.creditCardService.findOneToDisplayEdit(creditcardId);
 		Assert.notNull(creditCard);
 
 		isAdded = this.ticketService.countByCreditCardId(creditcardId) == 0;
@@ -131,10 +146,10 @@ public class CreditCardUserController extends AbstractController {
 	
 	// Edit
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(CreditCard creditCard, BindingResult binding) {
+	public ModelAndView save(CreditCard creditCard, BindingResult binding, @ModelAttribute("check") final String check) {
 		ModelAndView result;
-		
-		if(creditCard.getHolderName() != null && creditCard.getHolderName().equals("")) creditCard.setHolderName(creditCard.getUser().getName() + " " + creditCard.getUser().getSurname());
+				
+		if(check.equals("checked")) creditCard.setHolderName(creditCard.getUser().getName() + " " + creditCard.getUser().getSurname());
 		
 		creditCard = this.creditCardService.reconstruct(creditCard, binding);
 		
@@ -148,6 +163,8 @@ public class CreditCardUserController extends AbstractController {
 				result = this.createEditModelAndView(creditCard, "creditcard.commit.error");
 			}
 		}
+		
+		result.addObject("check", check);
 		
 		return result;
 	}

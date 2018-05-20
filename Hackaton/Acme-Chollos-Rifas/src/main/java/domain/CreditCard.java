@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
@@ -49,6 +50,7 @@ public class CreditCard extends DomainEntity {
 
 	@CreditCardNumber
 	@NotBlank
+	@Pattern(regexp="([0-9])+")
 	public String getNumber() {
 		return this.number;
 	}

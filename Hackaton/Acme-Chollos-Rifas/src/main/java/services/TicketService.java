@@ -100,6 +100,7 @@ public class TicketService {
 		Ticket result;
 		Authority authority;
 		Plan plan;
+		Integer countTickets;
 		
 		Assert.notNull(ticket);
 		
@@ -116,7 +117,16 @@ public class TicketService {
 		} else {
 			Assert.isTrue(ticket.getUser().getUserAccount().equals(LoginService.getPrincipal()));
 		}
-				
+		
+		// Un ticket no puede ser creado si ya ha sido sorteado
+		Assert.isNull(ticket.getRaffle().getWinner());
+						
+		// No puedes comprar dos tickets en una rifa gratis
+		if(ticket.getRaffle().getPrice() == 0) {
+			countTickets = this.ticketRepository.countByRaffleIdAndUserId(ticket.getRaffle().getId(), ticket.getUser().getId());
+			Assert.isTrue(countTickets == 0);
+		}
+		
 		// Asignar código único
 		ticket.setCode(this.generateUniqueCode(ticket.getRaffle()));
 		
@@ -205,6 +215,20 @@ public class TicketService {
 		return result;
 	}
 	
+	public Double avgTicketsPurchaseByUsersPerRaffle() {
+		Double result;
+		Authority authority;
+		
+		// Solo accesible por el administrador
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.ticketRepository.avgTicketsPurchaseByUsersPerRaffle();
+
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
@@ -221,16 +245,24 @@ public class TicketService {
 		Collection<Ticket> result;
 		Ticket ticket;
 		User user;
+		Authority authority;
 		
 		Assert.notNull(ticketForm);
+		
+		// Solo puede comprarlo el usuario
+		authority = new Authority();
+		authority.setAuthority("USER");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
 		result = new ArrayList<Ticket>();
 		
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
 				
-		if(ticketForm.getRaffle().getPrice() == 0) 
+		if(ticketForm.getRaffle().getPrice() == 0) {
 			ticketForm.setAmount(1);
+			Assert.isNull(ticketForm.getCreditCard());
+		}
 		
 		if(binding != null) this.validator.validate(ticketForm, binding);
 		

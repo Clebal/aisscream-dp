@@ -19,7 +19,7 @@
 	
 	<acme:textbox code="creditcard.holderName" path="holderName" />
 	<jstl:if test="${creditCard.getId() == 0}">
-		<div style="margin-top: -10px; display: flex;"><label for="check"><spring:message code="creditcard.useNameSurname" /></label><input type="checkbox" onclick="activar(this.form)" name="check" id="check" style="margin-left: 10px;" /></div>
+		<div style="margin-top: -10px; display: flex;"><label for="check"><spring:message code="creditcard.useNameSurname" /></label><input type="checkbox" onclick="activar(this.form)" name="check" ${check} value="checked" id="check" style="margin-left: 10px;" /></div>
 		<br>
 	</jstl:if>
 	
@@ -46,7 +46,11 @@
 <script type="text/javascript">
  
 	window.onload = function() {
-    	document.getElementById("check").checked = false;
+		if("${check}" == "checked") {
+    		document.getElementById("check").checked = true;
+			$("input[name='holderName']").attr("readonly", true);
+		} else
+    		document.getElementById("check").checked = false;
 	};
 	
 	function activar(form) {

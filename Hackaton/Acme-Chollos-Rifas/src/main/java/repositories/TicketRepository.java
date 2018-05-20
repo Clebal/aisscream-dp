@@ -17,6 +17,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	@Query("select count(t) from Ticket t where t.raffle.id = ?1")
 	Integer countByRaffleId(int raffleId);
 	
+	@Query("select count(t) from Ticket t where t.raffle.id = ?1 and t.user.id = ?2")
+	Integer countByRaffleIdAndUserId(int raffleId, int userId);
+	
 	@Query("select t from Ticket t where t.user.userAccount.id = ?1")
 	Page<Ticket> findByUserAccountId(int userAccountId, Pageable pageable);
 	
@@ -25,5 +28,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	
 	@Query("select t from Ticket t where t.raffle.id = ?1")
 	Collection<Ticket> findByRaffleId(int raffleId);
+	
+	// Dashboard
+	@Query("select avg(cast((select count(t) from Ticket t where t.raffle.id=r.id) as float)) from Raffle r")
+	Double avgTicketsPurchaseByUsersPerRaffle();
 	
 }

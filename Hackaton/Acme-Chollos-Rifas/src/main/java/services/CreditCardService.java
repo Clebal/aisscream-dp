@@ -66,7 +66,7 @@ public class CreditCardService {
 		return result;
 	}
 	
-	public CreditCard findOneToEdit(final int creditCardId) {
+	public CreditCard findOneToDisplayEdit(final int creditCardId) {
 		CreditCard result;
 		
 		Assert.isTrue(creditCardId != 0);
@@ -74,7 +74,7 @@ public class CreditCardService {
 		result = this.creditCardRepository.findOne(creditCardId);
 		Assert.notNull(result);
 		
-		// Solo puede ser editado por el usuario adjunto
+		// Solo puede ser editado por el usuario
 		Assert.isTrue(result.getUser().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		return result;

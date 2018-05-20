@@ -36,4 +36,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u where u.points >= ?1")
 	Collection<Actor> findByMinimumPoints(int points);
 	
+	// Dashboard
+	@Query("select u from User u ORDER BY cast((select count(e.user) from Evaluation e where e.user=u) as float) DESC")
+	Page<User> topFiveUsersMoreValorations(Pageable pageable);
+	
 }
