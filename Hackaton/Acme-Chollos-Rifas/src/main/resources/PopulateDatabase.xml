@@ -1030,13 +1030,26 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="title" value="Xiaomi Redmi Note 4, el móvil de moda" />
 		<property name="description" value="Sukafe te trae el móvil de moda, el móvil que lo está petando en todo el mercado, por solo un euro! Unete a esta locuuuuura." />
 		<property name="productName" value="Xiaomi Redmi Note 4 64GB" />
-		<property name="maxDate" value="02/10/2018" />
+		<property name="maxDate" value="10/10/2018" />
 		<property name="productImages">
 			<list>
 			</list>
 		</property>
 		<property name="price" value="1" />
 		<property name="company" ref="company2" />
+	</bean>
+	
+	<bean id="raffle13" class="domain.Raffle">
+		<property name="title" value="Maqueta de avión única!" />
+		<property name="description" value="Una maqueta no solo da diversión sin fin sino que será un bonito tema de conversación para las visitas cuando pregunten por esa cosa que tienes en la estantería. Compra ya un tique, es gratis ;)" />
+		<property name="productName" value="Maqueta de avión de la 1º Guerra Mundial" />
+		<property name="maxDate" value="12/12/2018" />
+		<property name="productImages">
+			<list>
+			</list>
+		</property>
+		<property name="price" value="0" />
+		<property name="company" ref="company3" />
 	</bean>
 		
 	<!-- Ticket -->
