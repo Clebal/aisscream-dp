@@ -3,11 +3,13 @@ SERGIO - Mínimo, máximo, media y desviación estándar de los banners por cada pat
 Query: 
 select  avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float )), min(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as int )), max(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as int )), sqrt(sum((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id)*(select count(sp) from Sponsorship sp where sp.sponsor.id=s.id))/(select count(s2) from Sponsor s2)-avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float ))*avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float ))) from Sponsor s
 
+Método del servicio: avgMinMaxStandarDesviationBannersPerSponsor 
 
-CARLOS - La media de la ratio de etiquetas por chollos. (Servicio de tickets)
+CARLOS - La media de la ratio de etiquetas por chollos. (Servicio de Tag)
 
 Query: select avg(1.0*(select cast((count(t)) as float)/cast((select count(t1)*1.0 from Tag t1) as int) from Tag t where b member of t.bargains)) from Bargain b
 
+Método del servicio: avgRatioTagsPerBargain
 
 VILLARIN - Chollo con más y menos patrocinadores. (Servicio de Bargain)
 
@@ -34,7 +36,11 @@ CARLOS - Ratio de notificaciones vistas sobre el total.(Servicio de Notification
 
 Query: select cast((count(n)) as float)/(select count(n1) from Notification n1) from Notification n where n.visited=true
 
+Método del servicio: ratioNotificationsPerTotal
+
 VILLARIN - Media de usuarios que tienen una participación en una rifa respecto al total. (Servicio de User)
+
+Método del servicio: avgUsersWithParticipationsPerTotal
 
 
 SANTOS - Las empresas que han realizado más del 15%, 10% y 5% de las encuestas llevadas a  cabo por empresas. (Servicio de Company)
@@ -52,6 +58,7 @@ url = user/administrator/topFiveUsersMoreValorations.do
 
 VILLARIN - Ratio de usuarios que realizan  comentarios. (Servicio de User)
 
+Método del servicio: ratioUsersWithComments
 
 SANTOS - Usuarios que han realizado más del 10% de interacciones con el sistema. (Servicio de User)
 
@@ -72,7 +79,7 @@ url= company/administrator/companiesWithMoreTags.do
 
 VILLARIN - La media del ratio de chollos por  categorías. (Servicio de Bargain)
 
-
+Método del servicio: avgRatioBargainPerCategory
 
 VILLARIN - Usuario con mayor media de número de caracteres escritos en sus valoraciones a las  empresas. (Servicio de user)
 
@@ -89,9 +96,11 @@ CARLOS - Mínimo, máximo, media y desviación estándar del descuento de un chollo.
 
 Query: select min((b.originalPrice - b.price)/(b.originalPrice * 1.0)), max((b.originalPrice - b.price)/(b.originalPrice * 1.0)), avg((b.originalPrice - b.price)/(b.originalPrice * 1.0)), stddev((b.originalPrice - b.price)/(b.originalPrice * 1.0)) from Bargain b
 
+Método del servicio: avgMinMaxStandarDesviationDiscountPerBargain
 
 VILLARIN - Mínimo, máximo, media y desviación estándar del descuento de una conjunta. (Servicio de Groupon)
 
+Método del servicio: avgMinMaxStandarDesviationDiscountPerGroupon
 
 
 SANTOS - Usuario que más rifas ha ganado. (Servicio de User)
@@ -114,6 +123,8 @@ url= user/administrator/purchaseLessTickets.do
 CARLOS - Media de tiques comprados por los usuarios para una rifa. (Servicio de Ticket)
 
 Query: select avg(cast((select count(t) from Ticket t where t.raffle.id=r.id) as float)) from Raffle r
+
+Método del servicio: avgTicketsPurchaseByUsersPerRaffle
 
 
 VILLARIN - Usuario que ha comprado más del 25% del total de tiques vendidos en total para todas  las rifas. (Servicio de User)
