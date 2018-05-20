@@ -1224,18 +1224,18 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="isGift" value="false" />
 	</bean>
 	
-	<bean id="ticket24raffle10user2" class="domain.Ticket">
+	<bean id="ticket24raffle11user2" class="domain.Ticket">
 		<property name="code" value="14180315AAAAW" />
 		<property name="user" ref="user2" />
-		<property name="raffle" ref="raffle10" />
+		<property name="raffle" ref="raffle11" />
 		<property name="creditCard" ref="creditCard2" />
 		<property name="isGift" value="false" />
 	</bean>
 	
-	<bean id="ticket25raffle10user2" class="domain.Ticket">
+	<bean id="ticket25raffle11user2" class="domain.Ticket">
 		<property name="code" value="14180315AAAAO" />
 		<property name="user" ref="user2" />
-		<property name="raffle" ref="raffle10" />
+		<property name="raffle" ref="raffle11" />
 		<property name="creditCard" ref="creditCard2" />
 		<property name="isGift" value="false" />
 	</bean>
