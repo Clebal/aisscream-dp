@@ -142,6 +142,10 @@ public class TicketService {
 		this.ticketRepository.delete(ticket);
 	}
 	
+	public void flush() {
+		this.ticketRepository.flush();
+	}
+	
 	// Other business methods 
 	public void save(final Collection<Ticket> tickets) {
 		for(Ticket t: tickets) {

@@ -160,6 +160,10 @@
 	      	<a href="j_spring_security_logout" class="btn btn-primary"><spring:message code="master.page.logout"/></a>
 	      </security:authorize>
 	      
+	      <security:authorize access="hasRole('ADMIN')">
+	      	<a href="actor/moderator/create.do" class="btn btn-primary"><spring:message code="master.page.create.moderator"/></a>
+		  </security:authorize>	      
+			
 	      <security:authorize access="isAnonymous()">
 	      	<a href="security/login.do" class="btn btn-primary"><spring:message code="master.page.login"/></a>
 		   	<div class="btn-group">
@@ -170,7 +174,6 @@
 		   		<li><a href="actor/company/create.do"><spring:message code="master.page.create.company" /></a></li>
 			</ul>
 			</div>
-		   	<a href="actor/list.do" class="btn btn-primary"><spring:message code="master.page.list.user" /></a>
 	      </security:authorize>
       
 		  	<div class="btn-group">

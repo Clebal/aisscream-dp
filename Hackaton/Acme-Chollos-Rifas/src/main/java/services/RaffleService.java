@@ -106,6 +106,11 @@ public class RaffleService {
 			// La compañía autenticada debe ser la que esté en la rifa
 			Assert.isTrue(raffle.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
 			
+			// La fecha máxima no puede ser hoy o pasada
+			Assert.isTrue(raffle.getMaxDate().compareTo(new Date()) >= 0);
+			
+			// No se puede asignar el ganador cuando se crea
+			Assert.isNull(raffle.getWinner());
 		} else {
 			
 			saved = this.findOne(raffle.getId());
@@ -155,16 +160,18 @@ public class RaffleService {
 		
 		authority = new Authority();
 		authority.setAuthority("MODERATOR");
-		if(LoginService.getPrincipal().getAuthorities().contains(authority)) {
-			tickets = this.ticketService.findByRaffleId(raffle.getId());
-			Assert.notNull(tickets);
-			for(Ticket t: tickets)
-				this.ticketService.delete(t);
-		} else {
-			Assert.isTrue(saved.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
-		}
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		
+		tickets = this.ticketService.findByRaffleId(raffle.getId());
+		Assert.notNull(tickets);
+		for(Ticket t: tickets)
+			this.ticketService.delete(t);
 		
 		this.raffleRepository.delete(saved);
+	}
+	
+	public void flush() {
+		this.raffleRepository.flush();
 	}
 	
 	// Other business methods 

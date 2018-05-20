@@ -148,6 +148,8 @@ public class CompanyService {
 
 			result.getUserAccount().setUsername(companyForm.getUsername());
 			result.getUserAccount().setPassword(companyForm.getPassword());
+			
+			result.getUserAccount().setEnabled(true);
 		} else {
 			result = this.findOne(companyForm.getId());
 			Assert.notNull(result);

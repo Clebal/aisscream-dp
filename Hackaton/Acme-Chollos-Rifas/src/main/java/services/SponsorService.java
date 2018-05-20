@@ -141,6 +141,7 @@ public class SponsorService {
 
 			result.getUserAccount().setUsername(sponsorForm.getUsername());
 			result.getUserAccount().setPassword(sponsorForm.getPassword());
+			result.getUserAccount().setEnabled(true);
 		} else {
 			result = this.findOne(sponsorForm.getId());
 			Assert.notNull(result);

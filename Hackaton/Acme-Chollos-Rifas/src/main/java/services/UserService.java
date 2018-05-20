@@ -324,8 +324,8 @@ public class UserService {
 			
 			// Por defecto, un usuario tiene 50 puntos
 			result.setPoints(50);
-			
 			result.setWishList(wishList);
+			result.getUserAccount().setEnabled(true);
 		} else {
 			result = this.findOne(userForm.getId());
 			Assert.notNull(result);

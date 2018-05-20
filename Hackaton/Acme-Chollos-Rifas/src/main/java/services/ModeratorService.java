@@ -73,14 +73,18 @@ public class ModeratorService {
 	public Moderator save(final Moderator moderator) {
 		Moderator result, saved;
 		Md5PasswordEncoder encoder;
+		Authority authority;
 		
 		Assert.notNull(moderator);
 
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
 		encoder = new Md5PasswordEncoder();
 		
 		if(moderator.getId() == 0){
-			// Para crear un moderator debes estar sin autenticar
-			Assert.isTrue(!LoginService.isAuthenticated());
+			// Para crear un moderator debes ser el administrador
+			Assert.isTrue(LoginService.isAuthenticated());
+			Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 			moderator.getUserAccount().setPassword(encoder.encodePassword(moderator.getUserAccount().getPassword(), null));			
 		}else{
 			// Solo puede ser editado por él mismo
@@ -121,6 +125,7 @@ public class ModeratorService {
 
 			result.getUserAccount().setUsername(moderatorForm.getUsername());
 			result.getUserAccount().setPassword(moderatorForm.getPassword());
+			result.getUserAccount().setEnabled(true);
 		} else {
 			result = this.findOne(moderatorForm.getId());
 			Assert.notNull(result);
