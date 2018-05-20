@@ -47,9 +47,9 @@
 		<acme:columnLink domain="raffle" code="company" content="${row.getCompany().getName()} ${row.getCompany().getSurname()}" url="actor/company/profile.do?actorId=${row.getCompany().getId()}" />
 	</jstl:if>
 	
-	<jstl:if test="${requestURI.equals('raffle/company/list.do')}">
+<%-- 	<jstl:if test="${requestURI.equals('raffle/company/list.do')}">
 		<acme:columnLink domain="raffle" action="display" id="${row.getId()}" actor="company" />
-	</jstl:if>
+	</jstl:if> --%>
 	
 	<acme:columnLink domain="raffle" action="display" id="${row.getId()}" />
 

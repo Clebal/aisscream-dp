@@ -14,12 +14,18 @@
 
  	<form:hidden path="raffle" />
 	
-	<acme:textbox code="raffle.amount" path="amount" />
+	<jstl:if test="${raffle.getPrice() == 0}">
+		<p><spring:message code="ticket.free"/></p>
+	</jstl:if>
 	
-	<acme:select code="raffle.creditcard" path="creditCard" items="${creditCards}" itemLabel="number" selected="${primaryCreditCard}" />
-
+	<jstl:if test="${raffle.getPrice() != 0}">
+		<acme:textbox code="raffle.amount" path="amount" />
+		
+		<acme:select code="raffle.creditcard" path="creditCard" items="${creditCards}" itemLabel="number" selected="${primaryCreditCard}" />
+	</jstl:if>
+	
 	<acme:submit name="save" code="raffle.save"/>
 	
-	<acme:cancel url="raffle/display.do?raffleId=${raffleId}" code="raffle.cancel"/>
+	<acme:cancel url="raffle/display.do?raffleId=${raffle.getId()}" code="raffle.cancel"/>
 			
 </form:form>

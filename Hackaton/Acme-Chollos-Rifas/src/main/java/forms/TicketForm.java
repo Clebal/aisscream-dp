@@ -7,51 +7,15 @@ import javax.validation.constraints.NotNull;
 
 import domain.CreditCard;
 import domain.Raffle;
-import domain.User;
 
 public class TicketForm {
-
-	private String code;
-
-//	private String payMethod;
 	
-	private User user;
-
 	private Raffle raffle;
 
 	private CreditCard creditCard;
 
 	private int amount;
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
 	
-//	@Pattern(regexp="^(CREDITCARD||PAYPAL)$")
-//	public String getPayMethod() {
-//		return this.payMethod;
-//	}
-//	
-//	public void setPayMethod(final String payMethod) {
-//		this.payMethod = payMethod;
-//	}
-
-
-	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)

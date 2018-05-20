@@ -64,14 +64,12 @@ public class TicketUserController extends AbstractController {
     }
 	
 	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required=false) final Integer raffleId, @RequestParam(required=false, defaultValue="1")  final int page) {
+	public ModelAndView list(@RequestParam(required=false, defaultValue="1")  final int page) {
 		ModelAndView result;
 		Page<Ticket> ticketPage;
 		
-		if(raffleId == null)
-			ticketPage = this.ticketService.findByUserAccountId(LoginService.getPrincipal().getId(), page, 5);
-		else
-			ticketPage = this.ticketService.findByRaffleIdAndUserAccountId(raffleId, LoginService.getPrincipal().getId(), page, 5);
+		ticketPage = this.ticketService.findByUserAccountId(LoginService.getPrincipal().getId(), page, 5);
+		Assert.notNull(ticketPage);
 		
 		result = new ModelAndView("ticket/list");
 		result.addObject("tickets", ticketPage.getContent());
@@ -80,10 +78,7 @@ public class TicketUserController extends AbstractController {
 		
 		result.addObject("requestURI", "ticket/user/list.do");
 
-		if(raffleId == null)
-			result.addObject("showRaffle", true);
-		else
-			result.addObject("showRaffle", false);
+		result.addObject("showRaffle", true);
 		
 		return result;
 	}
@@ -109,7 +104,7 @@ public class TicketUserController extends AbstractController {
 			creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
 			Assert.notNull(creditCards);
 			
-			result = new ModelAndView("raffle/buy");
+			result = new ModelAndView("ticket/buy");
 			
 			cookie = WebUtils.getCookie(request, "cookiemonster_"+LoginService.getPrincipal().getId());
 			if(cookie != null) {
@@ -154,7 +149,6 @@ public class TicketUserController extends AbstractController {
 		ticketForm = new TicketForm();
 		ticketForm.setAmount(amount);
 		ticketForm.setRaffle(raffle);
-		ticketForm.setUser(user);
 		
 		tickets = this.ticketService.reconstruct(ticketForm, null);
 		Assert.notNull(tickets);

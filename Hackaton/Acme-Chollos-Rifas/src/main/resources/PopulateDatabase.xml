@@ -1045,6 +1045,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle1" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket2raffle1user1" class="domain.Ticket">
@@ -1052,6 +1053,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle1" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket3raffle1user1" class="domain.Ticket">
@@ -1059,6 +1061,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle1" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket4raffle1user2" class="domain.Ticket">
@@ -1066,6 +1069,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user2" />
 		<property name="raffle" ref="raffle1" />
 		<property name="creditCard" ref="creditCard2" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket5raffle1user3" class="domain.Ticket">
@@ -1073,6 +1077,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="raffle" ref="raffle1" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket6raffle2user1" class="domain.Ticket">
@@ -1080,6 +1085,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle2" />
 		<property name="creditCard" ref="creditCard3" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket7raffle2user4" class="domain.Ticket">
@@ -1087,6 +1093,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user4" />
 		<property name="raffle" ref="raffle2" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket8raffle2user4" class="domain.Ticket">
@@ -1094,6 +1101,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user4" />
 		<property name="raffle" ref="raffle2" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket9raffle2user4" class="domain.Ticket">
@@ -1101,6 +1109,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user4" />
 		<property name="raffle" ref="raffle2" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket10raffle4user1" class="domain.Ticket">
@@ -1108,6 +1117,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle4" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket11raffle4user1" class="domain.Ticket">
@@ -1115,6 +1125,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle4" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 
 	<bean id="ticket12raffle4user1" class="domain.Ticket">
@@ -1122,6 +1133,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle4" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket13raffle4user1" class="domain.Ticket">
@@ -1129,6 +1141,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle4" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket14raffle5user3" class="domain.Ticket">
@@ -1136,6 +1149,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="raffle" ref="raffle5" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket15raffle5user3" class="domain.Ticket">
@@ -1143,6 +1157,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="raffle" ref="raffle5" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket16raffle6user1" class="domain.Ticket">
@@ -1150,6 +1165,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle6" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket17raffle6user2" class="domain.Ticket">
@@ -1157,6 +1173,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user2" />
 		<property name="raffle" ref="raffle6" />
 		<property name="creditCard" ref="creditCard2" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket18raffle6user2" class="domain.Ticket">
@@ -1164,6 +1181,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user2" />
 		<property name="raffle" ref="raffle6" />
 		<property name="creditCard" ref="creditCard2" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket19raffle7user1" class="domain.Ticket">
@@ -1171,6 +1189,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle7" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket20raffle7user1" class="domain.Ticket">
@@ -1178,6 +1197,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle7" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket21raffle8user1" class="domain.Ticket">
@@ -1185,6 +1205,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle8" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket22raffle9user1" class="domain.Ticket">
@@ -1192,6 +1213,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user1" />
 		<property name="raffle" ref="raffle9" />
 		<property name="creditCard" ref="creditCard1" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket23raffle10user2" class="domain.Ticket">
@@ -1199,6 +1221,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user2" />
 		<property name="raffle" ref="raffle10" />
 		<property name="creditCard" ref="creditCard2" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket24raffle10user2" class="domain.Ticket">
@@ -1206,6 +1229,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user2" />
 		<property name="raffle" ref="raffle10" />
 		<property name="creditCard" ref="creditCard2" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket25raffle10user2" class="domain.Ticket">
@@ -1213,6 +1237,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user2" />
 		<property name="raffle" ref="raffle10" />
 		<property name="creditCard" ref="creditCard2" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket26raffle11user3" class="domain.Ticket">
@@ -1220,6 +1245,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="raffle" ref="raffle11" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket27raffle11user3" class="domain.Ticket">
@@ -1227,6 +1253,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="raffle" ref="raffle11" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket28raffle11user3" class="domain.Ticket">
@@ -1234,6 +1261,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="raffle" ref="raffle11" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket29raffle11user3" class="domain.Ticket">
@@ -1241,6 +1269,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="raffle" ref="raffle11" />
 		<property name="creditCard" ref="creditCard4" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket30raffle11user4" class="domain.Ticket">
@@ -1248,6 +1277,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user3" />
 		<property name="raffle" ref="raffle11" />
 		<property name="creditCard" ref="creditCard5" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<bean id="ticket31raffle11user4" class="domain.Ticket">
@@ -1255,6 +1285,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="user" ref="user4" />
 		<property name="raffle" ref="raffle11" />
 		<property name="creditCard" ref="creditCard5" />
+		<property name="isGift" value="false" />
 	</bean>
 	
 	<!-- Identifier -->

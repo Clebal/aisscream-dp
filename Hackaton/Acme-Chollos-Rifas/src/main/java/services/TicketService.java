@@ -61,6 +61,7 @@ public class TicketService {
 		result.setRaffle(raffle);
 		result.setUser(user);
 		result.setCreditCard(creditCard);
+		result.setIsGift(false);
 		
 		return result;
 	}
@@ -71,8 +72,9 @@ public class TicketService {
 		result = new Ticket();
 		
 		result.setRaffle(raffle);
-		result.setUser(user);
-		
+		result.setUser(user);		
+		result.setIsGift(false);
+
 		return result;
 	}
 	
@@ -226,16 +228,14 @@ public class TicketService {
 		
 		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
-		
-		ticketForm.setUser(user);
-		
+				
 		if(ticketForm.getRaffle().getPrice() == 0) 
 			ticketForm.setAmount(1);
 		
 		if(binding != null) this.validator.validate(ticketForm, binding);
 		
 		for(int i = 0; i < ticketForm.getAmount(); i++) {
-			ticket = this.create(ticketForm.getRaffle(), ticketForm.getUser(), ticketForm.getCreditCard());			
+			ticket = this.create(ticketForm.getRaffle(), user, ticketForm.getCreditCard());			
 			result.add(ticket);
 		}
 		

@@ -21,6 +21,8 @@ public class Ticket extends DomainEntity {
 	
 	private CreditCard creditCard;
 	
+	private boolean isGift;
+	
 	@NotBlank
 	public String getCode() {
 		return code;
@@ -60,6 +62,14 @@ public class Ticket extends DomainEntity {
 
 	public void setCreditCard(CreditCard creditCard) {
 		this.creditCard = creditCard;
+	}
+	
+	public boolean getIsGift() {
+		return this.isGift;
+	}
+	
+	public void setIsGift(final boolean isGift) {
+		this.isGift = isGift;
 	}
 	
 }

@@ -141,6 +141,7 @@ public class RaffleService {
 			for(Actor a: actors) {
 				user = (User) a;
 				ticket = this.ticketService.create(result, user);
+				ticket.setIsGift(true);
 				this.ticketService.save(ticket);
 			}
 		}
@@ -229,7 +230,10 @@ public class RaffleService {
 		
 		// El que edite tiene que ser el creador del raffle
 		Assert.isTrue(result.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
-				
+		
+		// No se puede editar si ya se ha sorteado
+		Assert.isNull(result.getWinner());
+		
 		return result;
 	}
 	
