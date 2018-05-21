@@ -54,7 +54,7 @@ public class PlanService {
 	public Plan findOneToEdit(final int planId) {
 		Plan result;
 		Authority authority;
-
+		Assert.isTrue(planId != 0);
 		result = this.findOne(planId);
 		Assert.notNull(result);
 		authority = new Authority();
@@ -86,6 +86,7 @@ public class PlanService {
 	public Plan findByUserId(final int userId) {
 		Plan result;
 
+		Assert.isTrue(userId != 0);
 		result = this.planRepository.findByUserId(userId);
 
 		return result;
