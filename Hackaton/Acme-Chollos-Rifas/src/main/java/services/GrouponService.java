@@ -215,6 +215,32 @@ public class GrouponService {
 
 	}
 
+	public Double[] minMaxAvgStandarDesviationDiscountPerGroupon() {
+		Double[] result;
+		Authority authority;
+
+		//Solo puede acceder admin
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		result = this.grouponRepository.minMaxAvgStandarDesviationDiscountPerGroupon();
+
+		return result;
+	}
+
+	public Page<Groupon> tenPercentageMoreParticipationsThanAverage(final int page, final int size) {
+		Page<Groupon> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.grouponRepository.tenPercentageMoreParticipationsThanAverage(this.getPageable(page, size));
+
+		return result;
+	}
+
 	public Groupon reconstruct(final Groupon groupon, final BindingResult binding) {
 		Groupon aux;
 		Groupon result;

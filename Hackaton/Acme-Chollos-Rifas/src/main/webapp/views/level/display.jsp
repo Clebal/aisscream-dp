@@ -19,7 +19,7 @@
 	</jstl:if>
 	
 	<jstl:if test="${level.getImage()!=null && level.getImage()!='' && linkBroken==true}">
-		<acme:image value="images/link_broken.png" alt="${levelAlt}"/>		
+		<acme:image value="${defaultImage}" alt="${levelAlt}"/>		
 		<br/><br/>
 	</jstl:if>
 	

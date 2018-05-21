@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ConfigurationService;
 import services.LevelService;
 import domain.Level;
 
@@ -19,7 +20,10 @@ public class LevelController extends AbstractController {
 
 	// Services
 	@Autowired
-	private LevelService	levelService;
+	private LevelService			levelService;
+
+	@Autowired
+	private ConfigurationService	configurationService;
 
 
 	// Constructor
@@ -50,15 +54,17 @@ public class LevelController extends AbstractController {
 	public ModelAndView list(final int levelId) {
 		ModelAndView result;
 		Level level;
+		String defaultImage;
 
+		defaultImage = this.configurationService.findDefaultImage();
 		level = this.levelService.findOne(levelId);
 		Assert.notNull(level);
 
 		result = new ModelAndView("level/display");
 		result.addObject("level", level);
 		result.addObject("linkBroken", super.checkLinkImage(level.getImage()));
+		result.addObject("defaultImage", defaultImage);
 
 		return result;
 	}
-
 }
