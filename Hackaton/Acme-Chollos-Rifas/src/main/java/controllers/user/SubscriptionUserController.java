@@ -21,7 +21,6 @@ import services.CreditCardService;
 import services.SubscriptionService;
 import services.UserService;
 import controllers.AbstractController;
-import converters.CreditCardToStringConverter;
 import domain.CreditCard;
 import domain.Subscription;
 
@@ -31,17 +30,13 @@ public class SubscriptionUserController extends AbstractController {
 
 	// Supporting services
 	@Autowired
-	private SubscriptionService			subscriptionService;
+	private SubscriptionService	subscriptionService;
 
 	@Autowired
-	private UserService					userService;
+	private UserService			userService;
 
 	@Autowired
-	private CreditCardService			creditCardService;
-
-	// Converter
-	@Autowired
-	private CreditCardToStringConverter	creditCardToStringConverter;
+	private CreditCardService	creditCardService;
 
 
 	public SubscriptionUserController() {
@@ -97,7 +92,6 @@ public class SubscriptionUserController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(Subscription subscription, final BindingResult binding, final HttpServletResponse response) {
 		ModelAndView result;
-		Cookie lastCreditCard;
 
 		subscription = this.subscriptionService.reconstruct(subscription, binding);
 
@@ -106,12 +100,6 @@ public class SubscriptionUserController extends AbstractController {
 		else
 			try {
 				this.subscriptionService.save(subscription);
-				// --- COOKIE --- //
-				lastCreditCard = new Cookie("cookiemonster_" + subscription.getUser().getId(), this.creditCardToStringConverter.convert(subscription.getCreditCard()));
-				lastCreditCard.setHttpOnly(true);
-				lastCreditCard.setMaxAge(3600000);
-				response.addCookie(lastCreditCard);
-				// --- COOKIE --- //
 				result = new ModelAndView("redirect:display.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(subscription, "subscription.commit.error");
