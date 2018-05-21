@@ -53,7 +53,7 @@
 	</jstl:if>
 	
 	<jstl:if test="${!principal.equals(evaluation.getCompany().getUserAccount().getUsername())}">
-		<acme:displayLink parameter="companyId" code="evaluation.company.name" action="actor/company/profile.do" parameterValue="${evaluation.getCompany().getId()}" ></acme:displayLink>
+		<acme:displayLink parameter="actorId" code="evaluation.company.name" action="actor/company/profile.do" parameterValue="${evaluation.getCompany().getId()}" ></acme:displayLink>
 	</jstl:if>
 </div>	
 

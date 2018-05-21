@@ -54,7 +54,7 @@
 	</security:authorize>
 	
 	<acme:displayLink parameter="bargainId" code="comment.bargain" action="bargain/display.do" parameterValue="${comment.getBargain().getId()}" css="btn btn-primary"></acme:displayLink>		
-	<acme:displayLink parameter="actorId" code="comment.user" action="actor/user/profile.do" parameterValue="${comment.getUser().getId()}" css="btn btn-primary"></acme:displayLink>		
+	<acme:displayLink parameter="userId" code="comment.user" action="actor/user/display.do" parameterValue="${comment.getUser().getId()}" css="btn btn-primary"></acme:displayLink>		
 	
 <jstl:if test="${comments.size()>0}">
 	<span class="display"><spring:message code="comment.replied.comment"/></span>

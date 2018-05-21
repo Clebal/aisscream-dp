@@ -30,7 +30,7 @@
 			<form:option label="4" value="4" />
 			<form:option label="5" value="5" />
 		</form:select>
-		<form:errors path="puntuation" cssClass="error" />
+		<form:errors class="error" path="puntuation" cssClass="error" />
 	</div>
 	
 	<acme:textarea path="content" code="evaluation.content" />

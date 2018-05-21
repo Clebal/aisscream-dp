@@ -31,7 +31,7 @@
 	
 	<acme:column style="${style}" property="text" domain="comment" />
 	
-	<acme:columnLink style="${style}" code="name" url="actor/user/profile.do?actorId=${row.getUser().getId()}" domain="comment.user" content="${row.getUser().getName()} ${row.getUser().getSurname()}"/>
+	<acme:columnLink style="${style}" code="name" url="actor/user/display.do?userId=${row.getUser().getId()}" domain="comment.user" content="${row.getUser().getName()} ${row.getUser().getSurname()}"/>
 		
 	<acme:columnLink style="${style}" code="productName" url="bargain/display.do?bargainId=${row.getBargain().getId()}" domain="comment.bargain" content="${row.getBargain().getProductName()}"/>
 		

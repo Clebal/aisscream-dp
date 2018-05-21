@@ -140,11 +140,17 @@ public class EvaluationUserController extends AbstractController {
 	
 	protected ModelAndView createEditModelAndView(final Evaluation evaluation, final String messageCode) {
 		ModelAndView result;
+		User user;
 		
 		if (evaluation.getId() == 0)
 			result = new ModelAndView("evaluation/create");
 		else
 			result = new ModelAndView("evaluation/edit");
+		
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
+		
+		Assert.isTrue(evaluation.getUser().equals(user));
 		
 		result.addObject("evaluation", evaluation);
 		result.addObject("message", messageCode);

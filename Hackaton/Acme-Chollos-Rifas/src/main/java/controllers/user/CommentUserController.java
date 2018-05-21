@@ -121,10 +121,7 @@ public class CommentUserController extends AbstractController {
 			try {
 				this.commentService.save(comment);
 
-				if (comment.getRepliedComment() == null)
-					result = new ModelAndView("redirect:/comment/display.do?commentId=" + comment.getId());
-				else
-					result = new ModelAndView("redirect:/comment/display.do?commentId=" + comment.getRepliedComment().getId());
+				result = new ModelAndView("redirect:/comment/user/list.do");
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(comment, "comment.commit.error");
