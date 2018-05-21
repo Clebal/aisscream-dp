@@ -85,6 +85,24 @@ public class SurveyController extends AbstractController {
 		return result;
 	}
 	
+	// More popular
+	@RequestMapping(value="/morePopular", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(required = false, defaultValue="1") Integer page) {
+		ModelAndView result;
+		Page<Survey> surveyPage;
+			    
+		surveyPage = this.surveyService.surveyMorePopular(page, 5);
+		Assert.notNull(surveyPage);
+	
+		result = new ModelAndView("survey/list");
+		result.addObject("surveys", surveyPage.getContent());
+		result.addObject("page", page);
+		result.addObject("pageNumber", surveyPage.getTotalPages());
+		result.addObject("requestURI", "survey/administrator/morePopular.do");
+			    
+		return result;
+	}
+	
 	// Display
 	@RequestMapping(value="/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam int surveyId, @PathVariable(value="actor") final String model) {
