@@ -110,14 +110,17 @@ public class GrouponService {
 
 	public Groupon save(final Groupon groupon) {
 		Groupon result, saved;
+		User user;
 
 		Assert.notNull(groupon);
 		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getId() == groupon.getCreator().getUserAccount().getId());
 		Assert.isTrue(groupon.getPrice() < groupon.getOriginalPrice());
 
-		if (groupon.getId() == 0)
+		if (groupon.getId() == 0) {
 			Assert.isTrue(groupon.getMaxDate().compareTo(new Date()) > 0);
-		else {
+			user = groupon.getCreator();
+			this.userService.addPoints(user, 50);
+		} else {
 			saved = this.findOne(groupon.getId());
 			if (groupon.getMaxDate().compareTo(saved.getMaxDate()) != 0)
 				Assert.isTrue(groupon.getMaxDate().compareTo(new Date()) > 0);

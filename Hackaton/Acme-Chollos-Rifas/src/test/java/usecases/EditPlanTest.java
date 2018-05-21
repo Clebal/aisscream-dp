@@ -40,6 +40,8 @@ public class EditPlanTest extends AbstractTest {
 	 * 7.Editamos los campos del plan1 logeados como company (salta un IllegalArgumentException)
 	 * 8.Editamos los campos del plan1 logeados como sponsor (salta un IllegalArgumentException)
 	 * 9.Editamos los campos del plan1 sin estar logeados (salta un IllegalArgumentException)
+	 * 
+	 * Requisito 30.3: Un actor que está autenticado como administrador debe ser capaz de editar los planes de pago
 	 */
 	@Test()
 	public void testEdit() {

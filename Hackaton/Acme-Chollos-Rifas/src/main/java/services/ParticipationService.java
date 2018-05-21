@@ -102,6 +102,7 @@ public class ParticipationService {
 
 	public Participation save(final Participation participation) {
 		Participation result;
+		User user;
 
 		Assert.notNull(participation);
 		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getId() == participation.getUser().getUserAccount().getId());
@@ -113,6 +114,9 @@ public class ParticipationService {
 
 			if (this.planService.findByUserId(participation.getUser().getId()) == null)
 				Assert.isTrue(participation.getGroupon().getMaxDate().compareTo(new Date()) > 0);
+
+			user = participation.getUser();
+			this.userService.addPoints(user, 20);
 
 		}
 
