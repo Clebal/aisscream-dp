@@ -101,11 +101,11 @@ CARLOS - Mínimo, máximo, media y desviación estándar del descuento de un chollo.
 
 Query: select min((b.originalPrice - b.price)/(b.originalPrice * 1.0)), max((b.originalPrice - b.price)/(b.originalPrice * 1.0)), avg((b.originalPrice - b.price)/(b.originalPrice * 1.0)), stddev((b.originalPrice - b.price)/(b.originalPrice * 1.0)) from Bargain b
 
-Método del servicio: avgMinMaxStandarDesviationDiscountPerBargain
+Método del servicio: minMaxAvgStandarDesviationDiscountPerBargain
 
 VILLARIN - Mínimo, máximo, media y desviación estándar del descuento de una conjunta. (Servicio de Groupon)
 
-Método del servicio: avgMinMaxStandarDesviationDiscountPerGroupon
+Método del servicio: minMaxAvgStandarDesviationDiscountPerGroupon
 
 Query: select min((g.originalPrice - g.price)/(g.originalPrice * 1.0)), max((g.originalPrice - g.price)/(g.originalPrice * 1.0)), avg((g.originalPrice - g.price)/(g.originalPrice * 1.0)), stddev((g.originalPrice - g.price)/(g.originalPrice * 1.0)) from Groupon g;
 
