@@ -44,7 +44,7 @@
 			</jstl:if>
 			
 			<br><br>
-			<acme:displayLink parameter="sponsorId" code="sponsorship.sponsor" action="actor/sponsor/profile.do" parameterValue="${row.getSponsor().getId()}" css="btn btn-primary"></acme:displayLink>
+			<acme:displayLink parameter="actorId" code="sponsorship.sponsor" action="actor/sponsor/profile.do" parameterValue="${row.getSponsor().getId()}" css="btn btn-primary"></acme:displayLink>
 		
 			</div>
 		</display:column>

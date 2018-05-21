@@ -60,4 +60,10 @@ public interface BargainRepository extends JpaRepository<Bargain, Integer> {
 
 	@Query("select b from Bargain b where b not in (select s.bargain from Sponsorship s where s.sponsor.id=?1)")
 	Page<Bargain> findBySponsorIdWithNoSponsorship(int sponsorId, Pageable pageable);
+
+	@Query("select b from Bargain b ORDER BY cast((select count(u) from User u where b member of u.wishList) as float)")
+	Page<Bargain> findAreInMoreWishList(Pageable pageable);
+
+	@Query("select min((b.originalPrice - b.price)/(b.originalPrice * 1.0)), max((b.originalPrice - b.price)/(b.originalPrice * 1.0)), avg((b.originalPrice - b.price)/(b.originalPrice * 1.0)), stddev((b.originalPrice - b.price)/(b.originalPrice * 1.0)) from Bargain b")
+	Double[] avgMinMaxStandarDesviationDiscountPerBargain();
 }

@@ -153,6 +153,23 @@ public class NotificationService {
 		return result;
 	}
 
+	//Usada en los tests
+	public Integer countNotVisitedByActorId(final Integer actorId) {
+		Integer result;
+		Actor actor;
+
+		result = null;
+		actor = null;
+
+		if (LoginService.isAuthenticated())
+			actor = this.actorService.findOne(actorId);
+
+		if (actor != null)
+			result = this.notificationRepository.countNotVisitedByActorId(actor.getId());
+
+		return result;
+	}
+
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
 
@@ -174,6 +191,14 @@ public class NotificationService {
 		this.validator.validate(notification, binding);
 
 		return notification;
+	}
+
+	public Double ratioNotificationsPerTotal() {
+		Double result;
+
+		result = this.notificationRepository.ratioNotificationsPerTotal();
+
+		return result;
 	}
 
 	public void send(final Collection<Actor> actors, final String subject, final String url) {

@@ -65,8 +65,12 @@ public class BargainService {
 
 
 	// Simple CRUD methods
-	public Bargain create(final Company company) {
+	public Bargain create() {
 		Bargain result;
+		Company company;
+
+		company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(company);
 
 		result = new Bargain();
 		result.setCompany(company);
@@ -368,6 +372,28 @@ public class BargainService {
 		return result;
 	}
 
+	public Page<Bargain> findAreInMoreWishList(final int page, final int size) {
+		Page<Bargain> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.bargainRepository.findAreInMoreWishList(this.getPageable(page, size));
+
+		return result;
+	}
+
+	public Double[] avgMinMaxStandarDesviationDiscountPerBargain() {
+		Double[] result;
+
+		result = this.avgMinMaxStandarDesviationDiscountPerBargain();
+
+		return result;
+	}
+
 	//Puede ver el bargain
 	public Boolean canDisplay(final Bargain bargain) {
 		Boolean result;
@@ -431,6 +457,10 @@ public class BargainService {
 		return result;
 	}
 
+	public void flush() {
+		this.bargainRepository.flush();
+	}
+
 	//Método para ver los bargains de una compañía
 	public Page<Bargain> findByCompanyId(final int page, final int size) {
 		Page<Bargain> result;
@@ -459,7 +489,6 @@ public class BargainService {
 	// Pruned object domain
 	public BargainForm reconstruct(final BargainForm bargainForm, final BindingResult binding) {
 		Bargain aux;
-		Company company;
 
 		//Editamos el bargain
 		if (bargainForm.getBargain().getId() != 0) {
@@ -473,9 +502,8 @@ public class BargainService {
 
 			//Creamos el bargain
 		} else {
-			company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-			Assert.notNull(company);
-			aux = this.create(company);
+
+			aux = this.create();
 			bargainForm.getBargain().setCompany(aux.getCompany());
 		}
 

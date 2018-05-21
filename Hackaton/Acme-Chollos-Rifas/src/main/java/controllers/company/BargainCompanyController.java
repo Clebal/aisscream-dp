@@ -13,15 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
 import services.BargainService;
 import services.CategoryService;
-import services.CompanyService;
 import services.TagService;
 import controllers.AbstractController;
 import domain.Bargain;
 import domain.Category;
-import domain.Company;
 import forms.BargainForm;
 
 @Controller
@@ -31,9 +28,6 @@ public class BargainCompanyController extends AbstractController {
 	// Services
 	@Autowired
 	private BargainService	bargainService;
-
-	@Autowired
-	private CompanyService	companyService;
 
 	@Autowired
 	private TagService		tagService;
@@ -109,13 +103,9 @@ public class BargainCompanyController extends AbstractController {
 	public ModelAndView create(@RequestParam final int categoryId) {
 		ModelAndView result;
 		Bargain bargain;
-		Company company;
 		BargainForm bargainForm;
 
-		company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-		Assert.notNull(company);
-
-		bargain = this.bargainService.create(company);
+		bargain = this.bargainService.create();
 		Assert.notNull(bargain);
 
 		bargainForm = new BargainForm();

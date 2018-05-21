@@ -84,7 +84,7 @@
 	</div>
 	
 	<br>
-	<acme:displayLink parameter="companyId" code="bargain.company" action="actor/company/profile.do" parameterValue="${bargain.getCompany().getId()}" css="btn btn-primary"></acme:displayLink>
+	<acme:displayLink parameter="actorId" code="bargain.company" action="actor/company/profile.do" parameterValue="${bargain.getCompany().getId()}" css="btn btn-primary"></acme:displayLink>
 	<acme:displayLink parameter="bargainId" code="bargain.sponsorships" action="sponsorship/list.do" parameterValue="${bargain.getId()}" css="btn btn-primary"></acme:displayLink>
 	<security:authorize access="hasRole('COMPANY')">
 		<security:authentication property="principal.username" var="principal"/>

@@ -18,4 +18,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
 	@Query("select count(n) from Notification n where n.actor.id = ?1 and n.visited=false")
 	Integer countNotVisitedByActorId(int actorId);
 
+	@Query("select cast((count(n)) as float)/(select count(n1) from Notification n1) from Notification n where n.visited=true")
+	Double ratioNotificationsPerTotal();
 }
