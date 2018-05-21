@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,19 @@ public class SubscriptionService {
 
 	public Subscription save(final Subscription subscription) {
 		Subscription result;
+		Calendar calendar;
 
 		Assert.notNull(subscription);
 		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getId() == subscription.getUser().getUserAccount().getId());
 		Assert.isTrue(this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId()).contains(subscription.getCreditCard()));
+
+		calendar = Calendar.getInstance();
+
+		if (calendar.get(Calendar.YEAR) % 100 == subscription.getCreditCard().getExpirationYear())
+			Assert.isTrue(((subscription.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 1);
+		else
+			Assert.isTrue(calendar.get(Calendar.YEAR) % 100 < subscription.getCreditCard().getExpirationYear());
+
 		if (subscription.getId() == 0)
 			Assert.isTrue(this.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId()) == null);
 
