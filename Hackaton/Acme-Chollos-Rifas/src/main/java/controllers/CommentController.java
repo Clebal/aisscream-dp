@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
+import services.ConfigurationService;
 import services.PlanService;
 import domain.Comment;
 
@@ -23,10 +24,13 @@ public class CommentController extends AbstractController {
 
 	// Services
 	@Autowired
-	private CommentService	commentService;
+	private CommentService			commentService;
 	
 	@Autowired
-	private PlanService	planService;
+	private PlanService				planService;
+	
+	@Autowired
+	private ConfigurationService	configurationService;
 	
 	// List
 	@RequestMapping(value="/list", method = RequestMethod.GET)
@@ -81,6 +85,7 @@ public class CommentController extends AbstractController {
 		Boolean canComment;
 		Map<Comment, Boolean> mapCommentBoolean;
 		Boolean hasPlan, hasPlanComment;
+		String defaultImage;
 		
 		canComment = true;
 		
@@ -97,6 +102,8 @@ public class CommentController extends AbstractController {
 				hasPlan = true;
 			mapCommentBoolean.put(c, hasPlan);
 		}
+		
+		defaultImage = this.configurationService.findDefaultImage();
 
 		result = new ModelAndView("comment/display");
 
@@ -108,6 +115,7 @@ public class CommentController extends AbstractController {
 		result.addObject("mapLinkBoolean", super.checkLinkImages(comment.getImages()));
 		result.addObject("mapCommentBoolean", mapCommentBoolean);
 		result.addObject("hasPlanComment", hasPlanComment);
+		result.addObject("defaultImage", defaultImage);
 
 		return result;
 

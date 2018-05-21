@@ -13,7 +13,7 @@
 <div class="container">
 
 	<jstl:if test="${hasPlanComment}">
-		<jstl:set value='background-color: #ec6354;' var="styleComment"/>
+		<jstl:set value='background-color: #ec6354;color: white;' var="styleComment"/>
 	</jstl:if>
 	
 	<spring:message code="comment.alt" var="commentAlt"/>
@@ -26,7 +26,7 @@
 		</jstl:if>
 		
 		<jstl:if test="${mapEntry.key!=null && mapEntry.key!='' && mapEntry.value==true}">
-			<acme:image value="images/link_broken.png" alt="${commentAlt}"/>		
+			<acme:image value="${defaultImage}" alt="${commentAlt}"/>		
 			<br/><br/>
 		</jstl:if>
 	
@@ -54,7 +54,7 @@
 	</security:authorize>
 	
 	<acme:displayLink parameter="bargainId" code="comment.bargain" action="bargain/display.do" parameterValue="${comment.getBargain().getId()}" css="btn btn-primary"></acme:displayLink>		
-	<acme:displayLink parameter="actorId" code="comment.user" action="actor/user/display.do" parameterValue="${comment.getUser().getId()}" css="btn btn-primary"></acme:displayLink>		
+	<acme:displayLink parameter="actorId" code="comment.user" action="actor/user/profile.do" parameterValue="${comment.getUser().getId()}" css="btn btn-primary"></acme:displayLink>		
 	
 <jstl:if test="${comments.size()>0}">
 	<span class="display"><spring:message code="comment.replied.comment"/></span>
@@ -62,7 +62,7 @@
 	<jstl:forEach var="row" items="${comments}">
 		
 		<jstl:if test="${mapCommentBoolean[row]}">
-			<jstl:set value='background-color: #ec6354;' var="style"/>
+			<jstl:set value='background-color: #ec6354;color: white;' var="style"/>
 		</jstl:if>
 	
 		<div class="container-square2" style="${style}">

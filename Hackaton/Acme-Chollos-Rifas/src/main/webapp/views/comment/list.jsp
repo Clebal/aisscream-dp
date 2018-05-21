@@ -13,7 +13,7 @@
 <display:table class="table table-striped table-bordered table-hover" name="comments" id="row" requestURI="${requestURI}">
 	
 	<jstl:if test="${mapCommentBoolean[row]}">
-		<jstl:set value='background-color: #ec6354;' var="style"/>
+		<jstl:set value='background-color: #ec6354;color: white;' var="style"/>
 	</jstl:if>
 	<jstl:if test="${!mapCommentBoolean[row]}">
 		<jstl:set value='' var="style"/>

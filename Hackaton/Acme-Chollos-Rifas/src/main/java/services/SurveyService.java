@@ -105,8 +105,15 @@ public class SurveyService {
 		Integer number;
 		Collection<Actor> actors;
 		Authority authority;
+		Actor actor;
 
 		Assert.notNull(survey);
+		
+		Assert.notNull(survey.getTitle());
+		Assert.notNull(surveyForm.getTitle());
+		actor = (Actor) survey.getSurveyer();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().equals(LoginService.getPrincipal()));
 
 		result = this.surveyRepository.save(survey);
 		

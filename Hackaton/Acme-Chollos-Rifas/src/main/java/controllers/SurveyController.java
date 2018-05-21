@@ -324,8 +324,7 @@ public class SurveyController extends AbstractController {
 		} else {
 			try {
 				for (Answer a : answersReconstruct) {
-					a.setCounter(a.getCounter()+1);
-					this.answerService.save(a);
+					this.answerService.addCounter(a);
 				}
 				if(model.equals("user"))
 					this.userService.addPoints(10);

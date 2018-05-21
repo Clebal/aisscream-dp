@@ -74,6 +74,7 @@ public class AnswerService {
 		Answer result;
 
 		Assert.notNull(answer);
+		Assert.notNull(answer.getText());
 		Assert.notNull(answer.getQuestion());
 
 		result = this.answerRepository.save(answer);
@@ -109,6 +110,27 @@ public class AnswerService {
 
 	public void flush() {
 		this.answerRepository.flush();
+	}
+	
+	public void addCounter(final Answer answer) {
+		Authority authority1, authority2;
+		UserAccount userAccount;
+
+		Assert.notNull(answer);
+		userAccount = LoginService.getPrincipal();
+		
+		authority1 = new Authority();
+		authority1.setAuthority("USER");
+		authority2 = new Authority();
+		authority2.setAuthority("SPONSOR");
+		
+		Assert.isTrue(userAccount.getAuthorities().contains(authority1) 
+				|| userAccount.getAuthorities().contains(authority2));		
+		Assert.isTrue(LoginService.isAuthenticated());
+		
+		answer.setCounter(answer.getCounter() + 1);
+		
+		this.save(answer);
 	}
 	
 	// Pruned object domain

@@ -100,6 +100,7 @@ public class QuestionService {
 		}
 		
 		Assert.notNull(question);
+		Assert.notNull(question.getText());
 		
 		result = this.questionRepository.save(question);
 		
