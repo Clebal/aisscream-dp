@@ -130,6 +130,7 @@ public class TagService {
 			tag = this.findByName(tagName.toLowerCase().trim());
 			//Si la tag no existe la creamos
 			if (tag == null) {
+				Assert.isTrue(!tagName.trim().equals(""));
 				tag = this.create(bargain);
 				tag.setName(tagName.toLowerCase().trim());
 				this.save(tag);
@@ -239,7 +240,7 @@ public class TagService {
 
 		return result;
 	}
-	
+
 	public Double avgRatioTagsPerBargain() {
 		Double result;
 

@@ -110,7 +110,7 @@ public class Bargain extends DomainEntity {
 		this.originalPrice = originalPrice;
 	}
 
-	@Min(0)
+	@Min(1)
 	public int getEstimatedSells() {
 		return this.estimatedSells;
 	}

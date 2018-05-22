@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.SponsorshipRepository;
+import security.Authority;
 import security.LoginService;
 import domain.Bargain;
 import domain.Sponsor;
@@ -210,6 +211,19 @@ public class SponsorshipService {
 
 		return result;
 
+	}
+
+	public Double[] avgMinMaxStandarDesviationBannersPerSponsor() {
+		Double[] result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.sponsorshipRepository.avgMinMaxStandarDesviationBannersPerSponsor();
+
+		return result;
 	}
 
 	// Pruned object domain

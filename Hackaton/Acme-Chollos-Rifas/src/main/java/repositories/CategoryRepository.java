@@ -42,4 +42,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	@Query("select c from Category c")
 	Page<Category> findAllPaginated(Pageable pageable);
 
+	//Dashboard
+	@Query("select c from Category c where (cast((select count(b) from Bargain b where b member of c.bargains)as float)) >= (cast((select avg(cast((select count(b2) from Bargain b2 where b2 member of c2.bargains)as float)) from Category c2)as float))")
+	Page<Category> moreBargainThanAverage(Pageable pageable);
+
 }

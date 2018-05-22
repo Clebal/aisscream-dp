@@ -372,6 +372,7 @@ public class BargainService {
 		return result;
 	}
 
+	//Dashboard
 	public Page<Bargain> findAreInMoreWishList(final int page, final int size) {
 		Page<Bargain> result;
 		Authority authority;
@@ -386,10 +387,34 @@ public class BargainService {
 		return result;
 	}
 
-	public Double[] avgMinMaxStandarDesviationDiscountPerBargain() {
+	public Double[] minMaxAvgStandarDesviationDiscountPerBargain() {
 		Double[] result;
 
-		result = this.avgMinMaxStandarDesviationDiscountPerBargain();
+		result = this.bargainRepository.minMaxAvgStandarDesviationDiscountPerBargain();
+
+		return result;
+	}
+
+	public Page<Bargain> listWithMoreSponsorships(final int page, final int size) {
+		Page<Bargain> result;
+
+		result = this.bargainRepository.listWithMoreSponsorships(this.getPageable(page, size));
+
+		return result;
+	}
+
+	public Page<Bargain> listWithLessSponsorships(final int page, final int size) {
+		Page<Bargain> result;
+
+		result = this.bargainRepository.listWithLessSponsorships(this.getPageable(page, size));
+
+		return result;
+	}
+
+	public Double avgRatioBargainPerCategory() {
+		Double result;
+
+		result = this.bargainRepository.avgRatioBargainPerCategory();
 
 		return result;
 	}

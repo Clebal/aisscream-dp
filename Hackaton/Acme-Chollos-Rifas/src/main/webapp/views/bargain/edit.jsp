@@ -39,8 +39,8 @@
 	
 	<jstl:if test="${!notPublish}">
 		<div class="form-check">
-			<form:checkbox class="form-check-input" path="bargain.isPublished" checked=''/>
-			<form:label path="bargain.isPublished"><spring:message code="bargain.is.published" /></form:label> 
+			<form:checkbox class="form-check-input" path="bargain.isPublished" id="check" checked=''/>
+			<form:label path="bargain.isPublished"><div onclick="activar()" ><spring:message code="bargain.is.published" /></div></form:label> 
 			<form:errors class="text-danger" path="bargain.isPublished"/>
 		</div>
 	</jstl:if>
@@ -56,3 +56,13 @@
 	<acme:cancel url="bargain/company/list.do" code="bargain.cancel"/>
 			
 </form:form>
+
+<script type="text/javascript">
+
+	function activar() {
+		if  (document.getElementById("check").checked)
+			document.getElementById("check").checked = false;
+		else if (!document.getElementById("check").checked)
+			document.getElementById("check").checked = true;
+	}
+</script>

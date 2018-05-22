@@ -94,7 +94,7 @@ public class CategoryService {
 		if (category.getFatherCategory() == null)
 			categoriesOfSameLevel = this.findAllWithoutFather();
 		else
-			categoriesOfSameLevel = this.findAllByFatherCategoryId(category.getId());
+			categoriesOfSameLevel = this.findAllByFatherCategoryId(category.getFatherCategory().getId());
 
 		for (final Category categorySameLevel : categoriesOfSameLevel)
 			Assert.isTrue(!categorySameLevel.getName().toLowerCase().trim().equals(category.getName().toLowerCase().trim()) || categorySameLevel.getId() == category.getId());
@@ -324,6 +324,19 @@ public class CategoryService {
 		Category result;
 
 		result = this.categoryRepository.save(category);
+
+		return result;
+	}
+
+	public Page<Category> moreBargainThanAverage(final int page, final int size) {
+		Page<Category> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.categoryRepository.moreBargainThanAverage(this.getPageable(page, size));
 
 		return result;
 	}

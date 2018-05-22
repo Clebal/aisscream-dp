@@ -17,35 +17,35 @@
 	
 
 		
-		
-			<display:column>
-		
-			<jstl:if test="${action.equals('add')}">
-					<spring:url var="urlAddCategory" value="bargain/company/addCategory.do">
+			<jstl:if test="${!action.equals('dashboard')}">
+				<display:column>
+			
+				<jstl:if test="${action.equals('add')}">
+						<spring:url var="urlAddCategory" value="bargain/company/addCategory.do">
+							<spring:param name="bargainId" value="${bargainId}" />
+							<spring:param name="categoryId" value="${row.getId()}" />
+						</spring:url>
+						<a href="${urlAddCategory }"> <spring:message code="category.add" /></a>
+				</jstl:if>
+				
+				<jstl:if test="${action.equals('remove') && !(row.getDefaultCategory() && categories.size()==1)}">
+					<spring:url var="urlRemoveCategory" value="bargain/company/removeCategory.do">
 						<spring:param name="bargainId" value="${bargainId}" />
 						<spring:param name="categoryId" value="${row.getId()}" />
 					</spring:url>
-					<a href="${urlAddCategory }"> <spring:message code="category.add" /></a>
+					<a href="${urlRemoveCategory }"> <spring:message code="category.remove" /></a>
+				</jstl:if>
+				
+				
+				<jstl:if test="${action.equals('create')}">
+					<spring:url var="urlCreateService" value="bargain/company/create.do">
+						<spring:param name="categoryId" value="${row.getId()}" />
+					</spring:url>
+					<a href="${urlCreateService}"> <spring:message code="category.choose.create" /></a>
+				</jstl:if>
+							
+				</display:column>
 			</jstl:if>
-			
-			<jstl:if test="${action.equals('remove') && !(row.getDefaultCategory() && categories.size()==1)}">
-				<spring:url var="urlRemoveCategory" value="bargain/company/removeCategory.do">
-					<spring:param name="bargainId" value="${bargainId}" />
-					<spring:param name="categoryId" value="${row.getId()}" />
-				</spring:url>
-				<a href="${urlRemoveCategory }"> <spring:message code="category.remove" /></a>
-			</jstl:if>
-			
-			
-			<jstl:if test="${action.equals('create')}">
-				<spring:url var="urlCreateService" value="bargain/company/create.do">
-					<spring:param name="categoryId" value="${row.getId()}" />
-				</spring:url>
-				<a href="${urlCreateService}"> <spring:message code="category.choose.create" /></a>
-			</jstl:if>
-						
-			</display:column>
-			
 			<acme:column domain="category" property="name"/>		
 		
 	

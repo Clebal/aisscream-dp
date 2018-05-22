@@ -27,7 +27,7 @@ public class Sponsorship extends DomainEntity {
 	private Bargain	bargain;
 
 
-	@Min(0)
+	@Min(1)
 	public double getAmount() {
 		return this.amount;
 	}

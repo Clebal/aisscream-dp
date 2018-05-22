@@ -71,6 +71,17 @@
 		<acme:display value="${bargain.getPrice() - (bargain.getPrice() * 0.025)}" code="bargain.price" formatNumber="true" domain="bargain"/>
 	</jstl:if>
 	
+	<span class="display">
+		<spring:message code="bargain.is.published" var="isPublished"/>
+		<strong><jstl:out value="${isPublished}: "></jstl:out></strong>
+		<jstl:if test="${bargain.getIsPublished()}">
+			<img src="images/yes.png" alt="${isPublished}" width="20"/>
+		</jstl:if>
+		<jstl:if test="${!bargain.getIsPublished()}">
+			<img src="images/no.png" alt="${isPublished}" width="20"/>
+		</jstl:if>
+	</span>
+	
 	
 	<div style="display:flex">
 		<c:forEach items="${bargain.getProductImages()}" var="image">

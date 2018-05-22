@@ -2137,7 +2137,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="fatherCategory" ref="category6" />
 		<property name="bargains">
 			<list>
-				<ref bean="bargain10" />
 			</list>
 		</property>	
 	</bean>

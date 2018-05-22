@@ -167,6 +167,10 @@
   		<security:intercept-url pattern="/bargain/bytag.do" access="permitAll" /> 
   		<security:intercept-url pattern="/bargain/company/addCategory.do" access="hasRole('COMPANY')" />
 		<security:intercept-url pattern="/bargain/company/removeCategory.do" access="hasRole('COMPANY')" />
+		
+		<security:intercept-url pattern="/bargain/administrator/listWithMoreSponsorships.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/bargain/administrator/listWithLessSponsorships.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/bargain/administrator/isInMoreWishList.do" access="hasRole('ADMIN')" />
   		
   		<!-- Sponsorship -->
 		<security:intercept-url pattern="/sponsorship/sponsor/display.do" access="hasRole('SPONSOR')" />
@@ -184,6 +188,8 @@
 		<security:intercept-url pattern="/category/company/removeCategory.do" access="hasRole('COMPANY')" /> 
 		<security:intercept-url pattern="/category/company/addCategory.do" access="hasRole('COMPANY')" />   
 		<security:intercept-url pattern="/category/company/createBargain.do" access="hasRole('COMPANY')" />
+		
+		<security:intercept-url pattern="/category/administrator/moreBargainThanAverage.do" access="hasRole('ADMIN')" />
 		
 		
 		<!-- Tag -->

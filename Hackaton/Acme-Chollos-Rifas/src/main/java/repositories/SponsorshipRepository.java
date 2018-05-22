@@ -31,4 +31,7 @@ public interface SponsorshipRepository extends JpaRepository<Sponsorship, Intege
 
 	@Query("select sum(s.amount) from Sponsorship s where s.bargain.id=?1 and s.id!=?2")
 	Double sumAmountByBargainIdAndNotSponsorshipId(int bargainId, int sponsorshipId);
+
+	@Query("select  avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float )), min(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as int )), max(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as int )), sqrt(sum((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id)*(select count(sp) from Sponsorship sp where sp.sponsor.id=s.id))/(select count(s2) from Sponsor s2)-avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float ))*avg(cast((select count(sp) from Sponsorship sp where sp.sponsor.id=s.id) as float ))) from Sponsor s")
+	Double[] avgMinMaxStandarDesviationBannersPerSponsor();
 }
