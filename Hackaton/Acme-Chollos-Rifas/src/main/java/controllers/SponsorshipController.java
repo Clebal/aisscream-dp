@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.BargainService;
 import services.ConfigurationService;
 import services.SponsorshipService;
+import domain.Bargain;
 import domain.Sponsorship;
 
 @Controller
@@ -28,6 +30,9 @@ public class SponsorshipController extends AbstractController {
 	@Autowired
 	private ConfigurationService	configurationService;
 
+	@Autowired
+	private BargainService			bargainService;
+
 
 	// Constructor
 	public SponsorshipController() {
@@ -40,6 +45,11 @@ public class SponsorshipController extends AbstractController {
 		ModelAndView result;
 		Page<Sponsorship> sponsorships;
 		Map<Sponsorship, Boolean> linkBroken;
+		Bargain bargain;
+
+		bargain = this.bargainService.findOne(bargainId);
+		Assert.notNull(bargain);
+		Assert.isTrue(this.bargainService.canDisplay(bargain));
 
 		sponsorships = this.sponsorshipService.findByBargainIdPageable(bargainId, page, 5);
 		Assert.notNull(sponsorships);

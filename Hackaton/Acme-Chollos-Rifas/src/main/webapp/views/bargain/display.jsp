@@ -99,8 +99,19 @@
 	<acme:displayLink parameter="bargainId" code="bargain.sponsorships" action="sponsorship/list.do" parameterValue="${bargain.getId()}" css="btn btn-primary"></acme:displayLink>
 	<security:authorize access="hasRole('COMPANY')">
 		<security:authentication property="principal.username" var="principal"/>
-		<acme:displayLink parameter="bargainId" code="category.add" action="category/company/addCategory.do" parameterValue="${bargain.getId()}" css="btn btn-primary"></acme:displayLink>
-				<acme:displayLink parameter="bargainId" code="category.remove" action="category/company/removeCategory.do" parameterValue="${bargain.getId()}" css="btn btn-primary"></acme:displayLink>
+		<jstl:if test="${bargain.getCompany().getUserAccount().getUsername().equals(principal)}">
+			<acme:displayLink parameter="bargainId" code="category.add" action="category/company/addCategory.do" parameterValue="${bargain.getId()}" css="btn btn-primary"></acme:displayLink>
+			<acme:displayLink parameter="bargainId" code="category.remove" action="category/company/removeCategory.do" parameterValue="${bargain.getId()}" css="btn btn-primary"></acme:displayLink>
+		</jstl:if>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('USER')">
+		<jstl:if test="${canAddWishList}">
+			<acme:displayLink parameter="bargainId" code="bargain.addWishList" action="actor/user/addremovewishlist.do" parameterValue="${bargain.getId()}" css="btn btn-primary"></acme:displayLink>
+		</jstl:if>
+		<jstl:if test="${!canAddWishList}">
+			<acme:displayLink parameter="bargainId" code="bargain.removeWishList" action="actor/user/addremovewishlist.do" parameterValue="${bargain.getId()}" css="btn btn-primary"></acme:displayLink>
+		</jstl:if>
 	</security:authorize>
 	
 	<!-- Tags -->

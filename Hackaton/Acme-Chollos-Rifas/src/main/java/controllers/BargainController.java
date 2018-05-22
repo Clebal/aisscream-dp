@@ -204,6 +204,7 @@ public class BargainController extends AbstractController {
 		Map<Comment, Boolean> mapCommentBoolean;
 		Boolean hasPlan;
 		Map<Sponsorship, Boolean> mapSponsorshipBoolean;
+		Boolean canAddWishList;
 
 		authority = new Authority();
 		authority.setAuthority("USER");
@@ -222,10 +223,14 @@ public class BargainController extends AbstractController {
 
 		//Vemos si es user qué plan tiene
 		plan = null;
+		canAddWishList = false;
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 			Assert.notNull(user);
 			plan = this.planService.findByUserId(user.getId());
+
+			//Ver si la puede agregar a la wishLIst
+			canAddWishList = !user.getWishList().contains(bargain);
 		}
 
 		//Vemos los comentarios
@@ -245,6 +250,7 @@ public class BargainController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", commentPage.getTotalPages());
 		result.addObject("plan", plan);
+		result.addObject("canAddWishList", canAddWishList);
 		result.addObject("mapLinkBooleanBargain", super.checkLinkImages(bargain.getProductImages()));
 		result.addObject("imageBroken", this.configurationService.findDefaultImage());
 		result.addObject("mapSponsorshipBoolean", mapSponsorshipBoolean);
