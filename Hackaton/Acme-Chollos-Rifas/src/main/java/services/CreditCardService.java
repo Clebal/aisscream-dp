@@ -151,6 +151,19 @@ public class CreditCardService {
 		return result;
 	}
 	
+	public Collection<CreditCard> findValidByUserAccountId(final int userAccountId) {
+		Collection<CreditCard> result;
+		Calendar calendar;
+		
+		Assert.isTrue(userAccountId != 0);
+
+		calendar = Calendar.getInstance();
+
+		result = this.creditCardRepository.findValidByUserAccountId(userAccountId, calendar.get(Calendar.YEAR) % 100, (calendar.get(Calendar.MONTH) + 1));
+				
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;

@@ -19,4 +19,7 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Integer>
 	@Query("select c from CreditCard c where c.user.userAccount.id = ?1")
 	Collection<CreditCard> findByUserAccountId(int userAccountId);
 	
+	@Query("select c from CreditCard c where c.user.userAccount.id = ?1 and ((c.expirationYear = ?2 and c.expirationMonth > ?3) or (c.expirationYear > ?2))")
+	Collection<CreditCard> findValidByUserAccountId(int userAccountId, int year, int month);
+	
 }

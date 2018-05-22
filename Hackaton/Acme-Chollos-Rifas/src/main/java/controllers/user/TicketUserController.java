@@ -100,7 +100,7 @@ public class TicketUserController extends AbstractController {
 			ticketForm = new TicketForm();
 			ticketForm.setRaffle(raffle);
 			
-			creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
+			creditCards = this.creditCardService.findValidByUserAccountId(LoginService.getPrincipal().getId());
 			Assert.notNull(creditCards);
 			
 			result = new ModelAndView("ticket/buy");
@@ -167,10 +167,9 @@ public class TicketUserController extends AbstractController {
 		ModelAndView result;
 		Collection<Ticket> tickets;
 		
-		if(ticketForm.getRaffle().getPrice() != 0) Assert.notNull(ticketForm.getCreditCard());
-		tickets = this.ticketService.reconstruct(ticketForm, binding);
+        tickets = this.ticketService.reconstruct(ticketForm, binding);
 		Assert.notNull(tickets);
-
+	
 		if(binding.hasErrors()) {
 			result = this.buyModelAndView(ticketForm);
 		} else {
@@ -197,7 +196,7 @@ public class TicketUserController extends AbstractController {
 		ModelAndView result;
 		Collection<CreditCard> creditCards;
 
-		creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
+		creditCards = this.creditCardService.findValidByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(creditCards);
 		
 		result = new ModelAndView("ticket/buy");

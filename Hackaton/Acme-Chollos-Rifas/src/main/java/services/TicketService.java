@@ -133,6 +133,8 @@ public class TicketService {
 		// El código único code no puede ser nulo
 		Assert.notNull(ticket.getCode());
 		
+        if(ticket.getRaffle().getPrice() != 0) Assert.notNull(ticket.getCreditCard());
+		
 		// Guardar
 		result = this.ticketRepository.save(ticket);
 		
@@ -263,7 +265,7 @@ public class TicketService {
 			ticketForm.setAmount(1);
 			Assert.isNull(ticketForm.getCreditCard());
 		}
-		
+
 		if(binding != null) this.validator.validate(ticketForm, binding);
 		
 		for(int i = 0; i < ticketForm.getAmount(); i++) {
