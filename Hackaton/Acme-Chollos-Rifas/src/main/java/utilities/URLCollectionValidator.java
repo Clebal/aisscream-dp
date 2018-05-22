@@ -1,3 +1,4 @@
+
 package utilities;
 
 import java.util.Collection;
@@ -12,28 +13,25 @@ import org.hibernate.validator.internal.util.annotationfactory.AnnotationFactory
 
 public class URLCollectionValidator implements ConstraintValidator<URLCollection, Collection<String>> {
 
-    @Override
-    public void initialize(URLCollection constraintAnnotation) {
+	@Override
+	public void initialize(final URLCollection constraintAnnotation) {
 
-    }
+	}
 
-    @Override
-    public boolean isValid(Collection<String> value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return false;
-        }
-        
-        AnnotationDescriptor<URL> descriptor = new AnnotationDescriptor<URL>( URL.class ); 
-        URL url = AnnotationFactory.create(descriptor);
-        URLValidator urlValidator = new URLValidator();
-        urlValidator.initialize(url);
-        
-        for (String s : value) {     
-            if (!urlValidator.isValid(s, context)) {
-                return false;
-            }
-        }
-        return true;
-    }
+	@Override
+	public boolean isValid(final Collection<String> value, final ConstraintValidatorContext context) {
+		if (value == null)
+			return false;
+
+		final AnnotationDescriptor<URL> descriptor = new AnnotationDescriptor<URL>(URL.class);
+		final URL url = AnnotationFactory.create(descriptor);
+		final URLValidator urlValidator = new URLValidator();
+		urlValidator.initialize(url);
+
+		for (final String s : value)
+			if (!urlValidator.isValid(s, context) || s.trim().equals(""))
+				return false;
+		return true;
+	}
 
 }
