@@ -148,14 +148,13 @@ public class TicketUserController extends AbstractController {
 		ticketForm = new TicketForm();
 		ticketForm.setAmount(amount);
 		ticketForm.setRaffle(raffle);
-		ticketForm.setUser(user);
 		
 		tickets = this.ticketService.reconstruct(ticketForm, null);
 		Assert.notNull(tickets);
 
 		try {
 			this.ticketService.save(tickets);
-			result = new ModelAndView("redirect:/raffle/display.do?raffleId="+raffleId);
+			result = new ModelAndView("redirect:/ticket/user/list.do");
 		} catch (Throwable oops) {
 			result = buyModelAndView(ticketForm, "ticket.commit.error");
 		}
