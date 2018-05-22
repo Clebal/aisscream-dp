@@ -111,6 +111,43 @@ public class EditSubscriptionTest extends AbstractTest {
 	}
 
 	/*
+	 * Test
+	 * 1.Logeados como user1 hacemos el findOneToEdit de la suscripción1 (no salta excepción)
+	 * 2.Logeados como user2 hacemos el findOneToEdit de la suscripción 2 (no salta excepción)
+	 * 3.Logeados como admin hacemos el findOne de la suscripción1 (no salta excepción)
+	 * 4.Logeados como admin hacemos el findOneToEdit de la suscripción1 (salta un IllegalArgumentException)
+	 * 5.Logeados como user1 hacemos el findOneToEdit de un suscripción de id 0 (salta un IllegalArgumentException)
+	 * 6.Logeados como user1 hacemos el findOne de una suscripción de id 0 (salta un IllegalArgumentException)
+	 */
+	@Test
+	public void testFindOneFindOneToEdit() {
+		final Object testingData[][] = {
+			{
+				"user", "user1", "subscription1", false, true, null
+			}, {
+				"user", "user2", "subscription2", false, true, null
+			}, {
+				"admin", "admin", "subscription1", false, false, null
+			}, {
+				"admin", "admin", "subscription1", false, true, IllegalArgumentException.class
+			}, {
+				"user", "user1", "subscription1", true, false, IllegalArgumentException.class
+			}, {
+				"user", "user1", "subscription1", true, false, IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			try {
+				super.startTransaction();
+				this.templateFindOneFindOneToEdit((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (Boolean) testingData[i][4], (Class<?>) testingData[i][5]);
+			} catch (final Throwable oops) {
+				throw new RuntimeException(oops);
+			} finally {
+				super.rollbackTransaction();
+			}
+	}
+
+	/*
 	 * Pruebas:
 	 * 1. Vemos que la suscripcion1 es del user1
 	 * 2. Vemos que la suscripcion2 es del user2
@@ -166,6 +203,7 @@ public class EditSubscriptionTest extends AbstractTest {
 		Class<?> caught;
 		Subscription subscription;
 		Subscription saved;
+		Subscription copySubscription;
 		int subscriptionId;
 		CreditCard creditCard;
 
@@ -183,20 +221,54 @@ public class EditSubscriptionTest extends AbstractTest {
 				subscriptionId = super.getEntityId(subscriptionBean);
 
 			subscription = this.subscriptionService.findOneToEdit(subscriptionId);
+			copySubscription = this.copySubscription(subscription);
 			if (creditCardBean != null)
 				creditCard = this.creditCardService.findOne(super.getEntityId(creditCardBean));
 			else
 				creditCard = null;
-			subscription.setCreditCard(creditCard);
-			subscription.setPayFrecuency(payFrecuency);
+			copySubscription.setCreditCard(creditCard);
+			copySubscription.setPayFrecuency(payFrecuency);
 			//Editamos los valores
 
-			binder = new DataBinder(subscription);
-			subscriptionReconstruct = this.subscriptionService.reconstruct(subscription, binder.getBindingResult()); //Lo reconstruimos
+			binder = new DataBinder(copySubscription);
+			subscriptionReconstruct = this.subscriptionService.reconstruct(copySubscription, binder.getBindingResult()); //Lo reconstruimos
 			saved = this.subscriptionService.save(subscriptionReconstruct); //Guardamos la suscripción
 			super.flushTransaction();
 
 			Assert.isTrue(this.subscriptionService.findAll().contains(saved)); //Miramos si están entre todos las suscripciones de la BD
+
+			super.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.unauthenticate();
+		super.checkExceptions(expected, caught);
+	}
+
+	protected void templateFindOneFindOneToEdit(final String user, final String username, final String subscriptionBean, final boolean falseId, final boolean findOneToEdit, final Class<?> expected) {
+		Class<?> caught;
+		Subscription subscription;
+		int subscriptionId;
+
+		caught = null;
+		try {
+			if (user != null)
+				super.authenticate(username);//Nos logeamos si es necesario
+
+			subscriptionId = super.getEntityId(subscriptionBean);
+
+			if (findOneToEdit == true) {
+				if (falseId == false)
+					subscription = this.subscriptionService.findOneToEdit(subscriptionId); //Se prueba el findOneToEdit
+				else
+					subscription = this.subscriptionService.findOneToEdit(0); //Se prueba el findOneEdit con id 0 
+
+			} else if (falseId == false)
+				subscription = this.subscriptionService.findOne(subscriptionId); //Se prueba el findOne
+			else
+				subscription = this.subscriptionService.findOne(0); //Se prueba el findOne con id 0
+			Assert.notNull(subscription); //Se mira que exista
+			super.flushTransaction();
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {
@@ -231,6 +303,20 @@ public class EditSubscriptionTest extends AbstractTest {
 		}
 		super.unauthenticate();
 		super.checkExceptions(expected, caught);
+	}
+
+	public Subscription copySubscription(final Subscription subscription) {
+		Subscription result;
+
+		result = new Subscription();
+		result.setCreditCard(subscription.getCreditCard());
+		result.setId(subscription.getId());
+		result.setVersion(subscription.getVersion());
+		result.setPayFrecuency(subscription.getPayFrecuency());
+		result.setPlan(subscription.getPlan());
+		result.setUser(subscription.getUser());
+
+		return result;
 	}
 
 }

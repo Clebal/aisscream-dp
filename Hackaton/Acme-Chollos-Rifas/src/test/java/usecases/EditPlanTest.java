@@ -81,8 +81,8 @@ public class EditPlanTest extends AbstractTest {
 	 * Test
 	 * 1.Logeados como admin hacemos el findOneToEdit del plan1 (no salta excepción)
 	 * 2.Logeados como admin hacemos el findOneToEdit del plan2 (no salta excepción)
-	 * 3.Logeados como customer1 hacemos el findOne del plan1 (no salta excepción)
-	 * 4.Logeados como customer1 hacemos el findOneToEdit del plan1(salta un IllegalArgumentException)
+	 * 3.Logeados como moderator1 hacemos el findOne del plan1 (no salta excepción)
+	 * 4.Logeados como moderator1 hacemos el findOneToEdit del plan1(salta un IllegalArgumentException)
 	 * 5.Logeados como admin hacemos el findOneToEdit de una plan de id 0 (salta un IllegalArgumentException)
 	 * 6.Logeados como admin hacemos el findOne de una plan de id 0 (salta un IllegalArgumentException)
 	 */
