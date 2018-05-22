@@ -61,6 +61,8 @@ public class GrouponController extends AbstractController {
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			if (this.planService.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId()) != null)
 				groupons = this.grouponService.findAllPaginated(page, 5);
+			else
+				groupons = this.grouponService.findWithMaxDateFuture(page, 5);
 		} else if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority2))
 			groupons = this.grouponService.findAllPaginated(page, 5);
 		else

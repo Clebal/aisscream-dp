@@ -32,3 +32,9 @@
 		
 	</div>
 </jstl:if>
+
+<jstl:if test="${subscription ==null }">
+	<h2><spring:message code="subscription.notSubscription.message"/></h2>
+	<br>
+	<acme:displayLink code="subscription.see.plan" action="plan/display.do" css="btn btn-primary"></acme:displayLink>			
+</jstl:if>

@@ -21,6 +21,7 @@ import services.CreditCardService;
 import services.SubscriptionService;
 import services.UserService;
 import controllers.AbstractController;
+import converters.StringToCreditCardConverter;
 import domain.CreditCard;
 import domain.Subscription;
 
@@ -30,13 +31,16 @@ public class SubscriptionUserController extends AbstractController {
 
 	// Supporting services
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private SubscriptionService			subscriptionService;
 
 	@Autowired
-	private UserService			userService;
+	private UserService					userService;
 
 	@Autowired
-	private CreditCardService	creditCardService;
+	private CreditCardService			creditCardService;
+
+	@Autowired
+	private StringToCreditCardConverter	stringToCreditCardConverter;
 
 
 	public SubscriptionUserController() {
@@ -67,9 +71,11 @@ public class SubscriptionUserController extends AbstractController {
 
 		result = this.createEditModelAndView(subscription);
 
-		cookie = WebUtils.getCookie(request, "cookiemonster_" + subscription.getUser().getId());
-		if (cookie != null)
+		cookie = WebUtils.getCookie(request, "cookiemonster_" + subscription.getUser().getUserAccount().getId());
+		if (cookie != null) {
 			result.addObject("lastCreditCard", cookie.getValue());
+			subscription.setCreditCard(this.stringToCreditCardConverter.convert(cookie.getValue()));
+		}
 
 		return result;
 
@@ -136,7 +142,7 @@ public class SubscriptionUserController extends AbstractController {
 		ModelAndView result;
 		Collection<CreditCard> creditCards;
 
-		creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
+		creditCards = this.creditCardService.findValidByUserAccountId(LoginService.getPrincipal().getId());
 
 		if (subscription.getId() != 0) {
 			result = new ModelAndView("subscription/edit");

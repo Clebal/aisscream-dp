@@ -25,7 +25,7 @@
 <acme:columnLink action="edit" domain="groupon" id="${row.getId()}" actor="user" />
 </jstl:if>
 
-<jstl:if test="${requestURI.equals('groupon/list.do')}">
+<jstl:if test="${requestURI.equals('groupon/moderator/list.do')}">
 		<security:authorize access="hasRole('MODERATOR')">
 			<acme:columnLink action="delete" domain="groupon" id="${row.getId()}" actor="moderator" />
 		</security:authorize>

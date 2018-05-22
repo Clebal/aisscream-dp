@@ -2,6 +2,7 @@
 package controllers.moderator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,26 @@ public class GrouponModeratorController extends AbstractController {
 		this.grouponService.deleteFromModerator(groupon);
 
 		result = new ModelAndView("redirect:/groupon/list.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(required = false, defaultValue = "1") final Integer page) {
+		ModelAndView result;
+		Page<Groupon> groupons;
+
+		groupons = null;
+
+		groupons = this.grouponService.findAllPaginated(page, 5);
+
+		Assert.notNull(groupons);
+
+		result = new ModelAndView("groupon/list");
+		result.addObject("pageNumber", groupons.getTotalPages());
+		result.addObject("page", page);
+		result.addObject("groupons", groupons.getContent());
+		result.addObject("requestURI", "groupon/moderator/list.do");
 
 		return result;
 	}

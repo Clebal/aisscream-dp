@@ -16,7 +16,7 @@
 		<form:hidden path="plan" />
 	</jstl:if>
 	
-	<acme:select code="subscription.creditCard" path="creditCard" items="${creditCards}" selected="${lastCreditCard}" object="${subscription }"/> 
+	<acme:select code="subscription.creditCard" path="creditCard" items="${creditCards}" selected="${lastCreditCard}" object="${subscription }" itemLabel="number"/> 
 	<acme:select code="subscription.payFrecuency" path="payFrecuency" option="Monthly" option2="Quarterly" option3="Anually" selectPattern="true"/> 
 	
 	<acme:submit name="save" code="subscription.save" />
