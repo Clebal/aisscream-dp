@@ -1732,7 +1732,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain2" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
@@ -1744,7 +1743,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain1" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
@@ -1770,7 +1768,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain3" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
@@ -1782,7 +1779,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain4" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
@@ -1794,7 +1790,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain4" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
@@ -1806,7 +1801,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain11" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
@@ -1818,7 +1812,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain12" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
@@ -1830,7 +1823,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain1" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
@@ -1843,7 +1835,6 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="bargain" ref="bargain1" />
 		<property name="images">
 			<list>
-				<value></value>
 			</list>
 		</property>
 	</bean>
