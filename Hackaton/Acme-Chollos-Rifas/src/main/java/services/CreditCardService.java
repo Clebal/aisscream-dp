@@ -33,6 +33,9 @@ public class CreditCardService {
 	@Autowired
 	private Validator			validator;
 	
+	@Autowired
+	private UserService 		userService;
+	
 	// Constructor
 	public CreditCardService() {
 		super();
@@ -98,7 +101,10 @@ public class CreditCardService {
 		Assert.isTrue(creditCard.getUser().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		// El año y el mes no puede ser anterior al actual
- 		Assert.isTrue(((creditCard.getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 0 && calendar.get(Calendar.YEAR) % 100 >= creditCard.getExpirationYear());
+		if (calendar.get(Calendar.YEAR) % 100 == creditCard.getExpirationYear())
+			Assert.isTrue(((creditCard.getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 1);
+		else
+			Assert.isTrue(calendar.get(Calendar.YEAR) % 100 < creditCard.getExpirationYear());
 		
 		result = this.creditCardRepository.save(creditCard);
 		
@@ -179,12 +185,17 @@ public class CreditCardService {
 	// Pruned object domain
 	public CreditCard reconstruct(final CreditCard creditCard, final BindingResult binding) {
 		CreditCard aux;
+		User user;
 
 		if(creditCard.getId() != 0) {
 			aux = this.creditCardRepository.findOne(creditCard.getId());
 			
 			creditCard.setVersion(aux.getVersion());
 			creditCard.setUser(aux.getUser());
+		} else {
+			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+			Assert.notNull(user);
+			creditCard.setUser(user);
 		}
 		
 		this.validator.validate(creditCard, binding);

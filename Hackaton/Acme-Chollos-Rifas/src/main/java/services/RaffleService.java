@@ -114,18 +114,30 @@ public class RaffleService {
 		} else {
 			
 			saved = this.findOne(raffle.getId());
-						
-			// Si estamos añadiendo el ganador el actor autenticado debe ser el moderador
-			if(saved.getWinner() == null && raffle.getWinner() != null) {
-				// Comprueba que no esté intentando cambiar la fecha máxima cuando cambia el winner
-				Assert.isTrue(saved.getMaxDate().compareTo(raffle.getMaxDate()) == 0);
-				// Comprobar que solo lo cambie el moderador
-				Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authorityModerator));
-			}
 			
-			// Si el ganador ya se ha puesto, la rifa no se puede modificar
-			if(saved.getWinner() != null) {
-				Assert.isNull(saved.getWinner());
+			// Si lo está editando una compañía...
+			if(LoginService.getPrincipal().getAuthorities().contains(authorityCompany)) {
+				// La compañía autenticada debe ser la que esté en la rifa
+				Assert.isTrue(raffle.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+				
+				// La fecha máxima no puede ser hoy o pasada
+				Assert.isTrue(raffle.getMaxDate().compareTo(new Date()) >= 0);
+				
+				// No se puede asignar el ganador cuando la edita la compañía
+				Assert.isNull(raffle.getWinner());		
+			} else if (LoginService.getPrincipal().getAuthorities().contains(authorityModerator)){
+				// Si estamos añadiendo el ganador el actor autenticado debe ser el moderador
+				if(saved.getWinner() == null && raffle.getWinner() != null) {
+					// Comprueba que no esté intentando cambiar la fecha máxima cuando cambia el winner
+					Assert.isTrue(saved.getMaxDate().compareTo(raffle.getMaxDate()) == 0);
+					// Comprobar que solo lo cambie el moderador
+					Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authorityModerator));
+				}
+				
+				// Si el ganador ya se ha puesto, la rifa no se puede modificar
+				if(saved.getWinner() != null) {
+					Assert.isNull(saved.getWinner());
+				}
 			}
 			
 		}

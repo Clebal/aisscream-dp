@@ -12,11 +12,7 @@
 <form:form action="creditcard/user/edit.do" modelAttribute="creditCard">
 
 	<form:hidden path="id" />
-	
-	<jstl:if test="${creditCard.getId() == 0}">
-		<form:hidden path="user" />
-	</jstl:if>
-	
+
 	<acme:textbox code="creditcard.holderName" path="holderName" />
 	<jstl:if test="${creditCard.getId() == 0}">
 		<div style="margin-top: -10px; display: flex;"><label for="check"><spring:message code="creditcard.useNameSurname" /></label><input type="checkbox" onclick="activar(this.form)" name="check" ${check} value="checked" id="check" style="margin-left: 10px;" /></div>
