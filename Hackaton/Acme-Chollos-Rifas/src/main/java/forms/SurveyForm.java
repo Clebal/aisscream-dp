@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,9 +23,9 @@ public class SurveyForm {
 
 	private String toActor;
 	
-	private	Boolean hasAds;
+	private	boolean hasAds;
 		
-	private Integer		minimumPoints;
+	private int	minimumPoints;
 	
 	private Surveyer surveyer;
 	
@@ -51,20 +50,20 @@ public class SurveyForm {
 	public void setToActor(final String toActor) {
 		this.toActor = toActor;
 	}
-
-	public Boolean getHasAds() {
+	
+	public boolean getHasAds() {
 		return hasAds;
 	}
 
-	public void setHasAds(final Boolean hasAds) {
+	public void setHasAds(final boolean hasAds) {
 		this.hasAds = hasAds;
 	}
 
-	public Integer getMinimumPoints() {
+	public int getMinimumPoints() {
 		return minimumPoints;
 	}
 
-	public void setMinimumPoints(final Integer minimumPoints) {
+	public void setMinimumPoints(final int minimumPoints) {
 		this.minimumPoints = minimumPoints;
 	}
 	
@@ -78,7 +77,6 @@ public class SurveyForm {
 	}
 
 	@Valid
-	@NotNull
 	@ManyToOne(optional = false)
 	public Surveyer getSurveyer() {
 		return surveyer;

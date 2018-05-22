@@ -8,11 +8,15 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -205,24 +209,31 @@ public class SurveyController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final SurveyForm surveyForm, final BindingResult binding, @PathVariable(value="actor") final String model) {
+	public ModelAndView save(@Valid final SurveyForm surveyForm, final BindingResult binding, @PathVariable(value="actor") final String model) {
 		ModelAndView result;
 		Survey survey;
+		DataBinder bindingSurvey;
 		
-		survey = this.surveyService.reconstruct(surveyForm, model, binding);
-		Assert.notNull(survey);
-			
+		survey = null;
 		if(binding.hasErrors()) {
 			result = createEditModelAndView(surveyForm, model);
 		} else {
-			try {
-				this.surveyService.save(survey, surveyForm);
-				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(surveyForm, null, "survey.commit.error");
+			bindingSurvey = new DataBinder(survey);
+			survey = this.surveyService.reconstruct(surveyForm, model, bindingSurvey.getBindingResult());
+			Assert.notNull(survey);
+				
+			if(bindingSurvey.getBindingResult().hasErrors()) {
+				result = createEditModelAndView(surveyForm, model);
+			} else {
+				try {
+					this.surveyService.save(survey, surveyForm);
+					result = new ModelAndView("redirect:list.do");
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(surveyForm, model, "survey.commit.error");
+				}
 			}
 		}
-			
+
 		return result;
 	}
 
@@ -230,7 +241,7 @@ public class SurveyController extends AbstractController {
 	public ModelAndView delete(final SurveyForm surveyForm, final BindingResult binding, @PathVariable(value="actor") final String model) {
 		ModelAndView result;
 		Survey survey;
-		
+
 		survey = this.surveyService.reconstruct(surveyForm, model, binding);
 		Assert.notNull(survey);
 			
@@ -241,10 +252,10 @@ public class SurveyController extends AbstractController {
 				this.surveyService.delete(survey);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(surveyForm, null, "survey.commit.error");
+				result = this.createEditModelAndView(surveyForm, model, "survey.commit.error");
 			}
-		}
-			
+		}			
+		
 		return result;
 	}
 	

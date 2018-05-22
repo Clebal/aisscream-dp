@@ -21,6 +21,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
 import domain.Bargain;
+import domain.Plan;
 import domain.User;
 import forms.UserForm;
 
@@ -37,6 +38,9 @@ public class UserService {
 	
 	@Autowired
 	private ConfigurationService configurationService;
+	
+	@Autowired
+	private PlanService		planService;
 
 	@Autowired
 	private Validator		validator;
@@ -230,6 +234,7 @@ public class UserService {
 	public void addRemoveBargainToWishList(final int bargainId) {
 		User user;
 		Bargain bargain;
+		Plan plan;
 		
 		Assert.isTrue(bargainId != 0);
 		Assert.isTrue(LoginService.isAuthenticated());
@@ -239,6 +244,12 @@ public class UserService {
 		
 		user = this.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(user);
+		
+		if(!bargain.getIsPublished()) {
+			plan = this.planService.findByUserId(user.getId());
+			Assert.notNull(plan);
+			Assert.isTrue(plan.getName().equals("Gold Premium"));
+		}
 		
 		if(user.getWishList().contains(bargain))
 			user.getWishList().remove(bargain);

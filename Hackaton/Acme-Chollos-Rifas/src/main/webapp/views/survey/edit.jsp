@@ -24,7 +24,7 @@
 		<jstl:if test="${model.equals('company')}">
 			&nbsp;&nbsp;&nbsp;<form:radiobutton path="toActor" value="SPONSOR" /><spring:message code="survey.sponsors" />
 		</jstl:if>
-		<form:errors path="toActor" />
+		<form:errors path="toActor" class="text-danger" />
 		
 		<br>
 		
@@ -36,10 +36,11 @@
 		
 		<script>
 			$(document).ready(function() {
-				if($("input[type=radio][name='toActor']").val() == "USER") {
+				
+				if(${surveyForm.getToActor() != null && surveyForm.getToActor().equals("USER")}) {
 					$("input[name='minimumPoints']").parent().fadeIn();
-				} else if($("input[type=radio][name='toActor']").val() == "SPONSOR") {
-					$("#hasAds").parent().fadeOut();
+				} else if(${surveyForm.getToActor() != null && surveyForm.getToActor().equals("SPONSOR")}) {
+					$("#hasAds").parent().fadeIn();
 				}
 				$("input[type=radio][name='toActor']").change(function() {
 					if(this.value == "USER") {
