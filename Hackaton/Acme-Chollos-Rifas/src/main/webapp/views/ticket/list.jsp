@@ -14,41 +14,39 @@
 
 	<acme:column domain="ticket" property="code"/>
 
-	<acme:columnLink domain="ticket" 
-					code="raffle" 
-					content="${row.getRaffle().getTitle()}" 
-					url="raffle/display.do?raffleId=${row.getRaffle().getId()}" />
-		
+	<jstl:if test="${showRaffle == true}">
+		<acme:columnLink domain="ticket" 
+						code="raffle" 
+						content="${row.getRaffle().getTitle()}" 
+						url="raffle/display.do?raffleId=${row.getRaffle().getId()}" />
+	</jstl:if>
+	
 	<spring:message code="ticket.payMethod" var="payMethodTitle" />
-	<spring:message code="ticket.creditcard" var="creditCardHeader" />
-	<jstl:if test="${!row.getIsGift()}">
-		<jstl:if test="${row.getRaffle().getPrice() != 0}">
+	<jstl:if test="${row.getRaffle().getPrice() != 0}">
+		<display:column title="${payMethodTitle}">
 			<jstl:if test="${row.getCreditCard() != null}">
-				<display:column title="${payMethodTitle}">
-					<spring:message code="ticket.creditcard" />
-				</display:column>
-				<acme:columnLink domain="ticket" 
+				<spring:message code="ticket.creditcard" />
+			</jstl:if>
+			<jstl:if test="${row.getCreditCard() == null}">
+				<spring:message code="ticket.paypal" />
+			</jstl:if>
+		</display:column>
+		
+		<jstl:if test="${row.getCreditCard() != null}">
+			<acme:columnLink domain="ticket" 
 							code="creditcard" 
 							content="${row.getCreditCard().getNumber()}" 
 							url="creditcard/user/display.do?creditCardId=${row.getCreditCard().getId()}" />
-			</jstl:if>
-			<jstl:if test="${row.getCreditCard() == null}">
-				<display:column title="${payMethodTitle}">
-					<spring:message code="ticket.paypal" />
-				</display:column>
-				<display:column title="${creditCardHeader}"></display:column>
-			</jstl:if>
 		</jstl:if>
-		
-		<jstl:if test="${row.getRaffle().getPrice() == 0}">
-			<display:column title="${payMethodTitle}"></display:column>
-			<display:column title="${creditCardHeader}"></display:column>
+		<jstl:if test="${row.getCreditCard() == null}">
+			<spring:message code="ticket.creditcard" var="creditCardHeader" />
+			<display:column title="${creditCardHeader}">
+			</display:column>
 		</jstl:if>
 	</jstl:if>
 	
-	<jstl:if test="${row.getIsGift()}">
+	<jstl:if test="${row.getRaffle().getPrice() == 0}">
 		<display:column title="${payMethodTitle}"></display:column>
-		<display:column title="${creditCardHeader}"></display:column>
 	</jstl:if>
 		
 </display:table>

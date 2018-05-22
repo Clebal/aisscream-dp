@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,7 +91,7 @@ public class TicketUserController extends AbstractController {
 		Collection<CreditCard> creditCards;
 		Cookie cookie;
 
-		raffle = this.raffleService.findOne(raffleId);
+		raffle = this.raffleService.findOneToDisplay(raffleId);
 		Assert.notNull(raffle);
 		
 		result = null;
@@ -114,7 +113,7 @@ public class TicketUserController extends AbstractController {
 			
 			result.addObject("ticketForm", ticketForm);
 			result.addObject("creditCards", creditCards);
-			result.addObject("raffleId", raffleId);
+			result.addObject("raffle", raffle);
 			
 		} else if(method.equals("PAYPAL")) {
 			attributes = paypalClient.createPayment(String.valueOf(raffle.getPrice()*amount), raffleId, amount);
@@ -149,6 +148,7 @@ public class TicketUserController extends AbstractController {
 		ticketForm = new TicketForm();
 		ticketForm.setAmount(amount);
 		ticketForm.setRaffle(raffle);
+		ticketForm.setUser(user);
 		
 		tickets = this.ticketService.reconstruct(ticketForm, null);
 		Assert.notNull(tickets);
@@ -157,31 +157,29 @@ public class TicketUserController extends AbstractController {
 			this.ticketService.save(tickets);
 			result = new ModelAndView("redirect:/raffle/display.do?raffleId="+raffleId);
 		} catch (Throwable oops) {
-			result = super.panic(oops);
+			result = buyModelAndView(ticketForm, "ticket.commit.error");
 		}
 		
 		return result;
 	}
 	
 	@RequestMapping(value="/buy", method = RequestMethod.POST, params = "save")
-	public ModelAndView buy(final TicketForm ticketForm, final BindingResult binding) {
+	public ModelAndView buy(final TicketForm ticketForm, final BindingResult binding, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Ticket> tickets;
 		
-		Assert.notNull(ticketForm.getCreditCard());
+		if(ticketForm.getRaffle().getPrice() != 0) Assert.notNull(ticketForm.getCreditCard());
 		tickets = this.ticketService.reconstruct(ticketForm, binding);
 		Assert.notNull(tickets);
 
 		if(binding.hasErrors()) {
-			for(ObjectError e: binding.getAllErrors())
-				System.out.println(e);
 			result = this.buyModelAndView(ticketForm);
 		} else {
 			try {
 				this.ticketService.save(tickets);
-				result = new ModelAndView("redirect:/ticket/user/list.do");
+				result = new ModelAndView("redirect:/raffle/display.do?raffleId="+ticketForm.getRaffle().getId());
 			} catch (Throwable oops) {
-				result = super.panic(oops);
+				result = buyModelAndView(ticketForm, "ticket.commit.error");
 			}
 		}
 		
@@ -198,12 +196,17 @@ public class TicketUserController extends AbstractController {
 
 	protected ModelAndView buyModelAndView(final TicketForm ticketForm, final String messageCode) {
 		ModelAndView result;
+		Collection<CreditCard> creditCards;
 
+		creditCards = this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(creditCards);
+		
 		result = new ModelAndView("ticket/buy");
 
 		result.addObject("ticketForm", ticketForm);
 		result.addObject("message", messageCode);
-		result.addObject("requestURI", "ticket/user/buy.do?method=CREDITCARD&raffleId="+ticketForm.getRaffle().getId());
+		result.addObject("requestURI", "ticket/user/buy.do?raffleId="+ticketForm.getRaffle().getId());
+		result.addObject("creditCards", creditCards);
 
 		return result;
 	}
