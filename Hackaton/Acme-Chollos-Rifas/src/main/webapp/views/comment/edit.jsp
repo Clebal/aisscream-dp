@@ -57,11 +57,11 @@
 		<acme:cancel url="comment/user/list.do" code="comment.cancel"/>
 	</jstl:if>
 	
-	<jstl:if test="${requestURI=='comment/user/create.do' && comment.getRepliedComment() != null}">
+	<jstl:if test="${requestURI=='comment/user/create.do' && comment.getRepliedComment() == null}">
 		<acme:cancel url="comment/user/list.do" code="comment.cancel"/>
 	</jstl:if>
 	
-	<jstl:if test="${requestURI=='comment/user/create.do' && comment.getRepliedComment() == null}">
+	<jstl:if test="${requestURI=='comment/user/create.do' && comment.getRepliedComment() != null}">
 		<acme:cancel url="comment/display.do?commentId=${comment.getRepliedComment().getId()}" code="comment.cancel"/>
 	</jstl:if>
 	

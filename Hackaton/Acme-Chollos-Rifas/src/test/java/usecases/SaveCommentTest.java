@@ -48,7 +48,7 @@ public class SaveCommentTest extends AbstractTest {
 	/*
 	 * Pruebas:
 	 * 		1. Creamos un comment con todos los parámetros correctos.
-	 * 		2. Creamos un comment sin introducir el campo image.
+	 * 		2. Creamos un comment con varias imágenes.
 	 * 
 	 * Requisitos:
 	 * 		25.	Un actor autenticado como usuario debe ser capaz de: 
@@ -60,7 +60,7 @@ public class SaveCommentTest extends AbstractTest {
 			{
 				"user1", "bargain1", "01/02/2018 12:30", "Test", "http://example.com/image.jpg", null
 			}, {
-				"user1", "bargain1", "01/02/2018 12:30", "Test", "", null
+				"user1", "bargain1", "01/02/2018 12:30", "Test", "https://i.blogs.es/1a9d2d/aves-colibri/450_1000.jpg, https://t1.ea.ltmcdn.com/es/images/2/2/8/img_como_atraer_pajaros_al_jardin_20822_600.jpg", null
 			}
 		};
 			
@@ -78,7 +78,7 @@ public class SaveCommentTest extends AbstractTest {
 	/*
 	 * Pruebas:
 	 * 		1. Creamos una respuesta con todos los parámetros correctos.
-	 * 		2. Creamos una respuesta sin introducir el campo image.
+	 * 		2. Creamos una respuesta con varias imágenes.
 	 * 
 	 * Requisitos:
 	 * 		25.	Un actor autenticado como usuario debe ser capaz de: 
@@ -90,7 +90,7 @@ public class SaveCommentTest extends AbstractTest {
 			{
 				"user1", "bargain2", "01/02/2018 12:30", "Test", "http://example.com/image.jpg", "comment1", null
 			}, {
-				"user1", "bargain2", "01/02/2018 12:30", "Test", "", "comment1", null
+				"user1", "bargain2", "01/02/2018 12:30", "Test", "https://i.blogs.es/1a9d2d/aves-colibri/450_1000.jpg, https://t1.ea.ltmcdn.com/es/images/2/2/8/img_como_atraer_pajaros_al_jardin_20822_600.jpg", "comment1", null
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)

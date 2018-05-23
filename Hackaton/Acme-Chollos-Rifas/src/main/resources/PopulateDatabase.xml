@@ -1817,7 +1817,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<bean id="comment7" class="domain.Comment">
 		<property name="moment" value="02/04/2018 15:30" />
 		<property name="text" value="Bienvenidos a todos" />
-		<property name="user" ref="user1" />
+		<property name="user" ref="user2" />
 		<property name="bargain" ref="bargain11" />
 		<property name="images">
 			<list>
@@ -1828,7 +1828,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<bean id="comment8" class="domain.Comment">
 		<property name="moment" value="02/05/2018 15:30" />
 		<property name="text" value="Que buen día hace hoy" />
-		<property name="user" ref="user1" />
+		<property name="user" ref="user3" />
 		<property name="bargain" ref="bargain12" />
 		<property name="images">
 			<list>

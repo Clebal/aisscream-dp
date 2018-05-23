@@ -91,11 +91,11 @@ public class ListCommentTest extends AbstractTest {
 	public void driverMyCommentsTest() {
 		final Object testingData[][] = {
 			{
-				"user1", 7, null
+				"user1", 5, null
 			}, {
-				"user2", 0, null
+				"user2", 1, null
 			}, {
-				"user3", 3, null
+				"user3", 4, null
 			}, {
 				"sponsor1", 0, IllegalArgumentException.class
 			}

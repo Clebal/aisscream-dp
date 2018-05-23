@@ -41,12 +41,15 @@
 	<acme:column property="content" domain="evaluation" />
 	
 	<spring:message code="evaluation.isAnonymous" var="anon" />
+	<spring:message code="evaluation.yes" var="yes" />
+	<spring:message code="evaluation.no" var="no" />
+	
 	<display:column style="background: inherit;" title="${anon}">
 	<jstl:if test="${row.getIsAnonymous()}">
-		<img src="images/yes.png" alt="Yes" width="25" style="display: block; margin-left: auto; margin-right: auto;" />
+		<img src="images/yes.png" alt="${yes}" width="25" style="display: block; margin-left: auto; margin-right: auto;" />
 	</jstl:if>
 	<jstl:if test="${!row.getIsAnonymous()}">
-		<img src="images/no.png" alt="No" width="25" style="display: block; margin-left: auto; margin-right: auto;" />
+		<img src="images/no.png" alt="${no}" width="25" style="display: block; margin-left: auto; margin-right: auto;" />
 	</jstl:if>
 	</display:column>
 	

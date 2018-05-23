@@ -32,14 +32,16 @@
 	
 	<br/><br/>
 	
+	<spring:message code="evaluation.yes" var="yes" />
+	<spring:message code="evaluation.no" var="no" />
 	<acme:display code="evaluation.content" value="${evaluation.getContent()}" />
 	<span class="display">
 	<spring:message code="evaluation.isAnonymous" />:
 	<jstl:if test="${evaluation.getIsAnonymous()}">
-		<img src="images/yes.png" alt="Yes" width="20"/>
+		<img src="images/yes.png" alt="${yes}" width="20"/>
 	</jstl:if>
 	<jstl:if test="${!evaluation.getIsAnonymous()}">
-		<img src="images/no.png" alt="No" width="20"/>
+		<img src="images/no.png" alt="${no}" width="20"/>
 	</jstl:if>
 	</span>
 	
