@@ -47,6 +47,11 @@ public class SaveSubscriptionTest extends AbstractTest {
 	 * 4. Probamos el save con el user5 para suscribirse al plan2 con frecuencia mensual
 	 * 5. Probamos el save con el user5 para suscribirse al plan2 con frecuencia cuatrimestral
 	 * 6. Probamos el save con el user5 para suscribirse al plan2 con frecuencia anual
+	 * 
+	 * Requisito 25.8: Un usuario logueado como usuario debe poder suscribirse a un plan de pago indicando la tarjeta de
+	 * crédito a la que se realizará el cargo y si quiere que el pago se realice de forma mensual,
+	 * trimestral o anual. Además, podrá anular su suscripción y editar tanto la tarjeta de crédito como la frecuencia de pago.
+	 * En caso de querer cambiar el plan, tendría que cancelar el actual y contratar uno nuevo.
 	 */
 	@Test()
 	public void testSavePositive() {
@@ -89,11 +94,6 @@ public class SaveSubscriptionTest extends AbstractTest {
 	 * 9. Probamos a crear una suscripción logueados como sponsor (salta un IllegalArgumentException)
 	 * 10.Probamos a crear una suscripción logueados como admin (salta un IllegalArgumentException)
 	 * 11.Probamos a crear una suscripción sin estar logueado (salta un IllegalArgumentException)
-	 * 
-	 * Requisito 25.8: Un usuario logueado como usuario debe poder suscribirse a un plan de pago indicando la tarjeta de
-	 * crédito a la que se realizará el cargo y si quiere que el pago se realice de forma mensual,
-	 * trimestral o anual. Además, podrá anular su suscripción y editar tanto la tarjeta de crédito como la frecuencia de pago.
-	 * En caso de querer cambiar el plan, tendría que cancelar el actual y contratar uno nuevo.
 	 */
 	@Test()
 	public void testSaveNegative() {

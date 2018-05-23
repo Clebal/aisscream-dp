@@ -167,8 +167,13 @@ public class ParticipationService {
 
 	public Page<Participation> findByUserId(final int userId, final int page, final int size) {
 		Page<Participation> result;
+		Authority authority;
 
+		authority = new Authority();
+		authority.setAuthority("USER");
 		Assert.isTrue(userId != 0);
+		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == userId);
 
 		result = this.participationRepository.findByUserId(userId, this.getPageable(page, size));
 

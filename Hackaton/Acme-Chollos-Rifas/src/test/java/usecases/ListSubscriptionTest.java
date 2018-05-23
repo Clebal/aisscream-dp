@@ -61,7 +61,7 @@ public class ListSubscriptionTest extends AbstractTest {
 			try {
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Boolean) testingData[i][3], (String) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6],
-					(Integer) testingData[i][7], (Integer) testingData[i][8], (Class<?>) testingData[i][8]);
+					(Integer) testingData[i][7], (Integer) testingData[i][8], (Class<?>) testingData[i][9]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
