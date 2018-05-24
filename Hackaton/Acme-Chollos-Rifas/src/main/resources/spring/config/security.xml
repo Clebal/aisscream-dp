@@ -115,6 +115,10 @@
    		<security:intercept-url pattern="/user/administrator/purchaseMoreTickets.do" access="hasRole('ADMIN')" />
    		<security:intercept-url pattern="/user/administrator/purchaseLessTickets.do" access="hasRole('ADMIN')" />
 				
+		<!-- Company -->
+		<security:intercept-url pattern="/company/administrator/writerOfMorePercentage.do" access="hasRole('ADMIN')" />
+   		<security:intercept-url pattern="/company/administrator/companiesWithMoreTags.do" access="hasRole('ADMIN')" />
+   		
 		 <!-- Evaluation -->
 		<security:intercept-url pattern="/evaluation/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/evaluation/moderator/list.do" access="hasRole('MODERATOR')" />		

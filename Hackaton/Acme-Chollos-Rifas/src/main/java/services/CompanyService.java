@@ -138,6 +138,21 @@ public class CompanyService {
 		return result;
 	}
 	
+	public Page<Company> findWithMoreAvgPercentageSurveys(final double percentage, final int page, final int size) {
+		Page<Company> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(percentage == 0.15 || percentage == 0.10 || percentage == 0.05);
+
+		result = this.companyRepository.findWithMoreAvgPercentageSurveis(percentage, this.getPageable(page, size));
+
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
