@@ -1,32 +1,37 @@
+
 package domain;
+
+import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import java.util.Collection;
-
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "name")
+})
 public class Tag extends DomainEntity {
 
-	private String name;
+	private String				name;
 
-	private Collection<Bargain> bargains;
+	private Collection<Bargain>	bargains;
+
 
 	@NotBlank
-	@Column(unique = true)
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -34,10 +39,10 @@ public class Tag extends DomainEntity {
 	@Valid
 	@ManyToMany
 	public Collection<Bargain> getBargains() {
-		return bargains;
+		return this.bargains;
 	}
 
-	public void setBargains(Collection<Bargain> bargains) {
+	public void setBargains(final Collection<Bargain> bargains) {
 		this.bargains = bargains;
 	}
 

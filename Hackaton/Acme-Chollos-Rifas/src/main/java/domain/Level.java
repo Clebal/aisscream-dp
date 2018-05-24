@@ -1,45 +1,52 @@
+
 package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "minPoints,maxPoints")
+})
 public class Level extends DomainEntity {
 
-	private String name;
-	
-	private String image;
-	
-	private int minPoints;
-	
-	private int maxPoints;
+	private String	name;
+
+	private String	image;
+
+	private int		minPoints;
+
+	private int		maxPoints;
+
 
 	@NotBlank
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	@URL
 	@NotBlank
 	public String getImage() {
-		return image;
+		return this.image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(final String image) {
 		this.image = image;
 	}
 
 	public int getMinPoints() {
-		return minPoints;
+		return this.minPoints;
 	}
 
 	public void setMinPoints(final int minPoints) {
@@ -47,11 +54,11 @@ public class Level extends DomainEntity {
 	}
 
 	public int getMaxPoints() {
-		return maxPoints;
+		return this.maxPoints;
 	}
 
 	public void setMaxPoints(final int maxPoints) {
 		this.maxPoints = maxPoints;
 	}
-	
+
 }

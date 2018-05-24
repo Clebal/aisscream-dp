@@ -1,9 +1,12 @@
+
 package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -12,29 +15,33 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "number")
+})
 public class Question extends DomainEntity {
 
-	public String text;
+	public String	text;
 
-	public int number;
+	public int		number;
 
-	public Survey survey;
+	public Survey	survey;
+
 
 	@NotBlank
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
-	public void setText(String text) {
+	public void setText(final String text) {
 		this.text = text;
 	}
 
 	@Min(0)
 	public Integer getNumber() {
-		return number;
+		return this.number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(final Integer number) {
 		this.number = number;
 	}
 
@@ -42,10 +49,10 @@ public class Question extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public Survey getSurvey() {
-		return survey;
+		return this.survey;
 	}
 
-	public void setSurvey(Survey survey) {
+	public void setSurvey(final Survey survey) {
 		this.survey = survey;
 	}
 

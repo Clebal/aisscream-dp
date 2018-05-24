@@ -1,9 +1,12 @@
+
 package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -14,21 +17,25 @@ import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "expirationYear,expirationMonth")
+})
 public class CreditCard extends DomainEntity {
 
-	private String holderName;
+	private String	holderName;
 
-	private String brandName;
+	private String	brandName;
 
-	private String number;
+	private String	number;
 
-	private int expirationMonth;
+	private int		expirationMonth;
 
-	private int expirationYear;
+	private int		expirationYear;
 
-	private int cvvcode;
-	
-	private User user;
+	private int		cvvcode;
+
+	private User	user;
+
 
 	@NotBlank
 	public String getHolderName() {
@@ -50,7 +57,7 @@ public class CreditCard extends DomainEntity {
 
 	@CreditCardNumber
 	@NotBlank
-	@Pattern(regexp="([0-9])+")
+	@Pattern(regexp = "([0-9])+")
 	public String getNumber() {
 		return this.number;
 	}
@@ -85,14 +92,14 @@ public class CreditCard extends DomainEntity {
 	public void setCvvcode(final int cvvcode) {
 		this.cvvcode = cvvcode;
 	}
-	
+
 	@Valid
 	@NotNull
 	@ManyToOne(optional = false)
 	public User getUser() {
 		return this.user;
 	}
-	
+
 	public void setUser(final User user) {
 		this.user = user;
 	}
