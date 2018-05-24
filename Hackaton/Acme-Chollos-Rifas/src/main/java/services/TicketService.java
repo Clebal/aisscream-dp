@@ -115,6 +115,7 @@ public class TicketService {
 		if(LoginService.getPrincipal().getAuthorities().contains(authority) && plan.getName().equals("Gold Premium")) {
 			Assert.isTrue(ticket.getRaffle().getCompany().getUserAccount().equals(LoginService.getPrincipal()));
 		} else {
+	        if(ticket.getRaffle().getPrice() != 0) Assert.notNull(ticket.getCreditCard());
 			Assert.isTrue(ticket.getUser().getUserAccount().equals(LoginService.getPrincipal()));
 		}
 		
@@ -132,9 +133,7 @@ public class TicketService {
 		
 		// El código único code no puede ser nulo
 		Assert.notNull(ticket.getCode());
-		
-        if(ticket.getRaffle().getPrice() != 0) Assert.notNull(ticket.getCreditCard());
-		
+				
 		// Guardar
 		result = this.ticketRepository.save(ticket);
 		

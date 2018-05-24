@@ -40,4 +40,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u ORDER BY cast((select count(e.user) from Evaluation e where e.user=u) as float) DESC")
 	Page<User> topFiveUsersMoreValorations(Pageable pageable);
 	
+	@Query("select u from User u where (cast((select count(t2) from Ticket t2 where t2.user.id = u.id)as float)) = (select max(cast((select count(t) from Ticket t where t.user.id = u2.id)as float)) from User u2)")
+	Page<User> purchaseMoreTickets(Pageable pageable);
+
+	@Query("select u from User u where (cast((select count(t2) from Ticket t2 where t2.user.id = u.id)as float)) = (select min(cast((select count(t) from Ticket t where t.user.id = u2.id)as float)) from User u2)")
+	Page<User> purchaseLessTickets(Pageable pageable);
+	
 }

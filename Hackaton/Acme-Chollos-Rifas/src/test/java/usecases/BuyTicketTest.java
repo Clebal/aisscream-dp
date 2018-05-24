@@ -168,7 +168,7 @@ public class BuyTicketTest extends AbstractTest {
 			oldTicketsNumber = this.ticketService.findAll().size();
 			
 			// 2. Listar rifas
-			rafflePage = this.raffleService.findByCompanyAccountId(LoginService.getPrincipal().getId(), 1, 5);
+			rafflePage = this.raffleService.findAvailables(1, 5);
 			Assert.notNull(rafflePage);
 						
 			// 3. Entrar display de rifa

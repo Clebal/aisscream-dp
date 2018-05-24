@@ -19,7 +19,6 @@ import domain.User;
 import repositories.CreditCardRepository;
 import security.Authority;
 import security.LoginService;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -35,6 +34,12 @@ public class CreditCardService {
 	
 	@Autowired
 	private UserService 		userService;
+	
+	@Autowired
+	private TicketService		ticketService;
+	
+	@Autowired
+	private SubscriptionService	subscriptionService;
 	
 	// Constructor
 	public CreditCardService() {
@@ -113,34 +118,44 @@ public class CreditCardService {
 	
 	public void delete(final CreditCard creditCard) {
 		CreditCard savedCreditCard;
+		boolean notAdded;
 		
 		Assert.notNull(creditCard);
 		
 		savedCreditCard = this.creditCardRepository.findOne(creditCard.getId());
+		Assert.notNull(savedCreditCard);
 		
 		// Solo puede borrarlo el creador del mismo
 		Assert.isTrue(savedCreditCard.getUser().getUserAccount().equals(LoginService.getPrincipal()));
+		
+		// No puede borrar una tarjeta de crédido si está siendo usada
+		notAdded = this.ticketService.countByCreditCardId(creditCard.getId()) == 0;
+		if(!notAdded) {
+			notAdded = this.subscriptionService.countByCreditCardId(creditCard.getId()) == 0;
+		}		
+		Assert.isTrue(notAdded);
 		
 		this.creditCardRepository.delete(savedCreditCard);
 		
 	}
 	
 	// Other business methods
+	public void flush() {
+		this.creditCardRepository.flush();
+	}
+	
 	public Page<CreditCard> findByUserAccountId(final int userAccountId, final int page, final int size) {
 		Page<CreditCard> result;
 		Authority authority;
-		UserAccount userAccount;
+		
+		Assert.isTrue(userAccountId != 0);
 
 		authority = new Authority();
 		authority.setAuthority("USER");
 
-		if(LoginService.isAuthenticated()) {
-			userAccount = LoginService.getPrincipal();
-			Assert.notNull(userAccount);
-			Assert.isTrue(userAccount.getAuthorities().contains(authority));
-		}
-		
-		Assert.isTrue(userAccountId != 0);
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);
 		
 		result = this.creditCardRepository.findByUserAccountId(userAccountId, this.getPageable(page, size));
 		
@@ -149,8 +164,16 @@ public class CreditCardService {
 	
 	public Collection<CreditCard> findByUserAccountId(final int userAccountId) {
 		Collection<CreditCard> result;
+		Authority authority;
 		
 		Assert.isTrue(userAccountId != 0);
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);
 		
 		result = this.creditCardRepository.findByUserAccountId(userAccountId);
 		
@@ -159,16 +182,26 @@ public class CreditCardService {
 	
 	public Collection<CreditCard> findValidByUserAccountId(final int userAccountId) {
 		Collection<CreditCard> result;
-		Calendar calendar;
+		Authority authority;
 		
 		Assert.isTrue(userAccountId != 0);
 
+		authority = new Authority();
+		authority.setAuthority("USER");
+
+		Assert.isTrue(LoginService.isAuthenticated());
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(LoginService.getPrincipal().getId() == userAccountId);
+		
+		Calendar calendar;
+		
 		calendar = Calendar.getInstance();
 
 		result = this.creditCardRepository.findValidByUserAccountId(userAccountId, calendar.get(Calendar.YEAR) % 100, (calendar.get(Calendar.MONTH) + 1));
 				
 		return result;
 	}
+	
 	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {

@@ -161,7 +161,6 @@ public class RaffleService {
 		return result;
 	}
 	
-	// Delete
 	public void delete(final Raffle raffle) {
 		Raffle saved;
 		Authority authority;
@@ -198,8 +197,14 @@ public class RaffleService {
 	
 	public Page<Raffle> findByUserAccountId(final int userAccountId, final int page, final int size) {
 		Page<Raffle> result;
+		Authority authority;
 		
 		Assert.isTrue(userAccountId != 0);
+		
+		// Rifas de un usuario
+		authority = new Authority();
+		authority.setAuthority("USER");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
 		result = this.raffleRepository.findByUserAccountId(userAccountId, this.getPageable(page, size));
 		
@@ -208,9 +213,15 @@ public class RaffleService {
 	
 	public Page<Raffle> findByCompanyAccountId(final int userAccountId, final int page, final int size) {
 		Page<Raffle> result;
+		Authority authority;
 		
 		Assert.isTrue(userAccountId != 0);
 		
+		// Rifas de un usuario
+		authority = new Authority();
+		authority.setAuthority("COMPANY");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+				
 		result = this.raffleRepository.findByCompanyAccountId(userAccountId, this.getPageable(page, size));
 		
 		return result;
@@ -226,6 +237,11 @@ public class RaffleService {
 	
 	public Page<Raffle> findAllPaginated(final int page, final int size) {
 		Page<Raffle> result;
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		
 		result = this.raffleRepository.findAllPaginated(this.getPageable(page, size));
 		
@@ -248,8 +264,7 @@ public class RaffleService {
 		
 		return result;
 	}
-	
-	
+
 	public Raffle findOneToDisplay(final int raffleId) {
 		Raffle result;
 		
@@ -260,7 +275,6 @@ public class RaffleService {
 		
 		return result;
 	}
-	
 	
 	public Raffle findOneToDelete(final int raffleId) {
 		Raffle result;

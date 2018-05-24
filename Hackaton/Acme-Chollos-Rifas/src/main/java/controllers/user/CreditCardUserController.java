@@ -20,6 +20,7 @@ import org.springframework.web.util.WebUtils;
 
 import security.LoginService;
 import services.CreditCardService;
+import services.SubscriptionService;
 import services.TicketService;
 import services.UserService;
 
@@ -40,6 +41,9 @@ public class CreditCardUserController extends AbstractController {
 	
 	@Autowired
 	private TicketService ticketService;
+	
+	@Autowired
+	private SubscriptionService subscriptionService;
 	
 	// Converter
 	@Autowired
@@ -137,7 +141,10 @@ public class CreditCardUserController extends AbstractController {
 		Assert.notNull(creditCard);
 
 		isAdded = this.ticketService.countByCreditCardId(creditcardId) == 0;
-
+		if(!isAdded) {
+			isAdded = this.subscriptionService.countByCreditCardId(creditcardId) == 0;
+		}
+		
 		result = this.createEditModelAndView(creditCard);
 		result.addObject("isAdded", isAdded);
 

@@ -319,6 +319,32 @@ public class UserService {
 		return result;
 	}
 	
+	public Page<User> purchaseMoreTickets(final int page, final int size) {
+		Page<User> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.userRepository.purchaseMoreTickets(this.getPageable(page, size));
+
+		return result;
+	}
+
+	public Page<User> purchaseLessTickets(final int page, final int size) {
+		Page<User> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+		result = this.userRepository.purchaseLessTickets(this.getPageable(page, size));
+
+		return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
