@@ -270,7 +270,7 @@ public class SaveCommentTest extends AbstractTest {
 		Class<?> caught;
 		Comment savedComment, newComment;
 		Bargain bargain;
-		//Collection<Bargain> bargaines;
+		Collection<Bargain> bargaines;
 		int bargainId;
 		DateFormat formatter;
 		DataBinder binder;
@@ -289,11 +289,11 @@ public class SaveCommentTest extends AbstractTest {
 			super.authenticate(user);
 
 			// 2. Listar los bargain
-			/*bargaines = this.bargainService.findAllPaginated(this.getPage(bargain), 5);
+			bargaines = this.bargainService.findBargains(1, 99, "all", 0).getContent();
 			
 			// 3. Escoger un bargain
 			for(Bargain r: bargaines)
-				if(r.getId() == bargainId) bargain = r;*/
+				if(r.getId() == bargainId) bargain = r;
 			
 			// 4. Crear un comment asociado a un bargain
 			newComment = this.commentService.create(bargain, null);
@@ -393,7 +393,7 @@ public class SaveCommentTest extends AbstractTest {
 		Class<?> caught;
 		Comment savedComment, newComment, repliedComment;
 		Bargain bargain;
-		//Collection<Bargain> bargaines;
+		Collection<Bargain> bargaines;
 		Collection<Comment> comments;
 		int bargainId, repliedCommentId;
 		DateFormat formatter;
@@ -417,11 +417,11 @@ public class SaveCommentTest extends AbstractTest {
 			super.authenticate(user);
 						
 			// 2. Listar los bargaines
-			/*bargaines = this.bargainService.findAllPaginated(this.getPage(bargain), 5);
+			bargaines = this.bargainService.findBargains(1, 99, "all", 0).getContent();
 			
 			// 3. Escoger un bargain
 			for(Bargain r: bargaines)
-				if(r.getId() == bargainId) bargain = r;*/
+				if(r.getId() == bargainId) bargain = r;
 			
 			// 4. Escoger un comentario
 			comments = this.commentService.findByBargainId(bargain.getId(), 1, this.commentService.countByBargainId(bargain.getId())).getContent();

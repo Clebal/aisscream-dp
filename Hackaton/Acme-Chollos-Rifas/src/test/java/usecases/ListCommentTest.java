@@ -183,18 +183,21 @@ public class ListCommentTest extends AbstractTest {
 	/*
 	 * Listar comment y su respuesta si la hubiera. Pasos:
 	 * 1. Autenticar usuario
-	 * 2. Listar comentarios
-	 * 3. Entrar en el display del comentario
+	 * 2. Listar los bargaines
+	 * 3. Escoger un bargain
+	 * 4. Listar comentarios
+	 * 5. Entrar en el display del comentario
 	 * ---- SI TIENE RESPUESTA ----
-	 * 4. Listar respuestas
-	 * 5. Entrar en el display de la respuesta
+	 * 6. Listar respuestas
+	 * 7. Entrar en el display de la respuesta
+	 * 8. Comprobación
 	 */
 	protected void template(final String user, final String bargainBean, final String commentBean, final Integer tamano, final String commentReplyBean, final Integer tamanoReplies, final Class<?> expected) {
 		Class<?> caught;
 		int bargainId, commentReplyId, commentId;
 		Integer pageCommentReply;
 		Comment commentReply, comment;
-		//Collection<Bargain> bargaines;
+		Collection<Bargain> bargaines;
 		Collection<Comment> comments, commentReplies;
 		Bargain bargain;
 
@@ -212,14 +215,22 @@ public class ListCommentTest extends AbstractTest {
 			comment = this.commentService.findOne(commentId);
 			/*******/
 
-			// 2. Listar comentarios
+			// 2. Listar los bargaines
+			bargaines = this.bargainService.findBargains(1, 99, "all", 0).getContent();
+						
+			// 3. Escoger un bargain
+			for(Bargain r: bargaines)
+				if(r.getId() == bargainId) bargain = r;
+						
+						
+			// 4. Listar comentarios
 			comments = this.commentService.findByBargainId(bargain.getId(), 1, this.commentService.countByBargainId(bargain.getId())).getContent();
 			Assert.notNull(comments);
 			
 			// Comprobación
 			Assert.isTrue(comments.size() == tamano);
 			
-			// 3. Entrar en el display del comentario
+			// 5. Entrar en el display del comentario
 			for(Comment c: comments) if(c.getId() == commentId) comment = c;
 			
 			if(commentReplyBean != null) {
@@ -229,15 +240,15 @@ public class ListCommentTest extends AbstractTest {
 				commentReply = this.commentService.findOne(commentReplyId);
 				/******/
 				
-				// 4. Listar respuestas
+				// 6. Listar respuestas
 				pageCommentReply = this.getPageReplyComment(comment, commentReply);
 				Assert.notNull(pageCommentReply);
 				commentReplies = this.commentService.findByRepliedCommentId(commentId, pageCommentReply, 5).getContent();
 				
-				// 5. Entrar en el display de la respuesta
+				// 7. Entrar en el display de la respuesta
 				for(Comment c: commentReplies) if(c.getId() == commentReplyId) commentReply = c;
 				
-				// Comprobación
+				// 8. Comprobación
 				Assert.isTrue(commentReplies.size() == tamanoReplies);
 				Assert.isTrue(commentReply.getRepliedComment().equals(comment));
 			}

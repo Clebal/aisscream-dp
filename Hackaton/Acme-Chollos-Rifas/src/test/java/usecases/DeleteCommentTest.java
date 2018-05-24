@@ -129,7 +129,7 @@ public class DeleteCommentTest extends AbstractTest {
 		int bargainId, commentId, commentReplyId, pageCommentReply;
 		Comment comment, commentReply;
 		Collection<Comment> comments, commentReplies;
-		//Collection<Bargain> bargains;
+		Collection<Bargain> bargains;
 		Bargain bargain;
 		
 		caught = null;
@@ -147,13 +147,12 @@ public class DeleteCommentTest extends AbstractTest {
 			/*******/
 
 			// 2. Listar bargains
-			/*if(user != null) bargains = this.bargainService.findAllPaginated(this.getPageFindAllPaginated(bargain), 5); 
-			else bargains = this.bargainService.findAllPublics(this.getPageFindAllPublics(bargain), 5);
+			bargains = this.bargainService.findBargains(1, 99, "all", 0).getContent();
 			Assert.notNull(bargains);
 			
 			// 3. Escoger bargain
 			for(Bargain r: bargains) if(r.getId() == bargainId) bargain = r;
-			Assert.notNull(bargain);*/
+			Assert.notNull(bargain);
 			
 			// 4. Listar comentarios
 			comments = this.commentService.findByBargainId(bargain.getId(), 1, this.commentService.countByBargainId(bargain.getId())).getContent();

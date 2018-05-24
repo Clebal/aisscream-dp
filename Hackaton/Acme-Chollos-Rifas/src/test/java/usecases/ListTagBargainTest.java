@@ -50,7 +50,7 @@ public class ListTagBargainTest extends AbstractTest {
 	 *			etiquetas ya existentes o añadir tus propias etiquetas.
 	 *		3.	Gestionar las etiquetas editando el chollo.
 	 */
-	//@Test
+	@Test
 	public void driverPositiveListTagBargain() {
 		final Object testingData[][] = {
 			{
