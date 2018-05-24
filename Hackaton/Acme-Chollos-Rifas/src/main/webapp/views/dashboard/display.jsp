@@ -14,176 +14,242 @@
 	
 		
 		<div class="container">
-			<acme:display code="dashboard.average.rendezvouses.per.user" value="${rendezvousesPerUser[0]}" formatNumber="true"/>
+			<acme:display code="dashboard.average.banner.per.sponsor" value="${avgMinMaxStandarDesviationBannersPerSponsor[0]}" formatNumber="true"/>
 			
-			<acme:display code="dashboard.standard.rendezvouses.per.user" value="${rendezvousesPerUser[1]}" formatNumber="true"/>
+			<acme:display code="dashboard.min.banner.per.sponsor" value="${avgMinMaxStandarDesviationBannersPerSponsor[1]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.max.banner.per.sponsor" value="${avgMinMaxStandarDesviationBannersPerSponsor[2]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.standar.banner.per.sponsor" value="${avgMinMaxStandarDesviationBannersPerSponsor[3]}" formatNumber="true"/>
 		 
 		</div>
-		<br/> 
-		
-		<div class="container">
-			<acme:display code="dashboard.ratio.user.rendezvous.vs.no" value="${ratioUserRendezvousVsNo}" formatNumber="true"/>
-			
-		</div>
-		<br/>
-		
-		<div class="container">
-			<acme:display code="dashboard.average.users.per.rendezvous" value="${usersPerRendezvous[0]}" formatNumber="true"/>
-			<acme:display code="dashboard.standard.users.per.rendezvous" value="${usersPerRendezvous[1]}" formatNumber="true"/>
-			
-			
-		</div>
-		<br/>
-		
-		<div class="container">
-			<acme:display code="dashboard.average.rendezvouses.rsvpd.per.user" value="${rendezvousesRsvpdPerUser[0]}" formatNumber="true"/>
-			<acme:display code="dashboard.standard.rendezvouses.rsvpd.per.user" value="${rendezvousesRsvpdPerUser[1]}" formatNumber="true"/>
-			
-		</div>
-		<br/>
-		
-		<div class="container">
-			<p class="display"><spring:message code="dashboard.rendezvouses.top"/></p>
-			<jstl:forEach items="${rendezvousesTop}" var="row">
-				<spring:url var="urlRendezvousesTop" value="rendezvous/display.do">
-					<spring:param name="rendezvousId" value="${row.getId()}"></spring:param>
-				</spring:url>
-				<p style="margin-left: 15px;"><a href="${urlRendezvousesTop}" ><jstl:out value="${row.name}"></jstl:out></a></p>
-			</jstl:forEach>
-			
-		</div>
-		<br/>
-		
-		<div class="container">
-			<acme:display code="dashboard.average.announcements.per.rendezvous" value="${announcementsPerRendezvous[0]}" formatNumber="true"/>
-			<acme:display code="dashboard.standard.announcements.per.rendezvous" value="${announcementsPerRendezvous[1]}" formatNumber="true"/>
-		
-		</div>
-		<br/>
-		
-		<div class="container">
-		
-			<spring:url var="urlRendezvousesNumberAnnouncement" value="rendezvous/administrator/listByNumberAnnouncements.do"/>
-			<a href="${urlRendezvousesNumberAnnouncement}" ><spring:message code="dashboard.rendezvouses.number.announcement"/></a>
-			
-			
-		</div>
-		<br/>
+		<br> 
 		
 		<div class="container">
 			
-			<spring:url var="urlRendezvousesLinked" value="rendezvous/administrator/listByLinkedNumber.do"/>
-			<a href="${urlRendezvousesLinked}" ><spring:message code="dashboard.rendezvouses.linked"/></a>
-			
+			<acme:display code="dashboard.avg.ratio.tag.per.bargain" value="${avgRatioTagsPerBargain}" formatNumber="true"/>
+					 
 		</div>
-		<br/>
+		
+		<br>
+		
 		
 		<div class="container">
-			<acme:display code="dashboard.average.questions.per.rendezvous" value="${questionsPerRendezvous[0]}" formatNumber="true"/>
-			<acme:display code="dashboard.standard.questions.per.rendezvous" value="${questionsPerRendezvous[1]}" formatNumber="true"/>
+		
+			<spring:url var="urlBargainWithMoreSponsorships" value="bargain/administrator/listWithMoreSponsorships.do"/>
+			<a href="${urlBargainWithMoreSponsors}" ><spring:message code="dashboard.bargain.moreSponsorships"/></a>
+			
+			<br>
+			
+			<spring:url var="urlBargainWithLessSponsorships" value="bargain/administrator/listWithLessSponsorships.do"/>
+			<a href="${urlBargainWithLessSponsorships}" ><spring:message code="dashboard.bargain.lessSponsorships"/></a>
+			
 			
 		</div>
-		<br/>
+		
+		<br>
 		
 		<div class="container">
-			<acme:display code="dashboard.average.answers.per.rendezvous" value="${answersPerRendezvous[0]}" formatNumber="true"/>
-			<acme:display code="dashboard.standard.answers.per.rendezvous" value="${answersPerRendezvous[1]}" formatNumber="true"/>
+		
+			<spring:url var="urlBargainInMoreWishList" value="bargain/administrator/isInMoreWishList.do"/>
+			<a href="${urlBargainInMoreWishList}" ><spring:message code="dashboard.bargain.inMoreWishList"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		
+		<div class="container">
+		
+			<spring:url var="urlSurveysMorePopular" value="survey/administrator/morePopular.do"/>
+			<a href="${urlSurveysMorePopular}" ><spring:message code="dashboard.survey.morePopular"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			
+			<acme:display code="dashboard.ratio.notification.per.total" value="${ratioNotificationsPerTotal}" formatNumber="true"/>
+					 
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			
+			<acme:display code="dashboard.avg.usersWithParticipation.per.total" value="${avgUsersWithParticipationsPerTotal}" formatNumber="true"/>
+					 
+		</div>
+		
+		<br>
+		
+		<div class="container">
+		
+			<spring:url var="urlCompaniesWriterMorePercentage15" value="company/administrator/writerOfMorePercentage.do?percentage=0.15"/>
+			<a href="${urlCompaniesWriterMorePercentage15}" ><spring:message code="dashboard.survey.CompaniesWriterMorePercentage15"/></a>
+			
+			<br>
+			
+			<spring:url var="urlCompaniesWriterMorePercentage10" value="company/administrator/writerOfMorePercentage.do?percentage=0.10"/>
+			<a href="${urlCompaniesWriterMorePercentage10}" ><spring:message code="dashboard.survey.CompaniesWriterMorePercentage10"/></a>
+			
+			<spring:url var="urlCompaniesWriterMorePercentage5" value="company/administrator/writerOfMorePercentage.do?percentage=0.05"/>
+			<a href="${urlCompaniesWriterMorePercentage5}" ><spring:message code="dashboard.survey.CompaniesWriterMorePercentage5"/></a>
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+		
+			<spring:url var="urlTopFive" value="user/administrator/topFiveUsersMoreValorations.do"/>
+			<a href="${urlTopFive}" ><spring:message code="dashboard.survey.topFive"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			
+			<acme:display code="dashboard.ratio.usersHaveComments" value="${ratioUsersWithComments}" formatNumber="true"/>
+					 
+		</div>
+		
+		<br> 
+		
+		<div class="container">
+		
+			<spring:url var="urlMore10PercentageInteractions" value="user/administrator/more10PercentageInteractions.do"/>
+			<a href="${urlMore10PercentageInteractions}" ><spring:message code="dashboard.users.more10PercentageInteractions"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+		
+			<spring:url var="urlCategoriesMoreBargainsThanAverage" value="category/administrator/moreBargainThanAverage.do"/>
+			<a href="${urlCategoriesMoreBargainsThanAverage}" ><spring:message code="dashboard.categories.more.bargainsThanAverage"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+		
+			<spring:url var="urlCompanyWithMoreTag" value="company/administrator/companiesWithMoreTags.do"/>
+			<a href="${urlCompanyWithMoreTag}" ><spring:message code="dashboard.company.moreTag"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			
+			<acme:display code="dashboard.avg.ratio.bargainPerCategory" value="${avgRatioBargainPerCategory}" formatNumber="true"/>
+					 
+		</div>
+		
+		<br> 
+		
+		<div class="container">
+		
+			<spring:url var="urlUserMoreAverageCharacter" value="user/administrator/moreAverageCharacterLenght.do"/>
+			<a href="${urlUserMoreAverageCharacter}" ><spring:message code="dashboard.user.moreAverageCharacter"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+		
+			<spring:url var="urlGrouponsMoreParticipationsThanAverage" value="groupon/administrator/tenPercentageMoreParticipationsThanAverage.do"/>
+			<a href="${urlGrouponsMoreParticipationsThanAverage}" ><spring:message code="dashboard.groupon.moreParticipationsThanAverage"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			
+			<acme:display code="dashboard.min.discount.per.bargain" value="${minMaxAvgStandarDesviationDiscountPerBargain[0]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.max.discount.per.bargain" value="${minMaxAvgStandarDesviationDiscountPerBargain[1]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.average.discount.per.bargain" value="${minMaxAvgStandarDesviationDiscountPerBargain[2]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.standar.discount.per.bargain" value="${minMaxAvgStandarDesviationDiscountPerBargain[3]}" formatNumber="true"/>
+		 
+		</div>
+		
+		<br> 
+		
+		<div class="container">
+			
+			<acme:display code="dashboard.min.discount.per.groupon" value="${minMaxAvgStandarDesviationDiscountPerGroupon[0]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.max.discount.per.groupon" value="${minMaxAvgStandarDesviationDiscountPerGroupon[1]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.average.discount.per.groupon" value="${minMaxAvgStandarDesviationDiscountPerGroupon[2]}" formatNumber="true"/>
+			
+			<acme:display code="dashboard.standar.discount.per.groupon" value="${minMaxAvgStandarDesviationDiscountPerGroupon[3]}" formatNumber="true"/>
+		 
+		</div>
+		
+		<br> 
+		
+		<div class="container">
+		
+			<spring:url var="urlUsersMoreWonRaffles" value="user/administrator/moreWonRaffles.do"/>
+			<a href="${urlUsersMoreWonRaffles}" ><spring:message code="dashboard.user.wonRaffles"/></a>
+			
+		
+		</div>
+		
+		<br>
+		
+		<div class="container">
+		
+			<spring:url var="urlUsersPurchaseMoreTickets" value="user/administrator/purchaseMoreTickets.do"/>
+			<a href="${urlUsersPurchaseMoreTickets}" ><spring:message code="dashboard.user.purchaseMoreTickets"/></a>
+			
+			<br>
+			
+			<spring:url var="urlUsersPurchaseLessTickets" value="user/administrator/purchaseLessTickets.do"/>
+			<a href="${urlUsersPurchaseLessTickets}" ><spring:message code="dashboard.user.purchaseLessTickets"/></a>
+			
 			
 		</div>
-		<br/>
+		
+		<br>
 		
 		<div class="container">
-			<acme:display code="dashboard.average.replies.per.comment" value="${repliesPerComment[0]}" formatNumber="true"/>
-			<acme:display code="dashboard.standard.replies.per.comment" value="${repliesPerComment[1]}" formatNumber="true"/>
 			
+			<acme:display code="dashboard.avg.ticketsPurchaseUserRaffle" value="${avgTicketsPurchaseByUsersPerRaffle}" formatNumber="true"/>
+					 
 		</div>
-		<br/>
 		
-		<!-- Nuevos -->
+		<br>
 		
 		<div class="container">
-			<p class="display"><spring:message code="dashboard.bestSellingServices"/></p>
-			<jstl:forEach items="${bestSellingServices}" var="row">
-				<spring:url var="urlBestSellingServices" value="service/display.do">
-					<spring:param name="serviceId" value="${row.getId()}"></spring:param>
-				</spring:url>
-				<p style="margin-left: 15px;"><a href="${urlBestSellingServices}" ><jstl:out value="${row.name}"></jstl:out></a></p>
-			</jstl:forEach>
+		
+			<spring:url var="urlUsers25Percentage" value="user/administrator/purchase25PercentageMoreTotalForAllRaffles.do"/>
+			<a href="${urlUsers25Percentage}" ><spring:message code="dashboard.user.25PercentageMoreTotalForAllRaffles"/></a>
 			
-			<acme:paginate pageNumber="${pageNumber}" url="dashboard/administrator/display.do" objects="${bestSellingServices}" page="${page}"/>
-			
-		</div>
-		<br/>
 		
-		<div class="container">
-			<p class="display"><spring:message code="dashboard.managerMoreServicesAverage"/></p>
-			<jstl:forEach items="${managerMoreServicesAverage}" var="row">
-				<spring:url var="urlManagerMoreServicesAverage" value="actor/display.do">
-					<spring:param name="actorId" value="${row.getId()}"></spring:param>
-				</spring:url>
-				<p style="margin-left: 15px;"><a href="${urlManagerMoreServicesAverage}" ><jstl:out value="${row.name}"></jstl:out></a></p>
-			</jstl:forEach>
-			
 		</div>
-		<br/>
-
-		<div class="container">
-			<p class="display"><spring:message code="dashboard.managerMoreServicesCancelled"/></p>
-			<jstl:forEach items="${managerMoreServicesCancelled}" var="row">
-				<spring:url var="urlManagerMoreServicesCancelled" value="actor/display.do">
-					<spring:param name="actorId" value="${row.getId()}"></spring:param>
-				</spring:url>
-				<p style="margin-left: 15px;"><a href="${urlManagerMoreServicesCancelled}" ><jstl:out value="${row.name}"></jstl:out></a></p>
-			</jstl:forEach>
-			
-		</div>
-		<br/>
 		
-		<div class="container">
-			<acme:display code="dashboard.avgNumberCategoriesPerRendezvous" value="${avgNumberCategoriesPerRendezvous}" formatNumber="true"/>
-		</div>
-		<br/>
+		<!--  -->
 		
-		<div class="container">
-			<acme:display code="dashboard.avgRatioServicesCategory" value="${avgRatioServicesCategory}" formatNumber="true"/>
-		</div>
-		<br/>
-		
-		<div class="container">
-			<acme:display code="dashboard.avgServicesPerRendezvous" value="${avgMinMaxStandardDesviationServicesPerRendezvous[0]}" formatNumber="true"/>
-			<acme:display code="dashboard.minServicesPerRendezvous" value="${avgMinMaxStandardDesviationServicesPerRendezvous[1]}" formatNumber="true"/>
-			<acme:display code="dashboard.maxServicesPerRendezvous" value="${avgMinMaxStandardDesviationServicesPerRendezvous[2]}" formatNumber="true"/>
-			<acme:display code="dashboard.standardDesviationServicesPerRendezvous" value="${avgMinMaxStandardDesviationServicesPerRendezvous[3]}" formatNumber="true"/>
-		</div>
-		<br/>
-	
-		<div class="container">
-			<p class="display"><spring:message code="dashboard.topSellingServices"/></p>
-			<div class="container"><div class="text-danger">
-			<p class="display"><spring:message code="dashboard.mostrar"/>${size}</p>
-			<div class="container"><ul class="nav nav-pills">
-			<jstl:if test="${size == 5}">
-				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=10"><spring:message code="dashboard.display10" /></a><br /></li>
-				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=20"><spring:message code="dashboard.display20" /></a><br /></li>
-			</jstl:if>
-			<jstl:if test="${size == 10}">
-				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=5"><spring:message code="dashboard.display5" /></a><br /></li>
-				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=20"><spring:message code="dashboard.display20" /></a><br /><li>
-			</jstl:if>
-			<jstl:if test="${size == 20}">
-				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=5"><spring:message code="dashboard.display5" /></a><br /></li>
-				<li><a class="btn btn-default" href="dashboard/administrator/display.do?size=10"><spring:message code="dashboard.display10" /></a><br /></li>
-			</jstl:if>
-			</ul></div></div></div>
-			<jstl:forEach items="${topSellingServices}" var="row">
-				<spring:url var="urlTopSellingServices" value="service/display.do">
-					<spring:param name="serviceId" value="${row.getId()}"></spring:param>
-				</spring:url>
-				<p style="margin-left: 15px;"><a href="${urlTopSellingServices}" ><jstl:out value="${row.name}"></jstl:out></a></p>
-			</jstl:forEach>
-			
-		</div>
-		<br/>
 		
 	</div>
 	
