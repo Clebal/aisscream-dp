@@ -553,7 +553,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="description" value="Aspiradora para el hogar a un gran precio, depende de ti" />
 		<property name="productName" value="Aspiradora" />
 		<property name="productUrl" value="https://tiendas.mediamarkt.es/p/aspirador-escoba-cecotec-duo-stick-easy-1383667" />
-		<property name="minAmountProduct" value="30" />
+		<property name="minAmountProduct" value="1" />
 		<property name="maxDate" value="10/21/2018 17:00" />
 		<property name="originalPrice" value="29.00" />
 		<property name="price" value="10.00" />
