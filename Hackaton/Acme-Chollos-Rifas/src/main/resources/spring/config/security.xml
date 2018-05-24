@@ -109,7 +109,11 @@
 		
 		<!-- User -->
    		<security:intercept-url pattern="/user/moderator/list.do" access="hasRole('MODERATOR')" />		
-   		<security:intercept-url pattern="/user/moderator/ban.do" access="hasRole('MODERATOR')" />		
+   		<security:intercept-url pattern="/user/moderator/ban.do" access="hasRole('MODERATOR')" />
+   		
+   		<security:intercept-url pattern="/user/administrator/topFiveUsersMoreValorations.do" access="hasRole('ADMIN')" />
+   		<security:intercept-url pattern="/user/administrator/purchaseMoreTickets.do" access="hasRole('ADMIN')" />
+   		<security:intercept-url pattern="/user/administrator/purchaseLessTickets.do" access="hasRole('ADMIN')" />
 				
 		 <!-- Evaluation -->
 		<security:intercept-url pattern="/evaluation/user/list.do" access="hasRole('USER')" />

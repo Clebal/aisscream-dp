@@ -46,4 +46,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u where (cast((select count(t2) from Ticket t2 where t2.user.id = u.id)as float)) = (select min(cast((select count(t) from Ticket t where t.user.id = u2.id)as float)) from User u2)")
 	Page<User> purchaseLessTickets(Pageable pageable);
 	
+	@Query("select avg(1.0*(select cast((count(u)) as float) from Participation p, User u where p.groupon.id = b.id and p.user.id = u.id))/cast((select count(u1)*1.0 from User u1) as int) from Groupon b")
+	Double avgUsersWithParticipationsPerTotal();
+  
+	@Query("select (cast((count(distinct u))as float))/(cast((select count(distinct u1) from User u1)as float)) from User u, Comment c where c.user.id = u.id")
+	Double ratioUsersWithComments();
+	
 }

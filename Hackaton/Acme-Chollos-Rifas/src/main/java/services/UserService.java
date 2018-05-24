@@ -345,6 +345,32 @@ public class UserService {
 		return result;
 	}
 	
+	public Double avgUsersWithParticipationsPerTotal() {
+	   Double result;
+	   Authority authority;
+	   
+	   authority = new Authority();
+	   authority.setAuthority("ADMIN");
+	   Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+
+	   result = this.userRepository.avgUsersWithParticipationsPerTotal();
+
+	   return result;
+	}
+	  
+	public Double ratioUsersWithComments() {
+	   Double result;
+	   Authority authority;
+	   
+	   authority = new Authority();
+	   authority.setAuthority("ADMIN");
+	   Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+	   
+	   result = this.userRepository.ratioUsersWithComments();
+	
+	   return result;
+	}
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
