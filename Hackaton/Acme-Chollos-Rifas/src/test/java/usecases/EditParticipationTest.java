@@ -98,7 +98,7 @@ public class EditParticipationTest extends AbstractTest {
 	public void testFindOneFindOneToEdit() {
 		final Object testingData[][] = {
 			{
-				"user2", "user2", "participation1", true, false, true, null
+				"user", "user2", "participation1", true, false, true, null
 			}, {
 				"user", "user2", "participation6", true, false, true, null
 			}, {
@@ -106,9 +106,9 @@ public class EditParticipationTest extends AbstractTest {
 			}, {
 				"moderator", "moderator1", "participation1", false, false, true, IllegalArgumentException.class
 			}, {
-				"user2", "user2", "participation1", true, true, true, IllegalArgumentException.class
+				"user", "user2", "participation1", true, true, true, IllegalArgumentException.class
 			}, {
-				"user2", "user2", "participation1", true, true, false, IllegalArgumentException.class
+				"user", "user2", "participation1", true, true, false, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -204,7 +204,7 @@ public class EditParticipationTest extends AbstractTest {
 			saved = this.participationService.save(participationReconstruct); //Guardamos la participación
 			super.flushTransaction();
 
-			Assert.isTrue(this.participationService.findAll().contains(saved)); //Miramos si están entre todos las suscripciones de la BD
+			Assert.isTrue(this.participationService.findAll().contains(saved)); //Miramos si están entre todos las participaciones de la BD
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {
@@ -271,12 +271,12 @@ public class EditParticipationTest extends AbstractTest {
 				super.authenticate(username); //Nos logeamos si es necesario
 
 			if (user != null && user.equals("user"))
-				participation = this.participationService.findByGrouponIdAndUserId(grouponId, this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId());
+				participation = this.participationService.findByGrouponIdAndUserId(grouponId, this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId()); //Cogemos si existe participación entre el usuario y la conjunta
 			else
 				participation = null;
 
 			if (participationBean != null)
-				Assert.isTrue(participation.equals(this.participationService.findOne(super.getEntityId(participationBean))));
+				Assert.isTrue(participation.equals(this.participationService.findOne(super.getEntityId(participationBean)))); //Se compara con el esperado
 			else
 				Assert.isTrue(participation == null);
 

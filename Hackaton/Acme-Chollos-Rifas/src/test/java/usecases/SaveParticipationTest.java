@@ -134,7 +134,7 @@ public class SaveParticipationTest extends AbstractTest {
 
 			binder = new DataBinder(participation);
 			participationReconstruct = this.participationService.reconstruct(participation, binder.getBindingResult()); //Lo reconstruimos
-			saved = this.participationService.save(participationReconstruct); //Guardamos la suscripción
+			saved = this.participationService.save(participationReconstruct); //Guardamos la participación
 			super.flushTransaction();
 
 			Assert.isTrue(this.participationService.findAll().contains(saved)); //Miramos si están entre todos las participaciones de la BD

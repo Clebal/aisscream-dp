@@ -103,6 +103,7 @@ public class GrouponService {
 
 		if (groupon.getId() == 0) {
 			Assert.isTrue(groupon.getMaxDate().compareTo(new Date()) > 0);
+			Assert.isNull(groupon.getDiscountCode());
 			user = groupon.getCreator();
 			this.userService.addPoints(user, 50);
 		} else {

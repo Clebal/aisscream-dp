@@ -179,7 +179,7 @@ public class EditPlanTest extends AbstractTest {
 			saved = this.planService.save(planReconstruct); //Guardamos el plan
 			super.flushTransaction();
 
-			Assert.isTrue(this.planService.findAll().contains(saved)); //Miramos si están entre todos las suscripciones a volumen de la BD
+			Assert.isTrue(this.planService.findAll().contains(saved)); //Miramos si están entre todos las planes a volumen de la BD
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {

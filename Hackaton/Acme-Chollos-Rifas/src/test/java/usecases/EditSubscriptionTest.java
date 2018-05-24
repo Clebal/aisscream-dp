@@ -288,7 +288,7 @@ public class EditSubscriptionTest extends AbstractTest {
 				super.authenticate(username); //Nos logeamos si es necesario
 
 			if (user != null)
-				subscription = this.subscriptionService.findByUserId(this.actorService.findByUserAccountId(LoginService.getPrincipal().getId()).getId());
+				subscription = this.subscriptionService.findByUserId(this.actorService.findByUserAccountId(LoginService.getPrincipal().getId()).getId()); //Cogemos la suscripción si la tiene el usuario
 			else
 				subscription = null;
 

@@ -113,7 +113,7 @@ public class DeleteParticipationTest extends AbstractTest {
 			this.participationService.delete(participation); //Borramos la participación
 			super.flushTransaction();
 
-			Assert.isTrue(!this.participationService.findAll().contains(participation)); //Miramos si no está entre todos las suscripciones de la BD
+			Assert.isTrue(!this.participationService.findAll().contains(participation)); //Miramos si no está entre todos las participaciones de la BD
 
 			super.unauthenticate();
 		} catch (final Throwable oops) {

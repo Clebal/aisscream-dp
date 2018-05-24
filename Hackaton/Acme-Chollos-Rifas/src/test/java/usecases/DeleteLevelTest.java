@@ -99,13 +99,14 @@ public class DeleteLevelTest extends AbstractTest {
 			levelIdAux = super.getEntityId(levelBean);
 			levelId = 0;
 			for (int i = 1; i <= this.levelService.findAllPaginated(1, 5).getTotalPages(); i++)
+				//Lo buscamos entre todos los niveles
 				for (final Level l : this.levelService.findAllPaginated(i, 5).getContent())
 					if (l.getId() == levelIdAux)
 						levelId = l.getId();
 
-			level = this.levelService.findOneToEdit(levelId); //Creamos el nivel
+			level = this.levelService.findOneToEdit(levelId); //Cogemos el nivel
 
-			this.levelService.delete(level);
+			this.levelService.delete(level); // Borramos
 			super.flushTransaction();
 			if (minPointsBefore != minPointsLevelBefore && maxPointsBefore != maxPointsLevelBefore) {
 				Assert.isTrue(this.levelService.findByPoints(minPointsLevelBefore - 1).getMaxPoints() == ((level.getMinPoints() + level.getMaxPoints()) / 2)); //Vemos que los rangos son consistentes

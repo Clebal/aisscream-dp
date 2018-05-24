@@ -182,6 +182,7 @@ public class ListParticipationTest extends AbstractTest {
 				grouponId = 0;
 				for (int i = 1; i <= this.grouponService.findAllPaginated(1, 5).getTotalPages(); i++)
 					for (final Groupon g : this.grouponService.findAllPaginated(i, 5).getContent())
+						//Cogemos el groupon entre todos
 						if (g.getId() == grouponIdAux)
 							grouponId = g.getId();
 				if (falseId == false)
@@ -217,7 +218,7 @@ public class ListParticipationTest extends AbstractTest {
 				else
 					userId = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId()).getId();
 
-				participations = this.participationService.findByUserId(userId, page, tam);
+				participations = this.participationService.findByUserId(userId, page, tam); //Cogemos las participaciones del usuario
 
 			}
 
