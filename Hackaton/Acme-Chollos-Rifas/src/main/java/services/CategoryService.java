@@ -69,7 +69,7 @@ public class CategoryService {
 		Actor actor;
 		Category result;
 		Category defaultCategory;
-		Collection<Category> categoriesOfSameLevel;
+		Collection<Category> categories;
 
 		//Vemos que sea un moderador el que modifica las categorias
 		authority = new Authority();
@@ -91,14 +91,14 @@ public class CategoryService {
 			Assert.isTrue(category.getFatherCategory().getId() != category.getId());
 
 		//Vemos que no tenga el mismo nombre que una de su nivel
-		if (category.getFatherCategory() == null)
-			categoriesOfSameLevel = this.findAllWithoutFather();
-		else
-			categoriesOfSameLevel = this.findAllByFatherCategoryId(category.getFatherCategory().getId());
+		if (category.getFatherCategory() == null) {
+			categories = this.findOneLevelByFatherAndNameRoot(category.getName());
+			Assert.isTrue((categories.size() == 0) || (categories.size() == 1 && categories.contains(category)));
+		} else {
+			categories = this.findOneLevelByFatherAndName(category.getFatherCategory(), category.getName());
+			Assert.isTrue((categories.size() == 0) || (categories.size() == 1 && categories.contains(category)));
 
-		for (final Category categorySameLevel : categoriesOfSameLevel)
-			Assert.isTrue(!categorySameLevel.getName().toLowerCase().trim().equals(category.getName().toLowerCase().trim()) || categorySameLevel.getId() == category.getId());
-
+		}
 		//Guardamos la categoría
 		result = this.categoryRepository.save(category);
 
@@ -153,10 +153,28 @@ public class CategoryService {
 	}
 
 	//Other business methods
+
+	public Collection<Category> findOneLevelByFatherAndName(final Category fatherCategory, final String name) {
+		Collection<Category> result;
+
+		result = this.categoryRepository.findOneLevelByFatherAndName(fatherCategory, name);
+
+		return result;
+	}
+
+	public Collection<Category> findOneLevelByFatherAndNameRoot(final String name) {
+		Collection<Category> result;
+
+		result = this.categoryRepository.findOneLevelByFatherAndNameRoot(name);
+
+		return result;
+	}
+
 	public void reorganising(final Category category, final Category newFather) {
 		Authority authority;
 		Collection<Category> childrenCategory;
 		Category defaultCategory;
+		Collection<Category> categories;
 
 		authority = new Authority();
 		authority.setAuthority("MODERATOR");
@@ -165,6 +183,14 @@ public class CategoryService {
 		//La categoría a mover no puede ser null
 		Assert.notNull(category);
 
+		//Vemos que no tenga el mismo nombre que una de su nivel
+		if (newFather == null) {
+			categories = this.findOneLevelByFatherAndNameRoot(category.getName());
+			Assert.isTrue((categories.size() == 0) || (categories.size() == 1 && categories.contains(category)));
+		} else {
+			categories = this.findOneLevelByFatherAndName(newFather, category.getName());
+			Assert.isTrue((categories.size() == 0) || (categories.size() == 1 && categories.contains(category)));
+		}
 		//No se puede mover la categoría por defecto
 		//Cogemos la categoría por defecto
 		defaultCategory = this.categoryRepository.findByDefaultCategory();

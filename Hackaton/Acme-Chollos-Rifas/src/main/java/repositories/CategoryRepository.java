@@ -42,6 +42,12 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	@Query("select c from Category c")
 	Page<Category> findAllPaginated(Pageable pageable);
 
+	@Query("select c from Category c where c.fatherCategory=?1 and c.name=?2")
+	Collection<Category> findOneLevelByFatherAndName(Category fatherCategory, String name);
+
+	@Query("select c from Category c where c.fatherCategory is null and c.name=?1")
+	Collection<Category> findOneLevelByFatherAndNameRoot(String name);
+
 	//Dashboard
 	@Query("select c from Category c where (cast((select count(b) from Bargain b where b member of c.bargains)as float)) >= (cast((select avg(cast((select count(b2) from Bargain b2 where b2 member of c2.bargains)as float)) from Category c2)as float))")
 	Page<Category> moreBargainThanAverage(Pageable pageable);

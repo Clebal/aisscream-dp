@@ -170,6 +170,10 @@ public class NotificationService {
 		return result;
 	}
 
+	public void flush() {
+		this.notificationRepository.flush();
+	}
+
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
 

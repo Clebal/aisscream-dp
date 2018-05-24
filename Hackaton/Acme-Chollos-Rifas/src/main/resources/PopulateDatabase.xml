@@ -2409,7 +2409,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="productName" value="Samsung S9" />
 		<property name="productUrl" value="http://www.samsung.com/es/smartphones/galaxy-s9/shop/" />
 		<property name="description" value="Disfruta del smartphone que siempre quisiste tener." />
-		<property name="price" value="100" />
+		<property name="price" value="95" />
 		<property name="minimumPrice" value="50" />
 		<property name="originalPrice" value="100" />
 		<property name="estimatedSells" value="20" />
