@@ -29,7 +29,7 @@ public interface BargainRepository extends JpaRepository<Bargain, Integer> {
 	@Query("select b from Category c join c.bargains b where b.isPublished=true and c.id=?1")
 	Page<Bargain> findAllPublishedByCategoryId(int categoryId, Pageable pageable);
 
-	@Query("select b from Category c join c.bargains b where (b.isPublished=true or b.company.id=?1) and c.id=?1")
+	@Query("select b from Category c join c.bargains b where (b.isPublished=true or b.company.id=?1) and c.id=?2")
 	Page<Bargain> findAllPublishedOrMineByCategoryId(int companyId, int categoryId, Pageable pageable);
 
 	@Query("select b from Category c join c.bargains b where c.id=?1")
