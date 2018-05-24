@@ -77,11 +77,12 @@ public class ListParticipationTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 1. Probamos el findAll estando logeados como user
-	 * 2. Probamos el findAll estando logeados como moderator
-	 * 3. Probamos el findAll estando logeados como admin
-	 * 4. Probamos el findAll estando logeados como company
-	 * 5. Probamos el findAll estando logeados como sponsor
+	 * 1. Probamos el findByGrouponId del groupon1 estando logueados como user1
+	 * 2. Probamos el findByGrouponId del groupon1 estando logueados como moderator1
+	 * 3. Probamos el findByGrouponId del groupon2 estando logueados como user1
+	 * 4. Probamos el findByGrouponId del groupon3 estando logueados como moderator1
+	 * 5. Probamos el findByGrouponId del groupon4 estando logueados como moderator1
+	 * 6. Probamos el findByGrouponId de un groupon con id 0 estando logueados como user2 (salta un IllegalArgumentException)
 	 */
 	@Test()
 	public void testFindByGrouponId() {
@@ -91,13 +92,13 @@ public class ListParticipationTest extends AbstractTest {
 			}, {
 				"moderator", "moderator1", "findByGrouponId", false, "groupon1", null, 5, null, null, null
 			}, {
-				"admin", "admin", "findByGrouponId", false, "groupon2", null, 1, null, null, null
+				"user", "user1", "findByGrouponId", false, "groupon2", null, 1, null, null, null
 			}, {
-				"company", "company1", "findByGrouponId", false, "groupon3", null, 3, null, null, null
+				"moderator", "moderator1", "findByGrouponId", false, "groupon3", null, 3, null, null, null
 			}, {
-				"sponsor", "sponsor1", "findByGrouponId", false, "groupon4", null, 2, null, null, null
+				"moderator", "moderator1", "findByGrouponId", false, "groupon4", null, 2, null, null, null
 			}, {
-				"sponsor", "sponsor1", "findByGrouponId", true, "groupon4", null, 2, null, null, IllegalArgumentException.class
+				"user", "user2", "findByGrouponId", true, "groupon4", null, 2, null, null, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)

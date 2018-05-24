@@ -37,7 +37,7 @@
 		<div class="container">
 		
 			<spring:url var="urlBargainWithMoreSponsorships" value="bargain/administrator/listWithMoreSponsorships.do"/>
-			<a href="${urlBargainWithMoreSponsors}" ><spring:message code="dashboard.bargain.moreSponsorships"/></a>
+			<a href="${urlBargainWithMoreSponsorships}" ><spring:message code="dashboard.bargain.moreSponsorships"/></a>
 			
 			<br>
 			
@@ -95,6 +95,8 @@
 			
 			<spring:url var="urlCompaniesWriterMorePercentage10" value="company/administrator/writerOfMorePercentage.do?percentage=0.10"/>
 			<a href="${urlCompaniesWriterMorePercentage10}" ><spring:message code="dashboard.survey.CompaniesWriterMorePercentage10"/></a>
+			
+			<br> 
 			
 			<spring:url var="urlCompaniesWriterMorePercentage5" value="company/administrator/writerOfMorePercentage.do?percentage=0.05"/>
 			<a href="${urlCompaniesWriterMorePercentage5}" ><spring:message code="dashboard.survey.CompaniesWriterMorePercentage5"/></a>

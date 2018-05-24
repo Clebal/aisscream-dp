@@ -57,39 +57,39 @@ public class SaveParticipationTest extends AbstractTest {
 	public void testSave() {
 		final Object testingData[][] = {
 			{
-				"user", "user3", 1, "groupon5", null
+				"user", "user3", 1, "groupon5", true, null
 			}, {
-				"user", "user6", 10, "groupon2", null
+				"user", "user6", 10, "groupon2", false, null
 			}, {
-				"user", "user3", 10, "groupon2", null
+				"user", "user3", 10, "groupon2", true, null
 			}, {
-				"user", "user3", 10, "groupon4", null
+				"user", "user3", 10, "groupon4", true, null
 			}, {
-				"user", "user3", 0, "groupon5", ConstraintViolationException.class
+				"user", "user3", 0, "groupon5", true, ConstraintViolationException.class
 			}, {
-				"user", "user3", -1, "groupon5", ConstraintViolationException.class
+				"user", "user3", -1, "groupon5", true, ConstraintViolationException.class
 			}, {
-				"user", "user1", 5, "groupon1", IllegalArgumentException.class
+				"user", "user1", 5, "groupon1", true, IllegalArgumentException.class
 			}, {
-				"user", "user2", 5, "groupon1", IllegalArgumentException.class
+				"user", "user2", 5, "groupon1", true, IllegalArgumentException.class
 			}, {
-				"user", "user6", 5, "groupon3", IllegalArgumentException.class
+				"user", "user6", 5, "groupon3", false, IllegalArgumentException.class
 			}, {
-				"sponsor", "sponsor1", 10, "groupon2", IllegalArgumentException.class
+				"sponsor", "sponsor1", 10, "groupon2", false, IllegalArgumentException.class
 			}, {
-				"moderator", "moderator1", 10, "groupon2", IllegalArgumentException.class
+				"moderator", "moderator1", 10, "groupon2", true, IllegalArgumentException.class
 			}, {
-				"company", "company1", 10, "groupon2", IllegalArgumentException.class
+				"company", "company1", 10, "groupon2", false, IllegalArgumentException.class
 			}, {
-				"admin", "admin", 10, "groupon2", IllegalArgumentException.class
+				"admin", "admin", 10, "groupon2", false, IllegalArgumentException.class
 			}, {
-				null, null, 10, "groupon2", IllegalArgumentException.class
+				null, null, 10, "groupon2", false, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
 			try {
 				super.startTransaction();
-				this.template((String) testingData[i][0], (String) testingData[i][1], (int) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+				this.template((String) testingData[i][0], (String) testingData[i][1], (int) testingData[i][2], (String) testingData[i][3], (boolean) testingData[i][4], (Class<?>) testingData[i][5]);
 			} catch (final Throwable oops) {
 				throw new RuntimeException(oops);
 			} finally {
@@ -97,7 +97,7 @@ public class SaveParticipationTest extends AbstractTest {
 			}
 	}
 
-	protected void template(final String user, final String username, final int amountProduct, final String grouponBean, final Class<?> expected) {
+	protected void template(final String user, final String username, final int amountProduct, final String grouponBean, final boolean useFindAll, final Class<?> expected) {
 		Class<?> caught;
 		Participation participation;
 		Participation saved;
@@ -114,11 +114,18 @@ public class SaveParticipationTest extends AbstractTest {
 
 			grouponIdAux = super.getEntityId(grouponBean);
 			grouponId = 0;
-			for (int i = 1; i <= this.grouponService.findAllPaginated(1, 5).getTotalPages(); i++)
-				//Cogemos el groupon entre todos
-				for (final Groupon g : this.grouponService.findAllPaginated(i, 5).getContent())
-					if (g.getId() == grouponIdAux)
-						grouponId = g.getId();
+			if (useFindAll == true) {
+				for (int i = 1; i <= this.grouponService.findAllPaginated(1, 5).getTotalPages(); i++)
+					//Cogemos el groupon entre todos
+					for (final Groupon g : this.grouponService.findAllPaginated(i, 5).getContent())
+						if (g.getId() == grouponIdAux)
+							grouponId = g.getId();
+			} else
+				for (int i = 1; i <= this.grouponService.findWithMaxDateFuture(1, 5).getTotalPages(); i++)
+					//Cogemos el groupon entre todos
+					for (final Groupon g : this.grouponService.findWithMaxDateFuture(i, 5).getContent())
+						if (g.getId() == grouponIdAux)
+							grouponId = g.getId();
 
 			participation = this.participationService.create(grouponId); //Creamos la participación
 
