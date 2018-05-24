@@ -115,7 +115,6 @@ public class TicketService {
 		if(LoginService.getPrincipal().getAuthorities().contains(authority) && plan.getName().equals("Gold Premium")) {
 			Assert.isTrue(ticket.getRaffle().getCompany().getUserAccount().equals(LoginService.getPrincipal()));
 		} else {
-	        if(ticket.getRaffle().getPrice() != 0) Assert.notNull(ticket.getCreditCard());
 			Assert.isTrue(ticket.getUser().getUserAccount().equals(LoginService.getPrincipal()));
 		}
 		
@@ -160,8 +159,9 @@ public class TicketService {
 	}
 	
 	// Other business methods 
-	public void save(final Collection<Ticket> tickets) {
+	public void save(final Collection<Ticket> tickets, final boolean isPaypal) {
 		for(Ticket t: tickets) {
+	        if(t.getRaffle().getPrice() != 0 && !isPaypal) Assert.notNull(t.getCreditCard());
 			this.save(t);
 		}
 	}

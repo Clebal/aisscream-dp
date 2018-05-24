@@ -153,7 +153,7 @@ public class TicketUserController extends AbstractController {
 		Assert.notNull(tickets);
 
 		try {
-			this.ticketService.save(tickets);
+			this.ticketService.save(tickets, true);
 			result = new ModelAndView("redirect:/ticket/user/list.do");
 		} catch (Throwable oops) {
 			result = buyModelAndView(ticketForm, "ticket.commit.error");
@@ -174,7 +174,7 @@ public class TicketUserController extends AbstractController {
 			result = this.buyModelAndView(ticketForm);
 		} else {
 			try {
-				this.ticketService.save(tickets);
+				this.ticketService.save(tickets, false);
 				result = new ModelAndView("redirect:/raffle/display.do?raffleId="+ticketForm.getRaffle().getId());
 			} catch (Throwable oops) {
 				result = buyModelAndView(ticketForm, "ticket.commit.error");

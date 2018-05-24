@@ -183,7 +183,7 @@ public class BuyTicketTest extends AbstractTest {
 			
 			binder = new DataBinder(ticketForm);
 			ticketsToCreate = this.ticketService.reconstruct(ticketForm, binder.getBindingResult());
-			this.ticketService.save(ticketsToCreate);
+			this.ticketService.save(ticketsToCreate, false);
 			
 			this.ticketService.flush();
 									
