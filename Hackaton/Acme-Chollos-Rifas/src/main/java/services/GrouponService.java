@@ -36,6 +36,9 @@ public class GrouponService {
 	@Autowired
 	private ParticipationService	participationService;
 
+	@Autowired
+	private PlanService				planService;
+
 	// Supporting services
 	@Autowired
 	private Validator				validator;
@@ -89,24 +92,6 @@ public class GrouponService {
 
 		return result;
 	}
-
-	//	public Groupon findOneToDisplay(final int grouponId) {
-	//		Groupon result;
-	//		Authority authority;
-	//		User user;
-	//
-	//		result = this.findOne(grouponId);
-	//		Assert.notNull(result);
-	//		if (result.getMaxDate().compareTo(new Date()) <= 0) {
-	//			authority = new Authority();
-	//			authority.setAuthority("USER");
-	//			Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority));
-	//			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-	//			Assert.isTrue(user.getId() == result.getCreator().getId() || this.participationService.findByGrouponIdAndUserId(result.getId(), user.getId()) != null);
-	//		}
-	//
-	//		return result;
-	//	}
 
 	public Groupon save(final Groupon groupon) {
 		Groupon result, saved;
@@ -188,6 +173,17 @@ public class GrouponService {
 
 	public Page<Groupon> findAllPaginated(final int page, final int size) {
 		Page<Groupon> result;
+		Authority authority;
+		Authority authority2;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
+		authority2 = new Authority();
+		authority2.setAuthority("MODERATOR");
+
+		Assert.isTrue(LoginService.isAuthenticated() && (LoginService.getPrincipal().getAuthorities().contains(authority) || LoginService.getPrincipal().getAuthorities().contains(authority2)));
+		if (LoginService.getPrincipal().getAuthorities().contains(authority))
+			Assert.isTrue(this.planService.findByUserId(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId()) != null);
 
 		result = this.grouponRepository.findAllPaginated(this.getPageable(page, size));
 
@@ -197,19 +193,15 @@ public class GrouponService {
 
 	public Page<Groupon> findByCreatorId(final int creatorId, final int page, final int size) {
 		Page<Groupon> result;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("USER");
 
 		Assert.isTrue(creatorId != 0);
+		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority));
+		Assert.isTrue(this.userService.findByUserAccountId(LoginService.getPrincipal().getId()).getId() == creatorId);
 		result = this.grouponRepository.findByCreatorId(creatorId, this.getPageable(page, size));
-
-		return result;
-
-	}
-
-	public Page<Groupon> findByParticipantId(final int participantId, final int page, final int size) {
-		Page<Groupon> result;
-
-		Assert.isTrue(participantId != 0);
-		result = this.grouponRepository.findByParticipantId(participantId, this.getPageable(page, size));
 
 		return result;
 

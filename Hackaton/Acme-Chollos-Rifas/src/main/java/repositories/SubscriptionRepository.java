@@ -12,4 +12,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
 
 	@Query("select s from Subscription s where s.user.id = ?1")
 	Subscription findByUserId(int userId);
+
+	@Query("select count(s) from Subscription s where s.creditCard.id = ?1")
+	Integer countByCreditCardId(int creditCardId);
 }

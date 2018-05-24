@@ -126,7 +126,7 @@ public class ListParticipationTest extends AbstractTest {
 	 * 10.Hacemos el findByUserId sin estar logueados (salta un IllegalArgumentException)
 	 */
 	@Test()
-	public void testFindAllPaginated() {
+	public void testFindByUserId() {
 		final Object testingData[][] = {
 			{
 				"user", "user2", "findByUserId", false, null, 1, 6, 1, 6, null

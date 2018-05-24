@@ -19,9 +19,6 @@ public interface GrouponRepository extends JpaRepository<Groupon, Integer> {
 	@Query("select g from Groupon g where g.creator.id = ?1")
 	Page<Groupon> findByCreatorId(int creatorId, Pageable pageable);
 
-	@Query("select p.groupon from Participation p where p.user.id = ?1")
-	Page<Groupon> findByParticipantId(int participantId, Pageable pageable);
-
 	@Query("select min((g.originalPrice - g.price)/(g.originalPrice * 1.0)), max((g.originalPrice - g.price)/(g.originalPrice * 1.0)), avg((g.originalPrice - g.price)/(g.originalPrice * 1.0)), stddev((g.originalPrice - g.price)/(g.originalPrice * 1.0)) from Groupon g")
 	Double[] minMaxAvgStandarDesviationDiscountPerGroupon();
 

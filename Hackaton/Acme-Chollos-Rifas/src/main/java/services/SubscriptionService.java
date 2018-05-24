@@ -131,6 +131,16 @@ public class SubscriptionService {
 		return result;
 	}
 
+	public Integer countByCreditCardId(final int creditCardId) {
+		Integer result;
+
+		Assert.isTrue(creditCardId != 0);
+
+		result = this.subscriptionRepository.countByCreditCardId(creditCardId);
+
+		return result;
+	}
+
 	public Subscription reconstruct(final Subscription subscription, final BindingResult binding) {
 		Subscription aux;
 		Subscription result;
