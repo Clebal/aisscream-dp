@@ -114,6 +114,10 @@
    		<security:intercept-url pattern="/user/administrator/topFiveUsersMoreValorations.do" access="hasRole('ADMIN')" />
    		<security:intercept-url pattern="/user/administrator/purchaseMoreTickets.do" access="hasRole('ADMIN')" />
    		<security:intercept-url pattern="/user/administrator/purchaseLessTickets.do" access="hasRole('ADMIN')" />
+   		<security:intercept-url pattern="/user/administrator/more10PercentageInteractions.do" access="hasRole('ADMIN')" />
+   		<security:intercept-url pattern="/user/administrator/moreAverageCharacterLenght.do" access="hasRole('ADMIN')" />
+   		<security:intercept-url pattern="/user/administrator/moreWonRaffles.do" access="hasRole('ADMIN')" />
+   		<security:intercept-url pattern="/user/administrator/purchase25PercentageMoreTotalForAllRaffles.do" access="hasRole('ADMIN')" />
 				
 		<!-- Company -->
 		<security:intercept-url pattern="/company/administrator/writerOfMorePercentage15.do" access="hasRole('ADMIN')" />
