@@ -294,7 +294,7 @@ public class UserService {
 		
 		for(User u: users) {
 			u.getWishList().remove(bargain);
-			this.save(u);
+			this.userRepository.save(u);
 		}
 	}
 	

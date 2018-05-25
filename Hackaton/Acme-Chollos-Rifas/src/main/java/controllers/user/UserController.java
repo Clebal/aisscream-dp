@@ -112,6 +112,7 @@ public class UserController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", bargainPage.getTotalPages());
 		result.addObject("requestURI", "actor/user/wishlist.do");
+		result.addObject("actorId", actorId);
 		
 		return result;
 	}
