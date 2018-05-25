@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.BargainService;
-import services.CompanyService;
 import services.GrouponService;
 import services.NotificationService;
 import services.SponsorshipService;
@@ -27,9 +26,6 @@ public class DashboardAdministratorController extends AbstractController {
 
 	@Autowired
 	private BargainService		bargainservice;
-
-	@Autowired
-	private CompanyService		companyservice;
 
 	@Autowired
 	private SponsorshipService	sponsorshipService;

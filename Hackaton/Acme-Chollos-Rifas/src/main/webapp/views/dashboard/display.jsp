@@ -87,18 +87,19 @@
 		<br>
 		
 		<div class="container">
+			<jstl:set var="zeroFifteen" value="<%= Double.valueOf(0.15)%>"/>
 		
-			<spring:url var="urlCompaniesWriterMorePercentage15" value="company/administrator/writerOfMorePercentage.do?percentage=0.15"/>
+			<spring:url var="urlCompaniesWriterMorePercentage15" value="company/administrator/writerOfMorePercentage15.do"/>
 			<a href="${urlCompaniesWriterMorePercentage15}" ><spring:message code="dashboard.survey.CompaniesWriterMorePercentage15"/></a>
 			
 			<br>
 			
-			<spring:url var="urlCompaniesWriterMorePercentage10" value="company/administrator/writerOfMorePercentage.do?percentage=0.10"/>
+			<spring:url var="urlCompaniesWriterMorePercentage10" value="company/administrator/writerOfMorePercentage10.do"/>
 			<a href="${urlCompaniesWriterMorePercentage10}" ><spring:message code="dashboard.survey.CompaniesWriterMorePercentage10"/></a>
 			
 			<br> 
 			
-			<spring:url var="urlCompaniesWriterMorePercentage5" value="company/administrator/writerOfMorePercentage.do?percentage=0.05"/>
+			<spring:url var="urlCompaniesWriterMorePercentage5" value="company/administrator/writerOfMorePercentage5.do"/>
 			<a href="${urlCompaniesWriterMorePercentage5}" ><spring:message code="dashboard.survey.CompaniesWriterMorePercentage5"/></a>
 		
 		</div>
