@@ -52,4 +52,6 @@
 	</tbody>
 </table>
 
-<acme:paginate pageNumber="${pageNumber}" url="actor/user/list.do" objects="${users}" page="${page}" />
+<jstl:if test="${page != null}">
+	<acme:paginate pageNumber="${pageNumber}" url="${requestURI}" objects="${users}" page="${page}" />
+</jstl:if>

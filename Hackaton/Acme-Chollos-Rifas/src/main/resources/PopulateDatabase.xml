@@ -253,6 +253,12 @@
 		<property name="identifier" value="20063918-Y" />
 		<property name="wishList">
 			<list>
+				<ref bean="bargain1" />
+				<ref bean="bargain2" />
+				<ref bean="bargain3" />
+				<ref bean="bargain4" />
+				<ref bean="bargain5" />
+				<ref bean="bargain6" />
 			</list>
 		</property>
 	</bean>
@@ -268,6 +274,9 @@
 		<property name="identifier" value="20063918-Y" />
 		<property name="wishList">
 			<list>
+				<ref bean="bargain1" />
+				<ref bean="bargain2" />
+				<ref bean="bargain3" />
 			</list>
 		</property>
 	</bean>
@@ -283,6 +292,9 @@
 		<property name="identifier" value="20063918-Y" />
 		<property name="wishList">
 			<list>
+				<ref bean="bargain4" />
+				<ref bean="bargain5" />
+				<ref bean="bargain6" />
 			</list>
 		</property>
 	</bean>
@@ -297,6 +309,8 @@
 		<property name="identifier" value="20063918-Y" />
 		<property name="wishList">
 			<list>
+				<ref bean="bargain5" />
+				<ref bean="bargain6" />
 			</list>
 		</property>
 	</bean>
@@ -312,6 +326,8 @@
 		<property name="identifier" value="20063918-Y" />
 		<property name="wishList">
 			<list>
+				<ref bean="bargain4" />
+				<ref bean="bargain5" />
 			</list>
 		</property>
 	</bean>
@@ -327,6 +343,7 @@
 		<property name="identifier" value="20063918-Y" />
 		<property name="wishList">
 			<list>
+				<ref bean="bargain5" />
 			</list>
 		</property>
 	</bean>
