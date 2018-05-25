@@ -63,9 +63,6 @@ public class ShowHideWishListTest extends AbstractTest {
 	 * 		1. 
 	 * 		2. 
 	 * 		3. 
-	 * 		4.
-	 * 		5.
-	 * 		6.
 	 * 
 	 * Requisitos:
 	 * 		
@@ -85,7 +82,6 @@ public class ShowHideWishListTest extends AbstractTest {
 		
 		for (int i = 0; i < testingData.length; i++)
 			try {
-				System.out.println(i);
 				super.startTransaction();
 				this.template((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 			} catch (final Throwable oops) {
