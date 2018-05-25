@@ -163,9 +163,9 @@ public class RegisterCompanyTest extends AbstractTest {
 				}, {
 					null, null, "francisco", "francisco", true, "Francisco", "Cerrada", null, "", "fran@mail.com", "20063918Y", "Example company", "SL", IllegalArgumentException.class  
 				}, {
-					null, null, "francisco", "francisco", true, "Francisco", "Cerrada", null, "", "fran@mail.com", "20063918Y", "Example company", "", IllegalArgumentException.class  
+					null, null, "francisco", "francisco", true, "Francisco", "Cerrada", null, "", "fran@mail.com", "20063918Y", "Example company", "", ConstraintViolationException.class  
 				}, {
-					null, null, "francisco", "francisco", true, "Francisco", "Cerrada", null, "", "fran@mail.com", "20063918Y", "Example company", null, IllegalArgumentException.class  
+					null, null, "francisco", "francisco", true, "Francisco", "Cerrada", null, "", "fran@mail.com", "20063918Y", "Example company", null, ConstraintViolationException.class  
 				}
 		};
 		

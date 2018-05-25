@@ -102,6 +102,10 @@ public class ModeratorService {
 	}
 	
 	// Other business methods
+	public void flush() {
+		this.moderatorRepository.flush();
+	}
+	
 	public Moderator findByUserAccountId(final int userAccountId) {
 		Moderator result;
 		

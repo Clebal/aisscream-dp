@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -14,12 +13,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Company;
+import forms.CompanyForm;
+
 import repositories.CompanyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Company;
-import forms.CompanyForm;
 
 @Service
 @Transactional
@@ -27,18 +27,17 @@ public class CompanyService {
 
 	// Managed repository
 	@Autowired
-	private CompanyRepository	companyRepository;
-
+	private CompanyRepository companyRepository;
+	
 	// Supporting services
 	@Autowired
-	private Validator			validator;
-
-
+	private Validator		validator;
+	
 	// Constructor
 	public CompanyService() {
 		super();
 	}
-
+	
 	// Simple CRUD methods
 	public Company create() {
 		Company result;
@@ -53,55 +52,55 @@ public class CompanyService {
 		userAccount.addAuthority(authority);
 
 		result.setUserAccount(userAccount);
-
+		
 		return result;
 	}
-
+	
 	public Collection<Company> findAll() {
 		Collection<Company> result;
-
+		
 		result = this.companyRepository.findAll();
-
+		
 		return result;
 	}
-
+	
 	public Company findOne(final int companyId) {
 		Company result;
-
+		
 		Assert.isTrue(companyId != 0);
-
+		
 		result = this.companyRepository.findOne(companyId);
-
+		
 		return result;
 	}
-
+	
 	public Company save(final Company company) {
 		Company result, saved;
 		Md5PasswordEncoder encoder;
-
+		
 		Assert.notNull(company);
 
 		encoder = new Md5PasswordEncoder();
-
-		if (company.getId() == 0) {
+		
+		if(company.getId() == 0) {
 			// Para crear un company debes estar sin autenticar
 			Assert.isTrue(!LoginService.isAuthenticated());
-			company.getUserAccount().setPassword(encoder.encodePassword(company.getUserAccount().getPassword(), null));
+			company.getUserAccount().setPassword(encoder.encodePassword(company.getUserAccount().getPassword(), null));			
 		} else {
-			// Solo puede ser editado por ï¿½l mismo
+			// Solo puede ser editado por él mismo
 			Assert.isTrue(company.getUserAccount().equals(LoginService.getPrincipal()));
-
-			// No se puede cambiar usuario ni contraseï¿½a
+			
+			// No se puede cambiar usuario ni contraseña
 			saved = this.findOne(company.getId());
 			Assert.isTrue(saved.getUserAccount().getUsername().equals(company.getUserAccount().getUsername()));
 			Assert.isTrue(company.getUserAccount().getPassword().equals(saved.getUserAccount().getPassword()));
 		}
-
+		
 		result = this.companyRepository.save(company);
-
+		
 		return result;
 	}
-
+		
 	// Other business methods
 	public void flush() {
 		this.companyRepository.flush();
@@ -109,30 +108,30 @@ public class CompanyService {
 	
 	public Page<Company> findAllPaginated(final int page, final int size) {
 		Page<Company> result;
-
+		
 		Assert.isTrue(page >= 0);
-
+		
 		result = this.companyRepository.findAll(this.getPageable(page, size));
-
+		
 		return result;
 	}
 
 	public Company findByUserAccountId(final int userAccountId) {
 		Company result;
-
+		
 		Assert.isTrue(userAccountId != 0);
-
+		
 		result = this.companyRepository.findByUserAccountId(userAccountId);
-
+		
 		return result;
 	}
-
+	
 	public Page<Company> companiesWithMoreTags(final int page, final int size) {
 		Page<Company> result;
 		Authority authority;
-
+		
 		Assert.isTrue(page >= 0);
-
+		
 		// Solo accesible por el administrador
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
@@ -142,7 +141,7 @@ public class CompanyService {
 
 		return result;
 	}
-
+	
 	public Page<Company> findWithMoreAvgPercentageSurveys15(final int page, final int size) {
 		Page<Company> result;
 		Authority authority;
@@ -184,7 +183,7 @@ public class CompanyService {
 
 		return result;
 	}
-
+	
 	// Auxiliary methods
 	private Pageable getPageable(final int page, final int size) {
 		Pageable result;
@@ -197,7 +196,7 @@ public class CompanyService {
 		return result;
 
 	}
-
+	
 	// Reconstruct
 	public Company reconstruct(CompanyForm companyForm, final BindingResult binding) {
 		Company result;
@@ -232,5 +231,5 @@ public class CompanyService {
 
 		return result;
 	}
-
+	
 }
