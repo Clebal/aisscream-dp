@@ -175,7 +175,7 @@ public class TicketUserController extends AbstractController {
 		} else {
 			try {
 				this.ticketService.save(tickets, false);
-				result = new ModelAndView("redirect:/raffle/display.do?raffleId="+ticketForm.getRaffle().getId());
+				result = new ModelAndView("redirect:/ticket/user/list.do");
 			} catch (Throwable oops) {
 				result = buyModelAndView(ticketForm, "ticket.commit.error");
 			}

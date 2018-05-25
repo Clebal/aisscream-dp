@@ -129,6 +129,10 @@ public class UserService {
 	}
 
 	// Other business methods
+	public void flush() {
+		this.userRepository.flush();
+	}
+	
 	public void updateFromBargain(final Bargain bargain) {
 		Collection<User> users;
 		Authority authority;
@@ -157,6 +161,19 @@ public class UserService {
 		Assert.isTrue(id != 0);
 
 		result = this.userRepository.findByUserAccountId(id);
+
+		return result;
+	}
+
+	public User findByUserAccountIdToEdit(final int id) {
+		User result;
+
+		Assert.isTrue(id != 0);
+
+		result = this.userRepository.findByUserAccountId(id);
+		Assert.notNull(result);
+		
+		Assert.isTrue(result.getUserAccount().equals(LoginService.getPrincipal()));
 
 		return result;
 	}
@@ -267,7 +284,7 @@ public class UserService {
 
 		Assert.isTrue(LoginService.isAuthenticated());
 
-		// Puede ser borrado por el moderador o por su compañía
+		// Puede ser borrado por el moderador o por su compaï¿½ï¿½a
 		authority = new Authority();
 		authority.setAuthority("MODERATOR");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority) || bargain.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
@@ -444,17 +461,17 @@ public class UserService {
 		Collection<Bargain> wishList;
 		String defaultAvatar;
 		wishList = new ArrayList<Bargain>();
-
+				
 		if (userForm.getId() == 0) {
 			result = this.create();
 
 			Assert.notNull(result);
 			Assert.isTrue(userForm.getCheckPassword().equals(userForm.getPassword()));
 			Assert.isTrue(userForm.isCheck());
-
+			
 			result.getUserAccount().setUsername(userForm.getUsername());
 			result.getUserAccount().setPassword(userForm.getPassword());
-
+			
 			// Por defecto, un usuario tiene 50 puntos
 			result.setPoints(50);
 			result.setWishList(wishList);
@@ -462,7 +479,7 @@ public class UserService {
 		} else {
 			result = this.findOne(userForm.getId());
 			Assert.notNull(result);
-			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));
+			Assert.isTrue(result.getUserAccount().getUsername().equals(userForm.getUsername()));			
 		}
 
 		result.setName(userForm.getName());
@@ -471,11 +488,10 @@ public class UserService {
 		result.setEmail(userForm.getEmail());
 		result.setPhone(userForm.getPhone());
 		result.setIdentifier(userForm.getIdentifier());
-
+		
 		defaultAvatar = this.configurationService.findDefaultAvatar();
-		if (userForm.getAvatar() == null || userForm.getAvatar() != null && userForm.getAvatar() == "")
-			userForm.setAvatar(defaultAvatar);
-
+		if(userForm.getAvatar() == null || userForm.getAvatar() != null && userForm.getAvatar() == "") userForm.setAvatar(defaultAvatar);
+		
 		result.setAvatar(userForm.getAvatar());
 
 		this.validator.validate(userForm, binding);

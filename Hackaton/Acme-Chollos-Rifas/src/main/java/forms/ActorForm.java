@@ -1,6 +1,7 @@
 
 package forms;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -113,6 +114,7 @@ public class ActorForm {
 	}
 
 	@NotBlank
+	@Pattern(regexp = "^(?![\\W]+$)(?=.{2,12}$)[-0-9]*(?:[a-zA-Z-0-9]*){0,3}$")
 	public String getIdentifier() {
 		return identifier;
 	}

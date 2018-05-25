@@ -88,10 +88,10 @@ public class CompanyService {
 			Assert.isTrue(!LoginService.isAuthenticated());
 			company.getUserAccount().setPassword(encoder.encodePassword(company.getUserAccount().getPassword(), null));
 		} else {
-			// Solo puede ser editado por él mismo
+			// Solo puede ser editado por ï¿½l mismo
 			Assert.isTrue(company.getUserAccount().equals(LoginService.getPrincipal()));
 
-			// No se puede cambiar usuario ni contraseña
+			// No se puede cambiar usuario ni contraseï¿½a
 			saved = this.findOne(company.getId());
 			Assert.isTrue(saved.getUserAccount().getUsername().equals(company.getUserAccount().getUsername()));
 			Assert.isTrue(company.getUserAccount().getPassword().equals(saved.getUserAccount().getPassword()));
@@ -103,6 +103,10 @@ public class CompanyService {
 	}
 
 	// Other business methods
+	public void flush() {
+		this.companyRepository.flush();
+	}
+	
 	public Page<Company> findAllPaginated(final int page, final int size) {
 		Page<Company> result;
 
@@ -195,9 +199,9 @@ public class CompanyService {
 	}
 
 	// Reconstruct
-	public Company reconstruct(final CompanyForm companyForm, final BindingResult binding) {
+	public Company reconstruct(CompanyForm companyForm, final BindingResult binding) {
 		Company result;
-
+		
 		if (companyForm.getId() == 0) {
 			result = this.create();
 
@@ -207,24 +211,23 @@ public class CompanyService {
 
 			result.getUserAccount().setUsername(companyForm.getUsername());
 			result.getUserAccount().setPassword(companyForm.getPassword());
-
+			
 			result.getUserAccount().setEnabled(true);
 		} else {
 			result = this.findOne(companyForm.getId());
 			Assert.notNull(result);
-			Assert.isTrue(result.getUserAccount().getUsername().equals(companyForm.getUsername()));
 		}
-
+		
 		result.setName(companyForm.getName());
 		result.setSurname(companyForm.getSurname());
 		result.setAddress(companyForm.getAddress());
 		result.setEmail(companyForm.getEmail());
 		result.setPhone(companyForm.getPhone());
-		result.setIdentifier(companyForm.getIdentifier());
-
+		result.setIdentifier(companyForm.getIdentifier());		
+		
 		result.setCompanyName(companyForm.getCompanyName());
 		result.setType(companyForm.getType());
-
+		
 		this.validator.validate(companyForm, binding);
 
 		return result;

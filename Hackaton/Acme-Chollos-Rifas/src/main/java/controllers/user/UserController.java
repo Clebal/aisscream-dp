@@ -64,6 +64,7 @@ public class UserController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", userPage.getTotalPages());
 		result.addObject("users", userLevel);
+		result.addObject("/actor/user/list.do");
 		return result;
 	}
 	

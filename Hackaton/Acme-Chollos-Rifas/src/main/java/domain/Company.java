@@ -25,6 +25,7 @@ public class Company extends Actor implements Surveyer {
 	}
 
 	@Pattern(regexp="^(SL||AS||AUTONOMO||COOPERATIVA)$")
+	@NotBlank
 	public String getType() {
 		return type;
 	}

@@ -85,10 +85,10 @@ public class SponsorService {
 			Assert.isTrue(!LoginService.isAuthenticated());
 			sponsor.getUserAccount().setPassword(encoder.encodePassword(sponsor.getUserAccount().getPassword(), null));			
 		} else {
-			// Solo puede ser editado por él mismo
+			// Solo puede ser editado por ï¿½l mismo
 			Assert.isTrue(sponsor.getUserAccount().equals(LoginService.getPrincipal()));
 			
-			// No se puede cambiar usuario ni contraseña
+			// No se puede cambiar usuario ni contraseï¿½a
 			saved = this.sponsorRepository.findOne(sponsor.getId());
 			Assert.isTrue(saved.getUserAccount().getUsername().equals(sponsor.getUserAccount().getUsername()));
 			Assert.isTrue(sponsor.getUserAccount().getPassword().equals(saved.getUserAccount().getPassword()));
@@ -100,6 +100,10 @@ public class SponsorService {
 	}
 	
 	// Other business methods
+	public void flush() {
+		this.sponsorRepository.flush();
+	}
+	
 	public Sponsor findByUserAccountId(final int userAccountId) {
 		Sponsor result;
 		
