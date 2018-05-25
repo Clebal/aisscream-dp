@@ -88,8 +88,12 @@
 </jstl:if>
 
 
-<jstl:if test="${!requestURI.equals('bargain/bytag.do') && !requestURI.equals('bargain/bycategory.do') && !requestURI.equals('category/company/addCategory.do') && !requestURI.equals('category/company/removeCategory.do')}">
+<jstl:if test="${!requestURI.equals('bargain/bytag.do') && !requestURI.equals('bargain/bycategory.do') && !requestURI.equals('category/company/addCategory.do') && !requestURI.equals('category/company/removeCategory.do') && !requestURI.equals('actor/user/wishlist.do')}">
 	<acme:paginate pageNumber="${pageNumber}" url="${requestURI}" objects="${bargains}" page="${page}" parameter="categoryId" parameterValue="${categoryId}"/>
+</jstl:if>
+
+<jstl:if test="${requestURI.equals('actor/user/wishlist.do')}">
+	<acme:paginate pageNumber="${pageNumber}" url="${requestURI}" objects="${bargains}" page="${page}" parameter="actorId" parameterValue="${actorId}"/>
 </jstl:if>
 
 <br><br>
@@ -97,3 +101,4 @@
 <jstl:if test="${requestURI.equals('bargain/company/list.do')}">
 	<acme:displayLink parameter="companyId" code="bargain.create" action="category/company/createBargain.do" parameterValue="${bargain.getCompany().getId()}" css="btn btn-primary"></acme:displayLink>
 </jstl:if>
+
