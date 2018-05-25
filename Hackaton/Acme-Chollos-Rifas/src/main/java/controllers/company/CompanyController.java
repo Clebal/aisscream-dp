@@ -42,6 +42,7 @@ public class CompanyController extends AbstractController {
 		result.addObject("pageNumber", actors.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("model", "company");
+		result.addObject("requestURI", "actor/company/list.do");
 		
 		return result;
 	}

@@ -41,7 +41,8 @@ public class CompanyAdministratorController extends AbstractController {
 		result.addObject("pageNumber", actors.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("model", "company");
-
+		result.addObject("requestURI", "company/administrator/companiesWithMoreTags.do");
+		
 		return result;
 	}
 
@@ -58,6 +59,7 @@ public class CompanyAdministratorController extends AbstractController {
 		result.addObject("pageNumber", actors.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("model", "company");
+		result.addObject("requestURI", "company/administrator/writerOfMorePercentage15.do");
 
 		return result;
 	}
@@ -75,6 +77,7 @@ public class CompanyAdministratorController extends AbstractController {
 		result.addObject("pageNumber", actors.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("model", "company");
+		result.addObject("requestURI", "company/administrator/writerOfMorePercentage10.do");
 
 		return result;
 	}
@@ -92,6 +95,7 @@ public class CompanyAdministratorController extends AbstractController {
 		result.addObject("pageNumber", actors.getTotalPages());
 		result.addObject("page", page);
 		result.addObject("model", "company");
+		result.addObject("requestURI", "company/administrator/writerOfMorePercentage5.do");
 
 		return result;
 	}

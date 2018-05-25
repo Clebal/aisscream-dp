@@ -38,4 +38,4 @@
 	
 </display:table>
 
-<acme:paginate pageNumber="${pageNumber}" url="actor/company/list.do" objects="${actors}" page="${page}"/>
+<acme:paginate pageNumber="${pageNumber}" url="${requestURI}" objects="${actors}" page="${page}"/>
