@@ -131,7 +131,7 @@ public class ShowHideWishListTest extends AbstractTest {
 			// 4. VVolver al perfil
 			user = this.userService.findOne(oldUser.getId());
 			Assert.notNull(user);
-			Assert.isTrue(oldWishListState != user.getUserAccount().isEnabled());
+			Assert.isTrue(oldWishListState != user.getIsPublicWishList());
 				
 			super.unauthenticate();
 			super.flushTransaction();
