@@ -206,12 +206,14 @@ public class CreditCardUserController extends AbstractController {
 		
 		result = new ModelAndView("creditcard/edit");
 		
-		isAdded = this.ticketService.countByCreditCardId(creditCard.getId()) == 0;
+		if(creditCard.getId() != 0) {
+			isAdded = this.ticketService.countByCreditCardId(creditCard.getId()) == 0;
+			result.addObject("isAdded", isAdded);
+		}
 
 		
 		result.addObject("creditCard", creditCard);
 		result.addObject("message", messageCode);
-		result.addObject("isAdded", isAdded);
 
 		return result;
 	}
