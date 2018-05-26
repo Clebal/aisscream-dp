@@ -39,6 +39,7 @@ public class RaffleUserController extends AbstractController {
 		result.addObject("raffles", rafflePage.getContent());
 		result.addObject("pageNumber", rafflePage.getTotalPages());
 		result.addObject("page", page);
+		result.addObject("requestURI", "raffle/user/list.do");
 		
 		return result;
 	}
