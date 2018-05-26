@@ -251,6 +251,7 @@
 		<property name="points" value="620" />
 		<property name="userAccount" ref="userAccountUser1" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="isPublicWishList" value="true" />
 		<property name="wishList">
 			<list>
 				<ref bean="bargain1" />
@@ -272,6 +273,7 @@
 		<property name="points" value="50" />
 		<property name="userAccount" ref="userAccountUser2" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="isPublicWishList" value="true" />
 		<property name="wishList">
 			<list>
 				<ref bean="bargain1" />
@@ -290,6 +292,7 @@
 		<property name="points" value="20" />
 		<property name="userAccount" ref="userAccountUser3" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="isPublicWishList" value="false" />
 		<property name="wishList">
 			<list>
 				<ref bean="bargain4" />
@@ -307,6 +310,7 @@
 		<property name="points" value="300" />
 		<property name="userAccount" ref="userAccountUser4" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="isPublicWishList" value="false" />
 		<property name="wishList">
 			<list>
 				<ref bean="bargain5" />
@@ -324,6 +328,7 @@
 		<property name="points" value="100" />
 		<property name="userAccount" ref="userAccountUser5" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="isPublicWishList" value="false" />
 		<property name="wishList">
 			<list>
 				<ref bean="bargain4" />
@@ -341,6 +346,7 @@
 		<property name="points" value="-100" />
 		<property name="userAccount" ref="userAccountUser6" />
 		<property name="identifier" value="20063918-Y" />
+		<property name="isPublicWishList" value="false" />
 		<property name="wishList">
 			<list>
 				<ref bean="bargain5" />
