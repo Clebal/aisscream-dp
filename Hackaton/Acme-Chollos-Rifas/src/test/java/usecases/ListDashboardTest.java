@@ -224,8 +224,8 @@ public class ListDashboardTest extends AbstractTest {
 			Assert.isTrue(findWithMoreAvgPercentageSurveys5.getContent().size() == 2);
 
 			//Top-5 usuarios que más valoraciones han  realizado.
-			topFiveUsersMoreValorations = this.userService.topFiveUsersMoreValorations(1, 10);
-			Assert.isTrue(topFiveUsersMoreValorations.getContent().size() == 6);
+			topFiveUsersMoreValorations = this.userService.topFiveUsersMoreValorations(1, 5);
+			Assert.isTrue(topFiveUsersMoreValorations.getContent().size() == 5);
 
 			//Ratio de usuarios que realizan  comentarios.
 			ratioUsersWithComments = this.userService.ratioUsersWithComments();
