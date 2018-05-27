@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,6 +51,7 @@ public class CategoryService {
 			result.setFatherCategory(category);
 
 		result.setDefaultCategory(false);
+		result.setBargains(new ArrayList<Bargain>());
 
 		return result;
 	}
@@ -122,10 +124,14 @@ public class CategoryService {
 		//Cogemos la categoría por defecto
 		defaultCategory = this.categoryRepository.findByDefaultCategory();
 		Assert.notNull(defaultCategory);
-		//Vemos que el moderador no borre la categoría por defecto
-		Assert.isTrue(category.getId() != defaultCategory.getId());
 
-		childrenCategories = this.findAllByFatherCategoryId(category.getId());
+		//Sacamos la categoría
+		saved = this.findOne(category.getId());
+
+		//Vemos que el moderador no borre la categoría por defecto
+		Assert.isTrue(saved.getId() != defaultCategory.getId());
+
+		childrenCategories = this.findAllByFatherCategoryId(saved.getId());
 		Assert.notNull(childrenCategories);
 
 		//Si tiene hijos usamos recursión
@@ -133,8 +139,8 @@ public class CategoryService {
 			this.delete(c);
 
 		//Cuando ya no tiene hijos, actualizamos qué categoría le queda al bargain
-		for (final Bargain bargain : category.getBargains()) {
-			categories = this.findAllByBargainId(bargain.getId());
+		for (final Bargain bargain : saved.getBargains()) {
+			categories = this.findAllByBargainId(saved.getId());
 			//La categoría que le queda es la que se va a borrar, le metemos la por defecto
 			if (categories.size() == 1) {
 				defaultCategory.getBargains().add(bargain);
@@ -142,7 +148,7 @@ public class CategoryService {
 			}
 		}
 
-		saved = this.findOne(category.getId());
+		saved = this.findOne(saved.getId());
 		Assert.notNull(saved);
 		this.categoryRepository.delete(saved);
 
@@ -382,6 +388,7 @@ public class CategoryService {
 	// Pruned object domain
 	public Category reconstruct(final Category category, final BindingResult binding) {
 		Category aux;
+		List<Bargain> bargains;
 
 		if (category.getId() != 0) {
 			aux = this.categoryRepository.findOne(category.getId());
@@ -393,7 +400,8 @@ public class CategoryService {
 			aux = this.create(category.getFatherCategory());
 			category.setVersion(aux.getVersion());
 			category.setDefaultCategory(false);
-			category.setBargains(new ArrayList<Bargain>());
+			bargains = new ArrayList<Bargain>();
+			category.setBargains(bargains);
 		}
 
 		this.validator.validate(category, binding);

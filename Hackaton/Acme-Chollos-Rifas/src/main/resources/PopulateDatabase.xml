@@ -2413,7 +2413,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="productName" value="Batamanta" />
 		<property name="productUrl" value="http://batamanta.es/" />
 		<property name="description" value="Lo mejor para estar por casa." />
-		<property name="price" value="10" />
+		<property name="price" value="15" />
 		<property name="minimumPrice" value="0" />
 		<property name="originalPrice" value="15" />
 		<property name="estimatedSells" value="50" />

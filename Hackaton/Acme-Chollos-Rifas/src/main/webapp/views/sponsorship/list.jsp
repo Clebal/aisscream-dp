@@ -25,9 +25,16 @@
 		<spring:message code="sponsorship.image" var="contentImage"/>
 		<acme:columnLink url="${row.getImage()}"  domain="sponsorship" code="image" content="${contentImage}"/>
 	
+		
+		<spring:message code="sponsorship.bargain" var="sponsorshipBargain"/>
+		<display:column title="${sponsorshipBargain}">
+			<jstl:out value="${row.getBargain().getProductName()}"></jstl:out>
+		</display:column>
+	
 		<acme:columnLink id="${row.getId()}" domain="sponsorship" actor="sponsor" action="display"/>
 	
 	</jstl:if>
+	
 	
 	<jstl:if test="${requestURI.equals('sponsorship/list.do')}">
 		<spring:message code="sponsorship.sponsorships" var="sponsorshipSponsorships"/>
