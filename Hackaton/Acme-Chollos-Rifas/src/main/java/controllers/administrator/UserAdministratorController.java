@@ -55,6 +55,8 @@ public class UserAdministratorController extends AbstractController {
 
 		result = new ModelAndView("user/list");
 		result.addObject("users", userLevel);
+		result.addObject("requestURI", "/user/administrator/topFiveUsersMoreValorations.do");
+		
 		return result;
 	}
 
@@ -80,7 +82,8 @@ public class UserAdministratorController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", userPage.getTotalPages());
 		result.addObject("users", userLevel);
-		result.addObject("/user/administrator/purchaseMoreTickets.do");
+		result.addObject("requestURI", "/user/administrator/purchaseMoreTickets.do");
+		
 		return result;
 	}
 
@@ -106,7 +109,8 @@ public class UserAdministratorController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", userPage.getTotalPages());
 		result.addObject("users", userLevel);
-		result.addObject("/user/administrator/purchaseLessTickets.do");
+		result.addObject("requestURI", "/user/administrator/purchaseLessTickets.do");
+		
 		return result;
 	}
 
@@ -131,7 +135,8 @@ public class UserAdministratorController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", userPage.getTotalPages());
 		result.addObject("users", userLevel);
-		result.addObject("/user/administrator/more10PercentageInteractions.do");
+		result.addObject("requestURI", "/user/administrator/more10PercentageInteractions.do");
+		
 		return result;
 	}
 
@@ -156,7 +161,8 @@ public class UserAdministratorController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", userPage.getTotalPages());
 		result.addObject("users", userLevel);
-		result.addObject("/user/administrator/moreAverageCharacterLenght.do");
+		result.addObject("requestURI", "/user/administrator/moreAverageCharacterLenght.do");
+		
 		return result;
 	}
 
@@ -181,7 +187,7 @@ public class UserAdministratorController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", userPage.getTotalPages());
 		result.addObject("users", userLevel);
-		result.addObject("/user/administrator/moreWonRaffles.do");
+		result.addObject("requestURI", "/user/administrator/moreWonRaffles.do");
 		return result;
 	}
 
@@ -206,7 +212,7 @@ public class UserAdministratorController extends AbstractController {
 		result.addObject("page", page);
 		result.addObject("pageNumber", userPage.getTotalPages());
 		result.addObject("users", userLevel);
-		result.addObject("/user/administrator/purchase25PercentageMoreTotalForAllRaffles.do");
+		result.addObject("requestURI", "/user/administrator/purchase25PercentageMoreTotalForAllRaffles.do");
 		return result;
 	}
 

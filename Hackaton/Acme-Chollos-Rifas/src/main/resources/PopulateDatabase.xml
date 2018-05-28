@@ -1094,6 +1094,23 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="price" value="0" />
 		<property name="company" ref="company3" />
 	</bean>
+	
+	<bean id="raffle14" class="domain.Raffle">
+		<property name="title" value="El anillo único de Saurom" />
+		<property name="description" value="El anillo único fue forjado por Saurom en las calderas del Monte del Destino y entregado a los elfos, pero ahora... TE ELIJE A TI! Compra un tique para esta apasionante rifa en la Tierra Media." />
+		<property name="productName" value="Anillo único" />
+		<property name="maxDate" value="01/01/2020" />
+		<property name="productImages">
+			<list>
+				<value>http://de10.com.mx/sites/default/files/styles/detalle_nota/public/field/image/destacada_senior-anuillos.jpg</value>
+				<value>http://static.alfabetajuega.com/abj_public_files/multimedia/imagenes/201502/98514.alfabetajuega-anillo-unico-020215.jpg</value>
+				<value>https://supercurioso.com/wp-content/uploads/2014/10/elanillo-unico.jpg</value>
+			</list>
+		</property>
+		<property name="price" value="1" />
+		<property name="company" ref="company3" />
+	</bean>
+	
 		
 	<!-- Ticket -->
 	<bean id="ticket1raffle1user1" class="domain.Ticket">
