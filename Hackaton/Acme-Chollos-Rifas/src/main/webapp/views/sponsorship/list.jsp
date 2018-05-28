@@ -59,8 +59,11 @@
 
 </display:table>
 
+<jstl:if test="${requestURI.equals('sponsorship/sponsor/list.do')}">
+	<acme:paginate pageNumber="${pageNumber }" url="${requestURI}" objects="${sponsorships}" page="${page}" />
+</jstl:if>
 
-<acme:paginate pageNumber="${pageNumber }" url="${requestURI}" objects="${sponsorships}" page="${page}"/>
-
-	
+<jstl:if test="${requestURI.equals('sponsorship/list.do')}">
+	<acme:paginate pageNumber="${pageNumber }" url="${requestURI}" objects="${sponsorships}" page="${page}" parameter="bargainId" parameterValue="${bargainId}"/>
+</jstl:if>
 

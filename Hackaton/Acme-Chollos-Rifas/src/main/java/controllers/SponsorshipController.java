@@ -65,6 +65,7 @@ public class SponsorshipController extends AbstractController {
 		result.addObject("sponsorships", sponsorships.getContent());
 		result.addObject("requestURI", "sponsorship/list.do");
 		result.addObject("linkBroken", linkBroken);
+		result.addObject("bargainId", bargainId);
 		result.addObject("imageBroken", this.configurationService.findDefaultImage());
 
 		return result;

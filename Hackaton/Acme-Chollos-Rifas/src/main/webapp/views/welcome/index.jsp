@@ -78,7 +78,7 @@
 								<p style="text-align: center; font-size: 20px; font-weight: bold;"><spring:message code="welcome.currency.english" /><fmt:formatNumber value="${item.getPrice() - (item.getPrice() * 0.025)}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/><spring:message code="welcome.currency.spanish" /></p>
 							</jstl:if>
 							
-							<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/display.do?actorId=${item.getCompany().getId()}">${item.getCompany().getCompanyName()}</a></small><br><br>
+							<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/profile.do?actorId=${item.getCompany().getId()}">${item.getCompany().getCompanyName()}</a></small><br><br>
 							
 							<jstl:if test="${item.getIsPublished() || !isSponsor }">
 								<a href="bargain/display.do?bargainId=${item.getId()}" class="btn btn-default"><spring:message code="welcome.details" /></a>

@@ -460,7 +460,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		
 		<property name="messageCode" value="welcome.message" />
 
-		<property name="value" value="Acme Bargains And Raffles"/>
+		<property name="value" value="Acme Bargains and Raffles"/>
 	</bean>
 	
 	<bean id="internationalization4" class="domain.Internationalization">

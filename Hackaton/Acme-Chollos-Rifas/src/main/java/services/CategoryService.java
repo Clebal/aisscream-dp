@@ -140,7 +140,7 @@ public class CategoryService {
 
 		//Cuando ya no tiene hijos, actualizamos qué categoría le queda al bargain
 		for (final Bargain bargain : saved.getBargains()) {
-			categories = this.findAllByBargainId(saved.getId());
+			categories = this.findAllByBargainId(bargain.getId());
 			//La categoría que le queda es la que se va a borrar, le metemos la por defecto
 			if (categories.size() == 1) {
 				defaultCategory.getBargains().add(bargain);
