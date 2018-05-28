@@ -1,19 +1,25 @@
 
 package usecases;
 
+import java.util.Locale;
+
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import services.ConfigurationService;
+import services.InternationalizationService;
 import utilities.AbstractTest;
 import domain.Configuration;
+import domain.Internationalization;
+import forms.ConfigurationForm;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -24,7 +30,10 @@ public class ConfigurationTest extends AbstractTest {
 
 	// System under test ------------------------------------------------------
 	@Autowired
-	private ConfigurationService	configurationService;
+	private ConfigurationService		configurationService;
+
+	@Autowired
+	private InternationalizationService	internationalizationService;
 
 
 	// Tests ------------------------------------------------------------------
@@ -127,7 +136,11 @@ public class ConfigurationTest extends AbstractTest {
 		Class<?> caught;
 
 		Configuration configuration;
+		ConfigurationForm configurationForm;
 		Configuration saved;
+		final Locale locale;
+		String code;
+		Internationalization internationalization;
 
 		caught = null;
 
@@ -135,17 +148,24 @@ public class ConfigurationTest extends AbstractTest {
 			super.startTransaction();
 			this.authenticate(username);
 
+			//Creamos el form
+			configurationForm = new ConfigurationForm();
+
 			//Sacamos la configuration
+			locale = LocaleContextHolder.getLocale();
+			code = locale.getLanguage();
 			configuration = this.configurationService.findUnique();
+			configurationForm.setConfiguration(configuration);
+			configurationForm.setWelcomeMessage(this.internationalizationService.findByCountryCodeAndMessageCode(code, "welcome.message").getValue());
 
-			configuration.setBanner(banner);
-			configuration.setDefaultAvatar(defaultAvatar);
-			configuration.setDefaultImage(defaultImage);
-			configuration.setEmail(email);
-			configuration.setName(name);
-			configuration.setSlogan(slogan);
+			configurationForm.getConfiguration().setBanner(banner);
+			configurationForm.getConfiguration().setDefaultAvatar(defaultAvatar);
+			configurationForm.getConfiguration().setDefaultImage(defaultImage);
+			configurationForm.getConfiguration().setEmail(email);
+			configurationForm.getConfiguration().setSlogan(slogan);
+			configurationForm.setWelcomeMessage(name);
 
-			saved = this.configurationService.save(configuration);
+			saved = this.configurationService.save(configurationForm);
 			this.configurationService.flush();
 
 			//Vemos que se haya actualizado
@@ -153,7 +173,9 @@ public class ConfigurationTest extends AbstractTest {
 			Assert.isTrue(configuration.getDefaultAvatar().equals(defaultAvatar));
 			Assert.isTrue(saved.getDefaultImage().equals(defaultImage));
 			Assert.isTrue(saved.getEmail().equals(email));
-			Assert.isTrue(saved.getName().equals(name));
+			Assert.isTrue(saved.getName().equals("welcome.message"));
+			internationalization = this.internationalizationService.findByCountryCodeAndMessageCode(code, "welcome.message");
+			Assert.isTrue(internationalization.getValue().equals(name));
 			Assert.isTrue(saved.getSlogan().equals(slogan));
 
 		} catch (final Throwable oops) {
