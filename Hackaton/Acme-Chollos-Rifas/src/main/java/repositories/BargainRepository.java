@@ -12,8 +12,8 @@ import domain.Bargain;
 @Repository
 public interface BargainRepository extends JpaRepository<Bargain, Integer> {
 
-	@Query("select b from User u join u.wishList b where u.userAccount.id = ?1")
-	Page<Bargain> findBargainByUserAccountId(int userAccountId, Pageable pageable);
+	@Query("select b from User u join u.wishList b where u.id = ?1")
+	Page<Bargain> findBargainByActorId(int userAccountId, Pageable pageable);
 
 	//Todos
 	@Query("select b from Bargain b where b.isPublished=true")

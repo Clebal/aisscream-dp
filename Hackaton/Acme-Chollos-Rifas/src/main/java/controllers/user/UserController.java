@@ -105,7 +105,7 @@ public class UserController extends AbstractController {
 		} else
 			Assert.isTrue(user.getIsPublicWishList());
 		
-		bargainPage = this.bargainService.findBargainByUserAccountId(LoginService.getPrincipal().getId(), page, 5);
+		bargainPage = this.bargainService.findBargainByActorId(actorId, page, 5);
 		
 		result = new ModelAndView("bargain/list");
 		result.addObject("bargains", bargainPage.getContent());

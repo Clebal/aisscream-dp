@@ -216,12 +216,12 @@ public class BargainService {
 
 	}
 	// Other business methods
-	public Page<Bargain> findBargainByUserAccountId(final int userAccountId, final int page, final int size) {
+	public Page<Bargain> findBargainByActorId(final int userAccountId, final int page, final int size) {
 		Page<Bargain> result;
 
 		Assert.isTrue(userAccountId != 0);
 
-		result = this.bargainRepository.findBargainByUserAccountId(userAccountId, this.getPageable(page, size));
+		result = this.bargainRepository.findBargainByActorId(userAccountId, this.getPageable(page, size));
 
 		return result;
 	}
