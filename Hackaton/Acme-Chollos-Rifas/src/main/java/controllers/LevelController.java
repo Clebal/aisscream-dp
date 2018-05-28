@@ -56,7 +56,7 @@ public class LevelController extends AbstractController {
 		Level level;
 		String defaultImage;
 
-		defaultImage = this.configurationService.findDefaultImage();
+		defaultImage = this.configurationService.findDefaultAvatar();
 		level = this.levelService.findOne(levelId);
 		Assert.notNull(level);
 
