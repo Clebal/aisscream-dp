@@ -39,10 +39,7 @@
 
 	<nav>
 		<ul class="pagination">
-			<jstl:if test="${pageNumber > 1}">
-				<li><a href='<jstl:out value="${url}" />'> <span>&laquo;</span></a></li>
-			</jstl:if>
-			
+		
 			<spring:url var="urlFirstPage" value="${url}">
 				<jstl:if test="${parameter!=null && parameterValue!=null}">
 					<spring:param name="${parameter}" value="${parameterValue}" />
@@ -50,7 +47,12 @@
 				<jstl:if test="${parameter2!=null && parameterValue2!=null}">
 					<spring:param name="${parameter2}" value="${parameterValue2}" />
 				</jstl:if>
+				<spring:param name="page" value="1" />
 			</spring:url>
+			
+			<jstl:if test="${pageNumber > 1}">
+				<li><a href='<jstl:out value="${urlFirstPage}" />'> <span>&laquo;</span></a></li>
+			</jstl:if>
 			
 			<jstl:forEach var="i" begin="1" end="${pageNumber}">
 
