@@ -9,21 +9,21 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="configuration/administrator/edit.do" modelAttribute="configuration">
+<form:form action="configuration/administrator/edit.do" modelAttribute="configurationForm">
 
-	<form:hidden path="id" />
+	<form:hidden path="configuration.id" />
 	
-	<acme:textbox code="configuration.name" path="name" />
+	<acme:textbox code="configuration.name" path="welcomeMessage" />
 		
-	<acme:textbox code="configuration.slogan" path="slogan" />
+	<acme:textbox code="configuration.slogan" path="configuration.slogan" />
 	
-	<acme:textbox code="configuration.email" path="email" />
+	<acme:textbox code="configuration.email" path="configuration.email" />
 		
-	<acme:textbox code="configuration.banner" path="banner" />
+	<acme:textbox code="configuration.banner" path="configuration.banner" />
 	
-	<acme:textbox code="configuration.default.avatar" path="defaultAvatar" />
+	<acme:textbox code="configuration.default.avatar" path="configuration.defaultAvatar" />
 	
-	<acme:textbox code="configuration.default.image" path="defaultImage" />
+	<acme:textbox code="configuration.default.image" path="configuration.defaultImage" />
 
 	<acme:submit name="save" code="configuration.save" />
 

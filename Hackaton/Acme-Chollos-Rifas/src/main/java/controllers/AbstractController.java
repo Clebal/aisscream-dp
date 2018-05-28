@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ClassUtils;
@@ -31,25 +33,34 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
+import services.InternationalizationService;
 import services.NotificationService;
 
 @Controller
 public class AbstractController {
 
 	@Autowired
-	private ConfigurationService	configurationService;
+	private ConfigurationService		configurationService;
 
 	@Autowired
-	private NotificationService		notificationService;
+	private NotificationService			notificationService;
+
+	@Autowired
+	private InternationalizationService	internationalizationService;
+
 
 	@ModelAttribute
 	public void headerConfiguration(final Model model) {
 		String banner, nameHeader, slogan, defaultImage;
 		Integer notificationNotVisited;
+		final Locale locale;
+		String code;
 
+		locale = LocaleContextHolder.getLocale();
+		code = locale.getLanguage();
 		banner = this.configurationService.findBanner();
 		slogan = this.configurationService.findSlogan();
-		nameHeader = this.configurationService.findName();
+		nameHeader = this.internationalizationService.findByCountryCodeAndMessageCode(code, "welcome.message").getValue();
 		notificationNotVisited = this.notificationService.countNotVisitedByActorId();
 		defaultImage = this.configurationService.findDefaultImage();
 

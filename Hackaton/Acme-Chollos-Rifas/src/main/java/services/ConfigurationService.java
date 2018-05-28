@@ -1,7 +1,10 @@
 
 package services;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -12,6 +15,8 @@ import repositories.ConfigurationRepository;
 import security.Authority;
 import security.LoginService;
 import domain.Configuration;
+import domain.Internationalization;
+import forms.ConfigurationForm;
 
 @Service
 @Transactional
@@ -19,11 +24,14 @@ public class ConfigurationService {
 
 	// Managed repository
 	@Autowired
-	private ConfigurationRepository	configurationRepository;
+	private ConfigurationRepository		configurationRepository;
 
 	// Other Services
 	@Autowired
-	private Validator				validator;
+	private Validator					validator;
+
+	@Autowired
+	private InternationalizationService	internationalizationService;
 
 
 	// Constructor
@@ -32,22 +40,33 @@ public class ConfigurationService {
 	}
 
 	// Simple CRUD methods
-	public Configuration save(final Configuration configuration) {
+	public Configuration save(final ConfigurationForm configurationForm) {
 		Configuration result;
 		Authority authority;
+		Internationalization internationalization;
+		final Locale locale;
+		String code;
+
+		locale = LocaleContextHolder.getLocale();
+		code = locale.getLanguage();
 
 		//Si no está vacío no te deja persistir otra, por lo que comprueba que la que pasas es la que está persistida y no es otra
 		if (!this.configurationRepository.findAll().isEmpty())
-			Assert.notNull(this.configurationRepository.findOne(configuration.getId()));
+			Assert.notNull(this.configurationRepository.findOne(configurationForm.getConfiguration().getId()));
 
-		Assert.notNull(configuration, "configuration.not.null");
+		Assert.notNull(configurationForm.getConfiguration(), "configuration.not.null");
 
 		// Solo puede ser modificado por el admin
 		authority = new Authority();
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 
-		result = this.configurationRepository.save(configuration);
+		//Guardamos el name internacionalizado
+		internationalization = this.internationalizationService.findByCountryCodeAndMessageCode(code, "welcome.message");
+		internationalization.setValue(configurationForm.getWelcomeMessage());
+		this.internationalizationService.save(internationalization);
+
+		result = this.configurationRepository.save(configurationForm.getConfiguration());
 
 		return result;
 	}
@@ -121,17 +140,18 @@ public class ConfigurationService {
 	}
 
 	// Reconstruct pruned object
-	public Configuration reconstruct(final Configuration configuration, final BindingResult binding) {
+	public ConfigurationForm reconstruct(final ConfigurationForm configurationForm, final BindingResult binding) {
 		Configuration aux;
 
-		aux = this.configurationRepository.findOne(configuration.getId());
+		aux = this.configurationRepository.findOne(configurationForm.getConfiguration().getId());
 		Assert.notNull(aux);
 
-		configuration.setVersion(aux.getVersion());
+		configurationForm.getConfiguration().setVersion(aux.getVersion());
+		configurationForm.getConfiguration().setName(aux.getName());
 
-		this.validator.validate(configuration, binding);
+		this.validator.validate(configurationForm, binding);
 
-		return configuration;
+		return configurationForm;
 	}
 
 }

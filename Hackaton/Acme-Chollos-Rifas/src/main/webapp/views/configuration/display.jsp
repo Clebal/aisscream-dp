@@ -9,12 +9,12 @@
 
 <div class="container">
 
-	<acme:display code="configuration.name" value="${configuration.getName()}" />
-	<acme:display code="configuration.slogan" value="${configuration.getSlogan()}" />
-	<acme:display code="configuration.email" value="${configuration.getEmail()}" />
-	<acme:display code="configuration.banner" value="${configuration.getBanner()}" />
-	<acme:display code="configuration.default.avatar" value="${configuration.getDefaultAvatar()}" />
-	<acme:display code="configuration.default.image" value="${configuration.getDefaultImage()}" />
+	<acme:display code="configuration.name" value="${configurationForm.getWelcomeMessage()}" />
+	<acme:display code="configuration.slogan" value="${configurationForm.getConfiguration().getSlogan()}" />
+	<acme:display code="configuration.email" value="${configurationForm.getConfiguration().getEmail()}" />
+	<acme:display code="configuration.banner" value="${configurationForm.getConfiguration().getBanner()}" />
+	<acme:display code="configuration.default.avatar" value="${configurationForm.getConfiguration().getDefaultAvatar()}" />
+	<acme:display code="configuration.default.image" value="${configurationForm.getConfiguration().getDefaultImage()}" />
 	
 	<acme:displayLink code="configuration.edit" action="configuration/administrator/edit.do" css="btn btn-primary"/>
 	

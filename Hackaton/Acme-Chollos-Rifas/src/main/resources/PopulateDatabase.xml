@@ -453,10 +453,28 @@ The Organic Law 15/1999, of December 13, Protection of Personal Data (LOPD).
 The Royal Decree 1720/2007, of December 21, which approves the Regulation of development of the Organic Law 15/1999, of December 13, Protection of Personal Data." />
 
 	</bean>
+	
+	<bean id="internationalization3" class="domain.Internationalization">
+
+		<property name="countryCode" value="en" />
+		
+		<property name="messageCode" value="welcome.message" />
+
+		<property name="value" value="Acme Bargains And Raffles"/>
+	</bean>
+	
+	<bean id="internationalization4" class="domain.Internationalization">
+
+		<property name="countryCode" value="es" />
+		
+		<property name="messageCode" value="welcome.message" />
+
+		<property name="value" value="Acme Chollos y Rifas"/>
+	</bean>
 		
 	<!-- Configuration -->
 	<bean id="configuration" class="domain.Configuration">
-		<property name="name" value="Acme Chollos y Rifas" />
+		<property name="name" value="welcome.message" />
 		<property name="slogan" value="Buy different" />
 		<property name="email" value="aisscreamacas@gmail.com" />
 		<property name="banner" value="https://tinyurl.com/yabcto3u" />
