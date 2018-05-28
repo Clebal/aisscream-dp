@@ -396,7 +396,7 @@ Este sitio web www.acme.com garantiza que la información personal que usted env
 	entregados a terceros, salvo que deba ser revelada en cumplimiento a
 	una orden judicial o requerimientos legales.
 
-Acme-Rendezvous reserva los derechos de cambiar o de modificar
+Acme Bargains and Raffles reserva los derechos de cambiar o de modificar
 	estos términos sin previo aviso.
 	
 	LEGISLACIÓN APLICABLE
@@ -441,7 +441,7 @@ has the necessary security. The data entered by user will not be
 delivered to third parties, unless it must be disclosed in compliance with
 an order
 
-Acme-Rendezvous reserves the rights to change or modify
+Acme Chollos y Rifas reserves the rights to change or modify
 these terms without prior notice.
 
    APPLICABLE LEGISLATION 
@@ -485,13 +485,22 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	<!-- Plan -->
 	<bean id="plan1" class="domain.Plan">
 		<property name="name" value="Basic Premium" />
-		<property name="description" value="Plan básico que ofrece mayores privilegios, ventajas y descuentos" />
+		<property name="description" value="El plan Basic Premium contará con las siguientes ventajas: 
+		Sus comentarios tendrán más relevancia que los del resto al mostrarse con un fondo color coral,
+		tendrán la opción de añadir imágenes en los comentarios,
+		obtendrán un 2.5% más de descuento en los chollos,
+		derecho a participar en una conjunta incluso tras ser cerrada.		
+		" />
 		<property name="cost" value="5.0" />
 	</bean>
 	
 	<bean id="plan2" class="domain.Plan">
 		<property name="name" value="Gold Premium" />
-		<property name="description" value="Plan oro que ofrece las ventajas del plan básico y mucho más" />
+		<property name="description" value="El plan Gold Premium cuenta con las siguientes ventajas adicionales: 
+		El descuento en los chollos será mayor, de un 7.5%,
+		tendrá la opción de acceder los chollos desde el momento de la creación y no de su publicación al público general,
+		obtendrá automáticamente un tique de regalo para cada rifa. 
+		" />
 		<property name="cost" value="10.0" />
 	</bean>
 	<!--  -->
@@ -1419,7 +1428,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	
 	<bean id="level5" class="domain.Level">
 		<property name="name" value="Diamante" />
-		<property name="image" value="https://tinyurl.com/ybtdgjzp" />
+		<property name="image" value="https://tinyurl.com/yal9k4gj" />
 		<property name="minPoints" value="1000" />
 		<property name="maxPoints" value="9999" />
 	</bean>

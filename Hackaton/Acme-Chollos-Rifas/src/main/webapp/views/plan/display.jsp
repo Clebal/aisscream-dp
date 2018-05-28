@@ -16,7 +16,7 @@
 <jstl:forEach var="row" items="${plans}">
 	<div class="container-square2" style="border:2px solid black; margin-left:25px; margin-bottom:20px; padding:10px;">
 	
-		<div class="container">
+		<div>
 				
 				<acme:display code="plan.name" value="${row.getName()}"/>
 				
