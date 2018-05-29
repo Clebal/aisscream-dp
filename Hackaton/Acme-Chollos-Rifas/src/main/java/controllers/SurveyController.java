@@ -215,7 +215,6 @@ public class SurveyController extends AbstractController {
 		
 		survey = null;
 		if(binding.hasErrors()) {
-			System.out.println("binding 1: " + binding.getAllErrors());
 			result = createEditModelAndView(surveyForm, model);
 		} else {
 			bindingSurvey = new DataBinder(survey);
@@ -223,14 +222,12 @@ public class SurveyController extends AbstractController {
 			Assert.notNull(survey);
 				
 			if(bindingSurvey.getBindingResult().hasErrors()) {
-				System.out.println("binding 2: " + bindingSurvey.getBindingResult().getAllErrors());
 				result = createEditModelAndView(surveyForm, model);
 			} else {
 				try {
 					this.surveyService.save(survey, surveyForm);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable oops) {
-					System.out.println("oops: " + oops.getLocalizedMessage());
 					result = this.createEditModelAndView(surveyForm, model, "survey.commit.error");
 				}
 			}
