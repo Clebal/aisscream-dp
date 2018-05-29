@@ -53,7 +53,7 @@ public class ListRaffleTest extends AbstractTest {
 			{
 				"user1", "findAvailables", 5, 0, 5, null, null
 			}, {
-				null, "findAvailables", 0, 2, 5, null, null
+				null, "findAvailables", 1, 2, 5, null, null
 			}, {
 				"moderator2", "findAvailables", 5, 0, 5, null, null
 			}, {
@@ -157,7 +157,7 @@ public class ListRaffleTest extends AbstractTest {
 			{
 				"user1", "findOrderedByMaxDate", 5, 0, 5, null, null
 			}, {
-				null, "findOrderedByMaxDate", 0, 2, 5, null, null
+				null, "findOrderedByMaxDate", 1, 2, 5, null, null
 			}, {
 				"moderator2", "findOrderedByMaxDate", 5, 0, 5, null, null
 			}, {
@@ -186,7 +186,7 @@ public class ListRaffleTest extends AbstractTest {
 			{
 				"moderator2", "findAllPaginated", 5, 0, 5, null, null
 			}, {
-				null, "findAllPaginated", 0, 2, 5, null, IllegalArgumentException.class
+				null, "findAllPaginated", 1, 2, 5, null, IllegalArgumentException.class
 			}, {
 				"user1", "findAllPaginated", 5, 0, 5, null, IllegalArgumentException.class				
 			}, {
