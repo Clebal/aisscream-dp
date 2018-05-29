@@ -337,7 +337,7 @@ CREATE TABLE `configuration` (
 
 LOCK TABLES `configuration` WRITE;
 /*!40000 ALTER TABLE `configuration` DISABLE KEYS */;
-INSERT INTO `configuration` VALUES (11866,0,'https://tinyurl.com/yabcto3u','https://www.acme.com:8443/images/avatar.jpg','https://www.acme.com:8443/images/link_broken.png','aisscreamacas@gmail.com','welcome.message','Buy different');
+INSERT INTO `configuration` VALUES (11866,0,'https://www.acme.com:8443/images/logo.jpg','https://www.acme.com:8443/images/avatar.jpg','https://www.acme.com:8443/images/link_broken.png','aisscreamacas@gmail.com','welcome.message','Buy different');
 /*!40000 ALTER TABLE `configuration` ENABLE KEYS */;
 UNLOCK TABLES;
 
