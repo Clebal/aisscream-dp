@@ -114,21 +114,21 @@ public class SurveyController extends AbstractController {
 		Collection<Question> questions;
 		Collection<Answer> answers;
 		LinkedHashMap <Answer, Double> answersRatio;
-		LinkedHashMap <String, Map<Answer, Double>> questionsAnswerRatio;
+		LinkedHashMap <Question, Map<Answer, Double>> questionsAnswerRatio;
 		
 		survey = this.surveyService.findOneToEdit(surveyId);
 		Assert.notNull(survey);
 		
 		questions = this.questionService.findBySurveyId(surveyId, 1, this.questionService.countBySurveyId(surveyId)).getContent();
 		
-		questionsAnswerRatio = new LinkedHashMap <String, Map<Answer, Double>>();
+		questionsAnswerRatio = new LinkedHashMap <Question, Map<Answer, Double>>();
 		
 		for(Question q : questions) {
 			answersRatio = new LinkedHashMap <Answer, Double>();
 			answers = this.answerService.findByQuestionId(q.getId());
 			for (Answer a : answers)
 				answersRatio.put(a, this.answerService.ratioAnswerPerQuestion(q.getId(), a.getId()));
-			questionsAnswerRatio.put(q.getText(), answersRatio);
+			questionsAnswerRatio.put(q, answersRatio);
 		}
 		
 		result = new ModelAndView("survey/display");
@@ -215,6 +215,7 @@ public class SurveyController extends AbstractController {
 		
 		survey = null;
 		if(binding.hasErrors()) {
+			System.out.println("binding 1: " + binding.getAllErrors());
 			result = createEditModelAndView(surveyForm, model);
 		} else {
 			bindingSurvey = new DataBinder(survey);
@@ -222,12 +223,14 @@ public class SurveyController extends AbstractController {
 			Assert.notNull(survey);
 				
 			if(bindingSurvey.getBindingResult().hasErrors()) {
+				System.out.println("binding 2: " + bindingSurvey.getBindingResult().getAllErrors());
 				result = createEditModelAndView(surveyForm, model);
 			} else {
 				try {
 					this.surveyService.save(survey, surveyForm);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable oops) {
+					System.out.println("oops: " + oops.getLocalizedMessage());
 					result = this.createEditModelAndView(surveyForm, model, "survey.commit.error");
 				}
 			}

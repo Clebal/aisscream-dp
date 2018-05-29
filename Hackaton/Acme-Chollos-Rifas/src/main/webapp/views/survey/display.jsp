@@ -17,13 +17,13 @@
             
     <jstl:forEach items="${questionsAnswerRatio}" var="mapEntry">
         
-    <h2><jstl:out value="${mapEntry.key}" /></h2>
+    <h2><jstl:out value="${mapEntry.key.text}" /></h2>
         
-    <canvas id="<jstl:out value="${mapEntry.key}" />"></canvas>
+    <canvas id="<jstl:out value="${mapEntry.key.number}" />"></canvas>
     <spring:message code="survey.avg.answer" var="mediaRespuestas"/>
-                
+    
     <script>    
-    var ctx = document.getElementById('<jstl:out value="${mapEntry.key}" />');
+    var ctx = document.getElementById('<jstl:out value="${mapEntry.key.number}" />');
     var media = new Chart.Line(ctx, {
     data: {
     labels: [<jstl:forEach items="${mapEntry.value}" var="mapValue"><jstl:out value="\'" escapeXml="false"/><jstl:out value="${mapValue.key.text}"/><jstl:out value="\', " escapeXml="false"/></jstl:forEach>],
@@ -46,7 +46,7 @@
                 pointHoverBorderWidth: 1,
                 pointRadius: 5,
                 pointHitRadius: 10,
-                data: [<jstl:forEach items="${mapEntry.value}" var="mapValue"><jstl:out value="\'" escapeXml="false"/><jstl:out value="${mapValue.value}" escapeXml="false"/><jstl:out value="\', " escapeXml="false"/></jstl:forEach>],
+                data: [<jstl:forEach items="${mapEntry.value}" var="mapValue"><jstl:out value="\'" escapeXml="false"/><jstl:out value="${mapValue.value}"/><jstl:out value="\', " escapeXml="false"/></jstl:forEach>],
                 spanGaps: true,
             }]
         }
