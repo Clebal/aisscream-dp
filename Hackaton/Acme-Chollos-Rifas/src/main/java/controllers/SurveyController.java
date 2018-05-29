@@ -184,6 +184,9 @@ public class SurveyController extends AbstractController {
 		surveyForm.setTitle(survey.getTitle());
 		surveyForm.setId(survey.getId());
 		surveyForm.setSurveyer(survey.getSurveyer());
+		surveyForm.setToActor("USER");
+		surveyForm.setMinimumPoints(0);
+		surveyForm.setHasAds(false);
 		
 		questions = this.questionService.findBySurveyId(survey.getId());
 		Assert.notNull(questions);

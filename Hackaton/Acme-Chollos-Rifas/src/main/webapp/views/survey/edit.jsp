@@ -62,6 +62,14 @@
 		
 	</jstl:if>
 	
+	<jstl:if test="${surveyForm.getId() != 0}">
+		<form:hidden path="toActor" />
+		<acme:textbox code="survey.minimumPoints" path="minimumPoints" style="display: none"/>
+		<jstl:if test="${model.equals('company')}">
+			<acme:checkbox id="hasAds" code="survey.hasAds" path="hasAds" style="display:none"/>
+		</jstl:if>
+	</jstl:if>
+	
 	<acme:surveyInput codeQuestion="survey.question" codeAnswer="survey.answer" object="${surveyForm}" />
 	
 	<script>
