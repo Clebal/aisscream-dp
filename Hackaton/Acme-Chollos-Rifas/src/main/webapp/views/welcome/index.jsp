@@ -29,7 +29,7 @@
 						<img src="${item.getProductImages().toArray()[0]}" alt="${item.getTitle()}" style="padding: 0px; margin: 0px; width: 100%; height: 300px!important;">
 						<div class="caption">
 						
-							<h4>${item.getTitle()}</h4>
+							<h4><jstl:out value="${item.getTitle()}" /></h4>
 							<%-- <p>${item.getDescription()}</p> --%>	
 							
 							<jstl:if test="${item.getPrice() != 0.0}">				
@@ -60,7 +60,7 @@
 			
 				<jstl:forEach var="item" items="${bargains}">
 					<div class="thumbnail col-sm-6 col-md-4" style="padding: 0px;">
-						<img src="${item.getProductImages().toArray()[0]}" alt="${item.getProductName()}" style="padding: 0px; margin: 0px; width: 100%; height: 300px!important;">
+						<img src="${item.getProductImages().toArray()[0]}" alt='<jstl:out value="${item.getProductName()}" />' style="padding: 0px; margin: 0px; width: 100%; height: 300px!important;">
 						<div class="caption">
 						
 							<h4>${item.getProductName()}</h4>
