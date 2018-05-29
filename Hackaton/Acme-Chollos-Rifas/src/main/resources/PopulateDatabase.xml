@@ -242,7 +242,7 @@
 		
 	<!-- User -->
 	<bean id="user1" class="domain.User">
-		<property name="name" value="Alejandro" />
+		<property name="name" value="User1" />
 		<property name="surname" value="Martínez ruiz" />
 		<property name="email" value="user1@acme.com" />
 		<property name="phone" value="+34618396001" />
@@ -265,7 +265,7 @@
 	</bean>
 	
 	<bean id="user2" class="domain.User">
-		<property name="name" value="Luis" />
+		<property name="name" value="User2" />
 		<property name="surname" value="López González" />
 		<property name="email" value="user2@acme.com" />
 		<property name="address" value="Calle Falsa, 123" />
@@ -284,7 +284,7 @@
 	</bean>
 	
 	<bean id="user3" class="domain.User">
-		<property name="name" value="María" />
+		<property name="name" value="User3" />
 		<property name="surname" value="García Trinidad" />
 		<property name="email" value="user3@acme.com" />
 		<property name="phone" value="+3461738000" />
@@ -303,7 +303,7 @@
 	</bean>
 	
 	<bean id="user4" class="domain.User">
-		<property name="name" value="Sergio" />
+		<property name="name" value="User4" />
 		<property name="surname" value="Sánchez Ortiz" />
 		<property name="email" value="user4@acme.com" />
 		<property name="avatar" value="http://partnertekst.dk/wp-content/uploads/avatar-7.png" />
@@ -320,7 +320,7 @@
 	</bean>
 	
 	<bean id="user5" class="domain.User">
-		<property name="name" value="Pepe" />
+		<property name="name" value="User5" />
 		<property name="surname" value="Casillas Martín" />
 		<property name="email" value="user5@acme.com" />
 		<property name="phone" value="+3461738010" />
@@ -338,7 +338,7 @@
 	</bean>
 	
 	<bean id="user6" class="domain.User">
-		<property name="name" value="Rocío" />
+		<property name="name" value="User6" />
 		<property name="surname" value="Crespo Sánchez" />
 		<property name="email" value="user6@acme.com" />
 		<property name="phone" value="+3461738011" />

@@ -26,7 +26,7 @@
 			
 				<jstl:forEach var="item" items="${raffles}">
 					<div class="thumbnail col-sm-6 col-md-4" style="padding: 0px;">
-						<img src="${item.getProductImages().toArray()[0]}" alt="${item.getTitle()}" style="padding: 0px; margin: 0px; width: 100%; height: 300px!important;">
+						<img src="${item.getProductImages().toArray()[0]}" alt='<jstl:out value="${item.getTitle()}"/>' style="padding: 0px; margin: 0px; width: 100%; height: 300px!important;">
 						<div class="caption">
 						
 							<h4><jstl:out value="${item.getTitle()}" /></h4>
@@ -65,7 +65,6 @@
 						
 							<h4>${item.getProductName()}</h4>
 								
-							
 							<jstl:if test="${plan==null}">
 								<p style="text-align: center; font-size: 20px; font-weight: bold;"><spring:message code="welcome.currency.english" /><fmt:formatNumber value="${item.getPrice()}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/><spring:message code="welcome.currency.spanish" /></p>
 							</jstl:if>
@@ -78,7 +77,7 @@
 								<p style="text-align: center; font-size: 20px; font-weight: bold;"><spring:message code="welcome.currency.english" /><fmt:formatNumber value="${item.getPrice() - (item.getPrice() * 0.025)}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/><spring:message code="welcome.currency.spanish" /></p>
 							</jstl:if>
 							
-							<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/profile.do?actorId=${item.getCompany().getId()}">${item.getCompany().getCompanyName()}</a></small><br><br>
+							<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/profile.do?actorId=${item.getCompany().getId()}"><jstl:out value="${item.getCompany().getCompanyName()}" /></a></small><br><br>
 							
 							<jstl:if test="${item.getIsPublished() || !isSponsor }">
 								<a href="bargain/display.do?bargainId=${item.getId()}" class="btn btn-default"><spring:message code="welcome.details" /></a>
