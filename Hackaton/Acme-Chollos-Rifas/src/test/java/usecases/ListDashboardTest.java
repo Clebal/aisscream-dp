@@ -260,8 +260,8 @@ public class ListDashboardTest extends AbstractTest {
 			minMaxAvgStandarDesviationDiscountPerBargain = this.bargainService.minMaxAvgStandarDesviationDiscountPerBargain();
 			Assert.isTrue(minMaxAvgStandarDesviationDiscountPerBargain[0] == 0.0);
 			Assert.isTrue(minMaxAvgStandarDesviationDiscountPerBargain[1] == 0.6);
-			Assert.isTrue(minMaxAvgStandarDesviationDiscountPerBargain[2] == 0.18287037037037035);
-			Assert.isTrue(minMaxAvgStandarDesviationDiscountPerBargain[3] == 0.18885427696684395);
+			Assert.isTrue(minMaxAvgStandarDesviationDiscountPerBargain[2] == 0.1550925925925926);
+			Assert.isTrue(minMaxAvgStandarDesviationDiscountPerBargain[3] == 0.1891944469367816);
 
 			//Mínimo, máximo, media y desviación estándar del descuento de una conjunta
 			minMaxAvgStandarDesviationDiscountPerGroupon = this.grouponService.minMaxAvgStandarDesviationDiscountPerGroupon();
@@ -282,7 +282,7 @@ public class ListDashboardTest extends AbstractTest {
 
 			//Media de tiques comprados por los usuarios para una rifa
 			avgTicketsPurchaseByUsersPerRaffle = this.ticketService.avgTicketsPurchaseByUsersPerRaffle();
-			Assert.isTrue(avgTicketsPurchaseByUsersPerRaffle == 2.3846);
+			Assert.isTrue(avgTicketsPurchaseByUsersPerRaffle == 2.2143);
 
 			//Usuario que ha comprado más del 25% del total de tiques vendidos en total para todas  las rifas
 			purchase25PercentageMoreTotalForAllRaffles = this.userService.purchase25PercentageMoreTotalForAllRaffles(1, 10);
