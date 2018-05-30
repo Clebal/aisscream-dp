@@ -37,9 +37,7 @@
 		<img src="images/5stars.png" alt="Five stars" width="100" style="display: block; margin-left: auto; margin-right: auto;" />
 	</jstl:if>
 	</display:column>
-	
-	<acme:column property="content" domain="evaluation" />
-	
+		
 	<spring:message code="evaluation.isAnonymous" var="anon" />
 	<spring:message code="evaluation.yes" var="yes" />
 	<spring:message code="evaluation.no" var="no" />

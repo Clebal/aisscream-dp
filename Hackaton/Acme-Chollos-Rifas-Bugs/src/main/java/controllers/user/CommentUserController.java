@@ -139,7 +139,7 @@ public class CommentUserController extends AbstractController {
 		try {
 			Assert.notNull(comment.getBargain());
 			this.commentService.delete(comment);
-			result = new ModelAndView("redirect:/comment/user/list.do");
+			result = new ModelAndView("welcome/index");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(comment, "comment.commit.error");
 		}
