@@ -477,7 +477,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="name" value="welcome.message" />
 		<property name="slogan" value="Buy different" />
 		<property name="email" value="aisscreamacas@gmail.com" />
-		<property name="banner" value="https://tinyurl.com/yabcto3u" />
+		<property name="banner" value="http://localhost:8080/Acme-Chollos-Rifas/images/logo.jpg" />
 		<property name="defaultAvatar" value="http://localhost:8080/Acme-Chollos-Rifas/images/avatar.jpg" />
 		<property name="defaultImage" value="http://localhost:8080/Acme-Chollos-Rifas/images/link_broken.png" />
 	</bean>
