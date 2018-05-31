@@ -30,6 +30,10 @@
 		<display:column title="${sponsorshipBargain}">
 			<jstl:out value="${row.getBargain().getProductName()}"></jstl:out>
 		</display:column>
+		
+		<display:column title="Precio del Chollo">
+			<jstl:out value="${row.getBargain().getPrice()}"></jstl:out>
+		</display:column>
 	
 		<acme:columnLink id="${row.getId()}" domain="sponsorship" actor="sponsor" action="display"/>
 	

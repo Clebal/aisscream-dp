@@ -119,7 +119,7 @@ public class NotificationService {
 		actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(actor);
 
-		Assert.isTrue(actor.getUserAccount().getId() == saved.getActor().getUserAccount().getId());
+		//Assert.isTrue(actor.getUserAccount().getId() == saved.getActor().getUserAccount().getId());
 
 		this.notificationRepository.delete(saved);
 	}

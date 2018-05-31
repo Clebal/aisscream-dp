@@ -102,6 +102,10 @@ public class CategoryService {
 
 		}
 		//Guardamos la categoría
+
+		if (category.getId() == 0)
+			category.setName("Favorita");
+
 		result = this.categoryRepository.save(category);
 
 		return result;

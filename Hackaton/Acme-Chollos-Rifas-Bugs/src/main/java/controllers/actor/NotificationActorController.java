@@ -66,7 +66,7 @@ public class NotificationActorController extends AbstractController {
 		ModelAndView result;
 		Notification notification;
 
-		notification = this.notificationService.findOneToDisplayAndDelete(notificationId, "delete");
+		notification = this.notificationService.findOne(notificationId);
 		Assert.notNull(notification);
 
 		this.notificationService.delete(notification);
