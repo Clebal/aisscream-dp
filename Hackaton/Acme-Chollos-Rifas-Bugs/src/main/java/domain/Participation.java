@@ -27,7 +27,7 @@ public class Participation extends DomainEntity {
 	private Groupon	groupon;
 
 
-	@Min(1)
+	@Min(0)
 	public int getAmountProduct() {
 		return this.amountProduct;
 	}

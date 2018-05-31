@@ -92,17 +92,16 @@ public class LevelService {
 		authority.setAuthority("ADMIN");
 		Assert.isTrue(LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority));
 		Assert.isTrue(level.getMinPoints() < level.getMaxPoints()); //Siempre los puntos mínimos son menores que los máximos
-		if (level.getId() == 0) {
+		if (level.getId() == 0)
 			Assert.isTrue(level.getMaxPoints() < minLevel.getMinPoints() || level.getMinPoints() > maxLevel.getMaxPoints()); //Si se crea uno siempre tiene que ser mayor que el máximo o menor que el mínimo
-			if (level.getMaxPoints() < (minLevel.getMinPoints() - 1)) {
-				minLevel.setMinPoints(level.getMaxPoints() + 1); //Se amplia el rango del que actualmente es el mínimo
-				this.levelRepository.save(minLevel);
-			} else if (level.getMinPoints() > (maxLevel.getMaxPoints() + 1)) {
-				maxLevel.setMaxPoints(level.getMinPoints() - 1); //Se amplia el rango del que actualmente es el máximo
-				this.levelRepository.save(maxLevel);
-			}
-
-		} else {
+			//			if (level.getMaxPoints() < (minLevel.getMinPoints() - 1)) {
+			//				minLevel.setMinPoints(level.getMaxPoints() + 1); //Se amplia el rango del que actualmente es el mínimo
+			//				this.levelRepository.save(minLevel);
+			//			} else if (level.getMinPoints() > (maxLevel.getMaxPoints() + 1)) {
+			//				maxLevel.setMaxPoints(level.getMinPoints() - 1); //Se amplia el rango del que actualmente es el máximo
+			//				this.levelRepository.save(maxLevel);
+			//			}
+		else {
 			saved = this.findOne(level.getId());
 			Assert.notNull(saved);
 			if (level.getId() != minLevel.getId() && level.getId() != maxLevel.getId()) {
