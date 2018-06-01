@@ -208,6 +208,9 @@ public class CreditCardUserController extends AbstractController {
 		
 		if(creditCard.getId() != 0) {
 			isAdded = this.ticketService.countByCreditCardId(creditCard.getId()) == 0;
+			if(!isAdded) {
+				isAdded = this.subscriptionService.countByCreditCardId(creditCard.getId()) == 0;
+			}
 			result.addObject("isAdded", isAdded);
 		}
 

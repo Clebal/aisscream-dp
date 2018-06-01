@@ -25,6 +25,18 @@
 		<acme:display code="actor.phone" value="${actor.getPhone()}"/>
 		
 		<acme:display code="actor.address" value="${actor.getAddress()}"/>
+		
+		<jstl:if test="${model.equals('user')}">
+			<jstl:if test="${!isPublic}">
+<%-- 				<acme:display code="actor.identifier" value="${actor.getIdentifier()}"/>
+ --%>				<jstl:if test="${actor.getIsPublicWishList()}">
+					<p><span class="display"><spring:message code="actor.isPublicWishListTrue" /></span>&nbsp;-&nbsp;<a href="actor/user/changewishlist.do"><spring:message code="actor.changewishlist" /></a></p>
+				</jstl:if>
+				<jstl:if test="${!actor.getIsPublicWishList()}">
+					<p><span class="display"><spring:message code="actor.isPublicWishListFalse" /></span>&nbsp;-&nbsp;<a href="actor/user/changewishlist.do"><spring:message code="actor.changewishlist" /></a></p>
+				</jstl:if>
+			</jstl:if>
+		</jstl:if>
 				
 		<jstl:if test="${model.equals('user')}">
 			<acme:display code="actor.points" value="${actor.getPoints()}" />
