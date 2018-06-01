@@ -116,7 +116,7 @@ public class TicketUserController extends AbstractController {
 			result.addObject("raffle", raffle);
 			
 		} else if(method.equals("PAYPAL")) {
-			attributes = paypalClient.createPayment(String.valueOf(raffle.getPrice()*amount), raffleId, amount);
+			attributes = paypalClient.createPayment(String.valueOf(raffle.getPrice()*amount), raffleId, amount, request);
 			
 			result = new ModelAndView("redirect:"+(String) attributes.get("redirect_url"));
 			
