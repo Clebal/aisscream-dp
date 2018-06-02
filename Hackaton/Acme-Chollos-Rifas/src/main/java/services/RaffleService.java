@@ -166,15 +166,23 @@ public class RaffleService {
 		Raffle saved;
 		Authority authority;
 		Collection<Ticket> tickets;
+		int countTickets;
 
 		Assert.notNull(raffle);
 
 		saved = this.raffleRepository.findOne(raffle.getId());
 
-		authority = new Authority();
-		authority.setAuthority("MODERATOR");
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
-
+		countTickets = this.ticketService.countByRaffleId(saved.getId());
+		Assert.notNull(countTickets);
+		
+		if(countTickets != 0) {
+			authority = new Authority();
+			authority.setAuthority("MODERATOR");
+			Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
+		} else {
+			Assert.isTrue(saved.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
+		}
+		
 		tickets = this.ticketService.findByRaffleId(raffle.getId());
 		Assert.notNull(tickets);
 		for (final Ticket t : tickets)

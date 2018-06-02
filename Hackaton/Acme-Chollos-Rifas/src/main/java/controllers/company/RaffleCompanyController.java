@@ -134,8 +134,15 @@ public class RaffleCompanyController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Raffle raffle, final String messageCode) {
 		ModelAndView result;
+		int countTickets;
 
 		result = new ModelAndView("raffle/edit");
+		
+		if(raffle.getId() != 0) {
+			countTickets = this.ticketService.countByRaffleId(raffle.getId());
+			Assert.notNull(countTickets);
+			result.addObject("countTickets", countTickets);
+		}
 
 		result.addObject("raffle", raffle);
 		result.addObject("message", messageCode);

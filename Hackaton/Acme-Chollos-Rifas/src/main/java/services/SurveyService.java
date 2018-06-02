@@ -153,7 +153,7 @@ public class SurveyService {
 				Assert.notNull(surveyForm.getHasAds());
 				Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 				if(surveyForm.getHasAds()) {
-					actors = this.sponsorService.findByIfHaveAds((Company) surveyForm.getSurveyer());
+					actors = this.sponsorService.findByIfHaveAds((Company) survey.getSurveyer());
 					this.notificationService.send(actors, "Has sido escogido para realizar una escuesta. Pinche en el enlace:", "survey/sponsor/answer.do?surveyId=" + result.getId());
 				} else {
 					actors = this.sponsorService.findAllActor();
