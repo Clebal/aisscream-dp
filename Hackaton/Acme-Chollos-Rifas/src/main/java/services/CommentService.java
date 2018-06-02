@@ -173,7 +173,7 @@ public class CommentService {
 
 		//Delete repliedComments
 		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))
-			this.delete(repliedComment);
+			this.commentRepository.delete(repliedComment);
 
 		commentForDelete = this.findOne(comment.getId());
 		this.commentRepository.delete(commentForDelete);
