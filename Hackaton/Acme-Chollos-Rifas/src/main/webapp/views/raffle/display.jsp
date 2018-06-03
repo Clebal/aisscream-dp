@@ -29,6 +29,8 @@
 	
 	<p><jstl:out value="${raffle.getDescription()}" /></p>
 	
+	<acme:display code="raffle.maxDate" value="${raffle.getMaxDate()}" codeMoment="raffle.format.moment" />
+	
 	<p style="font-size: 25px; text-align:center"><spring:message code="welcome.currency.english" /><fmt:formatNumber value="${raffle.getPrice()}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/><spring:message code="welcome.currency.spanish" /></p>
 	
 	<div style="display:flex">
@@ -77,4 +79,6 @@
 		</jstl:if>
 	</security:authorize>
 	
+	<small><spring:message code="welcome.offeredBy" />: <a href="actor/company/profile.do?actorId=${raffle.getCompany().getId()}"><jstl:out value="${raffle.getCompany().getCompanyName()}" /></a></small><br><br>
+
 </div>

@@ -27,6 +27,7 @@ import services.UserService;
 import controllers.AbstractController;
 import converters.CreditCardToStringConverter;
 import domain.CreditCard;
+import domain.User;
 
 @Controller
 @RequestMapping("/creditcard/user")
@@ -155,8 +156,12 @@ public class CreditCardUserController extends AbstractController {
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(CreditCard creditCard, BindingResult binding, @ModelAttribute("check") final String check) {
 		ModelAndView result;
+		User user;
+		
+		user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		Assert.notNull(user);
 				
-		if(check.equals("checked")) creditCard.setHolderName(creditCard.getUser().getName() + " " + creditCard.getUser().getSurname());
+		if(check.equals("checked")) creditCard.setHolderName(user.getName() + " " + user.getSurname());
 		
 		creditCard = this.creditCardService.reconstruct(creditCard, binding);
 		
