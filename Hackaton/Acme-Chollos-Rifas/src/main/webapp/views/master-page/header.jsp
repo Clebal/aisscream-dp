@@ -104,6 +104,8 @@
  		        	<li><a href="survey/sponsor/list.do"><spring:message code="master.page.my.surveys" /></a></li>
 					<li><a href="bargain/sponsor/list.do"><spring:message code="master.page.new.sponsorship" /></a></li>
 					<li><a href="sponsorship/sponsor/list.do"><spring:message code="master.page.sponsorships" /></a></li>
+					<li><a href="plan/display.do"><spring:message code="master.page.all.plans" /></a></li>
+        			<li><a href="level/list.do"><spring:message code="master.page.all.levels" /></a></li>
 				</ul>
 			</security:authorize>
 			
