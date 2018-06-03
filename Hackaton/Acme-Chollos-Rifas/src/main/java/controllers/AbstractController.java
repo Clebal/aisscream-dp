@@ -83,6 +83,8 @@ public class AbstractController {
 		String contentType;
 
 		linkBroken = false;
+		contentTypes = new String[0];
+		contentType = "";
 
 		if (image != null)
 			try {
@@ -95,8 +97,10 @@ public class AbstractController {
 				}
 				openCode.setRequestMethod("GET");
 				openCode.connect();
-				contentTypes = openCode.getContentType().split("/");
-				contentType = contentTypes[0];
+				if (openCode.getContentType() != null) {
+					contentTypes = openCode.getContentType().split("/");
+					contentType = contentTypes[0];
+				}
 				if (openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
 					linkBroken = true;
 			} catch (final SSLException s) {
@@ -117,6 +121,8 @@ public class AbstractController {
 
 		mapLinkBoolean = new HashMap<String, Boolean>();
 		linkBroken = false;
+		contentTypes = new String[0];
+		contentType = "";
 
 		if (images != null)
 			for (final String link : images) {
@@ -130,8 +136,10 @@ public class AbstractController {
 					}
 					openCode.setRequestMethod("GET");
 					openCode.connect();
-					contentTypes = openCode.getContentType().split("/");
-					contentType = contentTypes[0];
+					if (openCode.getContentType() != null) {
+						contentTypes = openCode.getContentType().split("/");
+						contentType = contentTypes[0];
+					}
 					if (openCode.getResponseCode() < 200 || openCode.getResponseCode() >= 400 || !contentType.equals("image"))
 						linkBroken = true;
 				} catch (final SSLException s) {
