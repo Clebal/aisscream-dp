@@ -151,6 +151,7 @@
 						<li><a href="actor/company/edit.do"><spring:message code="master.page.profile.edit" /></a></li>
 					</security:authorize>
 				</ul>
+				<li><a href="contact/edit.do"><spring:message code="master.page.contact" /></a></li>
 			</security:authorize>
         </li>
         
@@ -175,6 +176,7 @@
 				<li><a href="actor/user/create.do"><spring:message code="master.page.create.user" /></a></li>
 		   		<li><a href="actor/sponsor/create.do"><spring:message code="master.page.create.sponsor" /></a></li>
 		   		<li><a href="actor/company/create.do"><spring:message code="master.page.create.company" /></a></li>
+				<li><a href="contact/edit.do"><spring:message code="master.page.contact" /></a></li>
 			</ul>
 			</div>
 	      </security:authorize>
@@ -184,6 +186,7 @@
 		   <spring:message code="master.page.language" />
 		   <span class="caret"></span>
 		 </button>
+		 
 		 <ul class="dropdown-menu">
 		   <li><a href="?language=en"><spring:message code="master.page.language.english" /></a></li>
 		   <li><a href="?language=es"><spring:message code="master.page.language.spanish" /></a></li>

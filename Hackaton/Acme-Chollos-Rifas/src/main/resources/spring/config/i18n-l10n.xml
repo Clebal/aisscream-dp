@@ -57,6 +57,8 @@
 		
 		<value>/views/groupon/messages</value>
 		<value>/views/participation/messages</value>
+		
+		<value>/views/contact/messages</value>
 				
 	</util:list>
 

@@ -55,6 +55,8 @@
 		<value>/views/groupon/tiles.xml</value>
 		<value>/views/participation/tiles.xml</value>
 		
+		<value>/views/contact/tiles.xml</value>
+		
 	</util:list>
 
 </beans>
