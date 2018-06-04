@@ -40,6 +40,7 @@
 			<li><a href="groupon/list.do"><spring:message code="master.page.all.available.groupons" /></a></li>
       		<li><a href="tag/list.do"><spring:message code="master.page.admin.tag" /></a></li>
       		<li><a href="category/display.do"><spring:message code="master.page.category" /></a></li>
+      		<li><a href="contact/edit.do"><spring:message code="master.page.contact" /></a></li>
       	</security:authorize>
                
         <li class="dropdown">
@@ -176,7 +177,6 @@
 				<li><a href="actor/user/create.do"><spring:message code="master.page.create.user" /></a></li>
 		   		<li><a href="actor/sponsor/create.do"><spring:message code="master.page.create.sponsor" /></a></li>
 		   		<li><a href="actor/company/create.do"><spring:message code="master.page.create.company" /></a></li>
-				<li><a href="contact/edit.do"><spring:message code="master.page.contact" /></a></li>
 			</ul>
 			</div>
 	      </security:authorize>
