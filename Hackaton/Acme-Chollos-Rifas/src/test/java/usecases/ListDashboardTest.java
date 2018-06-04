@@ -76,6 +76,29 @@ public class ListDashboardTest extends AbstractTest {
 	/*
 	 * Pruebas:
 	 * 1. Un usuario autenticado como ADMIN entra en el dashboard.
+	 * 
+	 * Requisito 30.5: Un actor autenticado como administrador debe ser capaz de mostrar un dashboard con la siguiente información
+	 * Mínimo, máximo, media y desviación estándar de los banners por cada patrocinador.
+	 * La media de la ratio de etiquetas por chollos.
+	 * Clasificación de los chollos por su presencia en listas de deseos.
+	 * Las encuesta/s más popular/es
+	 * Ratio de notificaciones vistas sobre el total.
+	 * Media de usuarios que tienen una participación en una rifa respecto al total.
+	 * Las empresas que han realizado más del 15%, 10% y 5% de las encuestas llevadas a cabo por empresas.
+	 * Top-5 usuarios que más valoraciones han realizado.
+	 * Ratio de usuarios que realizan comentarios.
+	 * Usuarios que han realizado más del 10% de interacciones con el sistema.
+	 * Categorías con más chollos que la media.
+	 * Las empresas que proveen más etiquetas a sus chollos.
+	 * La media del ratio de chollos por categorías.
+	 * Usuario con mayor media de número de caracteres escritos en sus valoraciones a las empresas.
+	 * Conjuntas con un 10% de más participación que la media.
+	 * Mínimo, máximo, media y desviación estándar del descuento de un chollo.
+	 * Mínimo, máximo, media y desviación estándar del descuento de una conjunta.
+	 * Usuario que más rifas ha ganado.
+	 * Usuario que ha comprado más tiques para una rifa y el que menos.
+	 * Media de tiques por cada una de las rifa.
+	 * Usuario que ha comprado más del 25% del total de tiques vendidos en total para todas las rifas.
 	 */
 	@Test
 	public void testPositiveTest() {
