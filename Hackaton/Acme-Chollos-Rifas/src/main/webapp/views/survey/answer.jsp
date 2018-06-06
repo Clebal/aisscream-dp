@@ -20,6 +20,19 @@
 	
 	</jstl:forEach>
 	
+	<p id="cannotBeEmpty" style="color: red; display:none"><spring:message code="survey.answerCannotBeEmpty" /></p>
+	
+	<script>
+		$("form").submit(function(e) {
+			$("select").each(function(item) { 
+				if(this.value == "") {
+					$("#cannotBeEmpty").fadeIn();
+					e.preventDefault();
+				}
+			});
+		});
+	</script>
+	
 	<acme:submit name="save" code="survey.save" />
 
 	<acme:cancel url="/notification/actor/list.do" code="survey.cancel"/>

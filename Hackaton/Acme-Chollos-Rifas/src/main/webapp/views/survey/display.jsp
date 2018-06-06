@@ -24,7 +24,7 @@
     
     <script>    
     var ctx = document.getElementById('<jstl:out value="${mapEntry.key.number}" />');
-    var media = new Chart.Line(ctx, {
+    var media = new Chart.Bar(ctx, {
     data: {
     labels: [<jstl:forEach items="${mapEntry.value}" var="mapValue"><jstl:out value="\'" escapeXml="false"/><jstl:out value="${mapValue.key.text}"/><jstl:out value="\', " escapeXml="false"/></jstl:forEach>],
     datasets: [{
