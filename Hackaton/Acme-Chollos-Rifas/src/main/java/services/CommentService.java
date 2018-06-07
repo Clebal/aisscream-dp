@@ -167,18 +167,52 @@ public class CommentService {
 		if (LoginService.getPrincipal().getAuthorities().contains(authority1)) { 
 			user = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 			Assert.isTrue(comment.getUser().equals(user));
-		}
+
+			size = this.countByRepliedCommentId(comment.getId());
+
+			//Delete repliedComments
+			for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))
+				this.deleteFromUser(repliedComment);
+			
+		} else {
 
 		size = this.countByRepliedCommentId(comment.getId());
 
 		//Delete repliedComments
 		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))
-			this.commentRepository.delete(repliedComment);
+			this.delete(repliedComment);
 
+		}
+		
 		commentForDelete = this.findOne(comment.getId());
 		this.commentRepository.delete(commentForDelete);
 
 	}
+	
+	public void deleteFromUser(final Comment comment) {
+		final Authority authority1;
+		Comment commentForDelete;
+		Integer size;
+
+		authority1 = new Authority();
+		authority1.setAuthority("USER");
+		
+		Assert.notNull(comment);
+
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority1));
+
+		size = this.countByRepliedCommentId(comment.getId());
+
+		//Delete repliedComments
+		for (final Comment repliedComment : this.findByRepliedCommentId(comment.getId(), 1, size))
+			this.deleteFromUser(repliedComment);
+		
+		commentForDelete = this.findOne(comment.getId());
+		this.commentRepository.delete(commentForDelete);
+		
+		}
+
+		
 
 	public void deleteModerator(final Comment comment) {
 		final Authority authority;
