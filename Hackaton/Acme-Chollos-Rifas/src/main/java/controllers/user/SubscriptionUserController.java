@@ -96,19 +96,30 @@ public class SubscriptionUserController extends AbstractController {
 
 	// Edit
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(Subscription subscription, final BindingResult binding, final HttpServletResponse response) {
+	public ModelAndView save(Subscription subscription, final BindingResult binding, final HttpServletResponse response, final HttpServletRequest request) {
 		ModelAndView result;
+		Cookie cookie;
 
 		subscription = this.subscriptionService.reconstruct(subscription, binding);
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(subscription);
-		else
+			cookie = WebUtils.getCookie(request, "cookiemonster_" + subscription.getUser().getUserAccount().getId());
+			if (cookie != null && subscription.getId() == 0) {
+				result.addObject("lastCreditCard", cookie.getValue());
+				subscription.setCreditCard(this.stringToCreditCardConverter.convert(cookie.getValue()));
+			}
+		} else
 			try {
 				this.subscriptionService.save(subscription);
 				result = new ModelAndView("redirect:display.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(subscription, "subscription.commit.error");
+				cookie = WebUtils.getCookie(request, "cookiemonster_" + subscription.getUser().getUserAccount().getId());
+				if (cookie != null && subscription.getId() == 0) {
+					result.addObject("lastCreditCard", cookie.getValue());
+					subscription.setCreditCard(this.stringToCreditCardConverter.convert(cookie.getValue()));
+				}
 			}
 
 		return result;
