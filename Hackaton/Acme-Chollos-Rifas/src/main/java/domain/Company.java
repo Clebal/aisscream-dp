@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -11,27 +12,28 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Company extends Actor implements Surveyer {
 
-	private String companyName;
-	
-	private String type;
+	private String	companyName;
+
+	private String	type;
+
 
 	@NotBlank
 	public String getCompanyName() {
-		return companyName;
+		return this.companyName;
 	}
 
-	public void setCompanyName(String companyName) {
+	public void setCompanyName(final String companyName) {
 		this.companyName = companyName;
 	}
 
-	@Pattern(regexp="^(SL||AS||AUTONOMO||COOPERATIVA)$")
+	@Pattern(regexp = "^(SL||SA||AUTONOMO||COOPERATIVA)$")
 	@NotBlank
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
-	
+
 }
