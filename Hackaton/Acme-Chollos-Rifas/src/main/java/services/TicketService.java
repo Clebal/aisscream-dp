@@ -47,6 +47,9 @@ public class TicketService {
 	@Autowired
 	private UserService			userService;
 	
+	@Autowired
+	private CreditCardService creditCardService;
+	
 	// Constructor
 	public TicketService() {
 		super();
@@ -101,6 +104,7 @@ public class TicketService {
 		Authority authority;
 		Plan plan;
 		Integer countTickets;
+		Calendar calendar;
 		
 		Assert.notNull(ticket);
 		
@@ -126,6 +130,17 @@ public class TicketService {
 			countTickets = this.ticketRepository.countByRaffleIdAndUserId(ticket.getRaffle().getId(), ticket.getUser().getId());
 			Assert.isTrue(countTickets == 0);
 		}
+		
+		// No se puede utilizar una credit card caducada
+		if(ticket.getCreditCard() != null) {
+			Assert.isTrue(this.creditCardService.findByUserAccountId(LoginService.getPrincipal().getId()).contains(ticket.getCreditCard()));
+			calendar = Calendar.getInstance();
+			if (calendar.get(Calendar.YEAR) % 100 == ticket.getCreditCard().getExpirationYear())
+				Assert.isTrue(((ticket.getCreditCard().getExpirationMonth()) - (calendar.get(Calendar.MONTH) + 1)) >= 1);
+			else
+				Assert.isTrue(calendar.get(Calendar.YEAR) % 100 < ticket.getCreditCard().getExpirationYear());
+		}
+
 		
 		// Asignar código único
 		ticket.setCode(this.generateUniqueCode(ticket.getRaffle()));

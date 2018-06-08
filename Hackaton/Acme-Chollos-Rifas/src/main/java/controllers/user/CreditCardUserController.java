@@ -218,7 +218,6 @@ public class CreditCardUserController extends AbstractController {
 			}
 			result.addObject("isAdded", isAdded);
 		}
-
 		
 		result.addObject("creditCard", creditCard);
 		result.addObject("message", messageCode);

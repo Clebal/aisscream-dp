@@ -50,12 +50,18 @@
 	<security:authorize access="hasRole('USER')">
 		<br>
 		<div style="text-align: center">
-			<jstl:if test="${raffle.getPrice() != 0.0}">
-				<a class="btn btn-primary" href="#" data-toggle="modal" data-target="#myModal"><spring:message code="raffle.buy.paypal" /></a>
-				<a class="btn btn-primary" href="ticket/user/buy.do?raffleId=${raffle.getId()}"><spring:message code="raffle.buy.creditcard" /></a>
+			<jstl:if test="${raffle.getWinner() == null}">
+				<jstl:if test="${raffle.getPrice() != 0.0}">
+					<a class="btn btn-primary" href="#" data-toggle="modal" data-target="#myModal"><spring:message code="raffle.buy.paypal" /></a>
+					<a class="btn btn-primary" href="ticket/user/buy.do?raffleId=${raffle.getId()}"><spring:message code="raffle.buy.creditcard" /></a>
+				</jstl:if>
+				<jstl:if test="${raffle.getPrice() == 0.0 && notBuyedYet}">
+					<a class="btn btn-primary" href="ticket/user/buy.do?raffleId=${raffle.getId()}"><spring:message code="welcome.buy"/></a>
+				</jstl:if>
 			</jstl:if>
-			<jstl:if test="${raffle.getPrice() == 0.0 && notBuyedYet}">
-				<a class="btn btn-primary" href="ticket/user/buy.do?raffleId=${raffle.getId()}"><spring:message code="welcome.buy"/></a>
+			<jstl:if test="${raffle.getWinner() != null}">
+				<p><spring:message code="raffle.isHasBeenRaffled" /></p>
+				<p><b><jstl:out value="${raffle.getWinner().getName()}" /> <jstl:out value="${raffle.getWinner().getSurname()}" /></b></p>
 			</jstl:if>
 		</div>
 		

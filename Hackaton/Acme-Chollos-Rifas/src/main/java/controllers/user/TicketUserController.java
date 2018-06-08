@@ -116,7 +116,7 @@ public class TicketUserController extends AbstractController {
 			result.addObject("raffle", raffle);
 			
 		} else if(method.equals("PAYPAL")) {
-			attributes = paypalClient.createPayment(String.valueOf(raffle.getPrice()*amount), raffleId, amount, request);
+			attributes = this.paypalClient.createPayment(String.valueOf(raffle.getPrice()*amount), raffleId, amount, request);
 			
 			result = new ModelAndView("redirect:"+(String) attributes.get("redirect_url"));
 			
@@ -128,7 +128,7 @@ public class TicketUserController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/completepayment", method = RequestMethod.GET)
-	public ModelAndView completePayment(@RequestParam final String paymentId, @RequestParam final String PayerID, @RequestParam final Integer amount, @RequestParam int raffleId) {
+	public ModelAndView completePayment(@RequestParam final String paymentId, @RequestParam final String PayerID, @RequestParam final Integer amount, @RequestParam int raffleId, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<Ticket> tickets;
 		TicketForm ticketForm;
@@ -156,7 +156,7 @@ public class TicketUserController extends AbstractController {
 			this.ticketService.save(tickets, true);
 			result = new ModelAndView("redirect:/ticket/user/list.do");
 		} catch (Throwable oops) {
-			result = buyModelAndView(ticketForm, "ticket.commit.error");
+			result = buyModelAndView(ticketForm, "ticket.commit.error", request);
 		}
 		
 		return result;
@@ -171,36 +171,45 @@ public class TicketUserController extends AbstractController {
 		Assert.notNull(tickets);
 	
 		if(binding.hasErrors()) {
-			result = this.buyModelAndView(ticketForm);
+			result = this.buyModelAndView(ticketForm, request);
 		} else {
 			try {
 				this.ticketService.save(tickets, false);
 				result = new ModelAndView("redirect:/ticket/user/list.do");
 			} catch (Throwable oops) {
-				result = buyModelAndView(ticketForm, "ticket.commit.error");
+				result = buyModelAndView(ticketForm, "ticket.commit.error", request);
 			}
 		}
 		
 		return result;
 	}
 	
-	protected ModelAndView buyModelAndView(final TicketForm ticketForm) {
+	protected ModelAndView buyModelAndView(final TicketForm ticketForm, final HttpServletRequest request) {
 		ModelAndView result;
 
-		result = this.buyModelAndView(ticketForm, null);
+		result = this.buyModelAndView(ticketForm, null, request);
 
 		return result;
 	}
 
-	protected ModelAndView buyModelAndView(final TicketForm ticketForm, final String messageCode) {
+	protected ModelAndView buyModelAndView(final TicketForm ticketForm, final String messageCode, final HttpServletRequest request) {
 		ModelAndView result;
 		Collection<CreditCard> creditCards;
+		Cookie cookie;
 
 		creditCards = this.creditCardService.findValidByUserAccountId(LoginService.getPrincipal().getId());
 		Assert.notNull(creditCards);
 		
 		result = new ModelAndView("ticket/buy");
 
+		if(request != null) {
+			cookie = WebUtils.getCookie(request, "cookiemonster_"+LoginService.getPrincipal().getId());
+			if(cookie != null) {
+				result.addObject("primaryCreditCard", cookie.getValue());
+				ticketForm.setCreditCard(this.stringToCreditCardConverter.convert(cookie.getValue()));
+			}
+		}
+		
 		result.addObject("ticketForm", ticketForm);
 		result.addObject("message", messageCode);
 		result.addObject("requestURI", "ticket/user/buy.do?raffleId="+ticketForm.getRaffle().getId());

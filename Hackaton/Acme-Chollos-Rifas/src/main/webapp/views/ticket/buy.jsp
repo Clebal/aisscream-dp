@@ -20,12 +20,42 @@
 	
 	<jstl:if test="${raffle.getPrice() != 0}">
 		<acme:textbox code="raffle.amount" path="amount" />
+		<span id="amountBelowOne" class="text-danger" style="display: none"><spring:message code="ticket.amountBelowOne" /></span>
+		<br><br>
 		
 		<acme:select code="raffle.creditcard" path="creditCard" items="${creditCards}" itemLabel="number" selected="${primaryCreditCard}" />
+		<span id="creditCardEmpty" class="text-danger" style="display: none"><spring:message code="ticket.creditCardEmpty" /></span>
+		<br>
+		
+		<script>
+			$(document).ready(function() {
+				if(${ticketForm.getCreditCard() != null}) {
+					$("#selectCreditCardId").children("option[value='${ticketForm.getCreditCard().getId()}']").attr("selected", "selected");
+				}
+			});
+			
+			$("#ticketForm").submit(function(e){
+				if($("#selectCreditCardId").val() == "0") {
+					e.preventDefault();
+					$("#creditCardEmpty").fadeIn();
+				}else {
+					$("#creditCardEmpty").fadeOut();
+				}
+				
+				if($("#amount").val() == "0") {
+					e.preventDefault();
+					$("#amountBelowOne").fadeIn();
+				} else {
+					$("#amountBelowOne").fadeOut();
+				}
+				
+			});
+		</script>
 	</jstl:if>
 	
+	<br>
 	<acme:submit name="save" code="raffle.save"/>
 	
-	<acme:cancel url="raffle/display.do?raffleId=${raffle.getId()}" code="raffle.cancel"/>
+	<acme:cancel url="raffle/display.do?raffleId=${ticketForm.getRaffle().getId()}" code="raffle.cancel"/>
 			
 </form:form>
