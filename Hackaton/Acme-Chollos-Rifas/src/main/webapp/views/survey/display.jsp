@@ -19,11 +19,11 @@
         
     <h2><jstl:out value="${mapEntry.key.text}" /></h2>
         
-    <canvas id="<jstl:out value="${mapEntry.key.number}" />"></canvas>
+    <canvas id="<jstl:out value="${mapEntry.key.id}" />"></canvas>
     <spring:message code="survey.avg.answer" var="mediaRespuestas"/>
     
     <script>    
-    var ctx = document.getElementById('<jstl:out value="${mapEntry.key.number}" />');
+    var ctx = document.getElementById('<jstl:out value="${mapEntry.key.id}" />');
     var media = new Chart.Bar(ctx, {
     data: {
     labels: [<jstl:forEach items="${mapEntry.value}" var="mapValue"><jstl:out value="\'" escapeXml="false"/><jstl:out value="${mapValue.key.text}"/><jstl:out value="\', " escapeXml="false"/></jstl:forEach>],

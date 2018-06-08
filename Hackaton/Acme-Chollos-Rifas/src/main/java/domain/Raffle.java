@@ -89,7 +89,6 @@ public class Raffle extends DomainEntity {
 
 	@ElementCollection
 	@URLCollection
-    @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	public Collection<String> getProductImages() {
 		return this.productImages;
 	}
