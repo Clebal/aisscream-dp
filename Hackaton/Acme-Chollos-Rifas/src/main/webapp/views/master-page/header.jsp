@@ -12,6 +12,7 @@
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -23,7 +24,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a style="background-image: url(${banner}); -ms-behavior: url(styles/backgroundsize.min.htc);" class="navbar-brand" href="#"><span>${nameHeader}</span></a>
+     
+	  <a style="background-image: url(${banner}); -ms-behavior: url(styles/backgroundsize.min.htc);" class="navbar-brand" href="#"><span><jstl:out value="${nameHeader}"/></span></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
