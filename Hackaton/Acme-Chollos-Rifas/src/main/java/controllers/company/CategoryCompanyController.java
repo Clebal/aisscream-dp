@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.BargainService;
 import services.CategoryService;
 import controllers.AbstractController;
@@ -42,6 +43,9 @@ public class CategoryCompanyController extends AbstractController {
 
 		bargain = this.bargainService.findOne(bargainId);
 		Assert.notNull(bargain);
+
+		Assert.isTrue(bargain.getCompany().getUserAccount().getId() == LoginService.getPrincipal().getId());
+
 		categories = this.categoryService.findByNotBargainId(bargain, page, 5);
 		Assert.notNull(categories);
 
@@ -80,6 +84,12 @@ public class CategoryCompanyController extends AbstractController {
 	public ModelAndView removeCategory(@RequestParam(required = false, defaultValue = "1") final Integer page, @RequestParam final int bargainId) {
 		ModelAndView result;
 		Page<Category> categories;
+		Bargain bargain;
+
+		bargain = this.bargainService.findOne(bargainId);
+		Assert.notNull(bargain);
+
+		Assert.isTrue(bargain.getCompany().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
 		categories = this.categoryService.findByBargainId(bargainId, page, 5);
 		Assert.notNull(categories);
