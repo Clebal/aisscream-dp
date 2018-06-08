@@ -77,12 +77,6 @@ var addAnswer = "${addAnswer}";
 var removeAnswer ="${removeAnswer}";
 var removeQuestion ="${removeQuestion}";
 
-$(document).ready(function() {
-	console.log($("#questionsContainer").children("div").length)
-	if($("#questionsContainer").children("div").length != 1)
-		$(".removeQuestion").fadeIn();
-});
-
 if(${object.questions != null && object.questions.size() == 0}) {
 	$(document).ready(function() {
 		var questionsContainer = $("#questionsContainer");
@@ -91,6 +85,11 @@ if(${object.questions != null && object.questions.size() == 0}) {
 		$(questionsContainer).append('<div><br><label>'+questionText+ ' ' + number2 +'&nbsp;&nbsp;</label><input type="hidden" name="questions['+number+'].id" value="0"><input type="text" name="questions['+number+'].text">&nbsp;&nbsp;<a class="addAnswer" data-container="1">'+addAnswer+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number2+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number+'].answers[0].text" /><input type="hidden" name="questions['+number+'].answers[0].id" value="0" /></div></div></div>');
 	});
 }
+
+$(document).ready(function() {
+	if($("#questionsContainer").children("div").length != 1)
+		$(".removeQuestion").fadeIn();
+});
 
 $("#addQuestion").click(function(e) {
 	e.preventDefault();
