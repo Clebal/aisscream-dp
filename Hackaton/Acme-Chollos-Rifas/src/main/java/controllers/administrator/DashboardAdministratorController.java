@@ -54,14 +54,14 @@ public class DashboardAdministratorController extends AbstractController {
 		ModelAndView result;
 
 		Double[] avgMinMaxStandarDesviationBannersPerSponsor;
-		double avgRatioTagsPerBargain;
-		double ratioNotificationsPerTotal;
-		double avgUsersWithParticipationsPerTotal;
-		double ratioUsersWithComments;
-		double avgRatioBargainPerCategory;
+		Double avgRatioTagsPerBargain;
+		Double ratioNotificationsPerTotal;
+		Double avgUsersWithParticipationsPerTotal;
+		Double ratioUsersWithComments;
+		Double avgRatioBargainPerCategory;
 		Double[] minMaxAvgStandarDesviationDiscountPerBargain;
 		Double[] minMaxAvgStandarDesviationDiscountPerGroupon;
-		double avgTicketsPurchaseByUsersPerRaffle;
+		Double avgTicketsPurchaseByUsersPerRaffle;
 
 		avgMinMaxStandarDesviationBannersPerSponsor = this.sponsorshipService.avgMinMaxStandarDesviationBannersPerSponsor();
 		avgRatioTagsPerBargain = this.tagservice.avgRatioTagsPerBargain();
