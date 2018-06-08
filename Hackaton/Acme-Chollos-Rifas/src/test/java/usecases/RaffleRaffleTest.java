@@ -27,11 +27,17 @@ public class RaffleRaffleTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
+	 * PARA ESTE TEST ES NECESARIO REPOPULAR PORQUE TENEMOS
+	 * UN A+ EN EL QUE UN CRONJOBS SORTEA AUTOMATICAMENTE
+	 * LAS RIFAS.
+	 */
+	
+	/*
 	 * Pruebas:
 	 * 		1. Un moderador trata de sortear una rifa
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		26.6. Un actor que está autenticado como moderador debe ser capaz de realizar el sorteo de la rifa después de pasar la fecha límite. Una vez realizado se notificará al usuario que ha resultado ganador.
 	 * 
 	 */
 	@Test
@@ -55,7 +61,10 @@ public class RaffleRaffleTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
+	 * 		1. Un moderador trata de sortear una rifa ya sorteada
+	 * 		2. Una compañía trata de sortear una rifa cuando solo puede el moderador
+	 * 		3. Un usuario trata de sortear una rifa cuando solo puede el moderador
+	 * 		4. Un patrocinador trata de sortear una rifa cuando solo puede el moderador	
 	 * 
 	 * Requisitos:
 	 * 		

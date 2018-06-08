@@ -33,18 +33,15 @@ public class EditCompanyTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 
-	 * 1. Probando editar usuario con telefono y direccion a null
-	 * 2. Probando editar usuario con telefono pero con direccion a null
-	 * 3. Probando editar usuario con telefono a vacio y direccion a null
-	 * 4. Probando editar usuario con telefono a null y direccion
-	 * 5. Probando editar usuario con telefono a null y direccion a vacio
-	 * 6. Probando editar usuario con telefono y direccion
-	 * 7. Probando editar usuario con telefono y direccion a vacio
+	 * 		1. Una compañía trata de editar su perfil quitando el campo dirección y teléfono
+	 * 		2. Una compañía trata de editar su perfil quitando el campo dirección
+	 * 		3. Una compañía trata de editar su perfil dejando teléfono vacío y quitando el campo dirección
+	 * 		4. Una compañía trata de editar su perfil dejando dirección vacía y quitando el campo teléfono
+	 * 		5. Una compañía trata de editar su perfil cambiando los valores normalmente
 	 * 
 	 * Requsitos:
+	 * 		Los actores pueden editar su perfil
 	 * 
-	 * 	Se desea probar la correcta edicion de un usuario.
 	 */
 	@Test
 	public void positiveEditCompanyTest() {
@@ -54,15 +51,11 @@ public class EditCompanyTest extends AbstractTest {
 			}, {
 				"company2", "company2", "company2", "company2", "Alejandro", "Perez", "987532146", null, "a@hotmail.com", "20063918Y", "Company S.L.", "SL", null
 			}, {
-				"company3", "company3", "company3", "company3", "Carlos", "Sánchez", null, null, "carloscompany@mail.com", "20063918Y", "Company S.L.", "SL", null
+				"company3", "company3", "company3", "company3", "Carlos", "Sánchez", "", null, "carloscompany@mail.com", "20063918Y", "Company S.L.", "SL", null
 			}, {
-				"company3", "company3", "company3", "company3", "Carlos", "Sánchez", null, "Calle Real Nº6", "paquito@mail.com", "20063918Y", "Company S.L.", "SL", null 
-			}, {
-				"company3", "company3", "company3", "company3", "Carlos", "Sánchez", null, "", "manolete@mail.com", "20063918Y", "Company S.L.", "SL", null 
+				"company3", "company3", "company3", "company3", "Carlos", "Sánchez", null, "", "paquito@mail.com", "20063918Y", "Company S.L.", "SL", null 
 			}, {
 				"company3", "company3", "company3", "company3", "Carlos", "Sánchez", "321456987", "Direccion incorrecta", "pepe@mail.com", "20063918Y", "Company S.L.", "SL", null 
-			}, {
-				"company3", "company3", "company3", "company3", "Francisco", "Cerrada", null, "", "fran@mail.com", "20063918Y", "Company S.L.", "SL", null
 			}
 		};
 			
@@ -79,23 +72,28 @@ public class EditCompanyTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 
-	 * 1. Solo un usuario registrado puede registrarse a si mismo
-	 * 2. Solo un usuario registrado puede registrarse a si mismo
-	 * 3. Solo un usuario registrado puede registrarse a si mismo
-	 * 6. El EmailAddress tiene que tener el formato de un EmailAddress
-	 * 7. El nombre no puede ser nulo
-	 * 8. El apellido no puede ser nulo
-	 * 9. El nombre no puede ser vacio
-	 * 10. El apellido no puede ser vacio
-	 * 11. El EmailAddress no puede ser nulo
-	 * 12. El EmailAddress no puede ser vacio
-	 * 15. El identificador debe cumplir el patrón
-	 * 16. El tipo de empresa debe cumplir el patrón
+	 * 		1. Solo un usuario registrado puede registrarse a si mismo
+	 * 		2. Solo un usuario registrado puede registrarse a si mismo
+	 * 		3. Solo un usuario registrado puede registrarse a si mismo
+	 * 		4. El EmailAddress tiene que tener el formato de un EmailAddress
+	 * 		5. El nombre no puede ser nulo
+	 * 		6. El apellido no puede ser nulo
+	 * 		7. El nombre no puede ser vacio
+	 * 		8. El apellido no puede ser vacio
+	 * 		9. El EmailAddress no puede ser nulo
+	 * 		10. El EmailAddress no puede ser vacio
+	 * 		11. El identificador debe cumplir el patrón
+	 * 		12. El identificador no puede estar vacío
+	 * 		13. El identificador no puede ser nulo
+	 * 		14. El nombre de la compañía no puede estar vacío
+	 * 		15. El nombre de la compañía no puede ser nulo
+	 * 		16. El tipo de empresa debe cumplir el patrón
+	 * 		17. El tipo de empresa no puede estar vacío
+	 * 		18. El tipo de empresa no puede ser nulo
 	 * 
 	 * Requisitos:
+	 * 		Los actores pueden editar su perfil
 	 * 
-	 * 	Se desea probar la correcta edicion de un usuario.
 	 */
 	@Test
 	public void negativeEditCompanyTest() {
@@ -116,7 +114,7 @@ public class EditCompanyTest extends AbstractTest {
 				"company3", "company3", "company3", "company3", "", "Azana", "664857123", "Calle Inventada", "m@mail.com", "20063918Y", "Company S.L.", "SL", ConstraintViolationException.class
 			}, {
 				"company1", "company1", "company1", "company1", "Marta", "", "664857123", "Calle sin numero", "martita@gmail.es", "20063918Y", "Company S.L.", "SL", ConstraintViolationException.class 
-			},{
+			}, {
 				"company3", "company3", "company3", "company3", "Carlos", "Sánchez", "664857123", "Calle Novena", null, "20063918Y", "Company S.L.", "SL", ConstraintViolationException.class 
 			}, {
 				"company1", "company1", "company1", "company1", "Maria", "Villarin", "664254123", "Inserte direccion", "", "20063918Y", "Company S.L.", "SL", ConstraintViolationException.class 

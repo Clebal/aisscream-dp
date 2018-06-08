@@ -38,11 +38,11 @@ public class EditCreditCardTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1.
-	 * 		2.
+	 * 		1. Un usuario autenticado como user1 editar la creditCard1
+	 * 		2. Un usuario autenticado como user3 editar la creditCard4
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		13.	Los usuarios pueden almacenar en el sistema distintas tarjetas de crédito...
 	 * 
 	 */
 	@Test
@@ -68,18 +68,17 @@ public class EditCreditCardTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2. 
-	 * 		3. 
-	 * 		4.
-	 * 		5.
-	 * 		6.
-	 * 		7.
-	 * 		8.
-	 * 		9.
+	 * 		1. Un usuario trata de editar una tarjeta de crédito que no es suya
+	 * 		2. El número de la tarjeta de crédito tiene que tener un formato correcto
+	 * 		3. El mes y año de expiración no puede estar en pasado
+	 * 		4. El mes y año de expiración no puede estar en el mes actual
+	 * 		5. El CVV debe estar en un rango entre 100 y 999
+	 * 		6. Una compañía trata de editar una tarjeta de crédito cuando solo puede el usuario
+	 * 		7. Un patrocinador trata de editar una tarjeta de crédito cuando solo puede el usuario
+	 * 		8. Una moderador trata de editar una tarjeta de crédito cuando solo puede el usuario
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		13.	Los usuarios pueden almacenar en el sistema distintas tarjetas de crédito...
 	 * 
 	 */
 	@Test
@@ -88,13 +87,11 @@ public class EditCreditCardTest extends AbstractTest {
 				{
 					"user1", "creditCard4", "Alejandro Martín", "MasterCard", "5256332484910150", 05, 20, 533, IllegalArgumentException.class
 				}, {
-					"user3", "creditCard1", "Manuel Macías", "Visa", "4811183747278021", 12, 30, 432, IllegalArgumentException.class
-				}, {
 					"user1", "creditCard1", "Alejandro Martín", "MasterCard", "asdf", 05, 20, 533, ConstraintViolationException.class
 				}, {
 					"user1", "creditCard1", "Alejandro Martín", "MasterCard", "5256332484910150", 03, 18, 533, IllegalArgumentException.class
 				}, {
-					"user1", "creditCard1", "Alejandro Martín", "MasterCard", "5256332484910150", 05, 18, 533, IllegalArgumentException.class
+					"user1", "creditCard1", "Alejandro Martín", "MasterCard", "5256332484910150", 06, 18, 533, IllegalArgumentException.class
 				}, {
 					"user1", "creditCard1", "Alejandro Martín", "MasterCard", "5256332484910150", 9, 18, 99, ConstraintViolationException.class
 				}, {

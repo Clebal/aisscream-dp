@@ -1,10 +1,11 @@
 package usecases;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
@@ -32,10 +33,12 @@ public class DeleteRaffleTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1.
+	 * 		1. Una persona autenticada como moderator1 trata de borrar la rifa raffle1
+	 *		2. Una persona autenticada como moderator2 trata de borrar la rifa raffle2
+	 *		3. Una persona autenticada como company1 trata de borrar la rifa raffle3 que no tiene tiques
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		26.5. Un actor que está autenticado como moderador debe ser capaz de eliminar una rifa si la considera inapropiada. 
 	 * 
 	 */
 	@Test
@@ -43,6 +46,10 @@ public class DeleteRaffleTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 				"moderator1", "raffle1", null
+			}, {
+				"moderator2", "raffle2", null
+			}, {
+				"company1", "raffle3", null
 			}
 		};
 			
@@ -59,10 +66,13 @@ public class DeleteRaffleTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
+	 * 		1. Una compañía trata de eliminar una rifa que no es suya
+	 * 		2. Una compañía trata de eliminar una rifa que tiene ya tiques
+	 * 		3. Un usuario trata de borrar una rifa cuando no puede
+	 * 		4. Un patrocinador trata de borrar una rifa cuando no puede
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		26.5. Un actor que está autenticado como moderador debe ser capaz de eliminar una rifa si la considera inapropiada. 
 	 * 
 	 */
 	@Test
@@ -70,6 +80,8 @@ public class DeleteRaffleTest extends AbstractTest {
 		final Object testingData[][] = {
 				{
 					"company4", "raffle1", IllegalArgumentException.class
+				}, {
+					"company1", "raffle1", IllegalArgumentException.class
 				}, {
 					"user1", "raffle1", IllegalArgumentException.class
 				}, {
@@ -91,38 +103,37 @@ public class DeleteRaffleTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	/*
-	 * Crear una rifa
+	 * Borrar una rifa
 	 * Pasos:
-	 * 		1. Autenticar como compañía
+	 * 		1. Autenticar como compañía o moderador
 	 * 		2. Listar rifas
-	 * 		3. Entrar en vista de crear rifa
-	 * 		4. Crear rifa
-	 * 		5. Volver al listado de rifas
+	 * 		3. Eliminar rifa
+	 * 		4. Volver al listado de rifas
 	 */
 	protected void template(final String actorBean, final String raffleBean, final Class<?> expected) {
 		Class<?> caught;
 		Raffle raffle;
-		Page<Raffle> rafflePage;
+		Collection<Raffle> raffles;
 		Integer raffleId, oldTickets;
-		Long oldTotalElements;
+		int oldTotalElements;
 
 		caught = null;
 		try {
 			
-			// 1. Autenticar como compañía
+			// 1. Autenticar como compañía o moderador
 			super.authenticate(actorBean);
 			
 			raffleId = super.getEntityId(raffleBean);
 			Assert.notNull(raffleId);
 			
-			raffle = this.raffleService.findOneToDelete(raffleId);
+			raffle = this.raffleService.findOne(raffleId);
 			Assert.notNull(raffle);
 			
 			// 2. Listar rifas
-			rafflePage = this.raffleService.findAllPaginated(1, 5);
-			Assert.notNull(rafflePage);
+			raffles = this.raffleService.findAll();
+			Assert.notNull(raffles);
 			
-			oldTotalElements = rafflePage.getTotalElements();
+			oldTotalElements = raffles.size();
 			oldTickets = this.ticketService.findAll().size();
 			
 			// 3. Eliminar rifa
@@ -132,10 +143,11 @@ public class DeleteRaffleTest extends AbstractTest {
 			this.ticketService.flush();
 									
 			// 4. Volver al listado de rifas
-			rafflePage = this.raffleService.findAllPaginated(1, 5);
-			Assert.notNull(rafflePage);
-			Assert.isTrue(oldTotalElements != rafflePage.getTotalElements());
-			Assert.isTrue(oldTickets != this.ticketService.findAll().size());
+			raffles = this.raffleService.findAll();
+			Assert.notNull(raffles);
+			Assert.isTrue(oldTotalElements != raffles.size());
+			if(oldTickets != 31)
+				Assert.isTrue(oldTickets != this.ticketService.findAll().size());
 			
 			super.unauthenticate();
 			super.flushTransaction();

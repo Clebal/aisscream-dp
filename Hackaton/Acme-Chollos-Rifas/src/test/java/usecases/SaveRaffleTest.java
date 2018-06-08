@@ -55,7 +55,7 @@ public class SaveRaffleTest extends AbstractTest {
 	 *		5. Una compañía trata de crear una rifa introduciendo de precio 0.
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		23.6. Un actor que está autenticado como empresa debe ser capaz de listar las rifas que ha creado, editarlas y borrarlas si todavía nadie ha comprado un tique.
 	 * 
 	 */
 	@Test
@@ -87,18 +87,18 @@ public class SaveRaffleTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2. 
-	 * 		3. 
-	 * 		4.
-	 * 		5.
-	 * 		6.
-	 * 		7.
-	 * 		8.
-	 * 		9.
+	 * 		1. ProductURL debe cumplir el formato de una URL
+	 * 		2. ProductImages debe cumplir el formato de una URL
+	 * 		3. Una compañía intenta crear una rifa en pasado
+	 * 		4. Una compañía intenta crear una rifa con el precio negativo
+	 * 		5. Una compañía intenta crear una rifa sin el nombre
+	 * 		6. Una compañía intenta crear una rifa sin la descripción
+	 * 		7. Una compañía intenta crear una rifa sin el nombre del producto
+	 * 		8. Una compañía intenta crear una rifa sin la fecha límite
+	 * 		9. Una compañía intenta crear una rifa con ganador
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		23.6. Un actor que está autenticado como empresa debe ser capaz de listar las rifas que ha creado, editarlas y borrarlas si todavía nadie ha comprado un tique.
 	 * 
 	 */
 	@Test

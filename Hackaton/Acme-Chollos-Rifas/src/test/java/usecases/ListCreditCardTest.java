@@ -34,13 +34,14 @@ public class ListCreditCardTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 *		2.
-	 * 		3.
-	 * 		4.
+	 * 		1. Un usuario entra en una vista en la que se llama al método findByUserAccountId
+	 *		2. Una persona entra en una vista en la que se llama al método findByUserAccountId, solo puede el usuario
+	 *		3. Un moderador entra en una vista en la que se llama al método findByUserAccountId, solo puede el usuario
+	 *		4. Un patrocinador entra en una vista en la que se llama al método findByUserAccountId, solo puede el usuario
+	 *		5. Una compañía entra en una vista en la que se llama al método findByUserAccountId, solo puede el usuario
 	 * 
 	 * Requisitos:
-	 * 
+	 * 		13.	Los usuarios pueden almacenar en el sistema distintas tarjetas de crédito...
 	 * 
 	 */
 	@Test
@@ -72,13 +73,16 @@ public class ListCreditCardTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2.
-	 * 		3. 
-	 * 		4.
+	 * 		1. Un usuario entra en una vista en la que se llama al método findByUserAccountId paginada
+	 * 		2. Un usuario entra en una vista en la que se llama al método findByUserAccountId paginada y navega a la segunda página
+	 * 		3. Una persona entra en una vista en la que se llama al método findByUserAccountId, solo puede el usuario
+	 * 		4. Un moderador entra en una vista en la que se llama al método findByUserAccountId, solo puede el usuario
+	 * 		5. Un patrocinador entra en una vista en la que se llama al método findByUserAccountId, solo puede el usuario
+	 * 		6. Una compañía entra en una vista en la que se llama al método findByUserAccountId, solo puede el usuario
 	 * 
 	 * Requisitos:
-	 * 
+	 * 		13.	Los usuarios pueden almacenar en el sistema distintas tarjetas de crédito...
+	 *
 	 */
 	@Test
 	public void findByUserAccountIdPageTest() {
@@ -111,12 +115,14 @@ public class ListCreditCardTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2. 
-	 * 		3.
-	 * 		4.
+	 * 		1. Un usuario entra en una vista en la que se llama al método findValidByUserAccountId
+	 *		2. Una persona entra en una vista en la que se llama al método findValidByUserAccountId, solo puede el usuario
+	 *		3. Un moderador entra en una vista en la que se llama al método findValidByUserAccountId, solo puede el usuario
+	 *		4. Un patrocinador entra en una vista en la que se llama al método findValidByUserAccountId, solo puede el usuario
+	 *		5. Una compañía entra en una vista en la que se llama al método findValidByUserAccountId, solo puede el usuario
 	 * 
 	 * Requisitos:
+	 * 		13.	Los usuarios pueden almacenar en el sistema distintas tarjetas de crédito...
 	 * 
 	 */
 	@Test

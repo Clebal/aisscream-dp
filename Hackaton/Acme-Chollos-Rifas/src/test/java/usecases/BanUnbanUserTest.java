@@ -30,11 +30,13 @@ public class BanUnbanUserTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1.
-	 * 		2.
+	 * 		1. Una persona autenticada como moderator1 banea al usuario user1
+	 * 		2. Una persona autenticada como moderator2 banea al usuario user3
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		26. 4. Un actor que está autenticado como moderador debe ser capaz de banear 
+	 * 			   un usuario que tenga un comportamiento que inflija nuestros 
+	 * 			   términos y condiciones.
 	 * 
 	 */
 	@Test
@@ -60,19 +62,17 @@ public class BanUnbanUserTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2. 
-	 * 		3. 
-	 * 		4.
-	 * 		5.
-	 * 		6.
-	 * 		7.
-	 * 		8.
-	 * 		9.
+	 * 		1. Un administrador trata de banear un usuario pero solo pueden los moderadores
+	 * 		2. Un patrocinador trata de banear un usuario pero solo pueden los moderadores
+	 * 		3. Una compañía trata de banear un usuario pero solo pueden los moderadores
+	 * 		4. Un usuario trata de banear un usuario pero solo pueden los moderadores
+	 * 		5. Un moderador trata de banear un patrocinador pero solo se pueden banear usuarios
+	 * 		6. Un moderador trata de banear una compañía pero solo se pueden banear usuarios
 	 * 
 	 * Requisitos:
-	 * 		
-	 * 
+	 * 		26. 4. Un actor que está autenticado como moderador debe ser capaz de banear 
+	 * 			   un usuario que tenga un comportamiento que inflija nuestros 
+	 * 			   términos y condiciones.
 	 */
 	@Test
 	public void driverNegativeTest() {		

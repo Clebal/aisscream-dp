@@ -37,18 +37,19 @@ public class EditUserTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 
-	 * 1. Probando editar usuario con telefono y direccion a null
-	 * 2. Probando editar usuario con telefono pero con direccion a null
-	 * 3. Probando editar usuario con telefono a vacio y direccion a null
-	 * 4. Probando editar usuario con telefono a null y direccion
-	 * 5. Probando editar usuario con telefono a null y direccion a vacio
-	 * 6. Probando editar usuario con telefono y direccion
-	 * 7. Probando editar usuario con telefono y direccion a vacio
+	 * 		1. Probando editar usuario con telefono y direccion a null
+	 * 		2. Probando editar usuario con telefono pero con direccion a null
+	 * 		3. Probando editar usuario con telefono a vacio y direccion a null
+	 * 		4. Probando editar usuario con telefono a null y direccion
+	 * 		5. Probando editar usuario con telefono a null y direccion a vacio
+	 * 		6. Probando editar usuario con telefono y direccion
+	 * 		7. Probando editar usuario con telefono y direccion a vacio
+	 * 		8. Probando editar usuario dejando el avatar vacío
 	 * 
 	 * Requsitos:
-	 * 
-	 * 	Se desea probar la correcta edicion de un usuario.
+	 * 	 	23.6. Un actor que está autenticado como empresa debe ser capaz de 
+	 * 		listar las rifas que ha creado, editarlas y borrarlas 
+	 * 		si todavía nadie ha comprado un tique.	
 	 */
 	@Test
 	public void positiveEditUserTest() {
@@ -85,19 +86,21 @@ public class EditUserTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 
-	 * 1. Solo un usuario registrado puede registrarse a si mismo
-	 * 2. Solo un usuario registrado puede registrarse a si mismo
-	 * 3. Solo un usuario registrado puede registrarse a si mismo
-	 * 6. El EmailAddress tiene que tener el formato de un EmailAddress
-	 * 7. El nombre no puede ser nulo
-	 * 8. El apellido no puede ser nulo
-	 * 9. El nombre no puede ser vacio
-	 * 10. El apellido no puede ser vacio
-	 * 11. El EmailAddress no puede ser nulo
-	 * 12. El EmailAddress no puede ser vacio
-	 * 13. El username no puede cambiar
-	 * 14. La password no puede cambiar
+	 * 		1. Solo un usuario registrado puede registrarse a si mismo
+	 * 		2. Solo un usuario registrado puede registrarse a si mismo
+	 * 		3. Solo un usuario registrado puede registrarse a si mismo
+	 * 		4. El EmailAddress tiene que tener el formato de un EmailAddress
+	 * 		5. El nombre no puede ser nulo
+	 * 		6. El apellido no puede ser nulo
+	 * 		7. El nombre no puede ser vacio
+	 * 		8. El apellido no puede ser vacio
+	 * 		9. El EmailAddress no puede ser nulo
+	 * 		10. El EmailAddress no puede ser vacio
+	 * 		11. El username no puede cambiar
+	 * 		13. El avatar tiene que ser una URL
+	 * 	 	14. El identificador debe cumplir el patrón
+	 * 		15. El identificador no puede estar vacío
+	 * 		16. El identificador no puede ser nulo
 	 * 
 	 * Requisitos:
 	 * 
@@ -133,9 +136,11 @@ public class EditUserTest extends AbstractTest {
 			}, {
 				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", null, "", "fran@mail.com", "20063918Y", "asd", ConstraintViolationException.class
 			}, {
-				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", null, "", "fran@mail.com", "", "asd", ConstraintViolationException.class
+				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", null, "", "fran@mail.com", "20063-A--918Y", "", ConstraintViolationException.class
 			}, {
-				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", null, "", "fran@mail.com", "20063-A-918Y", "asd", ConstraintViolationException.class
+				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", null, "", "fran@mail.com", "", "", ConstraintViolationException.class
+			}, {
+				"user3", "user3", "user3", "user3", "Francisco", "Cerrada", null, "", "fran@mail.com", null, "", ConstraintViolationException.class
 			}
 		};
 		

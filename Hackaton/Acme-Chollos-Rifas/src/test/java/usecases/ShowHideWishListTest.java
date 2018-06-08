@@ -30,11 +30,11 @@ public class ShowHideWishListTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1.
-	 * 		2.
+	 * 		1. Un usuario cambia el estado de su lista de deseo a público
+	 * 		2. Un usuario cambia el estado de su lista de deseo a privado
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		25.4. Un actor autenticado como usuario debe ser capaz de cambiar la visibilidad de su lista de deseo entre público y privado.
 	 * 
 	 */
 	@Test
@@ -60,12 +60,13 @@ public class ShowHideWishListTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2. 
-	 * 		3. 
+	 * 		1. Un administrador trata de cambiar el estado de su lista de deseo, pero solo puede el usuario
+	 * 		2. Un patrocinador trata de cambiar el estado de su lista de deseo, pero solo puede el usuario
+	 * 		3. Una compañía trata de cambiar el estado de su lista de deseo, pero solo puede el usuario
+	 * 	 	4. Un moderador trata de cambiar el estado de su lista de deseo, pero solo puede el usuario
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		25.4. Un actor autenticado como usuario debe ser capaz de cambiar la visibilidad de su lista de deseo entre público y privado.
 	 * 
 	 */
 	@Test
@@ -77,6 +78,8 @@ public class ShowHideWishListTest extends AbstractTest {
 					"sponsor1", "user3", IllegalArgumentException.class
 				}, {
 					"company1", "user1", IllegalArgumentException.class
+				}, {
+					"moderator1", "user1", IllegalArgumentException.class
 				}
 			};
 		

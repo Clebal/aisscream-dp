@@ -38,13 +38,15 @@ public class ListRaffleTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 *		2.
-	 * 		3.
-	 * 		4.
+	 * 		1. Un usuario entra en la vista de listar rifas
+	 *		2. Una persona entra en la vista de listar rifas
+	 * 		3. Un moderador entra en la vista de listar rifas
+	 * 		4. Un patrocinador entra en la vista de listar rifas
+	 * 		5. Una compañía entra en la vista de listar rifas
+	 * 		6. Un usuario entra en la vista de listar rifas y navega de forma incorrecta
 	 * 
 	 * Requisitos:
-	 * 
+	 * 		21.5. Un actor que no está autenticado debe ser capaz de listas las rifas y permitir ordenarlas según el precio del tique o de lo cercanas que estén para acabar.
 	 * 
 	 */
 	@Test
@@ -78,12 +80,15 @@ public class ListRaffleTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2.
-	 * 		3. 
-	 * 		4.
+	 * 		1. Un usuario entra en la lista de rifas de las que tiene un tique
+	 * 		2. Un usuario entra en la lista de rifas de las que tiene un tique y navega
+	 * 		3. Una persona entra en la lista de rifas de las que tiene un tique, solo un usuario puede tener tiques
+	 * 		4. Un moderador entra en la lista de rifas de las que tiene un tique, solo un usuario puede tener tiques
+	 * 		5. Un patrocinador entra en la lista de rifas de las que tiene un tique, solo un usuario puede tener tiques
+	 * 		6. Una compañía entra en la lista de rifas de las que tiene un tique, solo un usuario puede tener tiques
 	 * 
 	 * Requisitos:
+	 * 		Un actor debe ser capaz de listas las rifas de las que tiene un tique
 	 * 
 	 */
 	@Test
@@ -117,13 +122,14 @@ public class ListRaffleTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2. 
-	 * 		3.
-	 * 		4.
+	 * 		1. Una compañía entra en su listado de rifas que ha creado
+	 * 		2. Un usuario no puede entrar en dicha lista
+	 * 		3. Una persona no puede entrar en dicha lista
+	 * 		4. Un moderador no puede entrar en dicha lista
+	 * 		5. Un patrocinador no puede entrar en dicha lista
 	 * 
 	 * Requisitos:
-	 * 
+	 * 		23.6. Un actor que está autenticado como empresa debe ser capaz de listar las rifas que ha creado, editarlas y borrarlas si todavía nadie ha comprado un tique.
 	 */
 	@Test
 	public void findByCompanyAccountIdTest() {
@@ -151,6 +157,19 @@ public class ListRaffleTest extends AbstractTest {
 			}
 	}
 	
+	/*
+	 * Pruebas: 
+	 * 		1. Un usuario entra en la vista de listar rifas
+	 *		2. Una persona entra en la vista de listar rifas
+	 * 		3. Un moderador entra en la vista de listar rifas
+	 * 		4. Un patrocinador entra en la vista de listar rifas
+	 * 		5. Una compañía entra en la vista de listar rifas
+	 * 		6. Un usuario entra en la vista de listar rifas y navega de forma incorrecta
+	 * 
+	 * Requisitos:
+	 * 		21.5. Un actor que no está autenticado debe ser capaz de listas las rifas y permitir ordenarlas según el precio del tique o de lo cercanas que estén para acabar.
+	 * 
+	 */
 	@Test
 	public void findOrderedByMaxDateTest() {
 		final Object testingData[][] = {
@@ -180,6 +199,14 @@ public class ListRaffleTest extends AbstractTest {
 			}
 	}
 	
+	/*
+	 * Pruebas: 
+	 * 		1. Un moderador entra en la página donde ve todas rifas para borrarlas
+	 * 		2. Una persona no puede entrar en dicha lista
+	 * 		3. Un usuario no puede entrar en dicha lista
+	 * 		4. Un patrocinador no puede entrar en dicha lista
+	 * 		5. Una compañía no puede entrar en dicha lista
+	 */
 	@Test
 	public void findAllPaginatedTest() {
 		final Object testingData[][] = {
@@ -193,8 +220,6 @@ public class ListRaffleTest extends AbstractTest {
 				"sponsor3", "findAllPaginated", 5, 0, 5, null, IllegalArgumentException.class
 			}, {
 				"company1", "findAllPaginated", 5, 0, 5, null, IllegalArgumentException.class
-			}, {
-				"user1", "findAllPaginated", 2, 3, 5, null, IllegalArgumentException.class
 			}
 		};
 		
@@ -214,9 +239,8 @@ public class ListRaffleTest extends AbstractTest {
 	/*
 	 * 	Pasos:
 	 * 		1. Operacionalmente nos autenticamos
-	 * 		2. Comprobamos si el método es findValidByUserAccountId ó findByUserAccountId (Page) o findByUserAccountId (Collection)
-	 * 		3. En el caso de que sea findByUserAccountId, obtenemos las entidades correspondientes al user para usar el método
-	 * 		3. Según el método que sea, se llama a su método y se guarda en la variable sizeCreditCard el tamaño de los resultados de cada método
+	 * 		2. Comprobamos si el método es findAvailables ó findByUserAccountId o findByCompanyAccountId o findOrderedByMaxDate o findOneToEdit o findOneToDisplay o findOneToDelete
+	 * 		3. Según el método que sea, se llama a su método
 	 * 		4. Comprobamos que devuelve el valor esperado
 	 * 		5. Cerramos sesión
 	 */

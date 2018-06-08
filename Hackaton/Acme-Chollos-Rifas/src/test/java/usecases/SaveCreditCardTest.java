@@ -38,11 +38,11 @@ public class SaveCreditCardTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1.
-	 * 		2.
+	 * 		1. Un usuario crea una tarjeta de crédito
+	 * 		2. Un usuario crea una tarjeta de crédito
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		13.	Los usuarios pueden almacenar en el sistema distintas tarjetas de crédito...
 	 * 
 	 */
 	@Test
@@ -68,18 +68,22 @@ public class SaveCreditCardTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2. 
-	 * 		3. 
-	 * 		4.
-	 * 		5.
-	 * 		6.
-	 * 		7.
-	 * 		8.
-	 * 		9.
-	 * 
+	 * 		1. Una tarjeta de crédito tiene que tener un número válido
+	 * 		2. Una tarjeta de crédito no puede estar caducada
+	 * 		3. Una tarjeta de crédito no puede estar en el mes actual
+	 * 		4. Una tarjeta de crédito debe tener un CVV entre 100 y 999
+	 * 		5. Una tarjeta de crédito no puede ser creada por una compañía, solo un usuario
+	 * 		6. Una tarjeta de crédito no puede ser creada por un patrocinador, solo un usuario
+	 * 		7. Una tarjeta de crédito no puede ser creada por un moderador, solo un usuario
+	 * 		8. Una tarjeta de crédito tiene que tener un holderName relleno
+	 * 		9. Una tarjeta de crédito no puede tener un holderName a nulo
+	 * 		10. Una tarjeta de crédito tiene que tener un brandName relleno
+	 * 		11. Una tarjeta de crédito no puede tener un brandName a nulo
+	 * 		12. Una tarjeta de crédito tiene que tener un número
+	 * 		13. Una tarjeta de crédito no puede tener un número a nulo
+	 * 	
 	 * Requisitos:
-	 * 		
+	 * 		13.	Los usuarios pueden almacenar en el sistema distintas tarjetas de crédito...
 	 * 
 	 */
 	@Test
@@ -90,7 +94,7 @@ public class SaveCreditCardTest extends AbstractTest {
 				}, {
 					"user1", "Alejandro Martín", "MasterCard", "5256332484910150", 03, 18, 533, IllegalArgumentException.class
 				}, {
-					"user1", "Alejandro Martín", "MasterCard", "5256332484910150", 05, 18, 533, IllegalArgumentException.class
+					"user1", "Alejandro Martín", "MasterCard", "5256332484910150", 06, 18, 533, IllegalArgumentException.class
 				}, {
 					"user1", "Alejandro Martín", "MasterCard", "5256332484910150", 9, 18, 99, ConstraintViolationException.class
 				}, {
@@ -99,6 +103,18 @@ public class SaveCreditCardTest extends AbstractTest {
 					"sponsor1", "Alejandro Martín", "MasterCard", "5256332484910150", 9, 18, 101, IllegalArgumentException.class
 				}, {
 					"moderator1", "Alejandro Martín", "MasterCard", "5256332484910150", 9, 18, 101, IllegalArgumentException.class
+				}, {
+					"user1", "", "MasterCard", "5256332484910150", 9, 18, 101, ConstraintViolationException.class
+				}, {
+					"user1", null, "MasterCard", "5256332484910150", 9, 18, 101, ConstraintViolationException.class
+				}, {
+					"user1", "Alejandro Martín", "", "5256332484910150", 05, 20, 533, ConstraintViolationException.class
+				}, {
+					"user1", "Alejandro Martín", null, "5256332484910150", 05, 20, 533, ConstraintViolationException.class
+				}, {
+					"user1", "Alejandro Martín", "MasterCard", "", 05, 20, 533, ConstraintViolationException.class
+				}, {
+					"user1", "Alejandro Martín", "MasterCard", null, 05, 20, 533, ConstraintViolationException.class
 				}
 			};
 		
@@ -151,7 +167,7 @@ public class SaveCreditCardTest extends AbstractTest {
 			
 			oldTotalElements = creditCardPage.getTotalElements();
 			
-			// 3. EEntrar en vista de crear tarjeta de crédito
+			// 3. Entrar en vista de crear tarjeta de crédito
 			creditCard = this.creditCardService.create(user);
 			creditCard.setHolderName(holderName);
 			creditCard.setBrandName(brandName);

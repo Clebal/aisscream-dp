@@ -32,14 +32,16 @@ public class ListTicketTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 *		2.
-	 * 		3.
-	 * 		4.
+	 * 		1. Un usuario entra en el listado de tiques
+	 *		2. Una persona entra en el listado de tiques pero tiene que ser usuario
+	 * 		3. Un moderador entra en el listado de tiques pero tiene que ser usuario
+	 * 		4. Un patrocinador entra en el listado de tiques pero tiene que ser usuario
+	 * 		5. Una compañía entra en el listado de tiques pero tiene que ser usuario
+	 * 		6. Un usuario entra en el listado de tiques y navega de forma incorrecta
 	 * 
 	 * Requisitos:
-	 * 
-	 * 
+	 * 		15.	Un usuario puede conseguir tiques para una rifa...
+	 * 	
 	 */
 	@Test
 	public void findByUserAccountIdTest() {
@@ -75,9 +77,7 @@ public class ListTicketTest extends AbstractTest {
 	/*
 	 * 	Pasos:
 	 * 		1. Operacionalmente nos autenticamos
-	 * 		2. Comprobamos si el método es findValidByUserAccountId ó findByUserAccountId (Page) o findByUserAccountId (Collection)
-	 * 		3. En el caso de que sea findByUserAccountId, obtenemos las entidades correspondientes al user para usar el método
-	 * 		3. Según el método que sea, se llama a su método y se guarda en la variable sizeCreditCard el tamaño de los resultados de cada método
+	 * 		2. Comprobamos si el método es findByUserAccountId
 	 * 		4. Comprobamos que devuelve el valor esperado
 	 * 		5. Cerramos sesión
 	 */

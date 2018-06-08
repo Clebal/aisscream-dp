@@ -48,11 +48,11 @@ public class BuyTicketTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2.
+	 * 		1. El user1 trata de comprar 10 tiques utilizando tarjeta de crédito para la rifa raffle12.
+	 * 		2. El user1 trata de comprar 1 tique para una rifa gratuita (por lo que no necesita tarjeta de crédito)
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		25.7. Un actor autenticado como usuario debe ser capaz de obtener un tique. Si la rifa es gratuita, el usuario no podrá adquirir más de uno.
 	 * 
 	 */
 	@Test
@@ -78,15 +78,16 @@ public class BuyTicketTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2. 
-	 * 		3.
-	 * 		4.
-	 * 		5.
-	 * 		6.
+	 * 		1. Un usuario trata de comprar 10 tiques para una rifa que ya ha pasado.
+	 * 		2. Un usuario trata de comprar un tique de una rifa gratuita usando una tarjeta de crédito.
+	 * 		3. Un usuario trata de comprar un tique para una rifa usando la tarjeta de crédito de otro usuario.
+	 * 		4. Un patrocinador trata de comprar tiques, pero solo puede hacerlo un usuario.
+	 * 		5. Una compañía trata de comprar tiques, pero solo puede hacerlo un usuario.
+	 * 		6. Un moderador trata de comprar tiques, pero solo puede hacerlo un usuario.
+	 * 		7. Un usuario trata de comprar tiques con una tarjeta de crédito caducada.
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		25.7. Un actor autenticado como usuario debe ser capaz de obtener un tique. Si la rifa es gratuita, el usuario no podrá adquirir más de uno.
 	 * 
 	 */
 	@Test
@@ -104,6 +105,8 @@ public class BuyTicketTest extends AbstractTest {
 					"company1", "raffle12", "creditCard1", 10, IllegalArgumentException.class
 				}, {
 					"moderator1", "raffle12", "creditCard1", 10, IllegalArgumentException.class
+				}, {
+					"user1", "raffle12", "creditCard10", 1, IllegalArgumentException.class
 				}
 			};
 		

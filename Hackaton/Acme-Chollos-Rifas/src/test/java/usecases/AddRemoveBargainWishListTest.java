@@ -36,11 +36,12 @@ public class AddRemoveBargainWishListTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1.
-	 * 		2.
+	 * 		1. Un usuario autenticado como user1 añade el bargain1 a su lista de deseo.
+	 * 		2. Un usuario autenticado como user2 añade el bargain2 a su lista de deseo.
+	 * 		3. Un usuario autenticado como user3 añade el bargain3 a su lista de deseo.
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		11.	Los usuarios dispondrán de una lista de deseos a la que podrán añadir los chollos que deseen. 
 	 * 
 	 */
 	@Test
@@ -74,7 +75,7 @@ public class AddRemoveBargainWishListTest extends AbstractTest {
 	 * 		4. Un usuario sin plan Gold Premium trata de añadir un chollo no publicado a su lista de deseo
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		11.	Los usuarios dispondrán de una lista de deseos a la que podrán añadir los chollos que deseen. 
 	 * 
 	 */
 	@Test
@@ -172,7 +173,7 @@ public class AddRemoveBargainWishListTest extends AbstractTest {
 			this.userService.addRemoveBargainToWishList(bargainId);
 			this.userService.flush();
 
-			// 4. Volver al perfil
+			// 4. Volver a la vista del chollo
 			user = this.userService.findOne(oldUser.getId());
 			Assert.notNull(user);
 			Assert.isTrue(oldWishListState != user.getWishList().contains(bargain));

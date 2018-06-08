@@ -31,18 +31,16 @@ public class EditModeratorTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 
-	 * 1. Probando editar moderatore con telefono y direccion a null
-	 * 2. Probando editar moderatore con telefono pero con direccion a null
-	 * 3. Probando editar moderatore con telefono a vacio y direccion a null
-	 * 4. Probando editar moderatore con telefono a null y direccion
-	 * 5. Probando editar moderatore con telefono a null y direccion a vacio
-	 * 6. Probando editar moderatore con telefono y direccion
-	 * 7. Probando editar moderatore con telefono y direccion a vacio
+	 * 		1. Probando editar moderator con telefono y direccion a null
+	 * 		2. Probando editar moderator con telefono pero con direccion a null
+	 * 		3. Probando editar moderator con telefono a vacio y direccion a null
+	 * 		4. Probando editar moderator con telefono a null y direccion
+	 * 		5. Probando editar moderator con telefono a null y direccion a vacio
+	 * 		6. Probando editar moderator con telefono y direccion
+	 * 		7. Probando editar moderator con telefono y direccion a vacio
 	 * 
 	 * Requsitos:
-	 * 
-	 * 	Se desea probar la correcta edicion de un moderatore.
+	 * 		Los actores pueden editar su perfil
 	 */
 	@Test
 	public void positiveEditModeratorTest() {
@@ -60,7 +58,7 @@ public class EditModeratorTest extends AbstractTest {
 			}, {
 				"moderator1", "moderator1", "moderator1", "moderator1", "Eustaquio", "Sánchez", "321456987", "Direccion incorrecta", "pepe@mail.com", "20063918Y", null 
 			}, {
-				"moderator1", "moderator1", "moderator1", "moderator1", "Francisco", "Cerrada", "123456789", "", "fran@mail.com", "20063918Y", null
+				"moderator1", "moderator1", "moderator1", "moderator1", "Francisco", "Cerrada", "", "", "fran@mail.com", "20063918Y", null
 			}
 		};
 			
@@ -77,21 +75,23 @@ public class EditModeratorTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 
-	 * 1. Un moderator puede editarse a si mismo
-	 * 2. Un moderator puede editarse a si mismo
-	 * 3. Un moderator puede editarse a si mismo
-	 * 4. Un moderator puede editarse a si mismo
-	 * 5. El identificador debe cumplir un formato
-	 * 6. El correo electrónico tiene que cumplir el formato correspondiente
-	 * 7. El nombre no puede ser nulo
-	 * 8. El apellido no puede ser nulo
-	 * 9. El nombre no puede ser vacio
-	 * 10. El apellido no puede ser vacio
-	 * 11. El EmailAddress no puede ser nulo
-	 * 12. El EmailAddress no puede ser vacio
-	 * 13. El moderatorname no puede cambiar
-	 * 14. La password no puede cambiar
+	 * 		1. Un moderator puede editarse a si mismo
+	 * 		2. Un moderator puede editarse a si mismo
+	 * 		3. Un moderator puede editarse a si mismo
+	 * 		4. Un moderator puede editarse a si mismo
+	 * 		5. El identificador debe cumplir un formato
+	 *		6. El correo electrónico tiene que cumplir el formato correspondiente
+	 * 		7. El nombre no puede ser nulo
+	 * 		8. El apellido no puede ser nulo
+	 * 		9. El nombre no puede ser vacio
+	 * 		10. El apellido no puede ser vacio
+	 * 		11. El EmailAddress no puede ser nulo
+	 * 		12. El EmailAddress no puede ser vacio
+	 * 		13. El moderatorname no puede cambiar
+	 * 		14. La password no puede cambiar
+	 * 		15. El identificador debe cumplir el patrón
+	 * 		16. El identificador no puede estar vacío
+	 * 		17. El identificador no puede ser nulo
 	 * 
 	 * Requisitos:
 	 * 
@@ -128,6 +128,12 @@ public class EditModeratorTest extends AbstractTest {
 				"moderator1", "moderator1", "manager", "moderator1", "Miquel", "Perez", "123456789", "Dirección Moderator Nº41", "gostin@mail.com", "20063918Y", IllegalArgumentException.class
 			}, {
 				"moderator1", "moderator1", "moderator1", "admin", "Miquel", "Perez", "123456789", "Dirección Moderator Nº41", "gostin@mail.com", "20063918Y", IllegalArgumentException.class
+			}, {
+				"moderator1", "moderator1", "moderator1", "admin", "Miquel", "Perez", "123456789", "Dirección Moderator Nº41", "gostin@mail.com", "2006-A-3918Y", IllegalArgumentException.class
+			}, {
+				"moderator1", "moderator1", "moderator1", "admin", "Miquel", "Perez", "123456789", "Dirección Moderator Nº41", "gostin@mail.com", "", IllegalArgumentException.class
+			}, {
+				"moderator1", "moderator1", "moderator1", "admin", "Miquel", "Perez", "123456789", "Dirección Moderator Nº41", "gostin@mail.com", null, IllegalArgumentException.class
 			}
 		};
 		

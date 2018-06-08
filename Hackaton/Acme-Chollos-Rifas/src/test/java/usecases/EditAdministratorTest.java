@@ -33,17 +33,16 @@ public class EditAdministratorTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 1. Probando editar administrador con telefono y dirección a null
-	 * 2. Probando editar administrador con telefono pero con dirección a null
-	 * 3. Probando editar administrador con telefono a vacío y dirección a null
-	 * 4. Probando editar administrador con telefono a null y dirección
-	 * 5. Probando editar administrador con telefono a null y dirección a vacío
-	 * 6. Probando editar administrador con telefono y dirección
-	 * 7. Probando editar administrador con telefono y dirección a vacío
+	 * 		1. Probando editar administrador con telefono y dirección a null
+	 * 		2. Probando editar administrador con telefono pero con dirección a null
+	 * 		3. Probando editar administrador con telefono a vacío y dirección a null
+	 * 		4. Probando editar administrador con telefono a null y dirección
+	 * 		5. Probando editar administrador con telefono a null y dirección a vacío
+	 * 		6. Probando editar administrador con telefono y dirección
+	 * 		7. Probando editar administrador con telefono y dirección a vacío
 	 * 
 	 * Requisitos:
-	 * 
-	 * 	Se desea probar la correcta edición de un administrador.
+	 *		Los actores pueden editar su perfil
 	 */
 	@Test
 	public void positiveEditAdministratorTest() {
@@ -78,11 +77,10 @@ public class EditAdministratorTest extends AbstractTest {
 	
 	/*
 	 * Pruebas:
-	 * 
-	 * 		1. Solo el administratoristrador puede editarse a si mismo
-	 * 		2. Solo el administratoristrador puede editarse a si mismo
-	 * 		3. Solo el administratoristrador puede editarse a si mismo
-	 * 		4. Solo el administratoristrador puede editarse a si mismo
+	 * 		1. Solo el administrador puede editarse a si mismo
+	 * 		2. Solo el administrador puede editarse a si mismo
+	 * 		3. Solo el administrador puede editarse a si mismo
+	 * 		4. Solo el administrador puede editarse a si mismo
 	 * 		5. El identificador debe ser válido
 	 * 		6. El identificador no puede ser nulo
 	 * 		7. El email tiene que tener el formato de un email
@@ -96,7 +94,7 @@ public class EditAdministratorTest extends AbstractTest {
 	 * 		15. La password no puede cambiar
 	 * 
 	 * Requisitos:
-	 * 		Se desea probar la correcta edición de un administrador.
+	 * 		Los actores pueden editar su perfil
 	 */
 	@Test()
 	public void negativeEditAdministratorTest() {

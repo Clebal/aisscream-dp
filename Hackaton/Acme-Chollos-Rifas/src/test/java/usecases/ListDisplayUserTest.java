@@ -29,11 +29,16 @@ public class ListDisplayUserTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/*
-	 * 1. Listar y desplegar un usuario sin autenticar
-	 * 2. Listar y desplegar un usuario autenticado como usuario
-	 * 3. Listar y desplegar un usuario autenticado como compañía
-	 * 4. Listar y desplegar un usuario autenticado como patrocinador
-	 * 5. Listar y desplegar un usuario autenticado como moderador
+	 * Pruebas:
+	 * 		1. Listar y desplegar un usuario sin autenticar
+	 * 		2. Listar y desplegar un usuario autenticado como usuario
+	 * 		3. Listar y desplegar un usuario autenticado como compañía
+	 * 		4. Listar y desplegar un usuario autenticado como patrocinador
+	 * 		5. Listar y desplegar un usuario autenticado como moderador
+	 * 
+	 * Requisitos:
+	 * 		21.4 Un actor que no está autenticado debe ser capaz de listar los usuarios ordenados según su puntuación y las empresas.
+	 * 
 	 */
 	@Test
 	public void driverPositiveTests() {
@@ -56,9 +61,14 @@ public class ListDisplayUserTest extends AbstractTest {
 	}
 
 	/*
-	 * 1. Autenticar (o no).
-	 * 2. Listar usuarios
-	 * 3. Desplegar usuario
+	 * Pruebas:
+	 * 		1. Autenticar (o no).
+	 * 		2. Listar usuarios
+	 * 		3. Desplegar usuario
+	 * 
+	 * Requisitos:
+	 * 		21.4 Un actor que no está autenticado debe ser capaz de listar los usuarios ordenados según su puntuación y las empresas.
+	 * 
 	 */
 
 	protected void templateListDisplay(final String actorBean, final String userBean, final Class<?> expected) {

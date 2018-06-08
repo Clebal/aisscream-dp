@@ -47,29 +47,28 @@ public class EditRaffleTest extends AbstractTest {
 
 	/*
 	 * Pruebas:
-	 * 		1. 
-	 * 		2.
-	 *		3. 
-	 *		4.
-	 *		5.
+	 * 		1. La compañía company3 edita una rifa quitando el campo productUrl y productImages
+	 * 		2. La compañía company3 edita una rifa editando los campos
+	 *		3. La compañía company3 edita una rifa poniendo dos imágenes
+	 *		4. La compañía company3 edita una rifa poniéndola como gratuita
 	 *
 	 * Requisitos:
-	 * 		
+	 * 		23.6. Un actor que está autenticado como empresa debe ser capaz de 
+	 * 		listar las rifas que ha creado, editarlas y borrarlas 
+	 * 		si todavía nadie ha comprado un tique.
 	 * 
 	 */
 	@Test
 	public void driverPositiveTest() {		
 		final Object testingData[][] = {
 			{
-				"company3", "raffle11", "Raffle title", "Raffle description", "Product name", null, null, "02/12/2018", 10.0, null, null
+				"company3", "raffle14", "Raffle title", "Raffle description", "Product name", null, null, "02/12/2018", 10.0, null, null
 			}, {
-				"company3", "raffle11", "Raffle title", "Raffle description", "Product name", null, null, "02/12/2018", 10.0, null, null
+				"company3", "raffle14", "Raffle title", "Raffle description", "Product name", "http://example.com/", "http://example.com/image.jpg", "02/12/2018", 10.0, null, null
 			}, {
-				"company3", "raffle11", "Raffle title", "Raffle description", "Product name", "http://example.com/image.jpg", "http://example.com/image.jpg", "02/12/2018", 10.0, null, null
+				"company3", "raffle14", "Raffle title", "Raffle description", "Product name", "http://example.com/", "http://example.com/image.jpg,http://example.com/image.jpg", "02/12/2018", 10.0, null, null
 			}, {
-				"company3", "raffle11", "Raffle title", "Raffle description", "Product name", "http://example.com/image.jpg", "http://example.com/image.jpg,http://example.com/image.jpg", "02/12/2018", 10.0, null, null
-			}, {
-				"company3", "raffle11", "Raffle title", "Raffle description", "Product name", "http://example.com/image.jpg", "http://example.com/image.jpg,http://example.com/image.jpg", "02/12/2018", 0.0, null, null
+				"company3", "raffle14", "Raffle title", "Raffle description", "Product name", "http://example.com/", "http://example.com/image.jpg,http://example.com/image.jpg", "02/12/2018", 0.0, null, null
 			}
 		};
 			
@@ -88,16 +87,14 @@ public class EditRaffleTest extends AbstractTest {
 	 * Pruebas:
 	 * 		1. Una compañía trata de editar una rifa que ya ha sido sorteada
 	 * 	 	2. Una compañía trata de editar una rifa que no es suya
-	 * 		3. 
-	 * 		4.
-	 * 		5.
-	 * 		6.
-	 * 		7.
-	 * 		8.
-	 * 		9.
+	 * 		3. Una usuario trata de editar una rifa cuando solo pueden las compañías
+	 * 		4. Un patrocinador trata de editar una rifa cuando solo pueden las compañías
+	 * 		5. Un moderador trata de editar una rifa cuando solo pueden las compañías
 	 * 
 	 * Requisitos:
-	 * 		
+	 * 		23.6. Un actor que está autenticado como empresa debe ser capaz de 
+	 * 		listar las rifas que ha creado, editarlas y borrarlas 
+	 * 		si todavía nadie ha comprado un tique.	
 	 * 
 	 */
 	@Test
