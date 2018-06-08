@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- * PopulateDatabase.xml * * Copyright (C) 2017 Universidad de Sevilla 
+
+	* * The use of this project is hereby constrained to the conditions of the 
+
+	* TDG Licence, a copy of which you may download from * http://www.tdg-seville.info/License.html -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- User accounts -->
+	<bean id="userAccountAdministrator" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser1" class="security.UserAccount">
+		<property name="username" value="user1" />
+		<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser2" class="security.UserAccount">
+		<property name="username" value="user2" />
+		<property name="password" value="7e58d63b60197ceb55a1c487989a3720" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser3" class="security.UserAccount">
+		<property name="username" value="user3" />
+		<property name="password" value="92877af70a45fd6a2ed7fe81e1236b78" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountUser4" class="security.UserAccount">
+		<property name="username" value="user4" />
+		<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser5" class="security.UserAccount">
+		<property name="username" value="user5" />
+		<property name="password" value="0a791842f52a0acfbb3a783378c066b8" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountUser6" class="security.UserAccount">
+		<property name="username" value="user6" />
+		<property name="password" value="affec3b64cf90492377a8114c86fc093" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- D09 -->
+	
+	<bean id="userAccountManager1" class="security.UserAccount">
+		<property name="username" value="manager1" />
+		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountManager2" class="security.UserAccount">
+		<property name="username" value="manager2" />
+		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountManager3" class="security.UserAccount">
+		<property name="username" value="manager3" />
+		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- /D09 -->
+	
+	<!-- User -->
+	<bean id="user1" class="domain.User">
+		<property name="name" value="Alejandro" />
+		<property name="surname" value="Martínez ruiz" />
+		<property name="email" value="user1@acme.com" />
+		<property name="phone" value="+34618396001" />
+		<property name="address" value="Calle Sin Número, 123" />
+		<property name="birthdate" value="18/11/1997" />
+		<property name="userAccount" ref="userAccountUser1" />
+	</bean>
+	
+	<bean id="user2" class="domain.User">
+		<property name="name" value="Luis" />
+		<property name="surname" value="López González" />
+		<property name="email" value="user2@acme.com" />
+		<property name="address" value="Calle Falsa, 123" />
+		<property name="birthdate" value="02/12/1998" />
+		<property name="userAccount" ref="userAccountUser2" />
+	</bean>
+	
+	<bean id="user3" class="domain.User">
+		<property name="name" value="María" />
+		<property name="surname" value="García Trinidad" />
+		<property name="email" value="user3@acme.com" />
+		<property name="phone" value="+3461738000" />
+		<property name="birthdate" value="16/02/1996" />
+		<property name="userAccount" ref="userAccountUser3" />
+	</bean>
+	
+	<bean id="user4" class="domain.User">
+		<property name="name" value="Sergio" />
+		<property name="surname" value="Sánchez Ortiz" />
+		<property name="email" value="user4@acme.com" />
+		<property name="birthdate" value="02/11/2002" />
+		<property name="userAccount" ref="userAccountUser4" />
+	</bean>
+	
+	<bean id="user5" class="domain.User">
+		<property name="name" value="Pepe" />
+		<property name="surname" value="Casillas Martín" />
+		<property name="email" value="user5@acme.com" />
+		<property name="phone" value="+3461738010" />
+		<property name="birthdate" value="16/02/1996" />
+		<property name="userAccount" ref="userAccountUser5" />
+	</bean>
+	
+	<bean id="user6" class="domain.User">
+		<property name="name" value="Rocío" />
+		<property name="surname" value="Crespo Sánchez" />
+		<property name="email" value="user6@acme.com" />
+		<property name="phone" value="+3461738011" />
+		<property name="birthdate" value="18/02/1996" />
+		<property name="userAccount" ref="userAccountUser6" />
+	</bean>
+	
+	<!-- Administrator -->
+	<bean id="administrator" class="domain.Administrator">
+		<property name="name" value="Administrator" />
+		<property name="surname" value="1" />
+		<property name="email" value="administrator@acme.com" />
+		<property name="birthdate" value="25/08/1995" />
+		<property name="userAccount" ref="userAccountAdministrator" />
+	</bean>
+	
+	<bean id="internationalization1" class="domain.Internationalization">
+
+		<property name="countryCode" value="es" />
+		
+		<property name="messageCode" value="term.condition" />
+
+		<property name="value" value="INFORMACIÓN RELEVANTE
+
+Es requisito necesario para el uso de la web que lea y acepte los siguientes Términos y
+	Condiciones que a continuación se redactan. El uso de nuestros
+	servicios implicará que usted
+	ha leído y aceptado los Términos y Condiciones de Uso en el presente
+	documento. 
+	
+	INFORMACIÓN PERSONAL
+	
+	Un administrador puede marcar como eliminado una cita o cancelar un servicio si considera que tiene contenido inadecuado. Además, puede borrar un comentario o anuncio si considera que afecta moralmente a otros usuarios.
+	Si cualquier usuario quiere borrar algún dato personal y la aplicación no le ofrece la posibilidad de hacerlo, debe ponerse en contacto con aisscreamacas@gmail.com
+
+
+	COMPROBACIÓN ANTIFRAUDE
+
+La compra del usuario puede ser aplazada para la comprobación
+	antifraude. También puede ser suspendida por más tiempo para una
+	investigación más rigurosa, para evitar transacciones fraudulentas.
+
+	PRIVACIDAD
+
+Este sitio web www.acme.com garantiza que la información personal que usted envía
+	cuenta con la seguridad necesaria. Los datos ingresados por usuario  no serán
+	entregados a terceros, salvo que deba ser revelada en cumplimiento a
+	una orden judicial o requerimientos legales.
+
+Acme-Rendezvous reserva los derechos de cambiar o de modificar
+	estos términos sin previo aviso.
+	
+	LEGISLACIÓN APLICABLE
+El Aviso Legal y las Condiciones Generales de Uso se rigen por las siguientes normas:
+
+La Ley 34/2002, de 11 de julio, de Services de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE) (particularmente, su artículo 10).
+La Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal (LOPD).
+El Real Decreto 1720/2007, de 21 de diciembre, por el que se aprueba el Reglamento de desarrollo de la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal." />
+
+	</bean>
+	
+	<bean id="internationalization2" class="domain.Internationalization">
+
+		<property name="countryCode" value="en" />
+		
+		<property name="messageCode" value="term.condition" />
+
+		<property name="value" value="RELEVANT INFORMATION 
+
+ It is a necessary requirement for the use of this web, that you read and accept the following Terms and
+Conditions that are written below. The use of our
+services will mean that you have read and accepted the Terms and Conditions of Use in this
+document. 
+
+ PERSONAL INFORMATION
+ 
+ 
+An administrator can mark an rendezvous or service as deleted if he/she considers it has inappropriate content. In addition, he/she can delete a comment or announcement if think that it affects other users morally.
+If any user wants to delete some personal data and the application does not have the possibility to do that, you should contact with aisscreamacas@gmail.com
+
+
+ ANTI-FRAUD VERIFICATION 
+
+ The user's purchase can be postponed for checking
+anti fraud. It can also be suspended for a longer time for a
+more rigorous investigation, to avoid fraudulent transactions. 
+
+ PRIVACY 
+
+This site web www.acme.com guarantees that the personal information you send
+has the necessary security. The data entered by user will not be
+delivered to third parties, unless it must be disclosed in compliance with
+an order
+
+Acme-Rendezvous reserves the rights to change or modify
+these terms without prior notice.
+
+   APPLICABLE LEGISLATION 
+    
+ The  Legal Notice and the General Conditions of Use  are governed by the following rules: 
+
+The Law 34/2002, of 11 July, on Services of the Society of Information and Electronic Commerce (LSSI-CE)(particularly, article 10).
+The Organic Law 15/1999, of December 13, Protection of Personal Data (LOPD).
+The Royal Decree 1720/2007, of December 21, which approves the Regulation of development of the Organic Law 15/1999, of December 13, Protection of Personal Data." />
+
+	</bean>
+	
+	<!-- D09 -->
+	
+	<!-- Configuration -->
+	<bean id="configuration" class="domain.Configuration">
+		<property name="name" value="Acme Chollos y Rifas" />
+		<property name="slogan" value="Buy different" />
+		<property name="email" value="aisscreamacas@gmail.com" />
+		<property name="banner" value="https://tinyurl.com/yabcto3u" />
+	</bean>
+	
+	<!-- Manager -->
+	<bean id="manager1" class="domain.Manager">
+		<property name="name" value="Mario" />
+		<property name="surname" value="Macías Reyes" />
+		<property name="email" value="manager1@acme.com" />
+		<property name="phone" value="+34602245841" />
+		<property name="address" value="Calle El Río, 2" />
+		<property name="birthdate" value="17/03/1985" />
+		<property name="userAccount" ref="userAccountManager1" />
+		<property name="vat" value="20063918-Y" />
+	</bean>
+	
+	<bean id="manager2" class="domain.Manager">
+		<property name="name" value="José María" />
+		<property name="surname" value="López Menacho" />
+		<property name="email" value="manager2@acme.com" />
+		<property name="phone" value="+34752354214" />
+		<property name="address" value="Calle García de la Jara, 35" />
+		<property name="birthdate" value="24/06/1979" />
+		<property name="userAccount" ref="userAccountManager2" />
+		<property name="vat" value="00234559-M" />
+	</bean>
+	
+	<bean id="manager3" class="domain.Manager">
+		<property name="name" value="Manuel" />
+		<property name="surname" value="Jiménez Martín" />
+		<property name="email" value="manager2@acme.com" />
+		<property name="phone" value="+34752309214" />
+		<property name="address" value="Calle García de la Jara, 36" />
+		<property name="birthdate" value="24/06/2002" />
+		<property name="userAccount" ref="userAccountManager3" />
+		<property name="vat" value="00234779-M" />
+	</bean>
+	
+	<!-- Credit Card -->
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="Antonio" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="5471664286416252" />
+		<property name="expirationMonth" value="9" />
+		<property name="expirationYear" value="2017" />
+		<property name="cvvcode" value="998" />
+		<property name="user" ref="user1" />
+	</bean>
+
+	<bean id="creditCard2" class="domain.CreditCard">
+		<property name="holderName" value="Paco" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="5229783098148518" />
+		<property name="expirationMonth" value="10" />
+		<property name="expirationYear" value="2018" />
+		<property name="cvvcode" value="258" />
+		<property name="user" ref="user2" />
+	</bean>
+	
+	<bean id="creditCard3" class="domain.CreditCard">
+		<property name="holderName" value="Antonio" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="5306320664868959" />
+		<property name="expirationMonth" value="10" />
+		<property name="expirationYear" value="2018" />
+		<property name="cvvcode" value="618" />
+		<property name="user" ref="user1" />
+	</bean>
+	
+	<bean id="creditCard4" class="domain.CreditCard">
+		<property name="holderName" value="David" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="4350515568299247" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvvcode" value="608" />
+		<property name="user" ref="user3" />
+	</bean>
+	
+	<bean id="creditCard5" class="domain.CreditCard">
+		<property name="holderName" value="Paco" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="4367834676464317" />
+		<property name="expirationMonth" value="10" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvvcode" value="618" />
+		<property name="user" ref="user4" />
+	</bean>
+	
+	<bean id="creditCard6" class="domain.CreditCard">
+		<property name="holderName" value="Alejandro" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="345035739479236" />
+		<property name="expirationMonth" value="2" />
+		<property name="expirationYear" value="2020" />
+		<property name="cvvcode" value="147" />
+		<property name="user" ref="user4" />
+	</bean>
+	
+	<!-- Category -->
+	
+	
+	<!-- Rifa -->
+	<bean id="rifa1" class="domain.Rifa">
+		<property name="price" value="1" />
+	</bean>
+	
+	<bean id="rifa2" class="domain.Rifa">
+		<property name="price" value="2" />
+	</bean>
+	
+	<bean id="rifa3" class="domain.Rifa">
+		<property name="price" value="50" />
+	</bean>
+	
+</beans>
