@@ -29,7 +29,7 @@
 	
 	<p><jstl:out value="${raffle.getDescription()}" /></p>
 	
-	<jstl:if test="${raffle.getProductUrl() != null || !raffle.getProductUrl().equals('')}">
+	<jstl:if test="${raffle.getProductUrl() != null && !raffle.getProductUrl().equals('')}">
 		<p><b><spring:message code="raffle.productName" />:</b> <a href="${raffle.getProductUrl()}"><jstl:out value="${raffle.getProductName()}" /></a></p>
 	</jstl:if>
 	
