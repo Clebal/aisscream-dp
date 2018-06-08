@@ -69,6 +69,7 @@ public class AbstractController {
 		model.addAttribute("nameHeader", nameHeader);
 		model.addAttribute("notificationNotVisited", notificationNotVisited);
 		model.addAttribute("defaultImage", defaultImage);
+		model.addAttribute("mail", this.configurationService.findEmail());
 	}
 
 	public String makeUrl(final HttpServletRequest request) {

@@ -98,7 +98,6 @@ public class WelcomeController extends AbstractController {
 		result.addObject("plan", plan);
 		result.addObject("isSponsor", isSponsor);
 		result.addObject("slogan", this.configurationService.findSlogan());
-		result.addObject("mail", this.configurationService.findEmail());
 
 		return result;
 	}
