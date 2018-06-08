@@ -175,11 +175,12 @@ public class RaffleService {
 		countTickets = this.ticketService.countByRaffleId(saved.getId());
 		Assert.notNull(countTickets);
 		
-		if(countTickets != 0) {
-			authority = new Authority();
-			authority.setAuthority("MODERATOR");
+		authority = new Authority();
+		authority.setAuthority("MODERATOR");
+		if(LoginService.getPrincipal().getAuthorities().contains(authority)) {
 			Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(authority));
 		} else {
+			Assert.isTrue(countTickets == 0);
 			Assert.isTrue(saved.getCompany().getUserAccount().equals(LoginService.getPrincipal()));
 		}
 		
