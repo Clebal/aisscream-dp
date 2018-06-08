@@ -42,7 +42,7 @@ public class SurveyForm {
 	}
 
 	@NotBlank
-	@Pattern(regexp = "^(USER|SPONSOR)$")
+	@Pattern(regexp = "^(USER|SPONSOR|,EDIT)$")
 	public String getToActor() {
 		return toActor;
 	}

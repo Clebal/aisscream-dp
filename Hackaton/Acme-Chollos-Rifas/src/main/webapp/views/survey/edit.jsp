@@ -17,7 +17,7 @@
 	<acme:textbox code="survey.title" path="title" />
 	
 	<jstl:if test="${surveyForm.getId() == 0}">
-	
+
 		<br>
 		<h4><spring:message code="survey.chooseActor" /></h4>
 		<form:radiobutton path="toActor" value="USER" /><spring:message code="survey.users" />
@@ -61,13 +61,14 @@
 		<br>
 		
 	</jstl:if>
-	
+
 	<jstl:if test="${surveyForm.getId() != 0}">
 		<form:hidden path="toActor" />
 		<acme:textbox code="survey.minimumPoints" path="minimumPoints" style="display: none"/>
 		<jstl:if test="${model.equals('company')}">
 			<acme:checkbox id="hasAds" code="survey.hasAds" path="hasAds" style="display:none"/>
 		</jstl:if>
+		<input id="toActor1" name="toActor" type="radio" checked="checked" value="EDIT" style="display:none">
 	</jstl:if>
 	
 	<acme:surveyInput codeQuestion="survey.question" codeAnswer="survey.answer" object="${surveyForm}" />
