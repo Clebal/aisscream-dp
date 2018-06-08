@@ -52,10 +52,7 @@
 		
 		<!-- Boostrap 3.3.7 -->
 		<script src="scripts/bootstrap.min.js"></script>
-		
-		<!-- Circle -->
-		<link rel="stylesheet" href="styles/circle.css" type="text/css">
-
+	
 	</head>
 	<body>
 	

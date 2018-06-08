@@ -479,7 +479,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 		<property name="email" value="aisscreamacas@gmail.com" />
 		<property name="banner" value="http://localhost:8080/Acme-Chollos-Rifas/images/logo.jpg" />
 		<property name="defaultAvatar" value="http://localhost:8080/Acme-Chollos-Rifas/images/avatar.jpg" />
-		<property name="defaultImage" value="http://localhost:8080/Acme-Chollos-Rifas/images/link_broken.png" />
+		<property name="defaultImage" value="http://localhost:8080/Acme-Chollos-Rifas/images/link_broken.jpg" />
 	</bean>
 	
 	<!-- Plan -->
@@ -940,7 +940,7 @@ The Royal Decree 1720/2007, of December 21, which approves the Regulation of dev
 	</bean>
 	
 	<bean id="raffle2" class="domain.Raffle">
-		<property name="title" value="Sorteamos un lavavajillas" />
+		<property name="title" value="Sorteamos un lavadora" />
 		<property name="description" value="Sí sí sí! ya está aquí el nuevo sorteo que llevamos un tiempo preparando. En este caso se trata de un estupendo lavavajillas de última generación marca Samsung valorado en 750€." />
 		<property name="productName" value="Samsung In Wash" />
 		<property name="productUrl" value="https://www.samsung.com/us/home-appliances/washers/" />
