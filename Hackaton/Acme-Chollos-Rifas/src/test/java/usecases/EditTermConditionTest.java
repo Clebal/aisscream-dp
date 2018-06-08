@@ -35,6 +35,8 @@ public class EditTermConditionTest extends AbstractTest {
 	 * 1. Editamos términos y condiciones en español
 	 * 2. Editamos términos y condiciones en inglés
 	 */
+
+	//CU: 35.	Los términos y condiciones deben indicar explícitamente las razones por las que el comportamiento de un usuario se considera inapropiado y por qué puede ser borrado del sistema por un moderador.
 	@Test
 	public void positiveFindByCountryCodeAndMessageCodeTest() {
 		final Object testingData[][] = {
@@ -55,6 +57,8 @@ public class EditTermConditionTest extends AbstractTest {
 	 * 1. Editar el messageCode. IllegalArgumentException
 	 * 2. Editar el countryCode. IllegalArgumentException
 	 */
+
+	////CU: 35.	Los términos y condiciones deben indicar explícitamente las razones por las que el comportamiento de un usuario se considera inapropiado y por qué puede ser borrado del sistema por un moderador.
 	@Test
 	public void negativeFindByCountryCodeAndMessageCodeTest() {
 		final Object testingData[][] = {

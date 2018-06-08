@@ -43,7 +43,7 @@ public class EditSponsorshipTest extends AbstractTest {
 	 */
 
 	//Requisitos
-	//CU 
+	//CU Editar patrocinador por sponsor.
 	@Test
 	public void driverPositive() {
 
@@ -69,7 +69,7 @@ public class EditSponsorshipTest extends AbstractTest {
 	 * 3. Editar Sponsorship de otro sponsor. IllegalArgumentException
 	 */
 	//Requisitos
-	//CU 
+	//CU Editar patrocinador por sponsor. 
 	@Test
 	public void driverStatementsConstraintsEdit() {
 
@@ -99,7 +99,7 @@ public class EditSponsorshipTest extends AbstractTest {
 	 * 5. Editar sponsorship con image vacía. ConstraintViolationException
 	 */
 	//Requisitos
-	//CU 
+	//CU Editar patrocinador por sponsor.
 	@Test
 	public void driverDataConstraintsEdit() {
 

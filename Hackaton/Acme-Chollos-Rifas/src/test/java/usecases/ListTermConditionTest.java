@@ -37,6 +37,8 @@ public class ListTermConditionTest extends AbstractTest {
 	 * 3. Probamos listar los términos y condiciones en español, sin autenticar
 	 * 4. Probamos listar los términos y condiciones en inglés, sin autenticar
 	 */
+
+	//CU: 35.	Los términos y condiciones deben indicar explícitamente las razones por las que el comportamiento de un usuario se considera inapropiado y por qué puede ser borrado del sistema por un moderador.
 	@Test
 	public void positiveFindByCountryCodeAndMessageCodeTest() {
 
@@ -68,6 +70,8 @@ public class ListTermConditionTest extends AbstractTest {
 	 * 
 	 * Se desea probar el listado correcto de los términos y condiciones.
 	 */
+
+	//CU: //CU: 35.	Los términos y condiciones deben indicar explícitamente las razones por las que el comportamiento de un usuario se considera inapropiado y por qué puede ser borrado del sistema por un moderador.
 	@Test
 	public void negativeFindByCountryCodeAndMessageCodeTest() {
 

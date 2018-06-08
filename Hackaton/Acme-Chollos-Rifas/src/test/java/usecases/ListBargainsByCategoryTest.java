@@ -51,7 +51,7 @@ public class ListBargainsByCategoryTest extends AbstractTest {
 	 * 9. Listamos las categorias y escogemos uno no publico con user gold.
 	 */
 
-	//CU 
+	//CU 21. 8.	Navegar entre las categorías accediendo a sus chollos.
 
 	@Test
 	public void driverBargainsByCategory() {

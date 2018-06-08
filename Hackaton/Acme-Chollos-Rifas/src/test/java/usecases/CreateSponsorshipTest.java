@@ -51,7 +51,8 @@ public class CreateSponsorshipTest extends AbstractTest {
 	 */
 
 	//Requisitos
-	//CU 
+	//CU 5.	El sistema debe guardar información sobre los distintos patrocinios: el patrocinador que lo crea, la imagen y la URL a la que direcciona. 
+	//24. 1.Un patrocinador puede promocionarse en un chollo. El sistema debe guardar el chollo que va a patrocinar con su correspondiente aportación monetaria.
 	@Test
 	public void driverPositive() {
 
@@ -81,7 +82,8 @@ public class CreateSponsorshipTest extends AbstractTest {
 	 * 3. Crear Sponsorship a un bargain que ya tiene un sponsorship para ese sponsor. IllegalArgumentException
 	 */
 	//Requisitos
-	//CU 
+	//CU 5.	El sistema debe guardar información sobre los distintos patrocinios: el patrocinador que lo crea, la imagen y la URL a la que direcciona. 
+	//24. 1.Un patrocinador puede promocionarse en un chollo. El sistema debe guardar el chollo que va a patrocinar con su correspondiente aportación monetaria.
 	@Test
 	public void driverStatementsConstraintsCreate() {
 
@@ -111,7 +113,8 @@ public class CreateSponsorshipTest extends AbstractTest {
 	 * 5. Crear sponsorship con image vacía. ConstraintViolationException
 	 */
 	//Requisitos
-	//CU 
+	//CU 5.	El sistema debe guardar información sobre los distintos patrocinios: el patrocinador que lo crea, la imagen y la URL a la que direcciona.  
+	//24. 1.Un patrocinador puede promocionarse en un chollo. El sistema debe guardar el chollo que va a patrocinar con su correspondiente aportación monetaria.
 	@Test
 	public void driverDataConstraintsCreate() {
 

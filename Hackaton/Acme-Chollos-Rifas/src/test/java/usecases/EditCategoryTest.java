@@ -39,7 +39,7 @@ public class EditCategoryTest extends AbstractTest {
 	 * 1. Actualizar Category con padre, excepción no esperada.
 	 */
 
-	//CU 
+	//CU 26. 3.	Gestionar las categorías.
 	@Test
 	public void driverUpdatePositive() {
 
@@ -62,7 +62,7 @@ public class EditCategoryTest extends AbstractTest {
 	 * 2. Actualizar Category con rol admin, IllegalArgumentException esperada.
 	 */
 
-	//CU 
+	//CU 26. 3.	Gestionar las categorías.
 	@Test
 	public void driverUpdateNegativeStatementConstraint() {
 
@@ -90,7 +90,7 @@ public class EditCategoryTest extends AbstractTest {
 	 * 6. Actualizar Category con padre, y nombre igual. IllegalArgumentException esperada.
 	 */
 
-	//CU 
+	//CU 26. 3.	Gestionar las categorías. 
 	@Test
 	public void driverUpdateDataConstraint() {
 
@@ -122,7 +122,7 @@ public class EditCategoryTest extends AbstractTest {
 	 * 2. Actualizar intentamos actualizar el father. Excepcion no esperada (no se actualiza por el reconstruct)
 	 */
 
-	//CU 
+	//CU 26. 3.	Gestionar las categorías.
 	@Test
 	public void driverUpdateDefaultCategory() {
 

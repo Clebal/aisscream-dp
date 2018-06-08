@@ -39,7 +39,7 @@ public class ListAndDisplaySponsorshipTest extends AbstractTest {
 	 * 3. Listar los sponsorships de un bargain no publico autenticado como user gold
 	 * 4. Listar los sponsorships de un bargain no publico autenticado como la company del bargain
 	 */
-
+	//CU: listar sponsorships
 	@Test
 	public void driverPositive() {
 
@@ -67,7 +67,7 @@ public class ListAndDisplaySponsorshipTest extends AbstractTest {
 	 * 2. Listar sponsorships de un bargain no publico autenticado como user no gold. IllegalArgumentException
 	 * 3. Listar sponsorships de un bargain no publico autenticado como company distinta a la suya. IllegalArgumentException
 	 */
-
+	//CU: listar sponsorships
 	@Test
 	public void driverDeleteNegative() {
 

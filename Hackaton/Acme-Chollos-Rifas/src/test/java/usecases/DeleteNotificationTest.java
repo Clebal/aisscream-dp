@@ -33,7 +33,7 @@ public class DeleteNotificationTest extends AbstractTest {
 	 * 1. Borrar notificación de un usuario.
 	 * 2. Borrar notificación de otro usuario.
 	 */
-
+	//CU: Borrar notificación de un usuario
 	@Test
 	public void driverDeletePositive() {
 
@@ -57,7 +57,7 @@ public class DeleteNotificationTest extends AbstractTest {
 	 * 2. Eliminar notification sin autenticarse. IllegalArgumentException
 	 * 3. Eliminar notification autenticándose como moderator. IllegalArgumentException
 	 */
-
+	//CU: Borrar notificación de un usuario
 	@Test
 	public void driverDeleteNegative() {
 

@@ -41,7 +41,7 @@ public class DeleteSponsorshipTest extends AbstractTest {
 	 */
 
 	//Requisitos
-	//CU 
+	//CU 24 1.Un patrocinador puede promocionarse en un chollo. El sistema debe guardar el chollo que va a patrocinar con su correspondiente aportación monetaria.
 	@Test
 	public void driverPositive() {
 
@@ -67,7 +67,7 @@ public class DeleteSponsorshipTest extends AbstractTest {
 	 * 3. Borrar Sponsorship de otro sponsor. IllegalArgumentException
 	 */
 	//Requisitos
-	//CU 
+	//CU 24 1.Un patrocinador puede promocionarse en un chollo. El sistema debe guardar el chollo que va a patrocinar con su correspondiente aportación monetaria.
 	@Test
 	public void driverNegative() {
 

@@ -41,7 +41,7 @@ public class DeleteCategoryTest extends AbstractTest {
 	 * 4. Borrar Category con padre, sin hijos excepción no esperada.
 	 */
 
-	//CU 
+	//CU 26. 3.	Gestionar las categorías.
 	@Test
 	public void driverDeleteFatherAndChildren() {
 
@@ -67,7 +67,7 @@ public class DeleteCategoryTest extends AbstractTest {
 	 * 3. Borrar Category que no tiene bargains, excepción no esperada.
 	 */
 
-	//CU 
+	//CU //CU 26. 3.Gestionar las categorías.
 	@Test
 	public void driverDeleteAndUpdateBargain() {
 
@@ -95,7 +95,7 @@ public class DeleteCategoryTest extends AbstractTest {
 	 * 3. Borrar default Category, excepción IllegalArgumentException.
 	 */
 
-	//CU 
+	//CU 26. 3.	Gestionar las categorías.
 	@Test
 	public void driverDeleteNegativeTest() {
 

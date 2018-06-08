@@ -33,7 +33,7 @@ public class ListAndDisplayNotificationTest extends AbstractTest {
 	 * 1. Listar las notificaciones de un usuario y escoger una no abierta
 	 * 2. Listar las notificaciones de otro usuario y escoger una abierta
 	 */
-
+	//CU: listar notificaciones de un usuario.
 	@Test
 	public void driverPositive() {
 
@@ -57,7 +57,7 @@ public class ListAndDisplayNotificationTest extends AbstractTest {
 	 * 2. Display notification con usuario distinto a al suyo. IllegalArgumentException
 	 * 3. Display notification con company. IllegalArgumentException
 	 */
-
+	//CU: listar notificaciones de un usuario.
 	@Test
 	public void driverDeleteNegative() {
 

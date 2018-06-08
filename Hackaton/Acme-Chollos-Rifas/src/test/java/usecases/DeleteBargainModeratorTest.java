@@ -63,6 +63,8 @@ public class DeleteBargainModeratorTest extends AbstractTest {
 	 * 3. Borrar chollo de otra compañía.
 	 */
 
+	//CU: 26. 1.Eliminar chollos que se consideren inapropiados.
+
 	@Test
 	public void driverDeletePositive() {
 
@@ -86,6 +88,7 @@ public class DeleteBargainModeratorTest extends AbstractTest {
 	/*
 	 * 1. Borrar chollo sin autenticarse. IllegalArgumentException
 	 */
+	//CU: 26. 1.Eliminar chollos que se consideren inapropiados.
 
 	@Test
 	public void driverDeleteNegative() {

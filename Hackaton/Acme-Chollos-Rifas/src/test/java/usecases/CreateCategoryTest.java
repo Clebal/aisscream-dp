@@ -40,7 +40,7 @@ public class CreateCategoryTest extends AbstractTest {
 	 * 2. Crear Category sin padre, excepción no esperada.
 	 */
 
-	//CU 
+	//CU: 26. 3.Gestionar las categorías. 
 
 	@Test
 	public void driverCreatePositive() {
@@ -73,7 +73,7 @@ public class CreateCategoryTest extends AbstractTest {
 	 * Ultima. Crear Category con nombre ya existente, IllegalArgumentException esperada.
 	 */
 
-	//CU 
+	//CU: 26. 3.Gestionar las categorías. 
 	@Test
 	public void driverDataConstraint() {
 
@@ -116,7 +116,7 @@ public class CreateCategoryTest extends AbstractTest {
 	 * MISMOS CASOS SIN PADRE
 	 */
 
-	//CU 
+	//CU: 26. 3.Gestionar las categorías.  
 
 	@Test
 	public void driverStatementConstraint() {

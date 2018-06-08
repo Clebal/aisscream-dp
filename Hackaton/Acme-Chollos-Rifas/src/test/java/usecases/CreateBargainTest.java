@@ -64,8 +64,8 @@ public class CreateBargainTest extends AbstractTest {
 	 * 8. Crear Bargain con productUrl no siendo una url válida. ConstraintViolationException
 	 */
 
-	//Requisitos
-	//CU 
+	//CU: 23. 1.Crear chollos.
+
 	@Test
 	public void driverDataConstraintCreate() {
 
@@ -109,7 +109,8 @@ public class CreateBargainTest extends AbstractTest {
 	 * 2. Crear Bargain con una de las url del producto mal. ConstraintViolationException
 	 */
 	//Requisitos
-	//CU 
+	//CU: 23. 1.Crear chollos.
+
 	@Test
 	public void driverStatementsConstraintsCreateAndUrlCollectionConstraint() {
 
@@ -143,7 +144,8 @@ public class CreateBargainTest extends AbstractTest {
 	 * 2. Crear Bargain sin autenticarse. IllegalArgumentException
 	 */
 	//Requisitos
-	//CU 
+	//CU: 23. 1.Crear chollos.
+
 	@Test
 	public void driverStatementsConstraintsCreateURL() {
 

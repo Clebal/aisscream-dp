@@ -38,6 +38,7 @@ public class AddCategoryToBargainTest extends AbstractTest {
 	 * 1. Añadir category a bargain publicado
 	 * 2. Añadir category a bargain no publicado
 	 */
+	//CU:4.	Los chollos pertenecen a categorías. Para cada categoría, el sistema debe guardar un nombre, único entre las categorías de un mismo nivel, y una imagen. 
 
 	@Test
 	public void driverPositive() {
@@ -62,6 +63,7 @@ public class AddCategoryToBargainTest extends AbstractTest {
 	 * 2. Añadir category a bargain que no es de esa compañía. IllegalArgumentException
 	 * 2. Añadir category sin estar autenticado. IllegalArgumentException
 	 */
+	//CU:4.	Los chollos pertenecen a categorías. Para cada categoría, el sistema debe guardar un nombre, único entre las categorías de un mismo nivel, y una imagen. 
 
 	@Test
 	public void driverNegative() {

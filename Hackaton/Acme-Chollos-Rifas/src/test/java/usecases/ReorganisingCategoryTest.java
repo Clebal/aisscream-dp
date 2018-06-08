@@ -41,7 +41,7 @@ public class ReorganisingCategoryTest extends AbstractTest {
 	 * 6. Reorganizar Category colocándola en la raíz con hijos.
 	 */
 
-	//CU 
+	//CU 26. 3.	Gestionar las categorías y reorganizarlas.
 	@Test
 	public void driverReorganisingPositive() {
 
@@ -77,7 +77,7 @@ public class ReorganisingCategoryTest extends AbstractTest {
 	 * 5. Reorganizar default Category. Excepción IllegalArgumentException esperada.
 	 */
 
-	//CU 
+	//CU 26. 3.	Gestionar las categorías y reorganizarlas.
 	@Test
 	public void driverReorganisingNegative() {
 

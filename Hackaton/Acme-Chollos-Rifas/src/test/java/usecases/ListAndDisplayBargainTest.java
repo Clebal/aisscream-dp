@@ -36,7 +36,7 @@ public class ListAndDisplayBargainTest extends AbstractTest {
 	 * 4. Listar todos chollos y coger uno no publicado con user gold
 	 * 5. Listar todos chollos y coger uno no publicado con moderator
 	 */
-
+	//CU: 21. 3.Listar los chollos.
 	@Test
 	public void driverPositive() {
 
@@ -67,7 +67,7 @@ public class ListAndDisplayBargainTest extends AbstractTest {
 	 * 3. Display chollo no publico con company distinta a la suya. IllegalArgumentException
 	 * 4. Display chollo no publico con admin. IllegalArgumentException
 	 */
-
+	//CU: 21. 3.Listar los chollos.
 	@Test
 	public void driverDeleteNegative() {
 

@@ -42,6 +42,8 @@ public class ConfigurationTest extends AbstractTest {
 	/*
 	 * 1. Actualizar configuracion por admin.
 	 */
+	//CU:30.  2.Cambiar la configuración del sistema.
+
 	@Test
 	public void driverPositive() {
 
@@ -67,6 +69,8 @@ public class ConfigurationTest extends AbstractTest {
 	 * 4. Actualizar configuracion por no autenticado. IllegalArgumentException
 	 * 5. Actualizar configuracion por sponsor. IllegalArgumentException
 	 */
+	//CU:30.  2.Cambiar la configuración del sistema.
+
 	@Test
 	public void driverStatementConstraint() {
 
@@ -100,6 +104,9 @@ public class ConfigurationTest extends AbstractTest {
 	 * 5. Actualizar configuracion name blanco. ConstraintViolationException
 	 * 6. Actualizar configuracion slogan null. ConstraintViolationException
 	 */
+
+	//CU:30.  2.Cambiar la configuración del sistema.
+
 	@Test
 	public void driverDataConstraint() {
 

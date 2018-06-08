@@ -58,7 +58,7 @@ public class EditBargainTest extends AbstractTest {
 	 * 8. Editar Bargain con minimumPrice negativo. ConstraintViolationException
 	 * 9. Editar Bargain con productUrl no siendo una url válida. ConstraintViolationException
 	 */
-
+	//CU: Editar su chollo
 	@Test
 	public void driverDataConstraintEdit() {
 
@@ -103,7 +103,7 @@ public class EditBargainTest extends AbstractTest {
 	 * 1. Editar chollo publicado a no publicado.No se espera excepción gracias al reconstruct
 	 * 2. Editar chollo precio minimo mayor que el precio actual, debe actualizarse este.
 	 */
-
+	//CU: Editar su chollo
 	@Test
 	public void driverStatementsConstraintsEdit() {
 
@@ -135,7 +135,7 @@ public class EditBargainTest extends AbstractTest {
 	 * 2. Editar chollo sin autenticarse. IllegalArgumentException
 	 */
 	//Requisitos
-	//CU 
+	//CU: Editar su chollo
 	@Test
 	public void driverStatementsConstraintsCreateAndEditURL() {
 
