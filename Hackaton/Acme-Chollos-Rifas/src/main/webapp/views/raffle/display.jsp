@@ -29,7 +29,14 @@
 	
 	<p><jstl:out value="${raffle.getDescription()}" /></p>
 	
-	<p><b><spring:message code="raffle.productName" />:</b> <a href="${raffle.getProductUrl()}"><jstl:out value="${raffle.getProductName()}" /></a></p>
+	<jstl:if test="${raffle.getProductUrl() != null || !raffle.getProductUrl().equals('')}">
+		<p><b><spring:message code="raffle.productName" />:</b> <a href="${raffle.getProductUrl()}"><jstl:out value="${raffle.getProductName()}" /></a></p>
+	</jstl:if>
+	
+	<jstl:if test="${raffle.getProductUrl() == null || raffle.getProductUrl().equals('')}">
+		<p><b><spring:message code="raffle.productName" />:</b> <jstl:out value="${raffle.getProductName()}" /></p>
+	</jstl:if>
+	
 	<acme:display code="raffle.maxDate" value="${raffle.getMaxDate()}" codeMoment="raffle.format.moment" />
 	
 	<p style="font-size: 25px; text-align:center"><spring:message code="welcome.currency.english" /><fmt:formatNumber value="${raffle.getPrice()}" currencySymbol="" type="number" minFractionDigits="2" maxFractionDigits="2"/><spring:message code="welcome.currency.spanish" /></p>
