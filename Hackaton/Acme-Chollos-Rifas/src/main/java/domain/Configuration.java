@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -56,6 +57,7 @@ public class Configuration extends DomainEntity {
 
 	@URL
 	@NotBlank
+	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	public String getBanner() {
 		return this.banner;
 	}
@@ -66,6 +68,7 @@ public class Configuration extends DomainEntity {
 
 	@NotBlank
 	@URL
+	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	public String getDefaultImage() {
 		return this.defaultImage;
 	}
@@ -76,6 +79,7 @@ public class Configuration extends DomainEntity {
 
 	@NotBlank
 	@URL
+	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	public String getDefaultAvatar() {
 		return this.defaultAvatar;
 	}

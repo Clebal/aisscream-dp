@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -48,6 +49,7 @@ public class User extends Actor {
 	}
 
 	@URL
+	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	@NotBlank
 	public String getAvatar() {
 		return this.avatar;

@@ -138,7 +138,7 @@
 		</form:label>
 		<form:select path="${path}" class="form-control">
       		<jstl:forEach items="${items}" var="cc">
-				<option value="${cc.getId()}" ${cc.getId() == selected ? 'selected' : ''} >${cc.text}</option>
+				<option value="${cc.getId()}" ${cc.getId() == selected ? 'selected' : ''} ><jstl:out value="${cc.text}"/></option>
         	</jstl:forEach>
 		</form:select>
 		<form:errors class="text-danger" path="${path}" />

@@ -15,6 +15,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
 import utilities.URLCollection;
@@ -60,6 +61,7 @@ public class Bargain extends DomainEntity {
 
 	@NotBlank
 	@URL
+	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	public String getProductUrl() {
 		return this.productUrl;
 	}
@@ -71,6 +73,7 @@ public class Bargain extends DomainEntity {
 	@URLCollection
 	@ElementCollection
 	@NotNull
+	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	public Collection<String> getProductImages() {
 		return this.productImages;
 	}

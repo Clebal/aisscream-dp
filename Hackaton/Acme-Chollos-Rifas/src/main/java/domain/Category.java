@@ -45,6 +45,7 @@ public class Category extends DomainEntity {
 
 	@NotBlank
 	@URL
+    @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	public String getImage() {
 		return this.image;
 	}

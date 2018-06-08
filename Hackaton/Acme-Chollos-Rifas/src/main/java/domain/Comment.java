@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import utilities.URLCollection;
@@ -54,6 +55,7 @@ public class Comment extends DomainEntity {
 
 	@ElementCollection
 	@URLCollection
+	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	public Collection<String> getImages() {
 		return images;
 	}
