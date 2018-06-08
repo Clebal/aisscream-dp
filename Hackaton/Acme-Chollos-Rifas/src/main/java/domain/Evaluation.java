@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -16,41 +17,42 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Evaluation extends DomainEntity {
 
-	private String content;
+	private String	content;
 
-	private int puntuation;
+	private int		puntuation;
 
-	private Boolean isAnonymous;
+	private boolean	isAnonymous;
 
-	private Company company;
+	private Company	company;
 
-	private User user;
+	private User	user;
+
 
 	@NotBlank
-	@Length(max=500)
+	@Length(max = 500)
 	public String getContent() {
-		return content;
+		return this.content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(final String content) {
 		this.content = content;
 	}
 
 	@Min(0)
 	@Max(5)
-	public Integer getPuntuation() {
-		return puntuation;
+	public int getPuntuation() {
+		return this.puntuation;
 	}
 
-	public void setPuntuation(Integer puntuation) {
+	public void setPuntuation(final int puntuation) {
 		this.puntuation = puntuation;
 	}
 
-	public Boolean getIsAnonymous() {
-		return isAnonymous;
+	public boolean getIsAnonymous() {
+		return this.isAnonymous;
 	}
 
-	public void setIsAnonymous(Boolean isAnonymous) {
+	public void setIsAnonymous(final boolean isAnonymous) {
 		this.isAnonymous = isAnonymous;
 	}
 
@@ -58,10 +60,10 @@ public class Evaluation extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public Company getCompany() {
-		return company;
+		return this.company;
 	}
 
-	public void setCompany(Company company) {
+	public void setCompany(final Company company) {
 		this.company = company;
 	}
 
@@ -69,12 +71,11 @@ public class Evaluation extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(final User user) {
 		this.user = user;
 	}
 
-	
 }

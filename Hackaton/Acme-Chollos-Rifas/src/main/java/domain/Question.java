@@ -20,11 +20,11 @@ import org.hibernate.validator.constraints.NotBlank;
 })
 public class Question extends DomainEntity {
 
-	public String	text;
+	private String	text;
 
-	public int		number;
+	private int		number;
 
-	public Survey	survey;
+	private Survey	survey;
 
 
 	@NotBlank
@@ -37,11 +37,11 @@ public class Question extends DomainEntity {
 	}
 
 	@Min(0)
-	public Integer getNumber() {
+	public int getNumber() {
 		return this.number;
 	}
 
-	public void setNumber(final Integer number) {
+	public void setNumber(final int number) {
 		this.number = number;
 	}
 
