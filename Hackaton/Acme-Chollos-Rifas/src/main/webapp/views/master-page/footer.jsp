@@ -12,6 +12,8 @@
 
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+
 
 <jsp:useBean id="date" class="java.util.Date" />
 
@@ -26,9 +28,11 @@
 	<span class="display"><a href="${urlTermConditionFooter}"> <spring:message code="master.page.term.condition" /></a></span>
 	
 		<br/>
+	<small><jstl:out value="${mail }"/></small>	
+	
+	<br/>
 	
 	<small>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme, Inc.</small>
 	
-
 	
 </footer>

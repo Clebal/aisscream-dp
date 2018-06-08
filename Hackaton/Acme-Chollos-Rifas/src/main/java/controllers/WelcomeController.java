@@ -34,8 +34,8 @@ import domain.User;
 public class WelcomeController extends AbstractController {
 
 	@Autowired
-	private RaffleService raffleService;
-	
+	private RaffleService			raffleService;
+
 	@Autowired
 	private BargainService			bargainService;
 
@@ -47,7 +47,8 @@ public class WelcomeController extends AbstractController {
 
 	@Autowired
 	private ConfigurationService	configurationService;
-	
+
+
 	// Constructors -----------------------------------------------------------
 
 	public WelcomeController() {
@@ -66,16 +67,16 @@ public class WelcomeController extends AbstractController {
 		User user;
 		Boolean isSponsor;
 		Authority authority2;
-		
+
 		authority = new Authority();
 		authority.setAuthority("USER");
 
 		authority2 = new Authority();
 		authority2.setAuthority("SPONSOR");
-		
+
 		raffles = this.raffleService.findOrderedByMaxDate(1, 3);
 		Assert.notNull(raffles);
-		
+
 		bargains = this.bargainService.findBargains(1, 3, "sponsorship", 0);
 		Assert.notNull(bargains);
 		//Vemos si es user qué plan tiene
@@ -90,13 +91,14 @@ public class WelcomeController extends AbstractController {
 		isSponsor = false;
 		if (LoginService.isAuthenticated() && LoginService.getPrincipal().getAuthorities().contains(authority2))
 			isSponsor = true;
-		
+
 		result = new ModelAndView("welcome/index");
 		result.addObject("raffles", raffles.getContent());
 		result.addObject("bargains", bargains.getContent());
 		result.addObject("plan", plan);
 		result.addObject("isSponsor", isSponsor);
 		result.addObject("slogan", this.configurationService.findSlogan());
+		result.addObject("mail", this.configurationService.findEmail());
 
 		return result;
 	}
