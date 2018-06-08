@@ -125,8 +125,7 @@
 			value="org.springframework.web.servlet.view.tiles2.TilesView" />
 	</bean>
 	
-	<!-- Mail -->
-	<import resource="config/mail.xml" />
+	
 	
 
 </beans>
