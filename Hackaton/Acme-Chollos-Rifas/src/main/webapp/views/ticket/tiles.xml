@@ -17,12 +17,12 @@
 <tiles-definitions>
 
 	<definition name="ticket/list" extends="master.page">
-		<put-attribute name="title" value="Tiques" />
+		<put-attribute name="title" value="Tickets" />
 		<put-attribute name="body" value="/views/ticket/list.jsp" />
 	</definition>
 	
 	<definition name="ticket/display" extends="master.page">	
-		<put-attribute name="title" value="Tique" />
+		<put-attribute name="title" value="Ticket" />
 		<put-attribute name="body" value="/views/ticket/display.jsp" />
 	</definition>
 	

@@ -65,7 +65,9 @@ label.answer {
 	</jstl:if>
 </div>
 
-<button class="btn btn-primary" id="addQuestion"><spring:message code="survey.addQuestion" /></button><br><br>
+<button class="btn btn-primary" id="addQuestion"><spring:message code="survey.addQuestion" /></button> 
+<button style="display:none" class="btn btn-danger removeQuestion">${removeQuestion}</button>
+<br><br>
 
 <script>
 
@@ -74,6 +76,12 @@ var answerText = "${answerText}";
 var addAnswer = "${addAnswer}";
 var removeAnswer ="${removeAnswer}";
 var removeQuestion ="${removeQuestion}";
+
+$(document).ready(function() {
+	console.log($("#questionsContainer").children("div").length)
+	if($("#questionsContainer").children("div").length != 1)
+		$(".removeQuestion").fadeIn();
+});
 
 if(${object.questions != null && object.questions.size() == 0}) {
 	$(document).ready(function() {
@@ -89,7 +97,9 @@ $("#addQuestion").click(function(e) {
 	var questionsContainer = $("#questionsContainer");
 	var number = questionsContainer.children("div").length+1;
 	var number2 = questionsContainer.children("div").length;
-	$(questionsContainer).append('<div><br><label>'+questionText+ ' ' + number +'&nbsp;&nbsp;</label><input type="text" name="questions['+number2+'].text">&nbsp;&nbsp;<a class="addAnswer" data-container="'+number+'">'+addAnswer+'</a> - <a class="removeQuestion">'+removeQuestion+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number2+'].answers[0].text" /><input type="hidden" name="questions['+number2+'].answers[0].id" value="0" /></div></div></div>');
+	$(questionsContainer).append('<div><br><label>'+questionText+ ' ' + number +'&nbsp;&nbsp;</label><input type="text" name="questions['+number2+'].text">&nbsp;&nbsp;<a class="addAnswer" data-container="'+number+'">'+addAnswer+'</a> - <a class="removeAnswer">'+removeAnswer+'</a><br><div class="answersContainer'+number+'" style="display: inline; margin-right: 5px"><div  style="display: inline; margin-right: 5px"><label class="answer">'+answerText + ' 1&nbsp;&nbsp;</label><input type="text" name="questions['+number2+'].answers[0].text" /><input type="hidden" name="questions['+number2+'].answers[0].id" value="0" /></div></div></div>');
+	if(number2 >= 0)
+		$(".removeQuestion").fadeIn();
 });
 
 $("body").on("click", ".addAnswer", function(e){
@@ -113,7 +123,10 @@ $("body").on("click", ".removeAnswer", function(e){
 
 $("body").on("click", ".removeQuestion", function(e){
 	e.preventDefault();
-	$(e.currentTarget.parentNode).remove();
+	if($("#questionsContainer").children("div").length != 1)
+		$("#questionsContainer").children("div").last().remove();
+	if($("#questionsContainer").children("div").length == 1)
+		$(".removeQuestion").fadeOut();
 });
 
 </script>

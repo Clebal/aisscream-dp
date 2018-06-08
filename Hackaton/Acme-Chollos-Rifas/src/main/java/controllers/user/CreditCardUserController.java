@@ -115,7 +115,7 @@ public class CreditCardUserController extends AbstractController {
 		ModelAndView result;
 		CreditCard creditCard;
 		
-		creditCard = this.creditCardService.findOne(creditcardId);
+		creditCard = this.creditCardService.findOneToDisplayEdit(creditcardId);
 		Assert.notNull(creditCard);
 		
 		// --- COOKIE --- //
