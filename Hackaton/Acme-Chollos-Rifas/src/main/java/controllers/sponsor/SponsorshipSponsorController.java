@@ -86,6 +86,8 @@ public class SponsorshipSponsorController extends AbstractController {
 		bargain = this.bargainService.findOne(bargainId);
 		Assert.notNull(bargain);
 
+		Assert.isNull(this.sponsorshipService.findBySponsorIdAndBargainId(bargainId));
+
 		sponsorship = this.sponsorshipService.create(bargain);
 
 		result = this.createEditModelAndView(sponsorship);

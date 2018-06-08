@@ -152,6 +152,13 @@ public class BargainService {
 		//Enviamos la notificación
 		if (bargain.getId() == 0) {
 
+			//Creamos notificación para los basic premium si se está publicando
+			if (bargain.getIsPublished()) {
+				actors = this.userService.findWithBasicPremium();
+				this.notificationService.send(actors, "Se acaba de publicar un chollo: " + result.getProductName(), "/bargain/display.do?bargainId=" + result.getId());
+
+			}
+
 			//Vemos que la categoría sea válida y la actualizamos
 			category = this.categoryService.findOne(categoryId);
 			Assert.notNull(category);
