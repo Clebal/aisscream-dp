@@ -39,7 +39,7 @@ public class EditLevelTest extends AbstractTest {
 	 * 6. Editamos el nivel2 aumentando la puntuación mínima (no salta excepción)
 	 * 7. Editamos el nivel2 aumentando la puntuación mínima y disminuyendo la máxima (no salta excepción)
 	 * 
-	 * Requisito 30.4: Un actor autenticado como admin puede editar los niveles de puntuación de los usuarios.
+	 * Requisito 30.4: Un usuario autenticado como admin puede editar los niveles de puntuación de los usuarios y borrarlos cuando hay más de dos niveles en el sistema.
 	 */
 	@Test()
 	public void testEditPositive() {

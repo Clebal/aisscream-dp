@@ -48,7 +48,10 @@ public class DeleteGrouponTest extends AbstractTest {
 	 * 12.Borramos la conjunta 1 autenticados como admin (salta un IllegalArgumentException)
 	 * 13.Borramos la conjunta 1 sin estar autenticados (salta un IllegalArgumentException)
 	 * 
-	 * Requisito 25.1: 25. Un actor autenticado como usuario debe ser capaz de borrar sus conjuntas
+	 * Requisito 25.1:
+	 * Puede organizar una conjunta. El código de descuento puede ser modificado siempre que se supere el mínimo de productos requeridos.
+	 * Una vez superado por primera vez el mínimo de productos, no se puede editar hasta que aporte el código de descuento.
+	 * Un usuario debe poder borrar sus conjuntas.
 	 */
 	@Test()
 	public void testDelete() {
@@ -108,7 +111,7 @@ public class DeleteGrouponTest extends AbstractTest {
 	 * 12.Borramos la conjunta 1 autenticados como admin (salta un IllegalArgumentException)
 	 * 13.Borramos la conjunta 1 sin estar autenticados (salta un IllegalArgumentException)
 	 * 
-	 * Requisito 26.10: Un actor que está autenticado como moderador debe ser capaz de eliminar las conjuntas que considere inadecuadas
+	 * Requisito 26.8: Un actor que está autenticado como moderador debe ser capaz de eliminar las conjuntas que considere inadecuadas.
 	 */
 	@Test()
 	public void testDeleteFromModerator() {

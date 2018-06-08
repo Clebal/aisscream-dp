@@ -39,7 +39,7 @@ public class DeleteLevelTest extends AbstractTest {
 	 * 8. Borramos el nivel1 autenticados como comoany (salta un IllegalArgumentException)
 	 * 9. Borramos el nivel1 sin estar autenticado (salta un IllegalArgumentException)
 	 * 
-	 * Requisito 30.4: Un actor autenticado como admin puede editar los niveles de puntuación de los usuarios.
+	 * Requisito 30.4: Un actor autenticado como admin puede editar los niveles de puntuación de los usuarios y borrarlos cuando hay más de dos niveles en el sistema.
 	 */
 	@Test()
 	public void testDelete() {

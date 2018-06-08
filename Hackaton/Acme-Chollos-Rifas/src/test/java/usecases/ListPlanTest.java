@@ -39,6 +39,8 @@ public class ListPlanTest extends AbstractTest {
 	 * 4. Probamos el findAll estando logeados como company
 	 * 5. Probamos el findAll estando logeados como sponsor
 	 * 6. Probamos el findAll sin estar logeados
+	 * 
+	 * Requisito 21.11: Un usuario no autenticado puede ver los planes de pago
 	 */
 	@Test()
 	public void testFindAll() {

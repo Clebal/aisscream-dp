@@ -80,6 +80,8 @@ public class ListLevelTest extends AbstractTest {
 	 * 8. Hacemos el findAllPaginated logueados como company viendo la primera página con tamaño 5 (no salta excepción)
 	 * 9. Hacemos el findAllPaginated logueados como admin viendo la primera página con tamaño 5 (no salta excepción)
 	 * 10.Hacemos el findAllPaginated sin estar logueado viendo la primera página con tamaño 5 (no salta excepción)
+	 * 
+	 * Requisito 21.12: Un usuario que no está autenticado puede ver los niveles
 	 */
 	@Test()
 	public void testFindAllPaginated() {

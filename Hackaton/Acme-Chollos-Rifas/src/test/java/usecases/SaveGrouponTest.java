@@ -53,7 +53,10 @@ public class SaveGrouponTest extends AbstractTest {
 	 * 17.Creamos una conjunta como admin (salta un IllegalArgumentException)
 	 * 18.Creamos una conjunta sin estar logeados (salta un IllegalArgumentException)
 	 * 
-	 * Requisito 25.1: Un usuario logueado como usuario debe poder organizar una conjunta
+	 * Requisito 25.1: Un usuario logueado como usuario debe poder
+	 * organizar una conjunta. El código de descuento puede ser modificado siempre que se supere el mínimo de productos requeridos.
+	 * Una vez superado por primera vez el mínimo de productos, no se puede editar hasta que aporte el código de descuento.
+	 * Un usuario debe poder borrar sus conjuntas
 	 */
 	@Test()
 	public void testSave() {

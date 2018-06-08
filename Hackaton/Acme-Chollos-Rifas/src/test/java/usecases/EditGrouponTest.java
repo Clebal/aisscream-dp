@@ -60,10 +60,9 @@ public class EditGrouponTest extends AbstractTest {
 	 * 20.Editamos la conjunta 1 como admin (salta un IllegalArgumentException)
 	 * 21.Editamos la conjunta 1 sin estar autenticados (salta un IllegalArgumentException)
 	 * 
-	 * Requisito 25.1: Un usuario logueado como usuario debe poder organizar una conjunta. Si un usuario no autenticado o
-	 * que no sea el creador o un participante de la conjunta intenta acceder habiendo pasado la fecha máxima no debe mostrarle nada,
-	 * únicamente un enlace para volver a la pantalla de inicio. El código de descuento solamente aparecerá para los usuarios que han participado en la conjunta.
-	 * El código de descuento puede ser modificado siempre que se supere el mínimo de productos requeridos.
+	 * Requisito 25.1: Un actor autenticado como usuario puede organizar una conjunta. El código de descuento puede ser modificado siempre que se supere el mínimo de productos requeridos.
+	 * Una vez superado por primera vez el mínimo de productos, no se puede editar hasta que aporte el código de descuento.
+	 * Un usuario debe poder borrar sus conjuntas.
 	 */
 	@Test()
 	public void testEdit() {

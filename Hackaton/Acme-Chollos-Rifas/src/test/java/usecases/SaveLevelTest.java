@@ -36,7 +36,7 @@ public class SaveLevelTest extends AbstractTest {
 	 * 3. Creamos un nivel con el rango mayor al nivel máximo sin dejar rango vacío (no salta excepción)
 	 * 4. Creamos un nivel con el rango mayor al nivel máximo dejando rango vacío (no salta excepción)
 	 * 
-	 * Requisito 30.4: Un actor autenticado como admin puede editar los niveles de puntuación de los usuarios.
+	 * Requisito 30.4: Un actor autenticado como admin puede editar los niveles de puntuación de los usuarios y borrarlos cuando hay más de dos niveles en el sistema..
 	 */
 	@Test()
 	public void testSavePositive() {
